@@ -1,9 +1,11 @@
-package com.micronesia;
+package com.micronesia.ui.screens.main;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.micronesia.R;
+import com.micronesia.ui.screens.base.BaseActivity;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
