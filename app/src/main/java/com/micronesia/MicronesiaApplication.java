@@ -10,7 +10,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MicronesiaApplication extends Application {
 
-    private AppComponent appComponent;
+    private static AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -21,7 +21,7 @@ public class MicronesiaApplication extends Application {
                 .build();
     }
 
-    public AppComponent getAppComponent() {
+    public static AppComponent getAppComponent() {
         return appComponent;
     }
 
