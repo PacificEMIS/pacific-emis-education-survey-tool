@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.micronesia">
+    package="fm.doe.national">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".MicronesiaApplication"
+        android:name="fm.doe.national.MicronesiaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.screens.main.MainActivity">
+        <activity android:name="fm.doe.national.ui.screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,5 +24,4 @@
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
