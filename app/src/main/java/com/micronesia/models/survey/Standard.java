@@ -1,8 +1,10 @@
-package com.micronesia.data.models.survey;
+package com.micronesia.models.survey;
 
 import android.support.annotation.NonNull;
 
-public interface Standard {
+import java.io.Serializable;
+
+public interface Standard extends Serializable {
 
     long getId();
 

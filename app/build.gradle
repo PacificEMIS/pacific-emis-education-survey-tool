@@ -10,6 +10,8 @@ android {
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "int", "DATA_BASE_VERSION", "1"
     }
     buildTypes {
         release {
@@ -17,10 +19,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     def supportVersion= '27.1.1'
+    def ormliteVersion = '4.48'
     def daggerVersion = '2.11'
     def moxyVersion = '1.5.5'
 
@@ -38,6 +46,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
     //RxBinding
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+
+    // Ormlite
+    implementation "com.j256.ormlite:ormlite-core:$ormliteVersion"
+    implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 
     //dagger
     implementation "com.google.dagger:dagger:$daggerVersion"

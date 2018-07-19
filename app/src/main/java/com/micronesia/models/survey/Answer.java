@@ -1,16 +1,13 @@
-package com.micronesia.data.models.survey;
+package com.micronesia.models.survey;
 
-import com.micronesia.data.models.SynchronizePlatform;
+import com.micronesia.models.SynchronizePlatform;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface Answer {
+public interface Answer extends Serializable {
 
     long getId();
-
-    long getSurveyId();
-
-    long getSubCriteriaId();
 
     boolean getAnswer();
 

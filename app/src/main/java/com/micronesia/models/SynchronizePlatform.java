@@ -1,4 +1,4 @@
-package com.micronesia.data.models;
+package com.micronesia.models;
 
 public enum SynchronizePlatform {
 

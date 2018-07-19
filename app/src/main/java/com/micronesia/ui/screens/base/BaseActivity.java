@@ -13,11 +13,6 @@ import com.omega_r.libs.omegatypes.Text;
 public class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     @Override
-    public void showToast(Text text) {
-        Toast.makeText(this, text.getString(getResources()), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         initToolbar();
@@ -33,4 +28,10 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseView {
             }
         }
     }
+
+    @Override
+    public void showToast(Text text) {
+        Toast.makeText(this, text.getString(getResources()), Toast.LENGTH_SHORT).show();
+    }
+
 }
