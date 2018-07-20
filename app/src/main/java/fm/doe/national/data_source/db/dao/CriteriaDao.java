@@ -17,7 +17,7 @@ public class CriteriaDao extends BaseRxDao<OrmLiteCriteria, Long> {
     public Single<OrmLiteCriteria> createCriteria(String name, OrmLiteStandard standard) {
         return Single.fromCallable(() -> {
             OrmLiteCriteria criteria = new OrmLiteCriteria(name, standard);
-            int id = create(criteria);
+            create(criteria);
             return criteria;
         });
     }

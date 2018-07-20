@@ -10,16 +10,16 @@ import fm.doe.national.models.survey.Survey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public class OrmLiteAnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
+public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
 
-    OrmLiteAnswerDao(ConnectionSource connectionSource, Class<OrmLiteAnswer> dataClass) throws SQLException {
+    AnswerDao(ConnectionSource connectionSource, Class<OrmLiteAnswer> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
     public Single<OrmLiteAnswer> createAnswer(boolean answer, OrmLiteSubCriteria subCriteria, OrmLiteSurvey survey) {
         return Single.fromCallable(() -> {
             OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(answer, subCriteria, survey);
-            int id = create(ormLiteAnswer);
+            create(ormLiteAnswer);
             return ormLiteAnswer;
         });
     }

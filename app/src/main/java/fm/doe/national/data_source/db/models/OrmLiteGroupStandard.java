@@ -9,6 +9,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fm.doe.national.models.survey.GroupStandard;
@@ -45,7 +46,7 @@ public class OrmLiteGroupStandard implements GroupStandard {
 
     @Override
     public List<Standard> getStandards() {
-        return (standards == null) ? new ArrayList<>() : new ArrayList<>(standards);
+        return (standards == null) ? Collections.EMPTY_LIST : new ArrayList<>(standards);
     }
 
 }

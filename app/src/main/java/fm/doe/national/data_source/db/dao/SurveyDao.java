@@ -17,7 +17,7 @@ public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
     public Single<OrmLiteSurvey> createSurvey(OrmLiteSchool school, int year) {
         return Single.fromCallable(() -> {
             OrmLiteSurvey survey = new OrmLiteSurvey(year, school);
-            int id = create(survey);
+            create(survey);
             return survey;
         });
     }

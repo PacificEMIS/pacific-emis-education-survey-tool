@@ -17,7 +17,7 @@ public class StandardDao extends BaseRxDao<OrmLiteStandard, Long> {
     public Single<OrmLiteStandard> createStandard(String name, OrmLiteGroupStandard groupStandard) {
         return Single.fromCallable(() -> {
             OrmLiteStandard standard = new OrmLiteStandard(name, groupStandard);
-            int id = create(standard);
+            create(standard);
             return standard;
         });
     }

@@ -1,6 +1,5 @@
 package fm.doe.national.data_source.db;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class OrmLiteAccreditationDataSource implements AccreditationDataSource {
     private StandardDao standardDao;
     private CriteriaDao criteriaDao;
     private SubCriteriaDao subCriteriaDao;
-    private OrmLiteAnswerDao answerDao;
+    private AnswerDao answerDao;
 
     public OrmLiteAccreditationDataSource(DatabaseHelper helper) {
         try {

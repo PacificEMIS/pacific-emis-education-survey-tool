@@ -14,11 +14,11 @@ class BaseRxDao<T, ID> extends BaseDaoImpl<T, ID> {
         super(connectionSource, dataClass);
     }
 
-    public Single<Integer> createData(T data) {
+    public Single<Integer> createSingle(T data) {
         return Single.fromCallable(() -> create(data));
     }
 
-    public Single<Integer> updateData(T data) {
+    public Single<Integer> updateSingle(T data) {
         return Single.fromCallable(() -> update(data));
     }
 

@@ -19,7 +19,7 @@ public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
     public Single<OrmLiteSchool> createSchool(String schoolName) {
         return Single.fromCallable(() -> {
             OrmLiteSchool school = new OrmLiteSchool(schoolName);
-            int id = create(school);
+            create(school);
             return school;
         });
     }

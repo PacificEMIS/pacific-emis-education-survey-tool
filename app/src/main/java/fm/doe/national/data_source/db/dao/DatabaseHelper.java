@@ -25,7 +25,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private StandardDao standardDao;
     private CriteriaDao criteriaDao;
     private SubCriteriaDao subCriteriaDao;
-    private OrmLiteAnswerDao answerDao;
+    private AnswerDao answerDao;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
@@ -116,9 +116,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return subCriteriaDao;
     }
 
-    public OrmLiteAnswerDao getAnswerDao() throws SQLException {
+    public AnswerDao getAnswerDao() throws SQLException {
         if (answerDao == null) {
-            answerDao = new OrmLiteAnswerDao(getConnectionSource(), OrmLiteAnswer.class);
+            answerDao = new AnswerDao(getConnectionSource(), OrmLiteAnswer.class);
         }
         return answerDao;
     }

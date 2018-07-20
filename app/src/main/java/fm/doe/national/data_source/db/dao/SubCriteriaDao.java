@@ -17,7 +17,7 @@ public class SubCriteriaDao extends BaseRxDao<OrmLiteSubCriteria, Long> {
     public Single<OrmLiteSubCriteria> createSubCriteria(String name, String question, OrmLiteCriteria criteria) {
         return Single.fromCallable(() -> {
             OrmLiteSubCriteria subCriteria = new OrmLiteSubCriteria(name, question, criteria);
-            int id = create(subCriteria);
+            create(subCriteria);
             return subCriteria;
         });
     }
