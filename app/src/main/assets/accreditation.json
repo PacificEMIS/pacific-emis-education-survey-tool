@@ -353,6 +353,184 @@
         ]
       }
     ]
+  },
+
+  {
+    "group_standard": [
+      {
+        "standard": [
+          {
+            "name": "School Campus, Classrooms and Facilities",
+            "criteria": [
+              {
+                "name": "The school has a written maintenance and facilities development plan.",
+                "weightage": 3,
+                "subcriteria": [
+                  {
+                    "name": "The school has a written maintenance plan that sets out a schedule of routine cleaning, minor repairs, painting and preventative maintenance."
+                  },
+                  {
+                    "name": "Records show that maintenance work is regularly carried out."
+                  },
+                  {
+                    "name": "The school has a written facilities development plan that sets out a schedule for major maintenance works, refurbishment or rebuilding."
+                  },
+                  {
+                    "name": "Records and plans show that the facilities development plan is actively implemented."
+                  }
+                ]
+              },
+
+              {
+                "name": "The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones.",
+                "weightage": 5,
+                "subcriteria": [
+                  {
+                    "name": "Buildings are neat, clean, safe and secure (inside-out and outside-in), free of graffiti (e.g. writing on walls) vandalism (i.e. destruction of government property), and are explicitly drug-free zones."
+                  },
+                  {
+                    "name": "The school compound is neat, clean, safe and secure, free of graffiti (e.g. writing on walls), vandalism (i.e. destruction of government property), and is explicitly a drug-free zone."
+                  },
+                  {
+                    "name": "All school facilities are easily accessible to students with physical disabilities (inside-out and outside-in)."
+                  },
+                  {
+                    "name": "The campus is used as a learning resource, with a school garden, and sports and play facilities."
+                  }
+                ]
+              },
+
+              {
+                "name": "Classrooms meet recommended area requirements, with adequate lighting and ventilation.",
+                "weightage": 3,
+                "subcriteria": [
+                  {
+                    "name": "All classrooms used by groups of 30 or more students exceed 25 feet by 25 feet in area, and classrooms used by less than 30 students allow in excess of 20 square feet of floor space per student."
+                  },
+                  {
+                    "name": "All classrooms are bright, well ventilated and equipped with adequate lighting and electrical outlets and all electrical fittings are in as-new condition with safety cut-off switches or circuit breakers, and all electrical fittings are in as-new condition with safety cut-off switches or circuit breakers."
+                  },
+                  {
+                    "name": "All classrooms have high-quality student and teacher furniture, including adequate storage and display."
+                  },
+                  {
+                    "name": "If there are science labs, they have sinks with running water."
+                  }
+                ]
+              },
+
+              {
+                "name": "Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an emergency evacuation plan with evidence of a drill.",
+                "weightage": 4,
+                "subcriteria": [
+                  {
+                    "name": "All food handling and preparation personnel wear protective clothing, are trained and certified by the Public Health Department and their certificates are clearly displayed."
+                  },
+                  {
+                    "name": "Toilets have a current EPA certificate verifying that they are safe and clean."
+                  },
+                  {
+                    "name": "There is adequate safe drinking water."
+                  },
+                  {
+                    "name": "There is an emergency evacuation plan and evidence of a drill within the past 3 months."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "group_standard": [
+      {
+        "standard": [
+          {
+            "name": "School Improvement Planning",
+            "criteria": [
+              {
+                "name": "The School Improvement Plan has been developed and evaluated in accordance with the National Guidelines.",
+                "weightage": 5,
+                "subcriteria": [
+                  {
+                    "name": "The School Improvement Plan has been developed by a school improvement team that includes all teachers, and selected parents, students, community members and other stakeholders who wish to be involved."
+                  },
+                  {
+                    "name": "The SIP is reviewed and revised on an annual basis."
+                  },
+                  {
+                    "name": "There is evidence of improving student achievement as a result of the SIP."
+                  },
+                  {
+                    "name": "All goals in the SIP are student achievement oriented."
+                  }
+                ]
+              },
+
+              {
+                "name": "The school principal plays a leadership role in the development and implementation of the SIP.",
+                "weightage": 3,
+                "subcriteria": [
+                  {
+                    "name": "The SIP contains a Vision and Mission, the former successfully stating what the school wants to become, and the latter successfully stating what they do and how they do it."
+                  },
+                  {
+                    "name": "The Vision and Mission are well known and shared by the school community."
+                  },
+                  {
+                    "name": "The SIP is effectively implemented and monitored."
+                  },
+                  {
+                    "name": "All staff members and members of the school community are fully committed to implementing the SIP."
+                  }
+                ]
+              },
+
+              {
+                "name": "The School Improvement Plan contains comprehensive data analysis of student performance, attendance, resources and school management, over a period of at least three years, noting school strengths and weaknesses.",
+                "weightage": 4,
+                "subcriteria": [
+                  {
+                    "name": "The School Improvement Plan contains three years of comprehensive data analysis of student performance, presented graphically"
+                  },
+                  {
+                    "name": "The School Improvement Plan contains three years of comprehensive data analysis of student attendance, presented graphically"
+                  },
+                  {
+                    "name": "The School Improvement Plan contains three years comprehensive data analysis of school resources, presented graphically"
+                  },
+                  {
+                    "name": "The School Improvement Plan contains three years comprehensive data analysis of school management, presented graphically"
+                  }
+                ]
+              },
+
+              {
+                "name": "The School Improvement Plan contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes.",
+                "weightage": 3,
+                "subcriteria": [
+                  {
+                    "name": "The SIP is posted in a public place and regular monitoring reports are issued to the community."
+                  },
+                  {
+                    "name": "Financial records for the last three years are extensive, accurate and transparent."
+                  },
+                  {
+                    "name": "The SIP contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes."
+                  },
+                  {
+                    "name": "At least 90% of SIP goals are being achieved."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 
 
