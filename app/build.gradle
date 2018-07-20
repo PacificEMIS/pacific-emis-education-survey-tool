@@ -13,6 +13,14 @@ android {
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
     }
+    signingConfigs {
+        release {
+            keyAlias System.getenv("KEY_ALIAS") ?: "KEY_ALIAS"
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "KEYSTORE_PASSWORD"
+            storeFile file(System.getenv("KEY") ?: 'KEY_FILE')
+            keyPassword System.getenv("KEY_PASSWORD") ?: "KEY_PASSWORD"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
