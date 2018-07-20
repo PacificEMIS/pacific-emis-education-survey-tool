@@ -15,10 +15,10 @@ android {
     }
     signingConfigs {
         release {
-            keyAlias System.getenv("KEY_ALIAS") ?: "KEY_ALIAS"
-            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "KEYSTORE_PASSWORD"
-            storeFile file(System.getenv("KEY_FILE") ?: 'KEY_FILE')
-            keyPassword System.getenv("KEY_PASSWORD") ?: "KEY_PASSWORD"
+            keyAlias System.getenv("KEY_ALIAS") as String  ?: "KEY_ALIAS"
+            storePassword System.getenv("KEYSTORE_PASSWORD") as String  ?: "KEYSTORE_PASSWORD"
+            storeFile file(System.getenv("KEY_FILE") as String ?: "KEY_FILE")
+            keyPassword System.getenv("KEY_PASSWORD") as String ?: "KEY_PASSWORD"
         }
     }
     buildTypes {
