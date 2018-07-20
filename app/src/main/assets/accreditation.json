@@ -1,0 +1,181 @@
+[
+  {
+    "group_standard": [
+      {
+        "standard": [
+          {
+            "name": "Leadership",
+            "criteria": [
+              {
+                "name": "The principal has very high expectations for students and teachers.",
+                "weightage": 4,
+                "subcriteria": [
+                  {
+                    "name": "The principal ensures that a minimum of 180 instructional days are delivered and can provide documentary evidence."
+                  },
+                  {
+                    "name": "The mandatory number of instructional hours is delivered (Grade 1&2: 3 hours and 36 minutes: Grades 3-12: 4 hours 15 minutes per day)."
+                  },
+                  {
+                    "name": "Corporal punishment is not allowed."
+                  },
+                  {
+                    "name": "Students are responsible and student behavior is very orderly and respectful towards adults and other students."
+                  }
+                ]
+              },
+
+              {
+                "name": "The principal has a clear philosophy of education and is an expert in curriculum and instruction. ",
+                "weightage": 4,
+                "subcriteria": [
+                  {
+                    "name": "The principal manages a program of teacher collaboration for instructional planning."
+                  },
+                  {
+                    "name": "The principal conducts weekly planning meetings with teachers and staff to develop and review curriculum, syllabi, programs of study, and lesson plans and"
+                  },
+                  {
+                    "name": "The principal ensures that there is continuity and progression among students between grades in the school."
+                  },
+                  {
+                    "name": "The Principal has a written Educational Philosophy posted in his office and all classrooms."
+                  }
+                ]
+              },
+
+              {
+                "name": "The principal is involved in a program of continuous professional development and appraisal by supervisors, board members or peers. ",
+                "weightage": 6,
+                "subcriteria": [
+                  {
+                    "name": "The principal keeps up to date with innovations in education."
+                  },
+                  {
+                    "name": "The principal creates many opportunities for teachers to engage in continuous professional development activities."
+                  },
+                  {
+                    "name": "The principal mentors teachers and conducts formal and informal training at the school."
+                  },
+                  {
+                    "name": "The principal is evaluated annually by their supervisor/s"
+                  }
+                ]
+              },
+
+              {
+                "name": "The principal conducts a regular program of teacher performance appraisals.",
+                "weightage": 6,
+                "subcriteria": [
+                  {
+                    "name": "There are regular, structured classroom observation and written reports are produced."
+                  },
+                  {
+                    "name": "Feedback on observations is constructive and designed to improve teaching and learning."
+                  },
+                  {
+                    "name": "The principal coaches teachers and conducts model lessons where necessary."
+                  },
+                  {
+                    "name": "The principal encourages teachers to evaluate their own performance based on student learning outcomes."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "group_standard": [
+      {
+        "standard": [
+          {
+            "name": "Teacher Performance",
+            "criteria": [
+              {
+                "name": "All teachers prepare standardized long, medium or short-term lesson plans that provide adequate guidance for teaching and learning activities.",
+                "weightage": 5,
+                "subcriteria": [
+                  {
+                    "name": "Plans include appropriate learning activities including differentiated activities for different learners, including those with IEPs."
+                  },
+                  {
+                    "name": "All plans include sequenced, measurable learning objectives from the National and/or State Curricula."
+                  },
+                  {
+                    "name": "Assessment is planned and integrated into lessons and is based on observable and measurable criteria."
+                  },
+                  {
+                    "name": "Student assessment records are used for planning purposes."
+                  }
+                ]
+              },
+
+              {
+                "name": "All teachers create high quality classroom learning environments.",
+                "weightage": 5,
+                "subcriteria": [
+                  {
+                    "name": "The classrooms and other teaching areas are rich in print and visual displays that are related to the current learning objectives."
+                  },
+                  {
+                    "name": "There are designated areas of the classrooms with topical displays."
+                  },
+                  {
+                    "name": "Book corners or activity centers have appropriate learning materials."
+                  },
+                  {
+                    "name": "A wide range of student work of very high quality is neatly displayed and clearly labeled."
+                  }
+                ]
+              },
+
+              {
+                "name": "All teachers manage their time effectively to maximize students’ learning opportunities.",
+                "weightage": 5,
+                "subcriteria": [
+                  {
+                    "name": "All lessons start and finish on time."
+                  },
+                  {
+                    "name": "Students are on-task and engaged in learning activities for most of the lesson time."
+                  },
+                  {
+                    "name": "A variety of teaching and learning strategies are used, including strategies suitable for students with IEPs."
+                  },
+                  {
+                    "name": "Student work demonstrates higher-order thinking, inquiry, observation, analysis and problem solving skills."
+                  }
+                ]
+              },
+
+              {
+                "name": "All teachers actively participate with enthusiasm in a school-based appraisal program.",
+                "weightage": 5,
+                "subcriteria": [
+                  {
+                    "name": "All teachers, individually or in groups, reflect upon and evaluate their performance."
+                  },
+                  {
+                    "name": "All teachers participate in professional development."
+                  },
+                  {
+                    "name": "Teachers regularly make thoughtful and accurate written evaluations of lesson effectiveness based on children’s learning outcomes."
+                  },
+                  {
+                    "name": "All teachers engage in a formal means of peer observation."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
+
+]
