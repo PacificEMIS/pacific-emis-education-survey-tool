@@ -531,7 +531,308 @@
         ]
       }
     ]
-  }
+  },
 
+  {
+    "name" : "Classroom Observation",
+    "group_standard": [
+      {
+        "standard": [
+          {
+            "name": "Planning and preparation",
+            "criteria": [
+              {
+                "name": "Long term plans show an understanding of the curriculum, the connections between different subject areas and an attempt to link the curriculum to local contexts",
+                "subcriteria": [
+                  {
+                    "name": "There is evidence that National and State curriculum documents and guidelines are regularly used in planning"
+                  },
+                  {
+                    "name": "There is a written program for all curriculum areas for a period of at least 4 weeks"
+                  },
+                  {
+                    "name": "The program identifies major concepts and breaks them down into sequenced learning steps and appropriate learning activities"
+                  },
+                  {
+                    "name": "Some learning objectives are integrated in themes or topics and the use of Information and Communications Technology is integrated"
+                  },
+                  {
+                    "name": "The program is linked to local events and seasonal activities"
+                  }
+                ]
+              },
+
+              {
+                "name": "Short term lesson plans provide adequate guidance for teaching and learning activities",
+                "subcriteria": [
+                  {
+                    "name": "Written plans for at least 1 week show continuity and progression between lessons"
+                  },
+                  {
+                    "name": "Plans include sequenced, measurable learning objectives from the curriculum"
+                  },
+                  {
+                    "name": "Plans include appropriate learning activities including differentiated activities for different learners, including students with IEPs"
+                  },
+                  {
+                    "name": "Plans have enough detail to guide teaching and learning"
+                  },
+                  {
+                    "name": "State planning forms are used"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "standard": [
+          {
+            "name": "Classroom Management",
+            "criteria": [
+              {
+                "name": "Time is managed effectively to maximize students’ learning opportunities",
+                "subcriteria": [
+                  {
+                    "name": "Time is used constructively for teaching and learning of new materia"
+                  },
+                  {
+                    "name": "Children are on-task and engaged in appropriate learning activities for most of the lesson time"
+                  },
+                  {
+                    "name": "The lesson starts and finishes on time"
+                  },
+                  {
+                    "name": "The pace of the lesson is neither too slow nor too rushed"
+                  },
+                  {
+                    "name": "The teacher allocates their time fairly and equitably towards all children"
+                  }
+                ]
+              },
+
+              {
+                "name": "Resources and learning materials are managed effectively",
+                "subcriteria": [
+                  {
+                    "name": "All resources and learning materials needed for the lesson are prepared in advance"
+                  },
+                  {
+                    "name": "Children have access to adequate and appropriate resources and learning materials"
+                  },
+                  {
+                    "name": "Resources and learning materials are stored neatly, safely and securely"
+                  },
+                  {
+                    "name": "Children are partly responsible for the management of resources and learning materials"
+                  },
+                  {
+                    "name": "Resources and learning materials are collected and put away at the end of the lesson"
+                  }
+                ]
+              },
+
+              {
+                "name": "A positive, supportive climate for learning is created",
+                "subcriteria": [
+                  {
+                    "name": "The teacher expects, recognizes and rewards high standards of student behavior and achievement"
+                  },
+                  {
+                    "name": "The classroom is orderly, safe and non-threatening"
+                  },
+                  {
+                    "name": "Classroom rules and routines are clearly explained and children follow them"
+                  },
+                  {
+                    "name": "Violence, threats or other forms of physical punishment are not used"
+                  },
+                  {
+                    "name": "Children are encouraged to act responsibly and  learn cooperatively"
+                  }
+                ]
+              },
+
+              {
+                "name": "A high quality physical learning environment is created",
+                "subcriteria": [
+                  {
+                    "name": "The environment is rich in print and visual displays that are related to the current learning objectives"
+                  },
+                  {
+                    "name": "The classroom is clean, receives enough daylight light and is well ventilated"
+                  },
+                  {
+                    "name": "The arrangement of furniture allows and supports a variety of teaching and learning activities"
+                  },
+                  {
+                    "name": "The arrangement of furniture allows the teacher to move about the room to monitor and assist all children"
+                  },
+                  {
+                    "name": "There are designated areas of the classroom where topical displays or activity centers are located"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "standard": [
+          {
+            "name": "Teaching and learning",
+            "criteria": [
+              {
+                "name": "The lesson is structured and objectives are clear",
+                "subcriteria": [
+                  {
+                    "name": "The lesson begins with a review of previous learning"
+                  },
+                  {
+                    "name": "The learning objectives of the lesson are clearly stated"
+                  },
+                  {
+                    "name": "The lesson contains a balance of teacher instruction and student activity"
+                  },
+                  {
+                    "name": "The lesson is adapted to take account of student feedback"
+                  },
+                  {
+                    "name": "The lesson ends with a review of what has been learned"
+                  }
+                ]
+              },
+
+              {
+                "name": "New material is accurately and clearly presented, explained and placed within a meaningful context",
+                "subcriteria": [
+                  {
+                    "name": "New material or content is presented with authority in a logical and systematic way using clearly recognizable steps"
+                  },
+                  {
+                    "name": "Explanations and demonstrations are clear, concise and easy to follow"
+                  },
+                  {
+                    "name": "Concepts are explained in several different ways using relevant examples and meaningful contexts"
+                  },
+                  {
+                    "name": "The language of instruction is appropriate to the needs of the children"
+                  },
+                  {
+                    "name": "Verbal communication is clear, concise and understandable and is supported by print or other media"
+                  }
+                ]
+              },
+
+              {
+                "name": "A variety of highly efficient interactive teaching and learning strategies are used",
+                "subcriteria": [
+                  {
+                    "name": "The teacher facilitates a wide variety of interactive teaching and cooperative learning strategies"
+                  },
+                  {
+                    "name": "Children are actively and meaningfully engaged in appropriate, challenging activities and learning takes place through activity"
+                  },
+                  {
+                    "name": "Learning activities include higher-order thinking, inquiry, observation, analysis and problem solving"
+                  },
+                  {
+                    "name": "Students are given opportunities to apply their learning in meaningful contexts, including through the use of ICT"
+                  },
+                  {
+                    "name": "Different learning activities are assigned according to individual children’s needs"
+                  }
+                ]
+              },
+
+              {
+                "name": "Questioning and discussion are used effectively to support learning",
+                "subcriteria": [
+                  {
+                    "name": "The majority of teacher questions are open and enabling and encourage higher order thinking"
+                  },
+                  {
+                    "name": "Questions are adapted to individual students’ needs and abilities, including those with IEPs"
+                  },
+                  {
+                    "name": "The teacher responds positively to students’ responses and asks appropriate supplementary or follow-up questions"
+                  },
+                  {
+                    "name": "Question and answer time is efficiently managed with appropriate routines such as wait time, hands up and other forms of signaling"
+                  },
+                  {
+                    "name": "Discussions are managed so as to allow contributions from all students"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "standard": [
+          {
+            "name": "Student assessment",
+            "criteria": [
+              {
+                "name": "Assessment is planned and integrated into the lesson and is based on observable and measurable criteria",
+                "subcriteria": [
+                  {
+                    "name": "Learning objectives and assessment criteria are explained to the children in language they can understand"
+                  },
+                  {
+                    "name": "A variety of assessment strategies are used in the lesson and feedback is given to students at strategic points"
+                  },
+                  {
+                    "name": "The results of assessment are used to adapt current and future teaching and learning activities"
+                  },
+                  {
+                    "name": "Individual assessment outcomes are recorded by the teacher or stored in a student portfolio or other record system"
+                  },
+                  {
+                    "name": "Children are involved in conducting self or peer assessments"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "standard": [
+          {
+            "name": "Evaluation and professional development",
+            "criteria": [
+              {
+                "name": "The teacher reflects upon and evaluates their performance and participates in professional development",
+                "subcriteria": [
+                  {
+                    "name": "The teacher regularly makes thoughtful and accurate evaluations of lesson effectiveness based on children’s learning outcomes"
+                  },
+                  {
+                    "name": "The teacher adjusts future lessons based on evaluation"
+                  },
+                  {
+                    "name": "The teacher welcomes and acts upon feedback from observers, principal or other teachers"
+                  },
+                  {
+                    "name": "The teacher participates in a school-based appraisal program"
+                  },
+                  {
+                    "name": "The teacher actively seeks appropriate ways to enhance their professional knowledge and practice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 
 ]
