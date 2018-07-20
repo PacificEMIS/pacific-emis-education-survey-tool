@@ -15,10 +15,10 @@ android {
     }
     signingConfigs {
         release {
-            keyAlias System.getenv("KEY_ALIAS") as String  ?: "KEY_ALIAS"
-            storePassword System.getenv("KEYSTORE_PASSWORD") as String  ?: "KEYSTORE_PASSWORD"
-            storeFile file(System.getenv("KEY_FILE") as String ?: "KEY_FILE")
-            keyPassword System.getenv("KEY_PASSWORD") as String ?: "KEY_PASSWORD"
+            keyAlias printEnv(System.getenv("KEY_ALIAS") as String ?: "KEY_ALIAS")
+            storePassword printEnv(System.getenv("KEYSTORE_PASSWORD") as String ?: "KEYSTORE_PASSWORD")
+            storeFile file(printEnv(System.getenv("KEY_FILE") as String ?: "KEY_FILE"))
+            keyPassword printEnv(System.getenv("KEY_PASSWORD") as String ?: "KEY_PASSWORD")
         }
     }
     buildTypes {
@@ -32,6 +32,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+def printEnv(val) {
+    println "Env = " + val
+    val
 }
 
 dependencies {
