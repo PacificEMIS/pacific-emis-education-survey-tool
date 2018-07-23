@@ -1,6 +1,7 @@
 package fm.doe.national.data_source.static_source.models;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -16,6 +17,7 @@ public class StaticCriteria implements Criteria {
     private String name;
 
     @Expose
+    @Nullable
     @SerializedName("weightage")
     private Integer weightage;
 
@@ -39,6 +41,7 @@ public class StaticCriteria implements Criteria {
         return name;
     }
 
+    @Nullable
     public Integer getWeightage() {
         return weightage;
     }

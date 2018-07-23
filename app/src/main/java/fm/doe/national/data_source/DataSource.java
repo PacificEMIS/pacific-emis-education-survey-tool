@@ -6,7 +6,7 @@ import java.util.List;
 import fm.doe.national.models.survey.*;
 import io.reactivex.Single;
 
-public interface AccreditationDataSource {
+public interface DataSource {
 
     Single<School> createSchool(String name);
 
@@ -16,6 +16,8 @@ public interface AccreditationDataSource {
 
     Single<GroupStandard> createGroupStandard();
 
+    Single<List<GroupStandard>> requestGroupStandard();
+
     Single<Standard> createStandard(String name, GroupStandard group);
 
     Single<Criteria> createCriteria(String name, Standard standard);
@@ -23,4 +25,5 @@ public interface AccreditationDataSource {
     Single<SubCriteria> createSubCriteria(String name, String question, Criteria criteria);
 
     Single<Answer> createAnswer(boolean answer, SubCriteria criteria, Survey survey);
+
 }

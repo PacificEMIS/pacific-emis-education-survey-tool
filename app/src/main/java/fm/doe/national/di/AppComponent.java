@@ -3,8 +3,8 @@ package fm.doe.national.di;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import fm.doe.national.data_source.AccreditationDataSource;
-import fm.doe.national.data_source.StaticDataSource;
+import fm.doe.national.data_source.DataSource;
+import fm.doe.national.data_source.static_source.StaticDataSource;
 import fm.doe.national.di.modules.AccreditationDataSourceModule;
 import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
@@ -19,7 +19,7 @@ import fm.doe.national.di.modules.StaticDataSourceModule;
         StaticDataSourceModule.class})
 public interface AppComponent {
 
-    AccreditationDataSource getAccreditationDataSource();
+    DataSource getAccreditationDataSource();
 
     StaticDataSource getStaticDataSource();
 

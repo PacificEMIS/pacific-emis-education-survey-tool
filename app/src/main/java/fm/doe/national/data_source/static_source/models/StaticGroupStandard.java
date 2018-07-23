@@ -1,6 +1,5 @@
 package fm.doe.national.data_source.static_source.models;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
@@ -29,15 +28,10 @@ public class StaticGroupStandard implements GroupStandard {
         return 0;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public String getName() {
-        if (name != null) return name;
-
-        List<Standard> standards = getStandards();
-        if (standards.isEmpty()) return "";
-
-        return standards.get(0).getName();
+        return name;
     }
 
     @Override

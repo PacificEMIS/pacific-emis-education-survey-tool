@@ -8,8 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.data_source.StaticDataSource;
-import fm.doe.national.data_source.static_source.StaticDataSourceImpl;
+import fm.doe.national.data_source.static_source.StaticDataSource;
 
 @Module(includes = {ContextModule.class, GsonModule.class})
 public class StaticDataSourceModule {
@@ -17,7 +16,7 @@ public class StaticDataSourceModule {
     @Provides
     @Singleton
     public StaticDataSource provideStaticDataSource(Context context, Gson gson) {
-        return new StaticDataSourceImpl(context, gson);
+        return new StaticDataSource(context, gson);
     }
 
 }

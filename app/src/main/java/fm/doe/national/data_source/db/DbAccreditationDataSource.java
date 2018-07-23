@@ -3,8 +3,9 @@ package fm.doe.national.data_source.db;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-import fm.doe.national.data_source.AccreditationDataSource;
+import fm.doe.national.data_source.DataSource;
 import fm.doe.national.data_source.db.dao.*;
 import fm.doe.national.data_source.db.models.*;
 import fm.doe.national.models.survey.*;
@@ -12,7 +13,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
-public class OrmLiteAccreditationDataSource implements AccreditationDataSource {
+public class DbAccreditationDataSource implements DataSource {
 
     private SchoolDao schoolDao;
     private SurveyDao surveyDao;
@@ -22,7 +23,7 @@ public class OrmLiteAccreditationDataSource implements AccreditationDataSource {
     private SubCriteriaDao subCriteriaDao;
     private AnswerDao answerDao;
 
-    public OrmLiteAccreditationDataSource(DatabaseHelper helper) {
+    public DbAccreditationDataSource(DatabaseHelper helper) {
         try {
             schoolDao = helper.getSchoolDao();
             surveyDao = helper.getSurveyDao();
@@ -63,6 +64,12 @@ public class OrmLiteAccreditationDataSource implements AccreditationDataSource {
     public Single<GroupStandard> createGroupStandard() {
         return groupStandardDao.createGroup()
                 .map(groupStandard -> groupStandard);
+    }
+
+    @Override
+    public Single<List<GroupStandard>> requestGroupStandard() {
+        return Single.fromCallable(() -> groupStandardDao.queryForAll())
+                .map(ArrayList<GroupStandard>::new);
     }
 
     @Override
