@@ -13,7 +13,4 @@ public interface SubCriteria extends Serializable {
     @NonNull
     String getName();
 
-    @NonNull
-    String getQuestion();
-
 }

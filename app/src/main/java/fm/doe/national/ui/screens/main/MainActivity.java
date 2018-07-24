@@ -5,7 +5,7 @@ import android.util.Log;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
-import fm.doe.national.data_source.static_source.StaticDataSource;
+import fm.doe.national.data.data_source.static_source.StaticDataSource;
 import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
