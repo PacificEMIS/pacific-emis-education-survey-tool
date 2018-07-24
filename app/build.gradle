@@ -44,6 +44,8 @@ dependencies {
     def ormliteVersion = '4.48'
     def daggerVersion = '2.11'
     def moxyVersion = '1.5.5'
+    def retrofitVersion = '2.3.0'
+    def okhttpVersion = '3.4.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$supportVersion"
@@ -59,6 +61,13 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
     //RxBinding
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+
+    // Retrofit
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
     // Ormlite
     implementation "com.j256.ormlite:ormlite-core:$ormliteVersion"
