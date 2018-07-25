@@ -12,6 +12,4 @@ public interface GroupStandard extends Serializable {
     @Nullable
     String getName();
 
-    List<Standard> getStandards();
-
 }

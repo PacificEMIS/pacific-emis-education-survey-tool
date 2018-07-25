@@ -10,6 +10,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class OrmLiteGroupStandard implements GroupStandard {
     @Nullable
     @SerializedName("standard")
     @ForeignCollectionField(eager = true, columnName = Column.STANDARDS)
-    protected ForeignCollection<OrmLiteStandard> standards;
+    protected Collection<OrmLiteStandard> standards;
 
     @Override
     public long getId() {
@@ -41,14 +42,13 @@ public class OrmLiteGroupStandard implements GroupStandard {
     @Override
     public String getName() {
         if (standards == null || standards.isEmpty()) {
-            return  "";
+            return "";
         }
         OrmLiteStandard[] standards = (OrmLiteStandard[]) this.standards.toArray();
         return standards[0].getName();
     }
 
-    @Override
-    public List<Standard> getStandards() {
+    public List<OrmLiteStandard> getStandards() {
         return (standards == null) ? Collections.EMPTY_LIST : new ArrayList<>(standards);
     }
 

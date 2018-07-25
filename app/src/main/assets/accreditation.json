@@ -1,6 +1,7 @@
 {
   "group_standard": [
     {
+      "name": "Leadership",
       "standard": [
         {
           "name": "Leadership",
@@ -24,7 +25,6 @@
             },
             {
               "name": "The principal has a clear philosophy of education and is an expert in curriculum and instruction. ",
-              "weightage": 4,
               "subcriteria": [
                 {
                   "name": "The principal manages a program of teacher collaboration for instructional planning."
@@ -42,7 +42,6 @@
             },
             {
               "name": "The principal is involved in a program of continuous professional development and appraisal by supervisors, board members or peers. ",
-              "weightage": 6,
               "subcriteria": [
                 {
                   "name": "The principal keeps up to date with innovations in education."
@@ -60,7 +59,6 @@
             },
             {
               "name": "The principal conducts a regular program of teacher performance appraisals.",
-              "weightage": 6,
               "subcriteria": [
                 {
                   "name": "There are regular, structured classroom observation and written reports are produced."
@@ -81,13 +79,13 @@
       ]
     },
     {
+      "name": "Teacher Performance",
       "standard": [
         {
           "name": "Teacher Performance",
           "criteria": [
             {
               "name": "All teachers prepare standardized long, medium or short-term lesson plans that provide adequate guidance for teaching and learning activities.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "Plans include appropriate learning activities including differentiated activities for different learners, including those with IEPs."
@@ -105,7 +103,6 @@
             },
             {
               "name": "All teachers create high quality classroom learning environments.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "The classrooms and other teaching areas are rich in print and visual displays that are related to the current learning objectives."
@@ -123,7 +120,6 @@
             },
             {
               "name": "All teachers manage their time effectively to maximize students’ learning opportunities.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "All lessons start and finish on time."
@@ -141,7 +137,6 @@
             },
             {
               "name": "All teachers actively participate with enthusiasm in a school-based appraisal program.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "All teachers, individually or in groups, reflect upon and evaluate their performance."
@@ -162,13 +157,13 @@
       ]
     },
     {
+      "name": "Data Management",
       "standard": [
         {
           "name": "Data Management",
           "criteria": [
             {
               "name": "Comprehensive and accurate school data is collected on a regular schedule.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "Complete and accurate school data is collected on a quarterly schedule."
@@ -186,7 +181,6 @@
             },
             {
               "name": "All school data is centrally located and carefully filed.",
-              "weightage": 3,
               "subcriteria": [
                 {
                   "name": "All SDOE-mandated school data files are backed-up or duplicated and are securely held, including IEPs."
@@ -204,7 +198,6 @@
             },
             {
               "name": "All student performance data, including classroom assessment, teacher observations, student portfolios and test data, is analyzed by all teachers to identify individual students’ strengths and weaknesses, including students with IEPs.",
-              "weightage": 4,
               "subcriteria": [
                 {
                   "name": "Scheduled assessment meetings are held by teacher teams at least once per quarter."
@@ -222,7 +215,6 @@
             },
             {
               "name": "An extensive collection of school data is used to guide all management decision making.",
-              "weightage": 3,
               "subcriteria": [
                 {
                   "name": "An extensive collection of school data is used to guide all management and resource decision making, with at least two examples given during the Principal Interview of decisions made because of data."
@@ -243,13 +235,13 @@
       ]
     },
     {
+      "name": "National Curriculum Standards, Benchmarks and Student Learning Outcomes",
       "standard": [
         {
           "name": "National Curriculum Standards, Benchmarks and Student Learning Outcomes",
           "criteria": [
             {
               "name": "Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.",
-              "weightage": 2,
               "subcriteria": [
                 {
                   "name": "Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics, Social Studies, and Science are taught throughout the school in accordance with the National Curriculum and/or State Curriculum."
@@ -267,7 +259,6 @@
             },
             {
               "name": "Student performance data shows that the vast majority of students reach Competent or Minimum Competent levels on the NMCT and pass other State-mandated exams.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "75% of benchmarks in all tested English Language Arts NMCTs reached the Competent or Minimally Competent category."
@@ -285,7 +276,6 @@
             },
             {
               "name": "All students in all grades have their own copies of modern textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "All students in all grades have their own copies of modern (and/or any) textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies."
@@ -303,7 +293,6 @@
             },
             {
               "name": "A full timetable of extra-curricular academic, sports, cultural, civic and community activities are conducted after school for both boys and girls.",
-              "weightage": 3,
               "subcriteria": [
                 {
                   "name": "At least two extra-curricular academic, sports, conducted after school for both boys and girls."
@@ -324,13 +313,13 @@
       ]
     },
     {
+      "name": "School Campus, Classrooms and Facilities",
       "standard": [
         {
           "name": "School Campus, Classrooms and Facilities",
           "criteria": [
             {
               "name": "The school has a written maintenance and facilities development plan.",
-              "weightage": 3,
               "subcriteria": [
                 {
                   "name": "The school has a written maintenance plan that sets out a schedule of routine cleaning, minor repairs, painting and preventative maintenance."
@@ -348,7 +337,6 @@
             },
             {
               "name": "The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "Buildings are neat, clean, safe and secure (inside-out and outside-in), free of graffiti (e.g. writing on walls) vandalism (i.e. destruction of government property), and are explicitly drug-free zones."
@@ -366,7 +354,6 @@
             },
             {
               "name": "Classrooms meet recommended area requirements, with adequate lighting and ventilation.",
-              "weightage": 3,
               "subcriteria": [
                 {
                   "name": "All classrooms used by groups of 30 or more students exceed 25 feet by 25 feet in area, and classrooms used by less than 30 students allow in excess of 20 square feet of floor space per student."
@@ -384,7 +371,6 @@
             },
             {
               "name": "Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an emergency evacuation plan with evidence of a drill.",
-              "weightage": 4,
               "subcriteria": [
                 {
                   "name": "All food handling and preparation personnel wear protective clothing, are trained and certified by the Public Health Department and their certificates are clearly displayed."
@@ -405,13 +391,13 @@
       ]
     },
     {
+      "name": "School Improvement Planning",
       "standard": [
         {
           "name": "School Improvement Planning",
           "criteria": [
             {
               "name": "The School Improvement Plan has been developed and evaluated in accordance with the National Guidelines.",
-              "weightage": 5,
               "subcriteria": [
                 {
                   "name": "The School Improvement Plan has been developed by a school improvement team that includes all teachers, and selected parents, students, community members and other stakeholders who wish to be involved."
@@ -429,7 +415,6 @@
             },
             {
               "name": "The school principal plays a leadership role in the development and implementation of the SIP.",
-              "weightage": 3,
               "subcriteria": [
                 {
                   "name": "The SIP contains a Vision and Mission, the former successfully stating what the school wants to become, and the latter successfully stating what they do and how they do it."
@@ -447,7 +432,6 @@
             },
             {
               "name": "The School Improvement Plan contains comprehensive data analysis of student performance, attendance, resources and school management, over a period of at least three years, noting school strengths and weaknesses.",
-              "weightage": 4,
               "subcriteria": [
                 {
                   "name": "The School Improvement Plan contains three years of comprehensive data analysis of student performance, presented graphically"
@@ -465,7 +449,6 @@
             },
             {
               "name": "The School Improvement Plan contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes.",
-              "weightage": 3,
               "subcriteria": [
                 {
                   "name": "The SIP is posted in a public place and regular monitoring reports are issued to the community."

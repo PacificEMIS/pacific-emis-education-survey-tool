@@ -17,7 +17,7 @@ public class OrmLiteAnswer implements Answer {
         String ID = "id";
         String ANSWER = "answer";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
-        String SUB_CRITERIA = "subCriteria";
+        String SUB_CRITERIA = "subCriterias";
         String SURVEY = "survey";
     }
 
@@ -26,7 +26,7 @@ public class OrmLiteAnswer implements Answer {
     @DatabaseField(columnName = Column.ANSWER)
     protected boolean answer;
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.SYNCHRONIZED_PLATFORMS)
-    protected List<SynchronizePlatform> synchronizePlatforms;
+    protected ArrayList<SynchronizePlatform> synchronizePlatforms;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SUB_CRITERIA)
     protected OrmLiteSubCriteria subCriteria;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)

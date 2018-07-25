@@ -32,10 +32,9 @@ public class OrmLiteStandard implements Standard {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.GROUP_STANDARDS)
     protected OrmLiteGroupStandard groupStandard;
 
-    @Nullable
     @SerializedName("criteria")
     @ForeignCollectionField(eager = true, columnName = Column.CRITERIAS)
-    protected ForeignCollection<OrmLiteCriteria> criterias;
+    protected Collection<OrmLiteCriteria> criterias;
 
     public OrmLiteStandard() {
     }
@@ -65,5 +64,8 @@ public class OrmLiteStandard implements Standard {
         return criterias;
     }
 
+    public void setGroupStandard(OrmLiteGroupStandard groupStandard) {
+        this.groupStandard = groupStandard;
+    }
 }
 

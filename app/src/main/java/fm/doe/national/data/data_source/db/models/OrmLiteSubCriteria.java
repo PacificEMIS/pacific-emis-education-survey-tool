@@ -43,6 +43,10 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return criteria.getId();
     }
 
+    public void setCriteria(OrmLiteCriteria criteria) {
+        this.criteria = criteria;
+    }
+
     @NonNull
     @Override
     public String getName() {

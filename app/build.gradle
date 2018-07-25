@@ -74,7 +74,9 @@ dependencies {
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 
     //dagger
-    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
@@ -88,4 +90,8 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true;
     }
+
+    // Run `adb forward tcp:8080 tcp:8080` in terminal
+    // Open url: http://localhost:8080/ to view database
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 }

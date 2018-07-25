@@ -8,7 +8,6 @@ import java.util.List;
 import fm.doe.national.data.data_source.db.models.OrmLiteAnswer;
 import fm.doe.national.data.data_source.db.models.OrmLiteSubCriteria;
 import fm.doe.national.data.data_source.db.models.OrmLiteSurvey;
-import fm.doe.national.data_source.db.models.*;
 import fm.doe.national.models.survey.Survey;
 import io.reactivex.Completable;
 import io.reactivex.Single;

@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-
 import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.R;
