@@ -17,12 +17,12 @@ import fm.doe.national.data.data_source.db.models.OrmLiteSubCriteria;
 import fm.doe.national.models.survey.Criteria;
 import fm.doe.national.models.survey.Standard;
 
-public class JsonImporter implements DataImporter {
+public class SurveyImporter implements DataImporter {
 
     private Gson gson;
     private DatabaseHelper databaseHelper;
 
-    public JsonImporter(Gson gson, DatabaseHelper databaseHelper) {
+    public SurveyImporter(Gson gson, DatabaseHelper databaseHelper) {
         this.gson = gson;
         this.databaseHelper = databaseHelper;
     }

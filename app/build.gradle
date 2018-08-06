@@ -46,6 +46,7 @@ dependencies {
     def moxyVersion = '1.5.5'
     def retrofitVersion = '2.3.0'
     def okhttpVersion = '3.4.1'
+    def butterknifeVersion = '8.8.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$supportVersion"
@@ -82,6 +83,10 @@ dependencies {
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
+
+    //butterknife
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
     // tests
     testImplementation 'junit:junit:4.12'
