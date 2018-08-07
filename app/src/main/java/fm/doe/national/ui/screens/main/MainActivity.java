@@ -39,8 +39,6 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         MicronesiaApplication.getAppComponent().inject(this);
-        /*staticDataSource.requestSchools().subscribe(schools -> Log.d("TAG", "Size = " + schools
-                .size()));*/
     }
 
     @Override
