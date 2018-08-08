@@ -1,34 +1,23 @@
 package fm.doe.national.ui.screens.main;
 
-import android.content.ContentProvider;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
-import fm.doe.national.data.converters.FileImporter;
-import fm.doe.national.data.converters.SurveyImporter;
+import fm.doe.national.data.converters.DataImporter;
 import fm.doe.national.data.data_source.db.DbAccreditationDataSource;
-import fm.doe.national.data.data_source.db.dao.AnswerDao;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 import fm.doe.national.data.data_source.db.dao.GroupStandardDao;
 import fm.doe.national.data.data_source.db.models.OrmLiteGroupStandard;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.utils.StreamUtils;
-
-import static android.app.Activity.RESULT_OK;
 
 public class MainActivity extends BaseActivity {
 
@@ -38,6 +27,9 @@ public class MainActivity extends BaseActivity {
 
     @Inject
     DatabaseHelper databaseHelper;
+
+    @Inject
+    DataImporter dataImporter;
 
 
     @Override

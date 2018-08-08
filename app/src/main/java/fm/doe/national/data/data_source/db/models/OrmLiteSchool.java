@@ -8,6 +8,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import fm.doe.national.models.survey.School;
@@ -27,7 +28,7 @@ public class OrmLiteSchool implements School {
     protected String name;
     @Nullable
     @ForeignCollectionField(eager = true, columnName = Column.SURVEYS)
-    protected ForeignCollection<OrmLiteSurvey> surveys;
+    protected ArrayList<OrmLiteSurvey> surveys;
 
     public OrmLiteSchool() {
     }

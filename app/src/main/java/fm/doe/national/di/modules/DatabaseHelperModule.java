@@ -9,7 +9,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.data.converters.SurveyImporter;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 
 @Module(includes = {ContextModule.class, GsonModule.class})

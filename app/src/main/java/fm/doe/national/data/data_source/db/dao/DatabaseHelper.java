@@ -15,13 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-import javax.inject.Inject;
-
 import fm.doe.national.BuildConfig;
-import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.converters.DataImporter;
 import fm.doe.national.data.converters.GroupStandardWrapper;
-import fm.doe.national.data.converters.SurveyImporter;
 import fm.doe.national.data.data_source.db.models.OrmLiteAnswer;
 import fm.doe.national.data.data_source.db.models.OrmLiteCriteria;
 import fm.doe.national.data.data_source.db.models.OrmLiteGroupStandard;
@@ -29,7 +24,6 @@ import fm.doe.national.data.data_source.db.models.OrmLiteSchool;
 import fm.doe.national.data.data_source.db.models.OrmLiteStandard;
 import fm.doe.national.data.data_source.db.models.OrmLiteSubCriteria;
 import fm.doe.national.data.data_source.db.models.OrmLiteSurvey;
-import fm.doe.national.di.AppComponent;
 import fm.doe.national.utils.StreamUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
