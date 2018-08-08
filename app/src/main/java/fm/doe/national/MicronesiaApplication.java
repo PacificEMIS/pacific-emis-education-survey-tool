@@ -2,6 +2,7 @@ package fm.doe.national;
 
 import android.app.Application;
 
+import com.amitshekhar.DebugDB;
 import com.crashlytics.android.Crashlytics;
 
 import fm.doe.national.di.AppComponent;
@@ -17,9 +18,9 @@ public class MicronesiaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-        appComponent = DaggerAppComponent.builder()
-                .contextModule(new ContextModule(this))
-                .build();
+        appComponent = DaggerAppComponent.builder().contextModule(new ContextModule(this)).build();
+
+        DebugDB.getAddressLog();
     }
 
     public static AppComponent getAppComponent() {

@@ -1,17 +1,27 @@
 package fm.doe.national.data.data_source.db.dao;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 
+import javax.inject.Inject;
+
 import fm.doe.national.BuildConfig;
+import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.data.converters.DataImporter;
+import fm.doe.national.data.converters.GroupStandardWrapper;
+import fm.doe.national.data.converters.SurveyImporter;
 import fm.doe.national.data.data_source.db.models.OrmLiteAnswer;
 import fm.doe.national.data.data_source.db.models.OrmLiteCriteria;
 import fm.doe.national.data.data_source.db.models.OrmLiteGroupStandard;
@@ -19,6 +29,8 @@ import fm.doe.national.data.data_source.db.models.OrmLiteSchool;
 import fm.doe.national.data.data_source.db.models.OrmLiteStandard;
 import fm.doe.national.data.data_source.db.models.OrmLiteSubCriteria;
 import fm.doe.national.data.data_source.db.models.OrmLiteSurvey;
+import fm.doe.national.di.AppComponent;
+import fm.doe.national.utils.StreamUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
@@ -33,13 +45,51 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private SubCriteriaDao subCriteriaDao;
     private AnswerDao answerDao;
 
+    private AssetManager assetManager;
+    private Gson gson;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
+        assetManager = context.getAssets();
+    }
+
+    public void setGson(Gson gson) {
+        this.gson = gson;
     }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         createAllTables(connectionSource);
+        fillAllTables();
+    }
+
+    private void fillAllTables() {
+        try {
+            InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
+            String data = StreamUtils.asString(inputStream);
+
+            GroupStandardWrapper groupStandardWrapper = gson.fromJson(data, GroupStandardWrapper.class);
+            for (OrmLiteGroupStandard groupStandard : groupStandardWrapper.getGroupStandards()) {
+                getGroupStandardDao().create(groupStandard);
+
+                for (OrmLiteStandard standard : groupStandard.getStandards()) {
+                    standard.setGroupStandard(groupStandard);
+                    getStandardDao().create(standard);
+
+                    for (OrmLiteCriteria criteria : standard.getCriterias()) {
+                        criteria.setStandard(standard);
+                        getCriteriaDao().create(criteria);
+
+                        for (OrmLiteSubCriteria subCriteria : criteria.getSubCriterias()) {
+                            subCriteria.setCriteria(criteria);
+                            getSubCriteriaDao().create(subCriteria);
+                        }
+                    }
+                }
+            }
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createAllTables(ConnectionSource connectionSource) {
@@ -62,6 +112,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         // Now we don't need this method
         dropAllTables();
         createAllTables(connectionSource);
+        fillAllTables();
     }
 
     private void dropAllTables() {

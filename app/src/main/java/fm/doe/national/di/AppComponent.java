@@ -3,6 +3,7 @@ package fm.doe.national.di;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 import fm.doe.national.di.modules.AccreditationDataSourceModule;
 import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.ConvertersModule;

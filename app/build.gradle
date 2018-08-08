@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
+        buildConfigField "String", "SURVEYS_FILE_NAME", "\"accreditation.json\""
     }
     signingConfigs {
         release {
