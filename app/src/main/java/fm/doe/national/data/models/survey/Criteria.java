@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.db.models;
+package fm.doe.national.data.models.survey;
 
 import android.support.annotation.NonNull;
 
@@ -8,9 +8,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.Collection;
 
-import fm.doe.national.models.survey.Criteria;
-
-public class OrmLiteCriteria {
+public class Criteria {
 
     public interface Column {
         String ID = "id";
@@ -26,16 +24,16 @@ public class OrmLiteCriteria {
     protected String name;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.STANDARD)
-    protected OrmLiteStandard standard;
+    protected Standard standard;
 
     @SerializedName("subcriteria")
     @ForeignCollectionField(eager = true, columnName = Column.CRITERIAS)
-    protected Collection<OrmLiteSubCriteria> subCriterias;
+    protected Collection<SubCriteria> subCriterias;
 
-    public OrmLiteCriteria() {
+    public Criteria() {
     }
 
-    public OrmLiteCriteria(String name, OrmLiteStandard standard) {
+    public Criteria(String name, Standard standard) {
         this.name = name;
         this.standard = standard;
     }
@@ -48,7 +46,7 @@ public class OrmLiteCriteria {
         return standard.getId();
     }
 
-    public void setStandard(OrmLiteStandard standard) {
+    public void setStandard(Standard standard) {
         this.standard = standard;
     }
 
@@ -57,7 +55,7 @@ public class OrmLiteCriteria {
         return name;
     }
 
-    public Collection<OrmLiteSubCriteria> getSubCriterias() {
+    public Collection<SubCriteria> getSubCriterias() {
         return subCriterias;
     }
 

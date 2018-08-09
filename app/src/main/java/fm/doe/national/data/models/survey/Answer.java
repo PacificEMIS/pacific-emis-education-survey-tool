@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.db.models;
+package fm.doe.national.data.models.survey;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -7,11 +7,10 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.models.SynchronizePlatform;
-import fm.doe.national.models.survey.Answer;
+import fm.doe.national.data.models.SynchronizePlatform;
 
 @DatabaseTable
-public class OrmLiteAnswer {
+public class Answer {
 
     public interface Column {
         String ID = "id";
@@ -28,14 +27,14 @@ public class OrmLiteAnswer {
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.SYNCHRONIZED_PLATFORMS)
     protected ArrayList<SynchronizePlatform> synchronizePlatforms;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SUB_CRITERIA)
-    protected OrmLiteSubCriteria subCriteria;
+    protected SubCriteria subCriteria;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)
-    protected OrmLiteSurvey survey;
+    protected Survey survey;
 
-    public OrmLiteAnswer() {
+    public Answer() {
     }
 
-    public OrmLiteAnswer(boolean answer, OrmLiteSubCriteria subCriteria, OrmLiteSurvey survey) {
+    public Answer(boolean answer, SubCriteria subCriteria, Survey survey) {
         this.answer = answer;
         this.subCriteria = subCriteria;
         this.survey = survey;

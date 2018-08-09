@@ -1,20 +1,16 @@
-package fm.doe.national.data.data_source.db.models;
+package fm.doe.national.data.models.survey;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Collection;
 
-import fm.doe.national.models.survey.Standard;
-
 @DatabaseTable
-public class OrmLiteStandard {
+public class Standard {
 
     public interface Column {
         String ID = "id";
@@ -30,16 +26,16 @@ public class OrmLiteStandard {
     protected String name;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.GROUP_STANDARDS)
-    protected OrmLiteGroupStandard groupStandard;
+    protected GroupStandard groupStandard;
 
     @SerializedName("criteria")
     @ForeignCollectionField(eager = true, columnName = Column.CRITERIAS)
-    protected Collection<OrmLiteCriteria> criterias;
+    protected Collection<Criteria> criterias;
 
-    public OrmLiteStandard() {
+    public Standard() {
     }
 
-    public OrmLiteStandard(String name, OrmLiteGroupStandard groupStandard) {
+    public Standard(String name, GroupStandard groupStandard) {
         this.name = name;
         this.groupStandard = groupStandard;
     }
@@ -57,11 +53,11 @@ public class OrmLiteStandard {
         return name;
     }
 
-    public Collection<OrmLiteCriteria> getCriterias() {
+    public Collection<Criteria> getCriterias() {
         return criterias;
     }
 
-    public void setGroupStandard(OrmLiteGroupStandard groupStandard) {
+    public void setGroupStandard(GroupStandard groupStandard) {
         this.groupStandard = groupStandard;
     }
 }

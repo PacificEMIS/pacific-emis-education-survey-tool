@@ -4,19 +4,19 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 
-import fm.doe.national.data.data_source.db.models.OrmLiteCriteria;
-import fm.doe.national.data.data_source.db.models.OrmLiteSubCriteria;
+import fm.doe.national.data.models.survey.Criteria;
+import fm.doe.national.data.models.survey.SubCriteria;
 import io.reactivex.Single;
 
-public class SubCriteriaDao extends BaseRxDao<OrmLiteSubCriteria, Long> {
+public class SubCriteriaDao extends BaseRxDao<SubCriteria, Long> {
 
-    protected SubCriteriaDao(ConnectionSource connectionSource, Class<OrmLiteSubCriteria> dataClass) throws SQLException {
+    protected SubCriteriaDao(ConnectionSource connectionSource, Class<SubCriteria> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
-    public Single<OrmLiteSubCriteria> createSubCriteria(String name, OrmLiteCriteria criteria) {
+    public Single<SubCriteria> createSubCriteria(String name, Criteria criteria) {
         return Single.fromCallable(() -> {
-            OrmLiteSubCriteria subCriteria = new OrmLiteSubCriteria(name, criteria);
+            SubCriteria subCriteria = new SubCriteria(name, criteria);
             create(subCriteria);
             return subCriteria;
         });

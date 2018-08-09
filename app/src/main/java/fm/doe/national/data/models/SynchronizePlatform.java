@@ -1,4 +1,4 @@
-package fm.doe.national.models;
+package fm.doe.national.data.models;
 
 public enum SynchronizePlatform {
 

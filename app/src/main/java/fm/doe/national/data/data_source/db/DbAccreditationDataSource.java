@@ -13,20 +13,13 @@ import fm.doe.national.data.data_source.db.dao.SchoolDao;
 import fm.doe.national.data.data_source.db.dao.StandardDao;
 import fm.doe.national.data.data_source.db.dao.SubCriteriaDao;
 import fm.doe.national.data.data_source.db.dao.SurveyDao;
-import fm.doe.national.data.data_source.db.models.OrmLiteAnswer;
-import fm.doe.national.data.data_source.db.models.OrmLiteCriteria;
-import fm.doe.national.data.data_source.db.models.OrmLiteGroupStandard;
-import fm.doe.national.data.data_source.db.models.OrmLiteSchool;
-import fm.doe.national.data.data_source.db.models.OrmLiteStandard;
-import fm.doe.national.data.data_source.db.models.OrmLiteSubCriteria;
-import fm.doe.national.data.data_source.db.models.OrmLiteSurvey;
-import fm.doe.national.models.survey.Answer;
-import fm.doe.national.models.survey.Criteria;
-import fm.doe.national.models.survey.GroupStandard;
-import fm.doe.national.models.survey.School;
-import fm.doe.national.models.survey.Standard;
-import fm.doe.national.models.survey.SubCriteria;
-import fm.doe.national.models.survey.Survey;
+import fm.doe.national.data.models.survey.Answer;
+import fm.doe.national.data.models.survey.Criteria;
+import fm.doe.national.data.models.survey.GroupStandard;
+import fm.doe.national.data.models.survey.School;
+import fm.doe.national.data.models.survey.Standard;
+import fm.doe.national.data.models.survey.SubCriteria;
+import fm.doe.national.data.models.survey.Survey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -73,7 +66,7 @@ public class DbAccreditationDataSource implements DataSource {
 
     @Override
     public Single<Survey> createSurvey(School school, int year) {
-        OrmLiteSchool ormLiteSchool = (OrmLiteSchool) school;
+        School ormLiteSchool = (School) school;
         return surveyDao.createSurvey(ormLiteSchool, year)
                 .map(survey -> survey);
     }
@@ -92,30 +85,30 @@ public class DbAccreditationDataSource implements DataSource {
 
     @Override
     public Single<Standard> createStandard(String name, GroupStandard group) {
-        return standardDao.createStandard(name, (OrmLiteGroupStandard) group)
+        return standardDao.createStandard(name, (GroupStandard) group)
                 .map(standard -> standard);
     }
 
     @Override
     public Single<Criteria> createCriteria(String name, Standard standard) {
-        return criteriaDao.createCriteria(name, (OrmLiteStandard) standard)
-                .map((Function<OrmLiteCriteria, OrmLiteCriteria>) criteria -> criteria);
+        return criteriaDao.createCriteria(name, (Standard) standard)
+                .map((Function<Criteria, Criteria>) criteria -> criteria);
     }
 
     @Override
     public Single<SubCriteria> createSubCriteria(String name, Criteria criteria) {
-        return subCriteriaDao.createSubCriteria(name, (OrmLiteCriteria) criteria)
+        return subCriteriaDao.createSubCriteria(name, (Criteria) criteria)
                 .map(subCriteria -> subCriteria);
     }
 
     @Override
     public Single<Answer> createAnswer(boolean answer, SubCriteria criteria, Survey survey) {
-        return answerDao.createAnswer(answer, (OrmLiteSubCriteria) criteria, (OrmLiteSurvey) survey)
+        return answerDao.createAnswer(answer, (SubCriteria) criteria, (Survey) survey)
                 .map(answer1 -> answer1);
     }
 
     public Completable updateAnswer(Answer answer) {
-        return answerDao.updateAnswer((OrmLiteAnswer) answer);
+        return answerDao.updateAnswer((Answer) answer);
     }
 
     public Single<List<Answer>> requestAnswers(Survey survey) {

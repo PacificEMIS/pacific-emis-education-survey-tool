@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Collection;
 
-import fm.doe.national.data.data_source.db.models.OrmLiteGroupStandard;
+import fm.doe.national.data.models.survey.GroupStandard;
 
 public class GroupStandardWrapper implements Serializable {
 
     @SerializedName("group_standard")
-    protected Collection<OrmLiteGroupStandard> groupStandards;
+    protected Collection<GroupStandard> groupStandards;
 
-    public Collection<OrmLiteGroupStandard> getGroupStandards() {
+    public Collection<GroupStandard> getGroupStandards() {
         return groupStandards;
     }
 
-    public void setGroupStandards(Collection<OrmLiteGroupStandard> groupStandards) {
+    public void setGroupStandards(Collection<GroupStandard> groupStandards) {
         this.groupStandards = groupStandards;
     }
 }

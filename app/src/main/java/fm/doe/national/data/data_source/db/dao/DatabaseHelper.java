@@ -17,13 +17,13 @@ import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.data.converters.GroupStandardWrapper;
-import fm.doe.national.data.data_source.db.models.OrmLiteAnswer;
-import fm.doe.national.data.data_source.db.models.OrmLiteCriteria;
-import fm.doe.national.data.data_source.db.models.OrmLiteGroupStandard;
-import fm.doe.national.data.data_source.db.models.OrmLiteSchool;
-import fm.doe.national.data.data_source.db.models.OrmLiteStandard;
-import fm.doe.national.data.data_source.db.models.OrmLiteSubCriteria;
-import fm.doe.national.data.data_source.db.models.OrmLiteSurvey;
+import fm.doe.national.data.models.survey.Answer;
+import fm.doe.national.data.models.survey.Criteria;
+import fm.doe.national.data.models.survey.GroupStandard;
+import fm.doe.national.data.models.survey.School;
+import fm.doe.national.data.models.survey.Standard;
+import fm.doe.national.data.models.survey.SubCriteria;
+import fm.doe.national.data.models.survey.Survey;
 import fm.doe.national.utils.StreamUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -63,18 +63,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             String data = StreamUtils.asString(inputStream);
 
             GroupStandardWrapper groupStandardWrapper = gson.fromJson(data, GroupStandardWrapper.class);
-            for (OrmLiteGroupStandard groupStandard : groupStandardWrapper.getGroupStandards()) {
+            for (GroupStandard groupStandard : groupStandardWrapper.getGroupStandards()) {
                 getGroupStandardDao().create(groupStandard);
 
-                for (OrmLiteStandard standard : groupStandard.getStandards()) {
+                for (Standard standard : groupStandard.getStandards()) {
                     standard.setGroupStandard(groupStandard);
                     getStandardDao().create(standard);
 
-                    for (OrmLiteCriteria criteria : standard.getCriterias()) {
+                    for (Criteria criteria : standard.getCriterias()) {
                         criteria.setStandard(standard);
                         getCriteriaDao().create(criteria);
 
-                        for (OrmLiteSubCriteria subCriteria : criteria.getSubCriterias()) {
+                        for (SubCriteria subCriteria : criteria.getSubCriterias()) {
                             subCriteria.setCriteria(criteria);
                             getSubCriteriaDao().create(subCriteria);
                         }
@@ -88,13 +88,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void createAllTables(ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, OrmLiteCriteria.class);
-            TableUtils.createTable(connectionSource, OrmLiteGroupStandard.class);
-            TableUtils.createTable(connectionSource, OrmLiteSchool.class);
-            TableUtils.createTable(connectionSource, OrmLiteStandard.class);
-            TableUtils.createTable(connectionSource, OrmLiteSubCriteria.class);
-            TableUtils.createTable(connectionSource, OrmLiteSurvey.class);
-            TableUtils.createTable(connectionSource, OrmLiteAnswer.class);
+            TableUtils.createTable(connectionSource, Criteria.class);
+            TableUtils.createTable(connectionSource, GroupStandard.class);
+            TableUtils.createTable(connectionSource, School.class);
+            TableUtils.createTable(connectionSource, Standard.class);
+            TableUtils.createTable(connectionSource, SubCriteria.class);
+            TableUtils.createTable(connectionSource, Survey.class);
+            TableUtils.createTable(connectionSource, Answer.class);
         } catch (SQLException exc) {
             Log.e(TAG, "Error create Db " + DATABASE_NAME);
             throw new RuntimeException(exc);
@@ -111,13 +111,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void dropAllTables() {
         try {
-            TableUtils.dropTable(connectionSource, OrmLiteCriteria.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteGroupStandard.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteSchool.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteStandard.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteSubCriteria.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteSurvey.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteAnswer.class, true);
+            TableUtils.dropTable(connectionSource, Criteria.class, true);
+            TableUtils.dropTable(connectionSource, GroupStandard.class, true);
+            TableUtils.dropTable(connectionSource, School.class, true);
+            TableUtils.dropTable(connectionSource, Standard.class, true);
+            TableUtils.dropTable(connectionSource, SubCriteria.class, true);
+            TableUtils.dropTable(connectionSource, Survey.class, true);
+            TableUtils.dropTable(connectionSource, Answer.class, true);
         } catch (SQLException exc) {
             Log.e(TAG, "Error drop Db " + DATABASE_NAME);
             throw new RuntimeException(exc);
@@ -127,49 +127,49 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @NonNull
     public SchoolDao getSchoolDao() throws SQLException {
         if (schoolDao == null) {
-            schoolDao = new SchoolDao(getConnectionSource(), OrmLiteSchool.class);
+            schoolDao = new SchoolDao(getConnectionSource(), School.class);
         }
         return schoolDao;
     }
 
     public SurveyDao getSurveyDao() throws SQLException {
         if (surveyDao == null) {
-            surveyDao = new SurveyDao(getConnectionSource(), OrmLiteSurvey.class);
+            surveyDao = new SurveyDao(getConnectionSource(), Survey.class);
         }
         return surveyDao;
     }
 
     public GroupStandardDao getGroupStandardDao() throws SQLException {
         if (groupStandardDao == null) {
-            groupStandardDao = new GroupStandardDao(getConnectionSource(), OrmLiteGroupStandard.class);
+            groupStandardDao = new GroupStandardDao(getConnectionSource(), GroupStandard.class);
         }
         return groupStandardDao;
     }
 
     public StandardDao getStandardDao() throws SQLException {
         if (standardDao == null) {
-            standardDao = new StandardDao(getConnectionSource(), OrmLiteStandard.class);
+            standardDao = new StandardDao(getConnectionSource(), Standard.class);
         }
         return standardDao;
     }
 
     public CriteriaDao getCriteriaDao() throws SQLException {
         if (criteriaDao == null) {
-            criteriaDao = new CriteriaDao(getConnectionSource(), OrmLiteCriteria.class);
+            criteriaDao = new CriteriaDao(getConnectionSource(), Criteria.class);
         }
         return criteriaDao;
     }
 
     public SubCriteriaDao getSubCriteriaDao() throws SQLException {
         if (subCriteriaDao == null) {
-            subCriteriaDao = new SubCriteriaDao(getConnectionSource(), OrmLiteSubCriteria.class);
+            subCriteriaDao = new SubCriteriaDao(getConnectionSource(), SubCriteria.class);
         }
         return subCriteriaDao;
     }
 
     public AnswerDao getAnswerDao() throws SQLException {
         if (answerDao == null) {
-            answerDao = new AnswerDao(getConnectionSource(), OrmLiteAnswer.class);
+            answerDao = new AnswerDao(getConnectionSource(), Answer.class);
         }
         return answerDao;
     }

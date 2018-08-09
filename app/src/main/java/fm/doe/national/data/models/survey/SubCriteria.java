@@ -1,14 +1,12 @@
-package fm.doe.national.data.data_source.db.models;
+package fm.doe.national.data.models.survey;
 
 import android.support.annotation.NonNull;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import fm.doe.national.models.survey.SubCriteria;
-
 @DatabaseTable
-public class OrmLiteSubCriteria {
+public class SubCriteria {
 
     public interface Column {
         String ID = "id";
@@ -23,12 +21,12 @@ public class OrmLiteSubCriteria {
     protected String name;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.CRITERIA)
-    protected OrmLiteCriteria criteria;
+    protected Criteria criteria;
 
-    public OrmLiteSubCriteria() {
+    public SubCriteria() {
     }
 
-    public OrmLiteSubCriteria(String name, OrmLiteCriteria criteria) {
+    public SubCriteria(String name, Criteria criteria) {
         this.name = name;
         this.criteria = criteria;
     }
@@ -41,7 +39,7 @@ public class OrmLiteSubCriteria {
         return criteria.getId();
     }
 
-    public void setCriteria(OrmLiteCriteria criteria) {
+    public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
 

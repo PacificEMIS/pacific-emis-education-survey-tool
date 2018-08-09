@@ -16,7 +16,7 @@ import fm.doe.national.data.converters.DataImporter;
 import fm.doe.national.data.data_source.db.DbAccreditationDataSource;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 import fm.doe.national.data.data_source.db.dao.GroupStandardDao;
-import fm.doe.national.data.data_source.db.models.OrmLiteGroupStandard;
+import fm.doe.national.data.models.survey.GroupStandard;
 import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
 
         try {
             GroupStandardDao answerDao = databaseHelper.getGroupStandardDao();
-            List<OrmLiteGroupStandard> ormLiteGroupStandards = answerDao.queryForAll();
+            List<GroupStandard> ormLiteGroupStandards = answerDao.queryForAll();
             System.out.println();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,19 +3,19 @@ package fm.doe.national.data.data_source;
 
 import java.util.List;
 
-import fm.doe.national.models.survey.Answer;
-import fm.doe.national.models.survey.Criteria;
-import fm.doe.national.models.survey.GroupStandard;
-import fm.doe.national.models.survey.School;
-import fm.doe.national.models.survey.Standard;
-import fm.doe.national.models.survey.SubCriteria;
-import fm.doe.national.models.survey.Survey;
+import fm.doe.national.data.models.survey.Answer;
+import fm.doe.national.data.models.survey.Criteria;
+import fm.doe.national.data.models.survey.GroupStandard;
+import fm.doe.national.data.models.survey.School;
+import fm.doe.national.data.models.survey.Standard;
+import fm.doe.national.data.models.survey.SubCriteria;
+import fm.doe.national.data.models.survey.Survey;
 import io.reactivex.Single;
 
 public interface DataSource {
 
     Single<School> createSchool(String name);
-    void updateSchools(List<School>);
+//    void updateSchools(List<School>);
 
     Single<List<School>> requestSchools();
 

@@ -1,13 +1,11 @@
-package fm.doe.national.data.data_source.db.models;
+package fm.doe.national.data.models.survey;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import fm.doe.national.models.survey.Survey;
-
 
 @DatabaseTable
-public class OrmLiteSurvey {
+public class Survey {
 
     public interface Column {
         String ID = "id";
@@ -20,12 +18,12 @@ public class OrmLiteSurvey {
     @DatabaseField(columnName = Column.YEAR)
     protected int year;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SCHOOL)
-    protected OrmLiteSchool school;
+    protected School school;
 
-    public OrmLiteSurvey() {
+    public Survey() {
     }
 
-    public OrmLiteSurvey(int year, OrmLiteSchool school) {
+    public Survey(int year, School school) {
         this.year = year;
         this.school = school;
     }
