@@ -16,6 +16,6 @@ public class SchoolImporter implements DataImporter {
 
     @Override
     public void importData(String data) {
-
+        // nothing
     }
 }
