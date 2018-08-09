@@ -21,52 +21,15 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 
-    private static final int FILE_REQUEST_CODE = 101;
-    @Inject
-    DbAccreditationDataSource staticDataSource;
-
-    @Inject
-    DatabaseHelper databaseHelper;
-
-    @Inject
-    DataImporter dataImporter;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
         MicronesiaApplication.getAppComponent().inject(this);
-
-        try {
-            GroupStandardDao answerDao = databaseHelper.getGroupStandardDao();
-            List<GroupStandard> ormLiteGroupStandards = answerDao.queryForAll();
-            System.out.println();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-          /*  try {
-                InputStream is = getContentResolver().openInputStream(data.getData());
-                jsonImporter.importData(StreamUtils.asString(is));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-        }
+    protected int getContentView() {
+        return R.layout.activity_main;
     }
 
-    @OnClick(R.id.button_browse_test)
-    public void onBrowseButtonClick() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/plain");
-        startActivityForResult(intent, FILE_REQUEST_CODE);
-    }
 }

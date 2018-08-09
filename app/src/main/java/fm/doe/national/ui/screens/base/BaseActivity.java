@@ -1,6 +1,8 @@
 package fm.doe.national.ui.screens.base;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -8,10 +10,20 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.omega_r.libs.omegatypes.Text;
 
+import butterknife.ButterKnife;
 import fm.doe.national.R;
 
 @SuppressLint("Registered")
-public class BaseActivity extends MvpAppCompatActivity implements BaseView {
+public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getContentView());
+        ButterKnife.bind(this);
+    }
+
+    protected abstract @LayoutRes int getContentView();
 
     @Override
     public void setContentView(int layoutResID) {
