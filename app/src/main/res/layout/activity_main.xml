@@ -1,20 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.omega_r.libs.layouts.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.screens.main.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="start"
+    android:background="@color/blue"
+    android:clickable="true"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/include_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
+    <ImageView
+        android:id="@+id/imageview_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        tools:src="@drawable/ic_launcher_foreground"
+        app:layout_marginTopPercent="18%" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textview_title"
+        style="@style/TextViewStartScreen"
+        android:layout_below="@+id/imageview_logo"
+        android:layout_margin="10dp"
+        android:text="@string/title_education_survey_tool"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/textview_education_survey_tool"
+        android:layout_below="@+id/textview_title"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textview_school_accreditation"
+            style="@style/TextViewStartScreen"
+            android:text="@string/action_school_accreditation" />
+
+        <TextView
+            android:id="@+id/textview_school_data_verification"
+            style="@style/TextViewStartScreen"
+            android:text="@string/action_school_data_verification" />
+
+        <TextView
+            android:id="@+id/textview_monitoring_and_evaluation"
+            style="@style/TextViewStartScreen"
+            android:text="@string/action_monitoring_and_evaluation" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textview_education_survey_tool"
+        style="@style/TextViewStartScreen"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/action_education_survey_tool"
+        app:layout_marginBottomPercent="8%" />
+
+
+</com.omega_r.libs.layouts.percent.PercentRelativeLayout>
