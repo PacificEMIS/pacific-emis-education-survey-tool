@@ -44,6 +44,7 @@ dependencies {
     def ormliteVersion = '4.48'
     def daggerVersion = '2.11'
     def moxyVersion = '1.5.5'
+    def butterknifeVersion = '8.8.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$supportVersion"
@@ -79,4 +80,9 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true;
     }
+
+    //butterknife
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
 }
