@@ -16,7 +16,7 @@ public class Answer {
         String ID = "id";
         String ANSWER = "answer";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
-        String SUB_CRITERIA = "subCriterias";
+        String SUB_CRITERIA = "subCriteria";
         String SURVEY = "survey";
     }
 

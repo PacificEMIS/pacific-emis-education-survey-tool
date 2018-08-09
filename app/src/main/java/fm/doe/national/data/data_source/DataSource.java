@@ -15,7 +15,6 @@ import io.reactivex.Single;
 public interface DataSource {
 
     Single<School> createSchool(String name);
-//    void updateSchools(List<School>);
 
     Single<List<School>> requestSchools();
 

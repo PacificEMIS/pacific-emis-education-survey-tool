@@ -3,6 +3,7 @@ package fm.doe.national.data.models.survey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -25,7 +26,7 @@ public class School {
     protected String name;
     @Nullable
     @ForeignCollectionField(eager = true, columnName = Column.SURVEYS)
-    protected ArrayList<Survey> surveys;
+    protected Collection<Survey> surveys;
 
     public School() {
     }

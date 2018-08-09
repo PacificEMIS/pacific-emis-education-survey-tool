@@ -24,7 +24,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
-public class DbAccreditationDataSource implements DataSource {
+public class DatabaseDataSource implements DataSource {
 
     private SchoolDao schoolDao;
     private SurveyDao surveyDao;
@@ -34,7 +34,7 @@ public class DbAccreditationDataSource implements DataSource {
     private SubCriteriaDao subCriteriaDao;
     private AnswerDao answerDao;
 
-    public DbAccreditationDataSource(DatabaseHelper helper) {
+    public DatabaseDataSource(DatabaseHelper helper) {
         try {
             schoolDao = helper.getSchoolDao();
             surveyDao = helper.getSurveyDao();

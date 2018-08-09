@@ -8,18 +8,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.converters.DataImporter;
-import fm.doe.national.data.data_source.db.DbAccreditationDataSource;
+import fm.doe.national.data.data_source.db.DatabaseDataSource;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 import fm.doe.national.data.data_source.db.dao.GroupStandardDao;
 import fm.doe.national.data.models.survey.GroupStandard;
 import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
+
+    private static final int FILE_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
