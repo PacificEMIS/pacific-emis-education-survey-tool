@@ -11,7 +11,7 @@ import fm.doe.national.models.SynchronizePlatform;
 import fm.doe.national.models.survey.Answer;
 
 @DatabaseTable
-public class OrmLiteAnswer implements Answer {
+public class OrmLiteAnswer {
 
     public interface Column {
         String ID = "id";
@@ -42,17 +42,14 @@ public class OrmLiteAnswer implements Answer {
         this.synchronizePlatforms = new ArrayList<>();
     }
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
     public boolean getAnswer() {
         return answer;
     }
 
-    @Override
     public void setAnswer(boolean answer) {
         if (this.answer != answer) {
             this.answer = answer;
@@ -60,12 +57,10 @@ public class OrmLiteAnswer implements Answer {
         }
     }
 
-    @Override
     public List<SynchronizePlatform> getSynchronizedPlatforms() {
         return synchronizePlatforms;
     }
 
-    @Override
     public void addSynchronizedPlatform(SynchronizePlatform platform) {
         if (!synchronizePlatforms.contains(platform)) {
             synchronizePlatforms.add(platform);

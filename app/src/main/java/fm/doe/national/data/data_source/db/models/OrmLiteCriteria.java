@@ -10,7 +10,7 @@ import java.util.Collection;
 
 import fm.doe.national.models.survey.Criteria;
 
-public class OrmLiteCriteria implements Criteria {
+public class OrmLiteCriteria {
 
     public interface Column {
         String ID = "id";
@@ -40,12 +40,10 @@ public class OrmLiteCriteria implements Criteria {
         this.standard = standard;
     }
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
     public long getStandardId() {
         return standard.getId();
     }
@@ -55,7 +53,6 @@ public class OrmLiteCriteria implements Criteria {
     }
 
     @NonNull
-    @Override
     public String getName() {
         return name;
     }

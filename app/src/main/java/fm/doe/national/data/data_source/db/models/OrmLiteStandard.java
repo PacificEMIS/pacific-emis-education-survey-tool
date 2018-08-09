@@ -14,7 +14,7 @@ import java.util.Collection;
 import fm.doe.national.models.survey.Standard;
 
 @DatabaseTable
-public class OrmLiteStandard implements Standard {
+public class OrmLiteStandard {
 
     public interface Column {
         String ID = "id";
@@ -44,18 +44,15 @@ public class OrmLiteStandard implements Standard {
         this.groupStandard = groupStandard;
     }
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
     public long getGroupStandardId() {
         return groupStandard.getId();
     }
 
     @NonNull
-    @Override
     public String getName() {
         return name;
     }

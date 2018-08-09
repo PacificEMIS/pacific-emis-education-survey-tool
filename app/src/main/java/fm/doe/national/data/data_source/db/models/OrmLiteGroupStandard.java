@@ -18,7 +18,7 @@ import fm.doe.national.models.survey.GroupStandard;
 import fm.doe.national.models.survey.Standard;
 
 @DatabaseTable
-public class OrmLiteGroupStandard implements GroupStandard {
+public class OrmLiteGroupStandard {
 
     public interface Column {
         String ID = "id";
@@ -33,13 +33,11 @@ public class OrmLiteGroupStandard implements GroupStandard {
     @ForeignCollectionField(eager = true, columnName = Column.STANDARDS)
     protected Collection<OrmLiteStandard> standards;
 
-    @Override
     public long getId() {
         return id;
     }
 
     @NonNull
-    @Override
     public String getName() {
         if (standards == null || standards.isEmpty()) {
             return "";

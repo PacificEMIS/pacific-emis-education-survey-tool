@@ -14,7 +14,7 @@ import java.util.Collection;
 import fm.doe.national.models.survey.School;
 
 @DatabaseTable
-public class OrmLiteSchool implements School {
+public class OrmLiteSchool {
 
     public interface Column {
         String ID = "id";
@@ -42,13 +42,11 @@ public class OrmLiteSchool implements School {
         this.name = name;
     }
 
-    @Override
     public String getId() {
         return id;
     }
 
     @NonNull
-    @Override
     public String getName() {
         return name;
     }

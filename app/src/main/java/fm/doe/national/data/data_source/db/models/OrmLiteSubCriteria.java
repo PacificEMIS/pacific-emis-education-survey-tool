@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import fm.doe.national.models.survey.SubCriteria;
 
 @DatabaseTable
-public class OrmLiteSubCriteria implements SubCriteria {
+public class OrmLiteSubCriteria {
 
     public interface Column {
         String ID = "id";
@@ -33,12 +33,10 @@ public class OrmLiteSubCriteria implements SubCriteria {
         this.criteria = criteria;
     }
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
     public long getCriteriaId() {
         return criteria.getId();
     }
@@ -48,7 +46,6 @@ public class OrmLiteSubCriteria implements SubCriteria {
     }
 
     @NonNull
-    @Override
     public String getName() {
         return name;
     }

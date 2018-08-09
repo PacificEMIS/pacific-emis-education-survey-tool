@@ -7,7 +7,7 @@ import fm.doe.national.models.survey.Survey;
 
 
 @DatabaseTable
-public class OrmLiteSurvey implements Survey {
+public class OrmLiteSurvey {
 
     public interface Column {
         String ID = "id";
@@ -30,12 +30,10 @@ public class OrmLiteSurvey implements Survey {
         this.school = school;
     }
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
     public int getYear() {
         return year;
     }
