@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.menu.slide_menu;
+package fm.doe.national.ui.screens.menu.drawer;
 
 import com.arellomobile.mvp.InjectViewState;
 
@@ -9,7 +9,7 @@ import fm.doe.national.ui.screens.menu.base.BaseMenuPresenter;
  */
 
 @InjectViewState
-public class SideMenuPresenter extends BaseMenuPresenter<SideMenuView> {
+public class BaseDrawerPresenter extends BaseMenuPresenter<BaseDrawerView> {
 
     @Override
     public void onSchoolDataVerificationClicked() {

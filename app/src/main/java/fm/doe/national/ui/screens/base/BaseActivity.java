@@ -57,7 +57,7 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseView {
     }
 
     protected void afterSetContentView() {
-        ButterKnife.bind(this);
+       // ButterKnife.bind(this);
         initToolbar();
     }
 
@@ -66,13 +66,14 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseView {
         Toast.makeText(this, text.getString(getResources()), Toast.LENGTH_SHORT).show();
     }
 
-    public void hideKeyboard() {
+    protected void hideKeyboard() {
         hideKeyboard(getWindow().getDecorView());
     }
 
-    public void hideKeyboard(View view) {
+    protected void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
 }

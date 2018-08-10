@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.menu.base;
 
+import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import butterknife.OnClick;

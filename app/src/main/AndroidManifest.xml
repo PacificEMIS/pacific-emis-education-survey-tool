@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.screens.menu.slide_menu.SideMenuActivity" />
+        <activity android:name=".ui.screens.shool_accreditation.SchoolAccreditationActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
