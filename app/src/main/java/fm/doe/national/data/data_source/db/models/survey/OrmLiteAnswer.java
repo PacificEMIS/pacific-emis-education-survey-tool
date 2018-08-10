@@ -59,10 +59,12 @@ public class OrmLiteAnswer implements Answer {
         }
     }
 
+    @Override
     public List<SynchronizePlatform> getSynchronizedPlatforms() {
         return synchronizePlatforms;
     }
 
+    @Override
     public void addSynchronizedPlatform(SynchronizePlatform platform) {
         if (!synchronizePlatforms.contains(platform)) {
             synchronizePlatforms.add(platform);
