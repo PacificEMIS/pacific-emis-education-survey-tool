@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="fm.doe.national.ui.screens.start.StartActivity">
+        <activity android:name=".ui.screens.menu.start_menu.StartMenuMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,8 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.screens.main.MainActivity" />
+        <activity android:name=".ui.screens.menu.slide_menu.SideMenuActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

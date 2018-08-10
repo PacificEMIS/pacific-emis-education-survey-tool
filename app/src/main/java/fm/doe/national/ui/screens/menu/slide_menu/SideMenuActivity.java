@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.main;
+package fm.doe.national.ui.screens.menu.slide_menu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +13,11 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.main.slide_menu.SideMenuPresenter;
-import fm.doe.national.ui.screens.main.slide_menu.SideMenuView;
+import fm.doe.national.ui.screens.menu.base.BaseMenuActivity;
+import fm.doe.national.ui.screens.menu.base.BaseMenuPresenter;
 
-public class MainActivity extends BaseActivity implements SideMenuView, DrawerLayout.DrawerListener {
+public class SideMenuActivity extends BaseMenuActivity implements SideMenuView, DrawerLayout.DrawerListener {
 
     @InjectPresenter
     SideMenuPresenter sideMenuPresenter;
@@ -37,7 +35,7 @@ public class MainActivity extends BaseActivity implements SideMenuView, DrawerLa
     TextView educationSurveyToolTextView;
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+        return new Intent(context, SideMenuActivity.class);
     }
 
     @Override
@@ -56,47 +54,9 @@ public class MainActivity extends BaseActivity implements SideMenuView, DrawerLa
         toggle.syncState();
     }
 
-    @OnClick({R.id.textview_school_accreditation, R.id.textview_school_data_verification,
-            R.id.textview_monitoring_and_evaluation, R.id.textview_education_survey_tool})
-    public void onMenuItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.textview_school_accreditation:
-                sideMenuPresenter.onSchoolAccreditationClicked();
-                break;
-            case R.id.textview_school_data_verification:
-                sideMenuPresenter.onSchoolDataVerificationClicked();
-                break;
-            case R.id.textview_monitoring_and_evaluation:
-                sideMenuPresenter.onMonitoringAndEvaluationClicked();
-                break;
-            case R.id.textview_education_survey_tool:
-                sideMenuPresenter.onEducationSurveyToolClicked();
-                break;
-        }
-    }
-
     @Override
-    public void showSchoolAccreditationScreen() {
-        //TODO create fragment
-        // replaceFragment(SchoolAccreditationFragment.newInstance());
-    }
-
-    @Override
-    public void showSchoolDataVerificationScreen() {
-        //TODO create fragment
-        // replaceFragment(SchoolDataVerificationFragment.newInstance());
-    }
-
-    @Override
-    public void shoMonitoringAndEvaluationScreen() {
-        //TODO create fragment
-        //replaceFragment(MonitoringAndEvaluationFragment.newInstance());
-    }
-
-    @Override
-    public void showEducationSurveyToolScreen() {
-        //TODO create fragment
-        //replaceFragment(EducationSurveyToolFragment.newInstance());
+    protected BaseMenuPresenter getPresenter() {
+        return sideMenuPresenter;
     }
 
     @Override
@@ -125,6 +85,11 @@ public class MainActivity extends BaseActivity implements SideMenuView, DrawerLa
     @Override
     public void onDrawerClosed(@NonNull View drawerView) {
         //nothing
+    }
+
+    @Override
+    public void showSchoolAccreditationScreen() {
+
     }
 
     @Override

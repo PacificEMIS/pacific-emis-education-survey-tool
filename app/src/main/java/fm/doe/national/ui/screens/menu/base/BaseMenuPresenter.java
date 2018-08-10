@@ -1,15 +1,12 @@
-package fm.doe.national.ui.screens.main.slide_menu;
-
-import com.arellomobile.mvp.InjectViewState;
+package fm.doe.national.ui.screens.menu.base;
 
 import fm.doe.national.ui.screens.base.BasePresenter;
 
 /**
- * Created by Alexander Chibirev on 8/9/2018.
+ * Created by Alexander Chibirev on 8/10/2018.
  */
 
-@InjectViewState
-public class SideMenuPresenter extends BasePresenter<SideMenuView> {
+abstract public class BaseMenuPresenter<V extends BaseMenuView>  extends BasePresenter<V> {
 
     public void onSchoolDataVerificationClicked() {
         getViewState().showSchoolDataVerificationScreen();

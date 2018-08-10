@@ -2,5 +2,6 @@
 <resources>
 
     <dimen name="menu_text_margin_top">16dp</dimen>
+    <dimen name="menu_text_height">36dp</dimen>
 
 </resources>

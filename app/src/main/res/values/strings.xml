@@ -9,7 +9,7 @@
     <string name="action_school_data_verification">School data verification</string>
     <string name="action_monitoring_and_evaluation">Monitoring and evaluation</string>
     <string name="action_education_survey_tool">Education survey tool</string>
-    <string name="title_education_survey_tool">Education\n survey tool</string>
+    <string name="title_education_survey_tool">Education\nsurvey tool</string>
     <string name="label_school_accreditation">School Accreditation</string>
 
     <string name="navigation_drawer_open" translatable="false">DRAWER_OPEN</string>
