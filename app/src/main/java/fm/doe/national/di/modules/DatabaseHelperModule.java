@@ -16,10 +16,8 @@ public class DatabaseHelperModule {
 
     @Provides
     @Singleton
-    public DatabaseHelper provideDatabaseHelper(Context context, Gson gson) {
-        DatabaseHelper helper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
-        helper.setGson(gson);
-        return helper;
+    public DatabaseHelper provideDatabaseHelper(Context context) {
+        return OpenHelperManager.getHelper(context, DatabaseHelper.class);
     }
 
 }

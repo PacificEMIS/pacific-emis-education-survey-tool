@@ -1,5 +1,7 @@
 package fm.doe.national.di;
 
+import com.google.gson.Gson;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -19,5 +21,6 @@ import fm.doe.national.ui.screens.main.MainActivity;
         ConvertersModule.class})
 public interface AppComponent {
 
+    Gson getGson();
     void inject(MainActivity mainActivity);
 }

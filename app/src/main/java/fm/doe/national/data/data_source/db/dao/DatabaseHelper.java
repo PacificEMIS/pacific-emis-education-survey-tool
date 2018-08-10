@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
+import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.converters.GroupStandardContainer;
 import fm.doe.national.data.data_source.db.models.survey.OrmLiteAnswer;
 import fm.doe.national.data.data_source.db.models.survey.OrmLiteCriteria;
@@ -27,6 +28,7 @@ import fm.doe.national.data.data_source.db.models.survey.OrmLiteSurvey;
 import fm.doe.national.data.models.survey.Criteria;
 import fm.doe.national.data.models.survey.Standard;
 import fm.doe.national.data.models.survey.SubCriteria;
+import fm.doe.national.di.AppComponent;
 import fm.doe.national.utils.StreamUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -48,10 +50,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
         assetManager = context.getAssets();
-    }
-
-    public void setGson(Gson gson) {
-        this.gson = gson;
+        gson = MicronesiaApplication.getAppComponent().getGson();
     }
 
     @Override
