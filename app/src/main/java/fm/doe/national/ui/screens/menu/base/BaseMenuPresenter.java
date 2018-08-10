@@ -25,7 +25,7 @@ abstract public class BaseMenuPresenter<V extends BaseMenuView> extends BasePres
     }
 
     protected void onMenuItemClicked() {
-
+        //nothing
     }
 
 }

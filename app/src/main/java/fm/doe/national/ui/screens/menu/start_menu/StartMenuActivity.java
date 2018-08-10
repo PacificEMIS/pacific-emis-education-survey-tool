@@ -13,7 +13,7 @@ import fm.doe.national.ui.screens.menu.slide_menu.SideMenuActivity;
  * Created by Alexander Chibirev on 8/9/2018.
  */
 
-public class StartMenuMenuActivity extends BaseMenuActivity implements StartMenuView {
+public class StartMenuActivity extends BaseMenuActivity implements StartMenuView {
 
     @InjectPresenter
     StartMenuPresenter startMenuPresenter;

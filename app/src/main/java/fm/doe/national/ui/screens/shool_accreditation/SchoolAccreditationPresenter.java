@@ -10,5 +10,5 @@ import fm.doe.national.ui.screens.base.BasePresenter;
 
 @InjectViewState
 public class SchoolAccreditationPresenter extends BasePresenter<SchoolAccreditationView> {
-
+    //TODO added logic
 }

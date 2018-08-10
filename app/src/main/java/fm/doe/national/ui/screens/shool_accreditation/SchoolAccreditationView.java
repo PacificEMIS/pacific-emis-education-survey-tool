@@ -7,5 +7,5 @@ import fm.doe.national.ui.screens.base.BaseView;
  */
 
 interface SchoolAccreditationView extends BaseView {
-
+    //TODO added logic
 }
