@@ -6,22 +6,26 @@ import fm.doe.national.ui.screens.base.BasePresenter;
  * Created by Alexander Chibirev on 8/10/2018.
  */
 
-abstract public class BaseMenuPresenter<V extends BaseMenuView>  extends BasePresenter<V> {
+abstract public class BaseMenuPresenter<V extends BaseMenuView> extends BasePresenter<V> {
 
-    public void onSchoolDataVerificationClicked() {
+    protected void onSchoolDataVerificationClicked() {
         getViewState().showSchoolDataVerificationScreen();
     }
 
-    public void onSchoolAccreditationClicked() {
+    protected void onSchoolAccreditationClicked() {
         getViewState().showSchoolAccreditationScreen();
     }
 
-    public void onMonitoringAndEvaluationClicked() {
+    protected void onMonitoringAndEvaluationClicked() {
         getViewState().shoMonitoringAndEvaluationScreen();
     }
 
-    public void onEducationSurveyToolClicked() {
+    protected void onEducationSurveyToolClicked() {
         getViewState().showEducationSurveyToolScreen();
+    }
+
+    protected void onMenuItemClicked() {
+
     }
 
 }

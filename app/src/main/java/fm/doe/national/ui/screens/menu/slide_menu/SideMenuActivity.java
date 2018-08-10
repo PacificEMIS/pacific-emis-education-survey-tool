@@ -16,6 +16,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.menu.base.BaseMenuActivity;
 import fm.doe.national.ui.screens.menu.base.BaseMenuPresenter;
+import fm.doe.national.ui.screens.shool_accreditation.SchoolAccreditationFragment;
 
 public class SideMenuActivity extends BaseMenuActivity implements SideMenuView, DrawerLayout.DrawerListener {
 
@@ -89,7 +90,7 @@ public class SideMenuActivity extends BaseMenuActivity implements SideMenuView, 
 
     @Override
     public void showSchoolAccreditationScreen() {
-
+        replaceFragment(SchoolAccreditationFragment.newInstance());
     }
 
     @Override

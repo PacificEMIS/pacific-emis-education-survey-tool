@@ -7,5 +7,5 @@ import fm.doe.national.ui.screens.menu.base.BaseMenuView;
  */
 
 public interface StartMenuView extends BaseMenuView {
-
+    //TODO added logic
 }

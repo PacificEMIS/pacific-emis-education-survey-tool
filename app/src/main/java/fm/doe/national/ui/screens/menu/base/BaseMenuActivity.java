@@ -16,6 +16,7 @@ public abstract class BaseMenuActivity extends BaseActivity implements BaseMenuV
     @OnClick({R.id.textview_school_accreditation, R.id.textview_school_data_verification,
             R.id.textview_monitoring_and_evaluation, R.id.textview_education_survey_tool})
     public void onMenuItemClick(View view) {
+        getPresenter().onMenuItemClicked();
         switch (view.getId()) {
             case R.id.textview_school_accreditation:
                 getPresenter().onSchoolAccreditationClicked();

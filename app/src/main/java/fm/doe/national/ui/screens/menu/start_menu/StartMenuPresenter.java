@@ -10,5 +10,5 @@ import fm.doe.national.ui.screens.menu.base.BaseMenuPresenter;
 
 @InjectViewState
 public class StartMenuPresenter extends BaseMenuPresenter<StartMenuView> {
-
+    //TODO added logic
 }
