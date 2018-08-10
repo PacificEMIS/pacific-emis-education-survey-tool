@@ -4,18 +4,18 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 
-import fm.doe.national.data.models.survey.GroupStandard;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteGroupStandard;
 import io.reactivex.Single;
 
-public class GroupStandardDao extends BaseRxDao<GroupStandard, Long> {
+public class GroupStandardDao extends BaseRxDao<OrmLiteGroupStandard, Long> {
 
-    GroupStandardDao(ConnectionSource connectionSource, Class<GroupStandard> dataClass) throws SQLException {
+    GroupStandardDao(ConnectionSource connectionSource, Class<OrmLiteGroupStandard> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
-    public Single<GroupStandard> createGroup() {
+    public Single<OrmLiteGroupStandard> createGroup() {
         return Single.fromCallable(() -> {
-            GroupStandard groupStandard = new GroupStandard();
+            OrmLiteGroupStandard groupStandard = new OrmLiteGroupStandard();
             create(groupStandard);
             return groupStandard;
         });

@@ -5,28 +5,28 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.List;
 
-import fm.doe.national.data.models.survey.School;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteSchool;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public class SchoolDao extends BaseRxDao<School, Long> {
+public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
 
-    SchoolDao(ConnectionSource connectionSource, Class<School> dataClass) throws SQLException {
+    SchoolDao(ConnectionSource connectionSource, Class<OrmLiteSchool> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
-    public Single<School> createSchool(String schoolName) {
+    public Single<OrmLiteSchool> createSchool(String schoolName) {
         return Single.fromCallable(() -> {
-            School school = new School(schoolName);
+            OrmLiteSchool school = new OrmLiteSchool(schoolName);
             create(school);
             return school;
         });
     }
 
-    public Completable addSchools(List<School> schools) {
+    public Completable addSchools(List<OrmLiteSchool> schools) {
         return Completable.fromAction(() -> {
-            for (School school : schools) {
-                createOrUpdate(new School(school.getId(), school.getName()));
+            for (OrmLiteSchool school : schools) {
+                createOrUpdate(new OrmLiteSchool(school.getId(), school.getName()));
             }
         });
     }

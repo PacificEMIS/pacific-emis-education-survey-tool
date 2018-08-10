@@ -4,19 +4,19 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 
-import fm.doe.national.data.models.survey.School;
-import fm.doe.national.data.models.survey.Survey;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteSchool;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteSurvey;
 import io.reactivex.Single;
 
-public class SurveyDao extends BaseRxDao<Survey, Long> {
+public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
 
-    SurveyDao(ConnectionSource connectionSource, Class<Survey> dataClass) throws SQLException {
+    SurveyDao(ConnectionSource connectionSource, Class<OrmLiteSurvey> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
-    public Single<Survey> createSurvey(School school, int year) {
+    public Single<OrmLiteSurvey> createSurvey(OrmLiteSchool school, int year) {
         return Single.fromCallable(() -> {
-            Survey survey = new Survey(year, school);
+            OrmLiteSurvey survey = new OrmLiteSurvey(year, school);
             create(survey);
             return survey;
         });

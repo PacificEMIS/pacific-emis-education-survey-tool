@@ -13,13 +13,13 @@ import fm.doe.national.data.data_source.db.dao.SchoolDao;
 import fm.doe.national.data.data_source.db.dao.StandardDao;
 import fm.doe.national.data.data_source.db.dao.SubCriteriaDao;
 import fm.doe.national.data.data_source.db.dao.SurveyDao;
-import fm.doe.national.data.models.survey.Answer;
-import fm.doe.national.data.models.survey.Criteria;
-import fm.doe.national.data.models.survey.GroupStandard;
-import fm.doe.national.data.models.survey.School;
-import fm.doe.national.data.models.survey.Standard;
-import fm.doe.national.data.models.survey.SubCriteria;
-import fm.doe.national.data.models.survey.Survey;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteAnswer;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteCriteria;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteGroupStandard;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteSchool;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteStandard;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteSubCriteria;
+import fm.doe.national.data.data_source.db.models.survey.OrmLiteSurvey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -49,71 +49,71 @@ public class DatabaseDataSource implements DataSource {
     }
 
     @Override
-    public Single<School> createSchool(String name) {
+    public Single<OrmLiteSchool> createSchool(String name) {
         return schoolDao.createSchool(name)
                 .map(school -> school);
     }
 
-    public Completable addSchools(List<School> schoolList) {
+    public Completable addSchools(List<OrmLiteSchool> schoolList) {
         return schoolDao.addSchools(schoolList);
     }
 
     @Override
-    public Single<List<School>> requestSchools() {
+    public Single<List<OrmLiteSchool>> requestSchools() {
         return schoolDao.getAllQueriesSingle()
-                .map(ArrayList<School>::new);
+                .map(ArrayList<OrmLiteSchool>::new);
     }
 
     @Override
-    public Single<Survey> createSurvey(School school, int year) {
-        School ormLiteSchool = (School) school;
+    public Single<OrmLiteSurvey> createSurvey(OrmLiteSchool school, int year) {
+        OrmLiteSchool ormLiteSchool = (OrmLiteSchool) school;
         return surveyDao.createSurvey(ormLiteSchool, year)
                 .map(survey -> survey);
     }
 
     @Override
-    public Single<GroupStandard> createGroupStandard() {
+    public Single<OrmLiteGroupStandard> createGroupStandard() {
         return groupStandardDao.createGroup()
                 .map(groupStandard -> groupStandard);
     }
 
     @Override
-    public Single<List<GroupStandard>> requestGroupStandard() {
+    public Single<List<OrmLiteGroupStandard>> requestGroupStandard() {
         return Single.fromCallable(() -> groupStandardDao.queryForAll())
-                .map(ArrayList<GroupStandard>::new);
+                .map(ArrayList<OrmLiteGroupStandard>::new);
     }
 
     @Override
-    public Single<Standard> createStandard(String name, GroupStandard group) {
-        return standardDao.createStandard(name, (GroupStandard) group)
+    public Single<OrmLiteStandard> createStandard(String name, OrmLiteGroupStandard group) {
+        return standardDao.createStandard(name, (OrmLiteGroupStandard) group)
                 .map(standard -> standard);
     }
 
     @Override
-    public Single<Criteria> createCriteria(String name, Standard standard) {
-        return criteriaDao.createCriteria(name, (Standard) standard)
-                .map((Function<Criteria, Criteria>) criteria -> criteria);
+    public Single<OrmLiteCriteria> createCriteria(String name, OrmLiteStandard standard) {
+        return criteriaDao.createCriteria(name, (OrmLiteStandard) standard)
+                .map((Function<OrmLiteCriteria, OrmLiteCriteria>) criteria -> criteria);
     }
 
     @Override
-    public Single<SubCriteria> createSubCriteria(String name, Criteria criteria) {
-        return subCriteriaDao.createSubCriteria(name, (Criteria) criteria)
+    public Single<OrmLiteSubCriteria> createSubCriteria(String name, OrmLiteCriteria criteria) {
+        return subCriteriaDao.createSubCriteria(name, (OrmLiteCriteria) criteria)
                 .map(subCriteria -> subCriteria);
     }
 
     @Override
-    public Single<Answer> createAnswer(boolean answer, SubCriteria criteria, Survey survey) {
-        return answerDao.createAnswer(answer, (SubCriteria) criteria, (Survey) survey)
+    public Single<OrmLiteAnswer> createAnswer(boolean answer, OrmLiteSubCriteria criteria, OrmLiteSurvey survey) {
+        return answerDao.createAnswer(answer, (OrmLiteSubCriteria) criteria, (OrmLiteSurvey) survey)
                 .map(answer1 -> answer1);
     }
 
-    public Completable updateAnswer(Answer answer) {
-        return answerDao.updateAnswer((Answer) answer);
+    public Completable updateAnswer(OrmLiteAnswer answer) {
+        return answerDao.updateAnswer((OrmLiteAnswer) answer);
     }
 
-    public Single<List<Answer>> requestAnswers(Survey survey) {
+    public Single<List<OrmLiteAnswer>> requestAnswers(OrmLiteSurvey survey) {
         return answerDao.getAnswers(survey)
-                .map(ArrayList<Answer>::new);
+                .map(ArrayList<OrmLiteAnswer>::new);
     }
 
 }
