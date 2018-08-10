@@ -2,7 +2,7 @@ package fm.doe.national.data.models.survey;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface Criteria {
     Standard getStandard();
@@ -10,5 +10,5 @@ public interface Criteria {
     @NonNull
     String getName();
 
-    List<? extends SubCriteria> getSubCriterias();
+    Collection<? extends SubCriteria> getSubCriterias();
 }

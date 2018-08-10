@@ -35,7 +35,7 @@ public class OrmLiteStandard implements Standard {
 
     @SerializedName("criteria")
     @ForeignCollectionField(eager = true, columnName = Column.CRITERIAS)
-    protected List<OrmLiteCriteria> criterias;
+    protected Collection<OrmLiteCriteria> criterias;
 
     public OrmLiteStandard() {
     }
@@ -65,7 +65,7 @@ public class OrmLiteStandard implements Standard {
     }
 
     @Override
-    public List<? extends Criteria> getCriterias() {
+    public Collection<? extends Criteria> getCriterias() {
         return criterias;
     }
 

@@ -7,6 +7,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.models.survey.Criteria;
@@ -34,7 +35,7 @@ public class OrmLiteCriteria implements Criteria{
 
     @SerializedName("subcriteria")
     @ForeignCollectionField(eager = true, columnName = Column.CRITERIAS)
-    protected List<OrmLiteSubCriteria> subCriterias;
+    protected Collection<OrmLiteSubCriteria> subCriterias;
 
     public OrmLiteCriteria() {
     }
@@ -68,7 +69,7 @@ public class OrmLiteCriteria implements Criteria{
     }
 
     @Override
-    public List<? extends SubCriteria> getSubCriterias() {
+    public Collection<? extends SubCriteria> getSubCriterias() {
         return subCriterias;
     }
 

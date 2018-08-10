@@ -7,6 +7,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.models.survey.School;
@@ -29,7 +30,10 @@ public class OrmLiteSchool implements School {
 
     @Nullable
     @ForeignCollectionField(eager = true, columnName = Column.SURVEYS)
-    protected List<OrmLiteSurvey> surveys;
+    protected Collection<OrmLiteSurvey> surveys;
+
+    public OrmLiteSchool() {
+    }
 
     public OrmLiteSchool(String name) {
         // TODO delete it when backend will be ready
@@ -53,7 +57,7 @@ public class OrmLiteSchool implements School {
 
     @Nullable
     @Override
-    public List<? extends Survey> getSurveys() {
+    public Collection<? extends Survey> getSurveys() {
         return surveys;
     }
 }

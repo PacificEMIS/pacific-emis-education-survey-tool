@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
-import fm.doe.national.data.converters.GroupStandardWrapper;
+import fm.doe.national.data.converters.GroupStandardContainer;
 import fm.doe.national.data.data_source.db.models.survey.OrmLiteAnswer;
 import fm.doe.national.data.data_source.db.models.survey.OrmLiteCriteria;
 import fm.doe.national.data.data_source.db.models.survey.OrmLiteGroupStandard;
@@ -65,8 +65,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
             String data = StreamUtils.asString(inputStream);
 
-            GroupStandardWrapper groupStandardWrapper = gson.fromJson(data, GroupStandardWrapper.class);
-            for (OrmLiteGroupStandard groupStandard : groupStandardWrapper.getGroupStandards()) {
+            GroupStandardContainer groupStandardContainer = gson.fromJson(data, GroupStandardContainer.class);
+            for (OrmLiteGroupStandard groupStandard : groupStandardContainer.getGroupStandards()) {
                 getGroupStandardDao().create(groupStandard);
 
                 for (Standard standard : groupStandard.getStandards()) {

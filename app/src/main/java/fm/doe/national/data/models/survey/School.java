@@ -1,8 +1,8 @@
 package fm.doe.national.data.models.survey;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface School {
     String getName();
-    List<? extends Survey> getSurveys();
+    Collection<? extends Survey> getSurveys();
 }

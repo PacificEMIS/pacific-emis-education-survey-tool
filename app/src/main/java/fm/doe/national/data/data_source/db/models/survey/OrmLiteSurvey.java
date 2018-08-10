@@ -6,6 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.models.survey.Answer;
@@ -31,7 +32,10 @@ public class OrmLiteSurvey implements Survey {
     protected OrmLiteSchool school;
     @Nullable
     @ForeignCollectionField(eager = true, columnName = Column.ANSWERS)
-    protected List<OrmLiteAnswer> answers;
+    protected Collection<OrmLiteAnswer> answers;
+
+    public OrmLiteSurvey() {
+    }
 
     public OrmLiteSurvey(int year, OrmLiteSchool school) {
         this.year = year;
@@ -54,7 +58,7 @@ public class OrmLiteSurvey implements Survey {
 
     @Nullable
     @Override
-    public List<? extends Answer> getAnswers() {
+    public Collection<? extends Answer> getAnswers() {
         return answers;
     }
 }

@@ -30,7 +30,7 @@ public class OrmLiteGroupStandard implements GroupStandard {
     @Nullable
     @SerializedName("standard")
     @ForeignCollectionField(eager = true, columnName = Column.STANDARDS)
-    protected List<OrmLiteStandard> standards;
+    protected Collection<OrmLiteStandard> standards;
 
     public long getId() {
         return id;
@@ -47,8 +47,8 @@ public class OrmLiteGroupStandard implements GroupStandard {
     }
 
     @Override
-    public List<? extends Standard> getStandards() {
-        return (standards == null) ? Collections.EMPTY_LIST : new ArrayList<>(standards);
+    public Collection<? extends Standard> getStandards() {
+        return (standards == null) ? Collections.EMPTY_LIST : new ArrayList<Standard>(standards);
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import fm.doe.national.data.data_source.db.models.survey.OrmLiteGroupStandard;
 
-public class GroupStandardWrapper implements Serializable {
+public class GroupStandardContainer implements Serializable {
 
     @SerializedName("group_standard")
     protected Collection<OrmLiteGroupStandard> groupStandards;
