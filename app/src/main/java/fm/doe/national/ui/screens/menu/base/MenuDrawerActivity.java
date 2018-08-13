@@ -1,18 +1,25 @@
 package fm.doe.national.ui.screens.menu.base;
 
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
+import fm.doe.national.ui.screens.shool_accreditation.SchoolAccreditationActivity;
 
 /**
  * Created by Alexander Chibirev on 8/10/2018.
  */
-public abstract class BaseMenuActivity extends BaseActivity implements BaseMenuView {
+public abstract class MenuDrawerActivity extends BaseDrawerActivity implements MenuDrawerView {
 
-    protected abstract BaseMenuPresenter getPresenter();
+    protected abstract MenuDrawerPresenter getPresenter();
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        setContentView(layoutResID, R.layout.activity_main);
+    }
 
     @OnClick({R.id.textview_school_accreditation, R.id.textview_school_data_verification,
             R.id.textview_monitoring_and_evaluation, R.id.textview_education_survey_tool})
@@ -32,6 +39,14 @@ public abstract class BaseMenuActivity extends BaseActivity implements BaseMenuV
                 getPresenter().onEducationSurveyToolClicked();
                 break;
         }
+    }
+
+
+    @Override
+    public void showSchoolAccreditationScreen() {
+        Intent intent = SchoolAccreditationActivity.createIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

@@ -8,6 +8,7 @@
     <FrameLayout
         android:id="@+id/container_fragment"
         android:layout_width="match_parent"
+        android:layout_gravity="start"
         android:layout_height="match_parent"/>
 
     <include layout="@layout/toolbar_transparent"/>

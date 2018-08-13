@@ -8,13 +8,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import butterknife.ButterKnife;
 import fm.doe.national.R;
+import fm.doe.national.ui.screens.menu.base.MenuDrawerActivity;
+import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 
 /**
  * Created by Alexander Chibirev on 8/10/2018.
  */
 
-public class SchoolAccreditationActivity extends BaseDrawerActivity implements SchoolAccreditationView {
+public class SchoolAccreditationActivity extends MenuDrawerActivity implements SchoolAccreditationView {
 
     @InjectPresenter
     SchoolAccreditationPresenter schoolAccreditationPresenter;
@@ -28,6 +30,11 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements S
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_accreditation);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected MenuDrawerPresenter getPresenter() {
+        return schoolAccreditationPresenter;
     }
 
 }

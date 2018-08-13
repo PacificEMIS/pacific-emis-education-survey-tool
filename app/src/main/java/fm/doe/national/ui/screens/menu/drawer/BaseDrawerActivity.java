@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.menu.drawer;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -14,18 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.menu.base.BaseMenuActivity;
-import fm.doe.national.ui.screens.menu.base.BaseMenuPresenter;
-import fm.doe.national.ui.screens.shool_accreditation.SchoolAccreditationActivity;
+import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.menu.base.MenuDrawerView;
 
-public abstract class BaseDrawerActivity extends BaseMenuActivity implements BaseDrawerView, DrawerLayout.DrawerListener {
-
-    @InjectPresenter
-    BaseDrawerPresenter baseDrawerPresenter;
+public abstract class BaseDrawerActivity extends BaseActivity implements BaseDrawerView, DrawerLayout.DrawerListener {
 
     @BindView(R.id.drawerlayout)
     DrawerLayout drawerLayout;
@@ -44,13 +37,7 @@ public abstract class BaseDrawerActivity extends BaseMenuActivity implements Bas
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
-    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_main);
     }
 
     protected void setContentView(@LayoutRes int contentLayoutResID, @LayoutRes int menuLayoutResID) {
@@ -73,16 +60,15 @@ public abstract class BaseDrawerActivity extends BaseMenuActivity implements Bas
 
         drawerLayout.addView(menuView, params);
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+        initToolbar();
+
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
-        initToolbar();
-    }
 
-    @Override
-    protected BaseMenuPresenter getPresenter() {
-        return baseDrawerPresenter;
+
+        drawerToggle.syncState();
     }
 
     @Override
@@ -91,11 +77,11 @@ public abstract class BaseDrawerActivity extends BaseMenuActivity implements Bas
     }
 
     @Override
-    public void selectMenuOption(MenuItems menuOption) {
-        schoolAccreditationTextView.setSelected(menuOption == MenuItems.SCHOOL_ACCREDITATION);
-        schoolDataVerificationTextView.setSelected(menuOption == MenuItems.SCHOOL_DATA_VERIFICATION);
-        monitoringAndEvaluationTextView.setSelected(menuOption == MenuItems.MONITORING_AND_EVALUATION);
-        educationSurveyToolTextView.setSelected(menuOption == MenuItems.EDUCATION_SURVEY_TOOL);
+    public void selectMenuOption(MenuDrawerView.MenuItems menuOption) {
+        schoolAccreditationTextView.setSelected(menuOption == MenuDrawerView.MenuItems.SCHOOL_ACCREDITATION);
+        schoolDataVerificationTextView.setSelected(menuOption == MenuDrawerView.MenuItems.SCHOOL_DATA_VERIFICATION);
+        monitoringAndEvaluationTextView.setSelected(menuOption == MenuDrawerView.MenuItems.MONITORING_AND_EVALUATION);
+        educationSurveyToolTextView.setSelected(menuOption == MenuDrawerView.MenuItems.EDUCATION_SURVEY_TOOL);
     }
 
     @Override
@@ -111,13 +97,6 @@ public abstract class BaseDrawerActivity extends BaseMenuActivity implements Bas
     @Override
     public void onDrawerClosed(@NonNull View drawerView) {
         //nothing
-    }
-
-    @Override
-    public void showSchoolAccreditationScreen() {
-        Intent intent = SchoolAccreditationActivity.createIntent(this);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 
     @Override
