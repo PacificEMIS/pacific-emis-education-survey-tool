@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -17,18 +18,15 @@ import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.converters.GroupStandardContainer;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteAnswer;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteCriteria;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteGroupStandard;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSchool;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteStandard;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSubCriteria;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSurvey;
-import fm.doe.national.data.models.survey.Criteria;
-import fm.doe.national.data.models.survey.Standard;
-import fm.doe.national.data.models.survey.SubCriteria;
-import fm.doe.national.di.AppComponent;
+import fm.doe.national.data.converters.JsonObjectsContainer;
+import fm.doe.national.data.data_source.models.survey.serializable.SerializableGroupStandard;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteAnswer;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteCriteria;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteGroupStandard;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSchool;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteStandard;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSubCriteria;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSurvey;
 import fm.doe.national.utils.StreamUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -64,11 +62,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
             String data = StreamUtils.asString(inputStream);
 
-            GroupStandardContainer groupStandardContainer = gson.fromJson(data, GroupStandardContainer.class);
-            for (OrmLiteGroupStandard groupStandard : groupStandardContainer.getGroupStandards()) {
-                getGroupStandardDao().create(groupStandard);
+            JsonObjectsContainer<SerializableGroupStandard> jsonObjectsContainer = gson.fromJson(data, new
+                    TypeToken<JsonObjectsContainer<SerializableGroupStandard>>() {}.getType());
+            getGroupStandardDao().createGroupStandards(this, jsonObjectsContainer);
 
-                for (Standard standard : groupStandard.getStandards()) {
+           /* for (SerializableGroupStandard groupStandard : jsonObjectsContainer.getObjects()) {
+                OrmLiteGroupStandard ormLiteGroupStandard = new OrmLiteGroupStandard(getGroupStandardDao());
+                ormLiteGroupStandard.addStandards(groupStandard.getStandards());
+                getGroupStandardDao().create(ormLiteGroupStandard);
+
+                *//*for (Standard standard : groupStandard.getStandards()) {
                     OrmLiteStandard ormLiteStandard = new OrmLiteStandard(standard.getName(), groupStandard);
                     getStandardDao().create(ormLiteStandard);
 
@@ -81,8 +84,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                             getSubCriteriaDao().create(ormLiteSubCriteria);
                         }
                     }
-                }
-            }
+                }*//*
+            }*/
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }

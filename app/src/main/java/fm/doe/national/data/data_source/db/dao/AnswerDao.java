@@ -5,9 +5,9 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.List;
 
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteAnswer;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSubCriteria;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSurvey;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteAnswer;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSubCriteria;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSurvey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -32,7 +32,7 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
     public Single<List<OrmLiteAnswer>> getAnswers(OrmLiteSurvey survey) {
         return Single.fromCallable(() -> queryBuilder()
                 .where()
-                .eq(OrmLiteAnswer.Column.SURVEY, survey)
+                .eq(OrmLiteAnswer.Column.SURVEY_RESULT, survey)
                 .query());
     }
 

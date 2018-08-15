@@ -3,9 +3,13 @@ package fm.doe.national.data.data_source.db.dao;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteCriteria;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSubCriteria;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteCriteria;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSubCriteria;
+import fm.doe.national.data.data_source.models.survey.SubCriteria;
 import io.reactivex.Single;
 
 public class SubCriteriaDao extends BaseRxDao<OrmLiteSubCriteria, Long> {
@@ -22,4 +26,16 @@ public class SubCriteriaDao extends BaseRxDao<OrmLiteSubCriteria, Long> {
         });
     }
 
+    public List<OrmLiteSubCriteria> createSubCriterias(OrmLiteCriteria ormLiteCriteria, Collection<? extends SubCriteria> subCriterias)
+            throws
+            SQLException {
+        List<OrmLiteSubCriteria> ormLiteSubCriterias = new ArrayList<>();
+        for (SubCriteria subCriteria : subCriterias) {
+            OrmLiteSubCriteria ormLiteSubCriteria = new OrmLiteSubCriteria(subCriteria.getName(), ormLiteCriteria);
+            create(ormLiteSubCriteria);
+
+            ormLiteSubCriterias.add(ormLiteSubCriteria);
+        }
+        return ormLiteSubCriterias;
+    }
 }

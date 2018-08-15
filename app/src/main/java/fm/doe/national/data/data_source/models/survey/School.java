@@ -1,4 +1,4 @@
-package fm.doe.national.data.models.survey;
+package fm.doe.national.data.data_source.models.survey;
 
 import java.util.Collection;
 

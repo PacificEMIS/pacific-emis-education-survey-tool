@@ -4,8 +4,8 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSchool;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSurvey;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSchool;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSurvey;
 import io.reactivex.Single;
 
 public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {

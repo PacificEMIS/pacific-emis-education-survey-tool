@@ -3,33 +3,35 @@ package fm.doe.national.data.data_source;
 
 import java.util.List;
 
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteAnswer;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteCriteria;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteGroupStandard;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSchool;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteStandard;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSubCriteria;
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSurvey;
+import fm.doe.national.data.data_source.models.survey.Answer;
+import fm.doe.national.data.data_source.models.survey.Criteria;
+import fm.doe.national.data.data_source.models.survey.GroupStandard;
+import fm.doe.national.data.data_source.models.survey.School;
+import fm.doe.national.data.data_source.models.survey.Standard;
+import fm.doe.national.data.data_source.models.survey.SubCriteria;
+import fm.doe.national.data.data_source.models.survey.Survey;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface DataSource {
 
-    Single<OrmLiteSchool> createSchool(String name);
+    Single<School> createSchool(String name);
 
-    Single<List<OrmLiteSchool>> requestSchools();
+    Single<List<School>> requestSchools();
 
-    Single<OrmLiteSurvey> createSurvey(OrmLiteSchool school, int year);
+    Single<Survey> createSurvey(School school, int year);
 
-    Single<OrmLiteGroupStandard> createGroupStandard();
+    Single<GroupStandard> createGroupStandard();
 
-    Single<List<OrmLiteGroupStandard>> requestGroupStandard();
+    Single<List<GroupStandard>> requestGroupStandard();
 
-    Single<OrmLiteStandard> createStandard(String name, OrmLiteGroupStandard group);
+    Single<Standard> createStandard(String name, GroupStandard group);
 
-    Single<OrmLiteCriteria> createCriteria(String name, OrmLiteStandard standard);
+    Single<Criteria> createCriteria(String name, Standard standard);
 
-    Single<OrmLiteSubCriteria> createSubCriteria(String name, OrmLiteCriteria criteria);
+    Single<SubCriteria> createSubCriteria(String name, Criteria criteria);
 
-    Single<OrmLiteAnswer> createAnswer(boolean answer, OrmLiteSubCriteria criteria, OrmLiteSurvey survey);
+    Single<Answer> createAnswer(boolean answer, SubCriteria criteria, Survey survey);
 
+    Completable updateAnswer(Answer answer);
 }

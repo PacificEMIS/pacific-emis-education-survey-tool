@@ -1,18 +1,18 @@
-package fm.doe.national.data.data_source.db.models.survey;
+package fm.doe.national.data.data_source.models.survey.db;
 
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Collection;
-import java.util.List;
 
-import fm.doe.national.data.models.survey.Criteria;
-import fm.doe.national.data.models.survey.GroupStandard;
-import fm.doe.national.data.models.survey.Standard;
+import fm.doe.national.data.data_source.models.survey.Criteria;
+import fm.doe.national.data.data_source.models.survey.GroupStandard;
+import fm.doe.national.data.data_source.models.survey.Standard;
 
 @DatabaseTable
 public class OrmLiteStandard implements Standard {
@@ -71,6 +71,10 @@ public class OrmLiteStandard implements Standard {
 
     public void setGroupStandard(OrmLiteGroupStandard groupStandard) {
         this.groupStandard = groupStandard;
+    }
+
+    public void addCriterias(Collection<OrmLiteCriteria> criterias) {
+        this.criterias.addAll(criterias);
     }
 }
 

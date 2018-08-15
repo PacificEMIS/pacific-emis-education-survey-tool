@@ -1,8 +1,8 @@
-package fm.doe.national.data.models.survey;
+package fm.doe.national.data.data_source.models.survey;
 
 import java.util.List;
 
-import fm.doe.national.data.models.SynchronizePlatform;
+import fm.doe.national.data.data_source.models.SynchronizePlatform;
 
 public interface Answer {
     boolean getAnswer();

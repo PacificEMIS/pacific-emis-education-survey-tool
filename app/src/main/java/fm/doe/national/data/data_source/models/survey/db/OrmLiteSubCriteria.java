@@ -1,12 +1,12 @@
-package fm.doe.national.data.data_source.db.models.survey;
+package fm.doe.national.data.data_source.models.survey.db;
 
 import android.support.annotation.NonNull;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import fm.doe.national.data.models.survey.Criteria;
-import fm.doe.national.data.models.survey.SubCriteria;
+import fm.doe.national.data.data_source.models.survey.Criteria;
+import fm.doe.national.data.data_source.models.survey.SubCriteria;
 
 @DatabaseTable
 public class OrmLiteSubCriteria implements SubCriteria {

@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.db.models.survey;
+package fm.doe.national.data.data_source.models.survey.db;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -7,8 +7,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.data.models.SynchronizePlatform;
-import fm.doe.national.data.models.survey.Answer;
+import fm.doe.national.data.data_source.models.SynchronizePlatform;
+import fm.doe.national.data.data_source.models.survey.Answer;
 
 @DatabaseTable
 public class OrmLiteAnswer implements Answer {
@@ -17,28 +17,32 @@ public class OrmLiteAnswer implements Answer {
         String ID = "id";
         String ANSWER = "answer";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
-        String SUB_CRITERIA = "subCriteria";
-        String SURVEY = "survey";
+        String PARENT_ITEM = "parentItem";
+        String SURVEY_RESULT = "surveyResult";
     }
 
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
+
     @DatabaseField(columnName = Column.ANSWER)
     protected boolean answer;
+
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.SYNCHRONIZED_PLATFORMS)
     protected ArrayList<SynchronizePlatform> synchronizePlatforms;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SUB_CRITERIA)
-    protected OrmLiteSubCriteria subCriteria;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)
-    protected OrmLiteSurvey survey;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT_ITEM)
+    protected OrmLiteSurveyItem parentSurveyItem;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_RESULT)
+    protected OrmLiteSurveyResult surveyResult;
 
     public OrmLiteAnswer() {
     }
 
-    public OrmLiteAnswer(boolean answer, OrmLiteSubCriteria subCriteria, OrmLiteSurvey survey) {
+    public OrmLiteAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyResult surveyResult) {
         this.answer = answer;
-        this.subCriteria = subCriteria;
-        this.survey = survey;
+        this.parentSurveyItem = parentSurveyItem;
+        this.surveyResult = surveyResult;
         this.synchronizePlatforms = new ArrayList<>();
     }
 
@@ -71,4 +75,11 @@ public class OrmLiteAnswer implements Answer {
         }
     }
 
+    public OrmLiteSurveyItem getParentSurveyItem() {
+        return parentSurveyItem;
+    }
+
+    public OrmLiteSurveyResult getSurveyResult() {
+        return surveyResult;
+    }
 }

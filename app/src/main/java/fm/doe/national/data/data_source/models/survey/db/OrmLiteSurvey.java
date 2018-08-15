@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.db.models.survey;
+package fm.doe.national.data.data_source.models.survey.db;
 
 import android.support.annotation.Nullable;
 
@@ -7,11 +7,10 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Collection;
-import java.util.List;
 
-import fm.doe.national.data.models.survey.Answer;
-import fm.doe.national.data.models.survey.School;
-import fm.doe.national.data.models.survey.Survey;
+import fm.doe.national.data.data_source.models.survey.Answer;
+import fm.doe.national.data.data_source.models.survey.School;
+import fm.doe.national.data.data_source.models.survey.Survey;
 
 
 @DatabaseTable

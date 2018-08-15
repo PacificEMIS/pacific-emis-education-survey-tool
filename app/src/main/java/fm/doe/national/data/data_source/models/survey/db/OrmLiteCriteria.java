@@ -1,18 +1,18 @@
-package fm.doe.national.data.data_source.db.models.survey;
+package fm.doe.national.data.data_source.models.survey.db;
 
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Collection;
-import java.util.List;
 
-import fm.doe.national.data.models.survey.Criteria;
-import fm.doe.national.data.models.survey.Standard;
-import fm.doe.national.data.models.survey.SubCriteria;
+import fm.doe.national.data.data_source.models.survey.Criteria;
+import fm.doe.national.data.data_source.models.survey.Standard;
+import fm.doe.national.data.data_source.models.survey.SubCriteria;
 
 @DatabaseTable
 public class OrmLiteCriteria implements Criteria{
@@ -33,7 +33,6 @@ public class OrmLiteCriteria implements Criteria{
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.STANDARD)
     protected OrmLiteStandard standard;
 
-    @SerializedName("subcriteria")
     @ForeignCollectionField(eager = true, columnName = Column.CRITERIAS)
     protected Collection<OrmLiteSubCriteria> subCriterias;
 
@@ -73,4 +72,7 @@ public class OrmLiteCriteria implements Criteria{
         return subCriterias;
     }
 
+    public void setSubCriterias(Collection<OrmLiteSubCriteria> subCriterias) {
+        this.subCriterias = subCriterias;
+    }
 }

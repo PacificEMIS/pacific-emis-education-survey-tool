@@ -5,7 +5,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.List;
 
-import fm.doe.national.data.data_source.db.models.survey.OrmLiteSchool;
+import fm.doe.national.data.data_source.models.survey.db.OrmLiteSchool;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 

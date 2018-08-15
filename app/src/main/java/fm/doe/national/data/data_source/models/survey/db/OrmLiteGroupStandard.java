@@ -1,20 +1,22 @@
-package fm.doe.national.data.data_source.db.models.survey;
+package fm.doe.national.data.data_source.models.survey.db;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
-import fm.doe.national.data.models.survey.GroupStandard;
-import fm.doe.national.data.models.survey.Standard;
+import fm.doe.national.data.data_source.db.dao.GroupStandardDao;
+import fm.doe.national.data.data_source.models.survey.GroupStandard;
+import fm.doe.national.data.data_source.models.survey.Standard;
 
 @DatabaseTable
 public class OrmLiteGroupStandard implements GroupStandard {
@@ -36,6 +38,10 @@ public class OrmLiteGroupStandard implements GroupStandard {
         return id;
     }
 
+    public OrmLiteGroupStandard() {
+        standards = new ArrayList<>();
+    }
+
     @NonNull
     @Override
     public String getName() {
@@ -44,6 +50,10 @@ public class OrmLiteGroupStandard implements GroupStandard {
         }
         OrmLiteStandard[] standards = (OrmLiteStandard[]) this.standards.toArray();
         return standards[0].getName();
+    }
+
+    public void addStandards(Collection<OrmLiteStandard> standards) {
+        this.standards.addAll(standards);
     }
 
     @Override

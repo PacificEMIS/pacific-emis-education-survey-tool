@@ -20,11 +20,17 @@ public class MicronesiaApplication extends Application {
         Fabric.with(this, new Crashlytics());
         appComponent = DaggerAppComponent.builder().contextModule(new ContextModule(this)).build();
 
-        DebugDB.getAddressLog();
+        enableDatabaseDebugLog();
     }
 
     public static AppComponent getAppComponent() {
         return appComponent;
+    }
+
+    private void enableDatabaseDebugLog() {
+        if (BuildConfig.DEBUG) {
+            DebugDB.getAddressLog();
+        }
     }
 
 }
