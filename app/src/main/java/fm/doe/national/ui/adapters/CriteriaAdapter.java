@@ -1,11 +1,13 @@
 package fm.doe.national.ui.adapters;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -70,26 +72,34 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         @BindView(R.id.constraintlayout_criteria_header)
         View header;
 
+        @BindView(R.id.image_expanding_arrow)
+        ImageView arrowImageView;
+
         protected CriteriaViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
         }
 
-        protected void bind(MockCriteria criteria) {
-            titleTextView.setText(criteria.getName());
+        protected void bind(MockCriteria criteriaPair) {
+            titleTextView.setText(criteriaPair.getName());
 
-            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteria.getSubcriterias(), () -> {
-                rebindProgress(criteria.getSubcriterias());
+            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteriaPair.getSubcriterias(), () -> {
+                rebindProgress(criteriaPair.getSubcriterias());
             });
             subcriteriasRecycler.setAdapter(adapter);
 
-            rebindProgress(criteria.getSubcriterias());
+            rebindProgress(criteriaPair.getSubcriterias());
 
+            // TODO: use AnimatedVectorDrawable to animate arrows
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
                     ViewUtils.animateCollapsing(subcriteriasRecycler);
+                    arrowImageView.setImageDrawable(
+                            arrowImageView.getContext().getResources().getDrawable(R.drawable.ic_criteria_expand_less_24dp));
                 } else {
                     ViewUtils.animateExpanding(subcriteriasRecycler);
+                    arrowImageView.setImageDrawable(
+                            arrowImageView.getContext().getResources().getDrawable(R.drawable.ic_criteria_expand_more_24dp));
                 }
             });
         }
@@ -108,6 +118,13 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                 progressBar.setProgress(progress, true);
             } else {
                 progressBar.setProgress(progress);
+            }
+
+            if (progress == 100) {
+                Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
+                progressDrawable.setColorFilter(progressBar.getResources().getColor(R.color.color_criteria_progress_done),
+                        android.graphics.PorterDuff.Mode.SRC_IN);
+                progressBar.setProgressDrawable(progressDrawable);
             }
         }
     }

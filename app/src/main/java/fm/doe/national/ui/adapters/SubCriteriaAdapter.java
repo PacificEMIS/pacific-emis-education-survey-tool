@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.mock.MockSubCriteria;
+import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
 
 public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.SubCriteriaViewHolder> {
@@ -56,7 +55,7 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         TextView questionTextView;
 
         @BindView(R.id.switch_answer)
-        Switch aSwitch;
+        SwitchableButton switchableButton;
 
 
         protected SubCriteriaViewHolder(View v) {
@@ -67,12 +66,33 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         protected void bind(MockSubCriteria subCriteria, int position) {
             questionTextView.setText(subCriteria.getQuestion());
             numberingTextView.setText(String.format(Locale.US, "%c.", 'a' + position));
-            aSwitch.setOnCheckedChangeListener((CompoundButton compoundButton, boolean checked) -> {
-                subCriteria.setState(checked ? MockSubCriteria.State.POSITIVE : MockSubCriteria.State.NEGATIVE);
+            switchableButton.setState(convertModelToUiState(subCriteria.getState()));
+            switchableButton.setListener((View view, SwitchableButton.State state) -> {
+                subCriteria.setState(convertUiToModelState(state));
                 if (listener != null) {
                     listener.onStateChanged();
                 }
             });
+        }
+
+        private MockSubCriteria.State convertUiToModelState(SwitchableButton.State state) {
+            if (state == SwitchableButton.State.POSITIVE) {
+                return MockSubCriteria.State.POSITIVE;
+            } else if (state == SwitchableButton.State.NEGATIVE) {
+                return MockSubCriteria.State.NEGATIVE;
+            } else {
+                return MockSubCriteria.State.NOT_ANSWERED;
+            }
+        }
+
+        private SwitchableButton.State convertModelToUiState(MockSubCriteria.State state) {
+            if (state == MockSubCriteria.State.POSITIVE) {
+                return SwitchableButton.State.POSITIVE;
+            } else if (state == MockSubCriteria.State.NEGATIVE) {
+                return SwitchableButton.State.NEGATIVE;
+            } else {
+                return SwitchableButton.State.NEUTRAL;
+            }
         }
     }
 

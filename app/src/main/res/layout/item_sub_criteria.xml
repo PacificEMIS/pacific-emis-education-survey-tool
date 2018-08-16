@@ -33,8 +33,7 @@
         app:layout_constraintStart_toEndOf="@+id/textview_alphabetical_numbering"
         tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
 
-    <!-- TODO: replace with custom view -->
-    <Switch
+    <fm.doe.national.ui.custom_views.SwitchableButton
         android:id="@+id/switch_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +42,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/textview_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview_question"
-        app:layout_constraintTop_toTopOf="@+id/textview_question" />
+        app:layout_constraintTop_toTopOf="@+id/textview_question"/>
 
 </android.support.constraint.ConstraintLayout>
