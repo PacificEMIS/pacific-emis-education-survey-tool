@@ -3,6 +3,9 @@ package fm.doe.national.ui.screens.shool_accreditation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -35,6 +38,23 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     @Override
     protected MenuDrawerPresenter getPresenter() {
         return schoolAccreditationPresenter;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
 }
