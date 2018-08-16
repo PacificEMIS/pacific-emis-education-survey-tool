@@ -3,17 +3,18 @@ package fm.doe.national.ui.screens.shool_accreditation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerActivity;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
-import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
+import fm.doe.national.ui.screens.search.base.BaseSearchActivity;
 
 /**
  * Created by Alexander Chibirev on 8/10/2018.
@@ -23,6 +24,9 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
 
     @InjectPresenter
     SchoolAccreditationPresenter schoolAccreditationPresenter;
+
+    @BindView(R.id.recyclerview)
+    RecyclerView mRecyclerView;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SchoolAccreditationActivity.class);
@@ -42,7 +46,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
+        getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
     }
 

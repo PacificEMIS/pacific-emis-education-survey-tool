@@ -7,6 +7,23 @@
 
     <include layout="@layout/include_toolbar" />
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.quinny898.library.persistentsearch.SearchBox
+            android:visibility="gone"
+            android:id="@+id/searchbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/search_margin_bottom"
+            android:layout_marginEnd="@dimen/search_margin_right"
+            android:layout_marginStart="@dimen/search_margin_left"
+            android:layout_marginTop="@dimen/search_margin_top" />
+    </RelativeLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,11 +37,29 @@
         android:textSize="24sp"
         android:textStyle="normal" />
 
-    <android.support.v7.widget.RecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_school">
+        android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_school">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textview_not_found_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:visibility="gone"
+            tools:text="school not found" />
+    </FrameLayout>
 
 </android.support.v7.widget.LinearLayoutCompat>

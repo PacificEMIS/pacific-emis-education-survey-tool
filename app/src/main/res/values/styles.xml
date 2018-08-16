@@ -33,4 +33,9 @@
 
     </style>
 
+    <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/charcoal_grey</item>
+    </style>
+
 </resources>
