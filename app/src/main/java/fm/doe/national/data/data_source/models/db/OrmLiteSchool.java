@@ -1,16 +1,11 @@
-package fm.doe.national.data.data_source.models.survey.db;
+package fm.doe.national.data.data_source.models.db;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.Collection;
-
-import fm.doe.national.data.data_source.models.survey.School;
-import fm.doe.national.data.data_source.models.survey.Survey;
+import fm.doe.national.data.data_source.models.School;
 
 @DatabaseTable
 public class OrmLiteSchool implements School {
@@ -18,7 +13,6 @@ public class OrmLiteSchool implements School {
     public interface Column {
         String ID = "id";
         String NAME = "name";
-        String SURVEYS = "surveys";
     }
 
     @DatabaseField(id = true, columnName = Column.ID)
@@ -27,16 +21,11 @@ public class OrmLiteSchool implements School {
     @DatabaseField(columnName = Column.NAME)
     protected String name;
 
-    @Nullable
-    @ForeignCollectionField(eager = true, columnName = Column.SURVEYS)
-    protected Collection<OrmLiteSurvey> surveys;
-
     public OrmLiteSchool() {
     }
 
     public OrmLiteSchool(String name) {
-        // TODO delete it when backend will be ready
-        this(name, name);
+        this.name = name;
     }
 
     public OrmLiteSchool(String id, String name) {
@@ -44,6 +33,7 @@ public class OrmLiteSchool implements School {
         this.name = name;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -54,9 +44,4 @@ public class OrmLiteSchool implements School {
         return name;
     }
 
-    @Nullable
-    @Override
-    public Collection<? extends Survey> getSurveys() {
-        return surveys;
-    }
 }

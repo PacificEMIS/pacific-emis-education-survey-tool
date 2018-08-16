@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.models.survey.serializable;
+package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
 
@@ -6,17 +6,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;
 
-import fm.doe.national.data.data_source.models.survey.Criteria;
-import fm.doe.national.data.data_source.models.survey.GroupStandard;
-import fm.doe.national.data.data_source.models.survey.Standard;
-import fm.doe.national.data.data_source.models.survey.db.OrmLiteCriteria;
+import fm.doe.national.data.data_source.models.Criteria;
+import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.data.data_source.models.db.OrmLiteCriteria;
 
 public class SerializableStandard implements Standard {
 
     private String name;
 
     @SerializedName("criteria")
-    private Collection<OrmLiteCriteria> criterias;
+    private Collection<SerializableCriteria> criterias;
 
     @Override
     public GroupStandard getGroupStandard() {

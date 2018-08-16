@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.models.survey.db;
+package fm.doe.national.data.data_source.models.db;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.SynchronizePlatform;
-import fm.doe.national.data.data_source.models.survey.Answer;
+import fm.doe.national.data.data_source.models.Answer;
 
 @DatabaseTable
 public class OrmLiteAnswer implements Answer {

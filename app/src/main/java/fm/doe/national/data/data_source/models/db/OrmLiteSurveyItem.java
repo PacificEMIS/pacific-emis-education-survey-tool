@@ -1,6 +1,7 @@
-package fm.doe.national.data.data_source.models.survey.db;
+package fm.doe.national.data.data_source.models.db;
 
-import com.j256.ormlite.dao.ForeignCollection;
+import android.support.annotation.NonNull;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -15,6 +16,7 @@ public class OrmLiteSurveyItem {
         String NAME = "name";
         String TYPE = "type";
         String PARENT = "parent";
+        String SURVEY = "survey";
         String CHILDREN = "children";
     }
 
@@ -31,8 +33,22 @@ public class OrmLiteSurveyItem {
     protected OrmLiteSurveyItem parentItem;
 
     @ForeignCollectionField(eager = true, columnName = Column.CHILDREN)
-    protected ForeignCollection<OrmLiteSurveyItem> childrenItems;
+    protected Collection<OrmLiteSurveyItem> childrenItems;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)
+    protected OrmLiteBaseSurvey survey;
+
+    public OrmLiteSurveyItem() {
+    }
+
+    public OrmLiteSurveyItem(String name, String type, OrmLiteBaseSurvey survey, OrmLiteSurveyItem parentItem) {
+        this.name = name;
+        this.type = type;
+        this.survey = survey;
+        this.parentItem = parentItem;
+    }
+
+    @NonNull
     public String getName() {
         return name;
     }
@@ -45,7 +61,20 @@ public class OrmLiteSurveyItem {
         return parentItem;
     }
 
+    public void setParentItem(OrmLiteSurveyItem parentItem) {
+        this.parentItem = parentItem;
+    }
+
     public Collection<OrmLiteSurveyItem> getChildrenItems() {
         return childrenItems;
+    }
+
+    public void addChild(OrmLiteSurveyItem surveyItem) {
+        surveyItem.setParentItem(this);
+        childrenItems.add(surveyItem);
+    }
+
+    public OrmLiteBaseSurvey getSurvey() {
+        return survey == null ? parentItem.getSurvey() : survey;
     }
 }

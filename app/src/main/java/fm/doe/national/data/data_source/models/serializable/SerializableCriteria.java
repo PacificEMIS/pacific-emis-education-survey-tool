@@ -1,23 +1,20 @@
-package fm.doe.national.data.data_source.models.survey.serializable;
+package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.Collection;
 
-import fm.doe.national.data.data_source.models.survey.Criteria;
-import fm.doe.national.data.data_source.models.survey.Standard;
-import fm.doe.national.data.data_source.models.survey.SubCriteria;
-import fm.doe.national.data.data_source.models.survey.db.OrmLiteStandard;
-import fm.doe.national.data.data_source.models.survey.db.OrmLiteSubCriteria;
+import fm.doe.national.data.data_source.models.Criteria;
+import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.data.data_source.models.SubCriteria;
 
 public class SerializableCriteria implements Criteria {
 
     @SerializedName("subcriteria")
-    private Collection<SubCriteria> subCriterias;
+    private Collection<SerializableSubCriteria> subCriterias;
 
     private String name;
 

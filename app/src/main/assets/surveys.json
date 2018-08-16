@@ -1,5 +1,7 @@
 {
-  "objects": [
+  "type" : "school_accreditation",
+  "version" : 1,
+  "groupStandard": [
     {
       "name": "Leadership",
       "standard": [

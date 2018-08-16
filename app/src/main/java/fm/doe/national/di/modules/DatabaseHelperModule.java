@@ -2,7 +2,6 @@ package fm.doe.national.di.modules;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import javax.inject.Singleton;

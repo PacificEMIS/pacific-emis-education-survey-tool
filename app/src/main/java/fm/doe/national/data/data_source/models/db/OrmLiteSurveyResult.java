@@ -1,6 +1,5 @@
-package fm.doe.national.data.data_source.models.survey.db;
+package fm.doe.national.data.data_source.models.db;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
 import java.util.Date;
@@ -9,7 +8,7 @@ public class OrmLiteSurveyResult {
 
     public interface Column {
         String ID = "id";
-        String YEAR = "year";
+        String YEAR = "version";
         String SCHOOL = "school";
         String SURVEY = "surveyResult";
         String START_DATE = "startDate";
@@ -26,7 +25,7 @@ public class OrmLiteSurveyResult {
     protected OrmLiteSchool school;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)
-    protected OrmLiteSurvey survey;
+    protected OrmLiteBaseSurvey survey;
 
     @DatabaseField(columnName = Column.START_DATE)
     protected Date startDate;
@@ -50,11 +49,11 @@ public class OrmLiteSurveyResult {
         this.school = school;
     }
 
-    public OrmLiteSurvey getSurvey() {
+    public OrmLiteBaseSurvey getSurvey() {
         return survey;
     }
 
-    public void setSurvey(OrmLiteSurvey survey) {
+    public void setSurvey(OrmLiteBaseSurvey survey) {
         this.survey = survey;
     }
 

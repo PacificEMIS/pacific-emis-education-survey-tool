@@ -1,10 +1,10 @@
-package fm.doe.national.data.data_source.models.survey.serializable;
+package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import fm.doe.national.data.data_source.models.survey.Criteria;
-import fm.doe.national.data.data_source.models.survey.SubCriteria;
+import fm.doe.national.data.data_source.models.Criteria;
+import fm.doe.national.data.data_source.models.SubCriteria;
 
 public class SerializableSubCriteria implements SubCriteria {
 
