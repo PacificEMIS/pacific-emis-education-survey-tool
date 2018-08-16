@@ -14,7 +14,7 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginTop">@dimen/menu_text_margin_top</item>
-        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
     </style>
 
     <style name="TextViewStartMenuScreen" parent="TextViewBaseMenuScreen">

@@ -31,7 +31,6 @@ public class StartActivity extends BaseActivity implements StartView {
     @Override
     public void showSchoolAccreditationScreen() {
         startActivity(SchoolAccreditationActivity.createIntent(this));
-        finish();
     }
 
     @Override
