@@ -121,10 +121,11 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
             }
 
             if (progress == 100) {
+                int doneColor = progressBar.getResources().getColor(R.color.color_criteria_progress_done);
                 Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
-                progressDrawable.setColorFilter(progressBar.getResources().getColor(R.color.color_criteria_progress_done),
-                        android.graphics.PorterDuff.Mode.SRC_IN);
+                progressDrawable.setColorFilter(doneColor, android.graphics.PorterDuff.Mode.SRC_IN);
                 progressBar.setProgressDrawable(progressDrawable);
+                progressTextView.setTextColor(doneColor);
             }
         }
     }
