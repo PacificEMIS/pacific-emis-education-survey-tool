@@ -12,6 +12,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
+
+        vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
         release {
@@ -32,20 +34,20 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
-    def supportVersion= '27.1.1'
+    def supportVersion = '27.1.1'
     def ormliteVersion = '4.48'
     def daggerVersion = '2.11'
     def moxyVersion = '1.5.5'
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def butterknifeVersion = '8.8.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -58,7 +60,7 @@ dependencies {
 
     //RxJava2
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     //RxBinding
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
@@ -70,6 +72,10 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    // ButterKnife
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
@@ -78,8 +84,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true;
     }
-
 }

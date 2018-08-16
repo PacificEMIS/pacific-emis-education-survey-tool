@@ -7,4 +7,8 @@
     <color name="blue">#4169E1</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="color_criteria_primary">#2CABE3</color>
+    <color name="color_criteria_primary_dark">#847f78</color>
+    <color name="color_criteria_progress_bg">#f2f3f8</color>
+    <color name="color_criteria_progress">#ffde03</color>
 </resources>

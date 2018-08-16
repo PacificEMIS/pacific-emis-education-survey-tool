@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CriteriaItem">
+        <item name="android:background">@color/white</item>
+    </style>
+
 </resources>

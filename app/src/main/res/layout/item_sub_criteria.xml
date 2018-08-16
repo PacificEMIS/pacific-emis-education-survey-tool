@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="14dp"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/textview_alphabetical_numbering"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="top"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:textSize="@dimen/size_criteria_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="a." />
 
     <TextView
-        android:id="@+id/textview_approval"
+        android:id="@+id/textview_question"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
-
-    <Button
-        android:id="@+id/button_yes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/yes"
-        android:textAllCaps="true" />
-
-    <Button
-        android:id="@+id/button_no"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/no"
-        android:textAllCaps="true"
-        app:layout_constraintStart_toEndOf="@+id/button_yes" />
+        android:fontFamily="sans-serif"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size_criteria_text"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toStartOf="@+id/switch_answer"
+        app:layout_constraintStart_toEndOf="@+id/textview_alphabetical_numbering"
+        tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
 
-</android.widget.LinearLayout>
+    <!-- TODO: replace with custom view -->
+    <Switch
+        android:id="@+id/switch_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_question"
+        app:layout_constraintTop_toTopOf="@+id/textview_question" />
+
+</android.support.constraint.ConstraintLayout>
