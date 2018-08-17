@@ -7,6 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.mock.MockSchool;
+import fm.doe.national.mock.MockStandard;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerView;
 
 /**
@@ -16,9 +17,9 @@ import fm.doe.national.ui.screens.menu.base.MenuDrawerView;
 @StateStrategyType(AddToEndSingleStrategy.class)
 interface SchoolAccreditationView extends MenuDrawerView {
 
-    void bindSchools(List<MockSchool> schools);
+    void setSchools(List<MockSchool> schools);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showChooseCategoryScreen(MockSchool school);
+    void showChooseCategoryScreen(List<MockStandard> standards);
 
 }

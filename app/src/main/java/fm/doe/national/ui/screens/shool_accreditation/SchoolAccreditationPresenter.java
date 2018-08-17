@@ -3,8 +3,12 @@ package fm.doe.national.ui.screens.shool_accreditation;
 import com.arellomobile.mvp.InjectViewState;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import fm.doe.national.R;
+import fm.doe.national.mock.MockCriteria;
 import fm.doe.national.mock.MockSchool;
+import fm.doe.national.mock.MockStandard;
 import fm.doe.national.mock.MockSubCriteria;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
 
@@ -14,6 +18,8 @@ import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
 
 @InjectViewState
 public class SchoolAccreditationPresenter extends MenuDrawerPresenter<SchoolAccreditationView> {
+
+    private final List<MockStandard> standards;
 
     public SchoolAccreditationPresenter() {
 
@@ -50,10 +56,24 @@ public class SchoolAccreditationPresenter extends MenuDrawerPresenter<SchoolAccr
         MockSchool school6 = new MockSchool("DLondon Lower School", 2018, subs3);
         schools.add(school6);
 
-        getViewState().bindSchools(schools);
+        standards = new ArrayList<>();
+        ArrayList<MockCriteria> criterias = new ArrayList<>();
+        criterias.add(new MockCriteria("1.1. Criteria the First", subs1));
+        criterias.add(new MockCriteria("1.1. Criteria the Sec", subs2));
+        criterias.add(new MockCriteria("1.1. Criteria the Tr", subs3));
+        MockStandard standard1 = new MockStandard("Leadership", criterias);
+        standard1.setIcon(R.drawable.ic_action_mic);
+        MockStandard standard2 = new MockStandard("Teacher Performance", criterias);
+        MockStandard standard3 = new MockStandard("Data Management", criterias);
+        MockStandard standard4 = new MockStandard("National Curriculum", criterias);
+        standards.add(standard1);
+        standards.add(standard2);
+        standards.add(standard3);
+        standards.add(standard4);
+        getViewState().setSchools(schools);
     }
 
-    public void onSchoolClicked(MockSchool school) {
-        getViewState().showChooseCategoryScreen(school);
+    public void onSchoolClicked(MockSchool standards) {
+        getViewState().showChooseCategoryScreen(this.standards);
     }
 }

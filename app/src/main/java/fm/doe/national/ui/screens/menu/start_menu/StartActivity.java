@@ -22,10 +22,8 @@ public class StartActivity extends BaseActivity implements StartView {
     StartPresenter startPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_screen);
-        ButterKnife.bind(this);
+    protected int getContentView() {
+        return R.layout.activity_start_screen;
     }
 
     @Override

@@ -10,7 +10,6 @@ import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.ConvertersModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
-import fm.doe.national.ui.screens.main.MainActivity;
 
 @Singleton
 @Component(modules = {ContextModule.class,
@@ -21,5 +20,5 @@ import fm.doe.national.ui.screens.main.MainActivity;
 public interface AppComponent {
 
     Gson getGson();
-    void inject(MainActivity mainActivity);
+
 }

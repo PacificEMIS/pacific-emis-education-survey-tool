@@ -40,13 +40,16 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose_category);
-        ButterKnife.bind(this);
         chooseCategoryAdapter = new ChooseCategoryAdapter();
         chooseCategoryAdapter.setCallback(this);
         recyclerView.setAdapter(chooseCategoryAdapter);
         progressTextView.setText("1/7");
         initToolbar();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_choose_category;
     }
 
     @Override

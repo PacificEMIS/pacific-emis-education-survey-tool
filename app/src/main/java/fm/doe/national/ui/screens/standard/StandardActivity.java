@@ -49,18 +49,20 @@ public class StandardActivity extends BaseActivity implements StandardView {
         return intent;
     }
 
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_standard;
+    }
+
     //region Lifecycle
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_standard);
-        ButterKnife.bind(this);
         initToolbar();
         recyclerAdapter = new CriteriaAdapter();
         criteriasRecycler.setAdapter(recyclerAdapter);
         recyclerAdapter.subscribeOnChanges(() -> presenter.onQuestionStateChanged());
-
         parseStartingBundle();
     }
 

@@ -5,10 +5,11 @@ import android.support.annotation.DrawableRes;
 import java.io.Serializable;
 import java.util.List;
 
-public class MockStandard implements Serializable{
+public class MockStandard implements Serializable {
     private String name;
     private List<MockCriteria> criterias;
-    private @DrawableRes int icon;
+    private @DrawableRes
+    int icon;
 
     public MockStandard(String name, List<MockCriteria> criterias) {
         this.name = name;
@@ -45,7 +46,7 @@ public class MockStandard implements Serializable{
 
     public int getAnsweredCount() {
         int count = 0;
-        for (MockCriteria criteria: criterias) {
+        for (MockCriteria criteria : criterias) {
             count += criteria.getAnsweredCount();
         }
         return count;
@@ -53,7 +54,7 @@ public class MockStandard implements Serializable{
 
     public int getQuestionsCount() {
         int count = 0;
-        for (MockCriteria criteria: criterias) {
+        for (MockCriteria criteria : criterias) {
             count += criteria.getSubcriterias().size();
         }
         return count;

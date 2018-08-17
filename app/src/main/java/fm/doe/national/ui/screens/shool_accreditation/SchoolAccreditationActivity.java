@@ -9,12 +9,13 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.mock.MockSchool;
+import fm.doe.national.mock.MockStandard;
 import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerActivity;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
@@ -40,11 +41,14 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_school_accreditation);
-        ButterKnife.bind(this);
         schoolAccreditationAdapter = new SchoolAccreditationAdapter();
         schoolAccreditationAdapter.setCallback(this);
         recyclerView.setAdapter(schoolAccreditationAdapter);
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_school_accreditation;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     }
 
     @Override
-    public void bindSchools(List<MockSchool> schools) {
+    public void setSchools(List<MockSchool> schools) {
         schoolAccreditationAdapter.updateSchools(schools);
     }
 
@@ -80,7 +84,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     }
 
     @Override
-    public void showChooseCategoryScreen(MockSchool school) {
+    public void showChooseCategoryScreen(List<MockStandard> standards) {
         startActivity(ChooseCategoryActivity.createIntent(this));
     }
 
