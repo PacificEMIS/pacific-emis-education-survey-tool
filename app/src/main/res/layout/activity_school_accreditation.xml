@@ -5,23 +5,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/include_toolbar" />
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <include layout="@layout/include_toolbar" />
 
         <com.quinny898.library.persistentsearch.SearchBox
-            android:visibility="gone"
             android:id="@+id/searchbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/search_margin_bottom"
             android:layout_marginEnd="@dimen/search_margin_right"
             android:layout_marginStart="@dimen/search_margin_left"
-            android:layout_marginTop="@dimen/search_margin_top" />
+            android:layout_marginTop="@dimen/search_margin_top"
+            android:visibility="visible" />
     </RelativeLayout>
 
     <TextView

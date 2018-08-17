@@ -7,7 +7,7 @@
     android:layout_gravity="start"
     android:background="@color/blue"
     android:clickable="true"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     android:focusable="true"
     android:orientation="vertical">
 
