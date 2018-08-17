@@ -23,6 +23,7 @@
         style="@style/TextViewNavigationDrawer"
         android:layout_below="@+id/imageview_logo"
         android:layout_margin="10dp"
+        android:foreground="@android:color/transparent"
         android:text="@string/title_education_survey_tool"
         android:textSize="24sp" />
 
