@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.shool_accreditation;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -11,13 +9,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.mock.MockSchool;
-import fm.doe.national.mock.MockSubCriteria;
-import fm.doe.national.models.survey.School;
 import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
 
 /**
@@ -27,7 +22,7 @@ public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecycler
 
     private List<MockSchool> schools = new ArrayList<>();
     @Nullable
-    private Callback mCallback;
+    private Callback callback;
 
     @NonNull
     @Override
@@ -50,8 +45,8 @@ public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecycler
         notifyDataSetChanged();
     }
 
-    public void setCallback(Callback callback) {
-        mCallback = callback;
+    public void setCallback(@Nullable Callback callback) {
+        this.callback = callback;
     }
 
     class SchoolViewHolder extends BaseViewHolder {
@@ -74,39 +69,15 @@ public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecycler
 
         @Override
         protected void onClick(int position) {
-
+            if(callback != null) {
+                callback.onSchoolClicked(schools.get(position));
+            }
         }
 
         public void update(MockSchool school) {
             nameSchoolTextview.setText(school.getName());
             createdYearTextview.setText(String.valueOf(school.getYear()));
-            rebindProgress(school.getSubCriterias());
-        }
-
-        private void rebindProgress(@NonNull List<MockSubCriteria> subCriterias) {
-            int totalQuestions = subCriterias.size();
-            int answeredQuestions = 0;
-            for (MockSubCriteria subCriteria : subCriterias) {
-                if (subCriteria.getState() != MockSubCriteria.State.NOT_ANSWERED)
-                    answeredQuestions++;
-            }
-            progressTextView.setText(String.format(Locale.US, "%d/%d", answeredQuestions, totalQuestions));
-
-            int progress = totalQuestions > 0 ? (int) ((float) answeredQuestions / totalQuestions * 100) : 0;
-
-            if (Build.VERSION.SDK_INT > 24) {
-                progressBar.setProgress(progress, true);
-            } else {
-                progressBar.setProgress(progress);
-            }
-
-            if (progress == 100) {
-                int doneColor = progressBar.getResources().getColor(R.color.color_criteria_progress_done);
-                Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
-                progressDrawable.setColorFilter(doneColor, android.graphics.PorterDuff.Mode.SRC_IN);
-                progressBar.setProgressDrawable(progressDrawable);
-                progressTextView.setTextColor(doneColor);
-            }
+            rebindProgress(school.getSubCriterias(), progressTextView, progressBar);
         }
 
     }

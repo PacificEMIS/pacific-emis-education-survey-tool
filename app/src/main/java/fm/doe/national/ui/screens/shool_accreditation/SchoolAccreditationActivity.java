@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.mock.MockSchool;
-import fm.doe.national.models.survey.School;
+import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerActivity;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
 
@@ -29,7 +29,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     SchoolAccreditationPresenter schoolAccreditationPresenter;
 
     @BindView(R.id.recyclerview)
-    RecyclerView mRecyclerView;
+    RecyclerView recyclerView;
 
     private SchoolAccreditationAdapter schoolAccreditationAdapter;
 
@@ -44,7 +44,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
         ButterKnife.bind(this);
         schoolAccreditationAdapter = new SchoolAccreditationAdapter();
         schoolAccreditationAdapter.setCallback(this);
-        mRecyclerView.setAdapter(schoolAccreditationAdapter);
+        recyclerView.setAdapter(schoolAccreditationAdapter);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
 
     @Override
     public void showChooseCategoryScreen(MockSchool school) {
-
+        startActivity(ChooseCategoryActivity.createIntent(this));
     }
 
 }

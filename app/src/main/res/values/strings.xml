@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NDOE Data Collection App</string>
     <string name="criteria_name">Criteria, %1$d.%2$d: %3$s.</string>
+    <string name="category_name" formatted="false">Standard %1$d: %2$s</string>
     <string name="criteria_progress">%1$d/%2$d</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

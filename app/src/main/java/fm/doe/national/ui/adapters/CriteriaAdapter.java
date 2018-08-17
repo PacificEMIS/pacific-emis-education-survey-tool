@@ -1,7 +1,5 @@
 package fm.doe.national.ui.adapters;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,14 +13,12 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.mock.MockCriteria;
-import fm.doe.national.mock.MockSubCriteria;
 import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
+import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
 import fm.doe.national.util.ViewUtils;
 
 public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.CriteriaViewHolder> {
@@ -70,7 +66,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         subscribers.add(listener);
     }
 
-    protected class CriteriaViewHolder extends RecyclerView.ViewHolder {
+    protected class CriteriaViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -92,7 +88,11 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
 
         protected CriteriaViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+        }
+
+        @Override
+        protected void onClick(int position) {
+
         }
 
         protected void bind(MockCriteria criteriaPair) {
@@ -100,10 +100,11 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
 
             SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteriaPair.getSubcriterias());
             adapter.passSubscribers(subscribers);
-            adapter.subscribeOnChanges(() -> rebindProgress(criteriaPair.getSubcriterias()));
+            adapter.subscribeOnChanges(() -> rebindProgress(criteriaPair.getSubcriterias(),
+                    progressTextView, progressBar));
             subcriteriasRecycler.setAdapter(adapter);
 
-            rebindProgress(criteriaPair.getSubcriterias());
+            rebindProgress(criteriaPair.getSubcriterias(), progressTextView, progressBar);
 
             // TODO: use AnimatedVectorDrawable to animate arrows
             header.setOnClickListener((View v) -> {
@@ -115,31 +116,6 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                     arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
                 }
             });
-        }
-
-        private void rebindProgress(@NonNull List<MockSubCriteria> subCriterias) {
-            int totalQuestions = subCriterias.size();
-            int answeredQuestions = 0;
-            for (MockSubCriteria subCriteria: subCriterias) {
-                if (subCriteria.getState() != MockSubCriteria.State.NOT_ANSWERED) answeredQuestions++;
-            }
-            progressTextView.setText(String.format(Locale.US, "%d/%d", answeredQuestions, totalQuestions));
-
-            int progress = totalQuestions > 0 ? (int)((float)answeredQuestions / totalQuestions * 100) : 0;
-
-            if (Build.VERSION.SDK_INT > 24) {
-                progressBar.setProgress(progress, true);
-            } else {
-                progressBar.setProgress(progress);
-            }
-
-            if (progress == 100) {
-                int doneColor = progressBar.getResources().getColor(R.color.color_criteria_progress_done);
-                Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
-                progressDrawable.setColorFilter(doneColor, android.graphics.PorterDuff.Mode.SRC_IN);
-                progressBar.setProgressDrawable(progressDrawable);
-                progressTextView.setTextColor(doneColor);
-            }
         }
     }
 }
