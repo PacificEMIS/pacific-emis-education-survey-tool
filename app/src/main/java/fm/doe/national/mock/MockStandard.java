@@ -9,6 +9,7 @@ public class MockStandard implements Serializable{
     private String name;
     private List<MockCriteria> criterias;
     private @DrawableRes int icon;
+    private @DrawableRes int iconHighlighted;
 
     public MockStandard(String name, List<MockCriteria> criterias) {
         this.name = name;
@@ -41,6 +42,14 @@ public class MockStandard implements Serializable{
 
     public void setIcon(@DrawableRes int icon) {
         this.icon = icon;
+    }
+
+    public int getIconHighlighted() {
+        return iconHighlighted;
+    }
+
+    public void setIconHighlighted(int iconHighlighted) {
+        this.iconHighlighted = iconHighlighted;
     }
 
     public int getAnsweredCount() {

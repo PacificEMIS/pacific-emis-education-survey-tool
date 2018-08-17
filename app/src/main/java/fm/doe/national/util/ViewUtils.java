@@ -101,6 +101,5 @@ public class ViewUtils {
         }
 
         view.startAnimation(animation);
-
     }
 }
