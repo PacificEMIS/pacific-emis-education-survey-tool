@@ -1,24 +1,36 @@
-package fm.doe.national.ui.screens.presenters;
+package fm.doe.national.ui.screens.standard;
 
 import com.arellomobile.mvp.InjectViewState;
 
 import java.util.ArrayList;
 
+import fm.doe.national.R;
 import fm.doe.national.mock.MockCriteria;
+import fm.doe.national.mock.MockStandard;
 import fm.doe.national.mock.MockSubCriteria;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.ui.screens.standard.StandardView;
 
 @InjectViewState
 public class StandardPresenter extends BasePresenter<StandardView> {
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        loadCriterias();
+
+    private MockStandard standard;
+
+    public void setStandard(MockStandard standard) throws NullPointerException {
+        if (standard == null) throw new NullPointerException();
+        this.standard = standard;
+        loadStandard();
     }
 
-    private void loadCriterias() {
+    public void onQuestionStateChanged() {
+        getViewState().bindProgress(standard.getAnsweredCount(), standard.getQuestionsCount());
+    }
+
+    private void loadStandard() {
         // TODO: replace mocking
+
+        standard.setName("Standard 1: Leadership");
+        standard.setIcon(R.drawable.ic_leadreship_standard);
+
         ArrayList<MockCriteria> criterias = new ArrayList<>();
 
         ArrayList<MockSubCriteria> subs1 = new ArrayList<>();
@@ -45,6 +57,10 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
         criterias.add(new MockCriteria("1.3. Some long criteria title that should use multiline for debugSome long criteria title that should use multiline for debugSome long criteria title that should use multiline for debug", subs3));
 
+        standard.setCriterias(criterias);
+
+        getViewState().bindGlobalInfo(standard.getName(), standard.getIcon());
         getViewState().bindCriterias(criterias);
+        getViewState().bindProgress(standard.getAnsweredCount(), standard.getQuestionsCount());
     }
 }

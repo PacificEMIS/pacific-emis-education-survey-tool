@@ -1,10 +1,9 @@
 package fm.doe.national.mock;
 
-import android.support.annotation.Nullable;
-
+import java.io.Serializable;
 import java.util.List;
 
-public class MockCriteria {
+public class MockCriteria implements Serializable {
     private String name;
     private List<MockSubCriteria> subcriterias;
 
@@ -27,5 +26,15 @@ public class MockCriteria {
 
     public void setSubcriterias(List<MockSubCriteria> subcriterias) {
         this.subcriterias = subcriterias;
+    }
+
+    public int getAnsweredCount() {
+        int count = 0;
+        for (MockSubCriteria question: subcriterias) {
+            if (question.getState() != MockSubCriteria.State.NOT_ANSWERED) {
+                count++;
+            }
+        }
+        return count;
     }
 }

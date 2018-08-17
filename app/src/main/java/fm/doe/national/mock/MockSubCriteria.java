@@ -1,6 +1,8 @@
 package fm.doe.national.mock;
 
-public class MockSubCriteria {
+import java.io.Serializable;
+
+public class MockSubCriteria implements Serializable {
     private String question;
     private String hint;
     private State state;
@@ -34,7 +36,6 @@ public class MockSubCriteria {
     public void setState(State state) {
         this.state = state;
     }
-
 
     public enum State {
         NOT_ANSWERED,
