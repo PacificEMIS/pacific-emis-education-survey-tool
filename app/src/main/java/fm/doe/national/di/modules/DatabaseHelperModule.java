@@ -8,9 +8,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.data_source.db.dao.DatabaseHelper;
+import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 
-@Module(includes = ContextModule.class)
+@Module(includes = {ContextModule.class, GsonModule.class})
 public class DatabaseHelperModule {
 
     @Provides
