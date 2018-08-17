@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.db.OrmLiteDataSource;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 
@@ -12,7 +13,7 @@ public class AccreditationDataSourceModule {
 
     @Provides
     @Singleton
-    public OrmLiteDataSource provideAccreditationDataSource(DatabaseHelper helper) {
+    public DataSource provideAccreditationDataSource(DatabaseHelper helper) {
         return new OrmLiteDataSource(helper);
     }
 

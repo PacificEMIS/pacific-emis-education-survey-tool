@@ -29,7 +29,8 @@ public class SurveyResultDao extends BaseRxDao<OrmLiteBaseSurveyResult, Long> {
     public Single<OrmLiteBaseSurveyResult> requestSurveyResult(Date startDate) {
         return Single.fromCallable(() -> queryBuilder()
                         .where()
-                        .eq(OrmLiteBaseSurveyResult.Column.START_DATE, startDate).queryForFirst());
+                        .eq(OrmLiteBaseSurveyResult.Column.START_DATE, startDate)
+                        .queryForFirst());
     }
 
 }
