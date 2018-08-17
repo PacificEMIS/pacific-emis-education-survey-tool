@@ -8,7 +8,7 @@ import java.util.List;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
-import fm.doe.national.data.data_source.models.db.OrmLiteSurveyResult;
+import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurveyResult;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -18,9 +18,9 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
         super(connectionSource, dataClass);
     }
 
-    public Single<OrmLiteAnswer> createAnswer(boolean answer, OrmLiteSurveyItem surveyItem, OrmLiteSurveyResult surveyResult) {
+    public Single<OrmLiteAnswer> createAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteBaseSurveyResult surveyResult) {
         return Single.fromCallable(() -> {
-            OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(answer, surveyItem, surveyResult);
+            OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(answer, parentSurveyItem, surveyResult);
             create(ormLiteAnswer);
             return ormLiteAnswer;
         });

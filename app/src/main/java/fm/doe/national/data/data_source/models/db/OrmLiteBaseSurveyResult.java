@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 
 import java.util.Date;
 
-public class OrmLiteSurveyResult {
+public class OrmLiteBaseSurveyResult {
 
     public interface Column {
         String ID = "id";
@@ -32,6 +32,16 @@ public class OrmLiteSurveyResult {
 
     @DatabaseField(columnName = Column.END_DATE)
     protected Date endDate;
+
+    public OrmLiteBaseSurveyResult() {
+    }
+
+    public OrmLiteBaseSurveyResult(int year, OrmLiteSchool school, OrmLiteBaseSurvey survey) {
+        this.year = year;
+        this.school = school;
+        this.survey = survey;
+        this.startDate = new Date();
+    }
 
     public int getYear() {
         return year;

@@ -15,9 +15,9 @@ public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
         super(connectionSource, dataClass);
     }
 
-    public Single<OrmLiteSchool> createSchool(String schoolName) {
+    public Single<OrmLiteSchool> createSchool(String schoolName, String id) {
         return Single.fromCallable(() -> {
-            OrmLiteSchool school = new OrmLiteSchool(schoolName);
+            OrmLiteSchool school = new OrmLiteSchool(id, schoolName);
             create(school);
             return school;
         });
@@ -29,6 +29,13 @@ public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
                 createOrUpdate(new OrmLiteSchool(school.getId(), school.getName()));
             }
         });
+    }
+
+    public Single<OrmLiteSchool> requestSchool(String schoolId) {
+        return Single.fromCallable(() -> queryBuilder()
+                .where()
+                .eq(OrmLiteSchool.Column.ID, schoolId)
+                .queryForFirst());
     }
 
 }

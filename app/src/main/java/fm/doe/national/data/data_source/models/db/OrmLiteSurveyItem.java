@@ -6,7 +6,9 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @DatabaseTable
 public class OrmLiteSurveyItem {
@@ -20,6 +22,13 @@ public class OrmLiteSurveyItem {
         String CHILDREN = "children";
     }
 
+    public enum Type {
+        GROUP_STANDARD,
+        STANDARD,
+        CRITERIA,
+        SUBCRITERIA
+    }
+
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
 
@@ -27,7 +36,7 @@ public class OrmLiteSurveyItem {
     protected String name;
 
     @DatabaseField(columnName = Column.TYPE)
-    protected String type;
+    protected Type type;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT)
     protected OrmLiteSurveyItem parentItem;
@@ -41,11 +50,12 @@ public class OrmLiteSurveyItem {
     public OrmLiteSurveyItem() {
     }
 
-    public OrmLiteSurveyItem(String name, String type, OrmLiteBaseSurvey survey, OrmLiteSurveyItem parentItem) {
+    public OrmLiteSurveyItem(String name, Type type, OrmLiteBaseSurvey survey, OrmLiteSurveyItem parentItem) {
         this.name = name;
         this.type = type;
         this.survey = survey;
         this.parentItem = parentItem;
+        this.childrenItems = new ArrayList<>();
     }
 
     @NonNull
@@ -53,7 +63,7 @@ public class OrmLiteSurveyItem {
         return name;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
@@ -72,6 +82,12 @@ public class OrmLiteSurveyItem {
     public void addChild(OrmLiteSurveyItem surveyItem) {
         surveyItem.setParentItem(this);
         childrenItems.add(surveyItem);
+    }
+
+    public void addChildren(List<OrmLiteSurveyItem> surveyItems) {
+        for (OrmLiteSurveyItem surveyItem : surveyItems) {
+            addChild(surveyItem);
+        }
     }
 
     public OrmLiteBaseSurvey getSurvey() {

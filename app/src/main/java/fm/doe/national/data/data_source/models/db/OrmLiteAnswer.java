@@ -34,12 +34,12 @@ public class OrmLiteAnswer implements Answer {
     protected OrmLiteSurveyItem parentSurveyItem;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_RESULT)
-    protected OrmLiteSurveyResult surveyResult;
+    protected OrmLiteBaseSurveyResult surveyResult;
 
     public OrmLiteAnswer() {
     }
 
-    public OrmLiteAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyResult surveyResult) {
+    public OrmLiteAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteBaseSurveyResult surveyResult) {
         this.answer = answer;
         this.parentSurveyItem = parentSurveyItem;
         this.surveyResult = surveyResult;
@@ -79,7 +79,7 @@ public class OrmLiteAnswer implements Answer {
         return parentSurveyItem;
     }
 
-    public OrmLiteSurveyResult getSurveyResult() {
+    public OrmLiteBaseSurveyResult getSurveyResult() {
         return surveyResult;
     }
 }

@@ -24,10 +24,6 @@ public class OrmLiteSchool implements School {
     public OrmLiteSchool() {
     }
 
-    public OrmLiteSchool(String name) {
-        this.name = name;
-    }
-
     public OrmLiteSchool(String id, String name) {
         this.id = id;
         this.name = name;

@@ -54,4 +54,8 @@ public class OrmLiteBaseSurvey {
     public Collection<OrmLiteSurveyItem> getSurveyItems() {
         return surveyItems;
     }
+
+    public void setSurveyItems(Collection<OrmLiteSurveyItem> surveyItems) {
+        this.surveyItems = surveyItems;
+    }
 }

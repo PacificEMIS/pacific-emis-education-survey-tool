@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -18,16 +17,10 @@ import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.converters.JsonObjectsContainer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
-import fm.doe.national.data.data_source.models.db.OrmLiteSurveyResult;
-import fm.doe.national.data.data_source.models.serializable.SerializableGroupStandard;
+import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurveyResult;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
-import fm.doe.national.data.data_source.models.db.OrmLiteCriteria;
-import fm.doe.national.data.data_source.models.db.OrmLiteGroupStandard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
-import fm.doe.national.data.data_source.models.db.OrmLiteStandard;
-import fm.doe.national.data.data_source.models.db.OrmLiteSubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
 import fm.doe.national.utils.StreamUtils;
@@ -41,6 +34,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private SurveyDao surveyDao;
     private SurveyItemDao surveyItemDao;
     private AnswerDao answerDao;
+    private SurveyResultDao surveyResultDao;
 
     private AssetManager assetManager;
     private Gson gson;
@@ -54,42 +48,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         createAllTables(connectionSource);
-        fillAllTables();
+        createSurvey();
     }
 
-    private void fillAllTables() {
+    private void createSurvey() {
         try {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
             String data = StreamUtils.asString(inputStream);
 
             SerializableSchoolAccreditation schoolAccreditation = gson.fromJson(data, SerializableSchoolAccreditation.class);
 
+            surveyDao.createSurvey(schoolAccreditation.getVersion(), schoolAccreditation.getType(), schoolAccreditation.getGroupStandards());
 
-
-
-
-
-           /* for (SerializableGroupStandard groupStandard : jsonObjectsContainer.getObjects()) {
-                OrmLiteGroupStandard ormLiteGroupStandard = new OrmLiteGroupStandard(getSurveyItemDao());
-                ormLiteGroupStandard.addStandards(groupStandard.getStandards());
-                getSurveyItemDao().create(ormLiteGroupStandard);
-
-                *//*for (Standard standard : groupStandard.getStandards()) {
-                    OrmLiteStandard ormLiteStandard = new OrmLiteStandard(standard.getName(), groupStandard);
-                    getStandardDao().create(ormLiteStandard);
-
-                    for (Criteria criteria : standard.getCriterias()) {
-                        OrmLiteCriteria ormLiteCriteria = new OrmLiteCriteria(criteria.getName(), ormLiteStandard);
-                        getCriteriaDao().create(ormLiteCriteria);
-
-                        for (SubCriteria subCriteria : criteria.getSubCriterias()) {
-                            OrmLiteSubCriteria ormLiteSubCriteria = new OrmLiteSubCriteria(subCriteria.getName(), ormLiteCriteria);
-                            getSubCriteriaDao().create(ormLiteSubCriteria);
-                        }
-                    }
-                }*//*
-            }*/
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -99,7 +70,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, OrmLiteSchool.class);
             TableUtils.createTable(connectionSource, OrmLiteBaseSurvey.class);
             TableUtils.createTable(connectionSource, OrmLiteSurveyItem.class);
-            TableUtils.createTable(connectionSource, OrmLiteSurveyResult.class);
+            TableUtils.createTable(connectionSource, OrmLiteBaseSurveyResult.class);
             TableUtils.createTable(connectionSource, OrmLiteAnswer.class);
         } catch (SQLException exc) {
             Log.e(TAG, "Error create Db " + DATABASE_NAME);
@@ -112,7 +83,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         // Now we don't need this method
         dropAllTables();
         createAllTables(connectionSource);
-        fillAllTables();
+        createSurvey();
     }
 
     private void dropAllTables() {
@@ -120,7 +91,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, OrmLiteSchool.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteBaseSurvey.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteSurveyItem.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteSurveyResult.class, true);
+            TableUtils.dropTable(connectionSource, OrmLiteBaseSurveyResult.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteAnswer.class, true);
         } catch (SQLException exc) {
             Log.e(TAG, "Error drop Db " + DATABASE_NAME);
@@ -138,7 +109,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public SurveyDao getSurveyDao() throws SQLException {
         if (surveyDao == null) {
-            surveyDao = new SurveyDao(getConnectionSource(), OrmLiteBaseSurvey.class);
+            surveyDao = new SurveyDao(getSurveyItemDao(), getConnectionSource(), OrmLiteBaseSurvey.class);
         }
         return surveyDao;
     }
@@ -155,5 +126,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             answerDao = new AnswerDao(getConnectionSource(), OrmLiteAnswer.class);
         }
         return answerDao;
+    }
+
+    public SurveyResultDao getSurveyResultDao() throws SQLException {
+        if (surveyResultDao == null) {
+            surveyResultDao = new SurveyResultDao(getSurveyDao(), getConnectionSource(), OrmLiteBaseSurveyResult.class);
+        }
+        return surveyResultDao;
     }
 }

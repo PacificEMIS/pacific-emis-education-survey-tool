@@ -1,12 +1,15 @@
 package fm.doe.national.data.data_source;
 
 
+import java.sql.SQLException;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.School;
+import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.Survey;
@@ -15,23 +18,15 @@ import io.reactivex.Single;
 
 public interface DataSource {
 
-    Single<School> createSchool(String name);
+    Single<School> createSchool(String name, String id);
 
     Single<List<School>> requestSchools();
-
-    Single<Survey> createSurvey(School school, int year);
-
-    Single<GroupStandard> createGroupStandard();
-
-    Single<List<GroupStandard>> requestGroupStandard();
-
-    Single<Standard> createStandard(String name, GroupStandard group);
-
-    Single<Criteria> createCriteria(String name, Standard standard);
-
-    Single<SubCriteria> createSubCriteria(String name, Criteria criteria);
 
     Single<Answer> createAnswer(boolean answer, SubCriteria criteria, Survey survey);
 
     Completable updateAnswer(Answer answer);
+
+    Single<SchoolAccreditation> createNewSchoolAccreditation(int year, School school);
+
+    Single<List<SchoolAccreditationResult>> requestSchoolAccreditationResults();
 }
