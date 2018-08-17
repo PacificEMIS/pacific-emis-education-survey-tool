@@ -6,9 +6,10 @@ import java.util.List;
 import fm.doe.national.R;
 
 public class MockRepository {
-    public static List<MockStandard> getStandards() {
-        ArrayList<MockStandard> standards = new ArrayList<>();
 
+    private static ArrayList<MockStandard> standards = new ArrayList<>();
+
+    public static void mock() {
         MockStandard standard1 = new MockStandard();
         standard1.setName("Standard 1: Leadership");
         standard1.setIcon(R.drawable.ic_standard_leadership);
@@ -57,8 +58,20 @@ public class MockRepository {
         standard7.setIconHighlighted(R.drawable.ic_standard_observation_hl);
         populateStandard(standard7);
         standards.add(standard7);
+    }
 
+    public static List<MockStandard> getStandards() {
         return standards;
+    }
+
+    public static MockStandard getNextStandard(MockStandard currentStandard) {
+        int currentIndex = standards.indexOf(currentStandard);
+        return currentIndex < standards.size() - 1 ? standards.get(currentIndex + 1) : standards.get(0);
+    }
+
+    public static MockStandard getPreviousStandard(MockStandard currentStandard) {
+        int currentIndex = standards.indexOf(currentStandard);
+        return currentIndex > 0 ? standards.get(currentIndex - 1) : standards.get(standards.size() - 1);
     }
 
     private static void populateStandard(MockStandard standard) {

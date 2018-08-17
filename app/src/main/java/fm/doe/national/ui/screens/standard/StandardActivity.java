@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,24 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @BindView(R.id.image_standard_icon)
     ImageView iconImageView;
 
+    @BindView(R.id.constraintlayout_prev)
+    View prevStandardView;
+
+    @BindView(R.id.constraintlayout_next)
+    View nextStandardView;
+
+    @BindView(R.id.image_standard_icon_prev)
+    ImageView iconPrevStandardImageView;
+
+    @BindView(R.id.image_standard_icon_next)
+    ImageView iconNextStandardImageView;
+
+    @BindView(R.id.textview_standard_title_prev)
+    TextView prevStandardTitleTextView;
+
+    @BindView(R.id.textview_standard_title_next)
+    TextView nextStandardTitleTextView;
+
     @InjectPresenter
     StandardPresenter presenter;
 
@@ -54,13 +73,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_standard);
-        ButterKnife.bind(this);
-        initToolbar();
-        recyclerAdapter = new CriteriaAdapter();
-        criteriasRecycler.setAdapter(recyclerAdapter);
-        recyclerAdapter.subscribeOnChanges(() -> presenter.onQuestionStateChanged());
-
+        setupViews();
         parseStartingBundle();
     }
 
@@ -84,11 +97,29 @@ public class StandardActivity extends BaseActivity implements StandardView {
         progressTextView.setText(String.format(Locale.US, "%d/%d", answered, total));
     }
 
+    @Override
+    public void bindPrevStandard(String title, int icon) {
+        prevStandardTitleTextView.setText(title);
+        iconPrevStandardImageView.setImageResource(icon);
+    }
+
+    @Override
+    public void bindNextStandard(String title, int icon) {
+        nextStandardTitleTextView.setText(title);
+        iconNextStandardImageView.setImageResource(icon);
+    }
+
+    @Override
+    public void navigateToOtherStandard(MockStandard otherStandard) {
+        startActivity(StandardActivity.getStartingIntent(this, otherStandard));
+        finish();
+    }
+
     //endregion
 
     private void parseStartingBundle() {
         try {
-            presenter.setStandard((MockStandard) getIntent().getExtras().getSerializable(STANDARD_EXTRA));
+            presenter.setStandard((MockStandard) getIntent().getSerializableExtra(STANDARD_EXTRA));
         } catch (NullPointerException npe) {
             // TODO: uncomment after ui merge
 //            throw new RuntimeException(
@@ -96,5 +127,18 @@ public class StandardActivity extends BaseActivity implements StandardView {
             // TODO: remove after ui merge
             presenter.setStandard(new MockStandard());
         }
+    }
+
+    private void setupViews() {
+        setContentView(R.layout.activity_standard);
+        ButterKnife.bind(this);
+        initToolbar();
+
+        recyclerAdapter = new CriteriaAdapter();
+        criteriasRecycler.setAdapter(recyclerAdapter);
+        recyclerAdapter.subscribeOnChanges(() -> presenter.onQuestionStateChanged());
+
+        prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
+        nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
     }
 }

@@ -67,4 +67,13 @@ public class MockStandard implements Serializable{
         }
         return count;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            return ((MockStandard)obj).getName().equals(name);
+        } catch (ClassCastException ex) {
+            return false;
+        }
+    }
 }

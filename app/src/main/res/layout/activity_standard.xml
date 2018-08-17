@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <android.support.v7.widget.RecyclerView
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview_criterias"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -25,6 +25,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_criteria">
 
-    </android.support.v7.widget.RecyclerView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_section="footer">
+            <include
+                layout="@layout/include_standards_navigation_footer"/>
+        </FrameLayout>
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 
 </android.support.constraint.ConstraintLayout>

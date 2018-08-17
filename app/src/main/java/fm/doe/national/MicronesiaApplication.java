@@ -7,6 +7,7 @@ import com.crashlytics.android.Crashlytics;
 import fm.doe.national.di.AppComponent;
 import fm.doe.national.di.DaggerAppComponent;
 import fm.doe.national.di.modules.ContextModule;
+import fm.doe.national.mock.MockRepository;
 import io.fabric.sdk.android.Fabric;
 
 public class MicronesiaApplication extends Application {
@@ -20,6 +21,8 @@ public class MicronesiaApplication extends Application {
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))
                 .build();
+
+        MockRepository.mock();
     }
 
     public static AppComponent getAppComponent() {
