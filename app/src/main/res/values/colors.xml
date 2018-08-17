@@ -14,7 +14,7 @@
     <color name="color_criteria_primary">#2CABE3</color>
     <color name="color_criteria_primary_dark">#847f78</color>
     <color name="color_criteria_progress_bg">#f2f3f8</color>
-    <color name="color_criteria_progress">#ffde03</color>
+    <color name="yellow">#ffde03</color>
     <color name="color_criteria_progress_done">#50be75</color>
 
 </resources>

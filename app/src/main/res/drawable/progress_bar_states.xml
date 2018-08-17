@@ -15,9 +15,9 @@
         <clip>
             <shape>
                 <gradient
-                    android:centerColor="@color/color_criteria_progress"
-                    android:endColor="@color/color_criteria_progress"
-                    android:startColor="@color/color_criteria_progress" />
+                    android:centerColor="@color/yellow"
+                    android:endColor="@color/yellow"
+                    android:startColor="@color/yellow" />
             </shape>
         </clip>
     </item>

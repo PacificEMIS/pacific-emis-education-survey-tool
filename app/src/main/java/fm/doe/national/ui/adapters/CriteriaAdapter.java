@@ -22,15 +22,18 @@ import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.mock.MockCriteria;
 import fm.doe.national.mock.MockSubCriteria;
+import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
 import fm.doe.national.util.ViewUtils;
 
 public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.CriteriaViewHolder> {
 
     private List<MockCriteria> items;
+    private List<SubcriteriaStateChangeListener> subscribers;
 
     public CriteriaAdapter() {
         super();
         items = new ArrayList<>();
+        subscribers = new ArrayList<>();
     }
 
     @NonNull
@@ -53,6 +56,18 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
     public void setCriterias(@NonNull List<MockCriteria> criterias) {
         items = criterias;
         notifyDataSetChanged();
+    }
+
+    public void flushSubscribers() {
+        subscribers.clear();
+    }
+
+    public void unsubscribeOnChanges(SubcriteriaStateChangeListener listener) {
+        subscribers.remove(listener);
+    }
+
+    public void subscribeOnChanges(SubcriteriaStateChangeListener listener) {
+        subscribers.add(listener);
     }
 
     protected class CriteriaViewHolder extends RecyclerView.ViewHolder {
@@ -83,9 +98,9 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         protected void bind(MockCriteria criteriaPair) {
             titleTextView.setText(criteriaPair.getName());
 
-            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteriaPair.getSubcriterias(), () -> {
-                rebindProgress(criteriaPair.getSubcriterias());
-            });
+            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteriaPair.getSubcriterias());
+            adapter.passSubscribers(subscribers);
+            adapter.subscribeOnChanges(() -> rebindProgress(criteriaPair.getSubcriterias()));
             subcriteriasRecycler.setAdapter(adapter);
 
             rebindProgress(criteriaPair.getSubcriterias());
@@ -94,12 +109,10 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
                     ViewUtils.animateCollapsing(subcriteriasRecycler);
-                    arrowImageView.setImageDrawable(
-                            arrowImageView.getContext().getResources().getDrawable(R.drawable.ic_criteria_expand_less_24dp));
+                    arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
                 } else {
                     ViewUtils.animateExpanding(subcriteriasRecycler);
-                    arrowImageView.setImageDrawable(
-                            arrowImageView.getContext().getResources().getDrawable(R.drawable.ic_criteria_expand_more_24dp));
+                    arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
                 }
             });
         }

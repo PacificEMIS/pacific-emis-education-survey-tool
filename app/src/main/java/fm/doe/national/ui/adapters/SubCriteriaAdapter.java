@@ -1,13 +1,13 @@
 package fm.doe.national.ui.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,12 +21,12 @@ import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
 public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.SubCriteriaViewHolder> {
 
     private List<MockSubCriteria> items;
-    private SubcriteriaStateChangeListener listener;
+    private List<SubcriteriaStateChangeListener> subscribers;
 
-    public SubCriteriaAdapter(@NonNull List<MockSubCriteria> subCriterias, @Nullable SubcriteriaStateChangeListener listener) {
+    public SubCriteriaAdapter(@NonNull List<MockSubCriteria> subCriterias) {
         super();
         this.items = subCriterias;
-        this.listener = listener;
+        subscribers = new ArrayList<>();
     }
 
     @NonNull
@@ -44,6 +44,22 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void flushSubscribers() {
+        subscribers.clear();
+    }
+
+    public void unsubscribeOnChanges(SubcriteriaStateChangeListener listener) {
+        subscribers.remove(listener);
+    }
+
+    public void subscribeOnChanges(SubcriteriaStateChangeListener listener) {
+        subscribers.add(listener);
+    }
+
+    public void passSubscribers(List<SubcriteriaStateChangeListener> subscribers) {
+        this.subscribers.addAll(subscribers);
     }
 
     protected class SubCriteriaViewHolder extends RecyclerView.ViewHolder {
@@ -69,9 +85,7 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
             switchableButton.setState(convertModelToUiState(subCriteria.getState()));
             switchableButton.setListener((View view, SwitchableButton.State state) -> {
                 subCriteria.setState(convertUiToModelState(state));
-                if (listener != null) {
-                    listener.onStateChanged();
-                }
+                notifyStateChanged();
             });
         }
 
@@ -92,6 +106,14 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
                 return SwitchableButton.State.NEGATIVE;
             } else {
                 return SwitchableButton.State.NEUTRAL;
+            }
+        }
+
+        private void notifyStateChanged() {
+            if (subscribers != null) {
+                for (SubcriteriaStateChangeListener subscriber: subscribers) {
+                    subscriber.onStateChanged();
+                }
             }
         }
     }
