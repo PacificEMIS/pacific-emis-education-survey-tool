@@ -2,7 +2,9 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
@@ -30,7 +32,11 @@ public class OrmLiteStandard implements Standard {
 
     @Override
     public Collection<? extends Criteria> getCriterias() {
-        return null;
+        List<Criteria> criterias = new ArrayList<>();
+        for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
+            criterias.add(new OrmLiteCriteria(surveyItem));
+        }
+        return criterias;
     }
 
 }
