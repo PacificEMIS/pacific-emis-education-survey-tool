@@ -1,0 +1,744 @@
+{
+  "type" : "school_accreditation",
+  "version" : 1,
+  "groupStandards": [
+    {
+      "name": "Leadership",
+      "standard": [
+        {
+          "name": "Leadership",
+          "criteria": [
+            {
+              "name": "The principal has very high expectations for students and teachers.",
+              "subcriteria": [
+                {
+                  "name": "The principal ensures that a minimum of 180 instructional days are delivered and can provide documentary evidence."
+                },
+                {
+                  "name": "The mandatory number of instructional hours is delivered (Grade 1&2: 3 hours and 36 minutes: Grades 3-12: 4 hours 15 minutes per day)."
+                },
+                {
+                  "name": "Corporal punishment is not allowed."
+                },
+                {
+                  "name": "Students are responsible and student behavior is very orderly and respectful towards adults and other students."
+                }
+              ]
+            },
+            {
+              "name": "The principal has a clear philosophy of education and is an expert in curriculum and instruction. ",
+              "subcriteria": [
+                {
+                  "name": "The principal manages a program of teacher collaboration for instructional planning."
+                },
+                {
+                  "name": "The principal conducts weekly planning meetings with teachers and staff to develop and review curriculum, syllabi, programs of study, and lesson plans and"
+                },
+                {
+                  "name": "The principal ensures that there is continuity and progression among students between grades in the school."
+                },
+                {
+                  "name": "The Principal has a written Educational Philosophy posted in his office and all classrooms."
+                }
+              ]
+            },
+            {
+              "name": "The principal is involved in a program of continuous professional development and appraisal by supervisors, board members or peers. ",
+              "subcriteria": [
+                {
+                  "name": "The principal keeps up to date with innovations in education."
+                },
+                {
+                  "name": "The principal creates many opportunities for teachers to engage in continuous professional development activities."
+                },
+                {
+                  "name": "The principal mentors teachers and conducts formal and informal training at the school."
+                },
+                {
+                  "name": "The principal is evaluated annually by their supervisor/s"
+                }
+              ]
+            },
+            {
+              "name": "The principal conducts a regular program of teacher performance appraisals.",
+              "subcriteria": [
+                {
+                  "name": "There are regular, structured classroom observation and written reports are produced."
+                },
+                {
+                  "name": "Feedback on observations is constructive and designed to improve teaching and learning."
+                },
+                {
+                  "name": "The principal coaches teachers and conducts model lessons where necessary."
+                },
+                {
+                  "name": "The principal encourages teachers to evaluate their own performance based on student learning outcomes."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Teacher Performance",
+      "standard": [
+        {
+          "name": "Teacher Performance",
+          "criteria": [
+            {
+              "name": "All teachers prepare standardized long, medium or short-term lesson plans that provide adequate guidance for teaching and learning activities.",
+              "subcriteria": [
+                {
+                  "name": "Plans include appropriate learning activities including differentiated activities for different learners, including those with IEPs."
+                },
+                {
+                  "name": "All plans include sequenced, measurable learning objectives from the National and/or State Curricula."
+                },
+                {
+                  "name": "Assessment is planned and integrated into lessons and is based on observable and measurable criteria."
+                },
+                {
+                  "name": "Student assessment records are used for planning purposes."
+                }
+              ]
+            },
+            {
+              "name": "All teachers create high quality classroom learning environments.",
+              "subcriteria": [
+                {
+                  "name": "The classrooms and other teaching areas are rich in print and visual displays that are related to the current learning objectives."
+                },
+                {
+                  "name": "There are designated areas of the classrooms with topical displays."
+                },
+                {
+                  "name": "Book corners or activity centers have appropriate learning materials."
+                },
+                {
+                  "name": "A wide range of student work of very high quality is neatly displayed and clearly labeled."
+                }
+              ]
+            },
+            {
+              "name": "All teachers manage their time effectively to maximize students’ learning opportunities.",
+              "subcriteria": [
+                {
+                  "name": "All lessons start and finish on time."
+                },
+                {
+                  "name": "Students are on-task and engaged in learning activities for most of the lesson time."
+                },
+                {
+                  "name": "A variety of teaching and learning strategies are used, including strategies suitable for students with IEPs."
+                },
+                {
+                  "name": "Student work demonstrates higher-order thinking, inquiry, observation, analysis and problem solving skills."
+                }
+              ]
+            },
+            {
+              "name": "All teachers actively participate with enthusiasm in a school-based appraisal program.",
+              "subcriteria": [
+                {
+                  "name": "All teachers, individually or in groups, reflect upon and evaluate their performance."
+                },
+                {
+                  "name": "All teachers participate in professional development."
+                },
+                {
+                  "name": "Teachers regularly make thoughtful and accurate written evaluations of lesson effectiveness based on children’s learning outcomes."
+                },
+                {
+                  "name": "All teachers engage in a formal means of peer observation."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data Management",
+      "standard": [
+        {
+          "name": "Data Management",
+          "criteria": [
+            {
+              "name": "Comprehensive and accurate school data is collected on a regular schedule.",
+              "subcriteria": [
+                {
+                  "name": "Complete and accurate school data is collected on a quarterly schedule."
+                },
+                {
+                  "name": "Daily attendance data for students and teachers is collected and analyzed to produce daily, weekly and annual raw number reports for individuals, classes and the whole school."
+                },
+                {
+                  "name": "Reports for the last three years or more are available. "
+                },
+                {
+                  "name": "Action is taken early to address attendance and drop-out issues, and no student in the mandatory education range drops out of formal education."
+                }
+              ]
+            },
+            {
+              "name": "All school data is centrally located and carefully filed.",
+              "subcriteria": [
+                {
+                  "name": "All SDOE-mandated school data files are backed-up or duplicated and are securely held, including IEPs."
+                },
+                {
+                  "name": "All data is checked, cleaned and updated at least weekly."
+                },
+                {
+                  "name": "Data is provided to the Department of Education by September 15th in either electronic or hardcopy format."
+                },
+                {
+                  "name": "All school data is centrally located and accessible."
+                }
+              ]
+            },
+            {
+              "name": "All student performance data, including classroom assessment, teacher observations, student portfolios and test data, is analyzed by all teachers to identify individual students’ strengths and weaknesses, including students with IEPs.",
+              "subcriteria": [
+                {
+                  "name": "Scheduled assessment meetings are held by teacher teams at least once per quarter."
+                },
+                {
+                  "name": "Data analysis is used by teachers to adapt their teaching strategies and programs to meet individual student needs."
+                },
+                {
+                  "name": "Teacher observations are used by all teachers to identify students’ strengths and weaknesses, including students with IEPs."
+                },
+                {
+                  "name": "Classroom assessment, including student portfolios, are analyzed by all teachers to identify students’ strengths and weaknesses, including students with IEPs."
+                }
+              ]
+            },
+            {
+              "name": "An extensive collection of school data is used to guide all management decision making.",
+              "subcriteria": [
+                {
+                  "name": "An extensive collection of school data is used to guide all management and resource decision making, with at least two examples given during the Principal Interview of decisions made because of data."
+                },
+                {
+                  "name": "A full range of student performance and attendance data, including findings from surveys, is shown and used in the School Improvement Plan."
+                },
+                {
+                  "name": "Data analysis is used by the principal to support teacher deployment, with at least two decisions expanded upon during the Principal Interview."
+                },
+                {
+                  "name": "Data analysis is used by the principal to support student placement, with at least two decisions expanded upon during the Principal Interview."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "National Curriculum Standards, Benchmarks and Student Learning Outcomes",
+      "standard": [
+        {
+          "name": "National Curriculum Standards, Benchmarks and Student Learning Outcomes",
+          "criteria": [
+            {
+              "name": "Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.",
+              "subcriteria": [
+                {
+                  "name": "Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics, Social Studies, and Science are taught throughout the school in accordance with the National Curriculum and/or State Curriculum."
+                },
+                {
+                  "name": "All lesson plans are based on the National or State Curriculum Standards, Benchmarks and Student Learning Outcomes."
+                },
+                {
+                  "name": "Classroom schedules follow the National and/or State adopted Core Classes."
+                },
+                {
+                  "name": "All lesson plans include the SDOE-required components."
+                }
+              ]
+            },
+            {
+              "name": "Student performance data shows that the vast majority of students reach Competent or Minimum Competent levels on the NMCT and pass other State-mandated exams.",
+              "subcriteria": [
+                {
+                  "name": "75% of benchmarks in all tested English Language Arts NMCTs reached the Competent or Minimally Competent category."
+                },
+                {
+                  "name": "75% of benchmarks in all tested Mathematics NMCTs reached the Competent or Minimally Competent category."
+                },
+                {
+                  "name": "The average student score in all tested Mathematics NMCTs is 75% of questions correct or more."
+                },
+                {
+                  "name": "The average student score in all tested English NMCTs is 75% of questions correct or more."
+                }
+              ]
+            },
+            {
+              "name": "All students in all grades have their own copies of modern textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.",
+              "subcriteria": [
+                {
+                  "name": "All students in all grades have their own copies of modern (and/or any) textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies."
+                },
+                {
+                  "name": "All textbooks are aligned to the correct grade level or students are working above grade level and there is clear progression from one grade to the next."
+                },
+                {
+                  "name": "Students have access to additional resources, including on-line resources, in a well-stocked library, and/or traditional knowledge for schools."
+                },
+                {
+                  "name": "All teachers have a Teacher’s Guide/Teacher’s Edition for all grades and subject areas taught."
+                }
+              ]
+            },
+            {
+              "name": "A full timetable of extra-curricular academic, sports, cultural, civic and community activities are conducted after school for both boys and girls.",
+              "subcriteria": [
+                {
+                  "name": "At least two extra-curricular academic, sports, conducted after school for both boys and girls."
+                },
+                {
+                  "name": "The school informs students of, and promotes cultural, civic and community activities."
+                },
+                {
+                  "name": "Students have received awards for extra-curricular activities from local and international bodies and organizations."
+                },
+                {
+                  "name": "Values such as fair play and healthy lifestyles are promoted."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "School Campus, Classrooms and Facilities",
+      "standard": [
+        {
+          "name": "School Campus, Classrooms and Facilities",
+          "criteria": [
+            {
+              "name": "The school has a written maintenance and facilities development plan.",
+              "subcriteria": [
+                {
+                  "name": "The school has a written maintenance plan that sets out a schedule of routine cleaning, minor repairs, painting and preventative maintenance."
+                },
+                {
+                  "name": "Records show that maintenance work is regularly carried out."
+                },
+                {
+                  "name": "The school has a written facilities development plan that sets out a schedule for major maintenance works, refurbishment or rebuilding."
+                },
+                {
+                  "name": "Records and plans show that the facilities development plan is actively implemented."
+                }
+              ]
+            },
+            {
+              "name": "The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones.",
+              "subcriteria": [
+                {
+                  "name": "Buildings are neat, clean, safe and secure (inside-out and outside-in), free of graffiti (e.g. writing on walls) vandalism (i.e. destruction of government property), and are explicitly drug-free zones."
+                },
+                {
+                  "name": "The school compound is neat, clean, safe and secure, free of graffiti (e.g. writing on walls), vandalism (i.e. destruction of government property), and is explicitly a drug-free zone."
+                },
+                {
+                  "name": "All school facilities are easily accessible to students with physical disabilities (inside-out and outside-in)."
+                },
+                {
+                  "name": "The campus is used as a learning resource, with a school garden, and sports and play facilities."
+                }
+              ]
+            },
+            {
+              "name": "Classrooms meet recommended area requirements, with adequate lighting and ventilation.",
+              "subcriteria": [
+                {
+                  "name": "All classrooms used by groups of 30 or more students exceed 25 feet by 25 feet in area, and classrooms used by less than 30 students allow in excess of 20 square feet of floor space per student."
+                },
+                {
+                  "name": "All classrooms are bright, well ventilated and equipped with adequate lighting and electrical outlets and all electrical fittings are in as-new condition with safety cut-off switches or circuit breakers, and all electrical fittings are in as-new condition with safety cut-off switches or circuit breakers."
+                },
+                {
+                  "name": "All classrooms have high-quality student and teacher furniture, including adequate storage and display."
+                },
+                {
+                  "name": "If there are science labs, they have sinks with running water."
+                }
+              ]
+            },
+            {
+              "name": "Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an emergency evacuation plan with evidence of a drill.",
+              "subcriteria": [
+                {
+                  "name": "All food handling and preparation personnel wear protective clothing, are trained and certified by the Public Health Department and their certificates are clearly displayed."
+                },
+                {
+                  "name": "Toilets have a current EPA certificate verifying that they are safe and clean."
+                },
+                {
+                  "name": "There is adequate safe drinking water."
+                },
+                {
+                  "name": "There is an emergency evacuation plan and evidence of a drill within the past 3 months."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "School Improvement Planning",
+      "standard": [
+        {
+          "name": "School Improvement Planning",
+          "criteria": [
+            {
+              "name": "The School Improvement Plan has been developed and evaluated in accordance with the National Guidelines.",
+              "subcriteria": [
+                {
+                  "name": "The School Improvement Plan has been developed by a school improvement team that includes all teachers, and selected parents, students, community members and other stakeholders who wish to be involved."
+                },
+                {
+                  "name": "The SIP is reviewed and revised on an annual basis."
+                },
+                {
+                  "name": "There is evidence of improving student achievement as a result of the SIP."
+                },
+                {
+                  "name": "All goals in the SIP are student achievement oriented."
+                }
+              ]
+            },
+            {
+              "name": "The school principal plays a leadership role in the development and implementation of the SIP.",
+              "subcriteria": [
+                {
+                  "name": "The SIP contains a Vision and Mission, the former successfully stating what the school wants to become, and the latter successfully stating what they do and how they do it."
+                },
+                {
+                  "name": "The Vision and Mission are well known and shared by the school community."
+                },
+                {
+                  "name": "The SIP is effectively implemented and monitored."
+                },
+                {
+                  "name": "All staff members and members of the school community are fully committed to implementing the SIP."
+                }
+              ]
+            },
+            {
+              "name": "The School Improvement Plan contains comprehensive data analysis of student performance, attendance, resources and school management, over a period of at least three years, noting school strengths and weaknesses.",
+              "subcriteria": [
+                {
+                  "name": "The School Improvement Plan contains three years of comprehensive data analysis of student performance, presented graphically"
+                },
+                {
+                  "name": "The School Improvement Plan contains three years of comprehensive data analysis of student attendance, presented graphically"
+                },
+                {
+                  "name": "The School Improvement Plan contains three years comprehensive data analysis of school resources, presented graphically"
+                },
+                {
+                  "name": "The School Improvement Plan contains three years comprehensive data analysis of school management, presented graphically"
+                }
+              ]
+            },
+            {
+              "name": "The School Improvement Plan contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes.",
+              "subcriteria": [
+                {
+                  "name": "The SIP is posted in a public place and regular monitoring reports are issued to the community."
+                },
+                {
+                  "name": "Financial records for the last three years are extensive, accurate and transparent."
+                },
+                {
+                  "name": "The SIP contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes."
+                },
+                {
+                  "name": "At least 90% of SIP goals are being achieved."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Classroom Observation",
+      "standard": [
+        {
+          "name": "Planning and preparation",
+          "criteria": [
+            {
+              "name": "Long term plans show an understanding of the curriculum, the connections between different subject areas and an attempt to link the curriculum to local contexts",
+              "subcriteria": [
+                {
+                  "name": "There is evidence that National and State curriculum documents and guidelines are regularly used in planning"
+                },
+                {
+                  "name": "There is a written program for all curriculum areas for a period of at least 4 weeks"
+                },
+                {
+                  "name": "The program identifies major concepts and breaks them down into sequenced learning steps and appropriate learning activities"
+                },
+                {
+                  "name": "Some learning objectives are integrated in themes or topics and the use of Information and Communications Technology is integrated"
+                },
+                {
+                  "name": "The program is linked to local events and seasonal activities"
+                }
+              ]
+            },
+            {
+              "name": "Short term lesson plans provide adequate guidance for teaching and learning activities",
+              "subcriteria": [
+                {
+                  "name": "Written plans for at least 1 week show continuity and progression between lessons"
+                },
+                {
+                  "name": "Plans include sequenced, measurable learning objectives from the curriculum"
+                },
+                {
+                  "name": "Plans include appropriate learning activities including differentiated activities for different learners, including students with IEPs"
+                },
+                {
+                  "name": "Plans have enough detail to guide teaching and learning"
+                },
+                {
+                  "name": "State planning forms are used"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Classroom Management",
+          "criteria": [
+            {
+              "name": "Time is managed effectively to maximize students’ learning opportunities",
+              "subcriteria": [
+                {
+                  "name": "Time is used constructively for teaching and learning of new materia"
+                },
+                {
+                  "name": "Children are on-task and engaged in appropriate learning activities for most of the lesson time"
+                },
+                {
+                  "name": "The lesson starts and finishes on time"
+                },
+                {
+                  "name": "The pace of the lesson is neither too slow nor too rushed"
+                },
+                {
+                  "name": "The teacher allocates their time fairly and equitably towards all children"
+                }
+              ]
+            },
+            {
+              "name": "Resources and learning materials are managed effectively",
+              "subcriteria": [
+                {
+                  "name": "All resources and learning materials needed for the lesson are prepared in advance"
+                },
+                {
+                  "name": "Children have access to adequate and appropriate resources and learning materials"
+                },
+                {
+                  "name": "Resources and learning materials are stored neatly, safely and securely"
+                },
+                {
+                  "name": "Children are partly responsible for the management of resources and learning materials"
+                },
+                {
+                  "name": "Resources and learning materials are collected and put away at the end of the lesson"
+                }
+              ]
+            },
+            {
+              "name": "A positive, supportive climate for learning is created",
+              "subcriteria": [
+                {
+                  "name": "The teacher expects, recognizes and rewards high standards of student behavior and achievement"
+                },
+                {
+                  "name": "The classroom is orderly, safe and non-threatening"
+                },
+                {
+                  "name": "Classroom rules and routines are clearly explained and children follow them"
+                },
+                {
+                  "name": "Violence, threats or other forms of physical punishment are not used"
+                },
+                {
+                  "name": "Children are encouraged to act responsibly and  learn cooperatively"
+                }
+              ]
+            },
+            {
+              "name": "A high quality physical learning environment is created",
+              "subcriteria": [
+                {
+                  "name": "The environment is rich in print and visual displays that are related to the current learning objectives"
+                },
+                {
+                  "name": "The classroom is clean, receives enough daylight light and is well ventilated"
+                },
+                {
+                  "name": "The arrangement of furniture allows and supports a variety of teaching and learning activities"
+                },
+                {
+                  "name": "The arrangement of furniture allows the teacher to move about the room to monitor and assist all children"
+                },
+                {
+                  "name": "There are designated areas of the classroom where topical displays or activity centers are located"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Teaching and learning",
+          "criteria": [
+            {
+              "name": "The lesson is structured and objectives are clear",
+              "subcriteria": [
+                {
+                  "name": "The lesson begins with a review of previous learning"
+                },
+                {
+                  "name": "The learning objectives of the lesson are clearly stated"
+                },
+                {
+                  "name": "The lesson contains a balance of teacher instruction and student activity"
+                },
+                {
+                  "name": "The lesson is adapted to take account of student feedback"
+                },
+                {
+                  "name": "The lesson ends with a review of what has been learned"
+                }
+              ]
+            },
+            {
+              "name": "New material is accurately and clearly presented, explained and placed within a meaningful context",
+              "subcriteria": [
+                {
+                  "name": "New material or content is presented with authority in a logical and systematic way using clearly recognizable steps"
+                },
+                {
+                  "name": "Explanations and demonstrations are clear, concise and easy to follow"
+                },
+                {
+                  "name": "Concepts are explained in several different ways using relevant examples and meaningful contexts"
+                },
+                {
+                  "name": "The language of instruction is appropriate to the needs of the children"
+                },
+                {
+                  "name": "Verbal communication is clear, concise and understandable and is supported by print or other media"
+                }
+              ]
+            },
+            {
+              "name": "A variety of highly efficient interactive teaching and learning strategies are used",
+              "subcriteria": [
+                {
+                  "name": "The teacher facilitates a wide variety of interactive teaching and cooperative learning strategies"
+                },
+                {
+                  "name": "Children are actively and meaningfully engaged in appropriate, challenging activities and learning takes place through activity"
+                },
+                {
+                  "name": "Learning activities include higher-order thinking, inquiry, observation, analysis and problem solving"
+                },
+                {
+                  "name": "Students are given opportunities to apply their learning in meaningful contexts, including through the use of ICT"
+                },
+                {
+                  "name": "Different learning activities are assigned according to individual children’s needs"
+                }
+              ]
+            },
+            {
+              "name": "Questioning and discussion are used effectively to support learning",
+              "subcriteria": [
+                {
+                  "name": "The majority of teacher questions are open and enabling and encourage higher order thinking"
+                },
+                {
+                  "name": "Questions are adapted to individual students’ needs and abilities, including those with IEPs"
+                },
+                {
+                  "name": "The teacher responds positively to students’ responses and asks appropriate supplementary or follow-up questions"
+                },
+                {
+                  "name": "Question and answer time is efficiently managed with appropriate routines such as wait time, hands up and other forms of signaling"
+                },
+                {
+                  "name": "Discussions are managed so as to allow contributions from all students"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Student assessment",
+          "criteria": [
+            {
+              "name": "Assessment is planned and integrated into the lesson and is based on observable and measurable criteria",
+              "subcriteria": [
+                {
+                  "name": "Learning objectives and assessment criteria are explained to the children in language they can understand"
+                },
+                {
+                  "name": "A variety of assessment strategies are used in the lesson and feedback is given to students at strategic points"
+                },
+                {
+                  "name": "The results of assessment are used to adapt current and future teaching and learning activities"
+                },
+                {
+                  "name": "Individual assessment outcomes are recorded by the teacher or stored in a student portfolio or other record system"
+                },
+                {
+                  "name": "Children are involved in conducting self or peer assessments"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Evaluation and professional development",
+          "criteria": [
+            {
+              "name": "The teacher reflects upon and evaluates their performance and participates in professional development",
+              "subcriteria": [
+                {
+                  "name": "The teacher regularly makes thoughtful and accurate evaluations of lesson effectiveness based on children’s learning outcomes"
+                },
+                {
+                  "name": "The teacher adjusts future lessons based on evaluation"
+                },
+                {
+                  "name": "The teacher welcomes and acts upon feedback from observers, principal or other teachers"
+                },
+                {
+                  "name": "The teacher participates in a school-based appraisal program"
+                },
+                {
+                  "name": "The teacher actively seeks appropriate ways to enhance their professional knowledge and practice"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

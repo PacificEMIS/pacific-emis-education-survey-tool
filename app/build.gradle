@@ -12,8 +12,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
-
         vectorDrawables.useSupportLibrary = true
+        buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
     }
     signingConfigs {
         release {
@@ -46,6 +46,8 @@ dependencies {
     def ormliteVersion = '4.48'
     def daggerVersion = '2.11'
     def moxyVersion = '1.5.5'
+    def retrofitVersion = '2.3.0'
+    def okhttpVersion = '3.4.1'
     def butterknifeVersion = '8.8.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -67,21 +69,30 @@ dependencies {
     //RxBinding
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
+    // Retrofit
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
     // Ormlite
     implementation "com.j256.ormlite:ormlite-core:$ormliteVersion"
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 
     //dagger
-    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    // ButterKnife
-    implementation "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
+
+    //butterknife
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
     // tests
     testImplementation 'junit:junit:4.12'
@@ -92,9 +103,9 @@ dependencies {
         transitive = true;
     }
 
-    //butterknife
-    implementation "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-
     implementation project(path: ':persistent_search')
+    // Run `adb forward tcp:8080 tcp:8080` in terminal
+    // Open url: http://localhost:8080/ to view database
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
 }

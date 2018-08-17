@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -15,11 +16,21 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.omega_r.libs.omegatypes.Text;
 
+import butterknife.ButterKnife;
 import fm.doe.national.R;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     protected Toolbar toolbar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getContentView());
+        ButterKnife.bind(this);
+    }
+
+    protected abstract @LayoutRes int getContentView();
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
