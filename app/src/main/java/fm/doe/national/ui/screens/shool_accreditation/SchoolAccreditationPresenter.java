@@ -52,4 +52,8 @@ public class SchoolAccreditationPresenter extends MenuDrawerPresenter<SchoolAccr
 
         getViewState().bindSchools(schools);
     }
+
+    public void onSchoolClicked(MockSchool school) {
+        getViewState().showChooseCategoryScreen(school);
+    }
 }

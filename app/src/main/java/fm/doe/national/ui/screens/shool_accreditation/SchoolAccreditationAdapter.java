@@ -3,6 +3,7 @@ package fm.doe.national.ui.screens.shool_accreditation;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -25,6 +26,8 @@ import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
 public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseViewHolder> {
 
     private List<MockSchool> schools = new ArrayList<>();
+    @Nullable
+    private Callback mCallback;
 
     @NonNull
     @Override
@@ -45,6 +48,10 @@ public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecycler
     public void updateSchools(List<MockSchool> schools) {
         this.schools = schools;
         notifyDataSetChanged();
+    }
+
+    public void setCallback(Callback callback) {
+        mCallback = callback;
     }
 
     class SchoolViewHolder extends BaseViewHolder {
@@ -105,6 +112,6 @@ public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecycler
     }
 
     public interface Callback {
-        void onSchoolClicked(School school);
+        void onSchoolClicked(MockSchool school);
     }
 }

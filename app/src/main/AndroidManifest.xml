@@ -22,6 +22,7 @@
         </activity>
 
         <activity android:name=".ui.screens.standard.StandardActivity" />
+        <activity android:name=".ui.screens.choose_category.ChooseCategoryActivity" />
 
         <activity
             android:name=".ui.screens.shool_accreditation.SchoolAccreditationActivity"

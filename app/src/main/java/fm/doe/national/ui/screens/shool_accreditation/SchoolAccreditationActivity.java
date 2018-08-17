@@ -23,7 +23,7 @@ import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
  * Created by Alexander Chibirev on 8/10/2018.
  */
 
-public class SchoolAccreditationActivity extends MenuDrawerActivity implements SchoolAccreditationView {
+public class SchoolAccreditationActivity extends MenuDrawerActivity implements SchoolAccreditationView, SchoolAccreditationAdapter.Callback {
 
     @InjectPresenter
     SchoolAccreditationPresenter schoolAccreditationPresenter;
@@ -43,6 +43,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
         setContentView(R.layout.activity_school_accreditation);
         ButterKnife.bind(this);
         schoolAccreditationAdapter = new SchoolAccreditationAdapter();
+        schoolAccreditationAdapter.setCallback(this);
         mRecyclerView.setAdapter(schoolAccreditationAdapter);
     }
 
@@ -71,6 +72,16 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onSchoolClicked(MockSchool school) {
+        schoolAccreditationPresenter.onSchoolClicked(school);
+    }
+
+    @Override
+    public void showChooseCategoryScreen(MockSchool school) {
+
     }
 
 }
