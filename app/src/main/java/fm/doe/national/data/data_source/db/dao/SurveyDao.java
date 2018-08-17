@@ -3,14 +3,10 @@ package fm.doe.national.data.data_source.db.dao;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
-import fm.doe.national.data.data_source.models.db.OrmLiteGroupStandard;
-import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import io.reactivex.Single;
 
 public class SurveyDao extends BaseRxDao<OrmLiteBaseSurvey, Long> {

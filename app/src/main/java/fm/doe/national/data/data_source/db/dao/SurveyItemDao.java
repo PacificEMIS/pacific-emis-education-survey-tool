@@ -12,16 +12,17 @@ import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
-import fm.doe.national.data.data_source.models.db.OrmLiteCriteria;
-import fm.doe.national.data.data_source.models.db.OrmLiteSubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
 
     SurveyItemDao(ConnectionSource connectionSource, Class<OrmLiteSurveyItem> dataClass) throws SQLException {
         super(connectionSource, dataClass);
+    }
+
+    public Single<OrmLiteSurveyItem> requestItemByName(String name) {
+        return Single.fromCallable(() -> queryBuilder().where().eq(OrmLiteSurveyItem.Column.NAME, name).queryForFirst());
     }
 
     public List<OrmLiteSurveyItem> createFromGroupStandards(Collection<? extends GroupStandard> groupStandards, OrmLiteBaseSurvey survey) throws SQLException {

@@ -9,7 +9,6 @@ import java.util.Collection;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.Standard;
-import fm.doe.national.data.data_source.models.db.OrmLiteCriteria;
 
 public class SerializableStandard implements Standard {
 

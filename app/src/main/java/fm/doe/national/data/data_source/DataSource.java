@@ -2,6 +2,7 @@ package fm.doe.national.data.data_source;
 
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Answer;
@@ -22,7 +23,7 @@ public interface DataSource {
 
     Single<List<School>> requestSchools();
 
-    Single<Answer> createAnswer(boolean answer, SubCriteria criteria, Survey survey);
+    Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SchoolAccreditationResult result);
 
     Completable updateAnswer(Answer answer);
 

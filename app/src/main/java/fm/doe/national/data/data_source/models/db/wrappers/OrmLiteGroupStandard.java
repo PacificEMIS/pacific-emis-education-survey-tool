@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.models.db;
+package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
@@ -8,6 +8,7 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
 public class OrmLiteGroupStandard implements GroupStandard {
 

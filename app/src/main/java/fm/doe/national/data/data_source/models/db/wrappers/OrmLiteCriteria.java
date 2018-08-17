@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.models.db;
+package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
@@ -11,6 +11,7 @@ import java.util.List;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
 @DatabaseTable
 public class OrmLiteCriteria implements Criteria{

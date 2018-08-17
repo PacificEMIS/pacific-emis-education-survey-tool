@@ -2,7 +2,7 @@ package fm.doe.national.data.data_source.db;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.DataSource;
@@ -15,25 +15,16 @@ import fm.doe.national.data.data_source.db.dao.SurveyResultDao;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
-import fm.doe.national.data.data_source.models.db.OrmLiteCriteria;
-import fm.doe.national.data.data_source.models.db.OrmLiteGroupStandard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
-import fm.doe.national.data.data_source.models.db.OrmLiteSchoolAccreditation;
-import fm.doe.national.data.data_source.models.db.OrmLiteSchoolAccreditationResult;
-import fm.doe.national.data.data_source.models.db.OrmLiteStandard;
+import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
+import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationResult;
 import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
 import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.Survey;
-import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 
 public class OrmLiteDataSource implements DataSource {
 
@@ -72,8 +63,12 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Single<Answer> createAnswer(boolean answer, SubCriteria criteria, Survey survey) {
-        return null;
+    public Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SchoolAccreditationResult result) {
+        return surveyItemDao
+                .requestItemByName(criteria.getName())
+                .flatMap(criteriaItem -> surveyResultDao
+                        .requestSurveyResult(result.getStartDate())
+                        .flatMap(resultItem -> answerDao.createAnswer(answer, criteriaItem, resultItem)));
 
     }
 
@@ -99,11 +94,6 @@ public class OrmLiteDataSource implements DataSource {
                     schoolAccreditationResults.addAll(list);
                     return schoolAccreditationResults;
         });
-    }
-
-    public Single<List<OrmLiteAnswer>> requestAnswers(OrmLiteBaseSurvey survey) {
-        return answerDao.getAnswers(survey)
-                .map(ArrayList::new);
     }
 
 }

@@ -30,11 +30,4 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
         return Completable.fromAction(() -> createOrUpdate(answer));
     }
 
-    public Single<List<OrmLiteAnswer>> getAnswers(OrmLiteBaseSurvey survey) {
-        return Single.fromCallable(() -> queryBuilder()
-                .where()
-                .eq(OrmLiteAnswer.Column.SURVEY_RESULT, survey)
-                .query());
-    }
-
 }

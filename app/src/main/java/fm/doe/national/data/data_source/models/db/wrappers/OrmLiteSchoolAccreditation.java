@@ -1,4 +1,4 @@
-package fm.doe.national.data.data_source.models.db;
+package fm.doe.national.data.data_source.models.db.wrappers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
 public class OrmLiteSchoolAccreditation implements SchoolAccreditation {
 

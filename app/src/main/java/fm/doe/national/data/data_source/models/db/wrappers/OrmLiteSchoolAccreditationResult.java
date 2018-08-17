@@ -1,10 +1,11 @@
-package fm.doe.national.data.data_source.models.db;
+package fm.doe.national.data.data_source.models.db.wrappers;
 
 import java.util.Date;
 
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurveyResult;
 
 public class OrmLiteSchoolAccreditationResult implements SchoolAccreditationResult {
 
