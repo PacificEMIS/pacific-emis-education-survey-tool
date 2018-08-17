@@ -37,8 +37,8 @@ public class SwitchableButton extends FrameLayout {
 
         state = State.NEUTRAL;
 
-        positiveButton.setOnClickListener((View v) -> setState(State.POSITIVE));
-        negativeButton.setOnClickListener((View v) -> setState(State.NEGATIVE));
+        positiveButton.setOnClickListener((View v) -> setState(state == State.POSITIVE ? State.NEUTRAL : State.POSITIVE));
+        negativeButton.setOnClickListener((View v) -> setState(state == State.NEGATIVE ? State.NEUTRAL : State.NEGATIVE));
     }
 
     public State getState() {
