@@ -1,6 +1,9 @@
 package fm.doe.national.ui.screens.shool_accreditation;
 
-import fm.doe.national.ui.screens.base.BaseView;
+import java.util.List;
+
+import fm.doe.national.mock.MockSchool;
+import fm.doe.national.models.survey.School;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerView;
 
 /**
@@ -8,5 +11,5 @@ import fm.doe.national.ui.screens.menu.base.MenuDrawerView;
  */
 
 interface SchoolAccreditationView extends MenuDrawerView {
-    //TODO added logic
+    void bindSchools(List<MockSchool> schools);
 }

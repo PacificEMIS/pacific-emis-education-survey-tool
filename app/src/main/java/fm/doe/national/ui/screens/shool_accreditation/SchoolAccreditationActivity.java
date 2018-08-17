@@ -9,12 +9,15 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
+import fm.doe.national.mock.MockSchool;
+import fm.doe.national.models.survey.School;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerActivity;
 import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
-import fm.doe.national.ui.screens.search.base.BaseSearchActivity;
 
 /**
  * Created by Alexander Chibirev on 8/10/2018.
@@ -28,6 +31,8 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
 
+    private SchoolAccreditationAdapter schoolAccreditationAdapter;
+
     public static Intent createIntent(Context context) {
         return new Intent(context, SchoolAccreditationActivity.class);
     }
@@ -37,6 +42,8 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_accreditation);
         ButterKnife.bind(this);
+        schoolAccreditationAdapter = new SchoolAccreditationAdapter();
+        mRecyclerView.setAdapter(schoolAccreditationAdapter);
     }
 
     @Override
@@ -48,6 +55,11 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
+    }
+
+    @Override
+    public void bindSchools(List<MockSchool> schools) {
+        schoolAccreditationAdapter.updateSchools(schools);
     }
 
     @Override
