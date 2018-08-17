@@ -43,10 +43,4 @@ public class MicronesiaApplication extends Application {
         return appComponent;
     }
 
-    private void enableDatabaseDebugLog() {
-        if (BuildConfig.DEBUG) {
-            DebugDB.getAddressLog();
-        }
-    }
-
 }
