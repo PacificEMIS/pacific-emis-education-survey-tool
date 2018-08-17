@@ -5,6 +5,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.List;
 
+import fm.doe.national.data.data_source.models.School;
+import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -23,9 +25,9 @@ public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
         });
     }
 
-    public Completable addSchools(List<OrmLiteSchool> schools) {
+    public Completable addSchools(List<School> schools) {
         return Completable.fromAction(() -> {
-            for (OrmLiteSchool school : schools) {
+            for (School school : schools) {
                 createOrUpdate(new OrmLiteSchool(school.getId(), school.getName()));
             }
         });

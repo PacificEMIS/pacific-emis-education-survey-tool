@@ -13,7 +13,9 @@ public class SurveyDao extends BaseRxDao<OrmLiteBaseSurvey, Long> {
 
     private SurveyItemDao surveyItemDao;
 
-    SurveyDao(SurveyItemDao surveyItemDao, ConnectionSource connectionSource, Class<OrmLiteBaseSurvey> dataClass) throws SQLException {
+    SurveyDao(SurveyItemDao surveyItemDao,
+              ConnectionSource connectionSource,
+              Class<OrmLiteBaseSurvey> dataClass) throws SQLException {
         super(connectionSource, dataClass);
         this.surveyItemDao = surveyItemDao;
     }
@@ -22,7 +24,10 @@ public class SurveyDao extends BaseRxDao<OrmLiteBaseSurvey, Long> {
         return Single.fromCallable(() -> new OrmLiteBaseSurvey(version, type));
     }
 
-    public OrmLiteBaseSurvey createSurvey(int version, String type, Collection<? extends GroupStandard> groupStandards) throws SQLException {
+    public OrmLiteBaseSurvey createSurvey(int version,
+                                          String type,
+                                          Collection<? extends GroupStandard> groupStandards)
+            throws SQLException {
         OrmLiteBaseSurvey survey = new OrmLiteBaseSurvey(version, type);
         create(survey);
 

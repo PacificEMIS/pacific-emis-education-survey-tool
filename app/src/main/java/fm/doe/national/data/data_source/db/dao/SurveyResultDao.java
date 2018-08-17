@@ -13,7 +13,9 @@ public class SurveyResultDao extends BaseRxDao<OrmLiteBaseSurveyResult, Long> {
 
     private SurveyDao surveyDao;
 
-    SurveyResultDao(SurveyDao surveyDao, ConnectionSource connectionSource, Class<OrmLiteBaseSurveyResult> dataClass) throws SQLException {
+    SurveyResultDao(SurveyDao surveyDao,
+                    ConnectionSource connectionSource,
+                    Class<OrmLiteBaseSurveyResult> dataClass) throws SQLException {
         super(connectionSource, dataClass);
         this.surveyDao = surveyDao;
     }

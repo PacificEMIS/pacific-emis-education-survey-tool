@@ -56,9 +56,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
             String data = StreamUtils.asString(inputStream);
 
-            SerializableSchoolAccreditation schoolAccreditation = gson.fromJson(data, SerializableSchoolAccreditation.class);
+            SerializableSchoolAccreditation schoolAccreditation =
+                    gson.fromJson(data, SerializableSchoolAccreditation.class);
 
-            surveyDao.createSurvey(schoolAccreditation.getVersion(), schoolAccreditation.getType(), schoolAccreditation.getGroupStandards());
+            surveyDao.createSurvey(
+                    schoolAccreditation.getVersion(),
+                    schoolAccreditation.getType(),
+                    schoolAccreditation.getGroupStandards());
 
         } catch (IOException | SQLException e) {
             e.printStackTrace();
@@ -79,7 +83,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+    public void onUpgrade(
+            SQLiteDatabase database,
+            ConnectionSource connectionSource,
+            int oldVersion,
+            int newVersion) {
         // Now we don't need this method
         dropAllTables();
         createAllTables(connectionSource);
@@ -130,7 +138,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public SurveyResultDao getSurveyResultDao() throws SQLException {
         if (surveyResultDao == null) {
-            surveyResultDao = new SurveyResultDao(getSurveyDao(), getConnectionSource(), OrmLiteBaseSurveyResult.class);
+            surveyResultDao = new SurveyResultDao(
+                    getSurveyDao(),
+                    getConnectionSource(),
+                    OrmLiteBaseSurveyResult.class);
         }
         return surveyResultDao;
     }

@@ -89,11 +89,7 @@ public class OrmLiteDataSource implements DataSource {
         return surveyResultDao.getAllQueriesSingle().toObservable().flatMapIterable(resultList -> resultList)
                 .map(OrmLiteSchoolAccreditationResult::new)
                 .toList()
-                .map(list -> {
-                    List<SchoolAccreditationResult> schoolAccreditationResults = new ArrayList<>();
-                    schoolAccreditationResults.addAll(list);
-                    return schoolAccreditationResults;
-        });
+                .map(ArrayList<SchoolAccreditationResult>::new);
     }
 
 }
