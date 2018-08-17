@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -17,6 +18,7 @@ public class SerializableStandard implements Standard {
     @SerializedName("criteria")
     private Collection<SerializableCriteria> criterias;
 
+    @Nullable
     @Override
     public GroupStandard getGroupStandard() {
         return null;
