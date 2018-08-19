@@ -9,57 +9,99 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageview_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        app:layout_marginTopPercent="18%"
-        tools:src="@drawable/ic_launcher_foreground" />
-
     <TextView
         android:id="@+id/textview_title"
         style="@style/TextViewNavigationDrawer"
-        android:layout_below="@+id/imageview_logo"
-        android:layout_margin="10dp"
+        android:layout_alignParentStart="true"
         android:foreground="@android:color/transparent"
         android:text="@string/title_education_survey_tool"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        app:layout_marginTopPercent="18%" />
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imageview_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/textview_title"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_splash_logo" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/textview_education_survey_tool"
-        android:layout_below="@+id/textview_title"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:layout_above="@id/linearlayout_bottom"
+        android:layout_below="@+id/imageview_logo"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_type_test">
 
-        <TextView
-            android:id="@+id/textview_school_accreditation"
-            style="@style/TextViewNavigationDrawer"
-            android:text="@string/action_school_accreditation" />
+    </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/textview_school_data_verification"
-            style="@style/TextViewNavigationDrawer"
-            android:text="@string/action_school_data_verification" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/recyclerview"
+        android:background="@color/pinkish_grey">
 
-        <TextView
-            android:id="@+id/textview_monitoring_and_evaluation"
-            style="@style/TextViewNavigationDrawer"
-            android:text="@string/action_monitoring_and_evaluation" />
+    </View>
 
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/textview_education_survey_tool"
-        style="@style/TextViewNavigationDrawer"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearlayout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:text="@string/action_education_survey_tool"
-        app:layout_marginBottomPercent="8%" />
+        app:layout_marginBottomPercent="3%"
+        app:layout_marginTopPercent="2%">
+
+        <TextView
+            android:id="@+id/textview_education_survey_tool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:fontFamily="sans-serif-medium"
+            android:lineSpacingExtra="7sp"
+            android:text="@string/action_education_survey_tool"
+            android:textColor="@color/charcoal_grey"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/charcoal_grey"
+            app:layout_constraintEnd_toEndOf="@+id/textview_education_survey_tool"
+            app:layout_constraintStart_toStartOf="@+id/textview_education_survey_tool"
+            app:layout_constraintTop_toBottomOf="@+id/textview_education_survey_tool" />
+
+        <TextView
+            android:id="@+id/textview_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/linearlayout_bottom"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/action_settings"
+            android:textColor="@color/charcoal_grey"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/charcoal_grey"
+            app:layout_constraintEnd_toEndOf="@+id/textview_settings"
+            app:layout_constraintStart_toStartOf="@+id/textview_settings"
+            app:layout_constraintTop_toBottomOf="@+id/textview_settings" />
+
+    </android.support.constraint.ConstraintLayout>
 
 
 </com.omega_r.libs.layouts.percent.PercentRelativeLayout>

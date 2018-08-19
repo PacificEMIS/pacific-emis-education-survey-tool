@@ -27,7 +27,7 @@
     </style>
 
     <style name="TextViewNavigationDrawer" parent="TextViewBaseMenuScreen">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/dark_sky_blue</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat">
@@ -40,7 +40,7 @@
     <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/dark_sky_blue</item>
     </style>
 
     <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">

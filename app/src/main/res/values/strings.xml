@@ -18,5 +18,6 @@
     <string name="action_search">Search</string>
     <string name="write_school">Enter the school</string>
     <string name="criteria_hint">For detailed information, make a long touch on interested item</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

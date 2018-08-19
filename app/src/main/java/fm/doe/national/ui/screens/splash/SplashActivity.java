@@ -33,12 +33,11 @@ public class SplashActivity extends BaseActivity implements SplashView, TypeTest
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    private TypeTestAdapter typeTestAdapter;
+    private TypeTestAdapter typeTestAdapter = new TypeTestAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        typeTestAdapter = new TypeTestAdapter();
         typeTestAdapter.setCallback(this);
         recyclerView.setAdapter(typeTestAdapter);
     }

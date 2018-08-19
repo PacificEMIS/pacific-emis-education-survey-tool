@@ -23,12 +23,6 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
     @BindView(R.id.drawerlayout)
     DrawerLayout drawerLayout;
 
-    @BindView(R.id.textview_school_accreditation)
-    TextView schoolAccreditationTextView;
-    @BindView(R.id.textview_school_data_verification)
-    TextView schoolDataVerificationTextView;
-    @BindView(R.id.textview_monitoring_and_evaluation)
-    TextView monitoringAndEvaluationTextView;
     @BindView(R.id.textview_education_survey_tool)
     TextView educationSurveyToolTextView;
     private ActionBarDrawerToggle drawerToggle;
@@ -78,9 +72,6 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
 
     @Override
     public void selectMenuOption(MenuDrawerView.MenuItems menuOption) {
-        schoolAccreditationTextView.setSelected(menuOption == MenuDrawerView.MenuItems.SCHOOL_ACCREDITATION);
-        schoolDataVerificationTextView.setSelected(menuOption == MenuDrawerView.MenuItems.SCHOOL_DATA_VERIFICATION);
-        monitoringAndEvaluationTextView.setSelected(menuOption == MenuDrawerView.MenuItems.MONITORING_AND_EVALUATION);
         educationSurveyToolTextView.setSelected(menuOption == MenuDrawerView.MenuItems.EDUCATION_SURVEY_TOOL);
     }
 

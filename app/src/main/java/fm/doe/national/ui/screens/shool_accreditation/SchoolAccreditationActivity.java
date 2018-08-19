@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,7 +31,7 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    private SchoolAccreditationAdapter schoolAccreditationAdapter;
+    private SchoolAccreditationAdapter schoolAccreditationAdapter = new SchoolAccreditationAdapter();
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SchoolAccreditationActivity.class);
@@ -41,7 +40,6 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        schoolAccreditationAdapter = new SchoolAccreditationAdapter();
         schoolAccreditationAdapter.setCallback(this);
         recyclerView.setAdapter(schoolAccreditationAdapter);
     }
