@@ -1,13 +1,18 @@
 package fm.doe.national;
 
 import android.app.Application;
+import android.content.Context;
+import android.widget.Toast;
 
+import com.amitshekhar.DebugDB;
 import com.crashlytics.android.Crashlytics;
+
+import java.lang.reflect.Method;
 
 import fm.doe.national.di.AppComponent;
 import fm.doe.national.di.DaggerAppComponent;
+import fm.doe.national.di.modules.AccreditationDataSourceModule;
 import fm.doe.national.di.modules.ContextModule;
-import fm.doe.national.mock.MockRepository;
 import io.fabric.sdk.android.Fabric;
 
 public class MicronesiaApplication extends Application {
@@ -20,9 +25,23 @@ public class MicronesiaApplication extends Application {
         Fabric.with(this, new Crashlytics());
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))
+                .accreditationDataSourceModule(new AccreditationDataSourceModule())
                 .build();
+        appComponent = DaggerAppComponent.builder().contextModule(new ContextModule(this)).build();
 
-        MockRepository.mock();
+        showDebugDBAddressLogToast(this);
+    }
+
+    public static void showDebugDBAddressLogToast(Context context) {
+        if (BuildConfig.DEBUG) {
+            try {
+                Class<?> debugDB = Class.forName("com.amitshekhar.DebugDB");
+                Method getAddressLog = debugDB.getMethod("getAddressLog");
+                Object value = getAddressLog.invoke(null);
+                Toast.makeText(context, (String) value, Toast.LENGTH_LONG).show();
+            } catch (Exception ignore) {
+            }
+        }
     }
 
     public static AppComponent getAppComponent() {

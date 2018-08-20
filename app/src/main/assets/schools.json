@@ -1,0 +1,749 @@
+{
+  "schools":
+  [
+    {
+      "schNo":"CHK001",
+      "name": "Akoyikoyi School"
+    },
+    {
+      "schNo":"CHK002",
+      "name": "Amwachang Elementary School"
+    },
+    {
+      "schNo":"CHK003",
+      "name": "Berea Christian School"
+    },
+    {
+      "schNo":"CHK004",
+      "name": "Central & East Wonip Elementary School"
+    },
+    {
+      "schNo":"CHK005",
+      "name": "Chukuram Elementary School"
+    },
+    {
+      "schNo":"CHK006",
+      "name": "Chuuk High School"
+    },
+    {
+      "schNo":"CHK007",
+      "name": "Eot Elementary School"
+    },
+    {
+      "schNo":"CHK008",
+      "name": "Epin/Nukaf Elementary School"
+    },
+    {
+      "schNo":"CHK009",
+      "name": "Ettal Elementary School"
+    },
+    {
+      "schNo":"CHK010",
+      "name": "Etten Elementary School"
+    },
+    {
+      "schNo":"CHK011",
+      "name": "Faichuk High School/Fason Elementary School"
+    },
+    {
+      "schNo":"CHK012",
+      "name": "Fanapanges Elementary School"
+    },
+    {
+      "schNo":"CHK013",
+      "name": "Faro/Winifei Elementary School"
+    },
+    {
+      "schNo":"CHK014",
+      "name": "Fonoton Elementary School"
+    },
+    {
+      "schNo":"CHK015",
+      "name": "Foup Elementary School"
+    },
+    {
+      "schNo":"CHK016",
+      "name": "Halls Jr. High School/Fananu Elementary School"
+    },
+    {
+      "schNo":"CHK017",
+      "name": "Houk Elementary School"
+    },
+    {
+      "schNo":"CHK018",
+      "name": "Inaka Elementary School"
+    },
+    {
+      "schNo":"CHK019",
+      "name": "Iras Demo Elementay School"
+    },
+    {
+      "schNo":"CHK020",
+      "name": "Kuchu Elementary School"
+    },
+    {
+      "schNo":"CHK021",
+      "name": "Kukku Elementary School"
+    },
+    {
+      "schNo":"CHK022",
+      "name": "Kuttu Elementary School"
+    },
+    {
+      "schNo":"CHK023",
+      "name": "Losap Elementary School"
+    },
+    {
+      "schNo":"CHK024",
+      "name": "Lukeisel Jr. High School"
+    },
+    {
+      "schNo":"CHK025",
+      "name": "Makur Elementary School"
+    },
+    {
+      "schNo":"CHK026",
+      "name": "Manaio Elementary School"
+    },
+    {
+      "schNo":"CHK027",
+      "name": "Mechitiw Elementary School"
+    },
+    {
+      "schNo":"CHK028",
+      "name": "Messa Elementary School"
+    },
+    {
+      "schNo":"CHK029",
+      "name": "Moch High School/Moch Elementary School"
+    },
+    {
+      "schNo":"CHK030",
+      "name": "Mortlocks High School"
+    },
+    {
+      "schNo":"CHK031",
+      "name": "Munien/Nechocho Elementary School"
+    },
+    {
+      "schNo":"CHK032",
+      "name": "Murilo Elementary School"
+    },
+    {
+      "schNo":"CHK033",
+      "name": "Mwan Elementary School"
+    },
+    {
+      "schNo":"CHK034",
+      "name": "Namoluk Elementary School"
+    },
+    {
+      "schNo":"CHK035",
+      "name": "Neauo Annex (Wichap)"
+    },
+    {
+      "schNo":"CHK036",
+      "name": "Neauo Elementary School"
+    },
+    {
+      "schNo":"CHK037",
+      "name": "Nechap Elementary School"
+    },
+    {
+      "schNo":"CHK038",
+      "name": "Neirenomw Elementary School"
+    },
+    {
+      "schNo":"CHK039",
+      "name": "Nema Elementary School"
+    },
+    {
+      "schNo":"CHK040",
+      "name": "Nomusofo JHS/Udot Elementary School"
+    },
+    {
+      "schNo":"CHK041",
+      "name": "Nomwenemu Jr. High School/Lekinioch Elementary School"
+    },
+    {
+      "schNo":"CHK042",
+      "name": "Nomwin Elementary School"
+    },
+    {
+      "schNo":"CHK043",
+      "name": "Nukuno Christian High School"
+    },
+    {
+      "schNo":"CHK044",
+      "name": "Nukuno Elementary School"
+    },
+    {
+      "schNo":"CHK045",
+      "name": "Oneop Elementary School"
+    },
+    {
+      "schNo":"CHK046",
+      "name": "Onou Elementary School"
+    },
+    {
+      "schNo":"CHK047",
+      "name": "P&P Elementary School"
+    },
+    {
+      "schNo":"CHK048",
+      "name": "Panitiw Elementary School"
+    },
+    {
+      "schNo":"CHK049",
+      "name": "Parem Elementary School Chuuk"
+    },
+    {
+      "schNo":"CHK050",
+      "name": "Pattiw Jr. High School/Polowat Elementary School"
+    },
+    {
+      "schNo":"CHK051",
+      "name": "Pentecostal Light House Academy"
+    },
+    {
+      "schNo":"CHK052",
+      "name": "Piherarh Elementary School"
+    },
+    {
+      "schNo":"CHK053",
+      "name": "Piis Paneu Elementary School"
+    },
+    {
+      "schNo":"CHK054",
+      "name": "Piisemwar Elementary School"
+    },
+    {
+      "schNo":"CHK055",
+      "name": "Pollap & Tamatam Jr. High School/Pollap Elementary School"
+    },
+    {
+      "schNo":"CHK056",
+      "name": "PPO JHS/Sapou Elementary School"
+    },
+    {
+      "schNo":"CHK057",
+      "name": "Pwene Elementary School"
+    },
+    {
+      "schNo":"CHK058",
+      "name": "Romanum Elementary School"
+    },
+    {
+      "schNo":"CHK059",
+      "name": "Ruo Elementary School"
+    },
+    {
+      "schNo":"CHK060",
+      "name": "Saint Cecilia School"
+    },
+    {
+      "schNo":"CHK061",
+      "name": "Sapota Elementary School"
+    },
+    {
+      "schNo":"CHK063",
+      "name": "Sapuk Elementary School"
+    },
+    {
+      "schNo":"CHK064",
+      "name": "Saramen Chuuk Academy"
+    },
+    {
+      "schNo":"CHK065",
+      "name": "Satowan Elementary School"
+    },
+    {
+      "schNo":"CHK066",
+      "name": "Seventh Days Adventist School"
+    },
+    {
+      "schNo":"CHK067",
+      "name": "Siis Elementary School"
+    },
+    {
+      "schNo":"CHK068",
+      "name": "Sino Memorial Elementary School"
+    },
+    {
+      "schNo":"CHK069",
+      "name": "Southern Namoneas High School"
+    },
+    {
+      "schNo":"CHK070",
+      "name": "Southern Namoneas High School/Sapore Elementary School"
+    },
+    {
+      "schNo":"CHK071",
+      "name": "Ta Elementary School"
+    },
+    {
+      "schNo":"CHK072",
+      "name": "Tamatam Elementary School"
+    },
+    {
+      "schNo":"CHK073",
+      "name": "Teruo Bokuku Elementary School"
+    },
+    {
+      "schNo":"CHK074",
+      "name": "UFO Elementary School"
+    },
+    {
+      "schNo":"CHK075",
+      "name": "Unanu Elementary School"
+    },
+    {
+      "schNo":"CHK076",
+      "name": "Weipat High School/Onoun Elementary School"
+    },
+    {
+      "schNo":"CHK077",
+      "name": "West Fefen Elementary School"
+    },
+    {
+      "schNo":"CHK078",
+      "name": "West Wonip Annex"
+    },
+    {
+      "schNo":"CHK079",
+      "name": "Wichukuno Elementary School"
+    },
+    {
+      "schNo":"CHK080",
+      "name": "Xavier High School"
+    },
+    {
+      "schNo":"YAP401",
+      "name": "Asor Elementary School"
+    },
+    {
+      "schNo":"YAP402",
+      "name": "Bael Elementary School"
+    },
+    {
+      "schNo":"YAP404",
+      "name": "Dalipebinaw ECE Center"
+    },
+    {
+      "schNo":"YAP405",
+      "name": "Dalipebinaw Elementary School"
+    },
+    {
+      "schNo":"YAP406",
+      "name": "Dinay ECE Center"
+    },
+    {
+      "schNo":"YAP407",
+      "name": "Eauripik Elementary School"
+    },
+    {
+      "schNo":"YAP408",
+      "name": "Eauripik ECE Center"
+    },
+    {
+      "schNo":"YAP409",
+      "name": "Elato ECE Center"
+    },
+    {
+      "schNo":"YAP410",
+      "name": "Elato Elementary School"
+    },
+    {
+      "schNo":"YAP411",
+      "name": "Fadraii ECE Center"
+    },
+    {
+      "schNo":"YAP412",
+      "name": "Fadraii Elementary School"
+    },
+    {
+      "schNo":"YAP413",
+      "name": "Fais ECE Center"
+    },
+    {
+      "schNo":"YAP414",
+      "name": "Fais Elementary School"
+    },
+    {
+      "schNo":"YAP415",
+      "name": "Faith Christian Academy"
+    },
+    {
+      "schNo":"YAP416",
+      "name": "Falachig ECE Center"
+    },
+    {
+      "schNo":"YAP417",
+      "name": "Falalis ECE Center"
+    },
+    {
+      "schNo":"YAP418",
+      "name": "Falalis Elementary School"
+    },
+    {
+      "schNo":"YAP419",
+      "name": "Falalop Ulithi ECE Center"
+    },
+    {
+      "schNo":"YAP420",
+      "name": "Falalop Ulithi Elementary School"
+    },
+    {
+      "schNo":"YAP421",
+      "name": "Falalop Woleai ECE Center"
+    },
+    {
+      "schNo":"YAP422",
+      "name": "Fanif ECE Center"
+    },
+    {
+      "schNo":"YAP423",
+      "name": "Fanif Elementary School"
+    },
+    {
+      "schNo":"YAP424",
+      "name": "Faraulap ECE Center"
+    },
+    {
+      "schNo":"YAP425",
+      "name": "Faraulap Elementary School"
+    },
+    {
+      "schNo":"YAP426",
+      "name": "Gaanelay Elementary School"
+    },
+    {
+      "schNo":"YAP427",
+      "name": "Gagil ECE Center"
+    },
+    {
+      "schNo":"YAP428",
+      "name": "Gagil Elementary School"
+    },
+    {
+      "schNo":"YAP429",
+      "name": "Gilman ECE Center"
+    },
+    {
+      "schNo":"YAP430",
+      "name": "Gilman Elementary School"
+    },
+    {
+      "schNo":"YAP431",
+      "name": "Ifalik Elementary School"
+    },
+    {
+      "schNo":"YAP434",
+      "name": "Lamotrek ECE Center"
+    },
+    {
+      "schNo":"YAP435",
+      "name": "Lamotrek Elementary School"
+    },
+    {
+      "schNo":"YAP436",
+      "name": "Maap ECE Center"
+    },
+    {
+      "schNo":"YAP437",
+      "name": "Maap Elementary School"
+    },
+    {
+      "schNo":"YAP438",
+      "name": "Mogmog ECE Center"
+    },
+    {
+      "schNo":"YAP439",
+      "name": "Mogmog Elementary School"
+    },
+    {
+      "schNo":"YAP440",
+      "name": "North Fanif Elementary School"
+    },
+    {
+      "schNo":"YAP441",
+      "name": "Piig ECE Center"
+    },
+    {
+      "schNo":"YAP442",
+      "name": "Piig Elementary School"
+    },
+    {
+      "schNo":"YAP443",
+      "name": "Yap Seventh Day Adventist School"
+    },
+    {
+      "schNo":"YAP444",
+      "name": "Rawaii ECE Center"
+    },
+    {
+      "schNo":"YAP445",
+      "name": "Satawal A ECE Center"
+    },
+    {
+      "schNo":"YAP446",
+      "name": "Satawal B ECE Center"
+    },
+    {
+      "schNo":"YAP463",
+      "name": "Satawal ECE Center"
+    },
+    {
+      "schNo":"YAP447",
+      "name": "Satawal Elementary School"
+    },
+    {
+      "schNo":"YAP448",
+      "name": "Seliap Elementary School"
+    },
+    {
+      "schNo":"YAP449",
+      "name": "St. Mary's School"
+    },
+    {
+      "schNo":"YAP450",
+      "name": "Tamilang ECE Center"
+    },
+    {
+      "schNo":"YAP451",
+      "name": "Tamilang Elementary School"
+    },
+    {
+      "schNo":"YAP452",
+      "name": "Tegailap Elementary School"
+    },
+    {
+      "schNo":"YAP453",
+      "name": "Ulithi High School"
+    },
+    {
+      "schNo":"YAP454",
+      "name": "Woleai Elementary School"
+    },
+    {
+      "schNo":"YAP455",
+      "name": "Woleai High School"
+    },
+    {
+      "schNo":"YAP456",
+      "name": "Wottegai ECE Center"
+    },
+    {
+      "schNo":"YAP457",
+      "name": "Wottegai Elementary School"
+    },
+    {
+      "schNo":"YAP458",
+      "name": "Yap Catholic High School"
+    },
+    {
+      "schNo":"YAP459",
+      "name": "Yap High School"
+    },
+    {
+      "schNo":"YAP460",
+      "name": "Yap International Christian School"
+    },
+    {
+      "schNo":"PNI301",
+      "name": "Awak Elementary School"
+    },
+    {
+      "schNo":"PNI302",
+      "name": "Calvary Christian Academy"
+    },
+    {
+      "schNo":"PNI303",
+      "name": "Enipein Elementary School"
+    },
+    {
+      "schNo":"PNI304",
+      "name": "ESDM Elementary School"
+    },
+    {
+      "schNo":"PNI305",
+      "name": "Kapingamarangi Elementary School"
+    },
+    {
+      "schNo":"PNI306",
+      "name": "Kolonia Elementary School"
+    },
+    {
+      "schNo":"PNI307",
+      "name": "Lewetik Elementary School"
+    },
+    {
+      "schNo":"PNI308",
+      "name": "Lukop Elementary School"
+    },
+    {
+      "schNo":"PNI309",
+      "name": "Madolenihmw High School"
+    },
+    {
+      "schNo":"PNI310",
+      "name": "Mand Elementary School"
+    },
+    {
+      "schNo":"PNI311",
+      "name": "Mwoakilloa Elementary School"
+    },
+    {
+      "schNo":"PNI312",
+      "name": "Nanpei Memorial High School"
+    },
+    {
+      "schNo":"PNI313",
+      "name": "Nanpei Memorial School"
+    },
+    {
+      "schNo":"PNI314",
+      "name": "Nett Elementary School"
+    },
+    {
+      "schNo":"PNI315",
+      "name": "Nukuoro Elementary School"
+    },
+    {
+      "schNo":"PNI316",
+      "name": "Ohmine Elementary School"
+    },
+    {
+      "schNo":"PNI317",
+      "name": "Ohwa Christian School"
+    },
+    {
+      "schNo":"PNI318",
+      "name": "Our Lady of Mercy Catholic High School"
+    },
+    {
+      "schNo":"PNI319",
+      "name": "Pakein Elementary School"
+    },
+    {
+      "schNo":"PNI320",
+      "name": "Palikir Elementary School"
+    },
+    {
+      "schNo":"PNI321",
+      "name": "Parem Elementary School Pohnpei"
+    },
+    {
+      "schNo":"PNI322",
+      "name": "Pehleng Elementary School"
+    },
+    {
+      "schNo":"PNI323",
+      "name": "PICS High School"
+    },
+    {
+      "schNo":"PNI324",
+      "name": "Pingelap Elementary School"
+    },
+    {
+      "schNo":"PNI325",
+      "name": "Pohnlangas Elementary School"
+    },
+    {
+      "schNo":"PNI326",
+      "name": "Pohnpei Catholic School"
+    },
+    {
+      "schNo":"PNI327",
+      "name": "Pohnpei Seventh Day Adventist School"
+    },
+    {
+      "schNo":"PNI328",
+      "name": "Pohnpei St. Paul Christian"
+    },
+    {
+      "schNo":"PNI329",
+      "name": "Rohi Elementary School"
+    },
+    {
+      "schNo":"PNI330",
+      "name": "RSP Elementary School"
+    },
+    {
+      "schNo":"PNI331",
+      "name": "Saladak Elementary School"
+    },
+    {
+      "schNo":"PNI332",
+      "name": "Salapwuk Elementary School"
+    },
+    {
+      "schNo":"PNI333",
+      "name": "Sapwalap Elementary School"
+    },
+    {
+      "schNo":"PNI334",
+      "name": "Sapwuafik Elementary School"
+    },
+    {
+      "schNo":"PNI335",
+      "name": "Seinwar Elementary School"
+    },
+    {
+      "schNo":"PNI336",
+      "name": "Sekere Elementary School"
+    },
+    {
+      "schNo":"PNI337",
+      "name": "Sokehs Powe Elementary School"
+    },
+    {
+      "schNo":"PNI338",
+      "name": "Temwen Elementary School"
+    },
+    {
+      "schNo":"PNI339",
+      "name": "Wapar Elementary School"
+    },
+    {
+      "schNo":"PNI340",
+      "name": "Wone Elementary School"
+    },
+    {
+      "schNo":"KSA201",
+      "name": "Kosrae High School"
+    },
+    {
+      "schNo":"KSA202",
+      "name": "Kosrae Seventh Day Adventist School"
+    },
+    {
+      "schNo":"KSA203",
+      "name": "Lelu Elementary School"
+    },
+    {
+      "schNo":"KSA204",
+      "name": "Malem Elementary School"
+    },
+    {
+      "schNo":"KSA205",
+      "name": "Sansrik Elementary School"
+    },
+    {
+      "schNo":"KSA209",
+      "name": "SMD"
+    },
+    {
+      "schNo":"KSA206",
+      "name": "Tafunsak Elementary School"
+    },
+    {
+      "schNo":"KSA207",
+      "name": "Utwe Elementary School"
+    },
+    {
+      "schNo":"KSA208",
+      "name": "Walung Elementary School"
+    }
+  ]
+}

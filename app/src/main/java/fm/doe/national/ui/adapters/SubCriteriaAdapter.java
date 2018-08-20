@@ -14,18 +14,18 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.mock.MockSubCriteria;
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
+import fm.doe.national.ui.view_data.SubCriteriaViewData;
 
 public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.SubCriteriaViewHolder> {
 
-    private List<MockSubCriteria> items;
+    private List<SubCriteriaViewData> subCriterias;
     private List<SubcriteriaStateChangeListener> subscribers;
 
-    public SubCriteriaAdapter(@NonNull List<MockSubCriteria> subCriterias) {
-        super();
-        this.items = subCriterias;
+    public SubCriteriaAdapter(List<SubCriteriaViewData> subCriterias) {
+        this.subCriterias = subCriterias;
         subscribers = new ArrayList<>();
     }
 
@@ -38,12 +38,12 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull SubCriteriaViewHolder holder, int position) {
-        holder.bind(items.get(position), position);
+        holder.bind(subCriterias.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return subCriterias.size();
     }
 
     public void flushSubscribers() {
@@ -79,40 +79,46 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
             ButterKnife.bind(this, v);
         }
 
-        protected void bind(MockSubCriteria subCriteria, int position) {
-            questionTextView.setText(subCriteria.getQuestion());
+        protected void bind(SubCriteriaViewData subCriteria, int position) {
+            questionTextView.setText(subCriteria.getText());
             numberingTextView.setText(String.format(Locale.US, "%c.", 'a' + position));
-            switchableButton.setState(convertModelToUiState(subCriteria.getState()));
+
+            switchableButton.setState(convertToUiState(subCriteria.getAnswer()));
             switchableButton.setListener((View view, SwitchableButton.State state) -> {
-                subCriteria.setState(convertUiToModelState(state));
-                notifyStateChanged();
+                subCriteria.setAnswer(convertFromUiState(state));
+                notifyStateChanged(subCriteria);
             });
         }
 
-        private MockSubCriteria.State convertUiToModelState(SwitchableButton.State state) {
-            if (state == SwitchableButton.State.POSITIVE) {
-                return MockSubCriteria.State.POSITIVE;
-            } else if (state == SwitchableButton.State.NEGATIVE) {
-                return MockSubCriteria.State.NEGATIVE;
-            } else {
-                return MockSubCriteria.State.NOT_ANSWERED;
+        private SwitchableButton.State convertToUiState(Answer.State state) {
+            switch (state) {
+                case NOT_ANSWERED:
+                    return SwitchableButton.State.NEUTRAL;
+                case NEGATIVE:
+                    return SwitchableButton.State.NEGATIVE;
+                case POSITIVE:
+                    return SwitchableButton.State.POSITIVE;
             }
+            return SwitchableButton.State.NEUTRAL; // unreachable code
         }
 
-        private SwitchableButton.State convertModelToUiState(MockSubCriteria.State state) {
-            if (state == MockSubCriteria.State.POSITIVE) {
-                return SwitchableButton.State.POSITIVE;
-            } else if (state == MockSubCriteria.State.NEGATIVE) {
-                return SwitchableButton.State.NEGATIVE;
-            } else {
-                return SwitchableButton.State.NEUTRAL;
+        private Answer.State convertFromUiState(SwitchableButton.State state) {
+            switch (state) {
+                case NEUTRAL:
+                    return Answer.State.NOT_ANSWERED;
+                case NEGATIVE:
+                    return Answer.State.NEGATIVE;
+                case POSITIVE:
+                    return Answer.State.POSITIVE;
             }
+            return Answer.State.NOT_ANSWERED; // unreachable code
         }
 
-        private void notifyStateChanged() {
+        private void notifyStateChanged(SubCriteriaViewData subCriteria) {
             if (subscribers != null) {
                 for (SubcriteriaStateChangeListener subscriber: subscribers) {
-                    subscriber.onStateChanged();
+                    subscriber.onStateChanged(subCriteria, subCriteria.getCorrespondingSubCriteria(),
+                            subCriteria.getCorrespondingAnswer(), subCriteria.getAnswer());
                 }
             }
         }

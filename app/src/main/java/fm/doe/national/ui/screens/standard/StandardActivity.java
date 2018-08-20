@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.standard;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,16 +16,15 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.mock.MockCriteria;
-import fm.doe.national.mock.MockStandard;
+import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
 import fm.doe.national.ui.adapters.CriteriaAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.view_data.CriteriaViewData;
 
 public class StandardActivity extends BaseActivity implements StandardView {
 
-    public static final String STANDARD_EXTRA = "STANDARD_EXTRA";
+    public static final String ACCREDITATION_EXTRA = "ACCREDITATION_EXTRA";
 
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
@@ -62,11 +62,22 @@ public class StandardActivity extends BaseActivity implements StandardView {
     private CriteriaAdapter recyclerAdapter;
 
     @NonNull
-    public static Intent getStartingIntent(@NonNull Activity parent, @NonNull MockStandard forStandard) {
-        Intent intent = new Intent(parent, StandardActivity.class);
-        intent.putExtra(STANDARD_EXTRA, forStandard);
-        return intent;
+    public static Intent createIntent(@NonNull Activity parent, @NonNull SchoolAccreditationResult accreditationResult) {
+        return new Intent(parent, StandardActivity.class)
+                .putExtra(ACCREDITATION_EXTRA, accreditationResult);
     }
+
+    //region icons static
+    private static int[] icons = {
+            R.drawable.ic_standard_leadership_selector,
+            R.drawable.ic_standard_teacher_selector,
+            R.drawable.ic_standard_data_selector,
+            R.drawable.ic_standard_cirriculum_selector,
+            R.drawable.ic_standard_facility_selector,
+            R.drawable.ic_standard_improvement_selector,
+            R.drawable.ic_standard_observation_selector
+    };
+    //endregion
 
     //region Lifecycle
 
@@ -79,17 +90,22 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     //endregion
 
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_standard;
+    }
+
     //region StandardViewImpl
 
     @Override
-    public void bindCriterias(@NonNull List<MockCriteria> criterias) {
+    public void bindCriterias(@NonNull List<CriteriaViewData> criterias) {
         recyclerAdapter.setCriterias(criterias);
     }
 
     @Override
-    public void bindGlobalInfo(String title, int icon) {
+    public void bindGlobalInfo(String title, int index) {
         titleTextView.setText(title);
-        iconImageView.setImageResource(icon);
+        applyIcon(iconImageView, index, false);
     }
 
     @Override
@@ -98,47 +114,42 @@ public class StandardActivity extends BaseActivity implements StandardView {
     }
 
     @Override
-    public void bindPrevStandard(String title, int icon) {
+    public void bindPrevStandard(String title, int index) {
         prevStandardTitleTextView.setText(title);
-        iconPrevStandardImageView.setImageResource(icon);
+        applyIcon(iconPrevStandardImageView, index, true);
     }
 
     @Override
-    public void bindNextStandard(String title, int icon) {
+    public void bindNextStandard(String title, int index) {
         nextStandardTitleTextView.setText(title);
-        iconNextStandardImageView.setImageResource(icon);
-    }
-
-    @Override
-    public void navigateToOtherStandard(MockStandard otherStandard) {
-        startActivity(StandardActivity.getStartingIntent(this, otherStandard));
-        finish();
+        applyIcon(iconNextStandardImageView, index, true);
     }
 
     //endregion
 
     private void parseStartingBundle() {
         try {
-            presenter.setStandard((MockStandard) getIntent().getSerializableExtra(STANDARD_EXTRA));
-        } catch (NullPointerException npe) {
-            // TODO: uncomment after ui merge
-//            throw new RuntimeException(
-//                    "StandardActivity should be started with intent created by StandardActivity.getStartingIntent(...)");
-            // TODO: remove after ui merge
-            presenter.setStandard(new MockStandard());
+            presenter.setAccreditationResult((SchoolAccreditationResult) getIntent().getSerializableExtra(ACCREDITATION_EXTRA));
+        } catch (NullPointerException | ClassCastException ex) {
+            throw new RuntimeException(
+                    "StandardActivity should be started with intent created by StandardActivity.getStartingIntent(...)");
         }
     }
 
     private void setupViews() {
-        setContentView(R.layout.activity_standard);
-        ButterKnife.bind(this);
-        initToolbar();
-
         recyclerAdapter = new CriteriaAdapter();
         criteriasRecycler.setAdapter(recyclerAdapter);
-        recyclerAdapter.subscribeOnChanges(() -> presenter.onQuestionStateChanged());
+        recyclerAdapter.subscribeOnChanges(presenter::onQuestionStateChanged);
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
+    }
+
+    private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {
+        if (forIndex >= icons.length) return;
+
+        Drawable drawable = getResources().getDrawable(icons[forIndex]);
+        if (isHighlighted) drawable.setState(new int[] { R.attr.highlight });
+        imageView.setImageDrawable(drawable);
     }
 }

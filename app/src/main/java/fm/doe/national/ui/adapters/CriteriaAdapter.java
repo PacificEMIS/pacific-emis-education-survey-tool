@@ -3,6 +3,7 @@ package fm.doe.national.ui.adapters;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +21,16 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.mock.MockCriteria;
-import fm.doe.national.mock.MockSubCriteria;
+import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
-import fm.doe.national.util.ViewUtils;
+import fm.doe.national.ui.view_data.CriteriaViewData;
+import fm.doe.national.ui.view_data.SubCriteriaViewData;
+import fm.doe.national.utils.ViewUtils;
 
 public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.CriteriaViewHolder> {
 
-    private List<MockCriteria> items;
+    private List<CriteriaViewData> items;
     private List<SubcriteriaStateChangeListener> subscribers;
 
     public CriteriaAdapter() {
@@ -53,7 +56,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         return items.size();
     }
 
-    public void setCriterias(@NonNull List<MockCriteria> criterias) {
+    public void setCriterias(@NonNull List<CriteriaViewData> criterias) {
         items = criterias;
         notifyDataSetChanged();
     }
@@ -95,15 +98,20 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
             ButterKnife.bind(this, v);
         }
 
-        protected void bind(MockCriteria criteriaPair) {
-            titleTextView.setText(criteriaPair.getName());
+        protected void bind(CriteriaViewData criteria) {
+            titleTextView.setText(criteria.getName());
 
-            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteriaPair.getSubcriterias());
+            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteria.getQuestionsViewData());
             adapter.passSubscribers(subscribers);
-            adapter.subscribeOnChanges(() -> rebindProgress(criteriaPair.getSubcriterias()));
+            adapter.subscribeOnChanges((@NonNull SubCriteriaViewData subCriteriaViewData,
+                                        @NonNull SubCriteria subCriteria,
+                                        @Nullable Answer answer,
+                                        Answer.State newState) ->
+                    rebindProgress(criteria.getQuestionsViewData())
+            );
             subcriteriasRecycler.setAdapter(adapter);
 
-            rebindProgress(criteriaPair.getSubcriterias());
+            rebindProgress(criteria.getQuestionsViewData());
 
             // TODO: use AnimatedVectorDrawable to animate arrows
             header.setOnClickListener((View v) -> {
@@ -117,11 +125,11 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
             });
         }
 
-        private void rebindProgress(@NonNull List<MockSubCriteria> subCriterias) {
+        private void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias) {
             int totalQuestions = subCriterias.size();
             int answeredQuestions = 0;
-            for (MockSubCriteria subCriteria: subCriterias) {
-                if (subCriteria.getState() != MockSubCriteria.State.NOT_ANSWERED) answeredQuestions++;
+            for (SubCriteriaViewData subCriteria: subCriterias) {
+                if (subCriteria.getAnswer() != Answer.State.NOT_ANSWERED) answeredQuestions++;
             }
             progressTextView.setText(String.format(Locale.US, "%d/%d", answeredQuestions, totalQuestions));
 
@@ -139,6 +147,8 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                 progressDrawable.setColorFilter(doneColor, android.graphics.PorterDuff.Mode.SRC_IN);
                 progressBar.setProgressDrawable(progressDrawable);
                 progressTextView.setTextColor(doneColor);
+            } else {
+                // TODO: fix progress bar
             }
         }
     }

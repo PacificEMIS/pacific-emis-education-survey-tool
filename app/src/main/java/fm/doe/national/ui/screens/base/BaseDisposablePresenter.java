@@ -29,6 +29,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
 
     /**
      * Creates a CompositeDisposables with the given array of initial elements.
+     *
      * @param resources the array of Disposables to start with
      */
     public BaseDisposablePresenter(@NonNull Disposable... resources) {
@@ -43,6 +44,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
 
     /**
      * Creates a CompositeDisposables with the given Iterable sequence of initial elements.
+     *
      * @param resources the Iterable sequence of Disposables to start with
      */
     public BaseDisposablePresenter(@NonNull Iterable<? extends Disposable> resources) {
@@ -81,6 +83,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
     /**
      * Adds a disposable to this container or disposes it if the
      * container has been disposed.
+     *
      * @param d the disposable to add, not null
      * @return true if successful, false if this container has been disposed
      */
@@ -107,6 +110,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
     /**
      * Atomically adds the given array of Disposables to the container or
      * disposes them all if the container has been disposed.
+     *
      * @param ds the array of Disposables
      * @return true if the operation was successful, false if the container has been disposed
      */
@@ -137,6 +141,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
     /**
      * Removes and disposes the given disposable if it is part of this
      * container.
+     *
      * @param d the disposable to remove and dispose, not null
      * @return true if the operation was successful
      */
@@ -152,6 +157,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
     /**
      * Removes (but does not dispose) the given disposable if it is part of this
      * container.
+     *
      * @param d the disposable to remove, not null
      * @return true if the operation was successful
      */
@@ -196,6 +202,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
 
     /**
      * Returns the number of currently held Disposables.
+     *
      * @return the number of currently held Disposables
      */
     public int size() {
@@ -214,6 +221,7 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> implem
     /**
      * Dispose the contents of the OpenHashSet by suppressing non-fatal
      * Throwables till the end.
+     *
      * @param set the OpenHashSet to dispose elements of
      */
     void dispose(OpenHashSet<Disposable> set) {
