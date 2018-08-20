@@ -100,4 +100,8 @@ dependencies {
     // Run `adb forward tcp:8080 tcp:8080` in terminal
     // Open url: http://localhost:8080/ to view database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
+    // Google Play Services + Drive
+    implementation 'com.google.android.gms:play-services-drive:15.0.1'
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
 }
