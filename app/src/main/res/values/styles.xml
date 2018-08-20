@@ -15,7 +15,7 @@
 
     <style name="TextViewBaseMenuScreen" parent="TextAppearance.AppCompat">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/menu_text_height</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginTop">@dimen/menu_text_margin_top</item>

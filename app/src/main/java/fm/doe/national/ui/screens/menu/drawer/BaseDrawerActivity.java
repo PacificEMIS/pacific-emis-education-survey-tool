@@ -31,7 +31,7 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-
+        drawerToggle.syncState();
     }
 
     protected void setContentView(@LayoutRes int contentLayoutResID, @LayoutRes int menuLayoutResID) {
@@ -60,9 +60,6 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
-
-
-        drawerToggle.syncState();
     }
 
     @Override
@@ -98,7 +95,7 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
+        // Pass any configuration change to the drawer toggle
         drawerToggle.onConfigurationChanged(newConfig);
     }
 

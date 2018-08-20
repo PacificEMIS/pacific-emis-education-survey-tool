@@ -32,28 +32,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
 
     protected abstract @LayoutRes int getContentView();
 
-    @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
-        afterSetContentView();
-    }
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        afterSetContentView();
-    }
-
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
-        super.setContentView(view, params);
-        afterSetContentView();
-    }
-
-    protected void afterSetContentView() {
-      //  initToolbar();
-    }
-
     protected void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
 

@@ -21,6 +21,7 @@
     <ImageView
         android:id="@+id/imageview_logo"
         android:layout_width="100dp"
+        android:layout_marginTop="30dp"
         android:layout_height="100dp"
         android:layout_below="@+id/textview_title"
         android:layout_centerHorizontal="true"
