@@ -9,7 +9,7 @@ import fm.doe.national.data.data_source.db.OrmLiteDataSource;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 
 @Module(includes = DatabaseHelperModule.class)
-public class  AccreditationDataSourceModule {
+public class AccreditationDataSourceModule {
 
     @Provides
     @Singleton

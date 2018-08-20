@@ -32,5 +32,3 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return surveyItem;
     }
 }
-
-
