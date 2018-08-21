@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageview_logo" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_logo"
         android:layout_width="128dp"
         android:layout_height="128dp"
@@ -43,7 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_title"
         app:layout_marginTopPercent="18%"
-        app:srcCompat="@drawable/ic_splash_logo"
+        android:src="@drawable/ic_splash_logo"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -69,7 +69,7 @@
         app:layout_constraintVertical_bias="0.32" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/drawer_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"

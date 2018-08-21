@@ -3,26 +3,24 @@ package fm.doe.national.ui.screens.menu.drawer;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fm.doe.national.mock.MockSchool;
 import fm.doe.national.ui.screens.base.BaseView;
-import fm.doe.national.ui.screens.menu.base.MenuDrawerView;
+import fm.doe.national.ui.screens.menu.base.MenuView;
 
 /**
  * Created by Alexander Chibirev on 8/9/2018.
  */
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface BaseDrawerView extends BaseView {
+public interface BaseDrawerView extends MenuView {
 
     void hideMenu();
 
-    void selectMenuOption(MenuItems menuOption);
+    void showEducationSurveyToolScreen();
 
-    enum MenuItems {
-        NONE,
-        SCHOOL_ACCREDITATION,
-        SCHOOL_DATA_VERIFICATION,
-        MONITORING_AND_EVALUATION,
-        EDUCATION_SURVEY_TOOL
-    }
+    void showSettingsScreen();
 
 }

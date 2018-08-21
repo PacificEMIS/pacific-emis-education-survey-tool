@@ -14,18 +14,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.menu.base.MenuDrawerView;
+import fm.doe.national.ui.screens.menu.base.MenuActivity;
 
-public abstract class BaseDrawerActivity extends BaseActivity implements BaseDrawerView, DrawerLayout.DrawerListener {
+public abstract class BaseDrawerActivity extends MenuActivity implements BaseDrawerView, DrawerLayout.DrawerListener {
 
     @BindView(R.id.drawerlayout)
     DrawerLayout drawerLayout;
 
     @BindView(R.id.textview_education_survey_tool)
     TextView educationSurveyToolTextView;
+
+    @BindView(R.id.textview_settings)
+    TextView settingsTextView;
+
     private ActionBarDrawerToggle drawerToggle;
+
+    protected abstract BaseDrawerPresenter getPresenter();
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -34,16 +40,18 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
         drawerToggle.syncState();
     }
 
-    protected void setContentView(@LayoutRes int contentLayoutResID, @LayoutRes int menuLayoutResID) {
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
         drawerLayout = new DrawerLayout(this);
         super.setContentView(drawerLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
         LayoutInflater inflater = getLayoutInflater();
 
-        inflater.inflate(contentLayoutResID, drawerLayout);
+        inflater.inflate(getContentView(), drawerLayout);
 
-        View menuView = inflater.inflate(menuLayoutResID, drawerLayout, false);
+        View menuView = inflater.inflate(R.layout.activity_main, drawerLayout, false);
         menuView.setClickable(true);
 
 
@@ -68,11 +76,6 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
     }
 
     @Override
-    public void selectMenuOption(MenuDrawerView.MenuItems menuOption) {
-        educationSurveyToolTextView.setSelected(menuOption == MenuDrawerView.MenuItems.EDUCATION_SURVEY_TOOL);
-    }
-
-    @Override
     public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
         //nothing
     }
@@ -85,6 +88,28 @@ public abstract class BaseDrawerActivity extends BaseActivity implements BaseDra
     @Override
     public void onDrawerClosed(@NonNull View drawerView) {
         //nothing
+    }
+
+    @OnClick(R.id.textview_education_survey_tool)
+    public void onEducationSurveyToolClicked() {
+        getPresenter().onEducationSurveyToolClicked();
+    }
+
+    @OnClick(R.id.textview_settings)
+    public void onSettingClicked() {
+        getPresenter().onSettingClicked();
+    }
+
+    @Override
+    public void showEducationSurveyToolScreen() {
+        educationSurveyToolTextView.setSelected(true);
+        //TODO added logic afters creating Education Survey Tool screen
+    }
+
+    @Override
+    public void showSettingsScreen() {
+        settingsTextView.setSelected(true);
+        //TODO added logic afters creating settings screen
     }
 
     @Override

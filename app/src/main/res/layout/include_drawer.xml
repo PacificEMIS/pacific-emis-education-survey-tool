@@ -11,25 +11,23 @@
 
     <TextView
         android:id="@+id/textview_title"
-        style="@style/TextViewNavigationDrawer"
+        style="@style/TextViewNavigationDrawerHeader"
         android:layout_alignParentStart="true"
-        android:foreground="@android:color/transparent"
         android:text="@string/title_education_survey_tool"
-        android:textSize="24sp"
         app:layout_marginTopPercent="18%" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_logo"
         android:layout_width="100dp"
-        android:layout_marginTop="30dp"
         android:layout_height="100dp"
         android:layout_below="@+id/textview_title"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ic_splash_logo" />
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_splash_logo" />
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/drawer_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/linearlayout_bottom"
@@ -58,15 +56,9 @@
 
         <TextView
             android:id="@+id/textview_education_survey_tool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TextViewNavigationDrawerFooter"
             android:layout_marginStart="24dp"
-            android:fontFamily="sans-serif-medium"
-            android:lineSpacingExtra="7sp"
             android:text="@string/action_education_survey_tool"
-            android:textColor="@color/charcoal_grey"
-            android:textSize="12sp"
-            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent" />
@@ -81,15 +73,10 @@
 
         <TextView
             android:id="@+id/textview_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TextViewNavigationDrawerFooter"
             android:layout_alignEnd="@+id/linearlayout_bottom"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="sans-serif-medium"
+            android:layout_marginEnd="24dp"
             android:text="@string/action_settings"
-            android:textColor="@color/charcoal_grey"
-            android:textSize="12sp"
-            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

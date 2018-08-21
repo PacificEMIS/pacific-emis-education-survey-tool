@@ -9,21 +9,24 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.mock.MockSchool;
 import fm.doe.national.mock.MockStandard;
 import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
-import fm.doe.national.ui.screens.menu.base.MenuDrawerActivity;
-import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
+import fm.doe.national.ui.screens.menu.base.MenuPresenter;
+import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
+import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 
 /**
  * Created by Alexander Chibirev on 8/10/2018.
  */
 
-public class SchoolAccreditationActivity extends MenuDrawerActivity implements SchoolAccreditationView, SchoolAccreditationAdapter.Callback {
+public class SchoolAccreditationActivity extends BaseDrawerActivity implements SchoolAccreditationView, SchoolAccreditationAdapter.Callback {
 
     @InjectPresenter
     SchoolAccreditationPresenter schoolAccreditationPresenter;
@@ -50,19 +53,14 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     }
 
     @Override
-    protected MenuDrawerPresenter getPresenter() {
-        return schoolAccreditationPresenter;
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
     }
 
     @Override
-    public void setSchools(List<MockSchool> schools) {
-        schoolAccreditationAdapter.updateSchools(schools);
+    public void showChooseCategoryScreen(List<MockStandard> standards) {
+        startActivity(ChooseCategoryActivity.createIntent(this));
     }
 
     @Override
@@ -77,13 +75,19 @@ public class SchoolAccreditationActivity extends MenuDrawerActivity implements S
     }
 
     @Override
-    public void onSchoolClicked(MockSchool school) {
-        schoolAccreditationPresenter.onSchoolClicked(school);
+    protected BaseDrawerPresenter getPresenter() {
+        return schoolAccreditationPresenter;
     }
 
     @Override
-    public void showChooseCategoryScreen(List<MockStandard> standards) {
-        startActivity(ChooseCategoryActivity.createIntent(this));
+    public void setSchools(ArrayList<MockSchool> schools) {
+        schoolAccreditationAdapter.updateSchools(schools);
+        typeTestAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSchoolClicked(MockSchool school) {
+        schoolAccreditationPresenter.onSchoolClicked(school);
     }
 
 }

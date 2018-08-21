@@ -15,32 +15,21 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.menu.base.MenuActivity;
+import fm.doe.national.ui.screens.menu.base.MenuPresenter;
 import fm.doe.national.ui.screens.shool_accreditation.SchoolAccreditationActivity;
 
 /**
  * Created by Alexander Chibirev on 8/9/2018.
  */
 
-public class SplashActivity extends BaseActivity implements SplashView, TypeTestAdapter.Callback {
+public class SplashActivity extends MenuActivity implements SplashView, TypeTestAdapter.Callback {
 
     @InjectPresenter
     SplashPresenter splashPresenter;
 
     @BindView(R.id.layout_splash_start)
     ConstraintLayout constraintLayout;
-
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
-
-    private TypeTestAdapter typeTestAdapter = new TypeTestAdapter();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        typeTestAdapter.setCallback(this);
-        recyclerView.setAdapter(typeTestAdapter);
-    }
 
     @Override
     protected int getContentView() {
@@ -56,19 +45,8 @@ public class SplashActivity extends BaseActivity implements SplashView, TypeTest
     }
 
     @Override
-    public void showSchoolAccreditationScreen() {
-        startActivity(SchoolAccreditationActivity.createIntent(this));
-    }
-
-    @Override
-    public void setSchools(List<School> schools) {
-        typeTestAdapter.update(schools);
-    }
-
-    @Override
-    public void onTypeTestClicked() {
-        //TODO changed logic after add correct type test model
-        splashPresenter.onTypeTestClicked();
+    protected MenuPresenter getPresenter() {
+        return splashPresenter;
     }
 
 }

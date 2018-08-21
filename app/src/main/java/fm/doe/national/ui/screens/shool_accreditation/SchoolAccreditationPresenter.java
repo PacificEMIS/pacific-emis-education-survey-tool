@@ -10,14 +10,15 @@ import fm.doe.national.mock.MockCriteria;
 import fm.doe.national.mock.MockSchool;
 import fm.doe.national.mock.MockStandard;
 import fm.doe.national.mock.MockSubCriteria;
-import fm.doe.national.ui.screens.menu.base.MenuDrawerPresenter;
+import fm.doe.national.ui.screens.menu.base.MenuPresenter;
+import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 
 /**
  * Created by Alexander Chibirev on 8/10/2018.
  */
 
 @InjectViewState
-public class SchoolAccreditationPresenter extends MenuDrawerPresenter<SchoolAccreditationView> {
+public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccreditationView> {
 
     private final List<MockStandard> standards;
 

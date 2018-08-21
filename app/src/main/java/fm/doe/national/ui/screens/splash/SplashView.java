@@ -10,22 +10,16 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.mock.MockSchool;
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.ui.screens.menu.base.MenuView;
 
 /**
  * Created by Alexander Chibirev on 8/10/2018.
  */
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface SplashView extends BaseView {
+public interface SplashView extends MenuView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void startAnimate(@NonNull Transition transition);
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showSchoolAccreditationScreen();
-
-    void setSchools(List<School> schools);
 
 }
