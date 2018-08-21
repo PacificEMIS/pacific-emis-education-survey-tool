@@ -42,7 +42,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/recyclerview"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/drawer_recyclerview"
         android:background="@color/pinkish_grey">
 
     </View>
