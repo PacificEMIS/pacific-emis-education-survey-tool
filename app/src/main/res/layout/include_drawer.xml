@@ -29,7 +29,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_recyclerview"
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
+        android:theme="@style/ThemeRecyclerViewNavigationDrawer"
         android:layout_above="@id/linearlayout_bottom"
         android:layout_below="@+id/imageview_logo"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"

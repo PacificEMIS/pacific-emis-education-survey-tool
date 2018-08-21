@@ -19,6 +19,16 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="ThemeRecyclerViewSplashMenu" parent="AppTheme">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ThemeRecyclerViewNavigationDrawer" parent="AppTheme">
+        <item name="android:textColor">@color/dark_sky_blue</item>
+        <item name="android:gravity">start</item>
+    </style>
+
     <style name="TextViewNavigationDrawerHeader" parent="TextViewBaseDrawerScreen">
         <item name="android:textAllCaps">true</item>
         <item name="android:layout_width">match_parent</item>

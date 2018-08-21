@@ -72,6 +72,7 @@
         android:id="@+id/drawer_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:theme="@style/ThemeRecyclerViewSplashMenu"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="24dp"
         android:visibility="invisible"

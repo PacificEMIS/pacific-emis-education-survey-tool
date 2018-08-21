@@ -73,6 +73,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:theme="@style/ThemeRecyclerViewSplashMenu"
         android:layout_marginTop="24dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
