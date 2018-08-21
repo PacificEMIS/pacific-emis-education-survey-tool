@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 public interface Criteria extends Serializable {
     Standard getStandard();
@@ -11,5 +12,5 @@ public interface Criteria extends Serializable {
     @NonNull
     String getName();
 
-    Collection<? extends SubCriteria> getSubCriterias();
+    List<? extends SubCriteria> getSubCriterias();
 }
