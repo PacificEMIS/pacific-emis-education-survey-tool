@@ -102,13 +102,11 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
 
     @Override
     public void showEducationSurveyToolScreen() {
-        educationSurveyToolTextView.setSelected(true);
         //TODO added logic afters creating Education Survey Tool screen
     }
 
     @Override
     public void showSettingsScreen() {
-        settingsTextView.setSelected(true);
         //TODO added logic afters creating settings screen
     }
 

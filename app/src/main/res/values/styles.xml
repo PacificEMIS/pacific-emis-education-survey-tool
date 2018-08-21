@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/gray</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -33,12 +33,13 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:foreground">@android:color/transparent</item>
         <item name="android:textSize">24sp</item>
     </style>
 
     <style name="TextViewNavigationDrawerFooter" parent="TextViewBaseDrawerScreen">
-        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">12sp</item>
         <item name="android:layout_width">wrap_content</item>
