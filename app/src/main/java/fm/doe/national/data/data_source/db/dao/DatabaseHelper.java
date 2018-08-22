@@ -48,10 +48,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         createAllTables(connectionSource);
-//        createSurvey();
+        createSurvey();
     }
 
-    // Remove after cloud storage integration
+    // TODO: Remove after cloud storage integration
     private void createSurvey() {
         try {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
