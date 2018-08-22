@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 import java.util.List;
 
-public interface   Criteria extends Serializable {
+public interface Criteria extends Serializable {
     Standard getStandard();
 
     @NonNull
