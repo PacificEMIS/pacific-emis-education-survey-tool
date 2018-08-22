@@ -3,20 +3,25 @@ package fm.doe.national.data.data_source.models.serializable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
+import com.tickaroo.tikxml.annotation.Element;
+import com.tickaroo.tikxml.annotation.PropertyElement;
+import com.tickaroo.tikxml.annotation.Xml;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.Standard;
 
+@Xml(name = "standard")
 public class SerializableStandard implements Standard {
 
-    private String name;
+    @PropertyElement
+    String name;
 
-    @SerializedName("criteria")
-    private Collection<SerializableCriteria> criterias;
+    @Element
+    List<SerializableCriteria> criterias;
 
     @Nullable
     @Override
@@ -31,7 +36,7 @@ public class SerializableStandard implements Standard {
     }
 
     @Override
-    public Collection<? extends Criteria> getCriterias() {
+    public List<? extends Criteria> getCriterias() {
         return criterias;
     }
 }

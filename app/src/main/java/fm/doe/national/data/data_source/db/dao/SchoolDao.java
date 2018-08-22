@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import io.reactivex.Completable;
 import io.reactivex.Single;

@@ -2,15 +2,8 @@ package fm.doe.national.data.data_source.models;
 
 import java.util.Date;
 
-public interface SchoolAccreditationResult {
-
+public interface SurveyPassing {
     int getYear();
-
-    School getSchool();
-
-    SchoolAccreditation getSchoolAccreditation();
-
     Date getStartDate();
-
     Date getEndDate();
 }

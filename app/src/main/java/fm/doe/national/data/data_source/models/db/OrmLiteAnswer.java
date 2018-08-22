@@ -7,8 +7,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.SynchronizePlatform;
 import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.SynchronizePlatform;
 
 @DatabaseTable
 public class OrmLiteAnswer implements Answer {
@@ -18,7 +18,7 @@ public class OrmLiteAnswer implements Answer {
         String ANSWER = "answer";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
         String PARENT_ITEM = "parentItem";
-        String SURVEY_RESULT = "surveyResult";
+        String SURVEY_RESULT = "surveyPassing";
     }
 
     @DatabaseField(generatedId = true, columnName = Column.ID)
@@ -34,15 +34,15 @@ public class OrmLiteAnswer implements Answer {
     protected OrmLiteSurveyItem parentSurveyItem;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_RESULT)
-    protected OrmLiteBaseSurveyResult surveyResult;
+    protected OrmLiteSurveyPassing surveyPassing;
 
     public OrmLiteAnswer() {
     }
 
-    public OrmLiteAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteBaseSurveyResult surveyResult) {
+    public OrmLiteAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyPassing) {
         this.answer = answer;
         this.parentSurveyItem = parentSurveyItem;
-        this.surveyResult = surveyResult;
+        this.surveyPassing = surveyPassing;
         this.synchronizePlatforms = new ArrayList<>();
     }
 
@@ -79,7 +79,7 @@ public class OrmLiteAnswer implements Answer {
         return parentSurveyItem;
     }
 
-    public OrmLiteBaseSurveyResult getSurveyResult() {
-        return surveyResult;
+    public OrmLiteSurveyPassing getSurveyPassing() {
+        return surveyPassing;
     }
 }

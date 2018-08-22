@@ -1,20 +1,28 @@
 package fm.doe.national.data.data_source.models.serializable;
 
-import java.util.Collection;
+import com.tickaroo.tikxml.annotation.Element;
+import com.tickaroo.tikxml.annotation.PropertyElement;
+import com.tickaroo.tikxml.annotation.Xml;
+
+import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 
+@Xml(name = "schoolAccreditation")
 public class SerializableSchoolAccreditation implements SchoolAccreditation {
 
-    private String type;
+    @PropertyElement
+    String type;
 
-    private int version;
+    @PropertyElement
+    int version;
 
-    private Collection<SerializableGroupStandard> groupStandards;
+    @Element
+    List<SerializableGroupStandard> groupStandards;
 
     @Override
-    public Collection<? extends GroupStandard> getGroupStandards() {
+    public List<? extends GroupStandard> getGroupStandards() {
         return groupStandards;
     }
 

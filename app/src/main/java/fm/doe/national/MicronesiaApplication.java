@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.amitshekhar.DebugDB;
 import com.crashlytics.android.Crashlytics;
 
 import java.lang.reflect.Method;
