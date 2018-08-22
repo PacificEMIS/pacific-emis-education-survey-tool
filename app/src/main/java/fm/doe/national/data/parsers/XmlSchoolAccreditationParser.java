@@ -5,13 +5,12 @@ import com.tickaroo.tikxml.TikXml;
 import java.io.IOException;
 import java.io.InputStream;
 
-import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
 import okio.BufferedSource;
 import okio.Okio;
 
-public class XmlSchoolAccreditationParser implements SchoolAccreditationParser {
+public class XmlSchoolAccreditationParser implements Parser<SchoolAccreditation> {
 
     @Override
     public SchoolAccreditation parse(InputStream dataStream) {

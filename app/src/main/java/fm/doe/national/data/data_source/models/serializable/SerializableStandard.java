@@ -8,7 +8,6 @@ import com.tickaroo.tikxml.annotation.PropertyElement;
 import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.List;
-import java.util.Objects;
 
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
