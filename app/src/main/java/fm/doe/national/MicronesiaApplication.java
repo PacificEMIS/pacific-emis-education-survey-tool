@@ -17,7 +17,6 @@ import javax.annotation.Nullable;
 import fm.doe.national.di.AppComponent;
 import fm.doe.national.di.DaggerAppComponent;
 import fm.doe.national.di.modules.ContextModule;
-import fm.doe.national.di.modules.DriveCloudAccessorModule;
 import io.fabric.sdk.android.Fabric;
 
 public class MicronesiaApplication extends Application implements Application.ActivityLifecycleCallbacks {
@@ -31,7 +30,6 @@ public class MicronesiaApplication extends Application implements Application.Ac
         Fabric.with(this, new Crashlytics());
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))
-                .driveCloudAccessorModule(new DriveCloudAccessorModule())
                 .build();
         registerActivityLifecycleCallbacks(this);
 
@@ -59,6 +57,7 @@ public class MicronesiaApplication extends Application implements Application.Ac
         return currentActivityRef.get();
     }
 
+    //TODO: FIXME
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         Log.d("DEBUG", "s");

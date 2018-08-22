@@ -41,8 +41,7 @@ public class DriveActivity extends AppCompatActivity {
     private static final String EXTRA_ACTION = "EXTRA_ACTION";
     private static final String EXTRA_ACTION_UPLOAD_FILE = "EXTRA_ACTION_UPLOAD_FILE";
 
-    private final DriveCloudAccessor driveCloudAccessor =
-            MicronesiaApplication.getAppComponent().getCloudAccessor();
+    private final DriveCloudAccessor driveCloudAccessor = MicronesiaApplication.getAppComponent().getDriveCloudAccessor();
 
     @NonNull
     public static Intent createIntent(@NonNull Context context, int action) {
@@ -60,6 +59,7 @@ public class DriveActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MicronesiaApplication.getAppComponent().inject(this);
         setContentView(R.layout.activity_transparent);
         parseIntent(getIntent());
     }
