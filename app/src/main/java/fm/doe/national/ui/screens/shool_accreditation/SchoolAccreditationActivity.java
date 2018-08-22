@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements S
     SchoolAccreditationPresenter schoolAccreditationPresenter;
 
     @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
+    OmegaRecyclerView recyclerView;
 
     private SchoolAccreditationAdapter schoolAccreditationAdapter = new SchoolAccreditationAdapter();
 

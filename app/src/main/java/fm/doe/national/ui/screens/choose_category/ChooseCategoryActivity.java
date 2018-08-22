@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     TextView progressTextView;
 
     @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
+    OmegaRecyclerView recyclerView;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, ChooseCategoryActivity.class);

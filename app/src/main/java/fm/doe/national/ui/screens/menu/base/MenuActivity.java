@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +34,7 @@ public abstract class MenuActivity extends BaseActivity implements MenuView, Typ
     protected TypeTestAdapter typeTestAdapter = new TypeTestAdapter();
 
     @BindView(R.id.drawer_recyclerview)
-    protected RecyclerView recyclerView;
+    protected OmegaRecyclerView recyclerView;
 
     @BindView(R.id.imageview_logo)
     protected CircleImageView logoImageView;

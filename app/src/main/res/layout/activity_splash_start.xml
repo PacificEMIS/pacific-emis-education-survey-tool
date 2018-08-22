@@ -39,11 +39,11 @@
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_marginTop="24dp"
+        android:src="@drawable/ic_splash_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_title"
         app:layout_marginTopPercent="18%"
-        android:src="@drawable/ic_splash_logo"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -68,13 +68,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.32" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/drawer_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:theme="@style/ThemeRecyclerViewSplashMenu"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="24dp"
+        android:theme="@style/ThemeRecyclerViewSplashMenu"
         android:visibility="invisible"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -82,6 +82,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageview_logo"
+        app:showDivider="end|middle"
         tools:listitem="@layout/item_type_test" />
 
 

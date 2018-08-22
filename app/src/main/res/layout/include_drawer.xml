@@ -26,18 +26,16 @@
         android:src="@drawable/ic_splash_logo" />
 
 
-    <android.support.v7.widget.RecyclerView
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/drawer_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/linearlayout_bottom"
         android:layout_below="@+id/imageview_logo"
-        android:layout_marginTop="20dp"
         android:theme="@style/ThemeRecyclerViewNavigationDrawer"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_type_test">
-
-    </android.support.v7.widget.RecyclerView>
+        app:showDivider="end|middle"
+        tools:listitem="@layout/item_type_test" />
 
     <View
         android:layout_width="match_parent"

@@ -19,12 +19,17 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="ThemeRecyclerViewSplashMenu" parent="AppTheme">
+    <style name="BaseThemeRecyclerView" parent="AppTheme">
+        <item name="android:divider">@color/pinkish_grey</item>
+        <item name="android:dividerHeight">0.5dp</item>
+    </style>
+
+    <style name="ThemeRecyclerViewSplashMenu" parent="BaseThemeRecyclerView">
         <item name="android:textColor">@color/white</item>
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="ThemeRecyclerViewNavigationDrawer" parent="AppTheme">
+    <style name="ThemeRecyclerViewNavigationDrawer" parent="BaseThemeRecyclerView">
         <item name="android:textColor">@color/dark_sky_blue</item>
         <item name="android:gravity">start</item>
     </style>

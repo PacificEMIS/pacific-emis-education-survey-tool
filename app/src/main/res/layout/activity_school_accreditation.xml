@@ -39,14 +39,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/BaseThemeRecyclerView"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_school">
-
-        </android.support.v7.widget.RecyclerView>
+            app:showDivider="end|middle"
+            tools:listitem="@layout/item_school" />
 
         <TextView
             android:id="@+id/textview_not_found_message"
