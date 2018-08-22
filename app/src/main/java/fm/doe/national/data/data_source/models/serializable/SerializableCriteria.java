@@ -3,20 +3,24 @@ package fm.doe.national.data.data_source.models.serializable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
+import com.tickaroo.tikxml.annotation.Element;
+import com.tickaroo.tikxml.annotation.PropertyElement;
+import com.tickaroo.tikxml.annotation.Xml;
 
-import java.util.Collection;
+import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 
+@Xml(name = "criteria")
 public class SerializableCriteria implements Criteria {
 
-    @SerializedName("subcriteria")
-    private Collection<SerializableSubCriteria> subCriterias;
+    @PropertyElement
+    String name;
 
-    private String name;
+    @Element
+    List<SerializableSubCriteria> subCriterias;
 
     @Nullable
     @Override
@@ -31,7 +35,7 @@ public class SerializableCriteria implements Criteria {
     }
 
     @Override
-    public Collection<? extends SubCriteria> getSubCriterias() {
+    public List<? extends SubCriteria> getSubCriterias() {
         return subCriterias;
     }
 }

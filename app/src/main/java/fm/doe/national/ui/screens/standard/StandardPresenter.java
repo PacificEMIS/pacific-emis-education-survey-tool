@@ -17,7 +17,7 @@ import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BasePresenter;
@@ -31,12 +31,12 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     @Inject
     DataSource dataSource;
 
-    private SchoolAccreditationResult accreditationResult;
+    private SchoolAccreditationPassing accreditationResult;
     private int standardIndex;
     private List<Standard> standards;
     private List<CriteriaViewData> criteriaViewDataList;
 
-    public StandardPresenter(SchoolAccreditationResult result) {
+    public StandardPresenter(SchoolAccreditationPassing result) {
         MicronesiaApplication.getAppComponent().inject(this);
 
         this.accreditationResult = result;

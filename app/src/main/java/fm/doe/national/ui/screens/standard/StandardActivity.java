@@ -17,7 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.adapters.CriteriaAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.view_data.CriteriaViewData;
@@ -36,7 +36,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
     };
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationResult accreditationResult) {
+    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationPassing accreditationResult) {
         return new Intent(context, StandardActivity.class)
                 .putExtra(ACCREDITATION_EXTRA, accreditationResult);
     }
@@ -76,7 +76,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
-        return new StandardPresenter(getSerializableArgument(ACCREDITATION_EXTRA, SchoolAccreditationResult.class));
+        return new StandardPresenter(getSerializableArgument(ACCREDITATION_EXTRA, SchoolAccreditationPassing.class));
     }
 
     private CriteriaAdapter recyclerAdapter;
