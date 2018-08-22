@@ -77,5 +77,13 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
     }
+    protected <T> T getSerializableArgument(String extraName, Class<T> theClass) {
+        try {
+            return (T) getIntent().getSerializableExtra(extraName);
+        } catch (NullPointerException | ClassCastException ex) {
+            throw new RuntimeException(
+                    "Unable to obtain serializable argument");
+        }
+    }
 
 }

@@ -16,7 +16,6 @@
         <activity android:name=".ui.screens.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,11 +26,10 @@
         <activity
             android:name=".ui.screens.shool_accreditation.SchoolAccreditationActivity"
             android:label="@string/label_school_accreditation" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />
-
-
     </application>
 
 </manifest>

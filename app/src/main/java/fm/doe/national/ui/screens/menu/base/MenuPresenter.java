@@ -13,6 +13,7 @@ import fm.doe.national.ui.screens.base.BasePresenter;
 abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V> {
 
     public MenuPresenter() {
+        //TODO changed logic after correct work data base
         List<School> schools = new ArrayList<>();
         schools.add(new School() {
             @Override

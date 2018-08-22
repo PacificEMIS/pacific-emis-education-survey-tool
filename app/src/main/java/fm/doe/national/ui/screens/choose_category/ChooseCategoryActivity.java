@@ -3,7 +3,6 @@ package fm.doe.national.ui.screens.choose_category;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -12,12 +11,11 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.mock.MockStandard;
+import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.standard.StandardActivity;
-
+import fm.doe.national.mock.MockStandard;
 /**
  * Created by Alexander Chibirev on 8/17/2018.
  */
@@ -54,17 +52,17 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     }
 
     @Override
-    public void bindCategories(List<MockStandard> standards) {
+    public void setCategories(List<MockStandard> standards) {
         chooseCategoryAdapter.updateCategory(standards);
     }
 
     @Override
-    public void showStandardScreen(MockStandard standard) {
-        startActivity(StandardActivity.getStartingIntent(this, standard));
+    public void showStandardScreen(SchoolAccreditationResult standard) {
+        startActivity(StandardActivity.createIntent(this, standard));
     }
 
     @Override
-    public void onCategoryClicked(MockStandard standard) {
+    public void onCategoryClicked(SchoolAccreditationResult standard) {
         chooseCategoryPresenter.onCategoryClicked(standard);
     }
 }

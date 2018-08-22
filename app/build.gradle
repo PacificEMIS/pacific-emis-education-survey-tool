@@ -14,6 +14,10 @@ android {
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
     signingConfigs {
         release {
@@ -50,8 +54,8 @@ dependencies {
     def okhttpVersion = '3.4.1'
     def butterknifeVersion = '8.8.1'
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
@@ -59,14 +63,14 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation "com.android.support:cardview-v7:$supportVersion"
 
-    //moxy
+    // moxy
     implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
 
-    //RxJava2
+    // RxJava2
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    //RxBinding
+    // RxBinding
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
     // Retrofit
@@ -80,7 +84,7 @@ dependencies {
     implementation "com.j256.ormlite:ormlite-core:$ormliteVersion"
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 
-    //dagger
+    // dagger
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
@@ -90,7 +94,7 @@ dependencies {
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
 
-    //butterknife
+    // butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
@@ -100,7 +104,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
-        transitive = true;
+        transitive = true
     }
 
     implementation project(path: ':persistent_search')

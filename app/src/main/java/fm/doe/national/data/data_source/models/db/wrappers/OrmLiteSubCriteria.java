@@ -28,4 +28,7 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return surveyItem.getName();
     }
 
+    public OrmLiteSurveyItem getSurveyItem() {
+        return surveyItem;
+    }
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.amitshekhar.DebugDB;
 import com.crashlytics.android.Crashlytics;
 
 import java.lang.reflect.Method;
@@ -22,7 +21,9 @@ public class MicronesiaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-        appComponent = DaggerAppComponent.builder().contextModule(new ContextModule(this)).build();
+        appComponent = DaggerAppComponent.builder()
+                .contextModule(new ContextModule(this))
+                .build();
 
         showDebugDBAddressLogToast(this);
     }

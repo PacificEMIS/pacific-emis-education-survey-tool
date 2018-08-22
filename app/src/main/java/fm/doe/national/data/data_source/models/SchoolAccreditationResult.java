@@ -1,8 +1,9 @@
 package fm.doe.national.data.data_source.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public interface SchoolAccreditationResult {
+public interface SchoolAccreditationResult extends Serializable {
 
     int getYear();
 

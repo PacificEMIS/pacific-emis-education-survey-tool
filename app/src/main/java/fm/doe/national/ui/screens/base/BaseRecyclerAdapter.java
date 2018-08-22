@@ -1,6 +1,6 @@
 package fm.doe.national.ui.screens.base;
 
-import android.graphics.drawable.Drawable;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -12,11 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.mock.MockSubCriteria;
+import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.ui.view_data.SubCriteriaViewData;
 
 /**
  * Created by Alexander Chibirev on 8/16/2018.
@@ -45,18 +45,23 @@ public abstract class BaseRecyclerAdapter<VH extends BaseRecyclerAdapter.BaseVie
 
         protected abstract void onClick(int position);
 
-        protected void rebindProgress(@NonNull List<MockSubCriteria> subCriterias,
-                                      TextView progressTextView,
-                                      ProgressBar progressBar) {
+        protected void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias, TextView progressTextView,
+                                    ProgressBar progressBar) {
             int totalQuestions = subCriterias.size();
             int answeredQuestions = 0;
-            for (MockSubCriteria subCriteria : subCriterias) {
-                if (subCriteria.getState() != MockSubCriteria.State.NOT_ANSWERED)
-                    answeredQuestions++;
+            for (SubCriteriaViewData subCriteria : subCriterias) {
+                if (subCriteria.getAnswer() != Answer.State.NOT_ANSWERED) answeredQuestions++;
             }
-            progressTextView.setText(String.format(Locale.US, "%d/%d", answeredQuestions, totalQuestions));
 
             int progress = totalQuestions > 0 ? (int) ((float) answeredQuestions / totalQuestions * 100) : 0;
+            Resources resources = progressBar.getResources();
+            if (progress == 100) {
+                progressBar.setProgressDrawable(resources.getDrawable(R.drawable.progress_bar_states_done));
+                progressTextView.setTextColor(resources.getColor(R.color.color_criteria_progress_done));
+            } else {
+                progressBar.setProgressDrawable(resources.getDrawable(R.drawable.progress_bar_states));
+                progressTextView.setTextColor(resources.getColor(R.color.color_criteria_primary_dark));
+            }
 
             if (Build.VERSION.SDK_INT > 24) {
                 progressBar.setProgress(progress, true);
@@ -64,13 +69,8 @@ public abstract class BaseRecyclerAdapter<VH extends BaseRecyclerAdapter.BaseVie
                 progressBar.setProgress(progress);
             }
 
-            if (progress == 100) {
-                int doneColor = progressBar.getResources().getColor(R.color.color_criteria_progress_done);
-                Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
-                progressDrawable.setColorFilter(doneColor, android.graphics.PorterDuff.Mode.SRC_IN);
-                progressBar.setProgressDrawable(progressDrawable);
-                progressTextView.setTextColor(doneColor);
-            }
+            progressTextView.setText(resources.getString(R.string.criteria_progress, answeredQuestions, totalQuestions));
         }
     }
+
 }

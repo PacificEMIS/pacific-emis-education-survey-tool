@@ -1,6 +1,8 @@
 package fm.doe.national.ui.adapters;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +18,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.mock.MockCriteria;
+import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
-import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
-import fm.doe.national.util.ViewUtils;
+import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.view_data.CriteriaViewData;
+import fm.doe.national.ui.view_data.SubCriteriaViewData;
+import fm.doe.national.utils.ViewUtils;
 
 public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.CriteriaViewHolder> {
 
-    private List<MockCriteria> items;
+    private List<CriteriaViewData> items;
     private List<SubcriteriaStateChangeListener> subscribers;
 
     public CriteriaAdapter() {
@@ -49,12 +54,12 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         return items.size();
     }
 
-    public void setCriterias(@NonNull List<MockCriteria> criterias) {
+    public void setCriterias(@NonNull List<CriteriaViewData> criterias) {
         items = criterias;
         notifyDataSetChanged();
     }
 
-    public void flushSubscribers() {
+    public void clearSubscribers() {
         subscribers.clear();
     }
 
@@ -66,7 +71,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         subscribers.add(listener);
     }
 
-    protected class CriteriaViewHolder extends BaseRecyclerAdapter.BaseViewHolder {
+    protected class CriteriaViewHolder extends BaseRecyclerViewHolder implements SubcriteriaStateChangeListener {
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -83,30 +88,25 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         @BindView(R.id.constraintlayout_criteria_header)
         View header;
 
-        @BindView(R.id.image_expanding_arrow)
+        @BindView(R.id.imageview_expanding_arrow)
         ImageView arrowImageView;
 
-        protected CriteriaViewHolder(View v) {
+        private CriteriaViewData criteria;
+        private SubCriteriaAdapter subCriteriaAdapter;
+
+        public CriteriaViewHolder(View v) {
             super(v);
+            SubCriteriaAdapter adapter = new SubCriteriaAdapter();
+            adapter.addSubscribers(subscribers);
+            adapter.subscribeOnChanges(this);
         }
 
-        @Override
-        protected void onClick(int position) {
-
-        }
-
-        protected void bind(MockCriteria criteriaPair) {
-            titleTextView.setText(criteriaPair.getName());
-
-            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteriaPair.getSubcriterias());
-            adapter.passSubscribers(subscribers);
-            adapter.subscribeOnChanges(() -> rebindProgress(criteriaPair.getSubcriterias(),
-                    progressTextView, progressBar));
-            subcriteriasRecycler.setAdapter(adapter);
-
-            rebindProgress(criteriaPair.getSubcriterias(), progressTextView, progressBar);
-
-            // TODO: use AnimatedVectorDrawable to animate arrows
+        protected void bind(@NonNull CriteriaViewData criteriaViewData) {
+            criteria = criteriaViewData;
+            subCriteriaAdapter.setSubCriterias(criteria.getQuestionsViewData());
+            titleTextView.setText(criteria.getName());
+            rebindProgress(criteria.getQuestionsViewData());
+            // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
                     ViewUtils.animateCollapsing(subcriteriasRecycler);
@@ -116,6 +116,39 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                     arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
                 }
             });
+        }
+
+        @Override
+        public void onStateChanged(@NonNull SubCriteriaViewData viewData,
+                                   @NonNull SubCriteria subCriteria,
+                                   @Nullable Answer answer,
+                                   Answer.State newState) {
+            rebindProgress(criteria.getQuestionsViewData());
+        }
+
+        private void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias) {
+            int totalQuestions = subCriterias.size();
+            int answeredQuestions = 0;
+            for (SubCriteriaViewData subCriteria : subCriterias) {
+                if (subCriteria.getAnswer() != Answer.State.NOT_ANSWERED) answeredQuestions++;
+            }
+
+            int progress = totalQuestions > 0 ? (int) ((float) answeredQuestions / totalQuestions * 100) : 0;
+            if (progress == 100) {
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_bar_states_done));
+                progressTextView.setTextColor(getResources().getColor(R.color.color_criteria_progress_done));
+            } else {
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_bar_states));
+                progressTextView.setTextColor(getResources().getColor(R.color.color_criteria_primary_dark));
+            }
+
+            if (Build.VERSION.SDK_INT > 24) {
+                progressBar.setProgress(progress, true);
+            } else {
+                progressBar.setProgress(progress);
+            }
+
+            progressTextView.setText(getResources().getString(R.string.criteria_progress, answeredQuestions, totalQuestions));
         }
     }
 }

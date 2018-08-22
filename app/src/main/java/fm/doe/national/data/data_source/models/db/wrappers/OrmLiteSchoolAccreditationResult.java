@@ -39,4 +39,8 @@ public class OrmLiteSchoolAccreditationResult implements SchoolAccreditationResu
     public Date getEndDate() {
         return surveyResult.getEndDate();
     }
+
+    public OrmLiteBaseSurveyResult getSurveyResult() {
+        return surveyResult;
+    }
 }

@@ -1,15 +1,16 @@
 package fm.doe.national.ui.screens.standard;
 
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import fm.doe.national.mock.MockCriteria;
 import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.ui.view_data.CriteriaViewData;
 
 public interface StandardView extends BaseView {
-    void bindGlobalInfo(String title, @DrawableRes int icon);
-    void bindCriterias(@NonNull List<MockCriteria> criterias);
-    void bindProgress(int answered, int total);
+    void setGlobalInfo(String title, int resourceIndex);
+    void setCriterias(@NonNull List<CriteriaViewData> criterias);
+    void setProgress(int answered, int total);
+    void setPrevStandard(String title, int resourceIndex);
+    void setNextStandard(String title, int resourceIndex);
 }

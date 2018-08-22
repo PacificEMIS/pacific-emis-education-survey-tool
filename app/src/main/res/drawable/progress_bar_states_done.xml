@@ -1,0 +1,23 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@android:id/background">
+        <shape>
+            <gradient
+                android:centerColor="@color/color_criteria_progress_bg"
+                android:endColor="@color/color_criteria_progress_bg"
+                android:startColor="@color/color_criteria_progress_bg" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:centerColor="@color/color_criteria_progress_done"
+                    android:endColor="@color/color_criteria_progress_done"
+                    android:startColor="@color/color_criteria_progress_done" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>
