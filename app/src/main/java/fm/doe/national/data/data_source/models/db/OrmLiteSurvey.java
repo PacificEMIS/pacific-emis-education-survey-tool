@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public class OrmLiteSurvey {
     protected String type;
 
     @ForeignCollectionField(eager = true, columnName = Column.SURVEY_ITEMS)
-    protected List<OrmLiteSurveyItem> surveyItems;
+    protected Collection<OrmLiteSurveyItem> surveyItems;
 
     public OrmLiteSurvey() {
     }
@@ -49,7 +50,7 @@ public class OrmLiteSurvey {
         return type;
     }
 
-    public List<OrmLiteSurveyItem> getSurveyItems() {
+    public Collection<OrmLiteSurveyItem> getSurveyItems() {
         return surveyItems;
     }
 
