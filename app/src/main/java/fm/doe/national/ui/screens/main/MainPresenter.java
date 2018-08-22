@@ -7,10 +7,12 @@ import com.arellomobile.mvp.InjectViewState;
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.screens.base.BaseView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class MainPresenter extends BasePresenter<BaseView> {
@@ -22,10 +24,13 @@ public class MainPresenter extends BasePresenter<BaseView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         MicronesiaApplication.getAppComponent().inject(this);
-        repository.uploadContent("HELLO WORLD")
+        repository.setPrimary(CloudAccessor.Type.DROPBOX);
+        add(repository.getContent()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(() -> Log.d("DEBIG", "SUCCESS"))
-                .doOnError(Throwable::printStackTrace)
-                .subscribe();
+                .subscribe(
+                        s -> Log.d("SAD", s),
+                        throwable -> Log.d("aasda","asdasd"))
+        );
     }
 }

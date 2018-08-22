@@ -13,6 +13,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(METHOD)
 @Retention(RUNTIME)
 @MapKey
-public @interface CloutTypeKey {
+public @interface CloudTypeKey {
     CloudAccessor.Type value();
 }

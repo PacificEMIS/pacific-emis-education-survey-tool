@@ -3,4 +3,7 @@
     <string name="title_drive_open_file">Choose file to import</string>
     <string name="survey_report">Survey report %1$s</string>
     <string name="title_upload">Upload report &#8230;</string>
+
+    <string name="dropbox_api_app_key">wgfc52kfzlfemur</string>
+    <string name="dropbox_api_app_secret">qugh4owkkjq4alb</string>
 </resources>

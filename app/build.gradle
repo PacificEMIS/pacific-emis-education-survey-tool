@@ -104,4 +104,7 @@ dependencies {
     // Google Play Services + Drive
     implementation 'com.google.android.gms:play-services-drive:15.0.1'
     implementation 'com.google.android.gms:play-services-auth:16.0.0'
+
+    // Dropbox
+    compile 'com.dropbox.core:dropbox-core-sdk:3.0.8'
 }

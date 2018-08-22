@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -52,45 +51,45 @@ public class MicronesiaApplication extends Application implements Application.Ac
         return appComponent;
     }
 
+    // region ActivityLifecycleCallbacks
     @Nullable
     public Activity getCurrentActivity() {
         return currentActivityRef.get();
     }
 
-    //TODO: FIXME
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
-        Log.d("DEBUG", "s");
-        currentActivityRef = new WeakReference<>(activity);
+        // nothing
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-        Log.d("DEBUG", "s");
+        // nothing
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Log.d("DEBUG", "s");
         currentActivityRef = new WeakReference<>(activity);
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        Log.d("DEBUG", "s");
+        // nothing
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        Log.d("DEBUG", "s");
+        // nothing
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-        Log.d("DEBUG", "s");
+        // nothing
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        Log.d("DEBUG", "s");    }
+        currentActivityRef = null;
+    }
+    // endregion
 }

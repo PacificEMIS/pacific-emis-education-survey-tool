@@ -6,7 +6,6 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface CloudAccessor {
-    Type getType();
     Single<String> importContentFromCloud();
     Completable exportContentToCloud(@NonNull String content);
     Completable auth();

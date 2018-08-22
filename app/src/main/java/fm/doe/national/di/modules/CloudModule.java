@@ -12,23 +12,25 @@ import dagger.multibindings.IntoMap;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.Clouds;
-import fm.doe.national.data.cloud.CloutTypeKey;
+import fm.doe.national.data.cloud.CloudTypeKey;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 
-@Module()
+@Module
 public class CloudModule {
 
     @Provides
     @IntoMap()
-    @CloutTypeKey(CloudAccessor.Type.DRIVE)
+    @CloudTypeKey(CloudAccessor.Type.DRIVE)
+    @Singleton
     public CloudAccessor provideDriveCloudAccessorForSet(Context context) {
         return new DriveCloudAccessor(context);
     }
 
     @Provides
     @IntoMap
-    @CloutTypeKey(CloudAccessor.Type.DROPBOX)
+    @CloudTypeKey(CloudAccessor.Type.DROPBOX)
+    @Singleton
     public CloudAccessor provideDropboxCloudAccessorForSet(Context context) {
         return new DropboxCloudAccessor(context);
     }
@@ -37,6 +39,11 @@ public class CloudModule {
     @Provides
     public DriveCloudAccessor provideDriveCloudAccessor(Map<CloudAccessor.Type, CloudAccessor> cloudAccessorMap) {
         return (DriveCloudAccessor) cloudAccessorMap.get(CloudAccessor.Type.DRIVE);
+    }
+
+    @Provides
+    public DropboxCloudAccessor provideDropboxCloudAccessor(Map<CloudAccessor.Type, CloudAccessor> cloudAccessorMap) {
+        return (DropboxCloudAccessor) cloudAccessorMap.get(CloudAccessor.Type.DROPBOX);
     }
 
     @Provides

@@ -44,7 +44,8 @@ public class Clouds implements CloudRepository {
         return Single.just("");
     }
 
-    public void setPrimaryType(CloudAccessor.Type primaryType) {
-        this.primaryType = primaryType;
+    @Override
+    public void setPrimary(CloudAccessor.Type type) {
+        this.primaryType = type;
     }
 }

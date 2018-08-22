@@ -37,7 +37,6 @@ public class DriveCloudAccessor implements CloudAccessor {
         context = appContext;
     }
 
-    //region CloudAccessor
     @Override
     public Single<String> importContentFromCloud() {
         importSingle = SingleSubject.create();
@@ -68,12 +67,6 @@ public class DriveCloudAccessor implements CloudAccessor {
         startActivityAction(DriveActivity.ACTION_AUTH);
         return Completable.fromSingle(authSingle).subscribeOn(Schedulers.io());
     }
-
-    @Override
-    public Type getType() {
-        return Type.DRIVE;
-    }
-    //endregion
 
     protected void onAuth() {
         if (authSingle == null) return;
