@@ -7,7 +7,6 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @DatabaseTable
@@ -42,15 +41,15 @@ public class OrmLiteSurveyItem {
     protected OrmLiteSurveyItem parentItem;
 
     @ForeignCollectionField(eager = true, columnName = Column.CHILDREN)
-    protected Collection<OrmLiteSurveyItem> childrenItems;
+    protected List<OrmLiteSurveyItem> childrenItems;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)
-    protected OrmLiteBaseSurvey survey;
+    protected OrmLiteSurvey survey;
 
     public OrmLiteSurveyItem() {
     }
 
-    public OrmLiteSurveyItem(String name, Type type, OrmLiteBaseSurvey survey, OrmLiteSurveyItem parentItem) {
+    public OrmLiteSurveyItem(String name, Type type, OrmLiteSurvey survey, OrmLiteSurveyItem parentItem) {
         this.name = name;
         this.type = type;
         this.survey = survey;
@@ -75,7 +74,7 @@ public class OrmLiteSurveyItem {
         this.parentItem = parentItem;
     }
 
-    public Collection<OrmLiteSurveyItem> getChildrenItems() {
+    public List<OrmLiteSurveyItem> getChildrenItems() {
         return childrenItems;
     }
 
@@ -90,7 +89,7 @@ public class OrmLiteSurveyItem {
         }
     }
 
-    public OrmLiteBaseSurvey getSurvey() {
+    public OrmLiteSurvey getSurvey() {
         return survey == null ? parentItem.getSurvey() : survey;
     }
 }

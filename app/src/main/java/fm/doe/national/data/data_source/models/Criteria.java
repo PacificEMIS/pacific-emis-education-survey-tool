@@ -3,13 +3,13 @@ package fm.doe.national.data.data_source.models;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
-public interface Criteria extends Serializable {
+public interface   Criteria extends Serializable {
     Standard getStandard();
 
     @NonNull
     String getName();
 
-    Collection<? extends SubCriteria> getSubCriterias();
+    List<? extends SubCriteria> getSubCriterias();
 }

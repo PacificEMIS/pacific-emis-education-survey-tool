@@ -3,7 +3,7 @@ package fm.doe.national.data.data_source.models;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 public interface Standard extends Serializable {
     @NonNull
@@ -11,5 +11,5 @@ public interface Standard extends Serializable {
 
     GroupStandard getGroupStandard();
 
-    Collection<? extends Criteria> getCriterias();
+    List<? extends Criteria> getCriterias();
 }

@@ -4,13 +4,11 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.Collection;
-
-import fm.doe.national.data.data_source.models.Survey;
+import java.util.List;
 
 
 @DatabaseTable
-public class OrmLiteBaseSurvey {
+public class OrmLiteSurvey {
 
     public interface Column {
         String ID = "id";
@@ -29,12 +27,12 @@ public class OrmLiteBaseSurvey {
     protected String type;
 
     @ForeignCollectionField(eager = true, columnName = Column.SURVEY_ITEMS)
-    protected Collection<OrmLiteSurveyItem> surveyItems;
+    protected List<OrmLiteSurveyItem> surveyItems;
 
-    public OrmLiteBaseSurvey() {
+    public OrmLiteSurvey() {
     }
 
-    public OrmLiteBaseSurvey(int version, String type) {
+    public OrmLiteSurvey(int version, String type) {
         this.version = version;
         this.type = type;
     }
@@ -51,11 +49,11 @@ public class OrmLiteBaseSurvey {
         return type;
     }
 
-    public Collection<OrmLiteSurveyItem> getSurveyItems() {
+    public List<OrmLiteSurveyItem> getSurveyItems() {
         return surveyItems;
     }
 
-    public void setSurveyItems(Collection<OrmLiteSurveyItem> surveyItems) {
+    public void setSurveyItems(List<OrmLiteSurveyItem> surveyItems) {
         this.surveyItems = surveyItems;
     }
 }

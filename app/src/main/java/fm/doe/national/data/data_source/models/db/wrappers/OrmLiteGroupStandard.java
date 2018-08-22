@@ -3,7 +3,6 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
@@ -25,7 +24,7 @@ public class OrmLiteGroupStandard implements GroupStandard {
     }
 
     @Override
-    public Collection<? extends Standard> getStandards() {
+    public List<? extends Standard> getStandards() {
         List<Standard> standards = new ArrayList<>();
         for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
             standards.add(new OrmLiteStandard(surveyItem));
