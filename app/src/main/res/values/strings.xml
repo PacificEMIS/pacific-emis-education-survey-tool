@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NDOE Data Collection App</string>
+    <string name="title_drive_open_file">Choose file to import</string>
 </resources>

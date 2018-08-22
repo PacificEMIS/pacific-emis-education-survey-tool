@@ -96,7 +96,7 @@ public class DriveActivity extends AppCompatActivity {
 
     private void importFileContent() {
         OpenFileActivityOptions options = new OpenFileActivityOptions.Builder()
-                .setActivityTitle("WOOW TITLE") // TODO: <--- this
+                .setActivityTitle(getString(R.string.title_drive_open_file))
                 .build();
 
         DriveClient client = driveCloudAccessor.getDriveClient();
