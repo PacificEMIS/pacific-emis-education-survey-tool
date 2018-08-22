@@ -59,12 +59,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             SerializableSchoolAccreditation schoolAccreditation =
                     gson.fromJson(data, SerializableSchoolAccreditation.class);
 
-            surveyDao.createSurvey(
+            surveyDao.createSchoolAccreditation(
                     schoolAccreditation.getVersion(),
                     schoolAccreditation.getType(),
                     schoolAccreditation.getGroupStandards());
 
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class SurveyDao extends BaseRxDao<OrmLiteBaseSurvey, Long> {
@@ -20,20 +21,17 @@ public class SurveyDao extends BaseRxDao<OrmLiteBaseSurvey, Long> {
         this.surveyItemDao = surveyItemDao;
     }
 
-    public Single<OrmLiteBaseSurvey> createSurvey(int version, String type) {
+    public Single<OrmLiteBaseSurvey> createSchoolAccreditation(int version, String type) {
         return Single.fromCallable(() -> new OrmLiteBaseSurvey(version, type));
     }
 
-    public OrmLiteBaseSurvey createSurvey(int version,
-                                          String type,
-                                          Collection<? extends GroupStandard> groupStandards)
-            throws SQLException {
-        OrmLiteBaseSurvey survey = new OrmLiteBaseSurvey(version, type);
-        create(survey);
-
-        survey.setSurveyItems(surveyItemDao.createFromGroupStandards(groupStandards, survey));
-
-        return survey;
+    public Completable createSchoolAccreditation(int version,
+                                                 String type,
+                                                 Collection<? extends GroupStandard> groupStandards) {
+        return Single.fromCallable(() -> new OrmLiteBaseSurvey(version, type))
+                .map(this::createIfNotExists)
+                .map(survey -> surveyItemDao.createFromGroupStandards(groupStandards, survey))
+                .ignoreElement();
     }
 
     public OrmLiteBaseSurvey getRelevantSurvey() throws SQLException {

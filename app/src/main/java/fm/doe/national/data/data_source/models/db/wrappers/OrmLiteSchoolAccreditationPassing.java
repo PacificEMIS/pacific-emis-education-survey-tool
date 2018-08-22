@@ -4,14 +4,14 @@ import java.util.Date;
 
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurveyResult;
 
-public class OrmLiteSchoolAccreditationResult implements SchoolAccreditationResult {
+public class OrmLiteSchoolAccreditationPassing implements SchoolAccreditationPassing {
 
     private OrmLiteBaseSurveyResult surveyResult;
 
-    public OrmLiteSchoolAccreditationResult(OrmLiteBaseSurveyResult surveyResult) {
+    public OrmLiteSchoolAccreditationPassing(OrmLiteBaseSurveyResult surveyResult) {
         this.surveyResult = surveyResult;
     }
 

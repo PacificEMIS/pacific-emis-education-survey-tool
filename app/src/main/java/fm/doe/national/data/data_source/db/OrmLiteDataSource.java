@@ -2,7 +2,6 @@ package fm.doe.national.data.data_source.db;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.DataSource;
@@ -13,16 +12,14 @@ import fm.doe.national.data.data_source.db.dao.SurveyDao;
 import fm.doe.national.data.data_source.db.dao.SurveyItemDao;
 import fm.doe.national.data.data_source.db.dao.SurveyResultDao;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.data.data_source.models.SurveyPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
-import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
-import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationResult;
-import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
+import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.data.data_source.models.Survey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -63,7 +60,7 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SchoolAccreditationResult result) {
+    public Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SurveyPassing result) {
         return surveyItemDao
                 .requestItemByName(criteria.getName())
                 .flatMap(criteriaItem -> surveyResultDao
@@ -78,18 +75,25 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Single<SchoolAccreditation> createNewSchoolAccreditation(int year, School school) {
+    public Completable createSchoolAccreditation(SchoolAccreditation schoolAccreditation) {
+        return surveyDao.createSchoolAccreditation(schoolAccreditation.getVersion(),
+                schoolAccreditation.getType(),
+                schoolAccreditation.getGroupStandards());
+    }
+
+    @Override
+    public Single<SchoolAccreditation> createNewSchoolAccreditationPassing(int year, School school) {
         return schoolDao.requestSchool(school.getId())
                 .flatMap(schoolItem -> surveyResultDao.createSurveyResult(year, schoolItem)
                         .map(surveyResult -> new OrmLiteSchoolAccreditation(surveyResult.getSurvey())));
     }
 
     @Override
-    public Single<List<SchoolAccreditationResult>> requestSchoolAccreditationResults() {
+    public Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings() {
         return surveyResultDao.getAllQueriesSingle().toObservable().flatMapIterable(resultList -> resultList)
-                .map(OrmLiteSchoolAccreditationResult::new)
+                .map(OrmLiteSchoolAccreditationPassing::new)
                 .toList()
-                .map(ArrayList<SchoolAccreditationResult>::new);
+                .map(ArrayList<SchoolAccreditationPassing>::new);
     }
 
 }

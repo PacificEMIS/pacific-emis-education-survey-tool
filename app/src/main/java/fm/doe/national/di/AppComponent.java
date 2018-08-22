@@ -1,15 +1,17 @@
 package fm.doe.national.di;
 
 import com.google.gson.Gson;
+import com.tickaroo.tikxml.TikXml;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
 import fm.doe.national.di.modules.AccreditationDataSourceModule;
 import fm.doe.national.di.modules.ContextModule;
-import fm.doe.national.di.modules.ConvertersModule;
+import fm.doe.national.di.modules.ParsersModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
+import fm.doe.national.di.modules.TikXmlModule;
 import fm.doe.national.ui.screens.main.MainActivity;
 
 @Singleton
@@ -17,9 +19,11 @@ import fm.doe.national.ui.screens.main.MainActivity;
         DatabaseHelperModule.class,
         AccreditationDataSourceModule.class,
         GsonModule.class,
-        ConvertersModule.class})
+        TikXmlModule.class,
+        ParsersModule.class})
 public interface AppComponent {
 
     Gson getGson();
+    TikXml getTikXml();
     void inject(MainActivity mainActivity);
 }
