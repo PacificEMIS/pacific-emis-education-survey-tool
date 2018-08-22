@@ -38,7 +38,9 @@ public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
     }
 
     public OrmLiteSurvey getRelevantSurvey() throws SQLException {
-        return queryBuilder().orderBy(OrmLiteSurvey.Column.VERSION, false).queryForFirst();
+        return queryBuilder()
+                .orderBy(OrmLiteSurvey.Column.VERSION, false)
+                .queryForFirst();
     }
 
 }

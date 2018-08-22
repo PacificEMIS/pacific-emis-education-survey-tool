@@ -91,7 +91,9 @@ public class OrmLiteDataSource implements DataSource {
 
     @Override
     public Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings() {
-        return surveyPassingDao.getAllQueriesSingle().toObservable().flatMapIterable(resultList -> resultList)
+        return surveyPassingDao.getAllQueriesSingle()
+                .toObservable()
+                .flatMapIterable(resultList -> resultList)
                 .map(OrmLiteSchoolAccreditationPassing::new)
                 .toList()
                 .map(ArrayList<SchoolAccreditationPassing>::new);
