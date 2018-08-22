@@ -1,6 +1,5 @@
 package fm.doe.national.ui.adapters;
 
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,14 +15,13 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
+import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import fm.doe.national.utils.ViewUtils;
@@ -61,7 +59,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         notifyDataSetChanged();
     }
 
-    public void flushSubscribers() {
+    public void clearSubscribers() {
         subscribers.clear();
     }
 
@@ -73,7 +71,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         subscribers.add(listener);
     }
 
-    protected class CriteriaViewHolder extends RecyclerView.ViewHolder {
+    protected class CriteriaViewHolder extends BaseRecyclerViewHolder implements SubcriteriaStateChangeListener {
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -90,30 +88,25 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         @BindView(R.id.constraintlayout_criteria_header)
         View header;
 
-        @BindView(R.id.image_expanding_arrow)
+        @BindView(R.id.imageview_expanding_arrow)
         ImageView arrowImageView;
 
-        protected CriteriaViewHolder(View v) {
+        private CriteriaViewData criteria;
+        private SubCriteriaAdapter subCriteriaAdapter;
+
+        public CriteriaViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            SubCriteriaAdapter adapter = new SubCriteriaAdapter();
+            adapter.addSubscribers(subscribers);
+            adapter.subscribeOnChanges(this);
         }
 
-        protected void bind(CriteriaViewData criteria) {
+        protected void bind(@NonNull CriteriaViewData criteriaViewData) {
+            criteria = criteriaViewData;
+            subCriteriaAdapter.setSubCriterias(criteria.getQuestionsViewData());
             titleTextView.setText(criteria.getName());
-
-            SubCriteriaAdapter adapter = new SubCriteriaAdapter(criteria.getQuestionsViewData());
-            adapter.passSubscribers(subscribers);
-            adapter.subscribeOnChanges((@NonNull SubCriteriaViewData subCriteriaViewData,
-                                        @NonNull SubCriteria subCriteria,
-                                        @Nullable Answer answer,
-                                        Answer.State newState) ->
-                    rebindProgress(criteria.getQuestionsViewData())
-            );
-            subcriteriasRecycler.setAdapter(adapter);
-
             rebindProgress(criteria.getQuestionsViewData());
-
-            // TODO: use AnimatedVectorDrawable to animate arrows
+            // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
                     ViewUtils.animateCollapsing(subcriteriasRecycler);
@@ -125,15 +118,29 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
             });
         }
 
+        @Override
+        public void onStateChanged(@NonNull SubCriteriaViewData viewData,
+                                   @NonNull SubCriteria subCriteria,
+                                   @Nullable Answer answer,
+                                   Answer.State newState) {
+            rebindProgress(criteria.getQuestionsViewData());
+        }
+
         private void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias) {
             int totalQuestions = subCriterias.size();
             int answeredQuestions = 0;
             for (SubCriteriaViewData subCriteria: subCriterias) {
                 if (subCriteria.getAnswer() != Answer.State.NOT_ANSWERED) answeredQuestions++;
             }
-            progressTextView.setText(String.format(Locale.US, "%d/%d", answeredQuestions, totalQuestions));
 
             int progress = totalQuestions > 0 ? (int)((float)answeredQuestions / totalQuestions * 100) : 0;
+            if (progress == 100) {
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_bar_states_done));
+                progressTextView.setTextColor(getResources().getColor(R.color.color_criteria_progress_done));
+            } else {
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_bar_states));
+                progressTextView.setTextColor(getResources().getColor(R.color.color_criteria_primary_dark));
+            }
 
             if (Build.VERSION.SDK_INT > 24) {
                 progressBar.setProgress(progress, true);
@@ -141,15 +148,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                 progressBar.setProgress(progress);
             }
 
-            if (progress == 100) {
-                int doneColor = progressBar.getResources().getColor(R.color.color_criteria_progress_done);
-                Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
-                progressDrawable.setColorFilter(doneColor, android.graphics.PorterDuff.Mode.SRC_IN);
-                progressBar.setProgressDrawable(progressDrawable);
-                progressTextView.setTextColor(doneColor);
-            } else {
-                // TODO: fix progress bar
-            }
+            progressTextView.setText(getResources().getString(R.string.criteria_progress, answeredQuestions, totalQuestions));
         }
     }
 }

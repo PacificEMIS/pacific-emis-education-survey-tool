@@ -47,4 +47,12 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         Toast.makeText(this, text.getString(getResources()), Toast.LENGTH_SHORT).show();
     }
 
+    protected <T> T getSerializableArgument(String extraName, Class<T> theClass) {
+        try {
+            return (T) getIntent().getSerializableExtra(extraName);
+        } catch (NullPointerException | ClassCastException ex) {
+            throw new RuntimeException(
+                    "Unable to obtain serializable argument");
+        }
+    }
 }

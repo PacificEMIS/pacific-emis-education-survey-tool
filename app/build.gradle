@@ -14,7 +14,9 @@ android {
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
 
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
     signingConfigs {
         release {

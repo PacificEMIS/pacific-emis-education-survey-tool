@@ -9,23 +9,23 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
+import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
+import fm.doe.national.utils.TextUtil;
 
 public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.SubCriteriaViewHolder> {
 
     private List<SubCriteriaViewData> subCriterias;
     private List<SubcriteriaStateChangeListener> subscribers;
 
-    public SubCriteriaAdapter(List<SubCriteriaViewData> subCriterias) {
-        this.subCriterias = subCriterias;
+    public SubCriteriaAdapter() {
+        subCriterias = new ArrayList<>();
         subscribers = new ArrayList<>();
     }
 
@@ -41,12 +41,17 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         holder.bind(subCriterias.get(position), position);
     }
 
+    public void setSubCriterias(List<SubCriteriaViewData> subCriterias) {
+        this.subCriterias.clear();
+        this.subCriterias.addAll(subCriterias);
+    }
+
     @Override
     public int getItemCount() {
         return subCriterias.size();
     }
 
-    public void flushSubscribers() {
+    public void clearSubscribers() {
         subscribers.clear();
     }
 
@@ -58,11 +63,11 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         subscribers.add(listener);
     }
 
-    public void passSubscribers(List<SubcriteriaStateChangeListener> subscribers) {
+    public void addSubscribers(List<SubcriteriaStateChangeListener> subscribers) {
         this.subscribers.addAll(subscribers);
     }
 
-    protected class SubCriteriaViewHolder extends RecyclerView.ViewHolder {
+    protected class SubCriteriaViewHolder extends BaseRecyclerViewHolder implements SwitchableButton.StateChangedListener {
 
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
@@ -73,21 +78,26 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         @BindView(R.id.switch_answer)
         SwitchableButton switchableButton;
 
+        private SubCriteriaViewData subCriteria;
 
         protected SubCriteriaViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            switchableButton.setListener(this);
         }
 
-        protected void bind(SubCriteriaViewData subCriteria, int position) {
+        protected void bind(SubCriteriaViewData subCriteriaViewData, int position) {
+            subCriteria = subCriteriaViewData;
             questionTextView.setText(subCriteria.getText());
-            numberingTextView.setText(String.format(Locale.US, "%c.", 'a' + position));
+            numberingTextView.setText(
+                    getResources().getString(R.string.criteria_char_icon_pattern, TextUtil.convertIntToCharsIcons(position)));
 
             switchableButton.setState(convertToUiState(subCriteria.getAnswer()));
-            switchableButton.setListener((View view, SwitchableButton.State state) -> {
-                subCriteria.setAnswer(convertFromUiState(state));
-                notifyStateChanged(subCriteria);
-            });
+        }
+
+        @Override
+        public void onStateChanged(View view, SwitchableButton.State state) {
+            subCriteria.setAnswer(convertFromUiState(state));
+            notifyStateChanged(subCriteria);
         }
 
         private SwitchableButton.State convertToUiState(Answer.State state) {
@@ -115,11 +125,9 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         }
 
         private void notifyStateChanged(SubCriteriaViewData subCriteria) {
-            if (subscribers != null) {
-                for (SubcriteriaStateChangeListener subscriber: subscribers) {
-                    subscriber.onStateChanged(subCriteria, subCriteria.getCorrespondingSubCriteria(),
-                            subCriteria.getCorrespondingAnswer(), subCriteria.getAnswer());
-                }
+            for (SubcriteriaStateChangeListener subscriber : subscribers) {
+                subscriber.onStateChanged(subCriteria, subCriteria.getCorrespondingSubCriteria(),
+                        subCriteria.getCorrespondingAnswer(), subCriteria.getAnswer());
             }
         }
     }

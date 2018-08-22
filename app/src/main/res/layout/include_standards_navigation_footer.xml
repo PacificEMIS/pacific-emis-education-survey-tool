@@ -19,7 +19,7 @@
         android:background="?attr/selectableItemBackground">
 
         <ImageView
-            android:id="@+id/image_standard_icon_prev"
+            android:id="@+id/imageview_standard_icon_prev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,7 @@
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_standard_icon_prev"
+            app:layout_constraintStart_toEndOf="@+id/imageview_standard_icon_prev"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Classroom\nObservation" />
     </android.support.constraint.ConstraintLayout>
@@ -61,7 +61,7 @@
         android:background="?attr/selectableItemBackground">
 
         <ImageView
-            android:id="@+id/image_standard_icon_next"
+            android:id="@+id/imageview_standard_icon_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +83,7 @@
             android:textSize="14sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/image_standard_icon_next"
+            app:layout_constraintEnd_toStartOf="@+id/imageview_standard_icon_next"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Standard 2:\nTeacher Performance" />

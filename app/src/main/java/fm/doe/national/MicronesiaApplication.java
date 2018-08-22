@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 
 import fm.doe.national.di.AppComponent;
 import fm.doe.national.di.DaggerAppComponent;
-import fm.doe.national.di.modules.AccreditationDataSourceModule;
 import fm.doe.national.di.modules.ContextModule;
 import io.fabric.sdk.android.Fabric;
 
@@ -24,7 +23,6 @@ public class MicronesiaApplication extends Application {
         Fabric.with(this, new Crashlytics());
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))
-                .accreditationDataSourceModule(new AccreditationDataSourceModule())
                 .build();
 
         showDebugDBAddressLogToast(this);

@@ -21,7 +21,7 @@
         app:layout_constraintTop_toBottomOf="@+id/include_toolbar">
 
         <ImageView
-            android:id="@+id/image_icon_pass"
+            android:id="@+id/imageview_icon_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -40,14 +40,14 @@
             android:fontFamily="sans-serif"
             android:textColor="@color/charcoal_gray"
             android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="@+id/image_icon_pass"
+            app:layout_constraintBottom_toBottomOf="@+id/imageview_icon_pass"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_icon_pass"
-            app:layout_constraintTop_toTopOf="@+id/image_icon_pass"
+            app:layout_constraintStart_toEndOf="@+id/imageview_icon_pass"
+            app:layout_constraintTop_toTopOf="@+id/imageview_icon_pass"
             tools:text="24/53" />
 
         <ImageView
-            android:id="@+id/image_icon_bg"
+            android:id="@+id/imageview_icon_bg"
             android:layout_width="@dimen/size_standard_icon"
             android:layout_height="@dimen/size_standard_icon"
             android:layout_marginBottom="12dp"
@@ -60,13 +60,13 @@
 
 
         <ImageView
-            android:id="@+id/image_standard_icon"
+            android:id="@+id/imageview_standard_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/image_icon_bg"
-            app:layout_constraintEnd_toEndOf="@+id/image_icon_bg"
-            app:layout_constraintStart_toStartOf="@+id/image_icon_bg"
-            app:layout_constraintTop_toTopOf="@+id/image_icon_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/imageview_icon_bg"
+            app:layout_constraintEnd_toEndOf="@+id/imageview_icon_bg"
+            app:layout_constraintStart_toStartOf="@+id/imageview_icon_bg"
+            app:layout_constraintTop_toTopOf="@+id/imageview_icon_bg"
             tools:src="@drawable/ic_standard_leadership" />
 
         <TextView
@@ -77,10 +77,10 @@
             android:fontFamily="sans-serif"
             android:textColor="@color/charcoal_gray"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/image_icon_bg"
-            app:layout_constraintEnd_toStartOf="@+id/image_icon_pass"
-            app:layout_constraintStart_toEndOf="@+id/image_icon_bg"
-            app:layout_constraintTop_toTopOf="@+id/image_icon_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/imageview_icon_bg"
+            app:layout_constraintEnd_toStartOf="@+id/imageview_icon_pass"
+            app:layout_constraintStart_toEndOf="@+id/imageview_icon_bg"
+            app:layout_constraintTop_toTopOf="@+id/imageview_icon_bg"
             tools:text="Standard 1: Leadership" />
     </android.support.constraint.ConstraintLayout>
 

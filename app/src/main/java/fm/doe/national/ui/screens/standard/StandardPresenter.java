@@ -36,14 +36,9 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private List<Standard> standards;
     private List<CriteriaViewData> criteriaViewDataList;
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
+    public StandardPresenter(SchoolAccreditationResult result) {
         MicronesiaApplication.getAppComponent().inject(this);
-    }
 
-    public void setAccreditationResult(SchoolAccreditationResult result) throws NullPointerException {
-        if (result == null) throw new NullPointerException();
         this.accreditationResult = result;
         this.standardIndex = 0;
         standards = new ArrayList<>();
@@ -53,6 +48,11 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         for (GroupStandard groupStandard: accreditationResult.getSchoolAccreditation().getGroupStandards()) {
             standards.addAll(groupStandard.getStandards());
         }
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
         updateUi();
     }
 
@@ -65,13 +65,18 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 //dataSource.deleteAnswer(answer);
             }
             answer.setAnswer(newState == Answer.State.POSITIVE);
-            dataSource.updateAnswer(answer);
+            add(dataSource.updateAnswer(answer)
+                    .subscribe(() -> {
+                        //nothing
+                    }, throwable -> {
+                        //nothing
+                    }));
         } else {
-            dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
+            add(dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
                     .doOnSuccess(subCriteriaViewData::setCorrespondingAnswer)
-                    .subscribe();
+                    .subscribe());
         }
-        getViewState().bindProgress(getAnsweredCount(), getQuestionsCount());
+        getViewState().setProgress(getAnsweredCount(), getQuestionsCount());
     }
 
     public void onNextPressed() {
@@ -85,25 +90,26 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     private void updateUi() {
-        getViewState().bindGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
-        getViewState().bindPrevStandard(standards.get(getPrevIndex()).getName(), getPrevIndex());
-        getViewState().bindNextStandard(standards.get(getNextIndex()).getName(), getNextIndex());
+        getViewState().setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
+        getViewState().setPrevStandard(standards.get(getPrevIndex()).getName(), getPrevIndex());
+        getViewState().setNextStandard(standards.get(getNextIndex()).getName(), getNextIndex());
 
         loadQuestions();
     }
 
     private void loadQuestions() {
-        Observable.fromIterable(standards.get(standardIndex).getCriterias())
+        add(Observable
+                .fromIterable(standards.get(standardIndex).getCriterias())
                 .concatMap(criteria -> dataSource.requestAnswers(criteria, accreditationResult)
                         .map(children -> Pair.create(criteria, children))
                         .toObservable())
                 .toMap(mapPair -> mapPair.first, mapPair -> mapPair.second)
                 .doOnSuccess((Map<? extends Criteria, Map<SubCriteria, Answer>> criteriasQuestions) -> {
                     criteriaViewDataList = convertToViewData(criteriasQuestions);
-                    getViewState().bindCriterias(criteriaViewDataList);
-                    getViewState().bindProgress(getAnsweredCount(), getQuestionsCount());
+                    getViewState().setCriterias(criteriaViewDataList);
+                    getViewState().setProgress(getAnsweredCount(), getQuestionsCount());
                 })
-                .subscribe();
+                .subscribe());
     }
 
     @NonNull
