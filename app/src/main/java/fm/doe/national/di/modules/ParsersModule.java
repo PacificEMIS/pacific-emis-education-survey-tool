@@ -1,11 +1,15 @@
 package fm.doe.national.di.modules;
 
+import java.util.List;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import fm.doe.national.data.data_source.models.School;
+import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.parsers.CsvSchoolParser;
-import fm.doe.national.data.parsers.SchoolAccreditationParser;
+import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.data.parsers.SchoolParser;
 import fm.doe.national.data.parsers.XmlSchoolAccreditationParser;
 
@@ -14,13 +18,13 @@ public class ParsersModule {
 
     @Provides
     @Singleton
-    public SchoolAccreditationParser provideSchoolAccreditationParser() {
+    public Parser<SchoolAccreditation> provideSchoolAccreditationParser() {
         return new XmlSchoolAccreditationParser();
     }
 
     @Provides
     @Singleton
-    public SchoolParser provideSchoolParser() {
+    public Parser<List<School>> provideSchoolParser() {
         return new CsvSchoolParser();
     }
 }

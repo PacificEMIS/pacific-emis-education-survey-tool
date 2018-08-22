@@ -10,7 +10,7 @@ import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAc
 import okio.BufferedSource;
 import okio.Okio;
 
-public class XmlSchoolAccreditationParser implements SchoolAccreditationParser {
+public class XmlSchoolAccreditationParser implements Parser<SchoolAccreditation> {
 
     @Override
     public SchoolAccreditation parse(InputStream dataStream) {
