@@ -49,6 +49,7 @@ dependencies {
     def okhttpVersion = '3.4.1'
     def butterknifeVersion = '8.8.1'
     def tikxmlVersion = '0.8.13'
+    def fastCsvVersion = '1.0.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
@@ -103,7 +104,7 @@ dependencies {
     annotationProcessor "com.tickaroo.tikxml:processor:$tikxmlVersion"
 
     // FastCsv
-    implementation 'de.siegmar:fastcsv:1.0.2'
+    implementation "de.siegmar:fastcsv:$fastCsvVersion"
 
     // Run `adb forward tcp:8080 tcp:8080` in terminal
     // Open url: http://localhost:8080/ to view database

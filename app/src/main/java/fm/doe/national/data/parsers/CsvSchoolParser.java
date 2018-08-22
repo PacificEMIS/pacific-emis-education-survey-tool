@@ -12,9 +12,9 @@ import de.siegmar.fastcsv.reader.CsvRow;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 
-public class SchoolCsvParser implements SchoolParser {
+public class CsvSchoolParser implements SchoolParser {
 
-    interface Column {
+    private interface Column {
         String SCHOOL_NUMBER = "schoolNumber";
         String NAME = "name";
     }
