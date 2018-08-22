@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">NDOE Data Collection App</string>
     <string name="title_drive_open_file">Choose file to import</string>
+    <string name="survey_report">Survey report %1$s</string>
+    <string name="title_upload">Upload report &#8230;</string>
 </resources>

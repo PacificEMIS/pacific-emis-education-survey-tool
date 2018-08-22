@@ -18,9 +18,9 @@ public class MainPresenter extends BasePresenter<BaseView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        cloudAccessor.importContentFromCloud()
+        cloudAccessor.exportContentToCloud("HELLO WORLD")
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(content -> Log.d("CONTENT", content))
+                .doOnComplete(() -> Log.d("DEBIG", "SUCCESS"))
                 .doOnError(Throwable::printStackTrace)
                 .subscribe();
     }
