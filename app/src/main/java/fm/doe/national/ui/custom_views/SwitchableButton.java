@@ -58,12 +58,16 @@ public class SwitchableButton extends FrameLayout {
 
     public void setState(State state) {
         this.state = state;
-        if (state == State.POSITIVE) {
-            becomePositive();
-        } else if (state == State.NEGATIVE) {
-            becomeNegative();
-        } else {
-            becomeNeutral();
+        switch (state) {
+            case POSITIVE:
+                becomePositive();
+                break;
+            case NEGATIVE:
+                becomeNegative();
+                break;
+            case NEUTRAL:
+                becomeNeutral();
+                break;
         }
 
         if (listener != null) listener.onStateChanged(this, state);
