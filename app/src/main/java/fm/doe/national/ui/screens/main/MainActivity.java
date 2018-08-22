@@ -16,28 +16,9 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 
-    @Inject
-    SchoolParser schoolParser;
-
-    @Inject
-    DataSource dataSource;
-
     @Override
     protected int getContentView() {
         return R.layout.activity_main;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MicronesiaApplication.getAppComponent().inject(this);
-
-        try {
-            List<School> schoolList = schoolParser.parse(getAssets().open("schools.csv"));
-            dataSource.addSchools(schoolList).subscribe();
-            System.out.println();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
