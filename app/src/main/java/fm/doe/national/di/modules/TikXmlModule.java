@@ -15,6 +15,7 @@ public class TikXmlModule {
     public TikXml provideTikXml() {
         return new TikXml.Builder()
                 .writeDefaultXmlDeclaration(false)
+                .exceptionOnUnreadXml(false)
                 .build();
 
     }

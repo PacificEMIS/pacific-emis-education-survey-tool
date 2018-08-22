@@ -3,12 +3,9 @@ package fm.doe.national.data.data_source.models.serializable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 
-
-import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
@@ -27,11 +24,7 @@ public class SerializableGroupStandard implements GroupStandard {
     }
 
     @Nullable
-    public Collection<? extends Standard> getStandards() {
+    public List<? extends Standard> getStandards() {
         return standards;
-    }
-
-    public void setStandards(List<SerializableStandard> standards) {
-        this.standards = standards;
     }
 }

@@ -48,6 +48,7 @@ dependencies {
     def retrofitVersion = '2.3.0'
     def okhttpVersion = '3.4.1'
     def butterknifeVersion = '8.8.1'
+    def tikxmlVersion = '0.8.13'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
@@ -75,7 +76,7 @@ dependencies {
     implementation "com.j256.ormlite:ormlite-core:$ormliteVersion"
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 
-    //dagger
+    // Dagger
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
@@ -84,11 +85,11 @@ dependencies {
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
 
-    //butterknife
+    // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    // tests
+    // Tests
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -96,13 +97,12 @@ dependencies {
         transitive = true;
     }
 
-    implementation 'com.tickaroo.tikxml:annotation:0.8.13'
-    implementation 'com.tickaroo.tikxml:core:0.8.13'
-
-    annotationProcessor 'com.tickaroo.tikxml:processor:0.8.13'
+    // Tikxml
+    implementation "com.tickaroo.tikxml:annotation:$tikxmlVersion"
+    implementation "com.tickaroo.tikxml:core:$tikxmlVersion"
+    annotationProcessor "com.tickaroo.tikxml:processor:$tikxmlVersion"
 
     // Run `adb forward tcp:8080 tcp:8080` in terminal
-
     // Open url: http://localhost:8080/ to view database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 }

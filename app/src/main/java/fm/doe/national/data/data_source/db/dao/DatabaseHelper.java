@@ -17,11 +17,11 @@ import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
-import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurveyResult;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
-import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
 import fm.doe.national.utils.StreamUtils;
 
@@ -34,7 +34,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private SurveyDao surveyDao;
     private SurveyItemDao surveyItemDao;
     private AnswerDao answerDao;
-    private SurveyResultDao surveyResultDao;
+    private SurveyPassingDao surveyPassingDao;
 
     private AssetManager assetManager;
     private Gson gson;
@@ -48,9 +48,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         createAllTables(connectionSource);
-        createSurvey();
+//        createSurvey();
     }
 
+    // Remove after cloud storage integration
     private void createSurvey() {
         try {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
@@ -72,9 +73,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private void createAllTables(ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, OrmLiteSchool.class);
-            TableUtils.createTable(connectionSource, OrmLiteBaseSurvey.class);
+            TableUtils.createTable(connectionSource, OrmLiteSurvey.class);
             TableUtils.createTable(connectionSource, OrmLiteSurveyItem.class);
-            TableUtils.createTable(connectionSource, OrmLiteBaseSurveyResult.class);
+            TableUtils.createTable(connectionSource, OrmLiteSurveyPassing.class);
             TableUtils.createTable(connectionSource, OrmLiteAnswer.class);
         } catch (SQLException exc) {
             Log.e(TAG, "Error create Db " + DATABASE_NAME);
@@ -97,9 +98,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private void dropAllTables() {
         try {
             TableUtils.dropTable(connectionSource, OrmLiteSchool.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteBaseSurvey.class, true);
+            TableUtils.dropTable(connectionSource, OrmLiteSurvey.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteSurveyItem.class, true);
-            TableUtils.dropTable(connectionSource, OrmLiteBaseSurveyResult.class, true);
+            TableUtils.dropTable(connectionSource, OrmLiteSurveyPassing.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteAnswer.class, true);
         } catch (SQLException exc) {
             Log.e(TAG, "Error drop Db " + DATABASE_NAME);
@@ -117,7 +118,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public SurveyDao getSurveyDao() throws SQLException {
         if (surveyDao == null) {
-            surveyDao = new SurveyDao(getSurveyItemDao(), getConnectionSource(), OrmLiteBaseSurvey.class);
+            surveyDao = new SurveyDao(getSurveyItemDao(), getConnectionSource(), OrmLiteSurvey.class);
         }
         return surveyDao;
     }
@@ -136,13 +137,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return answerDao;
     }
 
-    public SurveyResultDao getSurveyResultDao() throws SQLException {
-        if (surveyResultDao == null) {
-            surveyResultDao = new SurveyResultDao(
+    public SurveyPassingDao getSurveyPassingDao() throws SQLException {
+        if (surveyPassingDao == null) {
+            surveyPassingDao = new SurveyPassingDao(
                     getSurveyDao(),
                     getConnectionSource(),
-                    OrmLiteBaseSurveyResult.class);
+                    OrmLiteSurveyPassing.class);
         }
-        return surveyResultDao;
+        return surveyPassingDao;
     }
 }

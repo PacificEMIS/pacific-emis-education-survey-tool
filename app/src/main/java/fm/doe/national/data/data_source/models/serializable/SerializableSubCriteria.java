@@ -13,7 +13,7 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 public class SerializableSubCriteria implements SubCriteria {
 
     @PropertyElement
-    private String name;
+    String name;
 
     @Nullable
     @Override
@@ -25,9 +25,5 @@ public class SerializableSubCriteria implements SubCriteria {
     @Override
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
