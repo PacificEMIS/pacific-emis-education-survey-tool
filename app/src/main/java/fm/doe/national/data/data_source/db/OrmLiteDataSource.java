@@ -49,6 +49,7 @@ public class OrmLiteDataSource implements DataSource {
                 .map(school -> school);
     }
 
+    @Override
     public Completable addSchools(List<School> schoolList) {
         return schoolDao.addSchools(schoolList);
     }

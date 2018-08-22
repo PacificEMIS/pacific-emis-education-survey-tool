@@ -16,6 +16,8 @@ public interface DataSource {
 
     Single<School> createSchool(String name, String id);
 
+    Completable addSchools(List<School> schoolList);
+
     Single<List<School>> requestSchools();
 
     Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SurveyPassing result);
