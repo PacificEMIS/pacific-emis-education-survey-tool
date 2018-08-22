@@ -28,10 +28,13 @@ public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
     public Completable createSchoolAccreditation(int version,
                                                  String type,
                                                  List<? extends GroupStandard> groupStandards) {
-        return Single.fromCallable(() -> new OrmLiteSurvey(version, type))
-                .map(this::createIfNotExists)
-                .map(survey -> surveyItemDao.createFromGroupStandards(groupStandards, survey))
-                .ignoreElement();
+        return Completable.fromCallable(() -> {
+            OrmLiteSurvey ormLiteSurvey = new OrmLiteSurvey(version, type);
+            create(ormLiteSurvey);
+            surveyItemDao.createFromGroupStandards(groupStandards, ormLiteSurvey);
+
+            return  ormLiteSurvey;
+        });
     }
 
     public OrmLiteSurvey getRelevantSurvey() throws SQLException {

@@ -17,7 +17,9 @@ public class SchoolAccreditationXmlParser implements SchoolAccreditationParser {
     public SchoolAccreditation parse(InputStream dataStream) {
         SchoolAccreditation schoolAccreditation = null;
         try {
-            TikXml tikXml = MicronesiaApplication.getAppComponent().getTikXml();
+            TikXml tikXml = new TikXml.Builder()
+                    .writeDefaultXmlDeclaration(false)
+                    .build();
             BufferedSource bufferedSource = Okio.buffer(Okio.source(dataStream));
             schoolAccreditation = tikXml.read(bufferedSource, SerializableSchoolAccreditation.class);
         } catch (IOException e) {
