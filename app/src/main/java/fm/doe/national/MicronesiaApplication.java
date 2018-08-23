@@ -64,7 +64,7 @@ public class MicronesiaApplication extends Application implements Application.Ac
 
     @Override
     public void onActivityStarted(Activity activity) {
-        // nothing
+        currentActivityRef = new WeakReference<>(activity);
     }
 
     @Override
