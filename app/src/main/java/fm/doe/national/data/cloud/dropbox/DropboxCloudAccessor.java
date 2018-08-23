@@ -111,7 +111,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
         if (activity != null) {
             activity.startActivity(DropboxActivity.createIntent(activity, action));
         } else {
-            onActionFailure(new Exception("No activities running"));
+            onActionFailure(new IllegalStateException("No activities running"));
         }
     }
 
@@ -140,6 +140,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
         dropboxClient = new DbxClientV2(requestConfig, accessToken);
     }
 
+    @NonNull
     private String dropboxPath(Uri fromUri) {
         int segmentsToSkip = 3;
         StringBuilder builder = new StringBuilder();

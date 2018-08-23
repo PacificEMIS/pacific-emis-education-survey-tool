@@ -10,6 +10,8 @@ import com.dropbox.core.android.Auth;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
+import fm.doe.national.data.cloud.exceptions.AuthenticationException;
+import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class DropboxActivity extends BaseActivity {
@@ -54,7 +56,7 @@ public class DropboxActivity extends BaseActivity {
                         cloudAccessor.onAuthActionComplete();
                         finish();
                     } else {
-                        failure(new Exception("failed to auth")); // TODO: all exceptions to new EX class
+                        failure(new AuthenticationException("Auth declined"));
                     }
                     break;
                 case ACTION_OPEN_FILE:
@@ -80,7 +82,7 @@ public class DropboxActivity extends BaseActivity {
                     cloudAccessor.onCloudFilePathObtained(new DbxChooser.Result(data));
                     finish();
                 } else {
-                    failure(new Exception("failed to get file"));
+                    failure(new FileImportException("File picker declined"));
                 }
                 break;
         }

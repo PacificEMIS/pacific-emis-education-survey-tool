@@ -26,6 +26,8 @@ import java.util.Date;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
+import fm.doe.national.data.cloud.exceptions.FileExportException;
+import fm.doe.national.data.cloud.exceptions.FileImportException;
 
 public class DriveActivity extends AppCompatActivity {
 
@@ -76,7 +78,7 @@ public class DriveActivity extends AppCompatActivity {
                     DriveId id = data.getParcelableExtra(OpenFileActivityOptions.EXTRA_RESPONSE_DRIVE_ID);
                     driveCloudAccessor.onFileContentObtained(id);
                 } else {
-                    driveCloudAccessor.onActionFailure(new Exception("Failed to open"));
+                    driveCloudAccessor.onActionFailure(new FileImportException("Failed to open"));
                 }
                 break;
             case REQUEST_CODE_UPLOAD_FILE:
@@ -125,7 +127,7 @@ public class DriveActivity extends AppCompatActivity {
     private void importFileContent() {
         DriveClient client = driveCloudAccessor.getDriveClient();
         if (client == null) {
-            failure(new Exception("driveCloudAccessor not set up"));
+            failure(new FileImportException("driveCloudAccessor not set up"));
             return;
         }
 
@@ -145,7 +147,7 @@ public class DriveActivity extends AppCompatActivity {
         DriveResourceClient resourceClient = driveCloudAccessor.getDriveResourceClient();
         DriveClient client = driveCloudAccessor.getDriveClient();
         if (resourceClient == null || client == null) {
-            failure(new Exception("driveCloudAccessor not set up"));
+            failure(new FileExportException("driveCloudAccessor not set up"));
             return;
         }
 

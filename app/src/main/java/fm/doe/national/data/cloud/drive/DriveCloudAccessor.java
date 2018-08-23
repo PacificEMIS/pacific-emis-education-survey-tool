@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccessor;
+import fm.doe.national.data.cloud.exceptions.AuthenticationException;
+import fm.doe.national.data.cloud.exceptions.FileImportException;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -74,7 +76,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         if (isAuthenticated()) {
             authSingle.onSuccess(new Object());
         } else {
-            authSingle.onError(new Exception("Failed to sign in"));
+            authSingle.onError(new AuthenticationException("User not signed id"));
         }
     }
 
@@ -83,7 +85,7 @@ public class DriveCloudAccessor implements CloudAccessor {
 
         DriveResourceClient resourceClient = getDriveResourceClient();
         if (resourceClient == null) {
-            importSingle.onError(new Exception("Drive Resource Client lost"));
+            importSingle.onError(new FileImportException("Drive Resource Client lost"));
             return;
         }
 
@@ -150,7 +152,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         if (activity != null) {
             activity.startActivity(intent);
         } else {
-            onActionFailure(new Exception("No activities running"));
+            onActionFailure(new IllegalStateException("no activities running"));
         }
     }
 }
