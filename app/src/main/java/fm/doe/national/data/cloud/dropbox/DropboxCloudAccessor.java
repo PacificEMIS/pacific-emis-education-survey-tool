@@ -37,7 +37,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     @Override
     public Single<String> importContentFromCloud() {
         Single<String> single = Single.fromCallable(() ->  {
-            DropboxClientFactory.getClient().files().listFolder("");
+            //DropboxClientFactory.getClient().files().listFolder("");
             return "";
         });
         if (hasAuthToken()) {
@@ -59,9 +59,17 @@ public class DropboxCloudAccessor implements CloudAccessor {
         return Completable.fromSingle(authSingle).subscribeOn(Schedulers.io());
     }
 
-    protected void onAuthSuccess() {
-        initDropbox();
-        authSingle.onSuccess(new Object());
+    protected void onAuthActionComplete(boolean success) {
+        if (success) {
+            initDropbox();
+            authSingle.onSuccess(new Object());
+        } else {
+            authSingle.onError(new Exception("Failed to authenticate"));
+        }
+    }
+
+    protected boolean isSuccessfullAuth() {
+        return Auth.getOAuth2Token() != null;
     }
 
     private void startActivityAction(int action) {

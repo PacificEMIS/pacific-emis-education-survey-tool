@@ -19,6 +19,8 @@ public class DropboxActivity extends BaseActivity {
     private static final int ACTION_DEFAULT = -1;
     private static final String EXTRA_ACTION = "EXTRA_ACTION";
 
+    private int currentAction = ACTION_DEFAULT;
+
     @NonNull
     public static Intent createIntent(@NonNull Context context, int action) {
         return new Intent(context, DropboxActivity.class)
@@ -41,8 +43,10 @@ public class DropboxActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        cloudAccessor.onAuthSuccess();
-        finish();
+        if (currentAction == ACTION_AUTH) {
+            cloudAccessor.onAuthActionComplete(cloudAccessor.isSuccessfullAuth());
+            finish();
+        }
     }
 
     private void parseIntent(@NonNull Intent intent) {
@@ -63,10 +67,10 @@ public class DropboxActivity extends BaseActivity {
     }
 
     private void signIn() {
+        currentAction = ACTION_AUTH;
         Auth.startOAuth2Authentication(this, getString(R.string.dropbox_api_app_key));
     }
 
     private void importFileContent() {
-
     }
 }
