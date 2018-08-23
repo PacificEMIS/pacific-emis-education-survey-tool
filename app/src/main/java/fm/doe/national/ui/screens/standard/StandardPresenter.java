@@ -48,11 +48,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         for (GroupStandard groupStandard: accreditationResult.getSchoolAccreditation().getGroupStandards()) {
             standards.addAll(groupStandard.getStandards());
         }
-    }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
         updateUi();
     }
 
