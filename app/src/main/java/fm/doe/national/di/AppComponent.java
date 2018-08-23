@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import fm.doe.national.data.cloud.drive.DriveActivity;
+import fm.doe.national.ui.screens.cloud.DriveActivity;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.di.modules.AccreditationDataSourceModule;

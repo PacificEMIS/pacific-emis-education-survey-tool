@@ -1,11 +1,10 @@
-package fm.doe.national.data.cloud.drive;
+package fm.doe.national.ui.screens.cloud;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,10 +25,12 @@ import java.util.Date;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
+import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
+import fm.doe.national.ui.screens.base.BaseActivity;
 
-public class DriveActivity extends AppCompatActivity {
+public class DriveActivity extends BaseActivity {
 
     public static final int ACTION_AUTH = 0;
     public static final int ACTION_OPEN_FILE = 1;
@@ -59,10 +60,13 @@ public class DriveActivity extends AppCompatActivity {
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_transparent;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MicronesiaApplication.getAppComponent().inject(this);
-        setContentView(R.layout.activity_transparent);
         parseIntent(getIntent());
     }
 

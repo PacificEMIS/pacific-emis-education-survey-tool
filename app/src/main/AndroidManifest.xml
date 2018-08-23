@@ -19,8 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".data.cloud.drive.DriveActivity" />
-        <activity android:name=".data.cloud.dropbox.DropboxActivity"/>
+        <activity android:name=".ui.screens.cloud.DriveActivity" />
+        <activity android:name=".ui.screens.cloud.DropboxActivity"/>
 
         <activity
             android:name="com.dropbox.core.android.AuthActivity"

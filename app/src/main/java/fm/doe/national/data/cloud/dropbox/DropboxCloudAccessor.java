@@ -19,6 +19,8 @@ import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccessor;
+import fm.doe.national.ui.screens.cloud.DropboxActivity;
+import fm.doe.national.ui.screens.cloud.DropboxView;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -44,7 +46,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     public Single<String> importContentFromCloud() {
         importSingle = SingleSubject.create();
         Single<String> launchActivityForContent =
-                Completable.fromAction(() -> startActivityAction(DropboxActivity.ACTION_OPEN_FILE))
+                Completable.fromAction(() -> startActivityAction(DropboxView.Action.PICK_FILE))
                         .andThen(importSingle);
         if (hasAuthToken()) {
             return launchActivityForContent;
@@ -72,20 +74,20 @@ public class DropboxCloudAccessor implements CloudAccessor {
     public Completable auth() {
         authSingle = SingleSubject.create();
         return Completable
-                .fromAction(() -> startActivityAction(DropboxActivity.ACTION_AUTH))
+                .fromAction(() -> startActivityAction(DropboxView.Action.AUTH))
                 .andThen(Completable.fromSingle(authSingle));
     }
 
-    protected void onAuthActionComplete() {
+    public void onAuthActionComplete() {
         initDropbox();
         authSingle.onSuccess(new Object());
     }
 
-    protected boolean isSuccessfulAuth() {
+    public boolean isSuccessfulAuth() {
         return Auth.getOAuth2Token() != null;
     }
 
-    protected void onCloudFilePathObtained(@NonNull DbxChooser.Result result) {
+    public void onCloudFilePathObtained(@NonNull DbxChooser.Result result) {
         Single.fromCallable(() -> {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -100,13 +102,13 @@ public class DropboxCloudAccessor implements CloudAccessor {
                 .subscribe();
     }
 
-    protected void onActionFailure(Throwable throwable) {
+    public void onActionFailure(Throwable throwable) {
         if (authSingle != null) authSingle.onError(throwable);
         if (importSingle != null) importSingle.onError(throwable);
 //        if (exportSingle != null) exportSingle.onError(throwable);
     }
 
-    private void startActivityAction(int action) {
+    private void startActivityAction(DropboxView.Action action) {
         Activity activity = ((MicronesiaApplication) context).getCurrentActivity();
         if (activity != null) {
             activity.startActivity(DropboxActivity.createIntent(activity, action));

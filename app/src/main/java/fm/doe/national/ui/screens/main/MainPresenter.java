@@ -25,11 +25,11 @@ public class MainPresenter extends BasePresenter<BaseView> {
         super.onFirstViewAttach();
         MicronesiaApplication.getAppComponent().inject(this);
         repository.setPrimary(CloudAccessor.Type.DROPBOX);
-        add(repository.uploadContent("HELLO WORLD")
+        add(repository.getContent()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        () -> Log.d("SAD", "asdads"),
+                        s -> Log.d("SAD", s),
                         throwable -> Log.d("aasda","asdasd"))
         );
     }

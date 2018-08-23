@@ -22,6 +22,7 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
+import fm.doe.national.ui.screens.cloud.DriveActivity;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -70,7 +71,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         return Completable.fromSingle(authSingle).subscribeOn(Schedulers.io());
     }
 
-    protected void onAuth() {
+    public void onAuth() {
         if (authSingle == null) return;
 
         if (isAuthenticated()) {
@@ -80,7 +81,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         }
     }
 
-    protected void onFileContentObtained(@NonNull DriveId fileDriveId) {
+    public void onFileContentObtained(@NonNull DriveId fileDriveId) {
         if (importSingle == null) return;
 
         DriveResourceClient resourceClient = getDriveResourceClient();
@@ -106,25 +107,25 @@ public class DriveCloudAccessor implements CloudAccessor {
                 });
     }
 
-    protected void onExport() {
+    public void onExport() {
         exportSingle.onSuccess(new Object());
     }
 
-    protected void onActionFailure(Throwable throwable) {
+    public void onActionFailure(Throwable throwable) {
         if (authSingle != null) authSingle.onError(throwable);
         if (importSingle != null) importSingle.onError(throwable);
         if (exportSingle != null) exportSingle.onError(throwable);
     }
 
     @Nullable
-    protected DriveClient getDriveClient() {
+    public DriveClient getDriveClient() {
         GoogleSignInAccount account = getGoogleAccount();
         if (account == null) return null;
         return Drive.getDriveClient(context, account);
     }
 
     @Nullable
-    protected DriveResourceClient getDriveResourceClient() {
+    public DriveResourceClient getDriveResourceClient() {
         GoogleSignInAccount account = getGoogleAccount();
         if (account == null) return null;
         return Drive.getDriveResourceClient(context, account);
