@@ -42,7 +42,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         importSingle = SingleSubject.create();
         Single<String> importContent =
                 Completable
-                        .fromRunnable(() -> startActivityAction(DriveActivity.ACTION_OPEN_FILE))
+                        .fromAction(() -> startActivityAction(DriveActivity.ACTION_OPEN_FILE))
                         .andThen(importSingle);
         Single<String> resultingSingle = isAuthenticated() ? importContent : auth().andThen(importContent);
         return resultingSingle.subscribeOn(Schedulers.io());
@@ -53,7 +53,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         exportSingle = SingleSubject.create();
         Single<Object> exportContent =
                 Completable
-                        .fromRunnable(() -> startActivityToUpload(content))
+                        .fromAction(() -> startActivityToUpload(content))
                         .andThen(exportSingle);
         Completable resultingCompletable = isAuthenticated() ?
                 Completable.fromSingle(exportContent)

@@ -12,7 +12,9 @@ import com.dropbox.core.android.Auth;
 import com.dropbox.core.http.OkHttp3Requestor;
 import com.dropbox.core.v2.DbxClientV2;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
@@ -25,7 +27,6 @@ import io.reactivex.subjects.SingleSubject;
 public class DropboxCloudAccessor implements CloudAccessor {
 
     private final static String PREF_TOKEN = "dropbox-access-token";
-
 
     private Context context;
     private SingleSubject<Object> authSingle;
@@ -43,7 +44,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     public Single<String> importContentFromCloud() {
         importSingle = SingleSubject.create();
         Single<String> launchActivityForContent =
-                Completable.fromRunnable(() -> startActivityAction(DropboxActivity.ACTION_OPEN_FILE))
+                Completable.fromAction(() -> startActivityAction(DropboxActivity.ACTION_OPEN_FILE))
                         .andThen(importSingle);
         if (hasAuthToken()) {
             return launchActivityForContent;
@@ -54,14 +55,24 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     @Override
     public Completable exportContentToCloud(@NonNull String content) {
-        return null;
+        Completable upload = Completable.fromAction(() -> {
+            InputStream is = new ByteArrayInputStream(content.getBytes());
+            dropboxClient.files()
+                    .uploadBuilder("/micronesia/new.json")
+                    .uploadAndFinish(is);
+        });
+        if (hasAuthToken()) {
+            return upload;
+        } else {
+            return auth().andThen(upload);
+        }
     }
 
     @Override
     public Completable auth() {
         authSingle = SingleSubject.create();
         return Completable
-                .fromRunnable(() -> startActivityAction(DropboxActivity.ACTION_AUTH))
+                .fromAction(() -> startActivityAction(DropboxActivity.ACTION_AUTH))
                 .andThen(Completable.fromSingle(authSingle));
     }
 
@@ -100,7 +111,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
         if (activity != null) {
             activity.startActivity(DropboxActivity.createIntent(activity, action));
         } else {
-            //onActionFailure(new Exception("No activities running"));
+            onActionFailure(new Exception("No activities running"));
         }
     }
 
