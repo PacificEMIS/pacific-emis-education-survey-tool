@@ -10,6 +10,7 @@ android {
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
@@ -80,7 +81,6 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
@@ -98,6 +98,7 @@ dependencies {
     }
 
     // Run `adb forward tcp:8080 tcp:8080` in terminal
+
     // Open url: http://localhost:8080/ to view database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
@@ -107,4 +108,7 @@ dependencies {
 
     // Dropbox
     compile 'com.dropbox.core:dropbox-core-sdk:3.0.8'
+    implementation project(':DropboxChooser')
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
