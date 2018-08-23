@@ -18,8 +18,7 @@ public class SwitchableButton extends FrameLayout {
 
     @BindView(R.id.button_negative)
     Button negativeButton;
-
-
+    
     private Drawable drawableLeftActive;
     private Drawable drawableLeftInActive;
     private Drawable drawableRightActive;
