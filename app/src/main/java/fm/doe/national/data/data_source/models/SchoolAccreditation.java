@@ -1,7 +1,7 @@
 package fm.doe.national.data.data_source.models;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface SchoolAccreditation extends Survey {
-    Collection<? extends GroupStandard> getGroupStandards();
+    List<? extends GroupStandard> getGroupStandards();
 }

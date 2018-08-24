@@ -13,11 +13,12 @@ import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.di.modules.AccreditationDataSourceModule;
 import fm.doe.national.di.modules.CloudModule;
 import fm.doe.national.di.modules.ContextModule;
-import fm.doe.national.di.modules.ConvertersModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
 import fm.doe.national.di.modules.SharedPreferencesModule;
 import fm.doe.national.ui.screens.main.MainPresenter;
+import fm.doe.national.ui.screens.standard.StandardPresenter;
+import fm.doe.national.di.modules.ParsersModule;
 
 @Singleton
 @Component(modules = {
@@ -25,10 +26,9 @@ import fm.doe.national.ui.screens.main.MainPresenter;
         DatabaseHelperModule.class,
         AccreditationDataSourceModule.class,
         GsonModule.class,
-        ConvertersModule.class,
         CloudModule.class,
-        SharedPreferencesModule.class
-})
+        SharedPreferencesModule.class,
+        ParsersModule.class})
 public interface AppComponent {
     Gson getGson();
     SharedPreferences getSharedPreferences();
@@ -36,4 +36,5 @@ public interface AppComponent {
     DropboxCloudAccessor getDropboxCloudAccessor();
     void inject(DriveActivity target);
     void inject(MainPresenter target);
+    void inject(StandardPresenter standardPresenter);
 }

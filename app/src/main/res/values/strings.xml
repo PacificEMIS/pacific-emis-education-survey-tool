@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">NDOE Data Collection App</string>
+    <string name="criteria_name">Criteria, %1$d.%2$d: %3$s.</string>
+    <string name="criteria_progress">%1$d/%2$d</string>
+    <string name="criteria_char_icon_pattern">%1$s.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="criteria_hint">For detailed information, make a long touch on interested item</string>
+    <string name="title_warning">Warning</string>
+    <string name="warn_unable_to_update_answer">Unable to update answer</string>
+    <string name="warn_unable_to_create_answer">Unable to create answer</string>
     <string name="title_drive_open_file">Choose file to import</string>
     <string name="survey_report">Survey report %1$s</string>
     <string name="title_upload">Upload report &#8230;</string>

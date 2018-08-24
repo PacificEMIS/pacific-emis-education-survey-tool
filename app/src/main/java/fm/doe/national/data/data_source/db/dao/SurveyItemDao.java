@@ -4,14 +4,13 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import io.reactivex.Single;
 
@@ -30,8 +29,8 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
     }
 
     public List<OrmLiteSurveyItem> createFromGroupStandards(
-            Collection<? extends GroupStandard> groupStandards,
-            OrmLiteBaseSurvey survey) throws SQLException {
+            List<? extends GroupStandard> groupStandards,
+            OrmLiteSurvey survey) throws SQLException {
         List<OrmLiteSurveyItem> surveyItems = new ArrayList<>();
 
         for (GroupStandard groupStandard : groupStandards) {
@@ -49,7 +48,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
     }
 
     private List<OrmLiteSurveyItem> createFromStandards(
-            Collection<? extends Standard> standards,
+            List<? extends Standard> standards,
             OrmLiteSurveyItem parentItem) throws SQLException {
         List<OrmLiteSurveyItem> surveyItems = new ArrayList<>();
 
@@ -69,7 +68,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
     }
 
     private List<OrmLiteSurveyItem> createFromCriterias(
-            Collection<? extends Criteria> criterias,
+            List<? extends Criteria> criterias,
             OrmLiteSurveyItem parentItem) throws SQLException {
         List<OrmLiteSurveyItem> surveyItems = new ArrayList<>();
 
@@ -89,7 +88,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
     }
 
     private List<OrmLiteSurveyItem> createFromSubCriterias(
-            Collection<? extends SubCriteria> subCriterias,
+            List<? extends SubCriteria> subCriterias,
             OrmLiteSurveyItem parentItem) throws SQLException {
         List<OrmLiteSurveyItem> surveyItems = new ArrayList<>();
 

@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.screens.standard.StandardActivity"/>
         <activity android:name=".ui.screens.cloud.DriveActivity" />
         <activity android:name=".ui.screens.cloud.DropboxActivity"/>
 
@@ -35,7 +36,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
+        
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />

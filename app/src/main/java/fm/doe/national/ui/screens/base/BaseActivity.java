@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.omega_r.libs.omegatypes.Text;
+
+import java.io.Serializable;
 
 import butterknife.ButterKnife;
 import fm.doe.national.R;
@@ -47,4 +50,22 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         Toast.makeText(this, text.getString(getResources()), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void showWarning(Text title, Text message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title.getString(getResources()))
+                .setMessage(message.getString(getResources()))
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
+                .show();
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T extends Serializable> T getSerializableExtra(String extraName) {
+        try {
+            return (T) getIntent().getSerializableExtra(extraName);
+        } catch (NullPointerException | ClassCastException ex) {
+            throw new RuntimeException("Unable to obtain serializable argument");
+        }
+    }
 }

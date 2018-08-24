@@ -45,12 +45,12 @@ public class OrmLiteSurveyItem {
     protected Collection<OrmLiteSurveyItem> childrenItems;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)
-    protected OrmLiteBaseSurvey survey;
+    protected OrmLiteSurvey survey;
 
     public OrmLiteSurveyItem() {
     }
 
-    public OrmLiteSurveyItem(String name, Type type, OrmLiteBaseSurvey survey, OrmLiteSurveyItem parentItem) {
+    public OrmLiteSurveyItem(String name, Type type, OrmLiteSurvey survey, OrmLiteSurveyItem parentItem) {
         this.name = name;
         this.type = type;
         this.survey = survey;
@@ -90,7 +90,7 @@ public class OrmLiteSurveyItem {
         }
     }
 
-    public OrmLiteBaseSurvey getSurvey() {
+    public OrmLiteSurvey getSurvey() {
         return survey == null ? parentItem.getSurvey() : survey;
     }
 }

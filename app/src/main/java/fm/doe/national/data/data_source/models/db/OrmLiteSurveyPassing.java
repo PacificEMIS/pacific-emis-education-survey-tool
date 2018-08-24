@@ -4,13 +4,13 @@ import com.j256.ormlite.field.DatabaseField;
 
 import java.util.Date;
 
-public class OrmLiteBaseSurveyResult {
+public class OrmLiteSurveyPassing {
 
     public interface Column {
         String ID = "id";
         String YEAR = "version";
         String SCHOOL = "school";
-        String SURVEY = "surveyResult";
+        String SURVEY = "surveyPassing";
         String START_DATE = "startDate";
         String END_DATE = "endDate";
     }
@@ -25,7 +25,7 @@ public class OrmLiteBaseSurveyResult {
     protected OrmLiteSchool school;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY)
-    protected OrmLiteBaseSurvey survey;
+    protected OrmLiteSurvey survey;
 
     @DatabaseField(columnName = Column.START_DATE)
     protected Date startDate;
@@ -33,10 +33,10 @@ public class OrmLiteBaseSurveyResult {
     @DatabaseField(columnName = Column.END_DATE)
     protected Date endDate;
 
-    public OrmLiteBaseSurveyResult() {
+    public OrmLiteSurveyPassing() {
     }
 
-    public OrmLiteBaseSurveyResult(int year, OrmLiteSchool school, OrmLiteBaseSurvey survey) {
+    public OrmLiteSurveyPassing(int year, OrmLiteSchool school, OrmLiteSurvey survey) {
         this.year = year;
         this.school = school;
         this.survey = survey;
@@ -59,11 +59,11 @@ public class OrmLiteBaseSurveyResult {
         this.school = school;
     }
 
-    public OrmLiteBaseSurvey getSurvey() {
+    public OrmLiteSurvey getSurvey() {
         return survey;
     }
 
-    public void setSurvey(OrmLiteBaseSurvey survey) {
+    public void setSurvey(OrmLiteSurvey survey) {
         this.survey = survey;
     }
 
