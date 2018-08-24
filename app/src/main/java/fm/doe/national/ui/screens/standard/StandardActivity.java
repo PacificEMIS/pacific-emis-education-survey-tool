@@ -72,7 +72,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
-        return new StandardPresenter(getSerializableArgument(EXTRA_ACCREDITATION));
+        return new StandardPresenter(getSerializableExtra(EXTRA_ACCREDITATION));
     }
 
     @NonNull

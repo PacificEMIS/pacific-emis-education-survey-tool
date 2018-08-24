@@ -61,7 +61,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     }
 
     @SuppressWarnings("unchecked")
-    protected <T extends Serializable> T getSerializableArgument(String extraName) {
+    protected <T extends Serializable> T getSerializableExtra(String extraName) {
         try {
             return (T) getIntent().getSerializableExtra(extraName);
         } catch (NullPointerException | ClassCastException ex) {
