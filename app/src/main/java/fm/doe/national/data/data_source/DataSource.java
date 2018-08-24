@@ -2,8 +2,10 @@ package fm.doe.national.data.data_source;
 
 
 import java.util.List;
+import java.util.Map;
 
 import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
@@ -21,6 +23,10 @@ public interface DataSource {
     Single<List<School>> requestSchools();
 
     Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SurveyPassing result);
+
+    Single<Answer> requestAnswer(SubCriteria subCriteria, SurveyPassing result);
+
+    Single<Map<SubCriteria, Answer>> requestAnswers(Criteria subCriteria, SurveyPassing result);
 
     Completable updateAnswer(Answer answer);
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_scrollFlags="scroll|enterAlways"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintlayout_subtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:layout_constraintTop_toBottomOf="@+id/include_toolbar">
+
+        <ImageView
+            android:id="@+id/imageview_icon_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textview_standard_name"
+            app:layout_constraintEnd_toStartOf="@+id/textview_standard_progress"
+            app:layout_constraintStart_toEndOf="@+id/textview_standard_name"
+            app:layout_constraintTop_toTopOf="@+id/textview_standard_name"
+            android:src="@drawable/ic_pass" />
+
+        <TextView
+            android:id="@+id/textview_standard_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/charcoal_gray"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageview_icon_pass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageview_icon_pass"
+            app:layout_constraintTop_toTopOf="@+id/imageview_icon_pass"
+            tools:text="24/53" />
+
+        <ImageView
+            android:id="@+id/imageview_icon_bg"
+            android:layout_width="@dimen/size_standard_icon"
+            android:layout_height="@dimen/size_standard_icon"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/ic_standard"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/imageview_standard_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/imageview_icon_bg"
+            app:layout_constraintEnd_toEndOf="@+id/imageview_icon_bg"
+            app:layout_constraintStart_toStartOf="@+id/imageview_icon_bg"
+            app:layout_constraintTop_toTopOf="@+id/imageview_icon_bg"
+            tools:src="@drawable/ic_standard_leadership" />
+
+        <TextView
+            android:id="@+id/textview_standard_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/charcoal_gray"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageview_icon_bg"
+            app:layout_constraintEnd_toStartOf="@+id/imageview_icon_pass"
+            app:layout_constraintStart_toEndOf="@+id/imageview_icon_bg"
+            app:layout_constraintTop_toTopOf="@+id/imageview_icon_bg"
+            tools:text="Standard 1: Leadership" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.AppBarLayout>

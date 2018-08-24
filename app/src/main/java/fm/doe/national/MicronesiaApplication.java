@@ -21,7 +21,9 @@ public class MicronesiaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-        appComponent = DaggerAppComponent.builder().contextModule(new ContextModule(this)).build();
+        appComponent = DaggerAppComponent.builder()
+                .contextModule(new ContextModule(this))
+                .build();
 
         showDebugDBAddressLogToast(this);
     }

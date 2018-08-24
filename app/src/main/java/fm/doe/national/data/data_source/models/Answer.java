@@ -8,4 +8,8 @@ public interface Answer {
 
     List<SynchronizePlatform> getSynchronizedPlatforms();
     void addSynchronizedPlatform(SynchronizePlatform platform);
+
+    enum State {
+        NOT_ANSWERED, POSITIVE, NEGATIVE
+    }
 }

@@ -1,8 +1,12 @@
 package fm.doe.national.data.data_source.db;
 
+
+import android.util.Pair;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.db.dao.AnswerDao;
@@ -12,15 +16,20 @@ import fm.doe.national.data.data_source.db.dao.SurveyDao;
 import fm.doe.national.data.data_source.db.dao.SurveyItemDao;
 import fm.doe.national.data.data_source.db.dao.SurveyPassingDao;
 import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.SurveyPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationPassing;
+import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSubCriteria;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class OrmLiteDataSource implements DataSource {
@@ -63,10 +72,30 @@ public class OrmLiteDataSource implements DataSource {
     @Override
     public Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SurveyPassing result) {
         return surveyItemDao
+                // FIXME: Possible Name collision
                 .requestItemByName(criteria.getName())
                 .flatMap(criteriaItem -> surveyPassingDao
                         .requestSurveyPassing(result.getStartDate())
                         .flatMap(resultItem -> answerDao.createAnswer(answer, criteriaItem, resultItem)));
+
+    }
+
+    @Override
+    public Single<Answer> requestAnswer(SubCriteria subCriteria, SurveyPassing result) {
+        OrmLiteSurveyItem surveyItem = ((OrmLiteSubCriteria) subCriteria).getSurveyItem();
+        OrmLiteSurveyPassing surveyResult = (OrmLiteSurveyPassing)subCriteria;
+
+        return answerDao.requestAnswer(surveyItem, surveyResult)
+                .map(answer -> answer);
+    }
+
+    @Override
+    public Single<Map<SubCriteria, Answer>> requestAnswers(Criteria criteria, SurveyPassing result) {
+        return Observable.fromIterable(criteria.getSubCriterias())
+                .concatMap(subCriteria -> requestAnswer(subCriteria, result)
+                        .map(children -> Pair.create(subCriteria, children))
+                        .toObservable())
+                .toMap(pair -> pair.first, pair -> pair.second);
 
     }
 
