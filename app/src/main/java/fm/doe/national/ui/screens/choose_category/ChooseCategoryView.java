@@ -5,7 +5,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.mock.MockStandard;
 import fm.doe.national.ui.screens.base.BaseView;
 
@@ -18,6 +18,6 @@ public interface ChooseCategoryView extends BaseView {
     void setCategories(List<MockStandard> standards);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showStandardScreen(SchoolAccreditationResult standard);
+    void showStandardScreen(SchoolAccreditationPassing standard);
 
 }

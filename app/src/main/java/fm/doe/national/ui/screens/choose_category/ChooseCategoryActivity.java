@@ -12,7 +12,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.standard.StandardActivity;
 import fm.doe.national.mock.MockStandard;
@@ -57,12 +57,12 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     }
 
     @Override
-    public void showStandardScreen(SchoolAccreditationResult standard) {
+    public void showStandardScreen(SchoolAccreditationPassing standard) {
         startActivity(StandardActivity.createIntent(this, standard));
     }
 
     @Override
-    public void onCategoryClicked(SchoolAccreditationResult standard) {
+    public void onCategoryClicked(SchoolAccreditationPassing standard) {
         chooseCategoryPresenter.onCategoryClicked(standard);
     }
 }

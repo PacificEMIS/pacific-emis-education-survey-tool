@@ -13,7 +13,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.mock.MockStandard;
 import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
 
@@ -86,6 +86,6 @@ public class ChooseCategoryAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapt
     }
 
     public interface Callback {
-        void onCategoryClicked(SchoolAccreditationResult standard);
+        void onCategoryClicked(SchoolAccreditationPassing standard);
     }
 }

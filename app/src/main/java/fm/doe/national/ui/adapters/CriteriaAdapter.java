@@ -119,23 +119,6 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
             rebindProgress();
         }
 
-        private void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias) {
-            int totalQuestions = subCriterias.size();
-            int answeredQuestions = 0;
-            for (SubCriteriaViewData subCriteria : subCriterias) {
-                if (subCriteria.getAnswer() != Answer.State.NOT_ANSWERED) answeredQuestions++;
-            }
-
-            int progress = totalQuestions > 0 ? (int) ((float) answeredQuestions / totalQuestions * 100) : 0;
-            if (progress == 100) {
-                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_bar_states_done));
-                progressTextView.setTextColor(getResources().getColor(R.color.color_criteria_progress_done));
-            } else {
-                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_bar_states));
-                progressTextView.setTextColor(getResources().getColor(R.color.color_criteria_primary_dark));
-            }
-        }
-
         private void rebindProgress() {
             int progress = criteria.getPercentageProgress();
             progressBar.setActivated(progress == 100);

@@ -16,6 +16,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 
 /**
@@ -45,8 +46,25 @@ public abstract class BaseRecyclerAdapter<VH extends BaseRecyclerAdapter.BaseVie
 
         protected abstract void onClick(int position);
 
-        protected void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias, TextView progressTextView,
+        private void rebindProgress(@NonNull CriteriaViewData criteria, TextView progressTextView,
                                     ProgressBar progressBar) {
+            int progress = criteria.getPercentageProgress();
+            progressBar.setActivated(progress == 100);
+            progressTextView.setActivated(progress == 100);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                progressBar.setProgress(progress, true);
+            } else {
+                progressBar.setProgress(progress);
+            }
+
+            progressTextView.setText(progressTextView.getResources().getString(
+                    R.string.criteria_progress, criteria.getAnsweredCount(), criteria.getQuestionsViewData().size()));
+        }
+
+        //TODO deleted after changed on correct module
+        protected void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias, TextView progressTextView,
+                                      ProgressBar progressBar) {
             int totalQuestions = subCriterias.size();
             int answeredQuestions = 0;
             for (SubCriteriaViewData subCriteria : subCriterias) {
@@ -56,11 +74,11 @@ public abstract class BaseRecyclerAdapter<VH extends BaseRecyclerAdapter.BaseVie
             int progress = totalQuestions > 0 ? (int) ((float) answeredQuestions / totalQuestions * 100) : 0;
             Resources resources = progressBar.getResources();
             if (progress == 100) {
-                progressBar.setProgressDrawable(resources.getDrawable(R.drawable.progress_bar_states_done));
-                progressTextView.setTextColor(resources.getColor(R.color.color_criteria_progress_done));
+              //  progressBar.setProgressDrawable(resources.getDrawable(R.drawable.progress_bar_states_done));
+               // progressTextView.setTextColor(resources.getColor(R.color.color_criteria_progress_done));
             } else {
-                progressBar.setProgressDrawable(resources.getDrawable(R.drawable.progress_bar_states));
-                progressTextView.setTextColor(resources.getColor(R.color.color_criteria_primary_dark));
+             //   progressBar.setProgressDrawable(resources.getDrawable(R.drawable.progress_bar_states));
+             //   progressTextView.setTextColor(resources.getColor(R.color.color_criteria_primary_dark));
             }
 
             if (Build.VERSION.SDK_INT > 24) {
