@@ -24,7 +24,7 @@ import fm.doe.national.ui.view_data.CriteriaViewData;
 
 public class StandardActivity extends BaseActivity implements StandardView {
 
-    private static final String ACCREDITATION_EXTRA = "ACCREDITATION_EXTRA";
+    private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static int[] icons = {
             R.drawable.ic_standard_leadership_selector,
             R.drawable.ic_standard_teacher_selector,
@@ -72,13 +72,13 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
-        return new StandardPresenter(getSerializableArgument(ACCREDITATION_EXTRA, SchoolAccreditationPassing.class));
+        return new StandardPresenter(getSerializableArgument(EXTRA_ACCREDITATION, SchoolAccreditationPassing.class));
     }
 
     @NonNull
     public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationPassing accreditationResult) {
         return new Intent(context, StandardActivity.class)
-                .putExtra(ACCREDITATION_EXTRA, accreditationResult);
+                .putExtra(EXTRA_ACCREDITATION, accreditationResult);
     }
 
     @Override
