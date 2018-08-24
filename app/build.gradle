@@ -53,11 +53,8 @@ dependencies {
     def fastCsvVersion = '1.0.2'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-<<<<<<< HEAD
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-=======
->>>>>>> 7a03fb5bd568e9e5456eba499227272a21fd241e
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
