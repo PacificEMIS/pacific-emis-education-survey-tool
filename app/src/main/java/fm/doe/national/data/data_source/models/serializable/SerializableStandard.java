@@ -38,4 +38,9 @@ public class SerializableStandard implements Standard {
     public List<? extends Criteria> getCriterias() {
         return criterias;
     }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
 }

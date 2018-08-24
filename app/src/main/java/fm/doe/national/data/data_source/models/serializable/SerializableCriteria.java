@@ -38,4 +38,9 @@ public class SerializableCriteria implements Criteria {
     public List<? extends SubCriteria> getSubCriterias() {
         return subCriterias;
     }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
 }

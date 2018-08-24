@@ -11,6 +11,8 @@ public class OrmLiteSchoolAccreditationPassing implements SchoolAccreditationPas
 
     private OrmLiteSurveyPassing surveyPassing;
 
+    private OrmLiteSchoolAccreditation schoolAccreditation;
+
     public OrmLiteSchoolAccreditationPassing(OrmLiteSurveyPassing surveyPassing) {
         this.surveyPassing = surveyPassing;
     }
@@ -27,7 +29,10 @@ public class OrmLiteSchoolAccreditationPassing implements SchoolAccreditationPas
 
     @Override
     public SchoolAccreditation getSchoolAccreditation() {
-        return new OrmLiteSchoolAccreditation(surveyPassing.getSurvey());
+        if (schoolAccreditation == null) {
+            schoolAccreditation = new OrmLiteSchoolAccreditation(surveyPassing.getSurvey());
+        }
+        return schoolAccreditation;
     }
 
     @Override

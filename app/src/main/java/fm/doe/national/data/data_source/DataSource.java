@@ -20,7 +20,7 @@ public interface DataSource {
 
     Single<List<School>> requestSchools();
 
-    Single<Answer> createAnswer(boolean answer, SubCriteria criteria, SurveyPassing result);
+    Single<Answer> createAnswer(Answer.State state, SubCriteria criteria, SurveyPassing result);
 
     Completable updateAnswer(Answer answer);
 

@@ -12,17 +12,22 @@ public class OrmLiteSchoolAccreditation implements SchoolAccreditation {
 
     private OrmLiteSurvey survey;
 
-    public OrmLiteSchoolAccreditation(OrmLiteSurvey survey) {
+    private List<OrmLiteGroupStandard> groupStandards;
+
+    public  OrmLiteSchoolAccreditation(OrmLiteSurvey survey) {
         this.survey = survey;
     }
 
     @Override
     public List<? extends GroupStandard> getGroupStandards() {
-        List<GroupStandard> groupStandardList = new ArrayList<>();
-        for (OrmLiteSurveyItem surveyItem : survey.getSurveyItems()) {
-            groupStandardList.add(new OrmLiteGroupStandard(surveyItem));
+        if (groupStandards == null) {
+            groupStandards = new ArrayList<>();
+            for (OrmLiteSurveyItem surveyItem : survey.getSurveyItems()) {
+                groupStandards.add(new OrmLiteGroupStandard(surveyItem));
+            }
         }
-        return groupStandardList;
+
+        return groupStandards;
     }
 
     @Override

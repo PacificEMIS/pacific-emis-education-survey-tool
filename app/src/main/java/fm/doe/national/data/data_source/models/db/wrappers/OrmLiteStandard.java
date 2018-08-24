@@ -14,13 +14,23 @@ public class OrmLiteStandard implements Standard {
 
     private OrmLiteSurveyItem surveyItem;
 
-    public OrmLiteStandard(OrmLiteSurveyItem surveyItem) {
+    private OrmLiteGroupStandard groupStandard;
+
+    private List<OrmLiteCriteria> criterias;
+
+    public OrmLiteStandard(OrmLiteSurveyItem surveyItem, OrmLiteGroupStandard groupStandard) {
         this.surveyItem = surveyItem;
+        this.groupStandard = groupStandard;
     }
 
     @Override
     public GroupStandard getGroupStandard() {
-        return new OrmLiteGroupStandard(surveyItem.getParentItem());
+        return groupStandard;
+    }
+
+    @Override
+    public Long getId() {
+        return surveyItem.getId();
     }
 
     @NonNull
@@ -31,10 +41,13 @@ public class OrmLiteStandard implements Standard {
 
     @Override
     public List<? extends Criteria> getCriterias() {
-        List<Criteria> criterias = new ArrayList<>();
-        for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
-            criterias.add(new OrmLiteCriteria(surveyItem));
+        if (criterias == null) {
+            criterias = new ArrayList<>();
+            for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
+                criterias.add(new OrmLiteCriteria(surveyItem, this));
+            }
         }
+
         return criterias;
     }
 

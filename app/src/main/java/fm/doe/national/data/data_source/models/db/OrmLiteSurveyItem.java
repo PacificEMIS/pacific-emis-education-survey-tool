@@ -14,6 +14,7 @@ import java.util.List;
 public class OrmLiteSurveyItem {
 
     public interface Column {
+
         String ID = "id";
         String NAME = "name";
         String TYPE = "type";
@@ -22,13 +23,13 @@ public class OrmLiteSurveyItem {
         String CHILDREN = "children";
     }
 
+
     public enum Type {
         GROUP_STANDARD,
         STANDARD,
         CRITERIA,
-        SUBCRITERIA
+        SUBCRITERIA;
     }
-
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
 
@@ -56,6 +57,10 @@ public class OrmLiteSurveyItem {
         this.survey = survey;
         this.parentItem = parentItem;
         this.childrenItems = new ArrayList<>();
+    }
+
+    public long getId() {
+        return id;
     }
 
     @NonNull

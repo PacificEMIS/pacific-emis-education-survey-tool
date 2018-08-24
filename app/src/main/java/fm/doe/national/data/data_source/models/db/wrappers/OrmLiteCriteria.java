@@ -2,8 +2,6 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
-import com.j256.ormlite.table.DatabaseTable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,18 +10,27 @@ import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
-@DatabaseTable
 public class OrmLiteCriteria implements Criteria{
 
     private OrmLiteSurveyItem surveyItem;
 
-    public OrmLiteCriteria(OrmLiteSurveyItem surveyItem) {
+    private OrmLiteStandard standard;
+
+    private List<OrmLiteSubCriteria> subCriterias;
+
+    public OrmLiteCriteria(OrmLiteSurveyItem surveyItem, OrmLiteStandard standard) {
         this.surveyItem = surveyItem;
+        this.standard = standard;
+    }
+
+    @Override
+    public Long getId() {
+        return surveyItem.getId();
     }
 
     @Override
     public Standard getStandard() {
-        return new OrmLiteStandard(surveyItem.getParentItem());
+        return standard;
     }
 
     @NonNull
@@ -34,11 +41,14 @@ public class OrmLiteCriteria implements Criteria{
 
     @Override
     public List<? extends SubCriteria> getSubCriterias() {
-        List<SubCriteria> subCriteriaList = new ArrayList<>();
-        for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
-            subCriteriaList.add(new OrmLiteSubCriteria(surveyItem));
+        if (subCriterias == null) {
+            subCriterias = new ArrayList<>();
+            for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
+                subCriterias.add(new OrmLiteSubCriteria(surveyItem, this));
+            }
         }
-        return subCriteriaList;
+
+        return subCriterias;
     }
 
 }

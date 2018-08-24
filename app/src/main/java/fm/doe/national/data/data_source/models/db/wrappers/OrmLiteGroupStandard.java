@@ -13,8 +13,15 @@ public class OrmLiteGroupStandard implements GroupStandard {
 
     private OrmLiteSurveyItem surveyItem;
 
+    private List<OrmLiteStandard> standards;
+
     public OrmLiteGroupStandard(OrmLiteSurveyItem surveyItem) {
         this.surveyItem = surveyItem;
+    }
+
+    @Override
+    public Long getId() {
+        return surveyItem.getId();
     }
 
     @NonNull
@@ -25,10 +32,13 @@ public class OrmLiteGroupStandard implements GroupStandard {
 
     @Override
     public List<? extends Standard> getStandards() {
-        List<Standard> standards = new ArrayList<>();
-        for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
-            standards.add(new OrmLiteStandard(surveyItem));
+        if (standards == null) {
+            standards = new ArrayList<>();
+            for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
+                standards.add(new OrmLiteStandard(surveyItem, this));
+            }
         }
+
         return standards;
     }
 

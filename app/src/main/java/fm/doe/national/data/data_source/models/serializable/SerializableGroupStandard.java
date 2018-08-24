@@ -27,4 +27,9 @@ public class SerializableGroupStandard implements GroupStandard {
     public List<? extends Standard> getStandards() {
         return standards;
     }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
 }

@@ -15,17 +15,17 @@ public class OrmLiteAnswer implements Answer {
 
     public interface Column {
         String ID = "id";
-        String ANSWER = "answer";
+        String STATE = "state";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
         String PARENT_ITEM = "parentItem";
-        String SURVEY_RESULT = "surveyPassing";
+        String SURVEY_PASSING = "surveyPassing";
     }
 
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
 
-    @DatabaseField(columnName = Column.ANSWER)
-    protected boolean answer;
+    @DatabaseField(columnName = Column.STATE, dataType = DataType.ENUM_STRING)
+    protected State state;
 
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.SYNCHRONIZED_PLATFORMS)
     protected ArrayList<SynchronizePlatform> synchronizePlatforms;
@@ -33,14 +33,14 @@ public class OrmLiteAnswer implements Answer {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT_ITEM)
     protected OrmLiteSurveyItem parentSurveyItem;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_RESULT)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_PASSING)
     protected OrmLiteSurveyPassing surveyPassing;
 
     public OrmLiteAnswer() {
     }
 
-    public OrmLiteAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyPassing) {
-        this.answer = answer;
+    public OrmLiteAnswer(State state, OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyPassing) {
+        this.state = state;
         this.parentSurveyItem = parentSurveyItem;
         this.surveyPassing = surveyPassing;
         this.synchronizePlatforms = new ArrayList<>();
@@ -51,14 +51,14 @@ public class OrmLiteAnswer implements Answer {
     }
 
     @Override
-    public boolean getAnswer() {
-        return answer;
+    public State getState() {
+        return state;
     }
 
     @Override
-    public void setAnswer(boolean answer) {
-        if (this.answer != answer) {
-            this.answer = answer;
+    public void setState(State state) {
+        if (this.state != state) {
+            this.state = state;
             synchronizePlatforms.clear();
         }
     }

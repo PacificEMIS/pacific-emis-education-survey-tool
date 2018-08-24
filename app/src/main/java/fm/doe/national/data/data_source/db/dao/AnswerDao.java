@@ -4,6 +4,7 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
@@ -17,14 +18,28 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
     }
 
     public Single<OrmLiteAnswer> createAnswer(
-            boolean answer,
+            Answer.State state,
             OrmLiteSurveyItem parentSurveyItem,
             OrmLiteSurveyPassing surveyPassing) {
         return Single.fromCallable(() -> {
-            OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(answer, parentSurveyItem, surveyPassing);
+            OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(state, parentSurveyItem, surveyPassing);
             create(ormLiteAnswer);
             return ormLiteAnswer;
         });
+    }
+
+    public Single<OrmLiteAnswer> requestAnswer(OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyPassing) {
+        return Single.fromCallable(() -> {
+                    OrmLiteAnswer answer = queryBuilder()
+                            .where()
+                            .eq(OrmLiteAnswer.Column.SURVEY_PASSING, surveyPassing)
+                            .and()
+                            .eq(OrmLiteAnswer.Column.PARENT_ITEM, parentSurveyItem)
+                            .queryForFirst();
+                    return answer != null ? answer : new OrmLiteAnswer(Answer.State.NOT_ANSWERED, parentSurveyItem, surveyPassing);
+                }
+
+        );
     }
 
     public Completable updateAnswer(OrmLiteAnswer answer) {

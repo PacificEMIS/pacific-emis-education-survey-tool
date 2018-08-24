@@ -17,12 +17,14 @@ import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
+import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.utils.StreamUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -38,11 +40,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private AssetManager assetManager;
     private Gson gson;
+    private Parser<SchoolAccreditation> schoolAccreditationParser;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
         assetManager = context.getAssets();
         gson = MicronesiaApplication.getAppComponent().getGson();
+        schoolAccreditationParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
     }
 
     @Override
@@ -55,15 +59,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private void createSurvey() {
         try {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
-            String data = StreamUtils.asString(inputStream);
-
-            SerializableSchoolAccreditation schoolAccreditation =
-                    gson.fromJson(data, SerializableSchoolAccreditation.class);
+            SchoolAccreditation schoolAccreditation = schoolAccreditationParser.parse(inputStream);
 
             surveyDao.createSchoolAccreditation(
                     schoolAccreditation.getVersion(),
                     schoolAccreditation.getType(),
-                    schoolAccreditation.getGroupStandards());
+                    schoolAccreditation.getGroupStandards())
+                    .subscribe();
 
         } catch (IOException e) {
             e.printStackTrace();

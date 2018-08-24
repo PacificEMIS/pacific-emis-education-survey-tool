@@ -21,11 +21,8 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
         super(connectionSource, dataClass);
     }
 
-    public Single<OrmLiteSurveyItem> requestItemByName(String name) {
-        return Single.fromCallable(() -> queryBuilder()
-                .where()
-                .eq(OrmLiteSurveyItem.Column.NAME, name)
-                .queryForFirst());
+    public Single<OrmLiteSurveyItem> requestItem(long id) {
+        return Single.fromCallable(() -> queryForId(id));
     }
 
     public List<OrmLiteSurveyItem> createFromGroupStandards(

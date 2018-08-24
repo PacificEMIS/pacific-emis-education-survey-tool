@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.di.modules.AccreditationDataSourceModule;
 import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
@@ -21,5 +23,6 @@ import fm.doe.national.ui.screens.main.MainActivity;
 public interface AppComponent {
 
     Gson getGson();
+    Parser<SchoolAccreditation> getSchoolAccreditationParser();
     void inject(MainActivity mainActivity);
 }
