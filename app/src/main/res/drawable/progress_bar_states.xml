@@ -3,9 +3,9 @@
     <item android:id="@android:id/background">
         <shape>
             <gradient
-                android:centerColor="@color/color_criteria_progress_bg"
-                android:endColor="@color/color_criteria_progress_bg"
-                android:startColor="@color/color_criteria_progress_bg" />
+                android:centerColor="#f2f3f8"
+                android:endColor="#f2f3f8"
+                android:startColor="#f2f3f8" />
         </shape>
     </item>
 
@@ -13,9 +13,9 @@
         <clip>
             <shape>
                 <gradient
-                    android:centerColor="@color/colorAccent"
-                    android:endColor="@color/colorAccent"
-                    android:startColor="@color/colorAccent" />
+                    android:centerColor="#50be75"
+                    android:endColor="#50be75"
+                    android:startColor="#50be75" />
             </shape>
         </clip>
     </item>

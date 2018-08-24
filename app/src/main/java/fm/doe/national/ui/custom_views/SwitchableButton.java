@@ -1,7 +1,10 @@
 package fm.doe.national.ui.custom_views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +14,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 
-public class SwitchableButton extends FrameLayout {
+public class SwitchableButton extends FrameLayout implements View.OnClickListener {
 
     @BindView(R.id.button_positive)
     Button positiveButton;
 
     @BindView(R.id.button_negative)
     Button negativeButton;
-    
+
+    private Resources resources = getResources();
     private Drawable drawableLeftActive;
     private Drawable drawableLeftInActive;
     private Drawable drawableRightActive;
@@ -26,7 +30,9 @@ public class SwitchableButton extends FrameLayout {
     private int colorTextActive;
     private int colorTextInActive;
 
-    private State state;
+    private State state = State.NEUTRAL;
+
+    @Nullable
     private StateChangedListener listener;
 
     public SwitchableButton(Context context) {
@@ -40,15 +46,34 @@ public class SwitchableButton extends FrameLayout {
     public SwitchableButton(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
 
-        inflate(getContext(), R.layout.switch_answer, this);
+        inflate(context, R.layout.switch_answer, this);
         ButterKnife.bind(this);
 
-        state = State.NEUTRAL;
-
-        positiveButton.setOnClickListener(v -> setState(state == State.POSITIVE ? State.NEUTRAL : State.POSITIVE));
-        negativeButton.setOnClickListener(v -> setState(state == State.NEGATIVE ? State.NEUTRAL : State.NEGATIVE));
+        positiveButton.setOnClickListener(this);
+        negativeButton.setOnClickListener(this);
 
         initColors();
+    }
+
+    private void initColors() {
+        drawableLeftActive = resources.getDrawable(R.drawable.ic_yes_no_left_active);
+        drawableLeftInActive = resources.getDrawable(R.drawable.ic_yes_no_left);
+        drawableRightActive = resources.getDrawable(R.drawable.ic_yes_no_right_active);
+        drawableRightInActive = resources.getDrawable(R.drawable.ic_yes_no_right);
+        colorTextActive = resources.getColor(R.color.white);
+        colorTextInActive = resources.getColor(R.color.black);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_positive:
+                setState(state == State.POSITIVE ? State.NEUTRAL : State.POSITIVE);
+                break;
+            case R.id.button_negative:
+                setState(state == State.NEGATIVE ? State.NEUTRAL : State.NEGATIVE);
+                break;
+        }
     }
 
     public State getState() {
@@ -72,25 +97,13 @@ public class SwitchableButton extends FrameLayout {
         if (listener != null) listener.onStateChanged(this, state);
     }
 
+    @Nullable
     public StateChangedListener getListener() {
         return listener;
     }
 
-    public void removeListener() {
-        listener = null;
-    }
-
-    public void setListener(StateChangedListener listener) {
+    public void setListener(@NonNull StateChangedListener listener) {
         this.listener = listener;
-    }
-
-    private void initColors() {
-        drawableLeftActive = getResources().getDrawable(R.drawable.ic_yes_no_left_active);
-        drawableLeftInActive = getResources().getDrawable(R.drawable.ic_yes_no_left);
-        drawableRightActive = getResources().getDrawable(R.drawable.ic_yes_no_right_active);
-        drawableRightInActive = getResources().getDrawable(R.drawable.ic_yes_no_right);
-        colorTextActive = getResources().getColor(R.color.white);
-        colorTextInActive = getResources().getColor(R.color.black);
     }
 
     private void becomePositive() {
@@ -102,16 +115,16 @@ public class SwitchableButton extends FrameLayout {
     }
 
     private void becomeNegative() {
-        positiveButton.setTextColor(getResources().getColor(R.color.black));
-        negativeButton.setTextColor(getResources().getColor(R.color.white));
+        positiveButton.setTextColor(colorTextInActive);
+        negativeButton.setTextColor(colorTextActive);
 
         positiveButton.setBackground(drawableLeftInActive);
         negativeButton.setBackground(drawableRightActive);
     }
 
     private void becomeNeutral() {
-        positiveButton.setTextColor(getResources().getColor(R.color.black));
-        negativeButton.setTextColor(getResources().getColor(R.color.black));
+        positiveButton.setTextColor(colorTextInActive);
+        negativeButton.setTextColor(colorTextInActive);
 
         positiveButton.setBackground(drawableLeftInActive);
         negativeButton.setBackground(drawableRightInActive);
@@ -122,6 +135,6 @@ public class SwitchableButton extends FrameLayout {
     }
 
     public interface StateChangedListener {
-        void onStateChanged(View view, State state);
+        void onStateChanged(SwitchableButton view, State state);
     }
 }

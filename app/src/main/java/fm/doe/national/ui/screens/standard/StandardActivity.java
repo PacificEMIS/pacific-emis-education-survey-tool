@@ -35,12 +35,6 @@ public class StandardActivity extends BaseActivity implements StandardView {
             R.drawable.ic_standard_observation_selector
     };
 
-    @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationPassing accreditationResult) {
-        return new Intent(context, StandardActivity.class)
-                .putExtra(ACCREDITATION_EXTRA, accreditationResult);
-    }
-
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
 
@@ -71,6 +65,8 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
+    private final CriteriaAdapter recyclerAdapter = new CriteriaAdapter();
+
     @InjectPresenter
     StandardPresenter presenter;
 
@@ -79,16 +75,15 @@ public class StandardActivity extends BaseActivity implements StandardView {
         return new StandardPresenter(getSerializableArgument(ACCREDITATION_EXTRA, SchoolAccreditationPassing.class));
     }
 
-    private CriteriaAdapter recyclerAdapter;
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationPassing accreditationResult) {
+        return new Intent(context, StandardActivity.class)
+                .putExtra(ACCREDITATION_EXTRA, accreditationResult);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupViews();
-    }
-
-    private void setupViews() {
-        recyclerAdapter = new CriteriaAdapter();
         criteriasRecycler.setAdapter(recyclerAdapter);
         recyclerAdapter.subscribeOnChanges(presenter::onQuestionStateChanged);
 
@@ -133,7 +128,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
         if (forIndex >= icons.length) return;
 
         Drawable drawable = getResources().getDrawable(icons[forIndex]);
-        if (isHighlighted) drawable.setState(new int[] { R.attr.highlight });
         imageView.setImageDrawable(drawable);
+        imageView.setActivated(isHighlighted);
     }
 }

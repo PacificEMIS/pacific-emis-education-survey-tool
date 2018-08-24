@@ -45,6 +45,14 @@ public class CriteriaViewData {
         return correspondingCriteria;
     }
 
+    public int getAnsweredCount() {
+        int count = 0;
+        for (SubCriteriaViewData subCriteriaViewData: questions) {
+            if (subCriteriaViewData.getAnswer() != Answer.State.NOT_ANSWERED) count++;
+        }
+        return count;
+    }
+
     public static class Builder {
         private CriteriaViewData object;
 

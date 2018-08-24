@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
@@ -47,6 +48,17 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         Toast.makeText(this, text.getString(getResources()), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void showWarning(int title, int message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
+                .show();
+    }
+
+    @SuppressWarnings("unchecked")
     protected <T> T getSerializableArgument(String extraName, Class<T> theClass) {
         try {
             return (T) getIntent().getSerializableExtra(extraName);

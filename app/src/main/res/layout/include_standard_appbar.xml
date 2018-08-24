@@ -30,7 +30,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textview_standard_progress"
             app:layout_constraintStart_toEndOf="@+id/textview_standard_name"
             app:layout_constraintTop_toTopOf="@+id/textview_standard_name"
-            app:srcCompat="@drawable/ic_pass" />
+            android:src="@drawable/ic_pass" />
 
         <TextView
             android:id="@+id/textview_standard_progress"

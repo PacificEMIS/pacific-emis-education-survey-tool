@@ -24,7 +24,6 @@
         android:id="@+id/textview_question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
         android:textColor="@color/black"
         android:textSize="@dimen/size_criteria_text"
         android:textStyle="normal"

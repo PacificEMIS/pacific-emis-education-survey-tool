@@ -6,4 +6,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="criteria_hint">For detailed information, make a long touch on interested item</string>
+    <string name="title_warning">Warning</string>
+    <string name="warn_unable_to_update_answer">Unable to update answer</string>
+    <string name="warn_unable_to_create_answer">Unable to create answer</string>
 </resources>
