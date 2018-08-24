@@ -3,7 +3,6 @@ package fm.doe.national.ui.custom_views;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -102,7 +101,7 @@ public class SwitchableButton extends FrameLayout implements View.OnClickListene
         return listener;
     }
 
-    public void setListener(@NonNull StateChangedListener listener) {
+    public void setListener(@Nullable StateChangedListener listener) {
         this.listener = listener;
     }
 
