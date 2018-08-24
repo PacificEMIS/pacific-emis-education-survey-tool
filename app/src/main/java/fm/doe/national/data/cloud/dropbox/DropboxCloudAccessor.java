@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.dropbox.chooser.android.DbxChooser;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.android.Auth;
 import com.dropbox.core.http.OkHttp3Requestor;
@@ -27,13 +27,16 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.SingleSubject;
 
 public class DropboxCloudAccessor implements CloudAccessor {
-
-    private final static String PREF_TOKEN = "dropbox-access-token";
+    private static final String PREFS_KEY_DRIVE_FOLDER = "PREFS_KEY_DRIVE_FOLDER";
+    private final static String PREFS_KEY_TOKEN = "dropbox-access-token";
 
     private Context context;
     private SingleSubject<Object> authSingle;
     private SingleSubject<String> importSingle;
     private DbxClientV2 dropboxClient;
+
+    @Nullable
+    private String exportFolderPath;
 
     private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
 
@@ -92,12 +95,12 @@ public class DropboxCloudAccessor implements CloudAccessor {
         return Auth.getOAuth2Token() != null;
     }
 
-    public void onCloudFilePathObtained(@NonNull DbxChooser.Result result) {
+    public void onSuccessfulPick(@NonNull BrowsingTreeObject object) {
         Single.fromCallable(() -> {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
             dropboxClient.files()
-                    .download(dropboxPath(result.getLink()))
+                    .download(object.getFullPath())
                     .download(outputStream);
             return new String(outputStream.toByteArray());
         })
@@ -123,16 +126,16 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     private boolean hasAuthToken() {
-        String accessToken = sharedPreferences.getString(PREF_TOKEN, null);
+        String accessToken = sharedPreferences.getString(PREFS_KEY_TOKEN, null);
         return accessToken != null;
     }
 
     private void initDropbox() {
-        String accessToken = sharedPreferences.getString(PREF_TOKEN, null);
+        String accessToken = sharedPreferences.getString(PREFS_KEY_TOKEN, null);
         if (accessToken == null) {
             accessToken = Auth.getOAuth2Token();
             if (accessToken != null) {
-                sharedPreferences.edit().putString(PREF_TOKEN, accessToken).apply();
+                sharedPreferences.edit().putString(PREFS_KEY_TOKEN, accessToken).apply();
                 initClient(accessToken);
             }
         } else {

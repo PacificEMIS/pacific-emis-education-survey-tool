@@ -13,7 +13,9 @@
     <string name="survey_report">Survey report %1$s</string>
     <string name="title_upload">Upload report &#8230;</string>
     <string name="title_select_folder">Select folder</string>
+    <string name="title_select_file">Select file</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 
     <string name="dropbox_api_app_key">wgfc52kfzlfemur</string>
-    <string name="dropbox_api_app_secret">qugh4owkkjq4alb</string>
 </resources>
