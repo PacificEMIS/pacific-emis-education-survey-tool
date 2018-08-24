@@ -3,6 +3,7 @@ package fm.doe.national.data.cloud.drive;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -35,6 +36,10 @@ import io.reactivex.subjects.SingleSubject;
 
 
 public class DriveCloudAccessor implements CloudAccessor {
+    private static final String PREFS_KEY_DRIVE_FOLDER = "PREFS_KEY_DRIVE_FOLDER";
+
+    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+
     private Context context;
 
     @Nullable
@@ -67,11 +72,11 @@ public class DriveCloudAccessor implements CloudAccessor {
     }
 
     @Override
-    public Completable exportContentToCloud(@NonNull String content) { // TODO: wrong behaviour
+    public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) {
         exportSingle = SingleSubject.create();
         Single<Object> exportContent =
                 Completable
-                        .fromAction(() -> startActivityToUpload(content))
+                        .fromAction(() -> createFile(content, filename, exportFolderId))
                         .andThen(exportSingle);
         return isAuthenticated() ?
                 Completable.fromSingle(exportContent)
@@ -132,17 +137,11 @@ public class DriveCloudAccessor implements CloudAccessor {
                 });
     }
 
-    public void onExport() {
-        if (exportSingle == null) return;
-
-        exportSingle.onSuccess(new Object());
-    }
-
     public void onFolderPicked(@NonNull DriveId driveId) {
         if (pickDirectorySingle == null) return;
 
         exportFolderId = driveId;
-        //TODO: save to sharedPrefs
+        sharedPreferences.edit().putString(PREFS_KEY_DRIVE_FOLDER, exportFolderId.encodeToString()).apply();
         pickDirectorySingle.onSuccess(driveId.encodeToString());
     }
 
@@ -169,7 +168,11 @@ public class DriveCloudAccessor implements CloudAccessor {
 
         driveClient = Drive.getDriveClient(context, account);
         driveResourceClient = Drive.getDriveResourceClient(context, account);
-        // TODO: init exportFolderId from sharedPref
+
+        String exportFolderPref = sharedPreferences.getString(PREFS_KEY_DRIVE_FOLDER, null);
+        if (exportFolderPref != null) {
+            exportFolderId = DriveId.decodeFromString(exportFolderPref);
+        }
     }
 
     private boolean isAuthenticated() {
@@ -182,44 +185,42 @@ public class DriveCloudAccessor implements CloudAccessor {
     }
 
     private void startActivityAction(int activityAction) {
-        startActivity(DriveActivity.createIntent(context, activityAction));
-    }
-
-    private void startActivityToUpload(@NonNull String content) {
-        startActivity(DriveActivity.createUploadIntent(context, content));
-    }
-
-    private void startActivity(Intent intent) {
-        Activity activity = ((MicronesiaApplication)context).getCurrentActivity();
+        Activity activity = ((MicronesiaApplication) context).getCurrentActivity();
         if (activity != null) {
+            Intent intent = DriveActivity.createIntent(context, activityAction);
             activity.startActivity(intent);
         } else {
             onActionFailure(new IllegalStateException("no activities running"));
         }
     }
 
-    private void createFile(String content, String filename, DriveId folderDriveId) {
+    private void createFile(String content, String filename, @Nullable DriveId folderDriveId) {
         if (driveResourceClient == null) {
             onActionFailure(new FileExportException("DriveResourceClient is null"));
             return;
         }
 
+        if (folderDriveId == null) {
+            onActionFailure(new FileExportException("folder not specified"));
+            return;
+        }
+
         Task<DriveContents> createContentsTask = driveResourceClient.createContents();
         createContentsTask.continueWithTask(task -> {
-                    DriveContents contents = createContentsTask.getResult();
-                    OutputStream outputStream = contents.getOutputStream();
-                    try (Writer writer = new OutputStreamWriter(outputStream)) {
-                        writer.write(content);
-                    }
+            DriveContents contents = createContentsTask.getResult();
+            OutputStream outputStream = contents.getOutputStream();
+            try (Writer writer = new OutputStreamWriter(outputStream)) {
+                writer.write(content);
+            }
 
-                    MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                            .setTitle(filename)
-                            .setMimeType("text/plain")
-                            .build();
+            MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                    .setTitle(filename)
+                    .setMimeType("text/plain")
+                    .build();
 
-                    return driveResourceClient.createFile(folderDriveId.asDriveFolder(), changeSet, contents);
-                })
-                .addOnSuccessListener(driveFile -> {})
-                .addOnFailureListener(e -> {});
+            return driveResourceClient.createFile(folderDriveId.asDriveFolder(), changeSet, contents);
+        })
+                .addOnSuccessListener(driveFile -> exportSingle.onSuccess(new Object()))
+                .addOnFailureListener(throwable -> exportSingle.onError(throwable));
     }
 }

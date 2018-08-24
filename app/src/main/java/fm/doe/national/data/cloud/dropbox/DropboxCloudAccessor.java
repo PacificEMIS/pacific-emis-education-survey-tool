@@ -56,7 +56,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     @Override
-    public Completable exportContentToCloud(@NonNull String content) {
+    public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) {
         Completable upload = Completable.fromAction(() -> {
             InputStream is = new ByteArrayInputStream(content.getBytes());
             dropboxClient.files()

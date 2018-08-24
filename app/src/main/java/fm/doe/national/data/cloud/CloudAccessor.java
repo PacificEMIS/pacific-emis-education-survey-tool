@@ -7,8 +7,11 @@ import io.reactivex.Single;
 
 public interface CloudAccessor {
     Single<String> importContentFromCloud();
-    Completable exportContentToCloud(@NonNull String content);
+
+    Completable exportContentToCloud(@NonNull String content, @NonNull String filename);
+
     Completable auth();
+
     Completable selectExportFolder();
 
     enum Type {

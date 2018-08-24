@@ -5,8 +5,12 @@ import io.reactivex.Single;
 
 public interface CloudRepository {
     Completable authenticate();
-    Completable uploadContent(String content);
+
+    Completable uploadContent(String content, String filename);
+
     Single<String> getContent();
+
     Completable chooseExportFolder();
+
     void setPrimary(CloudAccessor.Type type);
 }

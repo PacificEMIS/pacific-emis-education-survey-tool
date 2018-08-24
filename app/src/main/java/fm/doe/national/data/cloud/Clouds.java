@@ -25,10 +25,10 @@ public class Clouds implements CloudRepository {
     }
 
     @Override
-    public Completable uploadContent(String content) {
+    public Completable uploadContent(String content, String filename) {
         for (Map.Entry<CloudAccessor.Type, CloudAccessor> entry : accessorMap.entrySet()) {
             if (entry.getKey() == primaryType) {
-                return entry.getValue().exportContentToCloud(content);
+                return entry.getValue().exportContentToCloud(content, filename);
             }
         }
         return Completable.complete();

@@ -25,7 +25,7 @@ public class MainPresenter extends BasePresenter<BaseView> {
         super.onFirstViewAttach();
         MicronesiaApplication.getAppComponent().inject(this);
         repository.setPrimary(CloudAccessor.Type.DRIVE);
-        add(repository.chooseExportFolder()
+        add(repository.uploadContent("SOME CONTENT", "content.xml")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
