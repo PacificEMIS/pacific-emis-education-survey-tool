@@ -9,6 +9,7 @@ public interface CloudAccessor {
     Single<String> importContentFromCloud();
     Completable exportContentToCloud(@NonNull String content);
     Completable auth();
+    Completable selectExportFolder();
 
     enum Type {
         DRIVE, DROPBOX

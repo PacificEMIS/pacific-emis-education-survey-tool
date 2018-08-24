@@ -7,5 +7,6 @@ public interface CloudRepository {
     Completable authenticate();
     Completable uploadContent(String content);
     Single<String> getContent();
+    Completable chooseExportFolder();
     void setPrimary(CloudAccessor.Type type);
 }

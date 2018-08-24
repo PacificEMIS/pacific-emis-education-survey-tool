@@ -45,6 +45,14 @@ public class Clouds implements CloudRepository {
     }
 
     @Override
+    public Completable chooseExportFolder() {
+        for (Map.Entry<CloudAccessor.Type, CloudAccessor> entry : accessorMap.entrySet()) {
+            if (entry.getKey() == primaryType) return entry.getValue().selectExportFolder();
+        }
+        return Completable.complete();
+    }
+
+    @Override
     public void setPrimary(CloudAccessor.Type type) {
         this.primaryType = type;
     }

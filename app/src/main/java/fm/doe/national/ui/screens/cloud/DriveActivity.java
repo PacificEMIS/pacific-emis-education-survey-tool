@@ -13,10 +13,13 @@ import com.google.android.gms.drive.CreateFileActivityOptions;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveClient;
 import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.DriveResourceClient;
 import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.drive.OpenFileActivityOptions;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.SearchableField;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -28,6 +31,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
+import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class DriveActivity extends BaseActivity {
@@ -35,11 +39,13 @@ public class DriveActivity extends BaseActivity {
     public static final int ACTION_AUTH = 0;
     public static final int ACTION_OPEN_FILE = 1;
     public static final int ACTION_UPLOAD_FILE = 2;
+    public static final int ACTION_PICK_FOLDER = 3;
     private static final int ACTION_DEFAULT = -1;
 
     private static final int REQUEST_CODE_AUTH = ACTION_AUTH;
     private static final int REQUEST_CODE_OPEN_FILE = ACTION_OPEN_FILE;
     private static final int REQUEST_CODE_UPLOAD_FILE = ACTION_UPLOAD_FILE;
+    private static final int REQUEST_CODE_PICK_FOLDER = ACTION_PICK_FOLDER;
 
     private static final String EXTRA_ACTION = "EXTRA_ACTION";
     private static final String EXTRA_ACTION_UPLOAD_FILE = "EXTRA_ACTION_UPLOAD_FILE";
@@ -85,6 +91,13 @@ public class DriveActivity extends BaseActivity {
                     driveCloudAccessor.onActionFailure(new FileImportException("Failed to open"));
                 }
                 break;
+            case REQUEST_CODE_PICK_FOLDER:
+                if (resultCode == RESULT_OK) {
+                    DriveId id = data.getParcelableExtra(OpenFileActivityOptions.EXTRA_RESPONSE_DRIVE_ID);
+                    driveCloudAccessor.onFolderPicked(id);
+                } else {
+                    driveCloudAccessor.onActionFailure(new PickException("Picker declined"));
+                }
             case REQUEST_CODE_UPLOAD_FILE:
                 driveCloudAccessor.onExport();
                 break;
@@ -108,6 +121,9 @@ public class DriveActivity extends BaseActivity {
                     throw exception;
                 }
                 exportContentToNewFile(content);
+                break;
+            case ACTION_PICK_FOLDER:
+                pickFolder();
                 break;
             default:
                 throw exception;
@@ -185,6 +201,25 @@ public class DriveActivity extends BaseActivity {
                             }
                         })
                 .addOnFailureListener(this, this::failure);
+    }
+
+    private void pickFolder() {
+        DriveClient client = driveCloudAccessor.getDriveClient();
+        if (client == null)  {
+            failure(new PickException("DriveClient is null"));
+            return;
+        }
+        OpenFileActivityOptions openOptions = new OpenFileActivityOptions.Builder()
+                .setSelectionFilter(
+                        Filters.eq(SearchableField.MIME_TYPE, DriveFolder.MIME_TYPE))
+                .setActivityTitle(getString(R.string.title_select_folder))
+                .build();
+        client.newOpenFileActivityIntentSender(openOptions)
+                .continueWith(task -> {
+                    startIntentSenderForResult(
+                            task.getResult(), REQUEST_CODE_PICK_FOLDER, null, 0, 0, 0);
+                    return null;
+                });
     }
 
     private void failure(Throwable throwable) {

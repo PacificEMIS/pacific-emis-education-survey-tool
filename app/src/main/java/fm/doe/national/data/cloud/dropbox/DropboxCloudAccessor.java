@@ -78,6 +78,11 @@ public class DropboxCloudAccessor implements CloudAccessor {
                 .andThen(Completable.fromSingle(authSingle));
     }
 
+    @Override
+    public Completable selectExportFolder() {
+        return null; // TODO: implement
+    }
+
     public void onAuthActionComplete() {
         initDropbox();
         authSingle.onSuccess(new Object());
