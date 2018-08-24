@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.omega_r.libs.omegatypes.Text;
 
+import java.io.Serializable;
+
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 
@@ -49,22 +51,21 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     }
 
     @Override
-    public void showWarning(int title, int message) {
+    public void showWarning(Text title, Text message) {
         new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message)
+                .setTitle(title.getString(getResources()))
+                .setMessage(message.getString(getResources()))
                 .setPositiveButton(android.R.string.ok, null)
                 .create()
                 .show();
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T getSerializableArgument(String extraName, Class<T> theClass) {
+    protected <T extends Serializable> T getSerializableArgument(String extraName) {
         try {
             return (T) getIntent().getSerializableExtra(extraName);
         } catch (NullPointerException | ClassCastException ex) {
-            throw new RuntimeException(
-                    "Unable to obtain serializable argument");
+            throw new RuntimeException("Unable to obtain serializable argument");
         }
     }
 }

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,13 +67,20 @@ public class StandardPresenter extends BasePresenter<StandardView> {
             add(dataSource.updateAnswer(answer)
                     .subscribe(() -> {
                         //nothing
-                    }, throwable -> getViewState().showWarning(R.string.title_warning, R.string.warn_unable_to_update_answer)));
+                    }, throwable -> {
+                        getViewState().showWarning(
+                                Text.from(R.string.title_warning),
+                                Text.from(R.string.warn_unable_to_update_answer));
+                    }));
         } else {
             add(dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
                     .subscribe(
                             subCriteriaViewData::setCorrespondingAnswer,
-                            throwable -> getViewState().
-                                    showWarning(R.string.title_warning, R.string.warn_unable_to_create_answer)));
+                            throwable -> {
+                                getViewState().showWarning(
+                                        Text.from(R.string.title_warning),
+                                        Text.from(R.string.warn_unable_to_create_answer));
+                            }));
         }
         getViewState().setProgress(getAnsweredCount(), standards.get(standardIndex).getQuestionsCount());
     }
@@ -93,8 +101,8 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     private void updateUi() {
         getViewState().setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
-        getViewState().setPrevStandard(standards.get(previousIndex).getName(), getPrevIndex());
-        getViewState().setNextStandard(standards.get(nextIndex).getName(), getNextIndex());
+        getViewState().setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
+        getViewState().setNextStandard(standards.get(nextIndex).getName(), nextIndex);
 
         loadQuestions();
     }

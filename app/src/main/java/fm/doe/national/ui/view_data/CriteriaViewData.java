@@ -53,6 +53,12 @@ public class CriteriaViewData {
         return count;
     }
 
+    public int getPercentageProgress() {
+        int totalQuestions = questions.size();
+        int answeredQuestions = getAnsweredCount();
+        return totalQuestions > 0 ? (int)((float)answeredQuestions / totalQuestions * 100) : 0;
+    }
+
     public static class Builder {
         private CriteriaViewData object;
 

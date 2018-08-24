@@ -92,7 +92,7 @@ dependencies {
 
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
-    implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
+    implementation 'com.github.Omega-R:OmegaTypes:0.0.3'
 
     // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"

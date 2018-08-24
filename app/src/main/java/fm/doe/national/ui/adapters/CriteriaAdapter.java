@@ -83,9 +83,9 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         @BindView(R.id.imageview_expanding_arrow)
         ImageView arrowImageView;
 
+        private final SubCriteriaAdapter adapter = new SubCriteriaAdapter();
         private CriteriaViewData criteria;
         private SubCriteriaAdapter subCriteriaAdapter;
-        private final SubCriteriaAdapter adapter = new SubCriteriaAdapter();
 
         public CriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_criteria);
@@ -120,10 +120,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         }
 
         private void rebindProgress() {
-            int totalQuestions = criteria.getQuestionsViewData().size();
-            int answeredQuestions = criteria.getAnsweredCount();
-
-            int progress = totalQuestions > 0 ? (int)((float)answeredQuestions / totalQuestions * 100) : 0;
+            int progress = criteria.getPercentageProgress();
             progressBar.setActivated(progress == 100);
             progressTextView.setActivated(progress == 100);
 
@@ -133,7 +130,8 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                 progressBar.setProgress(progress);
             }
 
-            progressTextView.setText(getResources().getString(R.string.criteria_progress, answeredQuestions, totalQuestions));
+            progressTextView.setText(getResources().getString(
+                    R.string.criteria_progress, criteria.getAnsweredCount(), criteria.getQuestionsViewData().size()));
         }
     }
 }
