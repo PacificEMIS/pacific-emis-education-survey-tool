@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,12 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BasePresenter;
@@ -31,28 +33,25 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     @Inject
     DataSource dataSource;
 
-    private SchoolAccreditationResult accreditationResult;
+    private SchoolAccreditationPassing accreditationResult;
     private int standardIndex;
-    private List<Standard> standards;
+    private int nextIndex = standardIndex + 1;;
+    private int previousIndex;
+    private List<Standard> standards = new ArrayList<>();
     private List<CriteriaViewData> criteriaViewDataList;
 
-    public StandardPresenter(SchoolAccreditationResult result) {
+    public StandardPresenter(SchoolAccreditationPassing result) {
         MicronesiaApplication.getAppComponent().inject(this);
-
-        this.accreditationResult = result;
-        this.standardIndex = 0;
-        standards = new ArrayList<>();
+        accreditationResult = result;
 
         // TODO: handle groupStandards properly
 
         for (GroupStandard groupStandard: accreditationResult.getSchoolAccreditation().getGroupStandards()) {
             standards.addAll(groupStandard.getStandards());
         }
-    }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
+        previousIndex = standards.size() - 1;
+
         updateUi();
     }
 
@@ -69,30 +68,41 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                     .subscribe(() -> {
                         //nothing
                     }, throwable -> {
-                        //nothing
+                        getViewState().showWarning(
+                                Text.from(R.string.title_warning),
+                                Text.from(R.string.warn_unable_to_update_answer));
                     }));
         } else {
             add(dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
-                    .doOnSuccess(subCriteriaViewData::setCorrespondingAnswer)
-                    .subscribe());
+                    .subscribe(
+                            subCriteriaViewData::setCorrespondingAnswer,
+                            throwable -> {
+                                getViewState().showWarning(
+                                        Text.from(R.string.title_warning),
+                                        Text.from(R.string.warn_unable_to_create_answer));
+                            }));
         }
-        getViewState().setProgress(getAnsweredCount(), getQuestionsCount());
+        getViewState().setProgress(getAnsweredCount(), standards.get(standardIndex).getQuestionsCount());
     }
 
     public void onNextPressed() {
-        standardIndex = getNextIndex();
+        previousIndex = standardIndex;
+        standardIndex = nextIndex;
+        nextIndex = getNextIndex();
         updateUi();
     }
 
     public void onPreviousPressed() {
-        standardIndex = getPrevIndex();
+        nextIndex = standardIndex;
+        standardIndex = previousIndex;
+        nextIndex = getPrevIndex();
         updateUi();
     }
 
     private void updateUi() {
         getViewState().setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
-        getViewState().setPrevStandard(standards.get(getPrevIndex()).getName(), getPrevIndex());
-        getViewState().setNextStandard(standards.get(getNextIndex()).getName(), getNextIndex());
+        getViewState().setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
+        getViewState().setNextStandard(standards.get(nextIndex).getName(), nextIndex);
 
         loadQuestions();
     }
@@ -107,7 +117,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .doOnSuccess((Map<? extends Criteria, Map<SubCriteria, Answer>> criteriasQuestions) -> {
                     criteriaViewDataList = convertToViewData(criteriasQuestions);
                     getViewState().setCriterias(criteriaViewDataList);
-                    getViewState().setProgress(getAnsweredCount(), getQuestionsCount());
+                    getViewState().setProgress(getAnsweredCount(), standards.get(standardIndex).getQuestionsCount());
                 })
                 .subscribe());
     }
@@ -137,17 +147,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         if (criteriaViewDataList == null) return 0;
         int count = 0;
         for (CriteriaViewData criteriaViewData: criteriaViewDataList) {
-            for (SubCriteriaViewData subCriteriaViewData: criteriaViewData.getQuestionsViewData()) {
-                if (subCriteriaViewData.getAnswer() != Answer.State.NOT_ANSWERED) count++;
-            }
-        }
-        return count;
-    }
-
-    private int getQuestionsCount() {
-        int count = 0;
-        for (Standard standard: standards) {
-            count += standard.getCriterias().size();
+            count += criteriaViewData.getAnsweredCount();
         }
         return count;
     }

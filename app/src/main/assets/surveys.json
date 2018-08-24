@@ -1,7 +1,7 @@
 {
   "type" : "school_accreditation",
   "version" : 1,
-  "groupStandards": [
+  "groupStandard": [
     {
       "name": "Leadership",
       "standard": [

@@ -2,8 +2,6 @@ package fm.doe.national.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -21,35 +19,8 @@ import fm.doe.national.utils.TextUtil;
 
 public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.SubCriteriaViewHolder> {
 
-    private List<SubCriteriaViewData> subCriterias;
-    private List<SubcriteriaStateChangeListener> subscribers;
-
-    public SubCriteriaAdapter() {
-        subCriterias = new ArrayList<>();
-        subscribers = new ArrayList<>();
-    }
-
-    @NonNull
-    @Override
-    public SubCriteriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SubCriteriaViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_sub_criteria, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull SubCriteriaViewHolder holder, int position) {
-        holder.bind(subCriterias.get(position), position);
-    }
-
-    public void setSubCriterias(List<SubCriteriaViewData> subCriterias) {
-        this.subCriterias.clear();
-        this.subCriterias.addAll(subCriterias);
-    }
-
-    @Override
-    public int getItemCount() {
-        return subCriterias.size();
-    }
+    private List<SubCriteriaViewData> subCriterias = new ArrayList<>();
+    private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
 
     public void clearSubscribers() {
         subscribers.clear();
@@ -67,6 +38,28 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         this.subscribers.addAll(subscribers);
     }
 
+    @NonNull
+    @Override
+    public SubCriteriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new SubCriteriaViewHolder(parent);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull SubCriteriaViewHolder holder, int position) {
+        holder.bind(subCriterias.get(position), position);
+    }
+
+    public void setSubCriterias(List<SubCriteriaViewData> subCriterias) {
+        this.subCriterias.clear();
+        this.subCriterias.addAll(subCriterias);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return subCriterias.size();
+    }
+
     protected class SubCriteriaViewHolder extends BaseRecyclerViewHolder implements SwitchableButton.StateChangedListener {
 
         @BindView(R.id.textview_alphabetical_numbering)
@@ -80,8 +73,8 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
 
         private SubCriteriaViewData subCriteria;
 
-        protected SubCriteriaViewHolder(View v) {
-            super(v);
+        protected SubCriteriaViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
         }
 
@@ -95,7 +88,7 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         }
 
         @Override
-        public void onStateChanged(View view, SwitchableButton.State state) {
+        public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
             subCriteria.setAnswer(convertFromUiState(state));
             notifyStateChanged(subCriteria);
         }
@@ -126,7 +119,7 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
 
         private void notifyStateChanged(SubCriteriaViewData subCriteria) {
             for (SubcriteriaStateChangeListener subscriber : subscribers) {
-                subscriber.onStateChanged(subCriteria, subCriteria.getCorrespondingSubCriteria(),
+                subscriber.onSubCriteriaStateChanged(subCriteria, subCriteria.getCorrespondingSubCriteria(),
                         subCriteria.getCorrespondingAnswer(), subCriteria.getAnswer());
             }
         }

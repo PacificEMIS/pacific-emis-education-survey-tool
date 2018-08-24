@@ -4,7 +4,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,31 +27,8 @@ import fm.doe.national.utils.ViewUtils;
 
 public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.CriteriaViewHolder> {
 
-    private List<CriteriaViewData> items;
-    private List<SubcriteriaStateChangeListener> subscribers;
-
-    public CriteriaAdapter() {
-        super();
-        items = new ArrayList<>();
-        subscribers = new ArrayList<>();
-    }
-
-    @NonNull
-    @Override
-    public CriteriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CriteriaViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_criteria, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull CriteriaViewHolder holder, int position) {
-        holder.bind(items.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
+    private List<CriteriaViewData> items = new ArrayList<>();
+    private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
 
     public void setCriterias(@NonNull List<CriteriaViewData> criterias) {
         items = criterias;
@@ -69,6 +45,22 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
 
     public void subscribeOnChanges(SubcriteriaStateChangeListener listener) {
         subscribers.add(listener);
+    }
+
+    @NonNull
+    @Override
+    public CriteriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CriteriaViewHolder(parent);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CriteriaViewHolder holder, int position) {
+        holder.bind(items.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
     }
 
     protected class CriteriaViewHolder extends BaseRecyclerViewHolder implements SubcriteriaStateChangeListener {
@@ -91,12 +83,13 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         @BindView(R.id.imageview_expanding_arrow)
         ImageView arrowImageView;
 
+        private final SubCriteriaAdapter adapter = new SubCriteriaAdapter();
         private CriteriaViewData criteria;
         private SubCriteriaAdapter subCriteriaAdapter;
 
-        public CriteriaViewHolder(View v) {
-            super(v);
-            SubCriteriaAdapter adapter = new SubCriteriaAdapter();
+        public CriteriaViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_criteria);
+
             adapter.addSubscribers(subscribers);
             adapter.subscribeOnChanges(this);
         }
@@ -105,7 +98,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
             criteria = criteriaViewData;
             subCriteriaAdapter.setSubCriterias(criteria.getQuestionsViewData());
             titleTextView.setText(criteria.getName());
-            rebindProgress(criteria.getQuestionsViewData());
+            rebindProgress();
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
@@ -119,11 +112,11 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         }
 
         @Override
-        public void onStateChanged(@NonNull SubCriteriaViewData viewData,
-                                   @NonNull SubCriteria subCriteria,
-                                   @Nullable Answer answer,
-                                   Answer.State newState) {
-            rebindProgress(criteria.getQuestionsViewData());
+        public void onSubCriteriaStateChanged(@NonNull SubCriteriaViewData viewData,
+                                              @NonNull SubCriteria subCriteria,
+                                              @Nullable Answer answer,
+                                              Answer.State newState) {
+            rebindProgress();
         }
 
         private void rebindProgress(@NonNull List<SubCriteriaViewData> subCriterias) {
@@ -141,14 +134,21 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                 progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_bar_states));
                 progressTextView.setTextColor(getResources().getColor(R.color.color_criteria_primary_dark));
             }
+        }
 
-            if (Build.VERSION.SDK_INT > 24) {
+        private void rebindProgress() {
+            int progress = criteria.getPercentageProgress();
+            progressBar.setActivated(progress == 100);
+            progressTextView.setActivated(progress == 100);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 progressBar.setProgress(progress, true);
             } else {
                 progressBar.setProgress(progress);
             }
 
-            progressTextView.setText(getResources().getString(R.string.criteria_progress, answeredQuestions, totalQuestions));
+            progressTextView.setText(getResources().getString(
+                    R.string.criteria_progress, criteria.getAnsweredCount(), criteria.getQuestionsViewData().size()));
         }
     }
 }

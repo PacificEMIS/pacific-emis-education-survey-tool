@@ -1,26 +1,25 @@
 package fm.doe.national.data.data_source.models.db.wrappers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
-import fm.doe.national.data.data_source.models.db.OrmLiteBaseSurvey;
+import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
 public class OrmLiteSchoolAccreditation implements SchoolAccreditation {
 
-    private OrmLiteBaseSurvey baseSurvey;
+    private OrmLiteSurvey survey;
 
-    public OrmLiteSchoolAccreditation(OrmLiteBaseSurvey baseSurvey) {
-        this.baseSurvey = baseSurvey;
+    public OrmLiteSchoolAccreditation(OrmLiteSurvey survey) {
+        this.survey = survey;
     }
 
     @Override
-    public Collection<? extends GroupStandard> getGroupStandards() {
+    public List<? extends GroupStandard> getGroupStandards() {
         List<GroupStandard> groupStandardList = new ArrayList<>();
-        for (OrmLiteSurveyItem surveyItem : baseSurvey.getSurveyItems()) {
+        for (OrmLiteSurveyItem surveyItem : survey.getSurveyItems()) {
             groupStandardList.add(new OrmLiteGroupStandard(surveyItem));
         }
         return groupStandardList;
@@ -28,11 +27,11 @@ public class OrmLiteSchoolAccreditation implements SchoolAccreditation {
 
     @Override
     public int getVersion() {
-        return baseSurvey.getVersion();
+        return survey.getVersion();
     }
 
     @Override
     public String getType() {
-        return baseSurvey.getType();
+        return survey.getType();
     }
 }

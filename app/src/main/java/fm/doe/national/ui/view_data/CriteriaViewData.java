@@ -45,6 +45,20 @@ public class CriteriaViewData {
         return correspondingCriteria;
     }
 
+    public int getAnsweredCount() {
+        int count = 0;
+        for (SubCriteriaViewData subCriteriaViewData: questions) {
+            if (subCriteriaViewData.getAnswer() != Answer.State.NOT_ANSWERED) count++;
+        }
+        return count;
+    }
+
+    public int getPercentageProgress() {
+        int totalQuestions = questions.size();
+        int answeredQuestions = getAnsweredCount();
+        return totalQuestions > 0 ? (int)((float)answeredQuestions / totalQuestions * 100) : 0;
+    }
+
     public static class Builder {
         private CriteriaViewData object;
 

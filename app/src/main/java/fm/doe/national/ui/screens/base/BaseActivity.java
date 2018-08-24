@@ -7,14 +7,16 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.omega_r.libs.omegatypes.Text;
+
+import java.io.Serializable;
 
 import butterknife.ButterKnife;
 import fm.doe.national.R;
@@ -30,7 +32,8 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         ButterKnife.bind(this);
     }
 
-    protected abstract @LayoutRes int getContentView();
+    protected abstract @LayoutRes
+    int getContentView();
 
     protected void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
@@ -77,12 +80,23 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
     }
-    protected <T> T getSerializableArgument(String extraName, Class<T> theClass) {
+
+    @Override
+    public void showWarning(Text title, Text message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title.getString(getResources()))
+                .setMessage(message.getString(getResources()))
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
+                .show();
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T extends Serializable> T getSerializableExtra(String extraName) {
         try {
             return (T) getIntent().getSerializableExtra(extraName);
         } catch (NullPointerException | ClassCastException ex) {
-            throw new RuntimeException(
-                    "Unable to obtain serializable argument");
+            throw new RuntimeException("Unable to obtain serializable argument");
         }
     }
 

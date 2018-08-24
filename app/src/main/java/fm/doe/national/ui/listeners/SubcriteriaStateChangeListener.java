@@ -8,7 +8,7 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 
 public interface SubcriteriaStateChangeListener {
-    void onStateChanged(@NonNull SubCriteriaViewData viewData,
-                        @NonNull SubCriteria subCriteria,
-                        @Nullable Answer answer, Answer.State newState);
+    void onSubCriteriaStateChanged(@NonNull SubCriteriaViewData viewData,
+                                   @NonNull SubCriteria subCriteria,
+                                   @Nullable Answer answer, Answer.State newState);
 }

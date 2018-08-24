@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
@@ -34,7 +33,7 @@ public class OrmLiteCriteria implements Criteria{
     }
 
     @Override
-    public Collection<? extends SubCriteria> getSubCriterias() {
+    public List<? extends SubCriteria> getSubCriterias() {
         List<SubCriteria> subCriteriaList = new ArrayList<>();
         for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
             subCriteriaList.add(new OrmLiteSubCriteria(surveyItem));

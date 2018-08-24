@@ -17,14 +17,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationResult;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.adapters.CriteriaAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 
 public class StandardActivity extends BaseActivity implements StandardView {
 
-    private static final String ACCREDITATION_EXTRA = "ACCREDITATION_EXTRA";
+    private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static int[] icons = {
             R.drawable.ic_standard_leadership_selector,
             R.drawable.ic_standard_teacher_selector,
@@ -34,12 +34,6 @@ public class StandardActivity extends BaseActivity implements StandardView {
             R.drawable.ic_standard_improvement_selector,
             R.drawable.ic_standard_observation_selector
     };
-
-    @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationResult accreditationResult) {
-        return new Intent(context, StandardActivity.class)
-                .putExtra(ACCREDITATION_EXTRA, accreditationResult);
-    }
 
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
@@ -71,24 +65,25 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
+    private final CriteriaAdapter recyclerAdapter = new CriteriaAdapter();
+
     @InjectPresenter
     StandardPresenter presenter;
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
-        return new StandardPresenter(getSerializableArgument(ACCREDITATION_EXTRA, SchoolAccreditationResult.class));
+        return new StandardPresenter(getSerializableExtra(EXTRA_ACCREDITATION));
     }
 
-    private CriteriaAdapter recyclerAdapter;
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationPassing accreditationResult) {
+        return new Intent(context, StandardActivity.class)
+                .putExtra(EXTRA_ACCREDITATION, accreditationResult);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupViews();
-    }
-
-    private void setupViews() {
-        recyclerAdapter = new CriteriaAdapter();
         criteriasRecycler.setAdapter(recyclerAdapter);
         recyclerAdapter.subscribeOnChanges(presenter::onQuestionStateChanged);
 
@@ -133,7 +128,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
         if (forIndex >= icons.length) return;
 
         Drawable drawable = getResources().getDrawable(icons[forIndex]);
-        if (isHighlighted) drawable.setState(new int[] { R.attr.highlight });
         imageView.setImageDrawable(drawable);
+        imageView.setActivated(isHighlighted);
     }
 }

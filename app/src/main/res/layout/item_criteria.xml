@@ -28,7 +28,6 @@
                 android:layout_marginEnd="72dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="18dp"
-                android:fontFamily="sans-serif"
                 android:textColor="@color/color_criteria_primary"
                 android:textSize="@dimen/size_criteria_text"
                 android:textStyle="normal"
@@ -61,13 +60,12 @@
                 android:layout_marginTop="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_criteria_expand_more_24dp" />
+                android:src="@drawable/ic_criteria_expand_more_24dp" />
 
             <TextView
                 android:id="@+id/textview_progress"
                 android:layout_width="72dp"
                 android:layout_height="36dp"
-                android:fontFamily="sans-serif"
                 android:textAlignment="center"
                 android:textColor="@color/color_criteria_primary_dark"
                 android:textSize="@dimen/size_criteria_text"
@@ -85,7 +83,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="32dp"
             android:visibility="gone"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/item_sub_criteria">
 
             <LinearLayout
@@ -102,13 +100,12 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="24dp"
-                    app:srcCompat="@drawable/ic_criteria_hint_24dp" />
+                    android:src="@drawable/ic_criteria_hint_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:fontFamily="sans-serif"
                     android:text="@string/criteria_hint"
                     android:textColor="@color/color_criteria_primary_dark"
                     android:textSize="12sp"
