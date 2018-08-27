@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".ui.screens.shool_accreditation.SchoolAccreditationActivity">
+    tools:context=".ui.screens.school_accreditation.SchoolAccreditationActivity">
 
     <include layout="@layout/include_appbar" />
 
@@ -49,7 +49,7 @@
             tools:text="school not found" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingactionbutton"
+            android:id="@+id/fab_new_accreditation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"

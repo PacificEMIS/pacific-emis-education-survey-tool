@@ -1,9 +1,12 @@
 package fm.doe.national.ui.screens.base;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
@@ -24,6 +27,10 @@ import fm.doe.national.R;
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     protected Toolbar toolbar;
+
+    @Nullable
+    private ProgressDialog progressDialog = null;
+    private int progressDialogsCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,4 +107,42 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         }
     }
 
+    @Override
+    public void showProgressDialog(Text text) {
+        progressDialogsCount++;
+        if (progressDialogsCount == 1) {
+            progressDialog = createProgressDialog(text);
+        }
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        if (progressDialogsCount == 0) {
+            return;
+        }
+
+        if (progressDialogsCount == 1 && progressDialog != null) {
+            progressDialog.dismiss();
+        }
+
+        progressDialogsCount--;
+    }
+
+    @Override
+    public void hideAllProgressDialogs() {
+        if (progressDialogsCount > 0 && progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialogsCount = 0;
+        }
+    }
+
+    @NonNull
+    private ProgressDialog createProgressDialog(Text text) {
+        ProgressDialog dialog = new ProgressDialog(this, R.style.Theme_AppCompat_Dialog);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.setMessage(text.getString(getResources()));
+        dialog.show();
+        return dialog;
+    }
 }

@@ -7,5 +7,7 @@ public interface BaseView extends MvpView {
 
     void showToast(Text text);
     void showWarning(Text title, Text message);
-
+    void showProgressDialog(Text text);
+    void hideProgressDialog();
+    void hideAllProgressDialogs();
 }

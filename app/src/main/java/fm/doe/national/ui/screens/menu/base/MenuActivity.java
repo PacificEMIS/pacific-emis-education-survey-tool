@@ -17,7 +17,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.shool_accreditation.SchoolAccreditationActivity;
+import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
 import fm.doe.national.ui.screens.splash.TypeTestAdapter;
 
 /**

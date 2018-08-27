@@ -10,6 +10,7 @@ import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
 import fm.doe.national.di.modules.ParsersModule;
+import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationPresenter;
 import fm.doe.national.ui.screens.splash.SplashPresenter;
 import fm.doe.national.ui.screens.standard.StandardPresenter;
 
@@ -23,4 +24,5 @@ public interface AppComponent {
     Gson getGson();
     void inject(StandardPresenter standardPresenter);
     void inject(SplashPresenter splashPresenter);
+    void inject(SchoolAccreditationPresenter schoolAccreditationPresenter);
 }

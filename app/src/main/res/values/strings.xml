@@ -23,5 +23,6 @@
     <string name="title_warning">Warning</string>
     <string name="warn_unable_to_update_answer">Unable to update answer</string>
     <string name="warn_unable_to_create_answer">Unable to create answer</string>
+    <string name="warn_unable_to_load_recent_surveys">Unable to load recent surveys</string>
 
 </resources>
