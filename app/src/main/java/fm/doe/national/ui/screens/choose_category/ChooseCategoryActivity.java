@@ -13,12 +13,10 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.standard.StandardActivity;
-import fm.doe.national.mock.MockStandard;
-/**
- * Created by Alexander Chibirev on 8/17/2018.
- */
+
 public class ChooseCategoryActivity extends BaseActivity implements ChooseCategoryView, ChooseCategoryAdapter.Callback {
 
     @InjectPresenter
@@ -42,7 +40,7 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
         chooseCategoryAdapter = new ChooseCategoryAdapter();
         chooseCategoryAdapter.setCallback(this);
         recyclerView.setAdapter(chooseCategoryAdapter);
-        progressTextView.setText("1/7");
+        progressTextView.setText("1/7"); // FIXME
         initToolbar();
     }
 
@@ -52,17 +50,17 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     }
 
     @Override
-    public void setCategories(List<MockStandard> standards) {
-        chooseCategoryAdapter.updateCategory(standards);
+    public void setCategories(List<Standard> standards) {
+        chooseCategoryAdapter.setItems(standards);
     }
 
     @Override
-    public void showStandardScreen(SchoolAccreditationPassing standard) {
+    public void showStandardScreen(SchoolAccreditationPassing standard, int position) {
         startActivity(StandardActivity.createIntent(this, standard));
     }
 
     @Override
-    public void onCategoryClicked(SchoolAccreditationPassing standard) {
-        chooseCategoryPresenter.onCategoryClicked(standard);
+    public void onClick(int position) {
+        chooseCategoryPresenter.onCategoryClicked(position);
     }
 }

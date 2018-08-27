@@ -8,19 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.screens.shool_accreditation.SchoolAccreditationActivity">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?colorPrimary">
-
-        <include layout="@layout/include_appbar" />
-
-        <com.quinny898.library.persistentsearch.SearchBox
-            android:id="@+id/searchbox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </android.support.design.widget.CoordinatorLayout>
+    <include layout="@layout/include_appbar" />
 
     <TextView
         android:layout_width="wrap_content"

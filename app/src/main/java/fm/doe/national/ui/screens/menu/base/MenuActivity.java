@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
@@ -72,7 +70,6 @@ public abstract class MenuActivity extends BaseActivity implements MenuView, Typ
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
             logoImageView.setImageBitmap(bitmap);
-            bitmap.recycle();
         } catch (IOException exc) {
             exc.printStackTrace();
         }
@@ -88,7 +85,7 @@ public abstract class MenuActivity extends BaseActivity implements MenuView, Typ
 
     @Override //TODO changed logic after add correct type test model
     public void setTests(List<School> schools) {
-        typeTestAdapter.update(schools);
+        typeTestAdapter.setSchools(schools);
     }
 
     @Override

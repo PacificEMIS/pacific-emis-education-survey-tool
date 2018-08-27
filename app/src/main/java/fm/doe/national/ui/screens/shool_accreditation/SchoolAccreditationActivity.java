@@ -3,29 +3,20 @@ package fm.doe.national.ui.screens.shool_accreditation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.mock.MockSchool;
-import fm.doe.national.mock.MockStandard;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
-import fm.doe.national.ui.screens.menu.base.MenuPresenter;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
-
-/**
- * Created by Alexander Chibirev on 8/10/2018.
- */
 
 public class SchoolAccreditationActivity extends BaseDrawerActivity implements SchoolAccreditationView, SchoolAccreditationAdapter.Callback {
 
@@ -60,11 +51,6 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements S
     }
 
     @Override
-    public void showChooseCategoryScreen(List<MockStandard> standards) {
-        startActivity(ChooseCategoryActivity.createIntent(this));
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
@@ -81,14 +67,18 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements S
     }
 
     @Override
-    public void setSchools(ArrayList<MockSchool> schools) {
-        schoolAccreditationAdapter.updateSchools(schools);
-        typeTestAdapter.notifyDataSetChanged();
+    public void onClick(SchoolAccreditationPassing schoolAccreditationPassing) {
+        schoolAccreditationPresenter.onSchoolClicked(schoolAccreditationPassing);
     }
 
     @Override
-    public void onSchoolClicked(MockSchool school) {
-        schoolAccreditationPresenter.onSchoolClicked(school);
+    public void showChooseCategoryScreen(SchoolAccreditationPassing schoolAccreditationPassing) {
+        startActivity(ChooseCategoryActivity.createIntent(this));
     }
 
+    @Override
+    public void setAccreditations(List<SchoolAccreditationPassing> accreditations) {
+        schoolAccreditationAdapter.setItems(accreditations);
+        typeTestAdapter.notifyDataSetChanged();
+    }
 }

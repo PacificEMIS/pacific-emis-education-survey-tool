@@ -6,7 +6,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import fm.doe.national.R;
+
 public class ViewUtils {
+
+    public static final int[] STANDARD_ICONS = {
+            R.drawable.ic_standard_leadership_selector,
+            R.drawable.ic_standard_teacher_selector,
+            R.drawable.ic_standard_data_selector,
+            R.drawable.ic_standard_cirriculum_selector,
+            R.drawable.ic_standard_facility_selector,
+            R.drawable.ic_standard_improvement_selector,
+            R.drawable.ic_standard_observation_selector
+    };
 
 
     public static void animateCollapsing(@NonNull View view) {

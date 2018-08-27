@@ -37,14 +37,5 @@ public class OrmLiteStandard implements Standard {
         }
         return criterias;
     }
-
-    @Override
-    public int getQuestionsCount() {
-        int count = 0;
-        for (Criteria criteria: getCriterias()) {
-            count += criteria.getSubCriterias().size();
-        }
-        return count;
-    }
 }
 

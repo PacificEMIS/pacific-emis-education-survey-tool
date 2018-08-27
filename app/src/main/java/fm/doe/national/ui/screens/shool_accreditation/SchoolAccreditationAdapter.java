@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.shool_accreditation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -12,36 +13,35 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.mock.MockSchool;
-import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
+import fm.doe.national.data.data_source.models.ModelsExt;
+import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
 
-/**
- * Created by Alexander Chibirev on 8/16/2018.
- */
-public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseViewHolder> {
+public class SchoolAccreditationAdapter extends RecyclerView.Adapter<SchoolAccreditationAdapter.SchoolViewHolder> {
 
-    private List<MockSchool> schools = new ArrayList<>();
+    private List<SchoolAccreditationPassing> items = new ArrayList<>();
+
     @Nullable
     private Callback callback;
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SchoolViewHolder(inflateView(parent, R.layout.item_school));
+    public SchoolViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new SchoolViewHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        ((SchoolViewHolder) holder).update(schools.get(position));
+    public void onBindViewHolder(@NonNull SchoolViewHolder holder, int position) {
+        holder.bind(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return schools.size();
+        return items.size();
     }
 
-    public void updateSchools(List<MockSchool> schools) {
-        this.schools = schools;
+    public void setItems(List<SchoolAccreditationPassing> schools) {
+        this.items = schools;
         notifyDataSetChanged();
     }
 
@@ -49,7 +49,7 @@ public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecycler
         this.callback = callback;
     }
 
-    class SchoolViewHolder extends BaseViewHolder {
+    protected class SchoolViewHolder extends BaseRecyclerViewHolder implements View.OnClickListener {
 
         @BindView(R.id.textview_name_school)
         TextView nameSchoolTextview;
@@ -58,31 +58,38 @@ public class SchoolAccreditationAdapter extends BaseRecyclerAdapter<BaseRecycler
         TextView progressTextView;
 
         @BindView(R.id.textview_created_year)
-        TextView createdYearTextview;
+        TextView createdYearTextView;
 
         @BindView(R.id.progressbar)
         ProgressBar progressBar;
 
-        public SchoolViewHolder(View itemView) {
-            super(itemView);
+        private SchoolAccreditationPassing item;
+
+        SchoolViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_school);
         }
 
         @Override
-        protected void onClick(int position) {
-            if(callback != null) {
-                callback.onSchoolClicked(schools.get(position));
+        public void onClick(View v) {
+            if (callback != null) {
+                callback.onClick(item);
             }
         }
 
-        public void update(MockSchool school) {
-            nameSchoolTextview.setText(school.getName());
-            createdYearTextview.setText(String.valueOf(school.getYear()));
-            rebindProgress(school.getSubCriterias(), progressTextView, progressBar);
+        void bind(SchoolAccreditationPassing accreditationPassing) {
+            item = accreditationPassing;
+            nameSchoolTextview.setText(accreditationPassing.getSchool().getName());
+            createdYearTextView.setText(String.valueOf(accreditationPassing.getYear()));
+
+            rebindProgress(
+                    ModelsExt.getTotalQuestionsCount(accreditationPassing.getSchoolAccreditation()),
+                    ModelsExt.getAnsweredQuestionsCount(accreditationPassing.getSchoolAccreditation()),
+                    progressTextView, progressBar);
         }
 
     }
 
     public interface Callback {
-        void onSchoolClicked(MockSchool school);
+        void onClick(SchoolAccreditationPassing schoolAccreditationPassing);
     }
 }

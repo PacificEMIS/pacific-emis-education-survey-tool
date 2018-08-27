@@ -1,6 +1,5 @@
 package fm.doe.national.ui.adapters;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -87,18 +86,18 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         private CriteriaViewData criteria;
         private SubCriteriaAdapter subCriteriaAdapter;
 
-        public CriteriaViewHolder(ViewGroup parent) {
+        CriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_criteria);
 
             adapter.addSubscribers(subscribers);
             adapter.subscribeOnChanges(this);
         }
 
-        protected void bind(@NonNull CriteriaViewData criteriaViewData) {
+        void bind(@NonNull CriteriaViewData criteriaViewData) {
             criteria = criteriaViewData;
             subCriteriaAdapter.setSubCriterias(criteria.getQuestionsViewData());
             titleTextView.setText(criteria.getName());
-            rebindProgress();
+            rebindProgress(criteria.getQuestionsViewData().size(), criteria.getAnsweredCount(), progressTextView, progressBar);
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
@@ -116,22 +115,7 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
                                               @NonNull SubCriteria subCriteria,
                                               @Nullable Answer answer,
                                               Answer.State newState) {
-            rebindProgress();
-        }
-
-        private void rebindProgress() {
-            int progress = criteria.getPercentageProgress();
-            progressBar.setActivated(progress == 100);
-            progressTextView.setActivated(progress == 100);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                progressBar.setProgress(progress, true);
-            } else {
-                progressBar.setProgress(progress);
-            }
-
-            progressTextView.setText(getResources().getString(
-                    R.string.criteria_progress, criteria.getAnsweredCount(), criteria.getQuestionsViewData().size()));
+            rebindProgress(criteria.getQuestionsViewData().size(), criteria.getAnsweredCount(), progressTextView, progressBar);
         }
     }
 }

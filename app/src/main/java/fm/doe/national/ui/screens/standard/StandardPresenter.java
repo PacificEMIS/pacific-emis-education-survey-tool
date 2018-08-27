@@ -19,6 +19,7 @@ import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.ModelsExt;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
@@ -82,7 +83,9 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                                         Text.from(R.string.warn_unable_to_create_answer));
                             }));
         }
-        getViewState().setProgress(getAnsweredCount(), standards.get(standardIndex).getQuestionsCount());
+        getViewState().setProgress(
+                ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
+                ModelsExt.getTotalQuestionsCount(standards.get(standardIndex)));
     }
 
     public void onNextPressed() {
@@ -117,7 +120,9 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .doOnSuccess((Map<? extends Criteria, Map<SubCriteria, Answer>> criteriasQuestions) -> {
                     criteriaViewDataList = convertToViewData(criteriasQuestions);
                     getViewState().setCriterias(criteriaViewDataList);
-                    getViewState().setProgress(getAnsweredCount(), standards.get(standardIndex).getQuestionsCount());
+                    getViewState().setProgress(
+                            ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
+                            ModelsExt.getTotalQuestionsCount(standards.get(standardIndex)));
                 })
                 .subscribe());
     }
@@ -143,6 +148,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         return standardIndex > 0 ? standardIndex - 1 : standards.size() - 1;
     }
 
+    @Deprecated
     private int getAnsweredCount() {
         if (criteriaViewDataList == null) return 0;
         int count = 0;

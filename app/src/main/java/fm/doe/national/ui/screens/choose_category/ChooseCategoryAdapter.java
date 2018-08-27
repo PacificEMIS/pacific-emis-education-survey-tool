@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.choose_category;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,38 +14,36 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.mock.MockStandard;
-import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
+import fm.doe.national.data.data_source.models.ModelsExt;
+import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.utils.ViewUtils;
 
-/**
- * Created by Alexander Chibirev on 8/17/2018.
- */
+public class ChooseCategoryAdapter extends RecyclerView.Adapter<ChooseCategoryAdapter.CategoryViewHolder> {
 
-public class ChooseCategoryAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseViewHolder> {
+    private List<Standard> items = new ArrayList<>();
 
-    private List<MockStandard> standards = new ArrayList<>();
     @Nullable
     private Callback callback;
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CategoryViewHolder(inflateView(parent, R.layout.item_category));
+    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CategoryViewHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        ((CategoryViewHolder) holder).update(standards.get(position));
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+        holder.bind(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return standards.size();
+        return items.size();
     }
 
-    public void updateCategory(List<MockStandard> categories) {
-        this.standards = categories;
+    public void setItems(List<Standard> standards) {
+        this.items = standards;
         notifyDataSetChanged();
     }
 
@@ -52,7 +51,7 @@ public class ChooseCategoryAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapt
         this.callback = callback;
     }
 
-    class CategoryViewHolder extends BaseViewHolder {
+    protected class CategoryViewHolder extends BaseRecyclerViewHolder implements View.OnClickListener {
 
         @BindView(R.id.imageview_category_icon)
         ImageView standardIconImageView;
@@ -66,26 +65,35 @@ public class ChooseCategoryAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapt
         @BindView(R.id.progressbar)
         ProgressBar progressBar;
 
-        public CategoryViewHolder(View itemView) {
-            super(itemView);
+        CategoryViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_category);
         }
 
-        @Override
-        protected void onClick(int position) {
-       //     if (callback != null) callback.onCategoryClicked(standards.get(position));
-        }
+        void bind(Standard standard) {
+            if (getAdapterPosition() < ViewUtils.STANDARD_ICONS.length) {
+                standardIconImageView.setImageResource(ViewUtils.STANDARD_ICONS[getAdapterPosition()]);
+                standardIconImageView.setActivated(true);
+            }
 
-        public void update(MockStandard standard) {
-            standardIconImageView.setImageResource(standard.getIcon());
             categoryNameTextView.setText(String.format(
                     itemView.getContext().getString(R.string.category_name),
                     getAdapterPosition(), standard.getName()));
-            rebindProgress(standard.getCriterias().get(0).getSubcriterias(), progressTextView, progressBar);
+
+            rebindProgress(
+                    ModelsExt.getTotalQuestionsCount(standard),
+                    ModelsExt.getAnsweredQuestionsCount(standard),
+                    progressTextView, progressBar);
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            if (callback != null) callback.onClick(getAdapterPosition());
+        }
     }
 
     public interface Callback {
-        void onCategoryClicked(SchoolAccreditationPassing standard);
+        void onClick(int position);
     }
 }

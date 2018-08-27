@@ -21,19 +21,11 @@ import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.adapters.CriteriaAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.view_data.CriteriaViewData;
+import fm.doe.national.utils.ViewUtils;
 
 public class StandardActivity extends BaseActivity implements StandardView {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
-    private static int[] icons = {
-            R.drawable.ic_standard_leadership_selector,
-            R.drawable.ic_standard_teacher_selector,
-            R.drawable.ic_standard_data_selector,
-            R.drawable.ic_standard_cirriculum_selector,
-            R.drawable.ic_standard_facility_selector,
-            R.drawable.ic_standard_improvement_selector,
-            R.drawable.ic_standard_observation_selector
-    };
 
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
@@ -125,9 +117,9 @@ public class StandardActivity extends BaseActivity implements StandardView {
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {
-        if (forIndex >= icons.length) return;
+        if (forIndex >= ViewUtils.STANDARD_ICONS.length) return;
 
-        Drawable drawable = getResources().getDrawable(icons[forIndex]);
+        Drawable drawable = getResources().getDrawable(ViewUtils.STANDARD_ICONS[forIndex]);
         imageView.setImageDrawable(drawable);
         imageView.setActivated(isHighlighted);
     }

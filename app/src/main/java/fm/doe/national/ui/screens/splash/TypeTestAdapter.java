@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.splash;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,13 +13,9 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.ui.screens.base.BaseRecyclerAdapter;
+import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
 
-/**
- * Created by Alexander Chibirev on 8/19/2018.
- */
-
-public class TypeTestAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.BaseViewHolder> {
+public class TypeTestAdapter extends RecyclerView.Adapter<TypeTestAdapter.TypeTestViewHolder> {
 
     private List<School> schools = new ArrayList<>();
 
@@ -27,13 +24,13 @@ public class TypeTestAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.Bas
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TypeTestViewHolder(inflateView(parent, R.layout.item_type_test));
+    public TypeTestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new TypeTestViewHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        ((TypeTestViewHolder) holder).update(schools.get(position));
+    public void onBindViewHolder(@NonNull TypeTestViewHolder holder, int position) {
+        holder.bind(schools.get(position));
     }
 
     @Override
@@ -41,7 +38,7 @@ public class TypeTestAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.Bas
         return schools.size();
     }
 
-    public void update(List<School> schools) {
+    public void setSchools(List<School> schools) {
         this.schools = schools;
         notifyDataSetChanged();
     }
@@ -50,26 +47,27 @@ public class TypeTestAdapter extends BaseRecyclerAdapter<BaseRecyclerAdapter.Bas
         this.callback = callback;
     }
 
-    class TypeTestViewHolder extends BaseViewHolder {
+    class TypeTestViewHolder extends BaseRecyclerViewHolder implements View.OnClickListener {
 
         @BindView(R.id.textview_type_test)
-        TextView typeTestTextview;
+        TextView typeTestTextView;
 
 
-        public TypeTestViewHolder(View itemView) {
-            super(itemView);
+        public TypeTestViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_type_test);
         }
 
         @Override
-        protected void onClick(int position) {
+        public void onClick(View v) {
             //TODO changed logic after add correct type test model
             if (callback != null) {
                 callback.onTypeTestClicked();
             }
         }
 
-        public void update(School school) {
-            typeTestTextview.setText(school.getName());
+        public void bind(School school) {
+            typeTestTextView.setText(school.getName());
+            itemView.setOnClickListener(this);
         }
 
     }

@@ -12,6 +12,4 @@ public interface Standard extends Serializable {
     GroupStandard getGroupStandard();
 
     List<? extends Criteria> getCriterias();
-
-    int getQuestionsCount();
 }
