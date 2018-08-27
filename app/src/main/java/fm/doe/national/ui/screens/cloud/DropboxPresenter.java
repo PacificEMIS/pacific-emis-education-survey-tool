@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.cloud;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -18,6 +19,7 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
     private final DropboxCloudAccessor cloudAccessor = MicronesiaApplication.getAppComponent().getDropboxCloudAccessor();
 
     public DropboxPresenter(DropboxView.Action action, @Nullable BrowsingTreeObject browsingRoot) {
+        Throwable passingThrowable = new IllegalStateException("browsingRoot not passed to activity");
         currentAction = action;
         switch (currentAction) {
             case AUTH:
@@ -25,16 +27,14 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
                 break;
             case PICK_FILE:
                 if (browsingRoot == null) {
-                    cloudAccessor.onActionFailure(new IllegalStateException("browsingRoot not passed to activity"));
-                    terminate();
+                    endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(passingThrowable));
                 } else {
                     getViewState().showFilePicker(browsingRoot);
                 }
                 break;
             case PICK_FOLDER:
                 if (browsingRoot == null) {
-                    cloudAccessor.onActionFailure(new IllegalStateException("browsingRoot not passed to activity"));
-                    terminate();
+                    endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(passingThrowable));
                 } else {
                     getViewState().showFolderPicker(browsingRoot);
                 }
@@ -44,26 +44,26 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
 
     public void onViewResumedFromPause() {
         if (currentAction == DropboxView.Action.AUTH) {
-            if (cloudAccessor.isSuccessfulAuth()) {
-                cloudAccessor.onAuthActionComplete();
-            } else {
-                cloudAccessor.onActionFailure(new AuthenticationException("Auth declined"));
-            }
-            terminate();
+            endingCloudAccessorAction(() -> {
+                if (cloudAccessor.isSuccessfulAuth()) {
+                    cloudAccessor.onAuthActionComplete();
+                } else {
+                    cloudAccessor.onActionFailure(new AuthenticationException("Auth declined"));
+                }
+            });
         }
     }
 
     public void onBrowsingItemPicked(BrowsingTreeObject object) {
-        cloudAccessor.onSuccessfulPick(object);
-        terminate();
+        endingCloudAccessorAction(() -> cloudAccessor.onPickerSuccess(object));
     }
 
     public void pickerCancelled() {
-        cloudAccessor.onActionFailure(new PickException("Picker cancelled"));
-        terminate();
+        endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(new PickException("Picker cancelled")));
     }
 
-    private void terminate() {
+    private void endingCloudAccessorAction(@NonNull Runnable action) {
+        action.run();
         getViewState().die();
     }
 }

@@ -180,6 +180,7 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
         adapter.setListener(this);
 
         currentBrowsingItem = root;
+        updateUi();
     }
 
     @Override
@@ -220,7 +221,7 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
 
     private void updateUi() {
         adapter.setItem(currentBrowsingItem);
-        pathTextView.setText(currentBrowsingItem.getFullPath());
+        pathTextView.setText(currentBrowsingItem.getPath());
         backImageView.setVisibility(currentBrowsingItem.getParent() != null ? View.VISIBLE : View.GONE);
     }
 }

@@ -89,7 +89,7 @@ public class MicronesiaApplication extends Application implements Application.Ac
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        currentActivityRef = null;
+        // nothing
     }
     // endregion
 }

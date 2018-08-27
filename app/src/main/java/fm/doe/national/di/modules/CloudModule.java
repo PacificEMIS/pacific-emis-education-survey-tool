@@ -11,7 +11,7 @@ import dagger.Provides;
 import dagger.multibindings.IntoMap;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudRepository;
-import fm.doe.national.data.cloud.Clouds;
+import fm.doe.national.data.cloud.MultipleCloudsRepository;
 import fm.doe.national.data.cloud.CloudTypeKey;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
@@ -49,6 +49,6 @@ public class CloudModule {
     @Provides
     @Singleton
     public CloudRepository provideCloudRepository(Map<CloudAccessor.Type, CloudAccessor> accessors) {
-        return new Clouds(accessors);
+        return new MultipleCloudsRepository(accessors);
     }
 }

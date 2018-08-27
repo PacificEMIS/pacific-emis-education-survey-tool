@@ -17,7 +17,7 @@ import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
 
 public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapter.BrowsingItemViewHolder> {
 
-    private BrowsingTreeObject item;
+    private BrowsingTreeObject item = new BrowsingTreeObject();
     private Kind kind = Kind.FILE;
 
     @Nullable
@@ -76,13 +76,12 @@ public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapt
 
             boolean isObjectEnabled = object.isDirectory() || kind == Kind.FILE;
             if (!isObjectEnabled) {
-                itemView.setClickable(false);
+                itemView.setOnClickListener(null);
                 nameTextView.setTextColor(getResources().getColor(R.color.soft_grey));
+            } else {
+                itemView.setOnClickListener(this);
+                nameTextView.setTextColor(getResources().getColor(R.color.black));
             }
-
-
-            itemView.setOnClickListener(this);
-
             nameTextView.setText(object.getName());
             iconImageView.setImageResource(object.isDirectory() ? R.drawable.ic_folder_24dp : R.drawable.ic_file_24dp);
         }

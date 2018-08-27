@@ -5,12 +5,12 @@ import java.util.Map;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public class Clouds implements CloudRepository {
+public class MultipleCloudsRepository implements CloudRepository {
 
     private Map<CloudAccessor.Type, CloudAccessor> accessorMap;
     private CloudAccessor.Type primaryType = CloudAccessor.Type.DRIVE;
 
-    public Clouds(Map<CloudAccessor.Type, CloudAccessor> accessorMap) {
+    public MultipleCloudsRepository(Map<CloudAccessor.Type, CloudAccessor> accessorMap) {
         this.accessorMap = accessorMap;
     }
 
