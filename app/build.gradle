@@ -127,7 +127,6 @@ dependencies {
 
     // Dropbox
     compile 'com.dropbox.core:dropbox-core-sdk:3.0.8'
-    implementation project(':DropboxChooser')
 
     implementation 'com.android.support:multidex:1.0.3'
 }
