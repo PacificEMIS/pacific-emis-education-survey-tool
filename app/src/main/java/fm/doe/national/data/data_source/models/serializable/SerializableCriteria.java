@@ -14,13 +14,21 @@ import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 
 @Xml(name = "criteria")
-public class SerializableCriteria implements Criteria {
+public class SerializableCriteria implements Criteria, ListConverter.Converter<SubCriteria, SerializableSubCriteria> {
 
     @PropertyElement
     String name;
 
     @Element
     List<SerializableSubCriteria> subCriterias;
+
+    public SerializableCriteria() {
+    }
+
+    public SerializableCriteria(Criteria criteria) {
+        this.name = criteria.getName();
+        this.subCriterias = ListConverter.createList(criteria.getSubCriterias(), this);
+    }
 
     @Nullable
     @Override
@@ -42,5 +50,10 @@ public class SerializableCriteria implements Criteria {
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public SerializableSubCriteria convert(SubCriteria input) {
+        return new SerializableSubCriteria(input.getName(), new SerializableAnswer(input.getAnswer()));
     }
 }

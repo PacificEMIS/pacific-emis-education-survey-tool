@@ -12,10 +12,17 @@ import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.Standard;
 
 @Xml(name = "groupStandard")
-public class SerializableGroupStandard implements GroupStandard {
+public class SerializableGroupStandard implements GroupStandard, ListConverter.Converter<Standard, SerializableStandard>  {
 
     @Element
     List<SerializableStandard> standards;
+
+    public SerializableGroupStandard() {
+    }
+
+    public SerializableGroupStandard(GroupStandard input) {
+        this.standards = ListConverter.createList(input.getStandards(), this);
+    }
 
     @NonNull
     @Override
@@ -31,5 +38,10 @@ public class SerializableGroupStandard implements GroupStandard {
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public SerializableStandard convert(Standard input) {
+        return new SerializableStandard(input);
     }
 }

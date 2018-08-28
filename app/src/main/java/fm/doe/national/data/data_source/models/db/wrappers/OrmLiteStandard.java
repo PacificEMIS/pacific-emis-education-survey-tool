@@ -18,6 +18,8 @@ public class OrmLiteStandard implements Standard {
 
     private List<OrmLiteCriteria> criterias;
 
+
+
     public OrmLiteStandard(OrmLiteSurveyItem surveyItem, OrmLiteGroupStandard groupStandard) {
         this.surveyItem = surveyItem;
         this.groupStandard = groupStandard;
@@ -37,6 +39,16 @@ public class OrmLiteStandard implements Standard {
     @Override
     public String getName() {
         return surveyItem.getName();
+    }
+
+    @Override
+    public int getPositiveAnswersCount() {
+        return 0;
+    }
+
+    @Override
+    public int setPositiveAnswersCount(int count) {
+        return 0;
     }
 
     @Override

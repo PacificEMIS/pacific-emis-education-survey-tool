@@ -20,8 +20,8 @@ public class SerializableAnswer implements Answer {
     public SerializableAnswer() {
     }
 
-    public SerializableAnswer(State state) {
-        this.state = state;
+    public SerializableAnswer(Answer answer) {
+        this.state = answer.getState();
     }
 
     @Override

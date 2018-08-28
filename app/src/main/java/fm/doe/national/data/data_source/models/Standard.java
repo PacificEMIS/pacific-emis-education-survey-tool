@@ -8,6 +8,9 @@ public interface Standard extends Identifiable {
     @NonNull
     String getName();
 
+    int getPositiveAnswersCount();
+    int setPositiveAnswersCount(int count);
+
     GroupStandard getGroupStandard();
 
     List<? extends Criteria> getCriterias();

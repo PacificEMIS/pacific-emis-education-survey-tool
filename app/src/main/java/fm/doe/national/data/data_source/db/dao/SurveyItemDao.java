@@ -5,6 +5,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
@@ -12,6 +13,7 @@ import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
@@ -75,6 +77,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
                     OrmLiteSurveyItem.Type.CRITERIA,
                     null,
                     parentItem);
+
             create(surveyItem);
             surveyItem.addChildren(createFromSubCriterias(criteria.getSubCriterias(), surveyItem));
 

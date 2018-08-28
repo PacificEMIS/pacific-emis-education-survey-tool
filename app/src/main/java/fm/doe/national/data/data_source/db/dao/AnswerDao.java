@@ -42,8 +42,11 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
         );
     }
 
-    public Completable updateAnswer(OrmLiteAnswer answer) {
-        return Completable.fromAction(() -> createOrUpdate(answer));
+    public Single<OrmLiteAnswer> updateAnswer(OrmLiteAnswer answer) {
+        return Single.fromCallable(() -> {
+            createOrUpdate(answer);
+            return answer;
+        });
     }
 
 }

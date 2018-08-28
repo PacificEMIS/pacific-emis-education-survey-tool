@@ -22,7 +22,7 @@ public interface DataSource {
 
     Single<Answer> createAnswer(Answer.State state, SubCriteria criteria, SurveyPassing result);
 
-    Completable updateAnswer(Answer answer);
+    Completable updateAnswer(SubCriteria subCriteria);
 
     Completable createSchoolAccreditation(SchoolAccreditation schoolAccreditation);
 

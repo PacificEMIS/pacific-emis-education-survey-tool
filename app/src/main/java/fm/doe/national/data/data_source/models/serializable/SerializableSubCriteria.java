@@ -20,6 +20,14 @@ public class SerializableSubCriteria implements SubCriteria {
     @Element
     SerializableAnswer answer;
 
+    public SerializableSubCriteria() {
+    }
+
+    public SerializableSubCriteria(String name, SerializableAnswer answer) {
+        this.name = name;
+        this.answer = answer;
+    }
+
     @Nullable
     @Override
     public Criteria getCriteria() {
@@ -33,13 +41,23 @@ public class SerializableSubCriteria implements SubCriteria {
     }
 
     @Override
+    public int getAnswerCount() {
+        return getAnswer() != null && getAnswer().getState() != Answer.State.NOT_ANSWERED ? 1 : 0;
+    }
+
+    @Override
+    public void setAnswerCount(int count) {
+        // nothing
+    }
+
+    @Override
     public Answer getAnswer() {
         return answer;
     }
 
     @Override
     public void setAnswer(Answer answer) {
-        this.answer = new SerializableAnswer(answer.getState());
+        this.answer = new SerializableAnswer(answer);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package fm.doe.national.data.data_source.db;
 
-import android.util.Pair;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +22,11 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.SurveyPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
-import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationPassing;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Single;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Function;
 
 public class OrmLiteDataSource implements DataSource {
 
@@ -82,8 +76,13 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Completable updateAnswer(Answer answer) {
-        return answerDao.updateAnswer((OrmLiteAnswer) answer);
+    public Completable updateAnswer(SubCriteria subCriteria) {
+        return Completable.fromSingle(answerDao.updateAnswer((OrmLiteAnswer) subCriteria)
+                .flatMap(updatedAnswer -> {
+                    OrmLiteSurveyItem parentSurveyItem = updatedAnswer.getParentSurveyItem();
+                    parentSurveyItem.incrementAnswersCount();
+                    return surveyItemDao.updateSingle(parentSurveyItem);
+                }));
     }
 
     @Override
@@ -104,23 +103,27 @@ public class OrmLiteDataSource implements DataSource {
     public Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings() {
         return surveyPassingDao.getAllQueriesSingle()
                 .toObservable()
-                .flatMap(Observable::fromIterable)
-                .flatMap(surveyPassing -> {
-                    OrmLiteSchoolAccreditationPassing schoolAccreditationPassing = new OrmLiteSchoolAccreditationPassing(surveyPassing);
+                .flatMapIterable(resultList -> resultList)
+                .flatMap(item -> {
+                    OrmLiteSchoolAccreditationPassing passing = new OrmLiteSchoolAccreditationPassing(item);
                     return Observable.zip(
-                            Observable.just(Pair.create(surveyPassing, schoolAccreditationPassing)),
-                            Observable.fromIterable(schoolAccreditationPassing.getSchoolAccreditation().getGroupStandards())
-                                    .flatMap(groupStandard -> Observable.fromIterable(groupStandard.getStandards()))
-                                    .flatMap(standard -> Observable.fromIterable(standard.getCriterias()))
-                                    .flatMap(criteria -> Observable.fromIterable(criteria.getSubCriterias())),
-                            Pair::create);
-                }).flatMap(pair -> surveyItemDao.requestItem(pair.second.getId())
-                        .toObservable()
-                        .flatMap(surveyItem -> answerDao.requestAnswer(surveyItem, pair.first.first).toObservable())
-                        .map(answer -> {
-                            pair.second.setAnswer(answer);
-                            return pair.first.second;
-                        }))
+                            Observable.fromIterable(passing
+                                    .getSchoolAccreditation()
+                                    .getGroupStandards())
+                                    .flatMapIterable(GroupStandard::getStandards)
+                                    .flatMapIterable(Standard::getCriterias)
+                                    .flatMapIterable(Criteria::getSubCriterias)
+                                    .concatMap(subCriteria -> surveyItemDao.requestItem(subCriteria.getId())
+                                            .toObservable()
+                                            .concatMap(ormLiteSurveyItem -> answerDao.requestAnswer(ormLiteSurveyItem, item)
+                                                    .map(ormLiteAnswer -> {
+                                                        subCriteria.setAnswer(ormLiteAnswer);
+                                                        return subCriteria;
+                                                    })
+                                                    .toObservable())),
+                            Observable.just(passing),
+                            (subCriteria, passing2) -> passing);
+                })
                 .toList()
                 .map(ArrayList<SchoolAccreditationPassing>::new);
     }

@@ -21,8 +21,8 @@ public class OrmLiteSurveyItem {
         String PARENT = "parent";
         String SURVEY = "survey";
         String CHILDREN = "children";
+        String ANSWERS_COUNT = "answersCount";
     }
-
 
     public enum Type {
         GROUP_STANDARD,
@@ -30,6 +30,7 @@ public class OrmLiteSurveyItem {
         CRITERIA,
         SUBCRITERIA;
     }
+
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
 
@@ -38,6 +39,9 @@ public class OrmLiteSurveyItem {
 
     @DatabaseField(columnName = Column.TYPE)
     protected Type type;
+
+  /*  @DatabaseField(columnName = Column.ANSWERS_COUNT)
+    protected int answersCount;*/
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT)
     protected OrmLiteSurveyItem parentItem;
@@ -70,6 +74,18 @@ public class OrmLiteSurveyItem {
 
     public Type getType() {
         return type;
+    }
+
+    public void incrementAnswersCount() {
+//        this.answersCount++;
+    }
+
+    public void decrementAnswersCount() {
+//        this.answersCount--;
+    }
+
+    public int getAnswersCount() {
+        return 0;
     }
 
     public OrmLiteSurveyItem getParentItem() {
