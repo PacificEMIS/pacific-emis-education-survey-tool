@@ -46,6 +46,10 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initViews();
+    }
+
+    private void initViews() {
         schoolAccreditationAdapter.setListener(this);
         recyclerView.setAdapter(schoolAccreditationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -81,7 +85,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     public void navigateToCategoryChooser(SchoolAccreditationPassing schoolAccreditationPassing) {
-        startActivity(ChooseCategoryActivity.createIntent(this));
+        startActivity(ChooseCategoryActivity.createIntent(this, schoolAccreditationPassing));
     }
 
     @Override

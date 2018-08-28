@@ -3,9 +3,11 @@ package fm.doe.national.ui.screens.choose_category;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.List;
@@ -19,10 +21,17 @@ import fm.doe.national.ui.screens.standard.StandardActivity;
 
 public class ChooseCategoryActivity extends BaseActivity implements ChooseCategoryView, ChooseCategoryAdapter.Callback {
 
+    private static final String EXTRA_PASSING = "EXTRA_PASSING";
+
     @InjectPresenter
     ChooseCategoryPresenter chooseCategoryPresenter;
 
-    private ChooseCategoryAdapter chooseCategoryAdapter;
+    @ProvidePresenter
+    ChooseCategoryPresenter providePresenter() {
+        return new ChooseCategoryPresenter(getSerializableExtra(EXTRA_PASSING));
+    }
+
+    private final ChooseCategoryAdapter chooseCategoryAdapter = new ChooseCategoryAdapter();
 
     @BindView(R.id.textview_progress)
     TextView progressTextView;
@@ -30,18 +39,18 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     @BindView(R.id.recyclerview)
     OmegaRecyclerView recyclerView;
 
-    public static Intent createIntent(Context context) {
-        return new Intent(context, ChooseCategoryActivity.class);
+    public static Intent createIntent(Context context, SchoolAccreditationPassing passing) {
+        return new Intent(context, ChooseCategoryActivity.class).putExtra(EXTRA_PASSING, passing);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        chooseCategoryAdapter = new ChooseCategoryAdapter();
+        initToolbar();
         chooseCategoryAdapter.setCallback(this);
         recyclerView.setAdapter(chooseCategoryAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressTextView.setText("1/7"); // FIXME
-        initToolbar();
     }
 
     @Override

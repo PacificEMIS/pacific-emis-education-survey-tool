@@ -44,6 +44,8 @@ public class SchoolAccreditationAdapter extends
             nameSchoolTextView.setText(item.getSchool().getName());
             createdYearTextView.setText(String.valueOf(item.getYear()));
 
+            itemView.setOnClickListener(this);
+
             rebindProgress(
                     ModelsExt.getTotalQuestionsCount(item.getSchoolAccreditation()),
                     ModelsExt.getAnsweredQuestionsCount(item.getSchoolAccreditation()),

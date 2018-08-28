@@ -60,7 +60,7 @@ public class CreateSurveyActivity extends BaseActivity
 
     @Override
     public void navigateToCategoryChooser(SchoolAccreditationPassing schoolAccreditationPassing) {
-        startActivity(ChooseCategoryActivity.createIntent(this));
+        startActivity(ChooseCategoryActivity.createIntent(this, schoolAccreditationPassing));
     }
 
     @Override

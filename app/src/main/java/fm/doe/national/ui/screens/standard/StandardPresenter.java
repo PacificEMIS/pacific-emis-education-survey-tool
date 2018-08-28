@@ -36,7 +36,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     private SchoolAccreditationPassing accreditationResult;
     private int standardIndex;
-    private int nextIndex = standardIndex + 1;;
+    private int nextIndex = standardIndex + 1;
     private int previousIndex;
     private List<Standard> standards = new ArrayList<>();
     private List<CriteriaViewData> criteriaViewDataList;
