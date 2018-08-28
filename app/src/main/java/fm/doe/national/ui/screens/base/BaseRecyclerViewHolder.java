@@ -12,7 +12,9 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 
-public class BaseRecyclerViewHolder extends OmegaRecyclerView.ViewHolder {
+public abstract class BaseRecyclerViewHolder<T> extends OmegaRecyclerView.ViewHolder {
+
+    protected T item;
 
     public BaseRecyclerViewHolder(View v) {
         super(v);
@@ -23,6 +25,13 @@ public class BaseRecyclerViewHolder extends OmegaRecyclerView.ViewHolder {
         super(parent, res);
         ButterKnife.bind(this, itemView);
     }
+
+    public void bind(T item) {
+        this.item = item;
+        onBind();
+    }
+
+    public abstract void onBind();
 
     protected void rebindProgress(int total, int done, @Nullable TextView textView, @Nullable ProgressBar progressBar) {
         int progress = done / total * 100;

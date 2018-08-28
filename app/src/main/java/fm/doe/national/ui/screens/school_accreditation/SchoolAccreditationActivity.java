@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +17,16 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.ui.screens.base.BaseClickableAdapter;
 import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
+import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
-public class SchoolAccreditationActivity extends BaseDrawerActivity
-        implements SchoolAccreditationView, SchoolAccreditationAdapter.Callback, View.OnClickListener {
+public class SchoolAccreditationActivity extends BaseDrawerActivity implements
+        SchoolAccreditationView,
+        BaseClickableAdapter.OnRecyclerItemClickListener<SchoolAccreditationPassing>,
+        View.OnClickListener {
 
     @InjectPresenter
     SchoolAccreditationPresenter schoolAccreditationPresenter;
@@ -41,8 +46,10 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        schoolAccreditationAdapter.setCallback(this);
+        schoolAccreditationAdapter.setListener(this);
         recyclerView.setAdapter(schoolAccreditationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        newAccreditationFab.setOnClickListener(this);
     }
 
     @Override
@@ -73,11 +80,6 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity
     }
 
     @Override
-    public void onAccreditationChoosen(SchoolAccreditationPassing schoolAccreditationPassing) {
-        schoolAccreditationPresenter.onSchoolClicked(schoolAccreditationPassing);
-    }
-
-    @Override
     public void navigateToCategoryChooser(SchoolAccreditationPassing schoolAccreditationPassing) {
         startActivity(ChooseCategoryActivity.createIntent(this));
     }
@@ -92,8 +94,13 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_new_accreditation:
-                // TODO: nav to accreditation creation
+                startActivity(new Intent(this, CreateSurveyActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void onRecyclerItemClick(SchoolAccreditationPassing item) {
+        schoolAccreditationPresenter.onAccreditationClicked(item);
     }
 }

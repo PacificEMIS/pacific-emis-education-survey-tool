@@ -34,7 +34,7 @@
             android:theme="@style/BaseThemeRecyclerView"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:showDivider="end|middle"
-            tools:listitem="@layout/item_school" />
+            tools:listitem="@layout/item_survey" />
 
         <TextView
             android:id="@+id/textview_not_found_message"

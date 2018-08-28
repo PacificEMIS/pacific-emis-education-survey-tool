@@ -25,7 +25,6 @@ import fm.doe.national.data.data_source.models.SurveyPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
-import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSubCriteria;
 import io.reactivex.Completable;
@@ -112,10 +111,10 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Single<SchoolAccreditation> createNewSchoolAccreditationPassing(int year, School school) {
+    public Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(int year, School school) {
         return schoolDao.requestSchool(school.getId())
                 .flatMap(schoolItem -> surveyPassingDao.createSurveyPassing(year, schoolItem)
-                        .map(surveyResult -> new OrmLiteSchoolAccreditation(surveyResult.getSurvey())));
+                        .map(OrmLiteSchoolAccreditationPassing::new));
     }
 
     @Override

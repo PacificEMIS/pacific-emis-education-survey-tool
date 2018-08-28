@@ -18,7 +18,6 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.ui.adapters.CriteriaAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.utils.ViewUtils;
@@ -90,7 +89,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @Override
     public void setCriterias(@NonNull List<CriteriaViewData> criterias) {
-        recyclerAdapter.setCriterias(criterias);
+        recyclerAdapter.setItems(criterias);
     }
 
     @Override

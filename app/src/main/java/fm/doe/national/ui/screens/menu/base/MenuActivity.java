@@ -20,10 +20,8 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
 import fm.doe.national.ui.screens.splash.TypeTestAdapter;
 
-/**
- * Created by Alexander Chibirev on 8/10/2018.
- */
-public abstract class MenuActivity extends BaseActivity implements MenuView, TypeTestAdapter.Callback {
+public abstract class MenuActivity extends BaseActivity implements
+        MenuView {
 
     private static final int REQUEST_CODE_GALLERY = 201;
 
@@ -40,7 +38,7 @@ public abstract class MenuActivity extends BaseActivity implements MenuView, Typ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        typeTestAdapter.setCallback(this);
+        typeTestAdapter.setListener(this::onRecyclerItemClick);
         recyclerView.setAdapter(typeTestAdapter);
     }
 
@@ -82,15 +80,12 @@ public abstract class MenuActivity extends BaseActivity implements MenuView, Typ
         startActivity(intent);
     }
 
-
     @Override //TODO changed logic after add correct type test model
     public void setTests(List<School> schools) {
-        typeTestAdapter.setSchools(schools);
+        typeTestAdapter.setItems(schools);
     }
 
-    @Override
-    public void onTypeTestClicked() {
-        //TODO changed logic after add correct type test model
+    public void onRecyclerItemClick(School item) {
         getPresenter().onTypeTestClicked();
     }
 }

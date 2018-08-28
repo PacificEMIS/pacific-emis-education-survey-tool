@@ -21,28 +21,30 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     public SchoolAccreditationPresenter() {
         MicronesiaApplication.getAppComponent().inject(this);
-        getViewState().showProgressDialog(Text.empty());
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
         loadRecentSurveys();
     }
 
-    public void onSchoolClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
+    public void onAccreditationClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
         getViewState().navigateToCategoryChooser(schoolAccreditationPassing);
     }
 
     private void loadRecentSurveys() {
+        getViewState().showProgressDialog(Text.empty());
         add(
                 dataSource.requestSchoolAccreditationPassings()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(passings -> {
-                            getViewState().hideProgressDialog();
-                            getViewState().setAccreditations(passings);
-                        }, throwable -> {
-                            getViewState().hideProgressDialog();
-                            getViewState().showWarning(
-                                    Text.from(R.string.title_warning),
-                                    Text.from(R.string.warn_unable_to_load_recent_surveys));
-                        })
+                        .doFinally(() -> getViewState().hideProgressDialog())
+                        .subscribe(
+                                passings -> getViewState().setAccreditations(passings),
+                                throwable -> getViewState().showWarning(
+                                        Text.from(R.string.title_warning),
+                                        Text.from(R.string.warn_unable_to_load_recent_surveys)))
         );
     }
 

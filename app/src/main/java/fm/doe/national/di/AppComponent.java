@@ -13,6 +13,7 @@ import fm.doe.national.di.modules.ParsersModule;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationPresenter;
 import fm.doe.national.ui.screens.splash.SplashPresenter;
 import fm.doe.national.ui.screens.standard.StandardPresenter;
+import fm.doe.national.ui.screens.survey_creation.CreateSurveyPresenter;
 
 @Singleton
 @Component(modules = {ContextModule.class,
@@ -25,4 +26,5 @@ public interface AppComponent {
     void inject(StandardPresenter standardPresenter);
     void inject(SplashPresenter splashPresenter);
     void inject(SchoolAccreditationPresenter schoolAccreditationPresenter);
+    void inject(CreateSurveyPresenter createSurveyPresenter);
 }

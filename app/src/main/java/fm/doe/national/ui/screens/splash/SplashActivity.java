@@ -14,7 +14,7 @@ import fm.doe.national.R;
 import fm.doe.national.ui.screens.menu.base.MenuActivity;
 import fm.doe.national.ui.screens.menu.base.MenuPresenter;
 
-public class SplashActivity extends MenuActivity implements SplashView, TypeTestAdapter.Callback {
+public class SplashActivity extends MenuActivity implements SplashView {
 
     @BindView(R.id.layout_splash_start)
     ConstraintLayout constraintLayout;

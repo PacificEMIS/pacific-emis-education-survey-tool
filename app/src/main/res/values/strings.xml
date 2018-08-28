@@ -24,5 +24,6 @@
     <string name="warn_unable_to_update_answer">Unable to update answer</string>
     <string name="warn_unable_to_create_answer">Unable to create answer</string>
     <string name="warn_unable_to_load_recent_surveys">Unable to load recent surveys</string>
-
+    <string name="warn_unable_to_get_schools">Unable to get schools</string>
+    <string name="title_choose_school">Choose school</string>
 </resources>
