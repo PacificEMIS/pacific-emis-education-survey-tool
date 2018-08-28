@@ -15,7 +15,7 @@ public class MultipleCloudsRepository implements CloudRepository {
     }
 
     @Override
-    public Completable authenticate() {
+    public Completable auth() {
         for (Map.Entry<CloudAccessor.Type, CloudAccessor> entry : accessorMap.entrySet()) {
             if (entry.getKey() == primaryType) {
                 return entry.getValue().auth();

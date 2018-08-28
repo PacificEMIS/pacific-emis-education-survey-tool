@@ -3,7 +3,6 @@ package fm.doe.national.data.cloud.dropbox;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -23,31 +22,31 @@ import java.io.ByteArrayOutputStream;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccessor;
+import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
 import fm.doe.national.ui.screens.cloud.DropboxView;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.SingleSubject;
 
 public class DropboxCloudAccessor implements CloudAccessor {
-    private static final String PREFS_KEY_DROPBOX_FOLDER = "PREFS_KEY_DROPBOX_FOLDER";
-    private final static String PREFS_KEY_TOKEN = "dropbox-access-token";
 
     private Context context;
-    private SingleSubject<Object> authSingle;
+    private CompletableSubject authCompletable;
     private SingleSubject<String> importSingle;
-    private SingleSubject<Object> folderPickSingle;
+    private CompletableSubject folderPickCompletable;
     private DbxClientV2 dropboxClient;
 
-    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+    private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDropboxCloudPreferences();
 
     @Nullable
-    private String exportFolderPath = sharedPreferences.getString(PREFS_KEY_DROPBOX_FOLDER, null);
+    private String exportFolderPath = cloudPreferences.getExportFolder();
 
 
-    public DropboxCloudAccessor(Context appContext) {
-        context = appContext;
+    public DropboxCloudAccessor(Context context) {
+        this.context = context;
         if (hasAuthToken()) initDropbox();
     }
 
@@ -85,21 +84,21 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     @Override
     public Completable auth() {
-        authSingle = SingleSubject.create();
+        authCompletable = CompletableSubject.create();
         return Completable
                 .fromAction(() -> startTransparentActivity(DropboxView.Action.AUTH))
-                .andThen(Completable.fromSingle(authSingle));
+                .andThen(authCompletable);
     }
 
     @Override
     public Completable selectExportFolder() {
-        folderPickSingle = SingleSubject.create();
+        folderPickCompletable = CompletableSubject.create();
         Completable pickFolder =
                 Completable.fromSingle(
                         createFolderTree()
                                 .subscribeOn(Schedulers.io())
                                 .doOnSuccess(root -> startPickerActivity(DropboxView.Action.PICK_FOLDER, root)))
-                        .andThen(Completable.fromSingle(folderPickSingle));
+                        .andThen(folderPickCompletable);
         if (hasAuthToken()) {
             return pickFolder;
         } else {
@@ -109,7 +108,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     public void onAuthActionComplete() {
         initDropbox();
-        authSingle.onSuccess(new Object());
+        authCompletable.onComplete();
     }
 
     public boolean isSuccessfulAuth() {
@@ -140,26 +139,26 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     private void onFolderPicked(@NonNull BrowsingTreeObject object) {
         exportFolderPath = object.getPath();
-        sharedPreferences.edit().putString(PREFS_KEY_DROPBOX_FOLDER, exportFolderPath).apply();
-        folderPickSingle.onSuccess(new Object());
+        cloudPreferences.saveExportFolder(exportFolderPath);
+        folderPickCompletable.onComplete();
     }
 
     public void onActionFailure(Throwable throwable) {
-        if (authSingle != null) authSingle.onError(throwable);
+        if (authCompletable != null) authCompletable.onError(throwable);
         if (importSingle != null) importSingle.onError(throwable);
-        if (folderPickSingle != null) folderPickSingle.onError(throwable);
+        if (folderPickCompletable != null) folderPickCompletable.onError(throwable);
     }
 
     private boolean hasAuthToken() {
-        return sharedPreferences.getString(PREFS_KEY_TOKEN, null) != null;
+        return cloudPreferences.getAccessToken() != null;
     }
 
     private void initDropbox() {
-        String accessToken = sharedPreferences.getString(PREFS_KEY_TOKEN, null);
+        String accessToken = cloudPreferences.getAccessToken();
         if (accessToken == null) {
             accessToken = Auth.getOAuth2Token();
             if (accessToken != null) {
-                sharedPreferences.edit().putString(PREFS_KEY_TOKEN, accessToken).apply();
+                cloudPreferences.saveAccessToken(accessToken);
                 initClient(accessToken);
             }
         } else {

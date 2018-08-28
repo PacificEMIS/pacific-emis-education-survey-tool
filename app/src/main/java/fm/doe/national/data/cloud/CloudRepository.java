@@ -4,7 +4,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface CloudRepository {
-    Completable authenticate();
+    Completable auth();
 
     Completable uploadContent(String content, String filename);
 

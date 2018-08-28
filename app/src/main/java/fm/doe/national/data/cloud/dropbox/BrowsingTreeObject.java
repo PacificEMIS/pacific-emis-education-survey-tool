@@ -9,8 +9,8 @@ import java.util.List;
 
 public class BrowsingTreeObject implements Serializable {
 
-    public static final String ROOT_PATH = "";
-    public static final String ROOT_NAME = "~";
+    private static final String ROOT_PATH = "";
+    private static final String ROOT_NAME = "~";
 
     @NonNull
     private String name = ROOT_NAME;
@@ -25,15 +25,6 @@ public class BrowsingTreeObject implements Serializable {
 
     @NonNull
     private List<BrowsingTreeObject> childs = new ArrayList<>();
-
-    @NonNull
-    @Deprecated
-    public String getFullPath() {
-        StringBuilder builder = new StringBuilder();
-        if (parent != null) builder.append(parent.getFullPath()).append('/');
-        builder.append(name);
-        return builder.toString();
-    }
 
     @NonNull
     public String getPath() {

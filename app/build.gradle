@@ -51,6 +51,10 @@ dependencies {
     def butterknifeVersion = '8.8.1'
     def tikxmlVersion = '0.8.13'
     def fastCsvVersion = '1.0.2'
+    def gpsDriveVersion = '15.0.1'
+    def gpsAuthVersion = '16.0.0'
+    def dropboxVersion = '3.0.8'
+    def multidexVersion = '1.0.3'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$supportVersion"
@@ -122,11 +126,11 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
     // Google Play Services + Drive
-    implementation 'com.google.android.gms:play-services-drive:15.0.1'
-    implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation "com.google.android.gms:play-services-drive:$gpsDriveVersion"
+    implementation "com.google.android.gms:play-services-auth:$gpsAuthVersion"
 
     // Dropbox
-    compile 'com.dropbox.core:dropbox-core-sdk:3.0.8'
+    compile "com.dropbox.core:dropbox-core-sdk:$dropboxVersion"
 
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation "com.android.support:multidex:$multidexVersion"
 }

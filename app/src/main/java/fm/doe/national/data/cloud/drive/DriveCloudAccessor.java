@@ -2,8 +2,6 @@ package fm.doe.national.data.cloud.drive;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,37 +16,36 @@ import com.google.android.gms.drive.DriveResourceClient;
 import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.tasks.Task;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccessor;
+import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
+import fm.doe.national.utils.StreamUtils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.SingleSubject;
 
 
 public class DriveCloudAccessor implements CloudAccessor {
-    private static final String PREFS_KEY_DRIVE_FOLDER = "PREFS_KEY_DRIVE_FOLDER";
 
-    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+    private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDriveCloudPreferences();
 
     private Context context;
 
     @Nullable
     private DriveId exportFolderId;
 
-    private SingleSubject<Object> authSingle;
+    private CompletableSubject authCompletable;
     private SingleSubject<String> importSingle;
-    private SingleSubject<Object> exportSingle;
-    private SingleSubject<Object> pickDirectorySingle;
+    private CompletableSubject exportCompletable;
+    private CompletableSubject pickDirectoryCompletable;
 
     @Nullable
     private DriveClient driveClient;
@@ -56,8 +53,8 @@ public class DriveCloudAccessor implements CloudAccessor {
     @Nullable
     private DriveResourceClient driveResourceClient;
 
-    public DriveCloudAccessor(Context appContext) {
-        context = appContext;
+    public DriveCloudAccessor(Context context) {
+        this.context = context;
         initDriveClients();
     }
 
@@ -73,42 +70,39 @@ public class DriveCloudAccessor implements CloudAccessor {
 
     @Override
     public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) {
-        exportSingle = SingleSubject.create();
-        Single<Object> exportContent =
+        exportCompletable = CompletableSubject.create();
+        Completable exportContent =
                 Completable
                         .fromAction(() -> createFile(content, filename, exportFolderId))
-                        .andThen(exportSingle);
-        return isAuthenticated() ?
-                Completable.fromSingle(exportContent)
-                : Completable.fromSingle(auth().andThen(exportContent));
+                        .andThen(exportCompletable);
+        return isAuthenticated() ? exportContent : auth().andThen(exportContent);
     }
 
     @Override
     public Completable auth() {
-        authSingle = SingleSubject.create();
+        authCompletable = CompletableSubject.create();
         return Completable
                 .fromAction(() -> startActivityAction(DriveActivity.ACTION_AUTH))
-                .andThen(Completable.fromSingle(authSingle));
+                .andThen(authCompletable);
     }
 
     @Override
     public Completable selectExportFolder() {
-        pickDirectorySingle = SingleSubject.create();
-        Single<Object> pickDirectory = Completable.
+        pickDirectoryCompletable = CompletableSubject.create();
+        Completable pickDirectory = Completable.
                 fromAction(() -> startActivityAction(DriveActivity.ACTION_PICK_FOLDER))
-                .andThen(pickDirectorySingle);
-        Single<Object> resultingSingle = isAuthenticated() ? pickDirectory : auth().andThen(pickDirectory);
-        return Completable.fromSingle(resultingSingle);
+                .andThen(pickDirectoryCompletable);
+        return isAuthenticated() ? pickDirectory : auth().andThen(pickDirectory);
     }
 
     public void onAuth() {
-        if (authSingle == null) return;
+        if (authCompletable == null) return;
 
         if (isAuthenticated()) {
             initDriveClients();
-            authSingle.onSuccess(new Object());
+            authCompletable.onComplete();
         } else {
-            authSingle.onError(new AuthenticationException("User not signed id"));
+            authCompletable.onError(new AuthenticationException("User not signed id"));
         }
     }
 
@@ -124,32 +118,24 @@ public class DriveCloudAccessor implements CloudAccessor {
         driveResourceClient.openFile(file, DriveFile.MODE_READ_ONLY)
                 .continueWith(task -> {
                     DriveContents contents = task.getResult();
-                    try (BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(contents.getInputStream()))) {
-                        StringBuilder builder = new StringBuilder();
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            builder.append(line).append("\n");
-                        }
-                        importSingle.onSuccess(builder.toString());
-                    }
+                    importSingle.onSuccess(StreamUtils.asString(contents.getInputStream()));
                     return driveResourceClient.discardContents(contents);
                 });
     }
 
     public void onFolderPicked(@NonNull DriveId driveId) {
-        if (pickDirectorySingle == null) return;
+        if (pickDirectoryCompletable == null) return;
 
         exportFolderId = driveId;
-        sharedPreferences.edit().putString(PREFS_KEY_DRIVE_FOLDER, exportFolderId.encodeToString()).apply();
-        pickDirectorySingle.onSuccess(driveId.encodeToString());
+        cloudPreferences.saveExportFolder(exportFolderId.encodeToString());
+        pickDirectoryCompletable.onComplete();
     }
 
     public void onActionFailure(Throwable throwable) {
-        if (authSingle != null) authSingle.onError(throwable);
+        if (authCompletable != null) authCompletable.onError(throwable);
         if (importSingle != null) importSingle.onError(throwable);
-        if (exportSingle != null) exportSingle.onError(throwable);
-        if (pickDirectorySingle != null) pickDirectorySingle.onError(throwable);
+        if (exportCompletable != null) exportCompletable.onError(throwable);
+        if (pickDirectoryCompletable != null) pickDirectoryCompletable.onError(throwable);
     }
 
     @Nullable
@@ -169,9 +155,9 @@ public class DriveCloudAccessor implements CloudAccessor {
         driveClient = Drive.getDriveClient(context, account);
         driveResourceClient = Drive.getDriveResourceClient(context, account);
 
-        String exportFolderPref = sharedPreferences.getString(PREFS_KEY_DRIVE_FOLDER, null);
-        if (exportFolderPref != null) {
-            exportFolderId = DriveId.decodeFromString(exportFolderPref);
+        String exportFolder = cloudPreferences.getExportFolder();
+        if (exportFolder != null) {
+            exportFolderId = DriveId.decodeFromString(exportFolder);
         }
     }
 
@@ -185,10 +171,9 @@ public class DriveCloudAccessor implements CloudAccessor {
     }
 
     private void startActivityAction(int activityAction) {
-        Activity activity = ((MicronesiaApplication) context).getCurrentActivity();
-        if (activity != null) {
-            Intent intent = DriveActivity.createIntent(context, activityAction);
-            activity.startActivity(intent);
+        Activity currentActivity = ((MicronesiaApplication) context).getCurrentActivity();
+        if (currentActivity != null) {
+            currentActivity.startActivity(DriveActivity.createIntent(context, activityAction));
         } else {
             onActionFailure(new IllegalStateException("no activities running"));
         }
@@ -208,8 +193,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         Task<DriveContents> createContentsTask = driveResourceClient.createContents();
         createContentsTask.continueWithTask(task -> {
             DriveContents contents = createContentsTask.getResult();
-            OutputStream outputStream = contents.getOutputStream();
-            try (Writer writer = new OutputStreamWriter(outputStream)) {
+            try (Writer writer = new OutputStreamWriter(contents.getOutputStream())) {
                 writer.write(content);
             }
 
@@ -220,7 +204,7 @@ public class DriveCloudAccessor implements CloudAccessor {
 
             return driveResourceClient.createFile(folderDriveId.asDriveFolder(), changeSet, contents);
         })
-                .addOnSuccessListener(driveFile -> exportSingle.onSuccess(new Object()))
-                .addOnFailureListener(throwable -> exportSingle.onError(throwable));
+                .addOnSuccessListener(driveFile -> exportCompletable.onComplete())
+                .addOnFailureListener(throwable -> exportCompletable.onError(throwable));
     }
 }
