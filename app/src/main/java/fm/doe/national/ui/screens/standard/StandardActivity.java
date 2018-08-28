@@ -17,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.utils.ViewUtils;
@@ -63,13 +62,13 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
-        return new StandardPresenter(getSerializableExtra(EXTRA_ACCREDITATION));
+        return new StandardPresenter(getIntent().getLongExtra(EXTRA_ACCREDITATION, -1));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationPassing accreditationResult) {
+    public static Intent createIntent(@NonNull Context context, long passingId) {
         return new Intent(context, StandardActivity.class)
-                .putExtra(EXTRA_ACCREDITATION, accreditationResult);
+                .putExtra(EXTRA_ACCREDITATION, passingId);
     }
 
     @Override

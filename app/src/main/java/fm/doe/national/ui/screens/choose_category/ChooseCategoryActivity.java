@@ -14,21 +14,20 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.standard.StandardActivity;
 
 public class ChooseCategoryActivity extends BaseActivity implements ChooseCategoryView, ChooseCategoryAdapter.Callback {
 
-    private static final String EXTRA_PASSING = "EXTRA_PASSING";
+    private static final String EXTRA_PASSING_ID = "EXTRA_PASSING_ID";
 
     @InjectPresenter
     ChooseCategoryPresenter chooseCategoryPresenter;
 
     @ProvidePresenter
     ChooseCategoryPresenter providePresenter() {
-        return new ChooseCategoryPresenter(getSerializableExtra(EXTRA_PASSING));
+        return new ChooseCategoryPresenter(getIntent().getLongExtra(EXTRA_PASSING_ID, -1));
     }
 
     private final ChooseCategoryAdapter chooseCategoryAdapter = new ChooseCategoryAdapter();
@@ -39,14 +38,13 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     @BindView(R.id.recyclerview)
     OmegaRecyclerView recyclerView;
 
-    public static Intent createIntent(Context context, SchoolAccreditationPassing passing) {
-        return new Intent(context, ChooseCategoryActivity.class).putExtra(EXTRA_PASSING, passing);
+    public static Intent createIntent(Context context, long passingId) {
+        return new Intent(context, ChooseCategoryActivity.class).putExtra(EXTRA_PASSING_ID, passingId);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolbar();
         chooseCategoryAdapter.setCallback(this);
         recyclerView.setAdapter(chooseCategoryAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,8 +62,8 @@ public class ChooseCategoryActivity extends BaseActivity implements ChooseCatego
     }
 
     @Override
-    public void showStandardScreen(SchoolAccreditationPassing standard, int position) {
-        startActivity(StandardActivity.createIntent(this, standard));
+    public void showStandardScreen(long passingId, int position) {
+        startActivity(StandardActivity.createIntent(this, passingId));
     }
 
     @Override

@@ -89,9 +89,10 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
+    implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.6@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.3'
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.2'
 
     // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
@@ -118,6 +119,5 @@ dependencies {
     // Open url: http://localhost:8080/ to view database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
-    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 }

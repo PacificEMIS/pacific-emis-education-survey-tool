@@ -2,15 +2,11 @@ package fm.doe.national.ui.screens.menu.drawer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -42,32 +38,23 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
 
     @Override
     public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-        drawerLayout = new DrawerLayout(this);
-        super.setContentView(drawerLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        super.setContentView(R.layout.activity_drawer);
+        drawerLayout = findViewById(R.id.drawerlayout);
+        View contentView = getLayoutInflater().inflate(layoutResID, drawerLayout, false);
+        drawerLayout.addView(contentView, 0);
 
-        LayoutInflater inflater = getLayoutInflater();
+    }
 
-        inflater.inflate(getContentView(), drawerLayout);
-
-        View menuView = inflater.inflate(R.layout.activity_main, drawerLayout, false);
-        menuView.setClickable(true);
-
-
-        int width = getResources().getDimensionPixelSize(R.dimen.drawer_menu_width);
-        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.gravity = Gravity.START;
-        menuView.setLayoutParams(params);
-
-        drawerLayout.addView(menuView, params);
-
-        initToolbar();
+    @Override
+    protected void initToolbar() {
+        super.initToolbar();
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
     }
 
     @Override

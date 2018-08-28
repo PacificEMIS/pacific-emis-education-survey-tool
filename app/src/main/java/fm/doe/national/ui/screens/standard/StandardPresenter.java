@@ -27,6 +27,8 @@ import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class StandardPresenter extends BasePresenter<StandardView> {
@@ -41,19 +43,14 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private List<Standard> standards = new ArrayList<>();
     private List<CriteriaViewData> criteriaViewDataList;
 
-    public StandardPresenter(SchoolAccreditationPassing result) {
+    public StandardPresenter(long passingId) {
         MicronesiaApplication.getAppComponent().inject(this);
-        accreditationResult = result;
+    }
 
-        // TODO: handle groupStandards properly
-
-        for (GroupStandard groupStandard: accreditationResult.getSchoolAccreditation().getGroupStandards()) {
-            standards.addAll(groupStandard.getStandards());
-        }
-
-        previousIndex = standards.size() - 1;
-
-        updateUi();
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        load();
     }
 
     public void onQuestionStateChanged(@NonNull SubCriteriaViewData subCriteriaViewData,
@@ -156,5 +153,37 @@ public class StandardPresenter extends BasePresenter<StandardView> {
             count += criteriaViewData.getAnsweredCount();
         }
         return count;
+    }
+
+    // TODO: replace
+    private void load() {
+        getViewState().showProgressDialog(Text.empty());
+        add(
+                dataSource.requestSchoolAccreditationPassings()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(schoolAccreditationPassings -> {
+                            accreditationResult = schoolAccreditationPassings.get(0);
+                            getViewState().hideProgressDialog();
+                            loadStandards();
+                        }, throwable -> {
+                            getViewState().showWarning(
+                                    Text.from(R.string.title_warning),
+                                    Text.from(R.string.warn_unable_to_get_schools));
+                            getViewState().hideProgressDialog();
+                        })
+        );
+    }
+
+    private void loadStandards() {
+        // TODO: handle groupStandards properly
+
+        for (GroupStandard groupStandard: accreditationResult.getSchoolAccreditation().getGroupStandards()) {
+            standards.addAll(groupStandard.getStandards());
+        }
+
+        previousIndex = standards.size() - 1;
+
+        updateUi();
     }
 }

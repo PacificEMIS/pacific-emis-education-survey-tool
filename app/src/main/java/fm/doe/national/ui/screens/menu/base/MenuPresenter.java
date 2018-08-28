@@ -1,54 +1,21 @@
 package fm.doe.national.ui.screens.menu.base;
 
+import com.omega_r.libs.omegatypes.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.School;
+import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BasePresenter;
-
-/**
- * Created by Alexander Chibirev on 8/10/2018.
- */
 
 abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V> {
 
     public MenuPresenter() {
-        //TODO changed logic after correct work data base
-        List<School> schools = new ArrayList<>();
-        schools.add(new School() {
-            @Override
-            public String getId() {
-                return "test";
-            }
-
-            @Override
-            public String getName() {
-                return "School accreditation";
-            }
-        });
-        schools.add(new School() {
-            @Override
-            public String getId() {
-                return "test1";
-            }
-
-            @Override
-            public String getName() {
-                return "School data verification";
-            }
-        });
-        schools.add(new School() {
-            @Override
-            public String getId() {
-                return "test1";
-            }
-
-            @Override
-            public String getName() {
-                return "Monitoring and evalution";
-            }
-        });
-        getViewState().setTests(schools);
+        List<Text> items = new ArrayList<>();
+        items.add(Text.from(R.string.title_school_accreditation));
+        items.add(Text.from(R.string.title_school_data_verification));
+        items.add(Text.from(R.string.title_monitoring_and_evaluation));
+        getViewState().setItems(items);
     }
 
     public void onTypeTestClicked() {

@@ -65,7 +65,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> getViewState().hideProgressDialog())
                         .subscribe(
-                                accreditation -> getViewState().navigateToCategoryChooser(accreditation),
+                                accreditation -> getViewState().navigateToCategoryChooser(-1),
                                 throwable -> getViewState().showWarning(
                                         Text.from(R.string.title_warning),
                                         Text.from(R.string.warn_unable_to_get_schools)))

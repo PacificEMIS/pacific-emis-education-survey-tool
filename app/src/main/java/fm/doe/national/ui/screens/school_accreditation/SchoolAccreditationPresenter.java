@@ -30,7 +30,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     }
 
     public void onAccreditationClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
-        getViewState().navigateToCategoryChooser(schoolAccreditationPassing);
+        getViewState().navigateToCategoryChooser(-1);
     }
 
     private void loadRecentSurveys() {

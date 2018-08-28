@@ -6,12 +6,11 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CreateSurveyView extends BaseView {
     void setSchools(List<School> schools);
     void setYear(int year);
-    void navigateToCategoryChooser(SchoolAccreditationPassing passing);
+    void navigateToCategoryChooser(long passingId);
 }

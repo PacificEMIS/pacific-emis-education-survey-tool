@@ -11,6 +11,8 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+
     </style>
 
     <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">

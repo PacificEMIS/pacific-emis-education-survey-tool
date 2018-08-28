@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
+import com.omega_r.libs.omegatypes.Text;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,19 +16,17 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.menu.MenuAdapter;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
-import fm.doe.national.ui.screens.splash.TypeTestAdapter;
 
-public abstract class MenuActivity extends BaseActivity implements
-        MenuView {
+public abstract class MenuActivity extends BaseActivity implements MenuView {
 
     private static final int REQUEST_CODE_GALLERY = 201;
 
     protected abstract MenuPresenter getPresenter();
 
-    protected TypeTestAdapter typeTestAdapter = new TypeTestAdapter();
+    protected MenuAdapter menuAdapter = new MenuAdapter();
 
     @BindView(R.id.drawer_recyclerview)
     protected OmegaRecyclerView recyclerView;
@@ -38,8 +37,8 @@ public abstract class MenuActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        typeTestAdapter.setListener(this::onRecyclerItemClick);
-        recyclerView.setAdapter(typeTestAdapter);
+        menuAdapter.setListener(this::onRecyclerItemClick);
+        recyclerView.setAdapter(menuAdapter);
     }
 
     @OnClick(R.id.imageview_logo)
@@ -80,12 +79,12 @@ public abstract class MenuActivity extends BaseActivity implements
         startActivity(intent);
     }
 
-    @Override //TODO changed logic after add correct type test model
-    public void setTests(List<School> schools) {
-        typeTestAdapter.setItems(schools);
+    @Override
+    public void setItems(List<Text> items) {
+        menuAdapter.setItems(items);
     }
 
-    public void onRecyclerItemClick(School item) {
+    public void onRecyclerItemClick(Text item) {
         getPresenter().onTypeTestClicked();
     }
 }

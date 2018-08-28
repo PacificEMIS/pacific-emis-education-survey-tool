@@ -24,7 +24,7 @@ public abstract class BaseClickableAdapter<T, VH extends BaseRecyclerViewHolder<
         this.listener = listener;
     }
 
-    public void onItemClick(T item) {
+    protected void onItemClick(T item) {
         if (listener != null) {
             listener.onRecyclerItemClick(item);
         }

@@ -36,18 +36,6 @@
             app:showDivider="end|middle"
             tools:listitem="@layout/item_survey" />
 
-        <TextView
-            android:id="@+id/textview_not_found_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:visibility="gone"
-            tools:text="school not found" />
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_new_accreditation"
             android:layout_width="wrap_content"

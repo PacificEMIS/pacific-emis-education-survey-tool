@@ -71,7 +71,7 @@
         tools:listitem="@layout/item_school"
         android:divider="@color/pinkish_grey"
         android:dividerHeight="1dp"
-        app:paddingDivider="16dp"
+        app:dividerPadding="16dp"
         app:showDivider="middle"/>
 
 

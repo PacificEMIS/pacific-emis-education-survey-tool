@@ -10,6 +10,7 @@ import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
 import fm.doe.national.di.modules.ParsersModule;
+import fm.doe.national.ui.screens.choose_category.ChooseCategoryPresenter;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationPresenter;
 import fm.doe.national.ui.screens.splash.SplashPresenter;
 import fm.doe.national.ui.screens.standard.StandardPresenter;
@@ -27,4 +28,5 @@ public interface AppComponent {
     void inject(SplashPresenter splashPresenter);
     void inject(SchoolAccreditationPresenter schoolAccreditationPresenter);
     void inject(CreateSurveyPresenter createSurveyPresenter);
+    void inject(ChooseCategoryPresenter chooseCategoryPresenter);
 }

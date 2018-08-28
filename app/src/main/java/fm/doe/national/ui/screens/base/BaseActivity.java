@@ -36,11 +36,12 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
+        initToolbar();
         ButterKnife.bind(this);
     }
 
-    protected abstract @LayoutRes
-    int getContentView();
+    @LayoutRes
+    protected abstract int getContentView();
 
     protected void initToolbar() {
         toolbar = findViewById(R.id.toolbar);

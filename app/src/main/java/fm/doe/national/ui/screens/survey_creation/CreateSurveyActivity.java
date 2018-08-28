@@ -12,7 +12,6 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseClickableAdapter;
 import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
@@ -37,7 +36,6 @@ public class CreateSurveyActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolbar();
 
         schoolsRecycler.setAdapter(adapter);
         adapter.setListener(this);
@@ -59,8 +57,8 @@ public class CreateSurveyActivity extends BaseActivity
     }
 
     @Override
-    public void navigateToCategoryChooser(SchoolAccreditationPassing schoolAccreditationPassing) {
-        startActivity(ChooseCategoryActivity.createIntent(this, schoolAccreditationPassing));
+    public void navigateToCategoryChooser(long passingId) {
+        startActivity(ChooseCategoryActivity.createIntent(this, passingId));
     }
 
     @Override

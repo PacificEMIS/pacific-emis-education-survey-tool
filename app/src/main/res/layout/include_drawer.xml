@@ -2,11 +2,10 @@
 <com.omega_r.libs.layouts.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="280dp"
+    android:layout_width="@dimen/drawer_menu_width"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true"
-    android:focusable="true"
     android:orientation="vertical">
 
     <TextView
@@ -36,7 +35,7 @@
         android:theme="@style/ThemeRecyclerViewNavigationDrawer"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:showDivider="end|middle"
-        tools:listitem="@layout/item_type_test" />
+        tools:listitem="@layout/item_menuitem" />
 
     <View
         android:layout_width="match_parent"

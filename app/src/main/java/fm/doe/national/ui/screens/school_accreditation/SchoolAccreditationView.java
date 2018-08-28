@@ -13,7 +13,7 @@ import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
 interface SchoolAccreditationView extends BaseDrawerView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToCategoryChooser(SchoolAccreditationPassing schoolAccreditationPassing);
+    void navigateToCategoryChooser(long passingId);
 
 
     void setAccreditations(List<SchoolAccreditationPassing> accreditations);
