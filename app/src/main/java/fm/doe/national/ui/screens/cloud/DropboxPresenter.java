@@ -18,31 +18,25 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
     private DropboxView.Action currentAction;
     private final DropboxCloudAccessor cloudAccessor = MicronesiaApplication.getAppComponent().getDropboxCloudAccessor();
 
-    public DropboxPresenter(DropboxView.Action action, @Nullable BrowsingTreeObject browsingRoot) {
-        Throwable passingThrowable = new IllegalStateException("browsingRoot not passed to activity");
+    public DropboxPresenter(DropboxView.Action action, @Nullable DropboxView.PickerType pickerType, @Nullable BrowsingTreeObject browsingRoot) {
         currentAction = action;
         switch (currentAction) {
             case AUTH:
                 getViewState().startAuthentication();
                 break;
-            case PICK_FILE:
+            case PICK:
                 if (browsingRoot == null) {
-                    endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(passingThrowable));
+                    endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(
+                            new IllegalStateException("browsingRoot not passed to activity")));
                 } else {
-                    getViewState().showFilePicker(browsingRoot);
+                    getViewState().showPicker(pickerType, browsingRoot);
                 }
                 break;
-            case PICK_FOLDER:
-                if (browsingRoot == null) {
-                    endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(passingThrowable));
-                } else {
-                    getViewState().showFolderPicker(browsingRoot);
-                }
-                break;
+
         }
     }
 
-    public void onViewResumedFromPause() {
+    public void checkAuthResult() {
         if (currentAction == DropboxView.Action.AUTH) {
             endingCloudAccessorAction(() -> {
                 if (cloudAccessor.isSuccessfulAuth()) {
@@ -64,6 +58,6 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
 
     private void endingCloudAccessorAction(@NonNull Runnable action) {
         action.run();
-        getViewState().die();
+        getViewState().exit();
     }
 }

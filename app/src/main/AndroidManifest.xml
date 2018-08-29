@@ -28,7 +28,7 @@
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask" >
             <intent-filter>
-                <data android:scheme="db-wgfc52kfzlfemur" />
+                <data android:scheme="db-${dropbox_api_key}" />
 
                 <action android:name="android.intent.action.VIEW" />
 

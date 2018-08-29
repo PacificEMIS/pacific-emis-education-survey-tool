@@ -14,6 +14,10 @@ android {
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
+
+        def DROPBOX_API_KEY = "wgfc52kfzlfemur"
+        buildConfigField "String", "DROPBOX_API_KEY", DROPBOX_API_KEY
+        manifestPlaceholders = [ dropbox_api_key : DROPBOX_API_KEY ]
     }
     signingConfigs {
         release {

@@ -2,7 +2,6 @@ package fm.doe.national.data.cloud.dropbox;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -24,7 +23,7 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
-import fm.doe.national.ui.screens.cloud.DropboxView;
+import fm.doe.national.utils.LifecycleListener;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -33,13 +32,14 @@ import io.reactivex.subjects.SingleSubject;
 
 public class DropboxCloudAccessor implements CloudAccessor {
 
-    private Context context;
+    private final Context context;
+    private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDropboxCloudPreferences();
+    private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
+
     private CompletableSubject authCompletable;
     private SingleSubject<String> importSingle;
     private CompletableSubject folderPickCompletable;
     private DbxClientV2 dropboxClient;
-
-    private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDropboxCloudPreferences();
 
     @Nullable
     private String exportFolderPath = cloudPreferences.getExportFolder();
@@ -57,17 +57,13 @@ public class DropboxCloudAccessor implements CloudAccessor {
                 Completable.fromSingle(
                         createFolderTree()
                                 .subscribeOn(Schedulers.io())
-                                .doOnSuccess(root -> startPickerActivity(DropboxView.Action.PICK_FILE, root)))
+                                .doOnSuccess(this::startActivityForOpenFile))
                         .andThen(importSingle);
-        if (hasAuthToken()) {
-            return launchActivityForContent;
-        } else {
-            return auth().andThen(launchActivityForContent);
-        }
+        return auth().andThen(launchActivityForContent);
     }
 
     @Override
-    public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) { // TODO
+    public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) {
         Completable upload = Completable.fromAction(() -> {
             if (exportFolderPath == null) throw new IllegalStateException("exportFolderPath is null");
             dropboxClient.files()
@@ -75,18 +71,19 @@ public class DropboxCloudAccessor implements CloudAccessor {
                     .withMode(WriteMode.OVERWRITE)
                     .uploadAndFinish(new ByteArrayInputStream(content.getBytes()));
         }).subscribeOn(Schedulers.io());
-        if (hasAuthToken()) {
-            return upload;
-        } else {
-            return auth().andThen(upload);
-        }
+        return auth().andThen(upload);
     }
 
     @Override
     public Completable auth() {
+        if (isSuccessfulAuth()) {
+            initDropbox();
+            return Completable.complete();
+        }
+
         authCompletable = CompletableSubject.create();
         return Completable
-                .fromAction(() -> startTransparentActivity(DropboxView.Action.AUTH))
+                .fromAction(this::startActivityForAuth)
                 .andThen(authCompletable);
     }
 
@@ -97,13 +94,9 @@ public class DropboxCloudAccessor implements CloudAccessor {
                 Completable.fromSingle(
                         createFolderTree()
                                 .subscribeOn(Schedulers.io())
-                                .doOnSuccess(root -> startPickerActivity(DropboxView.Action.PICK_FOLDER, root)))
+                                .doOnSuccess(this::startActivityForSelectFolder))
                         .andThen(folderPickCompletable);
-        if (hasAuthToken()) {
-            return pickFolder;
-        } else {
-            return auth().andThen(pickFolder);
-        }
+        return auth().andThen(pickFolder);
     }
 
     public void onAuthActionComplete() {
@@ -139,7 +132,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     private void onFolderPicked(@NonNull BrowsingTreeObject object) {
         exportFolderPath = object.getPath();
-        cloudPreferences.saveExportFolder(exportFolderPath);
+        cloudPreferences.setExportFolder(exportFolderPath);
         folderPickCompletable.onComplete();
     }
 
@@ -158,7 +151,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
         if (accessToken == null) {
             accessToken = Auth.getOAuth2Token();
             if (accessToken != null) {
-                cloudPreferences.saveAccessToken(accessToken);
+                cloudPreferences.setAccessToken(accessToken);
                 initClient(accessToken);
             }
         } else {
@@ -213,21 +206,29 @@ public class DropboxCloudAccessor implements CloudAccessor {
         }
     }
 
-    private void startPickerActivity(DropboxView.Action action, @NonNull BrowsingTreeObject treeRoot) {
-        startActivityAction(action, treeRoot);
-    }
 
-    private void startTransparentActivity(DropboxView.Action action) {
-        startActivityAction(action, null);
-    }
-
-    private void startActivityAction(DropboxView.Action action, @Nullable BrowsingTreeObject treeRoot) {
-        Activity activity = ((MicronesiaApplication) context).getCurrentActivity();
+    private void startActivityForAuth() {
+        Activity activity = lifecycleListener.getCurrentActivity();
         if (activity != null) {
-            Intent intent = treeRoot != null ?
-                    DropboxActivity.createPickerIntent(activity, action, treeRoot)
-                    : DropboxActivity.createIntent(activity, action);
-            activity.startActivity(intent);
+            activity.startActivity(DropboxActivity.createAuthIntent(activity));
+        } else {
+            onActionFailure(new IllegalStateException("No activities running"));
+        }
+    }
+
+    private void startActivityForOpenFile(@NonNull BrowsingTreeObject treeObj) {
+        Activity activity = lifecycleListener.getCurrentActivity();
+        if (activity != null) {
+            activity.startActivity(DropboxActivity.createOpenFileIntent(activity, treeObj));
+        } else {
+            onActionFailure(new IllegalStateException("No activities running"));
+        }
+    }
+
+    private void startActivityForSelectFolder(@NonNull BrowsingTreeObject treeOb) {
+        Activity activity = lifecycleListener.getCurrentActivity();
+        if (activity != null) {
+            activity.startActivity(DropboxActivity.createSelectFolderIntent(activity, treeOb));
         } else {
             onActionFailure(new IllegalStateException("No activities running"));
         }

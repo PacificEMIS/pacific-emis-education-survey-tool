@@ -2,6 +2,10 @@ package fm.doe.national.data.cloud;
 
 import java.util.Map;
 
+import fm.doe.national.data.cloud.exceptions.AuthenticationException;
+import fm.doe.national.data.cloud.exceptions.FileExportException;
+import fm.doe.national.data.cloud.exceptions.FileImportException;
+import fm.doe.national.data.cloud.exceptions.PickException;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -21,7 +25,9 @@ public class MultipleCloudsRepository implements CloudRepository {
                 return entry.getValue().auth();
             }
         }
-        return Completable.complete();
+        return Completable.fromAction(() -> {
+            throw new AuthenticationException("Cloud accessors not found");
+        });
     }
 
     @Override
@@ -31,17 +37,21 @@ public class MultipleCloudsRepository implements CloudRepository {
                 return entry.getValue().exportContentToCloud(content, filename);
             }
         }
-        return Completable.complete();
+        return Completable.fromAction(() -> {
+            throw new FileExportException("Cloud accessors not found");
+        });
     }
 
     @Override
-    public Single<String> getContent() {
+    public Single<String> requestContent() {
         for (Map.Entry<CloudAccessor.Type, CloudAccessor> entry : accessorMap.entrySet()) {
             if (entry.getKey() == primaryType) {
                 return entry.getValue().importContentFromCloud();
             }
         }
-        return Single.just("");
+        return Single.fromCallable(() -> {
+            throw new FileImportException("Cloud accessors not found");
+        });
     }
 
     @Override
@@ -49,7 +59,9 @@ public class MultipleCloudsRepository implements CloudRepository {
         for (Map.Entry<CloudAccessor.Type, CloudAccessor> entry : accessorMap.entrySet()) {
             if (entry.getKey() == primaryType) return entry.getValue().selectExportFolder();
         }
-        return Completable.complete();
+        return Completable.fromAction(() -> {
+            throw new PickException("Cloud accessors not found");
+        });
     }
 
     @Override

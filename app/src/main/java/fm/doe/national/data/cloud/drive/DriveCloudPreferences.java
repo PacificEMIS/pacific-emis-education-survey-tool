@@ -19,7 +19,7 @@ public class DriveCloudPreferences implements CloudPreferences {
     }
 
     @Override
-    public void saveExportFolder(@NonNull String folder) {
+    public void setExportFolder(@NonNull String folder) {
         sharedPreferences.edit().putString(PREFS_KEY_DRIVE_FOLDER, folder).apply();
     }
 
@@ -30,7 +30,7 @@ public class DriveCloudPreferences implements CloudPreferences {
     }
 
     @Override
-    public void saveAccessToken(@NonNull String accessToken) {
+    public void setAccessToken(@NonNull String accessToken) {
         // nothing
     }
 }

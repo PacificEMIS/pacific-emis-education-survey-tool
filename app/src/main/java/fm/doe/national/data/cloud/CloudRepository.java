@@ -8,7 +8,7 @@ public interface CloudRepository {
 
     Completable uploadContent(String content, String filename);
 
-    Single<String> getContent();
+    Single<String> requestContent();
 
     Completable chooseExportFolder();
 

@@ -3,7 +3,7 @@ package fm.doe.national.data.cloud.exceptions;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public abstract class ReasonableException extends Throwable {
+public abstract class ReasonableException extends Exception {
     @Nullable
     private String reason;
 

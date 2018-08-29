@@ -16,11 +16,13 @@ import fm.doe.national.di.modules.CloudModule;
 import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
+import fm.doe.national.di.modules.LifecycleModule;
 import fm.doe.national.di.modules.ParsersModule;
 import fm.doe.national.di.modules.SharedPreferencesModule;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
 import fm.doe.national.ui.screens.main.MainPresenter;
 import fm.doe.national.ui.screens.standard.StandardPresenter;
+import fm.doe.national.utils.LifecycleListener;
 
 @Singleton
 @Component(modules = {
@@ -30,7 +32,8 @@ import fm.doe.national.ui.screens.standard.StandardPresenter;
         GsonModule.class,
         CloudModule.class,
         SharedPreferencesModule.class,
-        ParsersModule.class})
+        ParsersModule.class,
+        LifecycleModule.class})
 public interface AppComponent {
     Gson getGson();
     SharedPreferences getSharedPreferences();
@@ -38,6 +41,7 @@ public interface AppComponent {
     DriveCloudPreferences getDriveCloudPreferences();
     DriveCloudAccessor getDriveCloudAccessor();
     DropboxCloudAccessor getDropboxCloudAccessor();
+    LifecycleListener getLifecycleListener();
     void inject(DriveActivity target);
     void inject(MainPresenter target);
     void inject(StandardPresenter standardPresenter);

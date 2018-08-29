@@ -54,6 +54,23 @@ public class DriveActivity extends BaseActivity {
         parseIntent(getIntent());
     }
 
+    private void parseIntent(@NonNull Intent intent) {
+        int action = intent.getIntExtra(EXTRA_ACTION, ACTION_DEFAULT);
+        switch (action) {
+            case ACTION_AUTH:
+                signIn();
+                break;
+            case ACTION_OPEN_FILE:
+                importFileContent();
+                break;
+            case ACTION_PICK_FOLDER:
+                pickFolder();
+                break;
+            default:
+                throw new RuntimeException("DriveActivity started with wrong action");
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,24 +95,6 @@ public class DriveActivity extends BaseActivity {
                 }
         }
         finish();
-    }
-
-    private void parseIntent(@NonNull Intent intent) {
-        RuntimeException exception = new RuntimeException("DriveActivity started with wrong action");
-        int action = intent.getIntExtra(EXTRA_ACTION, ACTION_DEFAULT);
-        switch (action) {
-            case ACTION_AUTH:
-                signIn();
-                break;
-            case ACTION_OPEN_FILE:
-                importFileContent();
-                break;
-            case ACTION_PICK_FOLDER:
-                pickFolder();
-                break;
-            default:
-                throw exception;
-        }
     }
 
     private void signIn() {

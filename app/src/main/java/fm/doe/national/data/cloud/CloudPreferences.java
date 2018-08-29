@@ -8,11 +8,11 @@ public interface CloudPreferences {
     @Nullable
     String getExportFolder();
 
-    void saveExportFolder(@NonNull String folder);
+    void setExportFolder(@NonNull String folder);
 
     @Nullable
     String getAccessToken();
 
-    void saveAccessToken(@NonNull String accessToken);
+    void setAccessToken(@NonNull String accessToken);
 
 }

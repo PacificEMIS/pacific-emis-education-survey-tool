@@ -21,7 +21,7 @@ public class DropboxCloudPreferences implements CloudPreferences {
     }
 
     @Override
-    public void saveExportFolder(@NonNull String folder) {
+    public void setExportFolder(@NonNull String folder) {
         sharedPreferences.edit().putString(PREFS_KEY_DROPBOX_FOLDER, folder).apply();
     }
 
@@ -32,7 +32,7 @@ public class DropboxCloudPreferences implements CloudPreferences {
     }
 
     @Override
-    public void saveAccessToken(@NonNull String accessToken) {
+    public void setAccessToken(@NonNull String accessToken) {
         sharedPreferences.edit().putString(PREFS_KEY_TOKEN, accessToken).apply();
     }
 }

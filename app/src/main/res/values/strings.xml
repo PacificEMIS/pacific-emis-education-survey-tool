@@ -16,6 +16,4 @@
     <string name="title_select_file">Select file</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
-
-    <string name="dropbox_api_app_key">wgfc52kfzlfemur</string>
 </resources>

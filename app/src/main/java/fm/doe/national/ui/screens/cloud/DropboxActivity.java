@@ -16,9 +16,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.dropbox.core.android.Auth;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
-import java.io.Serializable;
-
 import butterknife.BindView;
+import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
 import fm.doe.national.ui.adapters.FilePickerAdapter;
@@ -34,14 +33,6 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
 
     private static final String EXTRA_ACTION = "EXTRA_ACTION";
     private static final String EXTRA_BROWSING_ROOT = "EXTRA_BROWSING_ROOT";
-
-    @InjectPresenter
-    DropboxPresenter presenter;
-
-    @ProvidePresenter
-    public DropboxPresenter providePresenter() {
-        return new DropboxPresenter(getActionFromIntent(getIntent()), getBrowsingRootFromIntent(getIntent()));
-    }
 
     @BindView(R.id.constraintlayout_picker)
     ConstraintLayout pickerView;
@@ -64,55 +55,65 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
     @BindView(R.id.button_cancel)
     Button cancelButton;
 
+    @InjectPresenter
+    DropboxPresenter presenter;
+
     private boolean haveBeenPaused = false;
     private FilePickerAdapter adapter = new FilePickerAdapter();
     private BrowsingTreeObject currentBrowsingItem;
 
+
+    public static Intent createAuthIntent(@NonNull Context context) {
+        return createIntent(context, ACTION_AUTH, null);
+    }
+
+    public static Intent createOpenFileIntent(@NonNull Context context, @NonNull BrowsingTreeObject treeRoot) {
+        return createIntent(context, ACTION_OPEN_FILE, treeRoot);
+    }
+
+    public static Intent createSelectFolderIntent(@NonNull Context context, @NonNull BrowsingTreeObject treeRoot) {
+        return createIntent(context, ACTION_SELECT_FOLDER, treeRoot);
+    }
+
     @NonNull
-    public static Intent createIntent(@NonNull Context context, Action action) {
-        int extraAction = ACTION_DEFAULT;
-        switch (action) {
-            case AUTH:
-                extraAction = ACTION_AUTH;
-                break;
-            case PICK_FILE:
-                extraAction = ACTION_OPEN_FILE;
-                break;
-            case PICK_FOLDER:
-                extraAction = ACTION_SELECT_FOLDER;
-                break;
-        }
+    private static Intent createIntent(@NonNull Context context, int action, @Nullable BrowsingTreeObject treeRoot) {
         return new Intent(context, DropboxActivity.class)
-                .putExtra(EXTRA_ACTION, extraAction);
+                .putExtra(EXTRA_ACTION, action)
+                .putExtra(EXTRA_BROWSING_ROOT, treeRoot);
     }
 
-    @NonNull
-    public static Intent createPickerIntent(@NonNull Context context, Action action, BrowsingTreeObject treeRoot) {
-        return createIntent(context, action).putExtra(EXTRA_BROWSING_ROOT, treeRoot);
-    }
-
-    private Action getActionFromIntent(@NonNull Intent intent) {
+    private Action getActionFrom(@NonNull Intent intent) {
         int action = intent.getIntExtra(EXTRA_ACTION, ACTION_DEFAULT);
         switch (action) {
             case ACTION_AUTH:
                 return Action.AUTH;
             case ACTION_OPEN_FILE:
-                return Action.PICK_FILE;
             case ACTION_SELECT_FOLDER:
-                return Action.PICK_FOLDER;
+                return Action.PICK;
             default:
-                throw new RuntimeException("DropboxActivity started with wrong action");
+                throw new RuntimeException("Action not specified (" + action + " )");
         }
     }
 
     @Nullable
-    private BrowsingTreeObject getBrowsingRootFromIntent(@NonNull Intent intent) {
-        Serializable serializableExtra = intent.getSerializableExtra(EXTRA_BROWSING_ROOT);
-        if (serializableExtra == null) {
-            return null;
-        } else {
-            return (BrowsingTreeObject) serializableExtra;
+    private PickerType getPickerTypeFrom(@NonNull Intent intent) {
+        int action = intent.getIntExtra(EXTRA_ACTION, ACTION_DEFAULT);
+        switch (action) {
+            case ACTION_AUTH:
+                return null;
+            case ACTION_OPEN_FILE:
+                return PickerType.FILE;
+            case ACTION_SELECT_FOLDER:
+                return PickerType.FOLDER;
+            default:
+                throw new RuntimeException("Action not specified (" + action + " )");
         }
+    }
+
+    @ProvidePresenter
+    public DropboxPresenter providePresenter() {
+        Intent intent = getIntent();
+        return new DropboxPresenter(getActionFrom(intent), getPickerTypeFrom(intent), getSerializableExtra(EXTRA_BROWSING_ROOT));
     }
 
     @Override
@@ -135,7 +136,7 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
     protected void onResume() {
         super.onResume();
         if (haveBeenPaused && !isFinishing()) {
-            presenter.onViewResumedFromPause();
+            presenter.checkAuthResult();
         }
         haveBeenPaused = false;
     }
@@ -148,35 +149,33 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
 
     @Override
     public void startAuthentication() {
-        Auth.startOAuth2Authentication(this, getString(R.string.dropbox_api_app_key));
+        Auth.startOAuth2Authentication(this, BuildConfig.DROPBOX_API_KEY);
     }
 
     @Override
-    public void die() {
+    public void exit() {
         finish();
     }
 
-    @Override
-    public void showFilePicker(BrowsingTreeObject root) {
-        showPicker(FilePickerAdapter.Kind.FILE, root);
-    }
 
     @Override
-    public void showFolderPicker(BrowsingTreeObject root) {
-        showPicker(FilePickerAdapter.Kind.FOLDER, root);
-    }
-
-    private void showPicker(FilePickerAdapter.Kind kind, BrowsingTreeObject root) {
+    public void showPicker(PickerType pickerType, BrowsingTreeObject root) {
         pickerView.setVisibility(View.VISIBLE);
 
-        titleTextView.setText(kind == FilePickerAdapter.Kind.FOLDER ? R.string.title_select_folder : R.string.title_select_file);
-
-        if (kind == FilePickerAdapter.Kind.FILE) {
-            confirmButton.setVisibility(View.GONE);
-            cancelButton.setVisibility(View.GONE);
+        switch (pickerType) {
+            case FILE:
+                confirmButton.setVisibility(View.GONE);
+                cancelButton.setVisibility(View.GONE);
+                titleTextView.setText(R.string.title_select_file);
+                break;
+            case FOLDER:
+                confirmButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                titleTextView.setText(R.string.title_select_folder);
+                break;
         }
 
-        adapter.setKind(kind);
+        adapter.setPickerType(pickerType);
         adapter.setListener(this);
 
         currentBrowsingItem = root;

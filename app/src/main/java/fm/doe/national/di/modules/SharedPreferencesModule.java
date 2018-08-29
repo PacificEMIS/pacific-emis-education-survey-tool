@@ -14,11 +14,12 @@ import static android.content.Context.MODE_PRIVATE;
 
 @Module
 public class SharedPreferencesModule {
+    private static final String NAME_APP_PREFS_GLOBAL = "APP_PREFS_GLOBAL";
 
     @Provides
     @Singleton
     public SharedPreferences provideSharedPreferences(Context context) {
-        return context.getSharedPreferences("micronesia", MODE_PRIVATE);
+        return context.getSharedPreferences(NAME_APP_PREFS_GLOBAL, MODE_PRIVATE);
     }
 
     @Provides

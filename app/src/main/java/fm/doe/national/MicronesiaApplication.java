@@ -1,27 +1,21 @@
 package fm.doe.national;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
-
-import javax.annotation.Nullable;
 
 import fm.doe.national.di.AppComponent;
 import fm.doe.national.di.DaggerAppComponent;
 import fm.doe.national.di.modules.ContextModule;
 import io.fabric.sdk.android.Fabric;
 
-public class MicronesiaApplication extends Application implements Application.ActivityLifecycleCallbacks {
+public class MicronesiaApplication extends Application  {
 
     private static AppComponent appComponent;
-    private WeakReference<Activity> currentActivityRef;
 
     @Override
     public void onCreate() {
@@ -30,7 +24,6 @@ public class MicronesiaApplication extends Application implements Application.Ac
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))
                 .build();
-        registerActivityLifecycleCallbacks(this);
 
         showDebugDBAddressLogToast(this);
     }
@@ -51,45 +44,4 @@ public class MicronesiaApplication extends Application implements Application.Ac
         return appComponent;
     }
 
-    // region ActivityLifecycleCallbacks
-    @Nullable
-    public Activity getCurrentActivity() {
-        return currentActivityRef.get();
-    }
-
-    @Override
-    public void onActivityCreated(Activity activity, Bundle bundle) {
-        // nothing
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity) {
-        currentActivityRef = new WeakReference<>(activity);
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-        currentActivityRef = new WeakReference<>(activity);
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-        // nothing
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-        // nothing
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-        // nothing
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-        // nothing
-    }
-    // endregion
 }

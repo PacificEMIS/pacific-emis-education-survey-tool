@@ -26,6 +26,7 @@ import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
+import fm.doe.national.utils.LifecycleListener;
 import fm.doe.national.utils.StreamUtils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -36,8 +37,8 @@ import io.reactivex.subjects.SingleSubject;
 public class DriveCloudAccessor implements CloudAccessor {
 
     private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDriveCloudPreferences();
-
-    private Context context;
+    private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
+    private final Context context;
 
     @Nullable
     private DriveId exportFolderId;
@@ -65,7 +66,7 @@ public class DriveCloudAccessor implements CloudAccessor {
                 Completable
                         .fromAction(() -> startActivityAction(DriveActivity.ACTION_OPEN_FILE))
                         .andThen(importSingle);
-        return isAuthenticated() ? importContent : auth().andThen(importContent);
+        return auth().andThen(importContent);
     }
 
     @Override
@@ -75,11 +76,16 @@ public class DriveCloudAccessor implements CloudAccessor {
                 Completable
                         .fromAction(() -> createFile(content, filename, exportFolderId))
                         .andThen(exportCompletable);
-        return isAuthenticated() ? exportContent : auth().andThen(exportContent);
+        return auth().andThen(exportContent);
     }
 
     @Override
     public Completable auth() {
+        if (isAuthenticated()) {
+            initDriveClients();
+            return Completable.complete();
+        }
+
         authCompletable = CompletableSubject.create();
         return Completable
                 .fromAction(() -> startActivityAction(DriveActivity.ACTION_AUTH))
@@ -92,7 +98,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         Completable pickDirectory = Completable.
                 fromAction(() -> startActivityAction(DriveActivity.ACTION_PICK_FOLDER))
                 .andThen(pickDirectoryCompletable);
-        return isAuthenticated() ? pickDirectory : auth().andThen(pickDirectory);
+        return auth().andThen(pickDirectory);
     }
 
     public void onAuth() {
@@ -127,7 +133,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         if (pickDirectoryCompletable == null) return;
 
         exportFolderId = driveId;
-        cloudPreferences.saveExportFolder(exportFolderId.encodeToString());
+        cloudPreferences.setExportFolder(exportFolderId.encodeToString());
         pickDirectoryCompletable.onComplete();
     }
 
@@ -171,9 +177,9 @@ public class DriveCloudAccessor implements CloudAccessor {
     }
 
     private void startActivityAction(int activityAction) {
-        Activity currentActivity = ((MicronesiaApplication) context).getCurrentActivity();
+        Activity currentActivity = lifecycleListener.getCurrentActivity();
         if (currentActivity != null) {
-            currentActivity.startActivity(DriveActivity.createIntent(context, activityAction));
+            currentActivity.startActivity(DriveActivity.createIntent(currentActivity, activityAction));
         } else {
             onActionFailure(new IllegalStateException("no activities running"));
         }

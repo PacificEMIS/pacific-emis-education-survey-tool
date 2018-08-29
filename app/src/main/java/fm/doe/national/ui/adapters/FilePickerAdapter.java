@@ -14,11 +14,12 @@ import fm.doe.national.R;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
 import fm.doe.national.ui.listeners.FilePickerListener;
 import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.cloud.DropboxView;
 
 public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapter.BrowsingItemViewHolder> {
 
     private BrowsingTreeObject item = new BrowsingTreeObject();
-    private Kind kind = Kind.FILE;
+    private DropboxView.PickerType kind = DropboxView.PickerType.FILE;
 
     @Nullable
     private FilePickerListener listener;
@@ -36,8 +37,8 @@ public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapt
         this.listener = listener;
     }
 
-    public void setKind(Kind kind) {
-        this.kind = kind;
+    public void setPickerType(DropboxView.PickerType pickerType) {
+        this.kind = pickerType;
         notifyDataSetChanged();
     }
 
@@ -74,7 +75,7 @@ public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapt
         void bind(BrowsingTreeObject object) {
             this.object = object;
 
-            boolean isObjectEnabled = object.isDirectory() || kind == Kind.FILE;
+            boolean isObjectEnabled = object.isDirectory() || kind == DropboxView.PickerType.FILE;
             if (!isObjectEnabled) {
                 itemView.setOnClickListener(null);
                 nameTextView.setTextColor(getResources().getColor(R.color.soft_grey));
@@ -94,7 +95,5 @@ public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapt
         }
     }
 
-    public enum Kind {
-        FILE, FOLDER
-    }
+
 }
