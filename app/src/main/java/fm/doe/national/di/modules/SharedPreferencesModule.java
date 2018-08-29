@@ -22,6 +22,7 @@ public class SharedPreferencesModule {
         return context.getSharedPreferences(NAME_APP_PREFS_GLOBAL, MODE_PRIVATE);
     }
 
+    // TODO: use @Named injection
     @Provides
     @Singleton
     public DropboxCloudPreferences provideDropboxCloudPreferences() {
