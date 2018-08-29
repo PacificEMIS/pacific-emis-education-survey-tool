@@ -1,10 +1,10 @@
 package fm.doe.national.ui.screens.splash;
 
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.transition.Transition;
+import android.support.transition.ChangeBounds;
 import android.support.transition.TransitionManager;
+import android.view.animation.AccelerateInterpolator;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -34,11 +34,13 @@ public class SplashActivity extends MenuActivity implements SplashView {
     }
 
     @Override
-    public void startAnimate(@NonNull Transition transition) {
+    public void startAnimate() {
         ConstraintSet newConstraintSet = new ConstraintSet();
         newConstraintSet.clone(getApplicationContext(), R.layout.activity_splash_end);
         newConstraintSet.applyTo(constraintLayout);
-        TransitionManager.beginDelayedTransition(constraintLayout, transition);
+        TransitionManager.beginDelayedTransition(constraintLayout, new ChangeBounds()
+                .setInterpolator(new AccelerateInterpolator())
+                .setDuration(1000));
     }
 
     @Override

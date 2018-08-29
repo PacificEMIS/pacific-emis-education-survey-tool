@@ -1,10 +1,7 @@
 package fm.doe.national.ui.screens.splash;
 
 import android.content.res.AssetManager;
-import android.support.transition.ChangeBounds;
-import android.support.transition.Transition;
 import android.util.Log;
-import android.view.animation.AccelerateInterpolator;
 
 import com.arellomobile.mvp.InjectViewState;
 
@@ -34,33 +31,18 @@ public class SplashPresenter extends MenuPresenter<SplashView> {
     @Inject
     DataSource dataSource;
 
-    private static final long DURATION_ANIMATION = 1000; // 1 sec
-
     public SplashPresenter(AssetManager manager) {
         MicronesiaApplication.getAppComponent().inject(this);
         try {
-            add(
-                    dataSource.createSchoolAccreditation(accreditationParser.parse(manager.open("surveys.xml")))
-                            .andThen(dataSource.addSchools(schoolsParser.parse(manager.open("schools.csv"))))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                    () -> {
-                                        Log.d("ASDASD", "ASD");
-                                        getViewState().startAnimate(createTransition());
-                                    },
-                                    throwable -> Log.e("ASD", "setAssets: "))
-            );
-
+            dataSource.createSchoolAccreditation(accreditationParser.parse(manager.open("surveys.xml")))
+                    .andThen(dataSource.addSchools(schoolsParser.parse(manager.open("schools.csv"))))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(this::add)
+                    .doFinally(() -> getViewState().startAnimate())
+                    .subscribe();
         } catch (IOException | NullPointerException ex) {
             Log.e("ASD", "setAssets: ");
         }
     }
-
-    private Transition createTransition() {
-        return new ChangeBounds()
-                .setInterpolator(new AccelerateInterpolator())
-                .setDuration(DURATION_ANIMATION);
-    }
-
 }

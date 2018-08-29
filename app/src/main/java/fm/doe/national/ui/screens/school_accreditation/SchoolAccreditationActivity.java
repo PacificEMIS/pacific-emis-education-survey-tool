@@ -26,7 +26,8 @@ import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
         BaseClickableAdapter.OnRecyclerItemClickListener<SchoolAccreditationPassing>,
-        View.OnClickListener, SearchView.OnQueryTextListener {
+        View.OnClickListener,
+        SearchView.OnQueryTextListener {
 
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
@@ -42,7 +43,6 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     public static Intent createIntent(Context context) {
         return new Intent(context, SchoolAccreditationActivity.class);
     }
-
 
     @Override
     protected BaseDrawerPresenter getPresenter() {
@@ -69,7 +69,6 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
-
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);

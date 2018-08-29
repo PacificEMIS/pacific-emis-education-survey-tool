@@ -58,27 +58,12 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                                        @Nullable Answer answer, Answer.State newState) {
         if (answer != null) {
             if (newState == Answer.State.NOT_ANSWERED) {
-                // FIXME: rewrite answers logic
-                //dataSource.deleteAnswer(answer);
+                // TODO: data_source answer delete
             }
             answer.setAnswer(newState == Answer.State.POSITIVE);
-//            add(dataSource.updateAnswer(answer)
-//                    .subscribe(() -> {
-//                        //nothing
-//                    }, throwable -> {
-//                        getViewState().showWarning(
-//                                Text.from(R.string.title_warning),
-//                                Text.from(R.string.warn_unable_to_update_answer));
-//                    }));
+            // TODO: data_source answer update
         } else {
-//            add(dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
-//                    .subscribe(
-//                            subCriteriaViewData::setCorrespondingAnswer,
-//                            throwable -> {
-//                                getViewState().showWarning(
-//                                        Text.from(R.string.title_warning),
-//                                        Text.from(R.string.warn_unable_to_create_answer));
-//                            }));
+            // TODO: data_source answer create
         }
         getViewState().setProgress(
                 ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
