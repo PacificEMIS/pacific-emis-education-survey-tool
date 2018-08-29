@@ -25,7 +25,7 @@ import fm.doe.national.ui.view_data.CriteriaViewData;
 public class StandardActivity extends BaseActivity implements StandardView {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
-    private static int[] icons = {
+    private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
             R.drawable.ic_standard_teacher_selector,
             R.drawable.ic_standard_data_selector,

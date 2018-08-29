@@ -9,4 +9,11 @@
     <string name="title_warning">Warning</string>
     <string name="warn_unable_to_update_answer">Unable to update answer</string>
     <string name="warn_unable_to_create_answer">Unable to create answer</string>
+    <string name="title_drive_open_file">Choose file to import</string>
+    <string name="survey_report">Survey report %1$s</string>
+    <string name="title_upload">Upload report &#8230;</string>
+    <string name="title_select_folder">Select folder</string>
+    <string name="title_select_file">Select file</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>

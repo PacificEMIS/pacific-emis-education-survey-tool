@@ -10,6 +10,8 @@
     <color name="black">#000000</color>
     <color name="yellow">#ffde03</color>
     <color name="charcoal_gray">#303040</color>
+    <color name="soft_grey">#757575</color>
+
 
     <color name="color_criteria_primary">#2CABE3</color>
     <color name="color_criteria_primary_dark">#847f78</color>

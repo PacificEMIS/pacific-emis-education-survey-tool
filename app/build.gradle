@@ -10,9 +10,14 @@ android {
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
+
+        def DROPBOX_API_KEY = "wgfc52kfzlfemur"
+        buildConfigField "String", "DROPBOX_API_KEY", DROPBOX_API_KEY
+        manifestPlaceholders = [ dropbox_api_key : DROPBOX_API_KEY ]
     }
     signingConfigs {
         release {
@@ -50,6 +55,10 @@ dependencies {
     def butterknifeVersion = '8.8.1'
     def tikxmlVersion = '0.8.13'
     def fastCsvVersion = '1.0.2'
+    def gpsDriveVersion = '15.0.1'
+    def gpsAuthVersion = '16.0.0'
+    def dropboxVersion = '3.0.8'
+    def multidexVersion = '1.0.3'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$supportVersion"
@@ -116,6 +125,16 @@ dependencies {
     }
 
     // Run `adb forward tcp:8080 tcp:8080` in terminal
+
     // Open url: http://localhost:8080/ to view database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
+    // Google Play Services + Drive
+    implementation "com.google.android.gms:play-services-drive:$gpsDriveVersion"
+    implementation "com.google.android.gms:play-services-auth:$gpsAuthVersion"
+
+    // Dropbox
+    compile "com.dropbox.core:dropbox-core-sdk:$dropboxVersion"
+
+    implementation "com.android.support:multidex:$multidexVersion"
 }
