@@ -43,6 +43,10 @@ public class OrmLiteSurveyPassing {
         this.startDate = new Date();
     }
 
+    public long getId() {
+        return id;
+    }
+
     public int getYear() {
         return year;
     }

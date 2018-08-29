@@ -19,27 +19,25 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
 
     public Single<OrmLiteAnswer> createAnswer(
             Answer.State state,
-            OrmLiteSurveyItem parentSurveyItem,
+            OrmLiteSurveyItem surveyItem,
             OrmLiteSurveyPassing surveyPassing) {
         return Single.fromCallable(() -> {
-            OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(state, parentSurveyItem, surveyPassing);
+            OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(state, surveyItem, surveyPassing);
             create(ormLiteAnswer);
             return ormLiteAnswer;
         });
     }
 
-    public Single<OrmLiteAnswer> requestAnswer(OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyPassing) {
+    public Single<OrmLiteAnswer> requestAnswer(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
         return Single.fromCallable(() -> {
-                    OrmLiteAnswer answer = queryBuilder()
-                            .where()
-                            .eq(OrmLiteAnswer.Column.SURVEY_PASSING, surveyPassing)
-                            .and()
-                            .eq(OrmLiteAnswer.Column.PARENT_ITEM, parentSurveyItem)
-                            .queryForFirst();
-                    return answer != null ? answer : new OrmLiteAnswer(Answer.State.NOT_ANSWERED, parentSurveyItem, surveyPassing);
-                }
-
-        );
+            OrmLiteAnswer answer = queryBuilder()
+                    .where()
+                    .eq(OrmLiteAnswer.Column.SURVEY_PASSING, surveyPassing)
+                    .and()
+                    .eq(OrmLiteAnswer.Column.PARENT_ITEM, surveyItem)
+                    .queryForFirst();
+            return answer != null ? answer : createIfNotExists(new OrmLiteAnswer(Answer.State.NOT_ANSWERED, surveyItem, surveyPassing));
+        });
     }
 
     public Single<OrmLiteAnswer> updateAnswer(OrmLiteAnswer answer) {

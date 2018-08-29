@@ -2,11 +2,9 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
@@ -14,20 +12,12 @@ public class OrmLiteStandard implements Standard {
 
     private OrmLiteSurveyItem surveyItem;
 
-    private OrmLiteGroupStandard groupStandard;
-
-    private List<OrmLiteCriteria> criterias;
+    private CategoryProgress progress;
 
 
-
-    public OrmLiteStandard(OrmLiteSurveyItem surveyItem, OrmLiteGroupStandard groupStandard) {
+    public OrmLiteStandard(OrmLiteSurveyItem surveyItem, CategoryProgress progress) {
         this.surveyItem = surveyItem;
-        this.groupStandard = groupStandard;
-    }
-
-    @Override
-    public GroupStandard getGroupStandard() {
-        return groupStandard;
+        this.progress = progress;
     }
 
     @Override
@@ -42,25 +32,8 @@ public class OrmLiteStandard implements Standard {
     }
 
     @Override
-    public int getPositiveAnswersCount() {
-        return 0;
-    }
-
-    @Override
-    public int setPositiveAnswersCount(int count) {
-        return 0;
-    }
-
-    @Override
-    public List<? extends Criteria> getCriterias() {
-        if (criterias == null) {
-            criterias = new ArrayList<>();
-            for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
-                criterias.add(new OrmLiteCriteria(surveyItem, this));
-            }
-        }
-
-        return criterias;
+    public CategoryProgress getCategoryProgress() {
+        return progress;
     }
 
 }

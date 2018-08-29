@@ -8,5 +8,5 @@ public interface GroupStandard extends Identifiable {
     @NonNull
     String getName();
 
-    List<? extends Standard> getStandards();
+    CategoryProgress getCategoryProgress();
 }

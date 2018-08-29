@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.CsvSchoolParser;
 import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.data.parsers.XmlSchoolAccreditationParser;
@@ -17,7 +18,7 @@ public class ParsersModule {
 
     @Provides
     @Singleton
-    public Parser<SchoolAccreditation> provideSchoolAccreditationParser() {
+    public Parser<LinkedSchoolAccreditation> provideSchoolAccreditationParser() {
         return new XmlSchoolAccreditationParser();
     }
 

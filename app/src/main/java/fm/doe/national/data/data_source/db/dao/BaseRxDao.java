@@ -26,4 +26,8 @@ class BaseRxDao<T, ID> extends BaseDaoImpl<T, ID> {
         return Single.fromCallable(this::queryForAll);
     }
 
+    public Single<T> getItemSingle(ID id) {
+        return Single.fromCallable(() -> queryForId(id));
+    }
+
 }

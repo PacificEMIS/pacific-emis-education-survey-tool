@@ -1,38 +1,41 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.tickaroo.tikxml.annotation.Element;
+import com.tickaroo.tikxml.annotation.PropertyElement;
 import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.List;
 
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.Standard;
 
 @Xml(name = "groupStandard")
-public class SerializableGroupStandard implements GroupStandard, ListConverter.Converter<Standard, SerializableStandard>  {
+public class SerializableGroupStandard implements LinkedGroupStandard, ListConverter.Converter<LinkedStandard, SerializableStandard>  {
 
     @Element
     List<SerializableStandard> standards;
+
+    @PropertyElement
+    String name;
 
     public SerializableGroupStandard() {
     }
 
     public SerializableGroupStandard(GroupStandard input) {
-        this.standards = ListConverter.createList(input.getStandards(), this);
     }
 
     @NonNull
     @Override
     public String getName() {
-        return "";
+        return name;
     }
 
-    @Nullable
-    public List<? extends Standard> getStandards() {
-        return standards;
+    @Override
+    public CategoryProgress getCategoryProgress() {
+        return null;
     }
 
     @Override
@@ -41,7 +44,12 @@ public class SerializableGroupStandard implements GroupStandard, ListConverter.C
     }
 
     @Override
-    public SerializableStandard convert(Standard input) {
+    public SerializableStandard convert(LinkedStandard input) {
         return new SerializableStandard(input);
+    }
+
+    @Override
+    public List<? extends LinkedStandard> getStandards() {
+        return standards;
     }
 }

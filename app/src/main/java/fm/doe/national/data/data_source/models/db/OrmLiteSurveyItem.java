@@ -21,7 +21,7 @@ public class OrmLiteSurveyItem {
         String PARENT = "parent";
         String SURVEY = "survey";
         String CHILDREN = "children";
-        String ANSWERS_COUNT = "answersCount";
+        String ANSWERS_COUNT = "completedItemsCount";
     }
 
     public enum Type {
@@ -40,8 +40,8 @@ public class OrmLiteSurveyItem {
     @DatabaseField(columnName = Column.TYPE)
     protected Type type;
 
-  /*  @DatabaseField(columnName = Column.ANSWERS_COUNT)
-    protected int answersCount;*/
+  /*  @DatabaseField(columnName = Column.COMPLETED_ITEMS_COUNT)
+    protected int completedItemsCount;*/
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT)
     protected OrmLiteSurveyItem parentItem;
@@ -77,11 +77,11 @@ public class OrmLiteSurveyItem {
     }
 
     public void incrementAnswersCount() {
-//        this.answersCount++;
+//        this.completedItemsCount++;
     }
 
     public void decrementAnswersCount() {
-//        this.answersCount--;
+//        this.completedItemsCount--;
     }
 
     public int getAnswersCount() {
@@ -98,6 +98,19 @@ public class OrmLiteSurveyItem {
 
     public Collection<OrmLiteSurveyItem> getChildrenItems() {
         return childrenItems;
+    }
+
+    public static int getTotalChildrenSize(OrmLiteSurveyItem surveyItem) {
+        if (surveyItem.childrenItems.isEmpty()) {
+            return 1;
+        }
+
+        int childSum = 0;
+        for (OrmLiteSurveyItem item : surveyItem.childrenItems) {
+            childSum += getTotalChildrenSize(item);
+        }
+
+        return childSum;
     }
 
     public void addChild(OrmLiteSurveyItem surveyItem) {

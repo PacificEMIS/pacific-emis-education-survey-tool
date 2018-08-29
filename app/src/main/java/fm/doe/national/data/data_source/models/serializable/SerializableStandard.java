@@ -1,7 +1,6 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.PropertyElement;
@@ -9,13 +8,11 @@ import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.List;
 
-import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.Standard;
 
 @Xml(name = "standard")
-public class SerializableStandard implements Standard, ListConverter.Converter<Criteria, SerializableCriteria> {
+public class SerializableStandard implements LinkedStandard, ListConverter.Converter<Criteria, SerializableCriteria> {
 
     @PropertyElement
     String name;
@@ -26,15 +23,9 @@ public class SerializableStandard implements Standard, ListConverter.Converter<C
     public SerializableStandard() {
     }
 
-    public SerializableStandard(Standard standard) {
+    public SerializableStandard(LinkedStandard standard) {
         this.name = standard.getName();
         this.criterias = ListConverter.createList(standard.getCriterias(), this);
-    }
-
-    @Nullable
-    @Override
-    public GroupStandard getGroupStandard() {
-        return null;
     }
 
     @NonNull
@@ -44,18 +35,8 @@ public class SerializableStandard implements Standard, ListConverter.Converter<C
     }
 
     @Override
-    public int getPositiveAnswersCount() {
-        return 0;
-    }
-
-    @Override
-    public int setPositiveAnswersCount(int count) {
-        return 0;
-    }
-
-    @Override
-    public List<? extends Criteria> getCriterias() {
-        return criterias;
+    public CategoryProgress getCategoryProgress() {
+        return null;
     }
 
     @Override
@@ -66,5 +47,10 @@ public class SerializableStandard implements Standard, ListConverter.Converter<C
     @Override
     public SerializableCriteria convert(Criteria input) {
         return new SerializableCriteria(input);
+    }
+
+    @Override
+    public List<? extends Criteria> getCriterias() {
+        return criterias;
     }
 }

@@ -6,15 +6,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
 import okio.BufferedSource;
 import okio.Okio;
 
-public class XmlSchoolAccreditationParser implements Parser<SchoolAccreditation> {
+public class XmlSchoolAccreditationParser implements Parser<LinkedSchoolAccreditation> {
 
     @Override
-    public SchoolAccreditation parse(InputStream dataStream) {
-        SchoolAccreditation schoolAccreditation = null;
+    public LinkedSchoolAccreditation parse(InputStream dataStream) {
+        LinkedSchoolAccreditation schoolAccreditation = null;
         try {
             TikXml tikXml = new TikXml.Builder()
                     .writeDefaultXmlDeclaration(false)

@@ -6,12 +6,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
 import okio.Okio;
 
-public class XmlSchoolAccreditationSerializer implements Serializer<SchoolAccreditation> {
+public class XmlSchoolAccreditationSerializer implements Serializer<LinkedSchoolAccreditation> {
     @Override
-    public String serialize(SchoolAccreditation data) {
+    public String serialize(LinkedSchoolAccreditation data) {
         SerializableSchoolAccreditation serializableSchoolAccreditation = new SerializableSchoolAccreditation(data);
         TikXml tikXml = new TikXml.Builder().build();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

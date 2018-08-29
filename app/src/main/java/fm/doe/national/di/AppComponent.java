@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.data.serializers.Serializer;
 import fm.doe.national.di.modules.AccreditationDataSourceModule;
@@ -26,7 +27,7 @@ import fm.doe.national.ui.screens.main.MainActivity;
 public interface AppComponent {
 
     Gson getGson();
-    Parser<SchoolAccreditation> getSchoolAccreditationParser();
-    Serializer<SchoolAccreditation> getSchoolAccreditationSerizlizer();
+    Parser<LinkedSchoolAccreditation> getSchoolAccreditationParser();
+    Serializer<LinkedSchoolAccreditation> getSchoolAccreditationSerizlizer();
     void inject(MainActivity mainActivity);
 }

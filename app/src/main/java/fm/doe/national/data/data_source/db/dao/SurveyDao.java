@@ -7,6 +7,7 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
+import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
 import io.reactivex.Completable;
 
 public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
@@ -22,7 +23,7 @@ public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
 
     public Completable createSchoolAccreditation(int version,
                                                  String type,
-                                                 List<? extends GroupStandard> groupStandards) {
+                                                 List<? extends LinkedGroupStandard> groupStandards) {
         return Completable.fromCallable(() -> {
             OrmLiteSurvey ormLiteSurvey = new OrmLiteSurvey(version, type);
             createIfNotExists(ormLiteSurvey);

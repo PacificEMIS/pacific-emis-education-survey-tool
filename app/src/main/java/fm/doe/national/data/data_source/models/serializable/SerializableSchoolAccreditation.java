@@ -4,15 +4,14 @@ import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.PropertyElement;
 import com.tickaroo.tikxml.annotation.Xml;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
-import io.reactivex.Observable;
 
 @Xml(name = "schoolAccreditation")
-public class SerializableSchoolAccreditation implements SchoolAccreditation, ListConverter.Converter<GroupStandard, SerializableGroupStandard> {
+public class SerializableSchoolAccreditation implements LinkedSchoolAccreditation, ListConverter.Converter<GroupStandard, SerializableGroupStandard> {
 
     @PropertyElement
     String type;
@@ -26,15 +25,15 @@ public class SerializableSchoolAccreditation implements SchoolAccreditation, Lis
     public SerializableSchoolAccreditation() {
     }
 
-    public SerializableSchoolAccreditation(SchoolAccreditation schoolAccreditation) {
+    public SerializableSchoolAccreditation(LinkedSchoolAccreditation schoolAccreditation) {
         this.type = schoolAccreditation.getType();
         this.version = schoolAccreditation.getVersion();
         this.groupStandards = ListConverter.createList(schoolAccreditation.getGroupStandards(), this);
     }
 
     @Override
-    public List<? extends GroupStandard> getGroupStandards() {
-        return groupStandards;
+    public CategoryProgress getProgress() {
+        return null;
     }
 
     @Override
@@ -50,5 +49,10 @@ public class SerializableSchoolAccreditation implements SchoolAccreditation, Lis
     @Override
     public SerializableGroupStandard convert(GroupStandard input) {
         return new SerializableGroupStandard(input);
+    }
+
+    @Override
+    public List<? extends LinkedGroupStandard> getGroupStandards() {
+        return groupStandards;
     }
 }

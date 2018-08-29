@@ -23,9 +23,9 @@ import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
-import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
+import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
+import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
-import fm.doe.national.utils.StreamUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
@@ -37,10 +37,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private SurveyItemDao surveyItemDao;
     private AnswerDao answerDao;
     private SurveyPassingDao surveyPassingDao;
+    private SurveyProgressDao surveyProgressDao;
 
     private AssetManager assetManager;
     private Gson gson;
-    private Parser<SchoolAccreditation> schoolAccreditationParser;
+    private Parser<LinkedSchoolAccreditation> schoolAccreditationParser;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
@@ -59,7 +60,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private void createSurvey() {
         try {
             InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
-            SchoolAccreditation schoolAccreditation = schoolAccreditationParser.parse(inputStream);
+            LinkedSchoolAccreditation schoolAccreditation = schoolAccreditationParser.parse(inputStream);
 
             surveyDao.createSchoolAccreditation(
                     schoolAccreditation.getVersion(),
@@ -79,6 +80,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, OrmLiteSurveyItem.class);
             TableUtils.createTable(connectionSource, OrmLiteSurveyPassing.class);
             TableUtils.createTable(connectionSource, OrmLiteAnswer.class);
+            TableUtils.createTable(connectionSource, OrmLiteCategoryProgress.class);
         } catch (SQLException exc) {
             Log.e(TAG, "Error create Db " + DATABASE_NAME);
             throw new RuntimeException(exc);
@@ -104,6 +106,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, OrmLiteSurveyItem.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteSurveyPassing.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteAnswer.class, true);
+            TableUtils.dropTable(connectionSource, OrmLiteCategoryProgress.class, true);
         } catch (SQLException exc) {
             Log.e(TAG, "Error drop Db " + DATABASE_NAME);
             throw new RuntimeException(exc);
@@ -147,5 +150,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     OrmLiteSurveyPassing.class);
         }
         return surveyPassingDao;
+    }
+
+    public SurveyProgressDao getSurveyProgressDao() throws SQLException {
+        if (surveyProgressDao == null) {
+            surveyProgressDao = new SurveyProgressDao(
+                    getConnectionSource(),
+                    OrmLiteCategoryProgress.class);
+        }
+        return surveyProgressDao;
     }
 }

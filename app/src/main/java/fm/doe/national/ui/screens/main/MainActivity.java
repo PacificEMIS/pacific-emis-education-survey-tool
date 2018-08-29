@@ -12,6 +12,7 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
@@ -38,9 +39,14 @@ public class MainActivity extends BaseActivity {
 
         dataSource.createNewSchoolAccreditationPassing(2018, testSchool).subscribe(schoolAccreditation
                 -> dataSource.requestSchoolAccreditationPassings().subscribe(schoolAccreditationPassings -> {
-            SchoolAccreditation accreditation = schoolAccreditationPassings.get(0).getSchoolAccreditation();
-            List<? extends SubCriteria> subCriterias = accreditation.getGroupStandards().get(1).getStandards().get(0).getCriterias().get(1).getSubCriterias();
-            MicronesiaApplication.getAppComponent().getSchoolAccreditationSerizlizer().serialize(accreditation);
+            Long passingId = schoolAccreditationPassings.get(0).getId();
+            dataSource.requestGroupStandards(passingId).subscribe((groupStandards) -> {
+                dataSource.requestStandards(passingId, groupStandards.get(1).getId()).subscribe(standards -> {
+                    dataSource.requestCriterias(passingId, standards.get(0).getId()).subscribe(criterias -> {
+                        System.out.println();
+                    });
+                });
+            });
 
             System.out.println();
         }));

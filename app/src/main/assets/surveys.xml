@@ -2,6 +2,7 @@
     <type>school_accreditation</type>
     <version>1</version>
     <groupStandard>
+        <name>Leadership</name>
         <standard>
             <name>Leadership</name>
             <criteria>
@@ -86,8 +87,7 @@
                     </name>
                 </subcriteria>
                 <subcriteria>
-                    <name>The principal coaches teachers and conducts model lessons where
-                        necessary.
+                    <name>The principal coaches teachers and conducts model lessons where necessary.
                     </name>
                 </subcriteria>
                 <subcriteria>
@@ -99,6 +99,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>Teacher Performance</name>
         <standard>
             <name>Teacher Performance</name>
             <criteria>
@@ -191,6 +192,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>Data Management</name>
         <standard>
             <name>Data Management</name>
             <criteria>
@@ -291,6 +293,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
         <standard>
             <name>National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
             <criteria>
@@ -311,8 +314,7 @@
                     </name>
                 </subcriteria>
                 <subcriteria>
-                    <name>Classroom schedules follow the National and/or State adopted Core
-                        Classes.
+                    <name>Classroom schedules follow the National and/or State adopted Core Classes.
                     </name>
                 </subcriteria>
                 <subcriteria>
@@ -399,6 +401,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>School Campus, Classrooms and Facilities</name>
         <standard>
             <name>School Campus, Classrooms and Facilities</name>
             <criteria>
@@ -504,6 +507,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>School Improvement Planning</name>
         <standard>
             <name>School Improvement Planning</name>
             <criteria>
@@ -520,8 +524,7 @@
                     <name>The SIP is reviewed and revised on an annual basis.</name>
                 </subcriteria>
                 <subcriteria>
-                    <name>There is evidence of improving student achievement as a result of the
-                        SIP.
+                    <name>There is evidence of improving student achievement as a result of the SIP.
                     </name>
                 </subcriteria>
                 <subcriteria>
@@ -539,8 +542,7 @@
                     </name>
                 </subcriteria>
                 <subcriteria>
-                    <name>The Vision and Mission are well known and shared by the school
-                        community.
+                    <name>The Vision and Mission are well known and shared by the school community.
                     </name>
                 </subcriteria>
                 <subcriteria>
@@ -606,6 +608,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>Planning and preparation</name>
         <standard>
             <name>Planning and preparation</name>
             <criteria>
@@ -685,8 +688,7 @@
                     <name>The pace of the lesson is neither too slow nor too rushed</name>
                 </subcriteria>
                 <subcriteria>
-                    <name>The teacher allocates their time fairly and equitably towards all
-                        children
+                    <name>The teacher allocates their time fairly and equitably towards all children
                     </name>
                 </subcriteria>
             </criteria>
@@ -780,8 +782,7 @@
                     <name>The learning objectives of the lesson are clearly stated</name>
                 </subcriteria>
                 <subcriteria>
-                    <name>The lesson contains a balance of teacher instruction and student
-                        activity
+                    <name>The lesson contains a balance of teacher instruction and student activity
                     </name>
                 </subcriteria>
                 <subcriteria>
@@ -867,7 +868,7 @@
                     </name>
                 </subcriteria>
                 <subcriteria>
-                    <name>Question and state time is efficiently managed with appropriate routines
+                    <name>Question and answer time is efficiently managed with appropriate routines
                         such as wait time, hands up and other forms of signaling
                     </name>
                 </subcriteria>
