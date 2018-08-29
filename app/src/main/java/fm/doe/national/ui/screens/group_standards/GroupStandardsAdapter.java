@@ -1,6 +1,5 @@
-package fm.doe.national.ui.screens.choose_category;
+package fm.doe.national.ui.screens.group_standards;
 
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,27 +8,21 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.ModelsExt;
-import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.ui.screens.base.BaseClickableAdapter;
 import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
 import fm.doe.national.utils.ViewUtils;
 
-public class ChooseCategoryAdapter extends BaseClickableAdapter<Standard, ChooseCategoryAdapter.CategoryViewHolder> {
-
-    @Nullable
-    private Callback callback;
+public class GroupStandardsAdapter extends BaseClickableAdapter<GroupStandard, GroupStandardsAdapter.CategoryViewHolder> {
 
     @Override
     protected CategoryViewHolder provideViewHolder(ViewGroup parent) {
         return new CategoryViewHolder(parent);
     }
 
-    public void setCallback(@Nullable Callback callback) {
-        this.callback = callback;
-    }
-
-    protected class CategoryViewHolder extends BaseRecyclerViewHolder<Standard> implements View.OnClickListener {
+    protected class CategoryViewHolder extends BaseRecyclerViewHolder<GroupStandard> implements
+            View.OnClickListener {
 
         @BindView(R.id.imageview_category_icon)
         ImageView standardIconImageView;
@@ -44,7 +37,7 @@ public class ChooseCategoryAdapter extends BaseClickableAdapter<Standard, Choose
         ProgressBar progressBar;
 
         CategoryViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_category);
+            super(parent, R.layout.item_group_standards);
         }
 
         @Override
@@ -54,9 +47,7 @@ public class ChooseCategoryAdapter extends BaseClickableAdapter<Standard, Choose
                 standardIconImageView.setActivated(true);
             }
 
-            categoryNameTextView.setText(String.format(
-                    itemView.getContext().getString(R.string.category_name),
-                    getAdapterPosition(), item.getName()));
+            categoryNameTextView.setText(item.getName());
 
             rebindProgress(
                     ModelsExt.getTotalQuestionsCount(item),
@@ -68,11 +59,7 @@ public class ChooseCategoryAdapter extends BaseClickableAdapter<Standard, Choose
 
         @Override
         public void onClick(View view) {
-            if (callback != null) callback.onClick(getAdapterPosition());
+            onItemClick(item);
         }
-    }
-
-    public interface Callback {
-        void onClick(int position);
     }
 }

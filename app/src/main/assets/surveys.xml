@@ -2,6 +2,7 @@
     <type>school_accreditation</type>
     <version>1</version>
     <groupStandard>
+        <name>Leadership</name>
         <standard>
             <name>Leadership</name>
             <criteria>
@@ -99,6 +100,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>Teacher Performance</name>
         <standard>
             <name>Teacher Performance</name>
             <criteria>
@@ -191,6 +193,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>Data Management</name>
         <standard>
             <name>Data Management</name>
             <criteria>
@@ -291,6 +294,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
         <standard>
             <name>National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
             <criteria>
@@ -399,6 +403,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>School Campus, Classrooms and Facilities</name>
         <standard>
             <name>School Campus, Classrooms and Facilities</name>
             <criteria>
@@ -504,6 +509,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>School Improvement Planning</name>
         <standard>
             <name>School Improvement Planning</name>
             <criteria>
@@ -606,6 +612,7 @@
         </standard>
     </groupStandard>
     <groupStandard>
+        <name>Planning and preparation</name>
         <standard>
             <name>Planning and preparation</name>
             <criteria>

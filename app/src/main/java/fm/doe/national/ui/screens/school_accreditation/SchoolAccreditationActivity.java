@@ -11,14 +11,13 @@ import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
+import fm.doe.national.ui.screens.group_standards.GroupStandardsActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
@@ -85,12 +84,12 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     public void navigateToCategoryChooser(long passingId) {
-        startActivity(ChooseCategoryActivity.createIntent(this, passingId));
+        startActivity(GroupStandardsActivity.createIntent(this, passingId));
     }
 
     @Override
     public void setAccreditations(List<SchoolAccreditationPassing> accreditations) {
-        schoolAccreditationAdapter.setItems(Collections.emptyList());
+        schoolAccreditationAdapter.setItems(accreditations);
     }
 
     @Override

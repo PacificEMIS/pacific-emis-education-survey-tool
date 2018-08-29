@@ -35,11 +35,11 @@ public class SwitchableButton extends FrameLayout implements View.OnClickListene
     private StateChangedListener listener;
 
     public SwitchableButton(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public SwitchableButton(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet, 0);
+        this(context, attributeSet, 0);
     }
 
     public SwitchableButton(Context context, AttributeSet attributeSet, int defStyle) {

@@ -57,7 +57,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         }
     }
 
-    protected void onHomePressed() {
+    public void onHomePressed() {
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         if (upIntent != null) {
             upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

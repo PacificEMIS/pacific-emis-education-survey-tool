@@ -82,7 +82,7 @@ public class OrmLiteDataSource implements DataSource {
     @Override
     public Single<Answer> requestAnswer(SubCriteria subCriteria, SurveyPassing result) {
         OrmLiteSurveyItem surveyItem = ((OrmLiteSubCriteria) subCriteria).getSurveyItem();
-        OrmLiteSurveyPassing surveyResult = (OrmLiteSurveyPassing)subCriteria;
+        OrmLiteSurveyPassing surveyResult = (OrmLiteSurveyPassing)result;
 
         return answerDao.requestAnswer(surveyItem, surveyResult)
                 .map(answer -> answer);

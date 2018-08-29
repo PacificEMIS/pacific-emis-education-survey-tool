@@ -14,7 +14,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.choose_category.ChooseCategoryActivity;
+import fm.doe.national.ui.screens.group_standards.GroupStandardsActivity;
 
 public class CreateSurveyActivity extends BaseActivity
         implements CreateSurveyView, BaseClickableAdapter.OnRecyclerItemClickListener<School> {
@@ -58,7 +58,7 @@ public class CreateSurveyActivity extends BaseActivity
 
     @Override
     public void navigateToCategoryChooser(long passingId) {
-        startActivity(ChooseCategoryActivity.createIntent(this, passingId));
+        startActivity(GroupStandardsActivity.createIntent(this, passingId));
     }
 
     @Override

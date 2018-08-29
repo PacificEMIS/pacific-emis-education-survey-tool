@@ -1,87 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-    <include layout="@layout/include_appbar" />
+    <include
+        android:id="@+id/appbarLayout"
+        layout="@layout/include_appbar" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/linearLayout2"
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/header_choose_category"
+        android:textColor="@color/charcoal_grey"
+        android:textSize="24sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview"
+        app:layout_constraintEnd_toStartOf="@+id/imageview_done"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarLayout" />
+
+    <ImageView
+        android:id="@+id/imageview_done"
+        android:layout_width="11dp"
+        android:layout_height="9dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_progress"
+        app:layout_constraintEnd_toStartOf="@+id/textview_progress"
+        app:layout_constraintStart_toEndOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="@+id/textview_progress"
+        app:srcCompat="@drawable/ic_done" />
+
+    <TextView
+        android:id="@+id/textview_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview_title"
+        tools:text="1/7" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:theme="@style/BaseThemeRecyclerView"
+        android:visibility="visible"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"
+        app:showDivider="middle|end"
+        tools:listitem="@layout/item_group_standards">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="sans-serif"
-            android:lineSpacingExtra="8sp"
-            android:text="@string/header_choose_category"
-            android:textColor="#303040"
-            android:textSize="24sp"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="11dp"
-            android:layout_height="9dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textview_progress"
-            app:layout_constraintEnd_toStartOf="@+id/textview_progress"
-            app:layout_constraintTop_toTopOf="@+id/textview_progress"
-            app:srcCompat="@drawable/ic_done" />
-
-        <TextView
-            android:id="@+id/textview_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView"
-            tools:text="1/7" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/BaseThemeRecyclerView"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:showDivider="middle|end"
-            tools:listitem="@layout/item_category">
-
-        </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
-
-        <TextView
-            android:id="@+id/textview_not_found_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:visibility="gone"
-            tools:text="school not found" />
-
-    </android.support.constraint.ConstraintLayout>
-
-</android.support.v7.widget.LinearLayoutCompat>
+</android.support.constraint.ConstraintLayout>

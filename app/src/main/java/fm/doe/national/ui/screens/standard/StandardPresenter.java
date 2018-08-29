@@ -2,12 +2,12 @@ package fm.doe.national.ui.screens.standard;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Pair;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +26,7 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -62,23 +62,23 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 //dataSource.deleteAnswer(answer);
             }
             answer.setAnswer(newState == Answer.State.POSITIVE);
-            add(dataSource.updateAnswer(answer)
-                    .subscribe(() -> {
-                        //nothing
-                    }, throwable -> {
-                        getViewState().showWarning(
-                                Text.from(R.string.title_warning),
-                                Text.from(R.string.warn_unable_to_update_answer));
-                    }));
+//            add(dataSource.updateAnswer(answer)
+//                    .subscribe(() -> {
+//                        //nothing
+//                    }, throwable -> {
+//                        getViewState().showWarning(
+//                                Text.from(R.string.title_warning),
+//                                Text.from(R.string.warn_unable_to_update_answer));
+//                    }));
         } else {
-            add(dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
-                    .subscribe(
-                            subCriteriaViewData::setCorrespondingAnswer,
-                            throwable -> {
-                                getViewState().showWarning(
-                                        Text.from(R.string.title_warning),
-                                        Text.from(R.string.warn_unable_to_create_answer));
-                            }));
+//            add(dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
+//                    .subscribe(
+//                            subCriteriaViewData::setCorrespondingAnswer,
+//                            throwable -> {
+//                                getViewState().showWarning(
+//                                        Text.from(R.string.title_warning),
+//                                        Text.from(R.string.warn_unable_to_create_answer));
+//                            }));
         }
         getViewState().setProgress(
                 ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
@@ -107,21 +107,39 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         loadQuestions();
     }
 
-    private void loadQuestions() {
-        add(Observable
-                .fromIterable(standards.get(standardIndex).getCriterias())
-                .concatMap(criteria -> dataSource.requestAnswers(criteria, accreditationResult)
-                        .map(children -> Pair.create(criteria, children))
-                        .toObservable())
-                .toMap(mapPair -> mapPair.first, mapPair -> mapPair.second)
-                .doOnSuccess((Map<? extends Criteria, Map<SubCriteria, Answer>> criteriasQuestions) -> {
+    private void loadQuestions() { // FIXME
+        Single.fromCallable(() -> {
+            Map<Criteria, Map<SubCriteria, Answer>> criteriasQuestions = new HashMap<>();
+            for (Criteria criteria : standards.get(standardIndex).getCriterias()) {
+                Map<SubCriteria, Answer> answersMap = new HashMap<>();
+                for (SubCriteria subCriteria : criteria.getSubCriterias()) {
+                    answersMap.put(subCriteria, null);
+                }
+                criteriasQuestions.put(criteria, answersMap);
+            }
+            return criteriasQuestions;
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> {
+                    getViewState().showProgressDialog(Text.empty());
+                    add(disposable);
+                })
+                .doOnSuccess(criteriasQuestions -> {
                     criteriaViewDataList = convertToViewData(criteriasQuestions);
                     getViewState().setCriterias(criteriaViewDataList);
                     getViewState().setProgress(
                             ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
                             ModelsExt.getTotalQuestionsCount(standards.get(standardIndex)));
                 })
-                .subscribe());
+                .doOnError(throwable -> {
+                    getViewState().showWarning(
+                            Text.from(R.string.title_warning),
+                            Text.from(R.string.warn_unable_to_get_schools));
+                    getViewState().hideProgressDialog();
+                })
+                .doFinally(() -> getViewState().hideProgressDialog())
+                .subscribe();
     }
 
     @NonNull
@@ -157,22 +175,26 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     // TODO: replace
     private void load() {
-        getViewState().showProgressDialog(Text.empty());
-        add(
-                dataSource.requestSchoolAccreditationPassings()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(schoolAccreditationPassings -> {
-                            accreditationResult = schoolAccreditationPassings.get(0);
-                            getViewState().hideProgressDialog();
-                            loadStandards();
-                        }, throwable -> {
-                            getViewState().showWarning(
-                                    Text.from(R.string.title_warning),
-                                    Text.from(R.string.warn_unable_to_get_schools));
-                            getViewState().hideProgressDialog();
-                        })
-        );
+        dataSource.requestSchoolAccreditationPassings()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> {
+                    getViewState().showProgressDialog(Text.empty());
+                    add(disposable);
+                })
+                .doOnSuccess(schoolAccreditationPassings -> {
+                    accreditationResult = schoolAccreditationPassings.get(0);
+                    getViewState().hideProgressDialog();
+                    loadStandards();
+                })
+                .doOnError(throwable -> {
+                    getViewState().showWarning(
+                            Text.from(R.string.title_warning),
+                            Text.from(R.string.warn_unable_to_get_schools));
+                    getViewState().hideProgressDialog();
+                })
+                .doFinally(() -> getViewState().hideProgressDialog())
+                .subscribe();
     }
 
     private void loadStandards() {

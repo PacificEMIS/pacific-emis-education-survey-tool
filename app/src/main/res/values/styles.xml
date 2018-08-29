@@ -44,7 +44,7 @@
     </style>
 
     <style name="TextViewNavigationDrawerFooter" parent="TextViewBaseDrawerScreen">
-        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -53,8 +53,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="CriteriaItem">
-        <item name="android:background">@color/white</item>
+    <style name="ListText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/dark_sky_blue</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
 </resources>

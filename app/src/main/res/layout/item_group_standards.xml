@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackground"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/imageview_category_icon"
         android:layout_width="24dp"
-        android:layout_marginStart="16dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="16dp"
-        tools:src="@drawable/ic_leadreship_standard" />
+        android:layout_marginStart="16dp"
+        tools:src="@drawable/ic_standard_teacher_hl" />
 
     <TextView
         android:id="@+id/textview_category_name"
-        android:layout_width="wrap_content"
+        style="@style/ListText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.5"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-light"
         android:gravity="center_vertical"
-        android:lineSpacingExtra="4sp"
         android:maxLines="1"
-        android:textColor="@color/dark_sky_blue"
-        android:textSize="20sp"
-        android:textStyle="normal"
         tools:text="Standard 1:Leadership" />
 
     <ProgressBar
@@ -44,10 +39,10 @@
         android:id="@+id/textview_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_gravity="center_vertical"
         android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="20dp"
         tools:text="24/53" />
 
-</android.widget.LinearLayout>
+</LinearLayout>
