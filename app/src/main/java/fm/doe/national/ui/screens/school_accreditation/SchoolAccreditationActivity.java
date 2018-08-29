@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +26,10 @@ import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
         BaseClickableAdapter.OnRecyclerItemClickListener<SchoolAccreditationPassing>,
-        View.OnClickListener {
+        View.OnClickListener, SearchView.OnQueryTextListener {
 
     @InjectPresenter
-    SchoolAccreditationPresenter schoolAccreditationPresenter;
+    SchoolAccreditationPresenter presenter;
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -45,7 +46,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     protected BaseDrawerPresenter getPresenter() {
-        return schoolAccreditationPresenter;
+        return presenter;
     }
 
     @Override
@@ -67,18 +68,11 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        return true;
-    }
+        getMenuInflater().inflate(R.menu.menu_search, menu);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -103,7 +97,17 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     public void onRecyclerItemClick(SchoolAccreditationPassing item) {
-        schoolAccreditationPresenter.onAccreditationClicked(item);
+        presenter.onAccreditationClicked(item);
     }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        presenter.onSearchQueryChanged(newText);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
 }

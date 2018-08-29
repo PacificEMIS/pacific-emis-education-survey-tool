@@ -3,9 +3,11 @@ package fm.doe.national.ui.screens.survey_creation;
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,6 +25,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     DataSource dataSource;
 
     private int year;
+    private List<School> schools;
 
     public CreateSurveyPresenter() {
         MicronesiaApplication.getAppComponent().inject(this);
@@ -43,32 +46,48 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadSchools() {
-        getViewState().showProgressDialog(Text.from("loading"));
-        add(
-                dataSource.requestSchools()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doFinally(() -> getViewState().hideProgressDialog())
-                        .subscribe(
-                                getViewState()::setSchools,
-                                throwable -> getViewState().showWarning(
-                                        Text.from(R.string.title_warning),
-                                        Text.from(R.string.warn_unable_to_get_schools)))
-        );
+        dataSource.requestSchools()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> {
+                    getViewState().showProgressDialog(Text.empty());
+                    add(disposable);
+                })
+                .doOnSuccess(schools -> {
+                    this.schools = schools;
+                    getViewState().setSchools(schools);
+                })
+                .doOnError(t -> getViewState().showWarning(
+                        Text.from(R.string.title_warning),
+                        Text.from(R.string.warn_unable_to_get_schools)))
+                .doFinally(() -> getViewState().hideProgressDialog())
+                .subscribe();
     }
 
     public void onSchoolPicked(School school) {
-        getViewState().showProgressDialog(Text.from("loading"));
-        add(
-                dataSource.createNewSchoolAccreditationPassing(year, school)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doFinally(() -> getViewState().hideProgressDialog())
-                        .subscribe(
-                                accreditation -> getViewState().navigateToCategoryChooser(-1),
-                                throwable -> getViewState().showWarning(
-                                        Text.from(R.string.title_warning),
-                                        Text.from(R.string.warn_unable_to_get_schools)))
-        );
+        dataSource.createNewSchoolAccreditationPassing(year, school)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> {
+                    getViewState().showProgressDialog(Text.empty());
+                    add(disposable);
+                })
+                .doOnSuccess(schools -> getViewState().navigateToCategoryChooser(-1))
+                .doOnError(t -> getViewState().showWarning(
+                        Text.from(R.string.title_warning),
+                        Text.from(R.string.warn_unable_to_get_schools)))
+                .doFinally(() -> getViewState().hideProgressDialog())
+                .subscribe();
+    }
+
+
+    public void onSearchQueryChanged(String query) {
+        List<School> queriedSchools = new ArrayList<>();
+        for (School school : schools) {
+            if (school.getName().contains(query)) {
+                queriedSchools.add(school);
+            }
+        }
+        getViewState().setSchools(queriedSchools);
     }
 }

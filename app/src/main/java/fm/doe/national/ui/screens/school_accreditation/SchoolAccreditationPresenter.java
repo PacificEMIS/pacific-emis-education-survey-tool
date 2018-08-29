@@ -3,6 +3,9 @@ package fm.doe.national.ui.screens.school_accreditation;
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
@@ -19,6 +22,8 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     @Inject
     DataSource dataSource;
 
+    private List<SchoolAccreditationPassing> passings = new ArrayList<>();
+
     public SchoolAccreditationPresenter() {
         MicronesiaApplication.getAppComponent().inject(this);
     }
@@ -29,23 +34,37 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
         loadRecentSurveys();
     }
 
+    private void loadRecentSurveys() {
+        dataSource.requestSchoolAccreditationPassings()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> {
+                    getViewState().showProgressDialog(Text.empty());
+                    add(disposable);
+                })
+                .doOnSuccess(passings -> {
+                    this.passings = passings;
+                    getViewState().setAccreditations(passings);
+                })
+                .doOnError(throwable -> getViewState().showWarning(
+                        Text.from(R.string.title_warning),
+                        Text.from(R.string.warn_unable_to_load_recent_surveys)))
+                .doFinally(() -> getViewState().hideProgressDialog())
+                .subscribe();
+    }
+
     public void onAccreditationClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
         getViewState().navigateToCategoryChooser(-1);
     }
 
-    private void loadRecentSurveys() {
-        getViewState().showProgressDialog(Text.empty());
-        add(
-                dataSource.requestSchoolAccreditationPassings()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doFinally(() -> getViewState().hideProgressDialog())
-                        .subscribe(
-                                passings -> getViewState().setAccreditations(passings),
-                                throwable -> getViewState().showWarning(
-                                        Text.from(R.string.title_warning),
-                                        Text.from(R.string.warn_unable_to_load_recent_surveys)))
-        );
+    public void onSearchQueryChanged(String query) {
+        List<SchoolAccreditationPassing> queriedPassings = new ArrayList<>();
+        for (SchoolAccreditationPassing passing : passings) {
+            if (passing.getSchool().getName().contains(query)) {
+                queriedPassings.add(passing);
+            }
+        }
+        getViewState().setAccreditations(queriedPassings);
     }
 
 }

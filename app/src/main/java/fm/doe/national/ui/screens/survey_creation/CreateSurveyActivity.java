@@ -1,6 +1,10 @@
 package fm.doe.national.ui.screens.survey_creation;
 
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,8 +20,10 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseClickableAdapter;
 import fm.doe.national.ui.screens.group_standards.GroupStandardsActivity;
 
-public class CreateSurveyActivity extends BaseActivity
-        implements CreateSurveyView, BaseClickableAdapter.OnRecyclerItemClickListener<School> {
+public class CreateSurveyActivity extends BaseActivity implements
+        CreateSurveyView,
+        BaseClickableAdapter.OnRecyclerItemClickListener<School>,
+        SearchView.OnQueryTextListener {
 
     @BindView(R.id.textview_year)
     TextView yearTextView;
@@ -64,5 +70,26 @@ public class CreateSurveyActivity extends BaseActivity
     @Override
     public void onRecyclerItemClick(School item) {
         presenter.onSchoolPicked(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        presenter.onSearchQueryChanged(newText);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 }
