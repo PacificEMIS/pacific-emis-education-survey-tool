@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
@@ -18,19 +21,15 @@ import fm.doe.national.ui.screens.cloud.DropboxView;
 
 public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapter.BrowsingItemViewHolder> {
 
-    private BrowsingTreeObject item = new BrowsingTreeObject();
+    private List<BrowsingTreeObject> items = new ArrayList<>();
     private DropboxView.PickerType kind = DropboxView.PickerType.FILE;
 
     @Nullable
     private FilePickerListener listener;
 
-    public void setItem(@NonNull BrowsingTreeObject item) {
-        this.item = item;
+    public void setItems(@NonNull List<BrowsingTreeObject> items) {
+        this.items = items;
         notifyDataSetChanged();
-    }
-
-    public BrowsingTreeObject getItem() {
-        return item;
     }
 
     public void setListener(@Nullable FilePickerListener listener) {
@@ -50,12 +49,12 @@ public class FilePickerAdapter extends OmegaRecyclerView.Adapter<FilePickerAdapt
 
     @Override
     public void onBindViewHolder(@NonNull BrowsingItemViewHolder holder, int position) {
-        holder.bind(item.getChilds().get(position));
+        holder.bind(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return item.getChilds().size();
+        return items.size();
     }
 
     class BrowsingItemViewHolder extends BaseRecyclerViewHolder implements View.OnClickListener {

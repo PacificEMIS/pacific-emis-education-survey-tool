@@ -157,7 +157,6 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
         finish();
     }
 
-
     @Override
     public void showPicker(PickerType pickerType, BrowsingTreeObject root) {
         pickerView.setVisibility(View.VISIBLE);
@@ -219,7 +218,7 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
     }
 
     private void updateUi() {
-        adapter.setItem(currentBrowsingItem);
+        adapter.setItems(currentBrowsingItem.getChilds());
         pathTextView.setText(currentBrowsingItem.getPath());
         backImageView.setVisibility(currentBrowsingItem.getParent() != null ? View.VISIBLE : View.GONE);
     }
