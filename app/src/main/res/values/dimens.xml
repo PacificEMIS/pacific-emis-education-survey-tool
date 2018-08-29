@@ -7,4 +7,5 @@
     <dimen name="menu_text_margin_top">16dp</dimen>
     <dimen name="menu_text_height">36dp</dimen>
     <dimen name="drawer_menu_width">280dp</dimen>
+    <dimen name="size_toolbar">56dp</dimen>
 </resources>

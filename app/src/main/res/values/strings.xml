@@ -29,4 +29,11 @@
     <string name="title_school_accreditation">School accreditation</string>
     <string name="title_school_data_verification">School data verification</string>
     <string name="title_monitoring_and_evaluation">Monitoring and evalution</string>
+    <string name="title_drive_open_file">Choose file to import</string>
+    <string name="survey_report">Survey report %1$s</string>
+    <string name="title_upload">Upload report &#8230;</string>
+    <string name="title_select_folder">Select folder</string>
+    <string name="title_select_file">Select file</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>

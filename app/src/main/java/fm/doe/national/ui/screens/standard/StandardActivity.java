@@ -26,6 +26,16 @@ public class StandardActivity extends BaseActivity implements StandardView {
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_GROUPS = "EXTRA_GROUPS";
 
+    private static final int[] icons = {
+            R.drawable.ic_standard_leadership_selector,
+            R.drawable.ic_standard_teacher_selector,
+            R.drawable.ic_standard_data_selector,
+            R.drawable.ic_standard_cirriculum_selector,
+            R.drawable.ic_standard_facility_selector,
+            R.drawable.ic_standard_improvement_selector,
+            R.drawable.ic_standard_observation_selector
+    };
+
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
 
