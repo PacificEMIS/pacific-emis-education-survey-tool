@@ -75,7 +75,7 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
 
     @Override
     public void navigateToStandardScreen(long passingId, int position) {
-        startActivity(StandardActivity.createIntent(this, passingId));
+        startActivity(StandardActivity.createIntent(this, passingId, new long[] {}));
     }
 
     @Override
@@ -106,6 +106,7 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
             upRunnable.run();
         } else {
             recyclerView.setAdapter(groupStandardsAdapter);
+            isShowingGroups = true;
         }
     }
 }

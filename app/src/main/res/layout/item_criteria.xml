@@ -38,15 +38,14 @@
 
             <ProgressBar
                 android:id="@+id/progressbar"
-                style="?android:attr/progressBarStyleHorizontal"
+                style="@style/HorizontalProgressBar"
                 android:layout_width="0dp"
                 android:layout_height="4dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="24dp"
                 android:layout_marginEnd="72dp"
                 android:layout_marginStart="16dp"
-                android:indeterminateOnly="false"
-                android:progressDrawable="@drawable/progress_bar_states"
+                android:progressDrawable="@drawable/progress_bar_states_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -80,8 +79,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:visibility="gone"
+            app:itemSpace="4dp"
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/item_sub_criteria">
 
@@ -89,7 +89,7 @@
                 android:id="@+id/linearlayout_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="24dp"
                 android:orientation="horizontal"
                 app:layout_section="header">
 

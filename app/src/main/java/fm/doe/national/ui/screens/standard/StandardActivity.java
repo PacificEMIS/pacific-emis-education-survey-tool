@@ -24,6 +24,7 @@ import fm.doe.national.utils.ViewUtils;
 public class StandardActivity extends BaseActivity implements StandardView {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
+    private static final String EXTRA_GROUPS = "EXTRA_GROUPS";
 
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
@@ -62,13 +63,16 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
-        return new StandardPresenter(getIntent().getLongExtra(EXTRA_ACCREDITATION, -1));
+        return new StandardPresenter(
+                getIntent().getLongExtra(EXTRA_ACCREDITATION, -1),
+                getIntent().getLongArrayExtra(EXTRA_GROUPS));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, long passingId) {
+    public static Intent createIntent(@NonNull Context context, long passingId, long[] groupIds) {
         return new Intent(context, StandardActivity.class)
-                .putExtra(EXTRA_ACCREDITATION, passingId);
+                .putExtra(EXTRA_ACCREDITATION, passingId)
+                .putExtra(EXTRA_GROUPS, groupIds);
     }
 
     @Override

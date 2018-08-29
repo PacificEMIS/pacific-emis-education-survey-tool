@@ -43,7 +43,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private List<Standard> standards = new ArrayList<>();
     private List<CriteriaViewData> criteriaViewDataList;
 
-    public StandardPresenter(long passingId) {
+    public StandardPresenter(long passingId, long[] groupsIds) {
         MicronesiaApplication.getAppComponent().inject(this);
     }
 

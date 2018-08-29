@@ -53,10 +53,21 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="TextViewStandardsNavigationDrawerFooter" parent="AppTheme">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_criteria_primary</item>
+    </style>
+
     <style name="ListText" parent="TextAppearance.AppCompat">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/dark_sky_blue</item>
         <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="HorizontalProgressBar" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_bar_states_selector</item>
+        <item name="android:indeterminateOnly">false</item>
     </style>
 
 </resources>

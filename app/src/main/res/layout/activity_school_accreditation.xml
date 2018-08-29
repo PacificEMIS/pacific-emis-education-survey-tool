@@ -16,11 +16,9 @@
         android:layout_marginBottom="16dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif"
-        android:lineSpacingExtra="8sp"
         android:text="@string/header_school_accreditation"
-        android:textColor="#303040"
-        android:textSize="24sp"
+        android:textColor="@color/charcoal_grey"
+        android:textSize="@dimen/size_text_titles"
         android:textStyle="normal" />
 
     <android.support.design.widget.CoordinatorLayout

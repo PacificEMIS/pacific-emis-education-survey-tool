@@ -58,7 +58,8 @@ public class SubCriteriaAdapter extends BaseClickableAdapter<SubCriteriaViewData
 
         @Override
         public void onBind() {
-            questionTextView.setText(item.getText());
+            String question = item.getText();
+            questionTextView.setText(question.replace("\r\n", " ").replace("\n", " "));
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));

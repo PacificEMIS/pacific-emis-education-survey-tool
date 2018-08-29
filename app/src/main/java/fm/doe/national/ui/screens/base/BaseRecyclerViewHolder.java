@@ -34,7 +34,7 @@ public abstract class BaseRecyclerViewHolder<T> extends OmegaRecyclerView.ViewHo
     public abstract void onBind();
 
     protected void rebindProgress(int total, int done, @Nullable TextView textView, @Nullable ProgressBar progressBar) {
-        int progress = done / total * 100;
+        int progress = (int) ((float)done / total * 100);
 
         if (textView != null) {
             textView.setActivated(progress == 100);
