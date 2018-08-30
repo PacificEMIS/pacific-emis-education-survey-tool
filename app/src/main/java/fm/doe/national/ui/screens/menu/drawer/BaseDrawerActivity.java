@@ -16,7 +16,7 @@ import fm.doe.national.ui.screens.menu.base.MenuActivity;
 
 public abstract class BaseDrawerActivity extends MenuActivity implements BaseDrawerView, DrawerLayout.DrawerListener {
 
-    DrawerLayout drawerLayout;
+    protected DrawerLayout drawerLayout;
 
     @BindView(R.id.textview_education_survey_tool)
     TextView educationSurveyToolTextView;
