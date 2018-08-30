@@ -5,15 +5,18 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.subjects.CompletableSubject;
 
-public class SurveyProgressDao extends BaseRxDao<OrmLiteCategoryProgress, Long> {
-    SurveyProgressDao(ConnectionSource connectionSource, Class<OrmLiteCategoryProgress> dataClass) throws SQLException {
+public class CategoryProgressDao extends BaseRxDao<OrmLiteCategoryProgress, Long> {
+    CategoryProgressDao(ConnectionSource connectionSource, Class<OrmLiteCategoryProgress> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
@@ -39,5 +42,21 @@ public class SurveyProgressDao extends BaseRxDao<OrmLiteCategoryProgress, Long> 
                     return accumulator;
                 })
                 .toSingle();
+    }
+
+    public Single<OrmLiteCategoryProgress> updateCategoryProgress(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing passing, Answer.State state) {
+        Single<OrmLiteCategoryProgress> single = requestSurveyProgress(passing, surveyItem).doOnSuccess(progress -> {
+            if (state == Answer.State.NOT_ANSWERED) {
+                progress.decrementCompletedItems();
+            } else {
+                progress.incrementCompletedItems();
+            }
+            update(progress);
+        });
+
+        if (surveyItem.getParentItem() != null) {
+            return single.flatMap(progress -> updateCategoryProgress(surveyItem.getParentItem(), passing, state));
+        }
+        return single;
     }
 }

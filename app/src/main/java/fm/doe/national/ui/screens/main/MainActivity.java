@@ -43,7 +43,10 @@ public class MainActivity extends BaseActivity {
             dataSource.requestGroupStandards(passingId).subscribe((groupStandards) -> {
                 dataSource.requestStandards(passingId, groupStandards.get(1).getId()).subscribe(standards -> {
                     dataSource.requestCriterias(passingId, standards.get(0).getId()).subscribe(criterias -> {
-                        System.out.println();
+                        dataSource.updateAnswer(passingId, criterias.get(1).getSubCriterias().get(1).getId(), Answer.State.POSITIVE).subscribe();
+                        dataSource.requestGroupStandards(passingId).subscribe(groupStandards1 -> {
+                            System.out.println();
+                        });
                     });
                 });
             });

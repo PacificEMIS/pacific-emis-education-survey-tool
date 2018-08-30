@@ -40,10 +40,10 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
         });
     }
 
-    public Single<OrmLiteAnswer> updateAnswer(OrmLiteAnswer answer) {
-        return Single.fromCallable(() -> {
-            createOrUpdate(answer);
-            return answer;
+    public Single<OrmLiteAnswer> updateAnswer(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing, Answer.State state) {
+        return requestAnswer(surveyItem, surveyPassing).doOnSuccess(answer -> {
+            answer.setState(state);
+            update(answer);
         });
     }
 

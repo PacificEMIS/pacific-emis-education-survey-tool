@@ -11,9 +11,8 @@ import fm.doe.national.data.data_source.db.dao.SchoolDao;
 import fm.doe.national.data.data_source.db.dao.SurveyDao;
 import fm.doe.national.data.data_source.db.dao.SurveyItemDao;
 import fm.doe.national.data.data_source.db.dao.SurveyPassingDao;
-import fm.doe.national.data.data_source.db.dao.SurveyProgressDao;
+import fm.doe.national.data.data_source.db.dao.CategoryProgressDao;
 import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.School;
@@ -21,8 +20,6 @@ import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.SurveyPassing;
-import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
-import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteCriteria;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteGroupStandard;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
@@ -40,7 +37,7 @@ public class OrmLiteDataSource implements DataSource {
     private SurveyDao surveyDao;
     private SurveyItemDao surveyItemDao;
     private SurveyPassingDao surveyPassingDao;
-    private SurveyProgressDao surveyProgressDao;
+    private CategoryProgressDao categoryProgressDao;
     private AnswerDao answerDao;
 
     public OrmLiteDataSource(DatabaseHelper helper) {
@@ -50,7 +47,7 @@ public class OrmLiteDataSource implements DataSource {
             surveyItemDao = helper.getSurveyItemDao();
             answerDao = helper.getAnswerDao();
             surveyPassingDao = helper.getSurveyPassingDao();
-            surveyProgressDao = helper.getSurveyProgressDao();
+            categoryProgressDao = helper.getCategoryProgressDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,8 +81,11 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Completable updateAnswer(long passingId, long subcriteriaId, Answer.State state) {
-        return null;
+    public Completable updateAnswer(long passingId, long subCriteriaId, Answer.State state) {
+        return Completable.fromSingle(surveyPassingDao.getItemSingle(passingId)
+                .flatMap(passing -> surveyItemDao.requestItem(subCriteriaId)
+                        .flatMap(subCriteriaItem -> answerDao.updateAnswer(subCriteriaItem, passing, state)
+                                .flatMap(answer -> categoryProgressDao.updateCategoryProgress(subCriteriaItem.getParentItem(), passing, state)))));
     }
 
     @Override
@@ -104,7 +104,7 @@ public class OrmLiteDataSource implements DataSource {
     public Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(int year, School school) {
         return schoolDao.requestSchool(school.getId())
                 .flatMap(schoolItem -> surveyPassingDao.createSurveyPassing(year, schoolItem)
-                        .flatMap(surveyPassing -> surveyProgressDao.requestSurveyProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
+                        .flatMap(surveyPassing -> categoryProgressDao.requestSurveyProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
                                 .map(progress -> new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress))
                                 .map(schoolAccreditation -> new OrmLiteSchoolAccreditationPassing(surveyPassing, schoolAccreditation))));
     }
@@ -114,7 +114,7 @@ public class OrmLiteDataSource implements DataSource {
         return surveyPassingDao.getAllQueriesSingle()
                 .toObservable()
                 .flatMapIterable(resultList -> resultList)
-                .flatMap(surveyPassing -> surveyProgressDao.requestSurveyProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
+                .flatMap(surveyPassing -> categoryProgressDao.requestSurveyProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
                         .map(progress -> new OrmLiteSchoolAccreditationPassing(
                                 surveyPassing,
                                 new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress)))
@@ -127,7 +127,7 @@ public class OrmLiteDataSource implements DataSource {
     public Single<List<GroupStandard>> requestGroupStandards(long passingId) {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> Observable.fromIterable(passing.getSurvey().getSurveyItems())
-                        .flatMap(surveyItem -> surveyProgressDao.requestSurveyProgress(passing, surveyItem)
+                        .flatMap(surveyItem -> categoryProgressDao.requestSurveyProgress(passing, surveyItem)
                                 .map(progress -> new OrmLiteGroupStandard(surveyItem, progress))
                                 .toObservable())
                         .toList()
@@ -139,7 +139,7 @@ public class OrmLiteDataSource implements DataSource {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.requestItem(groupStandardId)
                         .flatMap(groupStandardItem -> Observable.fromIterable(groupStandardItem.getChildrenItems())
-                                .flatMap(standardItem -> surveyProgressDao.requestSurveyProgress(passing, standardItem)
+                                .flatMap(standardItem -> categoryProgressDao.requestSurveyProgress(passing, standardItem)
                                         .map(progress -> new OrmLiteStandard(standardItem, progress))
                                         .toObservable())
                                 .toList()
@@ -152,7 +152,7 @@ public class OrmLiteDataSource implements DataSource {
                 .flatMap(passing -> surveyItemDao.requestItem(standardId)
                         .flatMap(standardItem -> Observable.fromIterable(standardItem.getChildrenItems())
                                 .flatMap(criteriaItem -> Observable.zip(
-                                        surveyProgressDao.requestSurveyProgress(passing, criteriaItem)
+                                        categoryProgressDao.requestSurveyProgress(passing, criteriaItem)
                                                 .toObservable(),
                                         Observable.fromIterable(criteriaItem.getChildrenItems())
                                                 .flatMap(subcriteriaItem -> answerDao.requestAnswer(subcriteriaItem, passing)

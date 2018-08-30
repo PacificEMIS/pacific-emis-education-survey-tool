@@ -63,6 +63,14 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
         this.completedItemsCount = completedItemsCount;
     }
 
+    public void incrementCompletedItems() {
+        this.completedItemsCount++;
+    }
+
+    public void decrementCompletedItems() {
+        this.completedItemsCount--;
+    }
+
     public OrmLiteSurveyItem getSurveyItem() {
         return surveyItem;
     }

@@ -17,7 +17,6 @@ import java.sql.SQLException;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
@@ -37,7 +36,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private SurveyItemDao surveyItemDao;
     private AnswerDao answerDao;
     private SurveyPassingDao surveyPassingDao;
-    private SurveyProgressDao surveyProgressDao;
+    private CategoryProgressDao categoryProgressDao;
 
     private AssetManager assetManager;
     private Gson gson;
@@ -152,12 +151,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return surveyPassingDao;
     }
 
-    public SurveyProgressDao getSurveyProgressDao() throws SQLException {
-        if (surveyProgressDao == null) {
-            surveyProgressDao = new SurveyProgressDao(
+    public CategoryProgressDao getCategoryProgressDao() throws SQLException {
+        if (categoryProgressDao == null) {
+            categoryProgressDao = new CategoryProgressDao(
                     getConnectionSource(),
                     OrmLiteCategoryProgress.class);
         }
-        return surveyProgressDao;
+        return categoryProgressDao;
     }
 }

@@ -25,7 +25,7 @@ public interface DataSource {
 
     Single<Answer> createAnswer(Answer.State state, SubCriteria criteria, SurveyPassing result);
 
-    Completable updateAnswer(long passingId, long subcriteriaId, Answer.State state);
+    Completable updateAnswer(long passingId, long subCriteriaId, Answer.State state);
 
     Completable createSchoolAccreditation(LinkedSchoolAccreditation schoolAccreditation);
 
