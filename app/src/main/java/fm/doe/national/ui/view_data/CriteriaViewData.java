@@ -72,7 +72,7 @@ public class CriteriaViewData {
             question.setCorrespondingAnswer(answer);
             question.setText(subCriteria.getName());
             question.setAnswer(answer == null ? Answer.State.NOT_ANSWERED
-                    : answer.getAnswer() ? Answer.State.POSITIVE : Answer.State.NEGATIVE);
+                    : answer.getState());
             object.questions.add(question);
             return this;
         }

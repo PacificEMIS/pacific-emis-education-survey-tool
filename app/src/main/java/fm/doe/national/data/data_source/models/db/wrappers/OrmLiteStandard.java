@@ -35,14 +35,5 @@ public class OrmLiteStandard implements Standard {
     public CategoryProgress getCategoryProgress() {
         return progress;
     }
-
-    @Override
-    public int getQuestionsCount() {
-        int count = 0;
-        for (Criteria criteria: getCriterias()) {
-            count += criteria.getSubCriterias().size();
-        }
-        return count;
-    }
 }
 

@@ -46,43 +46,13 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
         // TODO: handle groupStandards properly
 
-        for (GroupStandard groupStandard: accreditationResult.getSchoolAccreditation().getGroupStandards()) {
-            standards.addAll(groupStandard.getStandards());
-        }
-
-        previousIndex = standards.size() - 1;
-
         updateUi();
     }
 
     public void onQuestionStateChanged(@NonNull SubCriteriaViewData subCriteriaViewData,
                                        @NonNull SubCriteria subCriteria,
                                        @Nullable Answer answer, Answer.State newState) {
-        if (answer != null) {
-            if (newState == Answer.State.NOT_ANSWERED) {
-                // FIXME: rewrite answers logic
-                //dataSource.deleteAnswer(answer);
-            }
-            answer.setAnswer(newState == Answer.State.POSITIVE);
-            add(dataSource.updateAnswer(answer)
-                    .subscribe(() -> {
-                        //nothing
-                    }, throwable -> {
-                        getViewState().showWarning(
-                                Text.from(R.string.title_warning),
-                                Text.from(R.string.warn_unable_to_update_answer));
-                    }));
-        } else {
-            add(dataSource.createAnswer(newState == Answer.State.POSITIVE, subCriteria, accreditationResult)
-                    .subscribe(
-                            subCriteriaViewData::setCorrespondingAnswer,
-                            throwable -> {
-                                getViewState().showWarning(
-                                        Text.from(R.string.title_warning),
-                                        Text.from(R.string.warn_unable_to_create_answer));
-                            }));
-        }
-        getViewState().setProgress(getAnsweredCount(), standards.get(standardIndex).getQuestionsCount());
+
     }
 
     public void onNextPressed() {
@@ -103,23 +73,6 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         getViewState().setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
         getViewState().setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
         getViewState().setNextStandard(standards.get(nextIndex).getName(), nextIndex);
-
-        loadQuestions();
-    }
-
-    private void loadQuestions() {
-        add(Observable
-                .fromIterable(standards.get(standardIndex).getCriterias())
-                .concatMap(criteria -> dataSource.requestAnswers(criteria, accreditationResult)
-                        .map(children -> Pair.create(criteria, children))
-                        .toObservable())
-                .toMap(mapPair -> mapPair.first, mapPair -> mapPair.second)
-                .doOnSuccess((Map<? extends Criteria, Map<SubCriteria, Answer>> criteriasQuestions) -> {
-                    criteriaViewDataList = convertToViewData(criteriasQuestions);
-                    getViewState().setCriterias(criteriaViewDataList);
-                    getViewState().setProgress(getAnsweredCount(), standards.get(standardIndex).getQuestionsCount());
-                })
-                .subscribe());
     }
 
     @NonNull
