@@ -27,7 +27,7 @@
         android:layout_height="match_parent">
 
         <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-            android:id="@+id/recyclerview"
+            android:id="@+id/recyclerview_groups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/BaseThemeRecyclerView"

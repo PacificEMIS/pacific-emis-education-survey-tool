@@ -49,7 +49,7 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
                     add(disposable);
-                    getViewState().showProgressDialog(Text.empty());
+                    getViewState().showWaiting();
                 })
                 .doOnSuccess(standards -> {
                     if (standards.size() > 1) {
@@ -61,7 +61,7 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                 .doOnError(throwable -> getViewState().showWarning(
                         Text.from(R.string.title_warning),
                         Text.from(R.string.warn_unable_to_get_schools)))
-                .doFinally(() -> getViewState().hideProgressDialog())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
 
@@ -72,17 +72,16 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
                     add(disposable);
-                    getViewState().showProgressDialog(Text.empty());
+                    getViewState().showWaiting();
                 })
                 .doOnSuccess(schoolAccreditationPassings -> {
                     schoolAccreditationPassing = schoolAccreditationPassings.get(0); // FIXME: temp
                     loadStandards();
-                    getViewState().hideProgressDialog();
                 })
                 .doOnError(throwable -> getViewState().showWarning(
                         Text.from(R.string.title_warning),
                         Text.from(R.string.warn_unable_to_get_schools)))
-                .doFinally(() -> getViewState().hideProgressDialog())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
 

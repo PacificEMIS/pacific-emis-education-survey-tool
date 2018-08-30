@@ -107,7 +107,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
-                    getViewState().showProgressDialog(Text.empty());
+                    getViewState().showWaiting();
                     add(disposable);
                 })
                 .doOnSuccess(criteriasQuestions -> {
@@ -117,13 +117,11 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                             ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
                             ModelsExt.getTotalQuestionsCount(standards.get(standardIndex)));
                 })
-                .doOnError(throwable -> {
-                    getViewState().showWarning(
-                            Text.from(R.string.title_warning),
-                            Text.from(R.string.warn_unable_to_get_schools));
-                    getViewState().hideProgressDialog();
-                })
-                .doFinally(() -> getViewState().hideProgressDialog())
+                .doOnError(throwable -> getViewState().showWarning(
+                        Text.from(R.string.title_warning),
+                        Text.from(R.string.warn_unable_to_get_schools))
+                )
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
 
@@ -164,21 +162,18 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
-                    getViewState().showProgressDialog(Text.empty());
+                    getViewState().showWaiting();
                     add(disposable);
                 })
                 .doOnSuccess(schoolAccreditationPassings -> {
                     accreditationResult = schoolAccreditationPassings.get(0);
-                    getViewState().hideProgressDialog();
                     loadStandards();
                 })
-                .doOnError(throwable -> {
-                    getViewState().showWarning(
-                            Text.from(R.string.title_warning),
-                            Text.from(R.string.warn_unable_to_get_schools));
-                    getViewState().hideProgressDialog();
-                })
-                .doFinally(() -> getViewState().hideProgressDialog())
+                .doOnError(throwable -> getViewState().showWarning(
+                        Text.from(R.string.title_warning),
+                        Text.from(R.string.warn_unable_to_get_schools))
+                )
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
 

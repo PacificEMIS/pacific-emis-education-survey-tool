@@ -50,7 +50,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
-                    getViewState().showProgressDialog(Text.empty());
+                    getViewState().showWaiting();
                     add(disposable);
                 })
                 .doOnSuccess(schools -> {
@@ -60,7 +60,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 .doOnError(t -> getViewState().showWarning(
                         Text.from(R.string.title_warning),
                         Text.from(R.string.warn_unable_to_get_schools)))
-                .doFinally(() -> getViewState().hideProgressDialog())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
 
@@ -69,14 +69,14 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
-                    getViewState().showProgressDialog(Text.empty());
+                    getViewState().showWaiting();
                     add(disposable);
                 })
                 .doOnSuccess(schools -> getViewState().navigateToCategoryChooser(-1))
                 .doOnError(t -> getViewState().showWarning(
                         Text.from(R.string.title_warning),
                         Text.from(R.string.warn_unable_to_get_schools)))
-                .doFinally(() -> getViewState().hideProgressDialog())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
 

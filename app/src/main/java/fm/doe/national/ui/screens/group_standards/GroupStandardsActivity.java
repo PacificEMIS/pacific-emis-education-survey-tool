@@ -3,12 +3,12 @@ package fm.doe.national.ui.screens.group_standards;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.List;
 
@@ -32,13 +32,15 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
     @BindView(R.id.textview_progress)
     TextView progressTextView;
 
-    @BindView(R.id.recyclerview)
-    OmegaRecyclerView recyclerView;
+    @BindView(R.id.recyclerview_groups)
+    RecyclerView groupsRecyclerView;
 
-    private boolean isShowingGroups;
+    @BindView(R.id.recyclerview_standards)
+    RecyclerView standardsRecyclerView;
 
     public static Intent createIntent(Context context, long passingId) {
-        return new Intent(context, GroupStandardsActivity.class).putExtra(EXTRA_PASSING_ID, passingId);
+        return new Intent(context, GroupStandardsActivity.class)
+                .putExtra(EXTRA_PASSING_ID, passingId);
     }
 
     @ProvidePresenter
@@ -51,7 +53,8 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
         super.onCreate(savedInstanceState);
         groupStandardsAdapter.setListener(this::onGroupClicked);
         standardAdapter.setListener(this::onStandardClicked);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        groupsRecyclerView.setAdapter(groupStandardsAdapter);
+        standardsRecyclerView.setAdapter(standardAdapter);
     }
 
     @Override
@@ -62,15 +65,15 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
     @Override
     public void showGroupStandards(List<GroupStandard> groups) {
         groupStandardsAdapter.setItems(groups);
-        recyclerView.setAdapter(groupStandardsAdapter);
-        isShowingGroups = true;
+        groupsRecyclerView.setVisibility(View.VISIBLE);
+        standardsRecyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void showStandards(List<Standard> standards) {
         standardAdapter.setItems(standards);
-        recyclerView.setAdapter(standardAdapter);
-        isShowingGroups = false;
+        groupsRecyclerView.setVisibility(View.GONE);
+        standardsRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -102,11 +105,11 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
     }
 
     private void performUpAction(Runnable upRunnable) {
-        if (isShowingGroups) {
+        if (groupsRecyclerView.getVisibility() == View.VISIBLE) {
             upRunnable.run();
         } else {
-            recyclerView.setAdapter(groupStandardsAdapter);
-            isShowingGroups = true;
+            groupsRecyclerView.setVisibility(View.VISIBLE);
+            standardsRecyclerView.setVisibility(View.GONE);
         }
     }
 }

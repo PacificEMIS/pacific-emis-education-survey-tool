@@ -32,7 +32,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
 
-    @BindView(R.id.recyclerview)
+    @BindView(R.id.recyclerview_groups)
     RecyclerView recyclerView;
 
     @BindView(R.id.fab_new_accreditation)

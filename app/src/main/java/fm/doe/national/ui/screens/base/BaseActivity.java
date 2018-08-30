@@ -109,15 +109,15 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     }
 
     @Override
-    public void showProgressDialog(Text text) {
+    public void showWaiting() {
         progressDialogsCount++;
         if (progressDialogsCount == 1) {
-            progressDialog = createProgressDialog(text);
+            progressDialog = createProgressDialog(Text.empty());
         }
     }
 
     @Override
-    public void hideProgressDialog() {
+    public void hideWaiting() {
         if (progressDialogsCount == 0) {
             return;
         }
@@ -127,14 +127,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         }
 
         progressDialogsCount--;
-    }
-
-    @Override
-    public void hideAllProgressDialogs() {
-        if (progressDialogsCount > 0 && progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialogsCount = 0;
-        }
     }
 
     @NonNull

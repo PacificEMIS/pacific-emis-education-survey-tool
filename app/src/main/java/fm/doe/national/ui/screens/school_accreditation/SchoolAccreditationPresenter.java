@@ -39,7 +39,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
-                    getViewState().showProgressDialog(Text.empty());
+                    getViewState().showWaiting();
                     add(disposable);
                 })
                 .doOnSuccess(passings -> {
@@ -49,7 +49,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
                 .doOnError(throwable -> getViewState().showWarning(
                         Text.from(R.string.title_warning),
                         Text.from(R.string.warn_unable_to_load_recent_surveys)))
-                .doFinally(() -> getViewState().hideProgressDialog())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
 
