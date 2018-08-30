@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.menu.drawer;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import fm.doe.national.ui.screens.menu.base.MenuView;
@@ -10,8 +11,10 @@ public interface BaseDrawerView extends MenuView {
 
     void hideMenu();
 
-    void showEducationSurveyToolScreen();
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToEducationSurveyToolScreen();
 
-    void showSettingsScreen();
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToSettingsScreen();
 
 }

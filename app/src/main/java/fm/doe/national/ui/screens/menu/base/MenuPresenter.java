@@ -20,7 +20,7 @@ abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V>
 
     public void onTypeTestClicked() {
         //TODO changed on correct
-        getViewState().showSchoolAccreditationScreen();
+        getViewState().navigateToSchoolAccreditationScreen();
     }
 
     public void onLogoClicked() {

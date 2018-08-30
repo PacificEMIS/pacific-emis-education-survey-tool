@@ -13,7 +13,7 @@ import fm.doe.national.ui.screens.base.BaseView;
 public interface MenuView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showSchoolAccreditationScreen();
+    void navigateToSchoolAccreditationScreen();
 
     void setItems(List<Text> items);
 

@@ -1,7 +1,6 @@
 package fm.doe.national.ui.screens.school_accreditation;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
@@ -41,9 +39,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
                     this.passings = passings;
                     getViewState().setAccreditations(passings);
                 })
-                .doOnError(throwable -> getViewState().showWarning(
-                        Text.from(R.string.title_warning),
-                        Text.from(R.string.warn_unable_to_load_recent_surveys)))
+                .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }

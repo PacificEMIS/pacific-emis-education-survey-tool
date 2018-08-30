@@ -24,15 +24,15 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
 
     private static final int REQUEST_CODE_GALLERY = 201;
 
-    protected abstract MenuPresenter getPresenter();
-
-    protected MenuListAdapter menuAdapter = new MenuListAdapter();
+    protected final MenuListAdapter menuAdapter = new MenuListAdapter();
 
     @BindView(R.id.drawer_recyclerview)
     protected OmegaRecyclerView recyclerView;
 
     @BindView(R.id.imageview_logo)
     protected CircleImageView logoImageView;
+
+    protected abstract MenuPresenter getPresenter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
     }
 
     @Override
-    public void showSchoolAccreditationScreen() {
+    public void navigateToSchoolAccreditationScreen() {
         Intent intent = SchoolAccreditationActivity.createIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

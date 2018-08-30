@@ -7,7 +7,6 @@ import android.support.transition.TransitionManager;
 import android.view.animation.AccelerateInterpolator;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -19,14 +18,8 @@ public class SplashActivity extends MenuActivity implements SplashView {
     @BindView(R.id.layout_splash_start)
     ConstraintLayout constraintLayout;
 
-
     @InjectPresenter
     SplashPresenter splashPresenter;
-
-    @ProvidePresenter
-    SplashPresenter providePresenter() {
-        return new SplashPresenter(getAssets());
-    }
 
     @Override
     protected int getContentView() {

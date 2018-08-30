@@ -21,6 +21,13 @@
     <string name="criteria_hint">For detailed information, make a long touch on interested item</string>
     <string name="action_settings">Settings</string>
     <string name="title_warning">Warning</string>
+    <string name="title_error">Error</string>
+    <string name="error_network">Network problem</string>
+    <string name="error_auth">Authentication failed</string>
+    <string name="error_export">Survey exporting failed</string>
+    <string name="error_import">Survey importing failed</string>
+    <string name="error_picker">Picker action failed</string>
+    <string name="error_any">Some error occurred</string>
     <string name="warn_unable_to_update_answer">Unable to update answer</string>
     <string name="warn_unable_to_create_answer">Unable to create answer</string>
     <string name="warn_unable_to_load_recent_surveys">Unable to load recent surveys</string>

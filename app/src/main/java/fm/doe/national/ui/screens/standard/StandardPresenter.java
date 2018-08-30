@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
@@ -112,10 +110,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                             ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
                             ModelsExt.getTotalQuestionsCount(standards.get(standardIndex)));
                 })
-                .doOnError(throwable -> getViewState().showWarning(
-                        Text.from(R.string.title_warning),
-                        Text.from(R.string.warn_unable_to_get_schools))
-                )
+                .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
@@ -164,10 +159,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                     accreditationResult = schoolAccreditationPassings.get(0);
                     loadStandards();
                 })
-                .doOnError(throwable -> getViewState().showWarning(
-                        Text.from(R.string.title_warning),
-                        Text.from(R.string.warn_unable_to_get_schools))
-                )
+                .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }

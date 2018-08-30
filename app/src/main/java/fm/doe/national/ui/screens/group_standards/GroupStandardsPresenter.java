@@ -1,7 +1,6 @@
 package fm.doe.national.ui.screens.group_standards;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.ModelsExt;
@@ -53,9 +51,7 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                         onStandardClicked(standards.get(0));
                     }
                 })
-                .doOnError(throwable -> getViewState().showWarning(
-                        Text.from(R.string.title_warning),
-                        Text.from(R.string.warn_unable_to_get_schools)))
+                .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }
@@ -73,9 +69,7 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                     schoolAccreditationPassing = schoolAccreditationPassings.get(0); // FIXME: temp
                     loadStandards();
                 })
-                .doOnError(throwable -> getViewState().showWarning(
-                        Text.from(R.string.title_warning),
-                        Text.from(R.string.warn_unable_to_get_schools)))
+                .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();
     }

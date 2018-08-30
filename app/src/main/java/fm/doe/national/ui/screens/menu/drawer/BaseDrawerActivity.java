@@ -16,7 +16,6 @@ import fm.doe.national.ui.screens.menu.base.MenuActivity;
 
 public abstract class BaseDrawerActivity extends MenuActivity implements BaseDrawerView, DrawerLayout.DrawerListener {
 
-    @BindView(R.id.drawerlayout)
     DrawerLayout drawerLayout;
 
     @BindView(R.id.textview_education_survey_tool)
@@ -42,7 +41,6 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
         drawerLayout = findViewById(R.id.drawerlayout);
         View contentView = getLayoutInflater().inflate(layoutResID, drawerLayout, false);
         drawerLayout.addView(contentView, 0);
-
     }
 
     @Override
@@ -54,7 +52,6 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-
     }
 
     @Override
@@ -88,12 +85,12 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
     }
 
     @Override
-    public void showEducationSurveyToolScreen() {
+    public void navigateToEducationSurveyToolScreen() {
         //TODO added logic afters creating Education Survey Tool screen
     }
 
     @Override
-    public void showSettingsScreen() {
+    public void navigateToSettingsScreen() {
         //TODO added logic afters creating settings screen
     }
 

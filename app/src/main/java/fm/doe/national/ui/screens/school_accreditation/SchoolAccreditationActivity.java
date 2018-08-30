@@ -89,7 +89,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_new_accreditation:
-                startActivity(new Intent(this, CreateSurveyActivity.class));
+                startActivity(CreateSurveyActivity.createIntent(this));
                 break;
         }
     }

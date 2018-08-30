@@ -1,6 +1,9 @@
 package fm.doe.national.ui.screens.survey_creation;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.List;
 
@@ -24,6 +26,8 @@ public class CreateSurveyActivity extends BaseActivity implements
         BaseAdapter.OnItemClickListener<School>,
         SearchView.OnQueryTextListener {
 
+    private final SchoolsListAdapter adapter = new SchoolsListAdapter();
+
     @BindView(R.id.textview_year)
     TextView yearTextView;
 
@@ -31,12 +35,14 @@ public class CreateSurveyActivity extends BaseActivity implements
     ImageView editImageView;
 
     @BindView(R.id.recyclerview_schools)
-    OmegaRecyclerView schoolsRecycler;
+    RecyclerView schoolsRecycler;
 
     @InjectPresenter
     CreateSurveyPresenter presenter;
 
-    private final SchoolsListAdapter adapter = new SchoolsListAdapter();
+    public static Intent createIntent(Context context) {
+        return new Intent(context, CreateSurveyActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
