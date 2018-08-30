@@ -26,11 +26,6 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     public SchoolAccreditationPresenter() {
         MicronesiaApplication.getAppComponent().inject(this);
-    }
-
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
         loadRecentSurveys();
     }
 

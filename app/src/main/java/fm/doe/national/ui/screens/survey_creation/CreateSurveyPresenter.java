@@ -29,11 +29,6 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     public CreateSurveyPresenter() {
         MicronesiaApplication.getAppComponent().inject(this);
-    }
-
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
         loadYear();
         loadSchools();
     }

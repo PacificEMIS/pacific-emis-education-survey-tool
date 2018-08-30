@@ -45,11 +45,6 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     public StandardPresenter(long passingId, long[] groupsIds) {
         MicronesiaApplication.getAppComponent().inject(this);
-    }
-
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
         load();
     }
 

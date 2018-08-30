@@ -29,13 +29,8 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
     DataSource dataSource;
 
     public GroupStandardsPresenter(long schoolAccreditationPassingId) {
-        this.schoolAccreditationPassingId = schoolAccreditationPassingId;
         MicronesiaApplication.getAppComponent().inject(this);
-    }
-
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
+        this.schoolAccreditationPassingId = schoolAccreditationPassingId;
         load();
     }
 
