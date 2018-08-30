@@ -17,17 +17,6 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
         super(connectionSource, dataClass);
     }
 
-    public Single<OrmLiteAnswer> createAnswer(
-            Answer.State state,
-            OrmLiteSurveyItem surveyItem,
-            OrmLiteSurveyPassing surveyPassing) {
-        return Single.fromCallable(() -> {
-            OrmLiteAnswer ormLiteAnswer = new OrmLiteAnswer(state, surveyItem, surveyPassing);
-            create(ormLiteAnswer);
-            return ormLiteAnswer;
-        });
-    }
-
     public Single<OrmLiteAnswer> requestAnswer(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
         return Single.fromCallable(() -> {
             OrmLiteAnswer answer = queryBuilder()

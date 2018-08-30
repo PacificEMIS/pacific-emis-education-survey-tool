@@ -21,7 +21,7 @@ public class OrmLiteSurveyItem {
         String PARENT = "parent";
         String SURVEY = "survey";
         String CHILDREN = "children";
-        String ANSWERS_COUNT = "completedItemsCount";
+
     }
 
     public enum Type {
@@ -29,6 +29,7 @@ public class OrmLiteSurveyItem {
         STANDARD,
         CRITERIA,
         SUBCRITERIA;
+
     }
 
     @DatabaseField(generatedId = true, columnName = Column.ID)
@@ -39,9 +40,6 @@ public class OrmLiteSurveyItem {
 
     @DatabaseField(columnName = Column.TYPE)
     protected Type type;
-
-  /*  @DatabaseField(columnName = Column.COMPLETED_ITEMS_COUNT)
-    protected int completedItemsCount;*/
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT)
     protected OrmLiteSurveyItem parentItem;
@@ -76,18 +74,6 @@ public class OrmLiteSurveyItem {
         return type;
     }
 
-    public void incrementAnswersCount() {
-//        this.completedItemsCount++;
-    }
-
-    public void decrementAnswersCount() {
-//        this.completedItemsCount--;
-    }
-
-    public int getAnswersCount() {
-        return 0;
-    }
-
     public OrmLiteSurveyItem getParentItem() {
         return parentItem;
     }
@@ -98,19 +84,6 @@ public class OrmLiteSurveyItem {
 
     public Collection<OrmLiteSurveyItem> getChildrenItems() {
         return childrenItems;
-    }
-
-    public static int getTotalChildrenSize(OrmLiteSurveyItem surveyItem) {
-        if (surveyItem.childrenItems.isEmpty()) {
-            return 1;
-        }
-
-        int childSum = 0;
-        for (OrmLiteSurveyItem item : surveyItem.childrenItems) {
-            childSum += getTotalChildrenSize(item);
-        }
-
-        return childSum;
     }
 
     public void addChild(OrmLiteSurveyItem surveyItem) {
@@ -126,5 +99,18 @@ public class OrmLiteSurveyItem {
 
     public OrmLiteSurvey getSurvey() {
         return survey == null ? parentItem.getSurvey() : survey;
+    }
+
+    public static int getTotalChildrenSize(OrmLiteSurveyItem surveyItem) {
+        if (surveyItem.childrenItems.isEmpty()) {
+            return 1;
+        }
+
+        int childSum = 0;
+        for (OrmLiteSurveyItem item : surveyItem.childrenItems) {
+            childSum += getTotalChildrenSize(item);
+        }
+
+        return childSum;
     }
 }

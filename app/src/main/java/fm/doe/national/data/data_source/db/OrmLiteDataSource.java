@@ -18,8 +18,6 @@ import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
-import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.data.data_source.models.SurveyPassing;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteCriteria;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteGroupStandard;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
@@ -54,12 +52,6 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Single<School> createSchool(String name, String id) {
-        return schoolDao.createSchool(id, name)
-                .map(school -> school);
-    }
-
-    @Override
     public Completable addSchools(List<School> schoolList) {
         return schoolDao.addSchools(schoolList);
     }
@@ -68,16 +60,6 @@ public class OrmLiteDataSource implements DataSource {
     public Single<List<School>> requestSchools() {
         return schoolDao.getAllQueriesSingle()
                 .map(ArrayList<School>::new);
-    }
-
-    @Override
-    public Single<Answer> createAnswer(Answer.State state, SubCriteria criteria, SurveyPassing result) {
-        return surveyItemDao
-                .requestItem(criteria.getId())
-                .flatMap(criteriaItem -> surveyPassingDao
-                        .requestSurveyPassing(result.getStartDate())
-                        .flatMap(resultItem -> answerDao.createAnswer(state, criteriaItem, resultItem)));
-
     }
 
     @Override
@@ -90,13 +72,15 @@ public class OrmLiteDataSource implements DataSource {
 
     @Override
     public Completable createSchoolAccreditation(LinkedSchoolAccreditation schoolAccreditation) {
-        return surveyDao.createSchoolAccreditation(schoolAccreditation.getVersion(),
+        return surveyDao.createSchoolAccreditation(
+                schoolAccreditation.getVersion(),
                 schoolAccreditation.getType(),
                 schoolAccreditation.getGroupStandards());
     }
 
     @Override
     public Single<LinkedSchoolAccreditation> requestLinkedSchoolAccreditation() {
+        // For future export feature
         return null;
     }
 
@@ -104,9 +88,13 @@ public class OrmLiteDataSource implements DataSource {
     public Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(int year, School school) {
         return schoolDao.requestSchool(school.getId())
                 .flatMap(schoolItem -> surveyPassingDao.createSurveyPassing(year, schoolItem)
-                        .flatMap(surveyPassing -> categoryProgressDao.requestSurveyProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
+                        .flatMap(surveyPassing -> categoryProgressDao.requestCategoryProgress(
+                                surveyPassing,
+                                surveyPassing.getSurvey().getSurveyItems())
                                 .map(progress -> new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress))
-                                .map(schoolAccreditation -> new OrmLiteSchoolAccreditationPassing(surveyPassing, schoolAccreditation))));
+                                .map(schoolAccreditation -> new OrmLiteSchoolAccreditationPassing(
+                                        surveyPassing,
+                                        schoolAccreditation))));
     }
 
     @Override
@@ -114,7 +102,7 @@ public class OrmLiteDataSource implements DataSource {
         return surveyPassingDao.getAllQueriesSingle()
                 .toObservable()
                 .flatMapIterable(resultList -> resultList)
-                .flatMap(surveyPassing -> categoryProgressDao.requestSurveyProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
+                .flatMap(surveyPassing -> categoryProgressDao.requestCategoryProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
                         .map(progress -> new OrmLiteSchoolAccreditationPassing(
                                 surveyPassing,
                                 new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress)))
@@ -127,7 +115,7 @@ public class OrmLiteDataSource implements DataSource {
     public Single<List<GroupStandard>> requestGroupStandards(long passingId) {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> Observable.fromIterable(passing.getSurvey().getSurveyItems())
-                        .flatMap(surveyItem -> categoryProgressDao.requestSurveyProgress(passing, surveyItem)
+                        .flatMap(surveyItem -> categoryProgressDao.requestCategoryProgress(passing, surveyItem)
                                 .map(progress -> new OrmLiteGroupStandard(surveyItem, progress))
                                 .toObservable())
                         .toList()
@@ -139,7 +127,7 @@ public class OrmLiteDataSource implements DataSource {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.requestItem(groupStandardId)
                         .flatMap(groupStandardItem -> Observable.fromIterable(groupStandardItem.getChildrenItems())
-                                .flatMap(standardItem -> categoryProgressDao.requestSurveyProgress(passing, standardItem)
+                                .flatMap(standardItem -> categoryProgressDao.requestCategoryProgress(passing, standardItem)
                                         .map(progress -> new OrmLiteStandard(standardItem, progress))
                                         .toObservable())
                                 .toList()
@@ -152,7 +140,7 @@ public class OrmLiteDataSource implements DataSource {
                 .flatMap(passing -> surveyItemDao.requestItem(standardId)
                         .flatMap(standardItem -> Observable.fromIterable(standardItem.getChildrenItems())
                                 .flatMap(criteriaItem -> Observable.zip(
-                                        categoryProgressDao.requestSurveyProgress(passing, criteriaItem)
+                                        categoryProgressDao.requestCategoryProgress(passing, criteriaItem)
                                                 .toObservable(),
                                         Observable.fromIterable(criteriaItem.getChildrenItems())
                                                 .flatMap(subcriteriaItem -> answerDao.requestAnswer(subcriteriaItem, passing)

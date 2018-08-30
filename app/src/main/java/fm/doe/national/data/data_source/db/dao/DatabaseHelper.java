@@ -39,13 +39,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private CategoryProgressDao categoryProgressDao;
 
     private AssetManager assetManager;
-    private Gson gson;
     private Parser<LinkedSchoolAccreditation> schoolAccreditationParser;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
         assetManager = context.getAssets();
-        gson = MicronesiaApplication.getAppComponent().getGson();
         schoolAccreditationParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
     }
 

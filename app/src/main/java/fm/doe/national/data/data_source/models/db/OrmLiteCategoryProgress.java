@@ -34,11 +34,10 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
     public OrmLiteCategoryProgress() {
     }
 
-    public OrmLiteCategoryProgress(int completedItemsCount, OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
+    public OrmLiteCategoryProgress(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
         this.surveyItem = surveyItem;
         this.surveyPassing = surveyPassing;
         this.totalItemsCount = OrmLiteSurveyItem.getTotalChildrenSize(surveyItem);
-        this.completedItemsCount = completedItemsCount;
     }
 
     public long getId() {
