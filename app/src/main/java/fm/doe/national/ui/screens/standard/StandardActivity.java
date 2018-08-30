@@ -66,7 +66,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
-    private final CriteriaAdapter recyclerAdapter = new CriteriaAdapter();
+    private final CriteriaListAdapter recyclerAdapter = new CriteriaListAdapter();
 
     @InjectPresenter
     StandardPresenter presenter;

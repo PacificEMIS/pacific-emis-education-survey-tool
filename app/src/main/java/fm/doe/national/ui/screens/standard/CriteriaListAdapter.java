@@ -17,13 +17,12 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import fm.doe.national.utils.ViewUtils;
 
-public class CriteriaAdapter extends BaseClickableAdapter<CriteriaViewData, CriteriaAdapter.CriteriaViewHolder> {
+public class CriteriaListAdapter extends BaseAdapter<CriteriaViewData> {
 
     private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
 
@@ -44,8 +43,7 @@ public class CriteriaAdapter extends BaseClickableAdapter<CriteriaViewData, Crit
         return new CriteriaViewHolder(parent);
     }
 
-    protected class CriteriaViewHolder
-            extends BaseRecyclerViewHolder<CriteriaViewData> implements SubcriteriaStateChangeListener {
+    protected class CriteriaViewHolder extends ViewHolder implements SubcriteriaStateChangeListener {
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -65,21 +63,20 @@ public class CriteriaAdapter extends BaseClickableAdapter<CriteriaViewData, Crit
         @BindView(R.id.imageview_expanding_arrow)
         ImageView arrowImageView;
 
-        private final SubCriteriaAdapter adapter = new SubCriteriaAdapter();
+        private final SubCriteriaListAdapter adapter = new SubCriteriaListAdapter();
 
         CriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_criteria);
-
             adapter.addSubscribers(subscribers);
             adapter.subscribeOnChanges(this);
             subcriteriasRecycler.setAdapter(adapter);
         }
 
         @Override
-        public void onBind() {
+        public void onBind(CriteriaViewData item) {
             adapter.setItems(item.getQuestionsViewData());
             titleTextView.setText(item.getName());
-            rebindProgress(item.getQuestionsViewData().size(), item.getAnsweredCount(), progressTextView, progressBar);
+            rebindProgress();
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
@@ -97,7 +94,18 @@ public class CriteriaAdapter extends BaseClickableAdapter<CriteriaViewData, Crit
                                               @NonNull SubCriteria subCriteria,
                                               @Nullable Answer answer,
                                               Answer.State newState) {
-            rebindProgress(item.getQuestionsViewData().size(), item.getAnsweredCount(), progressTextView, progressBar);
+            rebindProgress();
         }
+
+        private void rebindProgress() {
+            CriteriaViewData item = getItem();
+            ViewUtils.rebindProgress(
+                    item.getQuestionsViewData().size(),
+                    item.getAnsweredCount(),
+                    getString(R.string.criteria_progress),
+                    progressTextView,
+                    progressBar);
+        }
+
     }
 }

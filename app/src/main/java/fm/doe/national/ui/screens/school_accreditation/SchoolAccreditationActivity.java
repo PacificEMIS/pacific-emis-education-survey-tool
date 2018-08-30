@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.group_standards.GroupStandardsActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
@@ -25,7 +25,7 @@ import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
 public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
-        BaseClickableAdapter.OnRecyclerItemClickListener<SchoolAccreditationPassing>,
+        BaseAdapter.OnItemClickListener<SchoolAccreditationPassing>,
         View.OnClickListener,
         SearchView.OnQueryTextListener {
 
@@ -95,7 +95,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void onRecyclerItemClick(SchoolAccreditationPassing item) {
+    public void onItemClick(SchoolAccreditationPassing item) {
         presenter.onAccreditationClicked(item);
     }
 

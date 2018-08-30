@@ -17,7 +17,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.menu.MenuAdapter;
+import fm.doe.national.ui.screens.menu.MenuListAdapter;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
 
 public abstract class MenuActivity extends BaseActivity implements MenuView {
@@ -26,7 +26,7 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
 
     protected abstract MenuPresenter getPresenter();
 
-    protected MenuAdapter menuAdapter = new MenuAdapter();
+    protected MenuListAdapter menuAdapter = new MenuListAdapter();
 
     @BindView(R.id.drawer_recyclerview)
     protected OmegaRecyclerView recyclerView;

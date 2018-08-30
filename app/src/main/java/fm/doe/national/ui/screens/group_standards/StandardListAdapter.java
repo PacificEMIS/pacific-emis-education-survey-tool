@@ -8,21 +8,19 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.ModelsExt;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
-public class GroupStandardsAdapter extends BaseClickableAdapter<GroupStandard, GroupStandardsAdapter.CategoryViewHolder> {
+public class StandardListAdapter extends BaseAdapter<Standard> {
 
     @Override
     protected CategoryViewHolder provideViewHolder(ViewGroup parent) {
         return new CategoryViewHolder(parent);
     }
 
-    protected class CategoryViewHolder extends BaseRecyclerViewHolder<GroupStandard> implements
-            View.OnClickListener {
+    protected class CategoryViewHolder extends ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.imageview_category_icon)
         ImageView standardIconImageView;
@@ -41,25 +39,19 @@ public class GroupStandardsAdapter extends BaseClickableAdapter<GroupStandard, G
         }
 
         @Override
-        public void onBind() {
-            if (getAdapterPosition() < ViewUtils.STANDARD_ICONS.length) {
-                standardIconImageView.setImageResource(ViewUtils.STANDARD_ICONS[getAdapterPosition()]);
-                standardIconImageView.setActivated(true);
-            }
+        public void onBind(Standard item) {
+            standardIconImageView.setImageResource(R.drawable.ic_format_list_bulleted);
 
             categoryNameTextView.setText(item.getName());
 
-            rebindProgress(
+            ViewUtils.rebindProgress(
                     ModelsExt.getTotalQuestionsCount(item),
                     ModelsExt.getAnsweredQuestionsCount(item),
+                    getString(R.string.criteria_progress),
                     progressTextView, progressBar);
 
             itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            onItemClick(item);
-        }
     }
 }

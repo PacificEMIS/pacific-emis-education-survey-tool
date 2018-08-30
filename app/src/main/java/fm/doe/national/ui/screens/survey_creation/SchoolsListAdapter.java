@@ -1,24 +1,21 @@
 package fm.doe.national.ui.screens.survey_creation;
 
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class SchoolsAdapter extends BaseClickableAdapter<School, SchoolsAdapter.SchoolViewHolder> {
+public class SchoolsListAdapter extends BaseAdapter<School> {
 
     @Override
     protected SchoolViewHolder provideViewHolder(ViewGroup parent) {
         return new SchoolViewHolder(parent);
     }
 
-    class SchoolViewHolder extends BaseRecyclerViewHolder<School> implements View.OnClickListener {
+    class SchoolViewHolder extends ViewHolder {
 
         @BindView(R.id.textview_name)
         TextView nameTextView;
@@ -28,14 +25,8 @@ public class SchoolsAdapter extends BaseClickableAdapter<School, SchoolsAdapter.
         }
 
         @Override
-        public void onBind() {
+        public void onBind(School item) {
             nameTextView.setText(item.getName());
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            onItemClick(item);
         }
     }
 }

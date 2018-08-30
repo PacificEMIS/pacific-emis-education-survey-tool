@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.school_accreditation;
 
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -9,19 +8,17 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.ModelsExt;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.utils.ViewUtils;
 
-public class SchoolAccreditationAdapter extends
-        BaseClickableAdapter<SchoolAccreditationPassing, SchoolAccreditationAdapter.SchoolAccreditationViewHolder> {
+public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationPassing> {
 
     @Override
     protected SchoolAccreditationViewHolder provideViewHolder(ViewGroup parent) {
         return new SchoolAccreditationViewHolder(parent);
     }
 
-    protected class SchoolAccreditationViewHolder extends
-            BaseRecyclerViewHolder<SchoolAccreditationPassing> implements View.OnClickListener {
+    protected class SchoolAccreditationViewHolder extends ViewHolder {
 
         @BindView(R.id.textview_name_school)
         TextView nameSchoolTextView;
@@ -40,21 +37,17 @@ public class SchoolAccreditationAdapter extends
         }
 
         @Override
-        public void onBind() {
+        public void onBind(SchoolAccreditationPassing item) {
             nameSchoolTextView.setText(item.getSchool().getName());
             createdYearTextView.setText(String.valueOf(item.getYear()));
 
             itemView.setOnClickListener(this);
 
-            rebindProgress(
+            ViewUtils.rebindProgress(
                     ModelsExt.getTotalQuestionsCount(item.getSchoolAccreditation()),
                     ModelsExt.getAnsweredQuestionsCount(item.getSchoolAccreditation()),
+                    getString(R.string.criteria_progress),
                     progressTextView, progressBar);
-        }
-
-        @Override
-        public void onClick(View v) {
-            onItemClick(item);
         }
 
     }

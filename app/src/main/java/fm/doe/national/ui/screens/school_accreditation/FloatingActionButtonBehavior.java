@@ -1,4 +1,4 @@
-package fm.doe.national.tools;
+package fm.doe.national.ui.screens.school_accreditation;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

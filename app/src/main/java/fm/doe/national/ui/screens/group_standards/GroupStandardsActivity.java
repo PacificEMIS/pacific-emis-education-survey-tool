@@ -23,8 +23,8 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
 
     private static final String EXTRA_PASSING_ID = "EXTRA_PASSING_ID";
 
-    private final GroupStandardsAdapter groupStandardsAdapter = new GroupStandardsAdapter();
-    private final StandardAdapter standardAdapter = new StandardAdapter();
+    private final GroupStandardsListAdapter groupStandardsAdapter = new GroupStandardsListAdapter();
+    private final StandardListAdapter standardAdapter = new StandardListAdapter();
 
     @InjectPresenter
     GroupStandardsPresenter groupStandardsPresenter;

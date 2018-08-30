@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,12 +16,12 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.group_standards.GroupStandardsActivity;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,
-        BaseClickableAdapter.OnRecyclerItemClickListener<School>,
+        BaseAdapter.OnItemClickListener<School>,
         SearchView.OnQueryTextListener {
 
     @BindView(R.id.textview_year)
@@ -37,7 +36,7 @@ public class CreateSurveyActivity extends BaseActivity implements
     @InjectPresenter
     CreateSurveyPresenter presenter;
 
-    private final SchoolsAdapter adapter = new SchoolsAdapter();
+    private final SchoolsListAdapter adapter = new SchoolsListAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class CreateSurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void onRecyclerItemClick(School item) {
+    public void onItemClick(School item) {
         presenter.onSchoolPicked(item);
     }
 

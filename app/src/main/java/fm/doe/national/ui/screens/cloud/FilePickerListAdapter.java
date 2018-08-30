@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.cloud;
 
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,10 +7,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class FilePickerAdapter extends BaseClickableAdapter<BrowsingTreeObject, FilePickerAdapter.BrowsingItemViewHolder> {
+public class FilePickerListAdapter extends BaseAdapter<BrowsingTreeObject> {
 
     private DropboxView.PickerType kind = DropboxView.PickerType.FILE;
 
@@ -25,7 +23,7 @@ public class FilePickerAdapter extends BaseClickableAdapter<BrowsingTreeObject, 
         return new BrowsingItemViewHolder(parent);
     }
 
-    class BrowsingItemViewHolder extends BaseRecyclerViewHolder<BrowsingTreeObject> implements View.OnClickListener {
+    class BrowsingItemViewHolder extends ViewHolder {
 
         @BindView(R.id.imageview_browsing_icon)
         ImageView iconImageView;
@@ -38,7 +36,7 @@ public class FilePickerAdapter extends BaseClickableAdapter<BrowsingTreeObject, 
         }
 
         @Override
-        public void onBind() {
+        public void onBind(BrowsingTreeObject item) {
             boolean isObjectEnabled = item.isDirectory() || kind == DropboxView.PickerType.FILE;
             if (!isObjectEnabled) {
                 itemView.setOnClickListener(null);
@@ -50,12 +48,5 @@ public class FilePickerAdapter extends BaseClickableAdapter<BrowsingTreeObject, 
             nameTextView.setText(item.getName());
             iconImageView.setImageResource(item.isDirectory() ? R.drawable.ic_folder_24dp : R.drawable.ic_file_24dp);
         }
-
-        @Override
-        public void onClick(View view) {
-            onItemClick(item);
-        }
     }
-
-
 }

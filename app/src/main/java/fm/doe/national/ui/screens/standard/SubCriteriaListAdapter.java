@@ -10,12 +10,11 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.ui.custom_views.SwitchableButton;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import fm.doe.national.utils.TextUtil;
 
-public class SubCriteriaAdapter extends BaseClickableAdapter<SubCriteriaViewData, SubCriteriaAdapter.SubCriteriaViewHolder> {
+public class SubCriteriaListAdapter extends BaseAdapter<SubCriteriaViewData> {
 
     private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
 
@@ -40,7 +39,7 @@ public class SubCriteriaAdapter extends BaseClickableAdapter<SubCriteriaViewData
         return new SubCriteriaViewHolder(parent);
     }
 
-    protected class SubCriteriaViewHolder extends BaseRecyclerViewHolder<SubCriteriaViewData> implements SwitchableButton.StateChangedListener {
+    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener {
 
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
@@ -51,13 +50,13 @@ public class SubCriteriaAdapter extends BaseClickableAdapter<SubCriteriaViewData
         @BindView(R.id.switch_answer)
         SwitchableButton switchableButton;
 
-        protected SubCriteriaViewHolder(ViewGroup parent) {
+        SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
         }
 
         @Override
-        public void onBind() {
+        public void onBind(SubCriteriaViewData item) {
             String question = item.getText();
             questionTextView.setText(question.replace("\r\n", " ").replace("\n", " "));
             numberingTextView.setText(getResources().getString(
@@ -69,6 +68,7 @@ public class SubCriteriaAdapter extends BaseClickableAdapter<SubCriteriaViewData
 
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
+            SubCriteriaViewData item = getItem();
             item.setAnswer(convertFromUiState(state));
             notifyStateChanged(item);
         }

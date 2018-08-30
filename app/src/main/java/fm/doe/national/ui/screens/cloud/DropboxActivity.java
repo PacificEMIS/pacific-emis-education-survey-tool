@@ -21,12 +21,12 @@ import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class DropboxActivity extends BaseActivity implements
         DropboxView,
         View.OnClickListener,
-        BaseClickableAdapter.OnRecyclerItemClickListener<BrowsingTreeObject> {
+        BaseAdapter.OnItemClickListener<BrowsingTreeObject> {
 
     private static final int ACTION_DEFAULT = -1;
     private static final int ACTION_AUTH = 0;
@@ -61,7 +61,7 @@ public class DropboxActivity extends BaseActivity implements
     DropboxPresenter presenter;
 
     private boolean haveBeenPaused = false;
-    private FilePickerAdapter adapter = new FilePickerAdapter();
+    private FilePickerListAdapter adapter = new FilePickerListAdapter();
     private BrowsingTreeObject currentBrowsingItem;
 
 
@@ -210,7 +210,7 @@ public class DropboxActivity extends BaseActivity implements
     }
 
     @Override
-    public void onRecyclerItemClick(BrowsingTreeObject item) {
+    public void onItemClick(BrowsingTreeObject item) {
         if (item.isDirectory()) {
             currentBrowsingItem = item;
             updateUi();

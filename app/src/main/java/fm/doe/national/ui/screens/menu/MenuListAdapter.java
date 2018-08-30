@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.menu;
 
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -8,17 +7,16 @@ import com.omega_r.libs.omegatypes.Text;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseClickableAdapter;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class MenuAdapter extends BaseClickableAdapter<Text, MenuAdapter.MenuItemViewHolder> {
+public class MenuListAdapter extends BaseAdapter<Text> {
 
     @Override
     protected MenuItemViewHolder provideViewHolder(ViewGroup parent) {
         return new MenuItemViewHolder(parent);
     }
 
-    class MenuItemViewHolder extends BaseRecyclerViewHolder<Text> implements View.OnClickListener {
+    public class MenuItemViewHolder extends ViewHolder {
 
         @BindView(R.id.textview_name)
         TextView typeTestTextView;
@@ -28,12 +26,7 @@ public class MenuAdapter extends BaseClickableAdapter<Text, MenuAdapter.MenuItem
         }
 
         @Override
-        public void onClick(View v) {
-            onItemClick(item);
-        }
-
-        @Override
-        public void onBind() {
+        public void onBind(Text item) {
             typeTestTextView.setText(item.getString(getResources()));
             itemView.setOnClickListener(this);
         }
