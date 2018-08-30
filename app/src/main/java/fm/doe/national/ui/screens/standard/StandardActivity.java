@@ -36,6 +36,8 @@ public class StandardActivity extends BaseActivity implements StandardView {
             R.drawable.ic_standard_observation_selector
     };
 
+    private final CriteriaListAdapter recyclerAdapter = new CriteriaListAdapter();
+
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
 
@@ -65,8 +67,6 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
-
-    private final CriteriaListAdapter recyclerAdapter = new CriteriaListAdapter();
 
     @InjectPresenter
     StandardPresenter presenter;
