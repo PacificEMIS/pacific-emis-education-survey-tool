@@ -17,14 +17,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.ui.adapters.CriteriaAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.view_data.CriteriaViewData;
+import fm.doe.national.utils.ViewUtils;
 
 public class StandardActivity extends BaseActivity implements StandardView {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
+    private static final String EXTRA_GROUPS = "EXTRA_GROUPS";
+
     private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
             R.drawable.ic_standard_teacher_selector,
@@ -34,6 +35,8 @@ public class StandardActivity extends BaseActivity implements StandardView {
             R.drawable.ic_standard_improvement_selector,
             R.drawable.ic_standard_observation_selector
     };
+
+    private final CriteriaListAdapter recyclerAdapter = new CriteriaListAdapter();
 
     @BindView(R.id.recyclerview_criterias)
     RecyclerView criteriasRecycler;
@@ -65,20 +68,21 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
-    private final CriteriaAdapter recyclerAdapter = new CriteriaAdapter();
-
     @InjectPresenter
     StandardPresenter presenter;
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
-        return new StandardPresenter(getSerializableExtra(EXTRA_ACCREDITATION));
+        return new StandardPresenter(
+                getIntent().getLongExtra(EXTRA_ACCREDITATION, -1),
+                getIntent().getLongArrayExtra(EXTRA_GROUPS));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull SchoolAccreditationPassing accreditationResult) {
+    public static Intent createIntent(@NonNull Context context, long passingId, long[] groupIds) {
         return new Intent(context, StandardActivity.class)
-                .putExtra(EXTRA_ACCREDITATION, accreditationResult);
+                .putExtra(EXTRA_ACCREDITATION, passingId)
+                .putExtra(EXTRA_GROUPS, groupIds);
     }
 
     @Override
@@ -98,7 +102,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
     @Override
     public void setCriterias(@NonNull List<CriteriaViewData> criterias) {
-        recyclerAdapter.setCriterias(criterias);
+        recyclerAdapter.setItems(criterias);
     }
 
     @Override
@@ -125,9 +129,9 @@ public class StandardActivity extends BaseActivity implements StandardView {
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {
-        if (forIndex >= icons.length) return;
+        if (forIndex >= ViewUtils.STANDARD_ICONS.length) return;
 
-        Drawable drawable = getResources().getDrawable(icons[forIndex]);
+        Drawable drawable = getResources().getDrawable(ViewUtils.STANDARD_ICONS[forIndex]);
         imageView.setImageDrawable(drawable);
         imageView.setActivated(isHighlighted);
     }

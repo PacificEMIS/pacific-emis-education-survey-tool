@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,17 +15,18 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.dropbox.core.android.Auth;
-import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import butterknife.BindView;
 import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
-import fm.doe.national.ui.adapters.FilePickerAdapter;
-import fm.doe.national.ui.listeners.FilePickerListener;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class DropboxActivity extends BaseActivity implements DropboxView, View.OnClickListener, FilePickerListener {
+public class DropboxActivity extends BaseActivity implements
+        DropboxView,
+        View.OnClickListener,
+        BaseAdapter.OnItemClickListener<BrowsingTreeObject> {
 
     private static final int ACTION_DEFAULT = -1;
     private static final int ACTION_AUTH = 0;
@@ -47,7 +49,7 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
     TextView pathTextView;
 
     @BindView(R.id.recyclerview_browse)
-    OmegaRecyclerView browseRecycler;
+    RecyclerView browseRecycler;
 
     @BindView(R.id.button_confirm)
     Button confirmButton;
@@ -59,7 +61,7 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
     DropboxPresenter presenter;
 
     private boolean haveBeenPaused = false;
-    private FilePickerAdapter adapter = new FilePickerAdapter();
+    private FilePickerListAdapter adapter = new FilePickerListAdapter();
     private BrowsingTreeObject currentBrowsingItem;
 
 
@@ -208,12 +210,12 @@ public class DropboxActivity extends BaseActivity implements DropboxView, View.O
     }
 
     @Override
-    public void onBrowsingObjectPicked(BrowsingTreeObject object) {
-        if (object.isDirectory()) {
-            currentBrowsingItem = object;
+    public void onItemClick(BrowsingTreeObject item) {
+        if (item.isDirectory()) {
+            currentBrowsingItem = item;
             updateUi();
         } else {
-            presenter.onBrowsingItemPicked(object);
+            presenter.onBrowsingItemPicked(item);
         }
     }
 

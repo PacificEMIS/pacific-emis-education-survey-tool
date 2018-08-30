@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/appbarLayout"
+        layout="@layout/include_appbar" />
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/header_choose_category"
+        android:textColor="@color/charcoal_grey"
+        android:textSize="@dimen/size_text_titles"
+        app:layout_constraintEnd_toStartOf="@+id/imageview_done"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarLayout" />
+
+    <ImageView
+        android:id="@+id/imageview_done"
+        android:layout_width="11dp"
+        android:layout_height="9dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_progress"
+        app:layout_constraintEnd_toStartOf="@+id/textview_progress"
+        app:layout_constraintStart_toEndOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="@+id/textview_progress"
+        app:srcCompat="@drawable/ic_done" />
+
+    <TextView
+        android:id="@+id/textview_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview_title"
+        tools:text="1/7" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_groups"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:theme="@style/BaseThemeRecyclerView"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"
+        app:showDivider="middle|end"
+        tools:listitem="@layout/item_group_standards">
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_standards"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:theme="@style/BaseThemeRecyclerView"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"
+        app:showDivider="middle|end"
+        tools:listitem="@layout/item_group_standards">
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+
+
+</android.support.constraint.ConstraintLayout>
