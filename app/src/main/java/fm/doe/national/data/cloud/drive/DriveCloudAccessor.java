@@ -101,6 +101,22 @@ public class DriveCloudAccessor implements CloudAccessor {
         return auth().andThen(pickDirectory);
     }
 
+    @Override
+    public String getEmail() {
+        return "";
+    }
+
+    @Override
+    public String getExportPath() {
+        if (exportFolderId == null) return "";
+        return exportFolderId.toString();
+    }
+
+    @Override
+    public boolean inUse() {
+        return isAuthenticated();
+    }
+
     public void onAuth() {
         if (authCompletable == null) return;
 

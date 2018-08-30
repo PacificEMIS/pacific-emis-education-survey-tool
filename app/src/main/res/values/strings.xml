@@ -43,4 +43,20 @@
     <string name="title_select_file">Select file</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="title_choose_icon">Choose your icon</string>
+    <string name="title_connected_accounts">Connected accounts</string>
+    <string name="title_connect_accounts">Connect accounts</string>
+    <string name="action_change_it">Change it</string>
+    <string name="action_connect">Connect</string>
+    <string name="default_image">Default image</string>
+    <string name="account_drive">Google Drive account</string>
+    <string name="account_dropbox">Dropbox account</string>
+    <string name="action_import_schools">Import schools</string>
+    <string name="action_import_surveys">Import survey</string>
+    <string name="action_export_folder">Export folder</string>
+    <string name="label_settings">Settings</string>
+    <string name="integration_drive">Google Drive integration</string>
+    <string name="integration_dropbox">Dropbox integration</string>
+    <string name="default_export">Default for Export</string>
+    <string name="change_default_export">Change to default for Export</string>
 </resources>

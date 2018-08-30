@@ -8,6 +8,7 @@ import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.data.cloud.exceptions.PickException;
+import io.reactivex.exceptions.OnErrorNotImplementedException;
 
 public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T> {
     protected void handleError(Throwable throwable) {
@@ -21,6 +22,8 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
             getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_import));
         } else if (throwable instanceof PickException) {
             getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_picker));
+        } else if (throwable instanceof OnErrorNotImplementedException) {
+            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_any));
         } else if (throwable instanceof RuntimeException) {
             throw (RuntimeException) throwable;
         } else {

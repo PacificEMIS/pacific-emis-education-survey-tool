@@ -91,6 +91,8 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
             case R.id.fab_new_accreditation:
                 startActivity(CreateSurveyActivity.createIntent(this));
                 break;
+            default:
+                super.onClick(view);
         }
     }
 

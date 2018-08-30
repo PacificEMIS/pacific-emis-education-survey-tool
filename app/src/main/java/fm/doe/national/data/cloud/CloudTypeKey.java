@@ -14,5 +14,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @MapKey
 public @interface CloudTypeKey {
-    CloudAccessor.Type value();
+    CloudType value();
 }
