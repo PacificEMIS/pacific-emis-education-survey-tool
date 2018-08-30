@@ -53,4 +53,13 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
     public List<? extends Criteria> getCriterias() {
         return criterias;
     }
+
+    @Override
+    public int getQuestionsCount() {
+        int count = 0;
+        for (Criteria criteria: getCriterias()) {
+            count += criteria.getSubCriterias().size();
+        }
+        return count;
+    }
 }

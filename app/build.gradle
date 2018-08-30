@@ -10,9 +10,14 @@ android {
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.xml\""
+
+        def DROPBOX_API_KEY = "wgfc52kfzlfemur"
+        buildConfigField "String", "DROPBOX_API_KEY", DROPBOX_API_KEY
+        manifestPlaceholders = [ dropbox_api_key : DROPBOX_API_KEY ]
     }
     signingConfigs {
         release {
@@ -33,11 +38,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -50,20 +55,27 @@ dependencies {
     def butterknifeVersion = '8.8.1'
     def tikxmlVersion = '0.8.13'
     def fastCsvVersion = '1.0.2'
+    def gpsDriveVersion = '15.0.1'
+    def gpsAuthVersion = '16.0.0'
+    def dropboxVersion = '3.0.8'
+    def multidexVersion = '1.0.3'
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
 
-    //moxy
+    // moxy
     implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
 
-    //RxJava2
+    // RxJava2
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-    //RxBinding
+    // RxBinding
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
     // Retrofit
@@ -82,21 +94,18 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // ButterKnife
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
-    implementation 'com.github.Omega-R:OmegaTypes:0.0.2'
+    implementation 'com.github.Omega-R:OmegaTypes:0.0.3'
 
     // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-
-    // Tests
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
-        transitive = true;
-    }
 
     // Tikxml
     implementation "com.tickaroo.tikxml:annotation:$tikxmlVersion"
@@ -105,6 +114,24 @@ dependencies {
 
     // FastCsv
     implementation "de.siegmar:fastcsv:$fastCsvVersion"
+
+    // Tests
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+        transitive = true
+    }
+
+    // Google Play Services + Drive
+    implementation "com.google.android.gms:play-services-drive:$gpsDriveVersion"
+    implementation "com.google.android.gms:play-services-auth:$gpsAuthVersion"
+
+    // Dropbox
+    compile "com.dropbox.core:dropbox-core-sdk:$dropboxVersion"
+
+    implementation "com.android.support:multidex:$multidexVersion"
 
     // Run `adb forward tcp:8080 tcp:8080` in terminal
     // Open url: http://localhost:8080/ to view database

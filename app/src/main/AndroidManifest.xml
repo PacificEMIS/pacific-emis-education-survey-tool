@@ -5,23 +5,42 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="fm.doe.national.MicronesiaApplication"
+        android:name=".MicronesiaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="fm.doe.national.ui.screens.main.MainActivity">
+        <activity android:name=".ui.screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.screens.standard.StandardActivity"/>
+        <activity android:name=".ui.screens.cloud.DriveActivity" />
+        <activity android:name=".ui.screens.cloud.DropboxActivity"/>
+
+        <activity
+            android:name="com.dropbox.core.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <data android:scheme="db-${dropbox_api_key}" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />
+
     </application>
 
 </manifest>

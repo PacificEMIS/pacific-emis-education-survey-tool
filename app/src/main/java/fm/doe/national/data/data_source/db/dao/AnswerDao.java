@@ -36,4 +36,14 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
         });
     }
 
+    public Single<OrmLiteAnswer> requestAnswer(OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyResul) {
+        return Single.fromCallable(() -> queryBuilder()
+                .where()
+                .eq(OrmLiteAnswer.Column.SURVEY_RESULT, surveyResul)
+                .and()
+                .eq(OrmLiteAnswer.Column.PARENT_ITEM, parentSurveyItem)
+                .queryForFirst());
+    }
+
+
 }

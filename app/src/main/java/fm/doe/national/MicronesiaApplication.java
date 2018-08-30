@@ -13,7 +13,7 @@ import fm.doe.national.di.DaggerAppComponent;
 import fm.doe.national.di.modules.ContextModule;
 import io.fabric.sdk.android.Fabric;
 
-public class MicronesiaApplication extends Application {
+public class MicronesiaApplication extends Application  {
 
     private static AppComponent appComponent;
 
@@ -21,7 +21,9 @@ public class MicronesiaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-        appComponent = DaggerAppComponent.builder().contextModule(new ContextModule(this)).build();
+        appComponent = DaggerAppComponent.builder()
+                .contextModule(new ContextModule(this))
+                .build();
 
         showDebugDBAddressLogToast(this);
     }

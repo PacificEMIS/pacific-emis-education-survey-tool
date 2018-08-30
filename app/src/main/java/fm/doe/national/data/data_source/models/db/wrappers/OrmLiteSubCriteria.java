@@ -32,5 +32,6 @@ public class OrmLiteSubCriteria implements SubCriteria {
     public Answer getAnswer() {
         return answer;
     }
+    
 
 }
