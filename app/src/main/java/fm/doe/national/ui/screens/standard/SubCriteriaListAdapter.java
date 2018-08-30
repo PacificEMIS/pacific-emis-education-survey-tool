@@ -1,7 +1,5 @@
-package fm.doe.national.ui.adapters;
+package fm.doe.national.ui.screens.standard;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -12,14 +10,12 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.ui.custom_views.SwitchableButton;
-import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import fm.doe.national.utils.TextUtil;
 
-public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.SubCriteriaViewHolder> {
+public class SubCriteriaListAdapter extends BaseAdapter<SubCriteriaViewData> {
 
-    private List<SubCriteriaViewData> subCriterias = new ArrayList<>();
     private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
 
     public void clearSubscribers() {
@@ -38,29 +34,12 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         this.subscribers.addAll(subscribers);
     }
 
-    @NonNull
     @Override
-    public SubCriteriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    protected SubCriteriaViewHolder provideViewHolder(ViewGroup parent) {
         return new SubCriteriaViewHolder(parent);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull SubCriteriaViewHolder holder, int position) {
-        holder.bind(subCriterias.get(position), position);
-    }
-
-    public void setSubCriterias(List<SubCriteriaViewData> subCriterias) {
-        this.subCriterias.clear();
-        this.subCriterias.addAll(subCriterias);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemCount() {
-        return subCriterias.size();
-    }
-
-    protected class SubCriteriaViewHolder extends BaseRecyclerViewHolder implements SwitchableButton.StateChangedListener {
+    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener {
 
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
@@ -71,26 +50,27 @@ public class SubCriteriaAdapter extends RecyclerView.Adapter<SubCriteriaAdapter.
         @BindView(R.id.switch_answer)
         SwitchableButton switchableButton;
 
-        private SubCriteriaViewData subCriteria;
-
-        protected SubCriteriaViewHolder(ViewGroup parent) {
+        SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
         }
 
-        protected void bind(SubCriteriaViewData subCriteriaViewData, int position) {
-            subCriteria = subCriteriaViewData;
-            questionTextView.setText(subCriteria.getText());
-            numberingTextView.setText(
-                    getResources().getString(R.string.criteria_char_icon_pattern, TextUtil.convertIntToCharsIcons(position)));
+        @Override
+        public void onBind(SubCriteriaViewData item) {
+            String question = item.getText();
+            questionTextView.setText(question.replace("\r\n", " ").replace("\n", " "));
+            numberingTextView.setText(getResources().getString(
+                    R.string.criteria_char_icon_pattern,
+                    TextUtil.convertIntToCharsIcons(getAdapterPosition())));
 
-            switchableButton.setState(convertToUiState(subCriteria.getAnswer()));
+            switchableButton.setState(convertToUiState(item.getAnswer()));
         }
 
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
-            subCriteria.setAnswer(convertFromUiState(state));
-            notifyStateChanged(subCriteria);
+            SubCriteriaViewData item = getItem();
+            item.setAnswer(convertFromUiState(state));
+            notifyStateChanged(item);
         }
 
         private SwitchableButton.State convertToUiState(Answer.State state) {

@@ -16,12 +16,15 @@ import fm.doe.national.di.modules.CloudModule;
 import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
-import fm.doe.national.di.modules.LifecycleModule;
 import fm.doe.national.di.modules.ParsersModule;
+import fm.doe.national.ui.screens.group_standards.GroupStandardsPresenter;
+import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationPresenter;
+import fm.doe.national.ui.screens.splash.SplashPresenter;
+import fm.doe.national.ui.screens.standard.StandardPresenter;
+import fm.doe.national.ui.screens.survey_creation.CreateSurveyPresenter;
+import fm.doe.national.di.modules.LifecycleModule;
 import fm.doe.national.di.modules.SharedPreferencesModule;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
-import fm.doe.national.ui.screens.main.MainPresenter;
-import fm.doe.national.ui.screens.standard.StandardPresenter;
 import fm.doe.national.utils.LifecycleListener;
 
 @Singleton
@@ -43,6 +46,9 @@ public interface AppComponent {
     DropboxCloudAccessor getDropboxCloudAccessor();
     LifecycleListener getLifecycleListener();
     void inject(DriveActivity target);
-    void inject(MainPresenter target);
     void inject(StandardPresenter standardPresenter);
+    void inject(SplashPresenter splashPresenter);
+    void inject(SchoolAccreditationPresenter schoolAccreditationPresenter);
+    void inject(CreateSurveyPresenter createSurveyPresenter);
+    void inject(GroupStandardsPresenter groupStandardsPresenter);
 }

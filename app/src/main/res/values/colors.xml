@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/white</color>
     <color name="colorAccent">@color/yellow</color>
 
     <color name="gray">#d3d3d3</color>
     <color name="blue">#4169E1</color>
+    <color name="dark_sky_blue">#2cabe3</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="cool_grey">#b2b9bc</color>
+    <color name="charcoal_grey">#303040</color>
     <color name="yellow">#ffde03</color>
-    <color name="charcoal_gray">#303040</color>
     <color name="soft_grey">#757575</color>
-
-
-    <color name="color_criteria_primary">#2CABE3</color>
     <color name="color_criteria_primary_dark">#847f78</color>
     <color name="color_criteria_progress_bg">#f2f3f8</color>
     <color name="color_criteria_progress_done">#50be75</color>
+    <color name="dark_sky_blue_two">#4cb9e9</color>
+    <color name="peacock_blue">#006e9e</color>
+    <color name="pinkish_grey">#c4c4c4</color>
+
 </resources>

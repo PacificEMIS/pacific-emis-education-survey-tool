@@ -32,7 +32,7 @@ public interface DataSource {
 
     Completable createSchoolAccreditation(SchoolAccreditation schoolAccreditation);
 
-    Single<SchoolAccreditation> createNewSchoolAccreditationPassing(int year, School school);
+    Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(int year, School school);
 
     Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings();
 }

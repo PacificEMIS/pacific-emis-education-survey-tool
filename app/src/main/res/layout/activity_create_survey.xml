@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/include_appbar"
+        app:layout_constraintBottom_toTopOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/title_choose_school"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size_text_titles"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview_schools"
+        app:layout_constraintEnd_toStartOf="@+id/imageview_clock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+
+    <ImageView
+        android:id="@+id/imageview_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_title"
+        app:layout_constraintEnd_toStartOf="@+id/textview_year"
+        app:layout_constraintStart_toEndOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="@+id/textview_title"
+        app:srcCompat="@drawable/ic_clock" />
+
+    <TextView
+        android:id="@+id/textview_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        android:textColor="@color/cool_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/imageview_clock"
+        app:layout_constraintEnd_toStartOf="@+id/button_edit"
+        app:layout_constraintTop_toTopOf="@+id/imageview_clock"
+        tools:text="2018" />
+
+    <Button
+        android:id="@+id/button_edit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_year"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview_year"
+        android:background="@drawable/ic_edit" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_schools"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"
+        tools:listitem="@layout/item_school"
+        android:divider="@color/pinkish_grey"
+        android:dividerHeight="1dp"
+        app:dividerPadding="16dp"
+        app:showDivider="middle"/>
+
+
+</android.support.constraint.ConstraintLayout>

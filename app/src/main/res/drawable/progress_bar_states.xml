@@ -2,20 +2,14 @@
 
     <item android:id="@android:id/background">
         <shape>
-            <gradient
-                android:centerColor="#f2f3f8"
-                android:endColor="#f2f3f8"
-                android:startColor="#f2f3f8" />
+            <solid android:color="@color/color_criteria_progress_bg" />
         </shape>
     </item>
 
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <gradient
-                    android:centerColor="#50be75"
-                    android:endColor="#50be75"
-                    android:startColor="#50be75" />
+                <solid android:color="@color/colorAccent" />
             </shape>
         </clip>
     </item>

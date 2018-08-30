@@ -1,9 +1,7 @@
-package fm.doe.national.ui.adapters;
+package fm.doe.national.ui.screens.standard;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,21 +17,14 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.ui.listeners.SubcriteriaStateChangeListener;
-import fm.doe.national.ui.screens.base.BaseRecyclerViewHolder;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import fm.doe.national.utils.ViewUtils;
 
-public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.CriteriaViewHolder> {
+public class CriteriaListAdapter extends BaseAdapter<CriteriaViewData> {
 
-    private List<CriteriaViewData> items = new ArrayList<>();
     private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
-
-    public void setCriterias(@NonNull List<CriteriaViewData> criterias) {
-        items = criterias;
-        notifyDataSetChanged();
-    }
 
     public void clearSubscribers() {
         subscribers.clear();
@@ -47,23 +38,12 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         subscribers.add(listener);
     }
 
-    @NonNull
     @Override
-    public CriteriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    protected CriteriaViewHolder provideViewHolder(ViewGroup parent) {
         return new CriteriaViewHolder(parent);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull CriteriaViewHolder holder, int position) {
-        holder.bind(items.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    protected class CriteriaViewHolder extends BaseRecyclerViewHolder implements SubcriteriaStateChangeListener {
+    protected class CriteriaViewHolder extends ViewHolder implements SubcriteriaStateChangeListener {
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -83,21 +63,19 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         @BindView(R.id.imageview_expanding_arrow)
         ImageView arrowImageView;
 
-        private final SubCriteriaAdapter adapter = new SubCriteriaAdapter();
-        private CriteriaViewData criteria;
-        private SubCriteriaAdapter subCriteriaAdapter;
+        private final SubCriteriaListAdapter adapter = new SubCriteriaListAdapter();
 
-        public CriteriaViewHolder(ViewGroup parent) {
+        CriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_criteria);
-
             adapter.addSubscribers(subscribers);
             adapter.subscribeOnChanges(this);
+            subcriteriasRecycler.setAdapter(adapter);
         }
 
-        protected void bind(@NonNull CriteriaViewData criteriaViewData) {
-            criteria = criteriaViewData;
-            subCriteriaAdapter.setSubCriterias(criteria.getQuestionsViewData());
-            titleTextView.setText(criteria.getName());
+        @Override
+        public void onBind(CriteriaViewData item) {
+            adapter.setItems(item.getQuestionsViewData());
+            titleTextView.setText(item.getName());
             rebindProgress();
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             header.setOnClickListener((View v) -> {
@@ -120,18 +98,14 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.Criter
         }
 
         private void rebindProgress() {
-            int progress = criteria.getPercentageProgress();
-            progressBar.setActivated(progress == 100);
-            progressTextView.setActivated(progress == 100);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                progressBar.setProgress(progress, true);
-            } else {
-                progressBar.setProgress(progress);
-            }
-
-            progressTextView.setText(getResources().getString(
-                    R.string.criteria_progress, criteria.getAnsweredCount(), criteria.getQuestionsViewData().size()));
+            CriteriaViewData item = getItem();
+            ViewUtils.rebindProgress(
+                    item.getQuestionsViewData().size(),
+                    item.getAnsweredCount(),
+                    getString(R.string.criteria_progress),
+                    progressTextView,
+                    progressBar);
         }
+
     }
 }

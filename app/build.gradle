@@ -13,10 +13,11 @@ android {
         multiDexEnabled true
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
+        vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
 
         def DROPBOX_API_KEY = "wgfc52kfzlfemur"
-        buildConfigField "String", "DROPBOX_API_KEY", DROPBOX_API_KEY
+        buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
         manifestPlaceholders = [ dropbox_api_key : DROPBOX_API_KEY ]
     }
     signingConfigs {
@@ -61,6 +62,8 @@ dependencies {
     def multidexVersion = '1.0.3'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -95,13 +98,10 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    // ButterKnife
-    implementation "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-
-    implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.0@aar'
+    implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.6@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.3'
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.2'
 
     // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
@@ -125,16 +125,17 @@ dependencies {
     }
 
     // Run `adb forward tcp:8080 tcp:8080` in terminal
-
     // Open url: http://localhost:8080/ to view database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     // Google Play Services + Drive
     implementation "com.google.android.gms:play-services-drive:$gpsDriveVersion"
     implementation "com.google.android.gms:play-services-auth:$gpsAuthVersion"
 
     // Dropbox
-    compile "com.dropbox.core:dropbox-core-sdk:$dropboxVersion"
+    implementation "com.dropbox.core:dropbox-core-sdk:$dropboxVersion"
 
     implementation "com.android.support:multidex:$multidexVersion"
 }
