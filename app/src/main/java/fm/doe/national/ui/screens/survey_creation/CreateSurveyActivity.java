@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -31,8 +31,8 @@ public class CreateSurveyActivity extends BaseActivity implements
     @BindView(R.id.textview_year)
     TextView yearTextView;
 
-    @BindView(R.id.imageview_edit)
-    ImageView editImageView;
+    @BindView(R.id.button_edit)
+    Button editButton;
 
     @BindView(R.id.recyclerview_schools)
     RecyclerView schoolsRecycler;

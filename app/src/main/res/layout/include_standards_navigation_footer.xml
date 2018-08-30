@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toStartOf="@+id/constraintlayout_next"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="?android:attr/selectableItemBackground">
+        android:background="?selectableItemBackground">
 
         <ImageView
             android:id="@+id/imageview_standard_icon_prev"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/constraintlayout_prev"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="?android:attr/selectableItemBackground">
+        android:background="?selectableItemBackground">
 
         <ImageView
             android:id="@+id/imageview_standard_icon_next"

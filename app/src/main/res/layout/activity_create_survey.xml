@@ -47,19 +47,19 @@
         android:textSize="16sp"
         android:textColor="@color/cool_grey"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_clock"
-        app:layout_constraintEnd_toStartOf="@+id/imageview_edit"
+        app:layout_constraintEnd_toStartOf="@+id/button_edit"
         app:layout_constraintTop_toTopOf="@+id/imageview_clock"
         tools:text="2018" />
 
-    <ImageView
-        android:id="@+id/imageview_edit"
+    <Button
+        android:id="@+id/button_edit"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/textview_year"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textview_year"
-        app:srcCompat="@drawable/ic_edit" />
+        android:background="@drawable/ic_edit" />
 
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview_schools"

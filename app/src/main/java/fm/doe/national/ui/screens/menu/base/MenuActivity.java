@@ -26,7 +26,7 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
 
     protected final MenuListAdapter menuAdapter = new MenuListAdapter();
 
-    @BindView(R.id.drawer_recyclerview)
+    @BindView(R.id.recyclerview_drawer)
     protected OmegaRecyclerView recyclerView;
 
     @BindView(R.id.imageview_logo)

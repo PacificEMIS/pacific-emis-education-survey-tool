@@ -49,18 +49,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     public void onQuestionStateChanged(@NonNull SubCriteriaViewData subCriteriaViewData,
                                        @NonNull SubCriteria subCriteria,
                                        @Nullable Answer answer, Answer.State newState) {
-        if (answer != null) {
-            if (newState == Answer.State.NOT_ANSWERED) {
-                // TODO: data_source answer delete
-            }
-            answer.setAnswer(newState == Answer.State.POSITIVE);
-            // TODO: data_source answer update
-        } else {
-            // TODO: data_source answer create
-        }
-        getViewState().setProgress(
-                ModelsExt.getAnsweredQuestionsCount(standards.get(standardIndex)),
-                ModelsExt.getTotalQuestionsCount(standards.get(standardIndex)));
+        
     }
 
     public void onNextPressed() {
