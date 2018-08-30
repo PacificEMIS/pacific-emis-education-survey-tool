@@ -37,7 +37,7 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
     public OrmLiteCategoryProgress(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
         this.surveyItem = surveyItem;
         this.surveyPassing = surveyPassing;
-        this.totalItemsCount = OrmLiteSurveyItem.getTotalChildrenSize(surveyItem);
+        this.totalItemsCount = OrmLiteSurveyItem.getTotalChildrenCount(surveyItem);
     }
 
     public long getId() {

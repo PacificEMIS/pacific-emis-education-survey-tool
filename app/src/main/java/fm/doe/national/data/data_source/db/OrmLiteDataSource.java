@@ -6,12 +6,12 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.db.dao.AnswerDao;
+import fm.doe.national.data.data_source.db.dao.CategoryProgressDao;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 import fm.doe.national.data.data_source.db.dao.SchoolDao;
 import fm.doe.national.data.data_source.db.dao.SurveyDao;
 import fm.doe.national.data.data_source.db.dao.SurveyItemDao;
 import fm.doe.national.data.data_source.db.dao.SurveyPassingDao;
-import fm.doe.national.data.data_source.db.dao.CategoryProgressDao;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.GroupStandard;

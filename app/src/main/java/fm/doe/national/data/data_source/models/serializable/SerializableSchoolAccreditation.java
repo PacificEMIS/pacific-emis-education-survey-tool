@@ -8,7 +8,6 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 
 @Xml(name = "schoolAccreditation")
 public class SerializableSchoolAccreditation implements LinkedSchoolAccreditation, ListConverter.Converter<GroupStandard, SerializableGroupStandard> {

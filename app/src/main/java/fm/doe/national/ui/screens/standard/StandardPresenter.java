@@ -2,10 +2,8 @@ package fm.doe.national.ui.screens.standard;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Pair;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +12,15 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.ui.view_data.SubCriteriaViewData;
-import io.reactivex.Observable;
 
 @InjectViewState
 public class StandardPresenter extends BasePresenter<StandardView> {

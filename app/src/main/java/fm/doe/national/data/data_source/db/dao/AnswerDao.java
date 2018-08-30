@@ -8,7 +8,6 @@ import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {

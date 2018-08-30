@@ -14,22 +14,19 @@ import java.util.List;
 public class OrmLiteSurveyItem {
 
     public interface Column {
-
         String ID = "id";
         String NAME = "name";
         String TYPE = "type";
         String PARENT = "parent";
         String SURVEY = "survey";
         String CHILDREN = "children";
-
     }
 
     public enum Type {
         GROUP_STANDARD,
         STANDARD,
         CRITERIA,
-        SUBCRITERIA;
-
+        SUBCRITERIA
     }
 
     @DatabaseField(generatedId = true, columnName = Column.ID)
@@ -101,14 +98,14 @@ public class OrmLiteSurveyItem {
         return survey == null ? parentItem.getSurvey() : survey;
     }
 
-    public static int getTotalChildrenSize(OrmLiteSurveyItem surveyItem) {
+    public static int getTotalChildrenCount(OrmLiteSurveyItem surveyItem) {
         if (surveyItem.childrenItems.isEmpty()) {
             return 1;
         }
 
         int childSum = 0;
         for (OrmLiteSurveyItem item : surveyItem.childrenItems) {
-            childSum += getTotalChildrenSize(item);
+            childSum += getTotalChildrenCount(item);
         }
 
         return childSum;

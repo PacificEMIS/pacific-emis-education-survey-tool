@@ -43,13 +43,6 @@ public class OrmLiteCriteria implements Criteria{
 
     @Override
     public List<? extends SubCriteria> getSubCriterias() {
-        /*if (subCriterias == null) {
-            subCriterias = new ArrayList<>();
-            for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
-                subCriterias.add(new OrmLiteSubCriteria(surveyItem, this));
-            }
-        }*/
-
         return subCriterias;
     }
 

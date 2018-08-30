@@ -5,7 +5,6 @@ import java.util.Date;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 
 public class OrmLiteSchoolAccreditationPassing implements SchoolAccreditationPassing {
@@ -36,9 +35,6 @@ public class OrmLiteSchoolAccreditationPassing implements SchoolAccreditationPas
 
     @Override
     public SchoolAccreditation getSchoolAccreditation() {
-        /*if (schoolAccreditation == null) {
-            schoolAccreditation = new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), surveyProgress);
-        }*/
         return schoolAccreditation;
     }
 

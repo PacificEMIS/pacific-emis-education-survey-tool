@@ -2,8 +2,6 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;

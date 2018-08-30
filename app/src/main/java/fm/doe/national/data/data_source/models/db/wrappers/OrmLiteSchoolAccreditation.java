@@ -1,9 +1,7 @@
 package fm.doe.national.data.data_source.models.db.wrappers;
 
-import java.util.List;
-
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.CategoryProgress;
+import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 
 public class OrmLiteSchoolAccreditation implements SchoolAccreditation {

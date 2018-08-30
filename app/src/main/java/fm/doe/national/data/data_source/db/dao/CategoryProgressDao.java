@@ -7,9 +7,9 @@ import java.util.Collection;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
+import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
-import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 

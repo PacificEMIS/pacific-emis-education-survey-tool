@@ -5,7 +5,6 @@ import com.tickaroo.tikxml.TikXml;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
 import okio.Okio;
