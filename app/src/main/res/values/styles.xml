@@ -56,7 +56,7 @@
     <style name="TextViewStandardsNavigationDrawerFooter" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/color_criteria_primary</item>
+        <item name="android:textColor">@color/dark_sky_blue</item>
     </style>
 
     <style name="ListText" parent="TextAppearance.AppCompat">

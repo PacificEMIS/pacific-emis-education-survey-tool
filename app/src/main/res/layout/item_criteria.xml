@@ -27,7 +27,7 @@
                 android:layout_marginEnd="72dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="18dp"
-                android:textColor="@color/color_criteria_primary"
+                android:textColor="@color/dark_sky_blue"
                 android:textSize="@dimen/size_criteria_text"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
