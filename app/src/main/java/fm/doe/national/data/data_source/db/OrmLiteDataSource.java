@@ -102,13 +102,18 @@ public class OrmLiteDataSource implements DataSource {
         return surveyPassingDao.getAllQueriesSingle()
                 .toObservable()
                 .flatMapIterable(resultList -> resultList)
+                .flatMap(surveyPassing -> requestSchoolAccreditationPassing(surveyPassing.getId())
+                        .toObservable())
+                .toList();
+    }
+
+    @Override
+    public Single<SchoolAccreditationPassing> requestSchoolAccreditationPassing(long passingId) {
+        return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(surveyPassing -> categoryProgressDao.requestCategoryProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
                         .map(progress -> new OrmLiteSchoolAccreditationPassing(
                                 surveyPassing,
-                                new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress)))
-                        .toObservable())
-                .toList()
-                .map(ArrayList<SchoolAccreditationPassing>::new);
+                                new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress))));
     }
 
     @Override
@@ -120,6 +125,28 @@ public class OrmLiteDataSource implements DataSource {
                                 .toObservable())
                         .toList()
                         .map(ArrayList<GroupStandard>::new));
+    }
+
+    @Override
+    public Single<Standard> requestStandard(long passingId, long standardId) {
+        return surveyPassingDao.getItemSingle(passingId)
+                .flatMap(passing -> surveyItemDao.requestItem(standardId)
+                        .flatMap(standardItem -> categoryProgressDao.requestCategoryProgress(passing, standardItem)
+                                .map(progress -> new OrmLiteStandard(standardItem, progress))
+                        ));
+    }
+
+    @Override
+    public Single<List<Standard>> requestStandards(long passingId) {
+        return requestGroupStandards(passingId)
+                .flatMap(groupStandards -> Observable.fromIterable(groupStandards)
+                        .concatMap(groupStandard -> requestStandards(passingId, groupStandard.getId())
+                                .toObservable())
+                        .reduce((accumulator, current) -> {
+                            accumulator.addAll(current);
+                            return accumulator;
+                        })
+                        .toSingle());
     }
 
     @Override

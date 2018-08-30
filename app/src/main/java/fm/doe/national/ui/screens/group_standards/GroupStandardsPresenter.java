@@ -1,5 +1,7 @@
 package fm.doe.national.ui.screens.group_standards;
 
+import android.annotation.SuppressLint;
+
 import com.arellomobile.mvp.InjectViewState;
 
 import java.util.ArrayList;
@@ -9,35 +11,39 @@ import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.ModelsExt;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
-    private SchoolAccreditationPassing schoolAccreditationPassing;
-    private long schoolAccreditationPassingId;
+
+    private long passingId;
+    private Long[] groupStandardsIds;
 
     @Inject
     DataSource dataSource;
 
-    public GroupStandardsPresenter(long schoolAccreditationPassingId) {
+    public GroupStandardsPresenter(long passingId) {
         MicronesiaApplication.getAppComponent().inject(this);
-        this.schoolAccreditationPassingId = schoolAccreditationPassingId;
+        this.passingId = passingId;
+    }
+
+    @Override
+    public void attachView(GroupStandardsView view) {
+        super.attachView(view);
         load();
     }
 
     public void onStandardClicked(Standard standard) {
-        getViewState().navigateToStandardScreen(0, 0);
+        getViewState().navigateToStandardScreen(passingId, standard.getId(), groupStandardsIds);
     }
 
     public void onGroupClicked(GroupStandard group) {
-        extractStandardsOf(group)
+        dataSource.requestStandards(passingId, group.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -56,41 +62,36 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                 .subscribe();
     }
 
-    // TODO: replace
+    @SuppressLint("CheckResult")
     private void load() {
-        dataSource.requestSchoolAccreditationPassings()
+        dataSource.requestSchoolAccreditationPassing(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
                     add(disposable);
                     getViewState().showWaiting();
                 })
-                .doOnSuccess(schoolAccreditationPassings -> {
-                    schoolAccreditationPassing = schoolAccreditationPassings.get(0); // FIXME: temp
-                    loadStandards();
+                .doOnSuccess(passing -> {
+                    CategoryProgress progress = passing.getSchoolAccreditation().getProgress();
+                    getViewState().setGlobalProgress(progress.getCompletedItemsCount(), progress.getTotalItemsCount());
+
                 })
+                .flatMap(passing -> dataSource.requestGroupStandards(passingId))
                 .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe();
+                .subscribe(groupStandards -> {
+                    this.groupStandardsIds = extractGroupStandardsIds(groupStandards);
+                    getViewState().showGroupStandards(groupStandards);
+                });
     }
 
-    private void loadStandards() {
-        List<GroupStandard> groups = new ArrayList<>(schoolAccreditationPassing.getSchoolAccreditation().getGroupStandards());
-        List<Standard> standards = new ArrayList<>();
-        for (GroupStandard groupStandard : groups) {
-            standards.addAll(groupStandard.getStandards());
+    Long[] extractGroupStandardsIds(List<GroupStandard> groupStandards) {
+        List<Long> groupStandardsIds = new ArrayList<>(groupStandards.size());
+        for (GroupStandard groupStandard : groupStandards) {
+            groupStandardsIds.add(groupStandard.getId());
         }
-        getViewState().showGroupStandards(groups);
 
-        int completedCount = 0;
-        for (Standard standard : standards) {
-            if (ModelsExt.getAnsweredQuestionsCount(standard) == ModelsExt.getTotalQuestionsCount(standard)) completedCount++;
-        }
-        getViewState().setGlobalProgress(completedCount, standards.size());
-    }
-
-    private Single<List<Standard>> extractStandardsOf(GroupStandard group) {
-        return Single.fromCallable(() -> new ArrayList<>(group.getStandards())); // TODO: datasource
+        return groupStandardsIds.toArray(new Long[groupStandardsIds.size()]);
     }
 
 }

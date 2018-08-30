@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.ModelsExt;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
@@ -44,8 +43,8 @@ public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationP
             itemView.setOnClickListener(this);
 
             ViewUtils.rebindProgress(
-                    ModelsExt.getTotalQuestionsCount(item.getSchoolAccreditation()),
-                    ModelsExt.getAnsweredQuestionsCount(item.getSchoolAccreditation()),
+                    item.getSchoolAccreditation().getProgress().getTotalItemsCount(),
+                    item.getSchoolAccreditation().getProgress().getCompletedItemsCount(),
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
         }

@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.ModelsExt;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
@@ -47,9 +47,10 @@ public class GroupStandardsListAdapter
 
             categoryNameTextView.setText(item.getName());
 
+            CategoryProgress categoryProgress = item.getCategoryProgress();
             ViewUtils.rebindProgress(
-                    ModelsExt.getTotalQuestionsCount(item),
-                    ModelsExt.getAnsweredQuestionsCount(item),
+                    categoryProgress.getTotalItemsCount(),
+                    categoryProgress.getCompletedItemsCount(),
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
 

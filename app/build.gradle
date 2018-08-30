@@ -15,6 +15,7 @@ android {
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.xml\""
+        buildConfigField "String", "SCHOOLS_FILE_NAME", "\"schools.csv\""
 
         def DROPBOX_API_KEY = "wgfc52kfzlfemur"
         buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""

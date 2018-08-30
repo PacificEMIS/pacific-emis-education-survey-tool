@@ -62,10 +62,12 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
         this.completedItemsCount = completedItemsCount;
     }
 
+    @Override
     public void incrementCompletedItems() {
         this.completedItemsCount++;
     }
 
+    @Override
     public void decrementCompletedItems() {
         this.completedItemsCount--;
     }

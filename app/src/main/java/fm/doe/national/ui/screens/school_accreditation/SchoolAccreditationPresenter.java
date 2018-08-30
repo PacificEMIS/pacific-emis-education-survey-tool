@@ -24,6 +24,11 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     public SchoolAccreditationPresenter() {
         MicronesiaApplication.getAppComponent().inject(this);
+    }
+
+    @Override
+    public void attachView(SchoolAccreditationView view) {
+        super.attachView(view);
         loadRecentSurveys();
     }
 
@@ -45,7 +50,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     }
 
     public void onAccreditationClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
-        getViewState().navigateToCategoryChooser(-1);
+        getViewState().navigateToCategoryChooser(schoolAccreditationPassing.getId());
     }
 
     public void onSearchQueryChanged(String query) {

@@ -29,7 +29,13 @@ public interface DataSource {
 
     Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings();
 
+    Single<SchoolAccreditationPassing> requestSchoolAccreditationPassing(long passingId);
+
     Single<List<GroupStandard>> requestGroupStandards(long passingId);
+
+    Single<Standard> requestStandard(long passingId, long standardId);
+
+    Single<List<Standard>> requestStandards(long passingId);
 
     Single<List<Standard>> requestStandards(long passingId, long groupStandardId);
 

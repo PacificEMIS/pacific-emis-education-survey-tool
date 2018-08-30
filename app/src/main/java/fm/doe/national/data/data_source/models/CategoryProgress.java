@@ -4,6 +4,10 @@ public interface CategoryProgress {
     int getTotalItemsCount();
     int getCompletedItemsCount();
 
+    void incrementCompletedItems();
+
+    void decrementCompletedItems();
+
     enum Action {
         INCREMENT,
         DECREMENT

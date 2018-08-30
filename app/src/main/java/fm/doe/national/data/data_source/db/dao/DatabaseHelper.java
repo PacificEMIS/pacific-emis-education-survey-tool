@@ -13,9 +13,11 @@ import com.j256.ormlite.table.TableUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
@@ -39,17 +41,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private AssetManager assetManager;
     private Parser<LinkedSchoolAccreditation> schoolAccreditationParser;
+    private Parser<List<School>> schoolsParser;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
         assetManager = context.getAssets();
         schoolAccreditationParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
+        schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
     }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         createAllTables(connectionSource);
         createSurvey();
+        createSchools();
     }
 
     // TODO: Remove after cloud storage integration
@@ -63,6 +68,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     schoolAccreditation.getType(),
                     schoolAccreditation.getGroupStandards())
                     .subscribe();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO: Remove after cloud storage integration
+    private void createSchools() {
+        try {
+            InputStream inputStream = assetManager.open(BuildConfig.SCHOOLS_FILE_NAME);
+            List<School> schools = schoolsParser.parse(inputStream);
+
+            schoolDao.addSchools(schools).subscribe();
 
         } catch (IOException e) {
             e.printStackTrace();

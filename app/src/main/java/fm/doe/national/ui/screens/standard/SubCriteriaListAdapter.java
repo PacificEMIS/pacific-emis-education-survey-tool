@@ -9,12 +9,12 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import fm.doe.national.utils.TextUtil;
 
-public class SubCriteriaListAdapter extends BaseAdapter<SubCriteriaViewData> {
+public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
     private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
 
@@ -56,21 +56,26 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteriaViewData> {
         }
 
         @Override
-        public void onBind(SubCriteriaViewData item) {
-            String question = item.getText();
+        public void onBind(SubCriteria item) {
+            String question = item.getName();
             questionTextView.setText(question.replace("\r\n", " ").replace("\n", " "));
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
 
-            switchableButton.setState(convertToUiState(item.getAnswer()));
+            switchableButton.setState(convertToUiState(item.getAnswer().getState()));
         }
 
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
-            SubCriteriaViewData item = getItem();
-            item.setAnswer(convertFromUiState(state));
-            notifyStateChanged(item);
+            SubCriteria item = getItem();
+            Answer.State newState = convertFromUiState(state);
+
+            if (item.getAnswer().getState() != newState) {
+                item.getAnswer().setState(newState);
+                notifyStateChanged(item);
+            }
+
         }
 
         private SwitchableButton.State convertToUiState(Answer.State state) {
@@ -97,10 +102,9 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteriaViewData> {
             return Answer.State.NOT_ANSWERED; // unreachable code
         }
 
-        private void notifyStateChanged(SubCriteriaViewData subCriteria) {
+        private void notifyStateChanged(SubCriteria subCriteria) {
             for (SubcriteriaStateChangeListener subscriber : subscribers) {
-                subscriber.onSubCriteriaStateChanged(subCriteria, subCriteria.getCorrespondingSubCriteria(),
-                        subCriteria.getCorrespondingAnswer(), subCriteria.getAnswer());
+                subscriber.onSubCriteriaStateChanged(subCriteria);
             }
         }
     }

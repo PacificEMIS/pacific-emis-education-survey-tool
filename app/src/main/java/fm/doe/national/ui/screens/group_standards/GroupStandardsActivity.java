@@ -77,8 +77,8 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
     }
 
     @Override
-    public void navigateToStandardScreen(long passingId, int position) {
-        startActivity(StandardActivity.createIntent(this, passingId, new long[] {}));
+    public void navigateToStandardScreen(long passingId, long standardId, Long[] groupStandardsIds) {
+        startActivity(StandardActivity.createIntent(this, passingId, standardId, groupStandardsIds));
     }
 
     @Override

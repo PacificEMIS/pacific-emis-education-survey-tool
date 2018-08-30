@@ -2,7 +2,7 @@ package fm.doe.national.di;
 
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -11,6 +11,7 @@ import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.drive.DriveCloudPreferences;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudPreferences;
+import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.data.serializers.Serializer;
@@ -44,6 +45,7 @@ import fm.doe.national.utils.LifecycleListener;
         LifecycleModule.class})
 public interface AppComponent {
     Parser<LinkedSchoolAccreditation> getSchoolAccreditationParser();
+    Parser<List<School>> getSchoolsParser();
     Serializer<LinkedSchoolAccreditation> getSchoolAccreditationSerizlizer();
     SharedPreferences getSharedPreferences();
     DropboxCloudPreferences getDropboxCloudPreferences();
