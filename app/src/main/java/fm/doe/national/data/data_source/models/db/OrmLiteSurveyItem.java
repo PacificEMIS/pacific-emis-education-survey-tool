@@ -58,6 +58,10 @@ public class OrmLiteSurveyItem {
         this.childrenItems = new ArrayList<>();
     }
 
+    public long getId() {
+        return id;
+    }
+
     @NonNull
     public String getName() {
         return name;
@@ -92,5 +96,18 @@ public class OrmLiteSurveyItem {
 
     public OrmLiteSurvey getSurvey() {
         return survey == null ? parentItem.getSurvey() : survey;
+    }
+
+    public static int getTotalChildrenCount(OrmLiteSurveyItem surveyItem) {
+        if (surveyItem.childrenItems.isEmpty()) {
+            return 1;
+        }
+
+        int childSum = 0;
+        for (OrmLiteSurveyItem item : surveyItem.childrenItems) {
+            childSum += getTotalChildrenCount(item);
+        }
+
+        return childSum;
     }
 }

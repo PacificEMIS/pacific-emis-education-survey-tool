@@ -1,7 +1,6 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.PropertyElement;
@@ -9,12 +8,12 @@ import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.List;
 
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 
 @Xml(name = "criteria")
-public class SerializableCriteria implements Criteria {
+public class SerializableCriteria implements Criteria, ListConverter.Converter<SubCriteria, SerializableSubCriteria> {
 
     @PropertyElement
     String name;
@@ -22,10 +21,12 @@ public class SerializableCriteria implements Criteria {
     @Element
     List<SerializableSubCriteria> subCriterias;
 
-    @Nullable
-    @Override
-    public Standard getStandard() {
-        return null;
+    public SerializableCriteria() {
+    }
+
+    public SerializableCriteria(Criteria criteria) {
+        this.name = criteria.getName();
+        this.subCriterias = ListConverter.createList(criteria.getSubCriterias(), this);
     }
 
     @NonNull
@@ -35,7 +36,22 @@ public class SerializableCriteria implements Criteria {
     }
 
     @Override
+    public CategoryProgress getCategoryProgress() {
+        return null;
+    }
+
+    @Override
     public List<? extends SubCriteria> getSubCriterias() {
         return subCriterias;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
+
+    @Override
+    public SerializableSubCriteria convert(SubCriteria input) {
+        return new SerializableSubCriteria(input.getName(), new SerializableAnswer(input.getAnswer()));
     }
 }

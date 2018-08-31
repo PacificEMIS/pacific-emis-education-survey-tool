@@ -60,7 +60,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                     getViewState().showWaiting();
                     add(disposable);
                 })
-                .doOnSuccess(schools -> getViewState().navigateToCategoryChooser(-1))
+                .doOnSuccess(passing -> getViewState().navigateToCategoryChooser(passing.getId()))
                 .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe();

@@ -14,7 +14,8 @@ android {
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.json\""
+        buildConfigField "String", "SURVEYS_FILE_NAME", "\"surveys.xml\""
+        buildConfigField "String", "SCHOOLS_FILE_NAME", "\"schools.csv\""
 
         def DROPBOX_API_KEY = "wgfc52kfzlfemur"
         buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
@@ -62,7 +63,6 @@ dependencies {
     def multidexVersion = '1.0.3'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
@@ -98,6 +98,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    // OmegaLibs
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.6@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.3'
@@ -124,10 +125,7 @@ dependencies {
         transitive = true
     }
 
-    // Run `adb forward tcp:8080 tcp:8080` in terminal
-    // Open url: http://localhost:8080/ to view database
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
-
+    // CircleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     // Google Play Services + Drive
@@ -138,4 +136,8 @@ dependencies {
     implementation "com.dropbox.core:dropbox-core-sdk:$dropboxVersion"
 
     implementation "com.android.support:multidex:$multidexVersion"
+
+    // Run `adb forward tcp:8080 tcp:8080` in terminal
+    // Open url: http://localhost:8080/ to view database
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 }
