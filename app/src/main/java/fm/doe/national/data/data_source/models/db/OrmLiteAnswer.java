@@ -17,7 +17,7 @@ public class OrmLiteAnswer implements Answer {
         String ID = "id";
         String STATE = "state";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
-        String PARENT_ITEM = "parentItem";
+        String SURVEY_ITEM = "surveyItem";
         String SURVEY_PASSING = "surveyPassing";
     }
 
@@ -30,8 +30,8 @@ public class OrmLiteAnswer implements Answer {
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.SYNCHRONIZED_PLATFORMS)
     protected ArrayList<SynchronizePlatform> synchronizePlatforms;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT_ITEM)
-    protected OrmLiteSurveyItem parentSurveyItem;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_ITEM)
+    protected OrmLiteSurveyItem surveyItem;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_PASSING)
     protected OrmLiteSurveyPassing surveyPassing;
@@ -39,9 +39,9 @@ public class OrmLiteAnswer implements Answer {
     public OrmLiteAnswer() {
     }
 
-    public OrmLiteAnswer(State state, OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyPassing) {
+    public OrmLiteAnswer(State state, OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
         this.state = state;
-        this.parentSurveyItem = parentSurveyItem;
+        this.surveyItem = surveyItem;
         this.surveyPassing = surveyPassing;
         this.synchronizePlatforms = new ArrayList<>();
     }
@@ -75,8 +75,8 @@ public class OrmLiteAnswer implements Answer {
         }
     }
 
-    public OrmLiteSurveyItem getParentSurveyItem() {
-        return parentSurveyItem;
+    public OrmLiteSurveyItem getSurveyItem() {
+        return surveyItem;
     }
 
     public OrmLiteSurveyPassing getSurveyPassing() {

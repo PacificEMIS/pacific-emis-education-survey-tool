@@ -43,8 +43,8 @@ public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationP
             itemView.setOnClickListener(this);
 
             ViewUtils.rebindProgress(
-                    item.getSchoolAccreditation().getProgress().getTotalItemsCount(),
-                    item.getSchoolAccreditation().getProgress().getCompletedItemsCount(),
+                    item.getSchoolAccreditation().getCategoryProgress().getTotalQuestionsCount(),
+                    item.getSchoolAccreditation().getCategoryProgress().getAnsweredQuestionsCount(),
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
         }

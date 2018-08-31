@@ -35,8 +35,8 @@ public class CategoryProgressDao extends BaseRxDao<OrmLiteCategoryProgress, Long
         return Observable.fromIterable(items)
                 .flatMap(surveyItem -> requestCategoryProgress(passing, surveyItem).toObservable())
                 .reduce((accumulator, current) -> {
-                    accumulator.setCompletedItemsCount(accumulator.getCompletedItemsCount() + current.getCompletedItemsCount());
-                    accumulator.setTotalItemsCount(accumulator.getTotalItemsCount() + current.getTotalItemsCount());
+                    accumulator.setAnsweredQuestionsCount(accumulator.getAnsweredQuestionsCount() + current.getAnsweredQuestionsCount());
+                    accumulator.setTotalQuestionsCount(accumulator.getTotalQuestionsCount() + current.getTotalQuestionsCount());
                     return accumulator;
                 })
                 .toSingle();

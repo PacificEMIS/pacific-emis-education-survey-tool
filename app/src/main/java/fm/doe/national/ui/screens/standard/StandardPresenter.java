@@ -25,15 +25,15 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     @Inject
     DataSource dataSource;
 
-    private long schoolAccreditationPassingId;
+    private long passingId;
     private int standardIndex;
     private int nextIndex;
     private int previousIndex;
     private List<Standard> standards = new ArrayList<>();
 
-    public StandardPresenter(long passingId, long standardId, long[] groupsIds) {
+    public StandardPresenter(long passingId, long standardId) {
         MicronesiaApplication.getAppComponent().inject(this);
-        schoolAccreditationPassingId = passingId;
+        this.passingId = passingId;
         load(standardId);
     }
 
@@ -41,7 +41,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
         Answer.State state = subCriteria.getAnswer().getState();
 
-        dataSource.updateAnswer(schoolAccreditationPassingId, subCriteria.getId(), previousState, state)
+        dataSource.updateAnswer(passingId, subCriteria.getId(), previousState, state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(this::add)
@@ -55,8 +55,8 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private void updateProgress() {
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
         getViewState().setProgress(
-                categoryProgress.getCompletedItemsCount(),
-                categoryProgress.getTotalItemsCount());
+                categoryProgress.getAnsweredQuestionsCount(),
+                categoryProgress.getTotalQuestionsCount());
     }
 
     public void onNextPressed() {
@@ -84,7 +84,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     @SuppressLint("CheckResult")
     private void loadQuestions() {
         long standardId = standards.get(standardIndex).getId();
-        dataSource.requestCriterias(schoolAccreditationPassingId, standardId)
+        dataSource.requestCriterias(passingId, standardId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -106,10 +106,15 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         return standardIndex > 0 ? standardIndex - 1 : standards.size() - 1;
     }
 
-    // TODO: replace
+    private void initStandardIndexes(Standard standard) {
+        standardIndex = standards.indexOf(standard);
+        nextIndex = getNextIndex();
+        previousIndex = getPrevIndex();
+    }
+
     @SuppressLint("CheckResult")
     private void load(long standardId) {
-        dataSource.requestStandards(schoolAccreditationPassingId)
+        dataSource.requestStandards(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -117,12 +122,10 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                     add(disposable);
                 })
                 .doOnSuccess(standards -> this.standards = standards)
-                .flatMap(standards -> dataSource.requestStandard(schoolAccreditationPassingId, standardId))
+                .flatMap(standards -> dataSource.requestStandard(passingId, standardId))
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(standard -> {
-                    standardIndex = standards.indexOf(standard);
-                    nextIndex = getNextIndex();
-                    previousIndex = getPrevIndex();
+                    initStandardIndexes(standard);
                     updateUi();
                 }, this::handleError);
     }

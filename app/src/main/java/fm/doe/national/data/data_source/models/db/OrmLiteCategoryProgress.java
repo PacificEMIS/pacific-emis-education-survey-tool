@@ -11,8 +11,8 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
 
     public interface Column {
         String ID = "id";
-        String COMPLETED_ITEMS_COUNT = "completedItemsCount";
-        String TOTAL_ITEMS_COUNT = "totalItemsCount";
+        String ANSWERED_QUESTIONS = "answeredQuestionsCount";
+        String TOTAL_QUESTIONS_COUNT = "totalQuestionsCount";
         String SURVEY_ITEM = "surveyItem";
         String SURVEY_PASSING = "surveyPassing";
     }
@@ -20,11 +20,11 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
 
-    @DatabaseField(columnName = Column.COMPLETED_ITEMS_COUNT)
-    protected int completedItemsCount;
+    @DatabaseField(columnName = Column.ANSWERED_QUESTIONS)
+    protected int answeredQuestionsCount;
 
-    @DatabaseField(columnName = Column.TOTAL_ITEMS_COUNT)
-    protected int totalItemsCount;
+    @DatabaseField(columnName = Column.TOTAL_QUESTIONS_COUNT)
+    protected int totalQuestionsCount;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_ITEM)
     protected OrmLiteSurveyItem surveyItem;
@@ -38,7 +38,7 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
     public OrmLiteCategoryProgress(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
         this.surveyItem = surveyItem;
         this.surveyPassing = surveyPassing;
-        this.totalItemsCount = OrmLiteSurveyItem.getTotalChildrenCount(surveyItem);
+        this.totalQuestionsCount = OrmLiteSurveyItem.getTotalChildrenCount(surveyItem);
     }
 
     public long getId() {
@@ -46,21 +46,21 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
     }
 
     @Override
-    public int getTotalItemsCount() {
-        return totalItemsCount;
+    public int getTotalQuestionsCount() {
+        return totalQuestionsCount;
     }
 
-    public void setTotalItemsCount(int totalItemsCount) {
-        this.totalItemsCount = totalItemsCount;
+    public void setTotalQuestionsCount(int totalQuestionsCount) {
+        this.totalQuestionsCount = totalQuestionsCount;
     }
 
     @Override
-    public int getCompletedItemsCount() {
-        return completedItemsCount;
+    public int getAnsweredQuestionsCount() {
+        return answeredQuestionsCount;
     }
 
-    public void setCompletedItemsCount(int completedItemsCount) {
-        this.completedItemsCount = completedItemsCount;
+    public void setAnsweredQuestionsCount(int answeredQuestionsCount) {
+        this.answeredQuestionsCount = answeredQuestionsCount;
     }
 
     @Override
@@ -73,9 +73,9 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
         }
 
         if (state == Answer.State.NOT_ANSWERED) {
-            this.completedItemsCount--;
+            this.answeredQuestionsCount--;
         } else {
-            this.completedItemsCount++;
+            this.answeredQuestionsCount++;
         }
     }
 

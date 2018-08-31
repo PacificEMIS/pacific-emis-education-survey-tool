@@ -31,7 +31,7 @@ public class SerializableSchoolAccreditation implements LinkedSchoolAccreditatio
     }
 
     @Override
-    public CategoryProgress getProgress() {
+    public CategoryProgress getCategoryProgress() {
         return null;
     }
 

@@ -29,10 +29,10 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     @Override
     public void attachView(SchoolAccreditationView view) {
         super.attachView(view);
-        loadRecentSurveys();
+        loadRecentPassings();
     }
 
-    private void loadRecentSurveys() {
+    private void loadRecentPassings() {
         dataSource.requestSchoolAccreditationPassings()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

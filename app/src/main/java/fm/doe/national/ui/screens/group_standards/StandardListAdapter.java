@@ -46,8 +46,8 @@ public class StandardListAdapter extends BaseAdapter<Standard> {
 
             CategoryProgress categoryProgress = item.getCategoryProgress();
             ViewUtils.rebindProgress(
-                    categoryProgress.getTotalItemsCount(),
-                    categoryProgress.getCompletedItemsCount(),
+                    categoryProgress.getTotalQuestionsCount(),
+                    categoryProgress.getAnsweredQuestionsCount(),
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
 

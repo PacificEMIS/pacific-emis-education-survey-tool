@@ -18,7 +18,7 @@ public interface GroupStandardsView extends BaseView {
     void showStandards(List<Standard> standards);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToStandardScreen(long passingId, long standardId, Long[] groupStandardsIds);
+    void navigateToStandardScreen(long passingId, long standardId);
 
     void setGlobalProgress(int completed, int total);
 

@@ -16,7 +16,7 @@ public class OrmLiteSchoolAccreditation implements SchoolAccreditation {
     }
 
     @Override
-    public CategoryProgress getProgress() {
+    public CategoryProgress getCategoryProgress() {
         return progress;
     }
 

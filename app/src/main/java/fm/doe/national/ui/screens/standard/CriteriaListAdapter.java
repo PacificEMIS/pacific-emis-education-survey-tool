@@ -97,8 +97,8 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
         private void rebindProgress(CategoryProgress progress) {
             ViewUtils.rebindProgress(
-                    progress.getTotalItemsCount(),
-                    progress.getCompletedItemsCount(),
+                    progress.getTotalQuestionsCount(),
+                    progress.getAnsweredQuestionsCount(),
                     getString(R.string.criteria_progress),
                     progressTextView,
                     progressBar);

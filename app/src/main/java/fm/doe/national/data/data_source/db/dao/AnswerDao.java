@@ -22,7 +22,7 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
                     .where()
                     .eq(OrmLiteAnswer.Column.SURVEY_PASSING, surveyPassing)
                     .and()
-                    .eq(OrmLiteAnswer.Column.PARENT_ITEM, surveyItem)
+                    .eq(OrmLiteAnswer.Column.SURVEY_ITEM, surveyItem)
                     .queryForFirst();
             return answer != null ? answer : createIfNotExists(new OrmLiteAnswer(Answer.State.NOT_ANSWERED, surveyItem, surveyPassing));
         });

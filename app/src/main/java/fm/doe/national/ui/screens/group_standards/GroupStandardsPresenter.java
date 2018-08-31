@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 
 import com.arellomobile.mvp.InjectViewState;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
@@ -22,7 +19,6 @@ import io.reactivex.schedulers.Schedulers;
 public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
 
     private long passingId;
-    private Long[] groupStandardsIds;
 
     @Inject
     DataSource dataSource;
@@ -35,13 +31,14 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
     @Override
     public void attachView(GroupStandardsView view) {
         super.attachView(view);
-        load();
+        loadPassing();
     }
 
     public void onStandardClicked(Standard standard) {
-        getViewState().navigateToStandardScreen(passingId, standard.getId(), groupStandardsIds);
+        getViewState().navigateToStandardScreen(passingId, standard.getId());
     }
 
+    @SuppressLint("CheckResult")
     public void onGroupClicked(GroupStandard group) {
         dataSource.requestStandards(passingId, group.getId())
                 .subscribeOn(Schedulers.io())
@@ -50,20 +47,18 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                     add(disposable);
                     getViewState().showWaiting();
                 })
-                .doOnSuccess(standards -> {
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(standards -> {
                     if (standards.size() > 1) {
                         getViewState().showStandards(standards);
                     } else {
                         onStandardClicked(standards.get(0));
                     }
-                })
-                .doOnError(this::handleError)
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe();
+                }, this::handleError);
     }
 
     @SuppressLint("CheckResult")
-    private void load() {
+    private void loadPassing() {
         dataSource.requestSchoolAccreditationPassing(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,26 +67,12 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                     getViewState().showWaiting();
                 })
                 .doOnSuccess(passing -> {
-                    CategoryProgress progress = passing.getSchoolAccreditation().getProgress();
-                    getViewState().setGlobalProgress(progress.getCompletedItemsCount(), progress.getTotalItemsCount());
-
+                    CategoryProgress progress = passing.getSchoolAccreditation().getCategoryProgress();
+                    getViewState().setGlobalProgress(progress.getAnsweredQuestionsCount(), progress.getTotalQuestionsCount());
                 })
                 .flatMap(passing -> dataSource.requestGroupStandards(passingId))
-                .doOnError(this::handleError)
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(groupStandards -> {
-                    this.groupStandardsIds = extractGroupStandardsIds(groupStandards);
-                    getViewState().showGroupStandards(groupStandards);
-                });
-    }
-
-    Long[] extractGroupStandardsIds(List<GroupStandard> groupStandards) {
-        List<Long> groupStandardsIds = new ArrayList<>(groupStandards.size());
-        for (GroupStandard groupStandard : groupStandards) {
-            groupStandardsIds.add(groupStandard.getId());
-        }
-
-        return groupStandardsIds.toArray(new Long[groupStandardsIds.size()]);
+                .subscribe(groupStandards -> getViewState().showGroupStandards(groupStandards), this::handleError);
     }
 
 }

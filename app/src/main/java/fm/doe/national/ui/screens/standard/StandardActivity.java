@@ -77,16 +77,14 @@ public class StandardActivity extends BaseActivity implements StandardView {
     public StandardPresenter providePresenter() {
         return new StandardPresenter(
                 getIntent().getLongExtra(EXTRA_ACCREDITATION, -1),
-                getIntent().getLongExtra(EXTRA_STANDARD, -1),
-                getIntent().getLongArrayExtra(EXTRA_GROUPS));
+                getIntent().getLongExtra(EXTRA_STANDARD, -1));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, long passingId, long standardId, Long[] groupIds) {
+    public static Intent createIntent(@NonNull Context context, long passingId, long standardId) {
         return new Intent(context, StandardActivity.class)
                 .putExtra(EXTRA_ACCREDITATION, passingId)
-                .putExtra(EXTRA_STANDARD, standardId)
-                .putExtra(EXTRA_GROUPS, groupIds);
+                .putExtra(EXTRA_STANDARD, standardId);
     }
 
     @Override

@@ -65,7 +65,7 @@ public class OrmLiteDataSource implements DataSource {
     @Override
     public Completable updateAnswer(long passingId, long subCriteriaId, Answer.State previousState, Answer.State state) {
         return Completable.fromSingle(surveyPassingDao.getItemSingle(passingId)
-                .flatMap(passing -> surveyItemDao.requestItem(subCriteriaId)
+                .flatMap(passing -> surveyItemDao.getItemSingle(subCriteriaId)
                         .flatMap(subCriteriaItem -> answerDao.updateAnswer(subCriteriaItem, passing, state)
                                 .flatMap(answer -> categoryProgressDao.updateCategoryProgress(subCriteriaItem.getParentItem(), passing, previousState, state)))));
     }
@@ -130,7 +130,7 @@ public class OrmLiteDataSource implements DataSource {
     @Override
     public Single<Standard> requestStandard(long passingId, long standardId) {
         return surveyPassingDao.getItemSingle(passingId)
-                .flatMap(passing -> surveyItemDao.requestItem(standardId)
+                .flatMap(passing -> surveyItemDao.getItemSingle(standardId)
                         .flatMap(standardItem -> categoryProgressDao.requestCategoryProgress(passing, standardItem)
                                 .map(progress -> new OrmLiteStandard(standardItem, progress))
                         ));
@@ -152,7 +152,7 @@ public class OrmLiteDataSource implements DataSource {
     @Override
     public Single<List<Standard>> requestStandards(long passingId, long groupStandardId) {
         return surveyPassingDao.getItemSingle(passingId)
-                .flatMap(passing -> surveyItemDao.requestItem(groupStandardId)
+                .flatMap(passing -> surveyItemDao.getItemSingle(groupStandardId)
                         .flatMap(groupStandardItem -> Observable.fromIterable(groupStandardItem.getChildrenItems())
                                 .flatMap(standardItem -> categoryProgressDao.requestCategoryProgress(passing, standardItem)
                                         .map(progress -> new OrmLiteStandard(standardItem, progress))
@@ -164,7 +164,7 @@ public class OrmLiteDataSource implements DataSource {
     @Override
     public Single<List<Criteria>> requestCriterias(long passingId, long standardId) {
         return surveyPassingDao.getItemSingle(passingId)
-                .flatMap(passing -> surveyItemDao.requestItem(standardId)
+                .flatMap(passing -> surveyItemDao.getItemSingle(standardId)
                         .flatMap(standardItem -> Observable.fromIterable(standardItem.getChildrenItems())
                                 .flatMap(criteriaItem -> Observable.zip(
                                         categoryProgressDao.requestCategoryProgress(passing, criteriaItem)
