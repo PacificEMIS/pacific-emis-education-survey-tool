@@ -50,7 +50,11 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     }
 
     public void onAccreditationClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
-        getViewState().navigateToCategoryChooser(schoolAccreditationPassing.getId());
+        dataSource.requestLinkedSchoolAccreditation(schoolAccreditationPassing.getId())
+                .subscribe(accreditation -> {
+                    System.out.println();
+                });
+//        getViewState().navigateToCategoryChooser(schoolAccreditationPassing.getId());
     }
 
     public void onSearchQueryChanged(String query) {
