@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.group_standards;
 
-import android.annotation.SuppressLint;
-
 import com.arellomobile.mvp.InjectViewState;
 
 import javax.inject.Inject;
@@ -38,15 +36,11 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
         getViewState().navigateToStandardScreen(passingId, standard.getId());
     }
 
-    @SuppressLint("CheckResult")
     public void onGroupClicked(GroupStandard group) {
-        dataSource.requestStandards(passingId, group.getId())
+        addDisposable(dataSource.requestStandards(passingId, group.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    addDisposable(disposable);
-                    getViewState().showWaiting();
-                })
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(standards -> {
                     if (standards.size() > 1) {
@@ -54,18 +48,14 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                     } else {
                         onStandardClicked(standards.get(0));
                     }
-                }, this::handleError);
+                }, this::handleError));
     }
 
-    @SuppressLint("CheckResult")
     private void loadPassing() {
-        dataSource.requestSchoolAccreditationPassing(passingId)
+        addDisposable(dataSource.requestSchoolAccreditationPassing(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    addDisposable(disposable);
-                    getViewState().showWaiting();
-                })
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doOnSuccess(passing -> {
                     GroupStandardsView view = getViewState();
                     view.setSurveyYear(passing.getYear());
@@ -76,7 +66,7 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                 })
                 .flatMap(passing -> dataSource.requestGroupStandards(passingId))
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(groupStandards -> getViewState().showGroupStandards(groupStandards), this::handleError);
+                .subscribe(groupStandards -> getViewState().showGroupStandards(groupStandards), this::handleError));
     }
 
 }
