@@ -86,6 +86,16 @@ public class GroupStandardsActivity extends BaseActivity implements GroupStandar
         progressTextView.setText(getString(R.string.criteria_progress, completed, total));
     }
 
+    @Override
+    public void setSurveyYear(int year) {
+        setToolbarYear(year);
+    }
+
+    @Override
+    public void setSchoolName(String schoolName) {
+        setTitle(schoolName);
+    }
+
     public void onGroupClicked(GroupStandard item) {
         groupStandardsPresenter.onGroupClicked(item);
     }

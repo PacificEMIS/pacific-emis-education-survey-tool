@@ -22,4 +22,8 @@ public interface GroupStandardsView extends BaseView {
 
     void setGlobalProgress(int completed, int total);
 
+    void setSurveyYear(int year);
+
+    void setSchoolName(String schoolName);
+
 }

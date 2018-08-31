@@ -44,7 +44,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         dataSource.updateAnswer(passingId, subCriteria.getId(), state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(this::add)
+                .doOnSubscribe(this::addDisposable)
                 .subscribe(() -> {}, this::handleError);
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
@@ -89,7 +89,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
                     getViewState().showWaiting();
-                    add(disposable);
+                    addDisposable(disposable);
                 })
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(criterias -> {
@@ -119,7 +119,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
                     getViewState().showWaiting();
-                    add(disposable);
+                    addDisposable(disposable);
                 })
                 .doOnSuccess(standards -> this.standards = standards)
                 .flatMap(standards -> dataSource.requestStandard(passingId, standardId))
@@ -127,6 +127,15 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .subscribe(standard -> {
                     initStandardIndexes(standard);
                     updateUi();
+                }, this::handleError);
+
+        dataSource.requestSchoolAccreditationPassing(passingId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(passing -> {
+                    StandardView view = getViewState();
+                    view.setSurveyYear(passing.getYear());
+                    view.setSchoolName(passing.getSchool().getName());
                 }, this::handleError);
     }
 }

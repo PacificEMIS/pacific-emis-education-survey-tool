@@ -60,6 +60,8 @@ public class SettingsActivity extends BaseActivity implements
     }
 
     private void initViews() {
+        setTitle(R.string.label_settings);
+
         logoNameTextView.setOnClickListener(this);
         adapter.setCallback(this);
         accountsRecycler.setAdapter(adapter);

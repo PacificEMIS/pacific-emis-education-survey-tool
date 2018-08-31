@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -21,11 +23,26 @@ import com.omega_r.libs.omegatypes.Text;
 
 import java.io.Serializable;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
+    @Nullable
+    @BindView(R.id.imageview_toolbar_clock)
+    protected ImageView clockIconImageView;
+
+    @Nullable
+    @BindView(R.id.textview_toolbar_title)
+    protected TextView titleTextView;
+
+    @Nullable
+    @BindView(R.id.textview_toolbar_year)
+    protected TextView yearTextView;
+
+    @Nullable
+    @BindView(R.id.toolbar)
     protected Toolbar toolbar;
 
     @Nullable
@@ -36,22 +53,21 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
-        initToolbar();
         ButterKnife.bind(this);
+        initToolbar();
     }
 
     @LayoutRes
     protected abstract int getContentView();
 
     protected void initToolbar() {
-        toolbar = findViewById(R.id.toolbar);
-
         if (toolbar != null && getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setDisplayShowHomeEnabled(true);
-                actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+                actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP |
+                                ActionBar.DISPLAY_SHOW_HOME |
+                                ActionBar.DISPLAY_SHOW_CUSTOM);
             }
             toolbar.setNavigationOnClickListener(v -> onHomePressed());
         }
@@ -129,6 +145,37 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         progressDialogsCount--;
     }
 
+    protected void setToolbarMode(ToolbarDisplaying mode) {
+        if (titleTextView == null) return;
+        switch (mode) {
+            case PRIMARY:
+                titleTextView.setActivated(false);
+                break;
+            case SECONDARY:
+                titleTextView.setActivated(true);
+                break;
+        }
+    }
+
+    public void setToolbarYear(int year) {
+        if (clockIconImageView == null || yearTextView == null) return;
+        yearTextView.setText(String.valueOf(year));
+        clockIconImageView.setVisibility(View.VISIBLE);
+        yearTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setTitle(int resId) {
+        if (titleTextView == null) return;
+        titleTextView.setText(resId);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (titleTextView == null) return;
+        titleTextView.setText(title);
+    }
+
     @NonNull
     private ProgressDialog createProgressDialog(Text text) {
         ProgressDialog dialog = new ProgressDialog(this, R.style.Theme_AppCompat_Dialog);
@@ -137,5 +184,9 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         dialog.setMessage(text.getString(getResources()));
         dialog.show();
         return dialog;
+    }
+
+    protected enum ToolbarDisplaying {
+        PRIMARY, SECONDARY
     }
 }

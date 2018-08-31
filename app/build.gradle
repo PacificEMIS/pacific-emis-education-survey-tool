@@ -20,6 +20,8 @@ android {
         def DROPBOX_API_KEY = "byvebr4n2uyqzj2"
         buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
         manifestPlaceholders = [dropbox_api_key: DROPBOX_API_KEY]
+
+        ext.betaDistributionGroupAliases = "testaccounts"
     }
     signingConfigs {
         release {
