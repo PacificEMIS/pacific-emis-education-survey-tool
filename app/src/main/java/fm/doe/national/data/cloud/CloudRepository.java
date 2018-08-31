@@ -1,16 +1,22 @@
 package fm.doe.national.data.cloud;
 
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface CloudRepository {
-    Completable auth();
+    Completable auth(CloudType type);
 
     Completable uploadContent(String content, String filename);
 
-    Single<String> requestContent();
+    Single<String> requestContent(CloudType type);
 
-    Completable chooseExportFolder();
+    Completable chooseExportFolder(CloudType type);
 
-    void setPrimary(CloudAccessor.Type type);
+    void setPrimary(CloudType type);
+
+    List<CloudAccountData> getUsedAccounts();
+
+    List<CloudAccountData> getUnusedAccounts();
 }

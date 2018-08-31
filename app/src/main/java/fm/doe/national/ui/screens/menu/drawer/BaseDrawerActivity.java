@@ -13,8 +13,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.menu.base.MenuActivity;
+import fm.doe.national.ui.screens.settings.SettingsActivity;
 
-public abstract class BaseDrawerActivity extends MenuActivity implements BaseDrawerView, DrawerLayout.DrawerListener {
+public abstract class BaseDrawerActivity extends MenuActivity implements
+        BaseDrawerView,
+        DrawerLayout.DrawerListener,
+        View.OnClickListener {
 
     protected DrawerLayout drawerLayout;
 
@@ -27,6 +31,13 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
     private ActionBarDrawerToggle drawerToggle;
 
     protected abstract BaseDrawerPresenter getPresenter();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        educationSurveyToolTextView.setOnClickListener(this);
+        settingsTextView.setOnClickListener(this);
+    }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +102,7 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
 
     @Override
     public void navigateToSettingsScreen() {
-        //TODO added logic afters creating settings screen
+        startActivity(SettingsActivity.createIntent(this));
     }
 
     @Override
@@ -106,4 +117,15 @@ public abstract class BaseDrawerActivity extends MenuActivity implements BaseDra
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.textview_education_survey_tool:
+                getPresenter().onEducationSurveyToolClicked();
+                break;
+            case R.id.textview_settings:
+                getPresenter().onSettingClicked();
+                break;
+        }
+    }
 }

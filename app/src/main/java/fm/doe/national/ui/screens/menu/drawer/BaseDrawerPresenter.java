@@ -9,7 +9,7 @@ public abstract class BaseDrawerPresenter<V extends BaseDrawerView> extends Menu
     }
 
     public void onSettingClicked() {
-        getViewState().navigateToEducationSurveyToolScreen();
+        getViewState().navigateToSettingsScreen();
     }
 
 }

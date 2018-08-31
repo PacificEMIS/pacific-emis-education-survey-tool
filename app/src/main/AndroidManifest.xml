@@ -21,17 +21,21 @@
         </activity>
         <activity android:name=".ui.screens.standard.StandardActivity" />
         <activity android:name=".ui.screens.group_standards.GroupStandardsActivity" />
-        <activity android:name=".ui.screens.survey_creation.CreateSurveyActivity"/>
+        <activity
+            android:name=".ui.screens.survey_creation.CreateSurveyActivity"
+            android:label="@string/label_create_survey"/>
         <activity
             android:name=".ui.screens.school_accreditation.SchoolAccreditationActivity"
             android:label="@string/label_school_accreditation" />
         <activity android:name=".ui.screens.cloud.DriveActivity" />
-        <activity android:name=".ui.screens.cloud.DropboxActivity"/>
-
+        <activity android:name=".ui.screens.cloud.DropboxActivity" />
+        <activity
+            android:name=".ui.screens.settings.SettingsActivity"
+            android:label="@string/label_settings"/>
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask">
             <intent-filter>
                 <data android:scheme="db-${dropbox_api_key}" />
 
@@ -41,6 +45,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />
