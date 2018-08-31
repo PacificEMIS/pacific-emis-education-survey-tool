@@ -23,7 +23,8 @@
         <activity android:name=".ui.screens.group_standards.GroupStandardsActivity" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
-            android:label="@string/label_create_survey"/>
+            android:label="@string/label_create_survey"
+            android:noHistory="true"/>
         <activity
             android:name=".ui.screens.school_accreditation.SchoolAccreditationActivity"
             android:label="@string/label_school_accreditation" />

@@ -17,13 +17,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.view_data.CriteriaViewData;
 import fm.doe.national.utils.ViewUtils;
 
 public class StandardActivity extends BaseActivity implements StandardView {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
+    private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private static final String EXTRA_GROUPS = "EXTRA_GROUPS";
 
     private static final int[] icons = {
@@ -75,21 +77,21 @@ public class StandardActivity extends BaseActivity implements StandardView {
     public StandardPresenter providePresenter() {
         return new StandardPresenter(
                 getIntent().getLongExtra(EXTRA_ACCREDITATION, -1),
-                getIntent().getLongArrayExtra(EXTRA_GROUPS));
+                getIntent().getLongExtra(EXTRA_STANDARD, -1));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, long passingId, long[] groupIds) {
+    public static Intent createIntent(@NonNull Context context, long passingId, long standardId) {
         return new Intent(context, StandardActivity.class)
                 .putExtra(EXTRA_ACCREDITATION, passingId)
-                .putExtra(EXTRA_GROUPS, groupIds);
+                .putExtra(EXTRA_STANDARD, standardId);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         criteriasRecycler.setAdapter(recyclerAdapter);
-        recyclerAdapter.subscribeOnChanges(presenter::onQuestionStateChanged);
+        recyclerAdapter.subscribeOnChanges(presenter::onSubCriteriaStateChanged);
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
@@ -101,7 +103,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
     }
 
     @Override
-    public void setCriterias(@NonNull List<CriteriaViewData> criterias) {
+    public void setCriterias(@NonNull List<Criteria> criterias) {
         recyclerAdapter.setItems(criterias);
     }
 

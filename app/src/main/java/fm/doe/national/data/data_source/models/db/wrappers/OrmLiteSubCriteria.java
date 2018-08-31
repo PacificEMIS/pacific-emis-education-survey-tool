@@ -2,24 +2,24 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
-import com.j256.ormlite.table.DatabaseTable;
-
-import fm.doe.national.data.data_source.models.Criteria;
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
-@DatabaseTable
 public class OrmLiteSubCriteria implements SubCriteria {
 
     private OrmLiteSurveyItem surveyItem;
 
-    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem) {
+    private Answer answer;
+
+    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer) {
         this.surveyItem = surveyItem;
+        this.answer = answer;
     }
 
     @Override
-    public Criteria getCriteria() {
-        return new OrmLiteCriteria(surveyItem.getParentItem());
+    public Long getId() {
+        return surveyItem.getId();
     }
 
     @NonNull
@@ -28,7 +28,10 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return surveyItem.getName();
     }
 
-    public OrmLiteSurveyItem getSurveyItem() {
-        return surveyItem;
+    @Override
+    public Answer getAnswer() {
+        return answer;
     }
+
+
 }

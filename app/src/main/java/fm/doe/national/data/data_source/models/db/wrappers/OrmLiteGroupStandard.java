@@ -2,19 +2,24 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
 public class OrmLiteGroupStandard implements GroupStandard {
 
     private OrmLiteSurveyItem surveyItem;
 
-    public OrmLiteGroupStandard(OrmLiteSurveyItem surveyItem) {
+    private CategoryProgress progress;
+
+    public OrmLiteGroupStandard(OrmLiteSurveyItem surveyItem, CategoryProgress progress) {
         this.surveyItem = surveyItem;
+        this.progress = progress;
+    }
+
+    @Override
+    public Long getId() {
+        return surveyItem.getId();
     }
 
     @NonNull
@@ -24,12 +29,8 @@ public class OrmLiteGroupStandard implements GroupStandard {
     }
 
     @Override
-    public List<? extends Standard> getStandards() {
-        List<Standard> standards = new ArrayList<>();
-        for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
-            standards.add(new OrmLiteStandard(surveyItem));
-        }
-        return standards;
+    public CategoryProgress getCategoryProgress() {
+        return progress;
     }
 
 }

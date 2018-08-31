@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
+import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
+import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
 import io.reactivex.Single;
 
 public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
@@ -21,19 +21,12 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
         super(connectionSource, dataClass);
     }
 
-    public Single<OrmLiteSurveyItem> requestItemByName(String name) {
-        return Single.fromCallable(() -> queryBuilder()
-                .where()
-                .eq(OrmLiteSurveyItem.Column.NAME, name)
-                .queryForFirst());
-    }
-
     public List<OrmLiteSurveyItem> createFromGroupStandards(
-            List<? extends GroupStandard> groupStandards,
+            List<? extends LinkedGroupStandard> groupStandards,
             OrmLiteSurvey survey) throws SQLException {
         List<OrmLiteSurveyItem> surveyItems = new ArrayList<>();
 
-        for (GroupStandard groupStandard : groupStandards) {
+        for (LinkedGroupStandard groupStandard : groupStandards) {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
                     groupStandard.getName(),
                     OrmLiteSurveyItem.Type.GROUP_STANDARD, survey,
@@ -48,11 +41,11 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
     }
 
     private List<OrmLiteSurveyItem> createFromStandards(
-            List<? extends Standard> standards,
+            List<? extends LinkedStandard> standards,
             OrmLiteSurveyItem parentItem) throws SQLException {
         List<OrmLiteSurveyItem> surveyItems = new ArrayList<>();
 
-        for (Standard standard : standards) {
+        for (LinkedStandard standard : standards) {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
                     standard.getName(),
                     OrmLiteSurveyItem.Type.STANDARD,
@@ -78,6 +71,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
                     OrmLiteSurveyItem.Type.CRITERIA,
                     null,
                     parentItem);
+
             create(surveyItem);
             surveyItem.addChildren(createFromSubCriterias(criteria.getSubCriterias(), surveyItem));
 

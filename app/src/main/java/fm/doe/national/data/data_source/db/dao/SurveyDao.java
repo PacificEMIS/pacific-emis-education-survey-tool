@@ -5,10 +5,9 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
+import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
 import io.reactivex.Completable;
-import io.reactivex.Single;
 
 public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
 
@@ -21,16 +20,12 @@ public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
         this.surveyItemDao = surveyItemDao;
     }
 
-    public Single<OrmLiteSurvey> createSchoolAccreditation(int version, String type) {
-        return Single.fromCallable(() -> new OrmLiteSurvey(version, type));
-    }
-
     public Completable createSchoolAccreditation(int version,
                                                  String type,
-                                                 List<? extends GroupStandard> groupStandards) {
+                                                 List<? extends LinkedGroupStandard> groupStandards) {
         return Completable.fromCallable(() -> {
             OrmLiteSurvey ormLiteSurvey = new OrmLiteSurvey(version, type);
-            create(ormLiteSurvey);
+            createIfNotExists(ormLiteSurvey);
             surveyItemDao.createFromGroupStandards(groupStandards, ormLiteSurvey);
 
             return  ormLiteSurvey;

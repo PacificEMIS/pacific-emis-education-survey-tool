@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.standard;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,13 +14,13 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.data_source.models.CategoryProgress;
+import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.view_data.CriteriaViewData;
-import fm.doe.national.ui.view_data.SubCriteriaViewData;
 import fm.doe.national.utils.ViewUtils;
 
-public class CriteriaListAdapter extends BaseAdapter<CriteriaViewData> {
+public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
     private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
 
@@ -73,10 +71,11 @@ public class CriteriaListAdapter extends BaseAdapter<CriteriaViewData> {
         }
 
         @Override
-        public void onBind(CriteriaViewData item) {
-            adapter.setItems(item.getQuestionsViewData());
+        public void onBind(Criteria item) {
+            adapter.setItems((List<SubCriteria>) item.getSubCriterias());
             titleTextView.setText(item.getName());
-            rebindProgress();
+            rebindProgress(item.getCategoryProgress());
+
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
@@ -90,18 +89,16 @@ public class CriteriaListAdapter extends BaseAdapter<CriteriaViewData> {
         }
 
         @Override
-        public void onSubCriteriaStateChanged(@NonNull SubCriteriaViewData viewData,
-                                              @NonNull SubCriteria subCriteria,
-                                              @Nullable Answer answer,
-                                              Answer.State newState) {
-            rebindProgress();
+        public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
+            CategoryProgress categoryProgress = getItem().getCategoryProgress();
+            categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
+            rebindProgress(categoryProgress);
         }
 
-        private void rebindProgress() {
-            CriteriaViewData item = getItem();
+        private void rebindProgress(CategoryProgress progress) {
             ViewUtils.rebindProgress(
-                    item.getQuestionsViewData().size(),
-                    item.getAnsweredCount(),
+                    progress.getTotalQuestionsCount(),
+                    progress.getAnsweredQuestionsCount(),
                     getString(R.string.criteria_progress),
                     progressTextView,
                     progressBar);

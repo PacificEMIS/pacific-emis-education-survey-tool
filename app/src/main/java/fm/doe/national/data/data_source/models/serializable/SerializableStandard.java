@@ -1,7 +1,6 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.PropertyElement;
@@ -9,12 +8,11 @@ import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.List;
 
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.Standard;
 
 @Xml(name = "standard")
-public class SerializableStandard implements Standard {
+public class SerializableStandard implements LinkedStandard, ListConverter.Converter<Criteria, SerializableCriteria> {
 
     @PropertyElement
     String name;
@@ -22,10 +20,12 @@ public class SerializableStandard implements Standard {
     @Element
     List<SerializableCriteria> criterias;
 
-    @Nullable
-    @Override
-    public GroupStandard getGroupStandard() {
-        return null;
+    public SerializableStandard() {
+    }
+
+    public SerializableStandard(LinkedStandard standard) {
+        this.name = standard.getName();
+        this.criterias = ListConverter.createList(standard.getCriterias(), this);
     }
 
     @NonNull
@@ -35,7 +35,23 @@ public class SerializableStandard implements Standard {
     }
 
     @Override
+    public CategoryProgress getCategoryProgress() {
+        return null;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
+
+    @Override
+    public SerializableCriteria convert(Criteria input) {
+        return new SerializableCriteria(input);
+    }
+
+    @Override
     public List<? extends Criteria> getCriterias() {
         return criterias;
     }
+
 }

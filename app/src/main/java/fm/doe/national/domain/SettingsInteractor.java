@@ -10,13 +10,14 @@ import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditation;
+import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
 import io.reactivex.Completable;
 
 public class SettingsInteractor {
     private final CloudRepository cloudRepository = MicronesiaApplication.getAppComponent().getCloudRepository();
     private final DataSource localDataRepository = MicronesiaApplication.getAppComponent().getDataSource();
-    private final Parser<SchoolAccreditation> surveyParser = MicronesiaApplication.getAppComponent().getSurveyParser();
+    private final Parser<LinkedSchoolAccreditation> surveyParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
     private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
 
     public Completable auth(CloudType type) {

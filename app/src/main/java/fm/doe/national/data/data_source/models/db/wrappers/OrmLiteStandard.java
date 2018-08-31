@@ -2,11 +2,9 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
@@ -14,13 +12,17 @@ public class OrmLiteStandard implements Standard {
 
     private OrmLiteSurveyItem surveyItem;
 
-    public OrmLiteStandard(OrmLiteSurveyItem surveyItem) {
+    private CategoryProgress progress;
+
+
+    public OrmLiteStandard(OrmLiteSurveyItem surveyItem, CategoryProgress progress) {
         this.surveyItem = surveyItem;
+        this.progress = progress;
     }
 
     @Override
-    public GroupStandard getGroupStandard() {
-        return new OrmLiteGroupStandard(surveyItem.getParentItem());
+    public Long getId() {
+        return surveyItem.getId();
     }
 
     @NonNull
@@ -30,12 +32,16 @@ public class OrmLiteStandard implements Standard {
     }
 
     @Override
-    public List<? extends Criteria> getCriterias() {
-        List<Criteria> criterias = new ArrayList<>();
-        for (OrmLiteSurveyItem surveyItem : surveyItem.getChildrenItems()) {
-            criterias.add(new OrmLiteCriteria(surveyItem));
-        }
-        return criterias;
+    public CategoryProgress getCategoryProgress() {
+        return progress;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrmLiteStandard)) return false;
+        OrmLiteStandard that = (OrmLiteStandard) o;
+        return this.getId().equals(that.getId());
     }
 }
 

@@ -2,11 +2,11 @@ package fm.doe.national.data.data_source.models;
 
 import android.support.annotation.NonNull;
 
-import java.io.Serializable;
-
-public interface SubCriteria extends Serializable {
-    Criteria getCriteria();
+public interface SubCriteria extends Identifiable {
 
     @NonNull
     String getName();
+
+    Answer getAnswer();
+
 }

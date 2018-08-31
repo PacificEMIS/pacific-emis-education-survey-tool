@@ -3,13 +3,15 @@ package fm.doe.national.data.data_source.models;
 import java.util.List;
 
 public interface Answer {
-    boolean getAnswer();
-    void setAnswer(boolean answer);
-
-    List<SynchronizePlatform> getSynchronizedPlatforms();
-    void addSynchronizedPlatform(SynchronizePlatform platform);
-
     enum State {
         NOT_ANSWERED, POSITIVE, NEGATIVE
     }
+
+    State getState();
+
+    void setState(State state);
+
+    List<SynchronizePlatform> getSynchronizedPlatforms();
+
+    void addSynchronizedPlatform(SynchronizePlatform platform);
 }

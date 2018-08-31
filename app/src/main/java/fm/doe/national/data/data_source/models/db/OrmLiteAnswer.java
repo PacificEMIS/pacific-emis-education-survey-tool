@@ -15,33 +15,33 @@ public class OrmLiteAnswer implements Answer {
 
     public interface Column {
         String ID = "id";
-        String ANSWER = "answer";
+        String STATE = "state";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
-        String PARENT_ITEM = "parentItem";
-        String SURVEY_RESULT = "surveyPassing";
+        String SURVEY_ITEM = "surveyItem";
+        String SURVEY_PASSING = "surveyPassing";
     }
 
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
 
-    @DatabaseField(columnName = Column.ANSWER)
-    protected boolean answer;
+    @DatabaseField(columnName = Column.STATE, dataType = DataType.ENUM_STRING)
+    protected State state;
 
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.SYNCHRONIZED_PLATFORMS)
     protected ArrayList<SynchronizePlatform> synchronizePlatforms;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT_ITEM)
-    protected OrmLiteSurveyItem parentSurveyItem;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_ITEM)
+    protected OrmLiteSurveyItem surveyItem;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_RESULT)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_PASSING)
     protected OrmLiteSurveyPassing surveyPassing;
 
     public OrmLiteAnswer() {
     }
 
-    public OrmLiteAnswer(boolean answer, OrmLiteSurveyItem parentSurveyItem, OrmLiteSurveyPassing surveyPassing) {
-        this.answer = answer;
-        this.parentSurveyItem = parentSurveyItem;
+    public OrmLiteAnswer(State state, OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing) {
+        this.state = state;
+        this.surveyItem = surveyItem;
         this.surveyPassing = surveyPassing;
         this.synchronizePlatforms = new ArrayList<>();
     }
@@ -51,14 +51,14 @@ public class OrmLiteAnswer implements Answer {
     }
 
     @Override
-    public boolean getAnswer() {
-        return answer;
+    public State getState() {
+        return state;
     }
 
     @Override
-    public void setAnswer(boolean answer) {
-        if (this.answer != answer) {
-            this.answer = answer;
+    public void setState(State state) {
+        if (this.state != state) {
+            this.state = state;
             synchronizePlatforms.clear();
         }
     }
@@ -75,8 +75,8 @@ public class OrmLiteAnswer implements Answer {
         }
     }
 
-    public OrmLiteSurveyItem getParentSurveyItem() {
-        return parentSurveyItem;
+    public OrmLiteSurveyItem getSurveyItem() {
+        return surveyItem;
     }
 
     public OrmLiteSurveyPassing getSurveyPassing() {
