@@ -61,7 +61,6 @@ public interface AppComponent {
     LifecycleListener getLifecycleListener();
     CloudRepository getCloudRepository();
     DataSource getDataSource();
-    Parser<SchoolAccreditation> getSurveyParser();
     SettingsInteractor getSettingsInteractor();
     void inject(DriveActivity target);
     void inject(StandardPresenter standardPresenter);

@@ -41,7 +41,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
         Answer.State state = subCriteria.getAnswer().getState();
 
-        dataSource.updateAnswer(passingId, subCriteria.getId(), previousState, state)
+        dataSource.updateAnswer(passingId, subCriteria.getId(), state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(this::add)
