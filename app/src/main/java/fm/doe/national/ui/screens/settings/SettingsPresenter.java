@@ -67,9 +67,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void updateUi() {
         SettingsView view = getViewState();
-        view.showAccountConnections(interactor.getConnectedAccounts());
-        List<CloudAccountData> current = interactor.getConnectedAccounts();
-        for (CloudAccountData accountData : current) {
+        List<CloudAccountData> connectedAccounts = interactor.getConnectedAccounts();
+        view.showAccountConnections(connectedAccounts);
+        for (CloudAccountData accountData : connectedAccounts) {
             view.hideConnectView(accountData.getType());
         }
     }
