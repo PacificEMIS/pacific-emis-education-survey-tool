@@ -174,7 +174,7 @@ public class OrmLiteDataSource implements DataSource {
                 ));
     }
 
-    public Single<List<LinkedGroupStandard>> requestLinkedGroupStandards(long passingId) {
+    private Single<List<LinkedGroupStandard>> requestLinkedGroupStandards(long passingId) {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> Observable.fromIterable(passing.getSurvey().getSurveyItems())
                         .flatMap(surveyItem -> Single.zip(
@@ -186,7 +186,7 @@ public class OrmLiteDataSource implements DataSource {
                         .map(ArrayList<LinkedGroupStandard>::new));
     }
 
-    public Single<List<LinkedStandard>> requestLinkedStandards(long passingId, long groupStandardId) {
+    private Single<List<LinkedStandard>> requestLinkedStandards(long passingId, long groupStandardId) {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.getItemSingle(groupStandardId)
                         .flatMap(groupStandardItem -> Observable.fromIterable(groupStandardItem.getChildrenItems())
