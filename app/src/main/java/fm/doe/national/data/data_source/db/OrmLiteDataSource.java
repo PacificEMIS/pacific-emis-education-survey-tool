@@ -66,8 +66,12 @@ public class OrmLiteDataSource implements DataSource {
     public Completable updateAnswer(long passingId, long subCriteriaId, Answer.State previousState, Answer.State state) {
         return Completable.fromSingle(surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.getItemSingle(subCriteriaId)
-                        .flatMap(subCriteriaItem -> answerDao.updateAnswer(subCriteriaItem, passing, state)
-                                .flatMap(answer -> categoryProgressDao.updateCategoryProgress(subCriteriaItem.getParentItem(), passing, previousState, state)))));
+                        .flatMap(subCriteriaItem -> answerDao.requestAnswer(subCriteriaItem, passing)
+                                .flatMap(answer -> Single.zip(
+                                        categoryProgressDao.updateCategoryProgress(subCriteriaItem.getParentItem(), passing, answer.getState(), state),
+                                        answerDao.updateAnswer(subCriteriaItem, passing, state),
+                                        (progress, updatedAnswer) -> updatedAnswer)
+                                ))));
     }
 
     @Override

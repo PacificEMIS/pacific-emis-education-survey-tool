@@ -42,11 +42,12 @@ public class CategoryProgressDao extends BaseRxDao<OrmLiteCategoryProgress, Long
                 .toSingle();
     }
 
-    public Single<OrmLiteCategoryProgress> updateCategoryProgress(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing passing,  Answer.State previousState, Answer.State state) {
-        Single<OrmLiteCategoryProgress> single = requestCategoryProgress(passing, surveyItem).doOnSuccess(progress -> {
-            progress.recalculate(previousState, state);
-            update(progress);
-        });
+    public Single<OrmLiteCategoryProgress> updateCategoryProgress(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing passing, Answer.State previousState, Answer.State state) {
+        Single<OrmLiteCategoryProgress> single = requestCategoryProgress(passing, surveyItem)
+                .doOnSuccess(progress -> {
+                    progress.recalculate(previousState, state);
+                    update(progress);
+                });
 
         if (surveyItem.getParentItem() != null) {
             return single.flatMap(progress -> updateCategoryProgress(surveyItem.getParentItem(), passing, previousState, state));

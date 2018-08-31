@@ -98,7 +98,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    // OmegaRecyclerView
+    // OmegaLibs
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.6@aar'
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.3'

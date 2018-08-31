@@ -32,6 +32,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "NDOE_Data_Collection.db";
 
+    private final Parser<LinkedSchoolAccreditation> schoolAccreditationParser =
+            MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
+    private final Parser<List<School>> schoolsParser =
+            MicronesiaApplication.getAppComponent().getSchoolsParser();
+
     private SchoolDao schoolDao;
     private SurveyDao surveyDao;
     private SurveyItemDao surveyItemDao;
@@ -40,14 +45,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private CategoryProgressDao categoryProgressDao;
 
     private AssetManager assetManager;
-    private Parser<LinkedSchoolAccreditation> schoolAccreditationParser;
-    private Parser<List<School>> schoolsParser;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
         assetManager = context.getAssets();
-        schoolAccreditationParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
-        schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
     }
 
     @Override

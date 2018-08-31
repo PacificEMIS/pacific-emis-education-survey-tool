@@ -73,9 +73,9 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
         }
 
         if (state == Answer.State.NOT_ANSWERED) {
-            this.answeredQuestionsCount--;
+            answeredQuestionsCount--;
         } else {
-            this.answeredQuestionsCount++;
+            answeredQuestionsCount++;
         }
     }
 
