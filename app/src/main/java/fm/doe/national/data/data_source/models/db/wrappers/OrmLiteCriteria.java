@@ -13,8 +13,6 @@ public class OrmLiteCriteria implements Criteria{
 
     private OrmLiteSurveyItem surveyItem;
 
-    private OrmLiteStandard standard;
-
     private List<OrmLiteSubCriteria> subCriterias;
 
     private CategoryProgress progress;

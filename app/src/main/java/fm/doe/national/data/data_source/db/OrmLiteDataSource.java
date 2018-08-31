@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.db.dao.AnswerDao;
 import fm.doe.national.data.data_source.db.dao.CategoryProgressDao;
@@ -18,16 +19,20 @@ import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteCriteria;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteGroupStandard;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteStandard;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSubCriteria;
+import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
+import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.functions.BiFunction;
 
 public class OrmLiteDataSource implements DataSource {
 
@@ -80,12 +85,6 @@ public class OrmLiteDataSource implements DataSource {
                 schoolAccreditation.getVersion(),
                 schoolAccreditation.getType(),
                 schoolAccreditation.getGroupStandards());
-    }
-
-    @Override
-    public Single<LinkedSchoolAccreditation> requestLinkedSchoolAccreditation() {
-        // For future export feature
-        return null;
     }
 
     @Override
@@ -163,6 +162,41 @@ public class OrmLiteDataSource implements DataSource {
                                         .toObservable())
                                 .toList()
                                 .map(ArrayList<Standard>::new)));
+    }
+
+    @Override
+    public Single<LinkedSchoolAccreditation> requestLinkedSchoolAccreditation(long passingId) {
+        return surveyPassingDao.getItemSingle(passingId)
+                .flatMap(surveyPassing -> Single.zip(
+                        categoryProgressDao.requestCategoryProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems()),
+                        requestLinkedGroupStandards(passingId),
+                        (progress, groupStandards) -> new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress, groupStandards)
+                ));
+    }
+
+    private Single<List<LinkedGroupStandard>> requestLinkedGroupStandards(long passingId) {
+        return surveyPassingDao.getItemSingle(passingId)
+                .flatMap(passing -> Observable.fromIterable(passing.getSurvey().getSurveyItems())
+                        .flatMap(surveyItem -> Single.zip(
+                                categoryProgressDao.requestCategoryProgress(passing, surveyItem),
+                                requestLinkedStandards(passingId, surveyItem.getId()),
+                                (progress, standards) -> new OrmLiteGroupStandard(surveyItem, progress, standards))
+                                .toObservable())
+                        .toList()
+                        .map(ArrayList<LinkedGroupStandard>::new));
+    }
+
+    private Single<List<LinkedStandard>> requestLinkedStandards(long passingId, long groupStandardId) {
+        return surveyPassingDao.getItemSingle(passingId)
+                .flatMap(passing -> surveyItemDao.getItemSingle(groupStandardId)
+                        .flatMap(groupStandardItem -> Observable.fromIterable(groupStandardItem.getChildrenItems())
+                                .flatMap(standardItem -> Single.zip(
+                                        categoryProgressDao.requestCategoryProgress(passing, standardItem),
+                                        requestCriterias(passingId, standardItem.getId()),
+                                        (progress, criterias) -> new OrmLiteStandard(standardItem, progress, criterias))
+                                        .toObservable())
+                                .toList()
+                                .map(ArrayList<LinkedStandard>::new)));
     }
 
     @Override
