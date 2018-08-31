@@ -2,18 +2,27 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
 import java.util.Objects;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
+import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
+import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
 
-public class OrmLiteStandard implements Standard {
+public class OrmLiteStandard implements LinkedStandard {
 
     private OrmLiteSurveyItem surveyItem;
 
     private CategoryProgress progress;
 
+    private List<Criteria> criterias;
+
+    public OrmLiteStandard(OrmLiteSurveyItem surveyItem, CategoryProgress progress, List<Criteria> criterias) {
+        this(surveyItem, progress);
+        this.criterias = criterias;
+    }
 
     public OrmLiteStandard(OrmLiteSurveyItem surveyItem, CategoryProgress progress) {
         this.surveyItem = surveyItem;
@@ -42,6 +51,11 @@ public class OrmLiteStandard implements Standard {
         if (!(o instanceof OrmLiteStandard)) return false;
         OrmLiteStandard that = (OrmLiteStandard) o;
         return this.getId().equals(that.getId());
+    }
+
+    @Override
+    public List<? extends Criteria> getCriterias() {
+        return criterias;
     }
 }
 

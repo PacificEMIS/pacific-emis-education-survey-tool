@@ -23,7 +23,7 @@ public interface DataSource {
 
     Completable createSchoolAccreditation(LinkedSchoolAccreditation schoolAccreditation);
 
-    Single<LinkedSchoolAccreditation> requestLinkedSchoolAccreditation();
+    Single<LinkedSchoolAccreditation> requestLinkedSchoolAccreditation(long passingId);
 
     Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(int year, School school);
 
