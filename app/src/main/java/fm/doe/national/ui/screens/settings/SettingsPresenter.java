@@ -22,7 +22,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void onConnectToDropboxClick() {
-        authenticate(CloudType.DRIVE);
+        authenticate(CloudType.DROPBOX);
     }
 
     public void onConnectToDriveClick() {
@@ -65,6 +65,11 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .subscribe(this::updateUi, this::handleError));
     }
 
+    public void onSetDefaultClick(CloudAccountData viewData) {
+        interactor.setDefaultCloudForExport(viewData.getType());
+        updateUi();
+    }
+
     private void updateUi() {
         SettingsView view = getViewState();
         List<CloudAccountData> connectedAccounts = interactor.getConnectedAccounts();
@@ -72,10 +77,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         for (CloudAccountData accountData : connectedAccounts) {
             view.hideConnectView(accountData.getType());
         }
-    }
-
-    public void onSetDefaultClick(CloudAccountData viewData) {
-        interactor.setDefaultCloudForExport(viewData.getType());
     }
 
     public void onChangeLogoClick() {
