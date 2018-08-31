@@ -43,10 +43,10 @@ public class SettingsActivity extends BaseActivity implements
     @BindView(R.id.recyclerview_accounts)
     OmegaRecyclerView accountsRecycler;
 
-    @BindView(R.id.view_dropbox)
+    @BindView(R.id.cardview_dropbox)
     CloudConnectionCardView dropboxView;
 
-    @BindView(R.id.view_drive)
+    @BindView(R.id.cardview_drive)
     CloudConnectionCardView driveView;
 
     public static Intent createIntent(Context context) {
@@ -90,10 +90,10 @@ public class SettingsActivity extends BaseActivity implements
     @Override
     public void onConnectClick(View v) {
         switch (v.getId()) {
-            case R.id.view_dropbox:
+            case R.id.cardview_dropbox:
                 presenter.onConnectToDropboxClick();
                 break;
-            case R.id.view_drive:
+            case R.id.cardview_drive:
                 presenter.onConnectToDriveClick();
                 break;
         }
