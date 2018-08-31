@@ -89,15 +89,9 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaStateChanged(SubCriteria subCriteria) {
+        public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
             CategoryProgress categoryProgress = getItem().getCategoryProgress();
-
-            if (subCriteria.getAnswer().getState() == Answer.State.NOT_ANSWERED) {
-                categoryProgress.decrementCompletedItems();
-            } else {
-                categoryProgress.incrementCompletedItems();
-            }
-
+            categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
             rebindProgress(categoryProgress);
         }
 

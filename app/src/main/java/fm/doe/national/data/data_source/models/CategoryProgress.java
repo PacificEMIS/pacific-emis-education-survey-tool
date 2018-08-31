@@ -4,12 +4,5 @@ public interface CategoryProgress {
     int getTotalItemsCount();
     int getCompletedItemsCount();
 
-    void incrementCompletedItems();
-
-    void decrementCompletedItems();
-
-    enum Action {
-        INCREMENT,
-        DECREMENT
-    }
+    void recalculate(Answer.State previousState, Answer.State state);
 }

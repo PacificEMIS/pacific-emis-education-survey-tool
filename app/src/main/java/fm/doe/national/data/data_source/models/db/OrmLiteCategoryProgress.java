@@ -3,6 +3,7 @@ package fm.doe.national.data.data_source.models.db;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 
 @DatabaseTable
@@ -63,13 +64,19 @@ public class OrmLiteCategoryProgress implements CategoryProgress {
     }
 
     @Override
-    public void incrementCompletedItems() {
-        this.completedItemsCount++;
-    }
+    public void recalculate(Answer.State previousState, Answer.State state) {
+        if (previousState == state) {
+            return;
+        }
+        if (previousState != Answer.State.NOT_ANSWERED && state != Answer.State.NOT_ANSWERED) {
+            return;
+        }
 
-    @Override
-    public void decrementCompletedItems() {
-        this.completedItemsCount--;
+        if (state == Answer.State.NOT_ANSWERED) {
+            this.completedItemsCount--;
+        } else {
+            this.completedItemsCount++;
+        }
     }
 
     public OrmLiteSurveyItem getSurveyItem() {

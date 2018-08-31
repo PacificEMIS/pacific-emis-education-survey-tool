@@ -69,13 +69,11 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
             SubCriteria item = getItem();
-            Answer.State newState = convertFromUiState(state);
 
-            if (item.getAnswer().getState() != newState) {
-                item.getAnswer().setState(newState);
-                notifyStateChanged(item);
-            }
+            Answer.State previousState = item.getAnswer().getState();
+            item.getAnswer().setState(convertFromUiState(state));
 
+            notifyStateChanged(item, previousState);
         }
 
         private SwitchableButton.State convertToUiState(Answer.State state) {
@@ -102,9 +100,9 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             return Answer.State.NOT_ANSWERED; // unreachable code
         }
 
-        private void notifyStateChanged(SubCriteria subCriteria) {
+        private void notifyStateChanged(SubCriteria subCriteria, Answer.State previousState) {
             for (SubcriteriaStateChangeListener subscriber : subscribers) {
-                subscriber.onSubCriteriaStateChanged(subCriteria);
+                subscriber.onSubCriteriaStateChanged(subCriteria, previousState);
             }
         }
     }

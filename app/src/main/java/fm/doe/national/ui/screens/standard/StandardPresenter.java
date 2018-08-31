@@ -38,22 +38,17 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     @SuppressLint("CheckResult")
-    public void onSubCriteriaStateChanged(SubCriteria subCriteria) {
-        Answer answer = subCriteria.getAnswer();
+    public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
+        Answer.State state = subCriteria.getAnswer().getState();
 
-        dataSource.updateAnswer(schoolAccreditationPassingId, subCriteria.getId(), answer.getState())
+        dataSource.updateAnswer(schoolAccreditationPassingId, subCriteria.getId(), previousState, state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(this::add)
                 .subscribe(() -> {}, this::handleError);
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
-        if (answer.getState() == Answer.State.NOT_ANSWERED) {
-            categoryProgress.decrementCompletedItems();
-        } else {
-            categoryProgress.incrementCompletedItems();
-        }
-
+        categoryProgress.recalculate(previousState, state);
         updateProgress();
     }
 
