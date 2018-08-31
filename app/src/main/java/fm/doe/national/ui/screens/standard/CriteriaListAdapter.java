@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -70,6 +71,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
             subcriteriasRecycler.setAdapter(adapter);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public void onBind(Criteria item) {
             adapter.setItems((List<SubCriteria>) item.getSubCriterias());
@@ -89,7 +91,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
+        public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
             CategoryProgress categoryProgress = getItem().getCategoryProgress();
             categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
             rebindProgress(categoryProgress);
