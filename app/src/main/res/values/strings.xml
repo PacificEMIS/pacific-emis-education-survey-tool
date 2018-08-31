@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">NDOE Data Collection App</string>
+    <string name="label_school_accreditation">School Accreditation</string>
+    <string name="label_settings">Settings</string>
+    <string name="label_create_survey">Create new survey</string>
     <string name="criteria_name">Criteria, %1$d.%2$d: %3$s.</string>
     <string name="category_name" formatted="false">Standard %1$d: %2$s</string>
     <string name="criteria_progress">%1$d/%2$d</string>
@@ -11,7 +14,6 @@
     <string name="action_monitoring_and_evaluation">Monitoring and evaluation</string>
     <string name="action_education_survey_tool">Education survey tool</string>
     <string name="title_education_survey_tool">Education\nsurvey tool</string>
-    <string name="label_school_accreditation">School Accreditation</string>
     <string name="navigation_drawer_open" translatable="false">DRAWER_OPEN</string>
     <string name="navigation_drawer_close" translatable="false">DRAWER_CLOSE</string>
     <string name="header_school_accreditation">Recent Surveys</string>
@@ -54,7 +56,6 @@
     <string name="action_import_schools">Import schools</string>
     <string name="action_import_surveys">Import survey</string>
     <string name="action_export_folder">Export folder</string>
-    <string name="label_settings">Settings</string>
     <string name="integration_drive">Google Drive integration</string>
     <string name="integration_dropbox">Dropbox integration</string>
     <string name="default_export">Default for Export</string>

@@ -22,15 +22,24 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void onConnectToDropboxClick() {
-        auth(CloudType.DRIVE);
+        authenticate(CloudType.DRIVE);
     }
 
     public void onConnectToDriveClick() {
-        auth(CloudType.DRIVE);
+        authenticate(CloudType.DRIVE);
+    }
+
+    private void authenticate(CloudType type) {
+        addDisposable(interactor.auth(type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(this::updateUi, this::handleError));
     }
 
     public void onImportSchoolsClick(CloudAccountData viewData) {
-        add(interactor.importSchools(viewData.getType())
+        addDisposable(interactor.importSchools(viewData.getType())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -39,7 +48,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void onImportSurveyClick(CloudAccountData viewData) {
-        add(interactor.importSurvey(viewData.getType())
+        addDisposable(interactor.importSurvey(viewData.getType())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -48,24 +57,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void onChooseFolderClick(CloudAccountData viewData) {
-        add(interactor.selectExportFolder(viewData.getType())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(this::updateUi, this::handleError));
-    }
-
-    public void onSetDefaultClick(CloudAccountData viewData) {
-        interactor.setDefaultCloudForExport(viewData.getType());
-    }
-
-    public void onChangeLogoClick() {
-        // nothing for current sprint
-    }
-
-    private void auth(CloudType type) {
-        add(interactor.auth(type)
+        addDisposable(interactor.selectExportFolder(viewData.getType())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -74,17 +66,19 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void updateUi() {
-        getViewState().showAccountConnections(interactor.getConnectedAccounts());
+        SettingsView view = getViewState();
+        view.showAccountConnections(interactor.getConnectedAccounts());
         List<CloudAccountData> current = interactor.getConnectedAccounts();
         for (CloudAccountData accountData : current) {
-            switch (accountData.getType()) {
-                case DROPBOX:
-                    getViewState().hideDropboxConnect();
-                    break;
-                case DRIVE:
-                    getViewState().hideDriveConnect();
-                    break;
-            }
+            view.hideConnectView(accountData.getType());
         }
+    }
+
+    public void onSetDefaultClick(CloudAccountData viewData) {
+        interactor.setDefaultCloudForExport(viewData.getType());
+    }
+
+    public void onChangeLogoClick() {
+        // nothing for current sprint
     }
 }

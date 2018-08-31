@@ -16,13 +16,14 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccountData;
-import fm.doe.national.ui.custom_views.CloudConnectionView;
+import fm.doe.national.data.cloud.CloudType;
+import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements
         SettingsView,
         View.OnClickListener,
-        CloudConnectionView.OnConnectClickListener,
+        CloudConnectionCardView.OnConnectClickListener,
         SettingsAdapter.Callback {
 
     private final SettingsAdapter adapter = new SettingsAdapter();
@@ -43,10 +44,10 @@ public class SettingsActivity extends BaseActivity implements
     OmegaRecyclerView accountsRecycler;
 
     @BindView(R.id.view_dropbox)
-    CloudConnectionView dropboxView;
+    CloudConnectionCardView dropboxView;
 
     @BindView(R.id.view_drive)
-    CloudConnectionView driveView;
+    CloudConnectionCardView driveView;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
@@ -129,12 +130,14 @@ public class SettingsActivity extends BaseActivity implements
     }
 
     @Override
-    public void hideDropboxConnect() {
-        dropboxView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void hideDriveConnect() {
-        driveView.setVisibility(View.GONE);
+    public void hideConnectView(CloudType type) {
+        switch (type) {
+            case DRIVE:
+                driveView.setVisibility(View.INVISIBLE);
+                break;
+            case DROPBOX:
+                dropboxView.setVisibility(View.INVISIBLE);
+                break;
+        }
     }
 }

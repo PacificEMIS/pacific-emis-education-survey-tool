@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 
-public class CloudConnectionView extends CardView implements View.OnClickListener {
+public class CloudConnectionCardView extends CardView implements View.OnClickListener {
 
     @BindView(R.id.textview_title)
     TextView nameTextView;
@@ -28,6 +28,21 @@ public class CloudConnectionView extends CardView implements View.OnClickListene
     @Nullable
     private OnConnectClickListener listener = null;
 
+    public CloudConnectionCardView(Context context) {
+        this(context, null);
+    }
+
+    public CloudConnectionCardView(Context context, AttributeSet attributeSet) {
+        this(context, attributeSet, 0);
+    }
+
+    public CloudConnectionCardView(Context context, AttributeSet attributeSet, int defStyle) {
+        super(context, attributeSet, defStyle);
+        inflate(context, R.layout.view_cloud_connection, this);
+        ButterKnife.bind(this);
+        connectTextView.setOnClickListener(this);
+    }
+
     public void setListener(@Nullable OnConnectClickListener listener) {
         this.listener = listener;
     }
@@ -38,21 +53,6 @@ public class CloudConnectionView extends CardView implements View.OnClickListene
 
     public void setIconDrawableId(int iconDrawableId) {
         iconImageView.setImageResource(iconDrawableId);
-    }
-
-    public CloudConnectionView(Context context) {
-        this(context, null);
-    }
-
-    public CloudConnectionView(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, 0);
-        connectTextView.setOnClickListener(this);
-    }
-
-    public CloudConnectionView(Context context, AttributeSet attributeSet, int defStyle) {
-        super(context, attributeSet, defStyle);
-        inflate(context, R.layout.view_cloud_connection, this);
-        ButterKnife.bind(this);
     }
 
     @Override

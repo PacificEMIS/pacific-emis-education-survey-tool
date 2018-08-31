@@ -113,7 +113,7 @@ public class DriveCloudAccessor implements CloudAccessor {
     }
 
     @Override
-    public boolean inUse() {
+    public boolean isInUse() {
         return isAuthenticated();
     }
 

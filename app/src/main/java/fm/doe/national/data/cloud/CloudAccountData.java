@@ -1,10 +1,10 @@
 package fm.doe.national.data.cloud;
 
 public class CloudAccountData {
-    private CloudType type;
-    private String email;
-    private String exportPath;
-    private boolean isDefault;
+    private final CloudType type;
+    private final String email;
+    private final String exportPath;
+    private final boolean isDefault;
 
     public CloudAccountData(CloudType type, String email, String exportPath, boolean isDefault) {
         this.type = type;

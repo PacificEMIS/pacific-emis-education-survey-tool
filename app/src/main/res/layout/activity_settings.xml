@@ -95,7 +95,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_section="header" />
 
-            <fm.doe.national.ui.custom_views.CloudConnectionView
+            <fm.doe.national.ui.custom_views.CloudConnectionCardView
                 android:id="@+id/view_dropbox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 app:layout_constraintStart_toEndOf="@+id/view_drive"
                 app:layout_constraintTop_toBottomOf="@+id/textview_title_connect"/>
 
-            <fm.doe.national.ui.custom_views.CloudConnectionView
+            <fm.doe.national.ui.custom_views.CloudConnectionCardView
                 android:id="@+id/view_drive"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

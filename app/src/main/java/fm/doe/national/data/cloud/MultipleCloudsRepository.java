@@ -85,7 +85,7 @@ public class MultipleCloudsRepository implements CloudRepository {
         List<CloudAccountData> accounts = new ArrayList<>();
         for (Map.Entry<CloudType, CloudAccessor> entry : accessorMap.entrySet()) {
             CloudAccessor accessor = entry.getValue();
-            if (accessor.inUse() == inUse) {
+            if (accessor.isInUse() == inUse) {
                 accounts.add(new CloudAccountData(
                         entry.getKey(),
                         accessor.getEmail(),

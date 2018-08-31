@@ -21,7 +21,9 @@
         </activity>
         <activity android:name=".ui.screens.standard.StandardActivity" />
         <activity android:name=".ui.screens.group_standards.GroupStandardsActivity" />
-        <activity android:name=".ui.screens.survey_creation.CreateSurveyActivity" />
+        <activity
+            android:name=".ui.screens.survey_creation.CreateSurveyActivity"
+            android:label="@string/label_create_survey"/>
         <activity
             android:name=".ui.screens.school_accreditation.SchoolAccreditationActivity"
             android:label="@string/label_school_accreditation" />

@@ -18,5 +18,5 @@ public interface CloudAccessor {
 
     String getExportPath();
 
-    boolean inUse();
+    boolean isInUse();
 }

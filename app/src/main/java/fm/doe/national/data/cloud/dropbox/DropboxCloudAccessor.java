@@ -111,7 +111,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     @Override
-    public boolean inUse() {
+    public boolean isInUse() {
         return dropboxClient != null;
     }
 
