@@ -47,6 +47,11 @@ public class CreateSurveyActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initViews();
+    }
+
+    private void initViews() {
+        setTitle(R.string.label_create_survey);
 
         schoolsRecycler.setAdapter(adapter);
         adapter.setListener(this);

@@ -13,4 +13,6 @@ public interface StandardView extends BaseView {
     void setProgress(int answered, int total);
     void setPrevStandard(String title, int resourceIndex);
     void setNextStandard(String title, int resourceIndex);
+    void setSurveyYear(int year);
+    void setSchoolName(String schoolName);
 }

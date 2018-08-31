@@ -56,6 +56,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     private void initViews() {
+        setTitle(R.string.label_school_accreditation);
         schoolAccreditationAdapter.setListener(this);
         recyclerView.setAdapter(schoolAccreditationAdapter);
         newAccreditationFab.setOnClickListener(this);
@@ -72,6 +73,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(true);
         return true;
     }
 

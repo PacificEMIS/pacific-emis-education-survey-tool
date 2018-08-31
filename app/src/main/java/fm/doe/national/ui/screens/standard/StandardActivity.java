@@ -17,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.utils.ViewUtils;
@@ -90,6 +89,12 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initViews();
+    }
+
+    private void initViews() {
+        setToolbarMode(ToolbarDisplaying.SECONDARY);
+
         criteriasRecycler.setAdapter(recyclerAdapter);
         recyclerAdapter.subscribeOnChanges(presenter::onSubCriteriaStateChanged);
 
@@ -128,6 +133,16 @@ public class StandardActivity extends BaseActivity implements StandardView {
     public void setNextStandard(String title, int resourceIndex) {
         nextStandardTitleTextView.setText(title);
         applyIcon(iconNextStandardImageView, resourceIndex, true);
+    }
+
+    @Override
+    public void setSurveyYear(int year) {
+        setToolbarYear(year);
+    }
+
+    @Override
+    public void setSchoolName(String schoolName) {
+        setTitle(schoolName);
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {
