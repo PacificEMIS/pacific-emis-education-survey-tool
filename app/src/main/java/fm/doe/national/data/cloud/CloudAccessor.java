@@ -14,7 +14,9 @@ public interface CloudAccessor {
 
     Completable selectExportFolder();
 
-    enum Type {
-        DRIVE, DROPBOX
-    }
+    String getEmail();
+
+    String getExportPath();
+
+    boolean isInUse();
 }

@@ -99,6 +99,22 @@ public class DropboxCloudAccessor implements CloudAccessor {
         return auth().andThen(pickFolder);
     }
 
+    @Override
+    public String getEmail() {
+        return "";
+    }
+
+    @Override
+    public String getExportPath() {
+        if (exportFolderPath == null) return "";
+        return exportFolderPath;
+    }
+
+    @Override
+    public boolean isInUse() {
+        return dropboxClient != null;
+    }
+
     public void onAuthActionComplete() {
         initDropbox();
         authCompletable.onComplete();
