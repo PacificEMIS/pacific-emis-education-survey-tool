@@ -81,6 +81,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageview_logo"
+        android:dividerHeight="1dp"
         app:showDivider="end|middle"
         tools:listitem="@layout/item_menuitem" />
 
