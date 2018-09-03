@@ -37,13 +37,11 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doOnSuccess(passings -> {
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(passings -> {
                     this.passings = passings;
                     getViewState().setAccreditations(passings);
-                })
-                .doOnError(this::handleError)
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe());
+                }, this::handleError));
     }
 
     public void onAccreditationClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
