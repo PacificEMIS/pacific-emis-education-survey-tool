@@ -12,9 +12,9 @@ import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.drive.DriveCloudPreferences;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudPreferences;
+import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.data.serializers.Serializer;
@@ -29,12 +29,7 @@ import fm.doe.national.di.modules.ParsersModule;
 import fm.doe.national.di.modules.SerializersModule;
 import fm.doe.national.di.modules.SharedPreferencesModule;
 import fm.doe.national.domain.SettingsInteractor;
-import fm.doe.national.ui.screens.cloud.DriveActivity;
-import fm.doe.national.ui.screens.group_standards.GroupStandardsPresenter;
-import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationPresenter;
-import fm.doe.national.ui.screens.splash.SplashPresenter;
-import fm.doe.national.ui.screens.standard.StandardPresenter;
-import fm.doe.national.ui.screens.survey_creation.CreateSurveyPresenter;
+import fm.doe.national.domain.StandardInteractor;
 import fm.doe.national.utils.LifecycleListener;
 
 @Singleton
@@ -53,19 +48,20 @@ public interface AppComponent {
     Parser<LinkedSchoolAccreditation> getSchoolAccreditationParser();
     Parser<List<School>> getSchoolsParser();
     Serializer<LinkedSchoolAccreditation> getSchoolAccreditationSerizlizer();
+
     SharedPreferences getSharedPreferences();
     DropboxCloudPreferences getDropboxCloudPreferences();
     DriveCloudPreferences getDriveCloudPreferences();
+
     DriveCloudAccessor getDriveCloudAccessor();
     DropboxCloudAccessor getDropboxCloudAccessor();
+
     LifecycleListener getLifecycleListener();
+
     CloudRepository getCloudRepository();
     DataSource getDataSource();
+    CloudUploader getCloudUploader();
+
     SettingsInteractor getSettingsInteractor();
-    void inject(DriveActivity target);
-    void inject(StandardPresenter standardPresenter);
-    void inject(SplashPresenter splashPresenter);
-    void inject(SchoolAccreditationPresenter schoolAccreditationPresenter);
-    void inject(CreateSurveyPresenter createSurveyPresenter);
-    void inject(GroupStandardsPresenter groupStandardsPresenter);
+    StandardInteractor getStandardInteractor();
 }

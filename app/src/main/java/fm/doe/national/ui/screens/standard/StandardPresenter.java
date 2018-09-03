@@ -7,14 +7,12 @@ import com.arellomobile.mvp.InjectViewState;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.domain.StandardInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -22,8 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class StandardPresenter extends BasePresenter<StandardView> {
 
-    @Inject
-    DataSource dataSource;
+    private final StandardInteractor interactor = MicronesiaApplication.getAppComponent().getStandardInteractor();
 
     private long passingId;
     private int standardIndex;
@@ -32,7 +29,6 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private List<Standard> standards = new ArrayList<>();
 
     public StandardPresenter(long passingId, long standardId) {
-        MicronesiaApplication.getAppComponent().inject(this);
         this.passingId = passingId;
         load(standardId);
     }
@@ -41,7 +37,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
         Answer.State state = subCriteria.getAnswer().getState();
 
-        dataSource.updateAnswer(passingId, subCriteria.getId(), state)
+        interactor.answerGiven(passingId, subCriteria.getId(), state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(this::addDisposable)
@@ -84,7 +80,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     @SuppressLint("CheckResult")
     private void loadQuestions() {
         long standardId = standards.get(standardIndex).getId();
-        dataSource.requestCriterias(passingId, standardId)
+        interactor.requestCriterias(passingId, standardId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -114,7 +110,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     @SuppressLint("CheckResult")
     private void load(long standardId) {
-        dataSource.requestStandards(passingId)
+        interactor.requestStandards(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -122,14 +118,14 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                     addDisposable(disposable);
                 })
                 .doOnSuccess(standards -> this.standards = standards)
-                .flatMap(standards -> dataSource.requestStandard(passingId, standardId))
+                .flatMap(standards -> interactor.requestStandard(passingId, standardId))
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(standard -> {
                     initStandardIndexes(standard);
                     updateUi();
                 }, this::handleError);
 
-        dataSource.requestSchoolAccreditationPassing(passingId)
+        interactor.requestSchoolAccreditationPassing(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(passing -> {

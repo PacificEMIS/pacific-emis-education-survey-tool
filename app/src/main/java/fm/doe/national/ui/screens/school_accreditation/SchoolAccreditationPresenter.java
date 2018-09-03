@@ -5,8 +5,6 @@ import com.arellomobile.mvp.InjectViewState;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
@@ -17,14 +15,9 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccreditationView> {
 
-    @Inject
-    DataSource dataSource;
+    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
     private List<SchoolAccreditationPassing> passings = new ArrayList<>();
-
-    public SchoolAccreditationPresenter() {
-        MicronesiaApplication.getAppComponent().inject(this);
-    }
 
     @Override
     public void attachView(SchoolAccreditationView view) {

@@ -19,7 +19,6 @@ public class XmlSchoolAccreditationSerializer implements Serializer<LinkedSchool
         try {
             tikXml.write(Okio.buffer(Okio.sink(outputStream)), serializableSchoolAccreditation);
             serializedAccreditation = outputStream.toString();
-            System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
         }
