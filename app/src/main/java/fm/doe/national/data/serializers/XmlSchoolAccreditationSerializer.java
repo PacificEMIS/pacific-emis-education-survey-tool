@@ -11,6 +11,8 @@ import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccredit
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
 
 public class XmlSchoolAccreditationSerializer implements Serializer<LinkedSchoolAccreditation> {
+    private static final String TAG = XmlSchoolAccreditationSerializer.class.getName();
+
     @Override
     public String serialize(LinkedSchoolAccreditation data) {
         SerializableSchoolAccreditation serializableSchoolAccreditation = new SerializableSchoolAccreditation(data);
@@ -18,9 +20,8 @@ public class XmlSchoolAccreditationSerializer implements Serializer<LinkedSchool
         org.simpleframework.xml.Serializer serializer = new Persister();
         try {
             serializer.write(serializableSchoolAccreditation, writer);
-            String xml = writer.toString();
         } catch (Exception ex) {
-            Log.e("ERROR", "serialize: ", ex );
+            Log.e(TAG, "serialize: ", ex );
         }
         return writer.toString();
     }

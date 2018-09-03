@@ -13,6 +13,7 @@ import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAc
 import fm.doe.national.utils.StreamUtils;
 
 public class XmlSchoolAccreditationParser implements Parser<LinkedSchoolAccreditation> {
+    private static final String TAG = XmlSchoolAccreditationParser.class.getName();
 
     @Override
     public LinkedSchoolAccreditation parse(InputStream dataStream) {
@@ -22,7 +23,7 @@ public class XmlSchoolAccreditationParser implements Parser<LinkedSchoolAccredit
             Persister serializer = new Persister();
             schoolAccreditation = serializer.read(SerializableSchoolAccreditation.class, reader);
         } catch (Exception ex) {
-            Log.e("Parser", "parse: ", ex);
+            Log.e(TAG, "parse: ", ex);
         }
         return schoolAccreditation;
     }

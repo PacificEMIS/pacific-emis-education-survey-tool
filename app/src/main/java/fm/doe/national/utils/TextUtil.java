@@ -2,6 +2,10 @@ package fm.doe.national.utils;
 
 import android.support.annotation.NonNull;
 
+import java.util.Date;
+
+import fm.doe.national.data.data_source.models.School;
+
 public class TextUtil {
     private static final int ALPHABET_SIZE = 24;
 
@@ -23,5 +27,11 @@ public class TextUtil {
         }
 
         builder.append((char)('a' + mod));
+    }
+
+    @NonNull
+    public static String createSurveyFileName(School school, Date date) {
+        return school.getName() + '-' + school.getId() + '-' +
+                DateUtils.createDateFormat("MMM-dd-yyyy").format(date) + ".xml";
     }
 }

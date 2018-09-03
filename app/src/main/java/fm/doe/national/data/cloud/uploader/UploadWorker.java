@@ -3,22 +3,19 @@ package fm.doe.national.data.cloud.uploader;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import androidx.work.Worker;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.serializers.Serializer;
-import fm.doe.national.utils.ContextUtils;
+import fm.doe.national.utils.TextUtil;
 
 public class UploadWorker extends Worker {
     static final String DATA_PASSING_ID = "DATA_PASSING_ID";
     private static final long VALUE_ID_NOT_FOUND = -1;
+    private static final String TAG = UploadWorker.class.getName();
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final Serializer<LinkedSchoolAccreditation> serializer =
@@ -41,15 +38,14 @@ public class UploadWorker extends Worker {
                 .flatMapCompletable(linkedSchoolAccreditation -> dataSource.requestSchoolAccreditationPassing(passingId)
                         .flatMapCompletable(passing -> cloudRepository.uploadContent(
                                 serializer.serialize(linkedSchoolAccreditation), createFilename(passing))))
-                .subscribe(() -> {}, throwable -> Log.e("UploadWorker", "doWork: ", throwable));
+                .subscribe(() -> {
+                    // nothing
+                }, throwable -> Log.e(TAG, "doWork: ", throwable));
         return Result.SUCCESS;
     }
 
     @NonNull
     private String createFilename(SchoolAccreditationPassing passing) {
-        School school = passing.getSchool();
-        DateFormat dateFormat =
-                new SimpleDateFormat("MMM-dd-yyyy", ContextUtils.getCurrentLocale(getApplicationContext()));
-        return school.getName() + '-' + school.getId() + '-' + dateFormat.format(passing.getStartDate()) + ".xml";
+        return TextUtil.createSurveyFileName(passing.getSchool(), passing.getStartDate());
     }
 }
