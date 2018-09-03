@@ -56,15 +56,20 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doOnSuccess(passing -> {
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(passing -> {
                     GroupStandardsView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
 
                     CategoryProgress progress = passing.getSchoolAccreditation().getCategoryProgress();
                     view.setGlobalProgress(progress.getAnsweredQuestionsCount(), progress.getTotalQuestionsCount());
-                })
-                .flatMap(passing -> dataSource.requestGroupStandards(passingId))
+                }, this::handleError));
+
+        addDisposable(dataSource.requestGroupStandards(passingId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(groupStandards -> getViewState().showGroupStandards(groupStandards), this::handleError));
     }
