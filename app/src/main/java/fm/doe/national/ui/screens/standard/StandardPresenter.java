@@ -41,7 +41,9 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         addDisposable(dataSource.updateAnswer(passingId, subCriteria.getId(), state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {}, this::handleError));
+                .subscribe(() -> {
+                    // nothing
+                }, this::handleError));
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
         categoryProgress.recalculate(previousState, state);
