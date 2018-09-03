@@ -2,6 +2,8 @@ package fm.doe.national.di;
 
 import android.content.SharedPreferences;
 
+import org.simpleframework.xml.core.Persister;
+
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -48,6 +50,7 @@ public interface AppComponent {
     Parser<LinkedSchoolAccreditation> getSchoolAccreditationParser();
     Parser<List<School>> getSchoolsParser();
     Serializer<LinkedSchoolAccreditation> getSchoolAccreditationSerizlizer();
+    Persister getPersister();
 
     SharedPreferences getSharedPreferences();
     DropboxCloudPreferences getDropboxCloudPreferences();
