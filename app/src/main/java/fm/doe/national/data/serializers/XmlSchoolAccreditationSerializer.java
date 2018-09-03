@@ -1,27 +1,27 @@
 package fm.doe.national.data.serializers;
 
-import com.tickaroo.tikxml.TikXml;
+import android.util.Log;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import org.simpleframework.xml.core.Persister;
+
+import java.io.StringWriter;
+import java.io.Writer;
 
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.SerializableSchoolAccreditation;
-import okio.Okio;
 
 public class XmlSchoolAccreditationSerializer implements Serializer<LinkedSchoolAccreditation> {
     @Override
     public String serialize(LinkedSchoolAccreditation data) {
         SerializableSchoolAccreditation serializableSchoolAccreditation = new SerializableSchoolAccreditation(data);
-        TikXml tikXml = new TikXml.Builder().build();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        String serializedAccreditation = null;
+        Writer writer = new StringWriter();
+        org.simpleframework.xml.Serializer serializer = new Persister();
         try {
-            tikXml.write(Okio.buffer(Okio.sink(outputStream)), serializableSchoolAccreditation);
-            serializedAccreditation = outputStream.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+            serializer.write(serializableSchoolAccreditation, writer);
+            String xml = writer.toString();
+        } catch (Exception ex) {
+            Log.e("ERROR", "serialize: ", ex );
         }
-        return serializedAccreditation;
+        return writer.toString();
     }
 }
