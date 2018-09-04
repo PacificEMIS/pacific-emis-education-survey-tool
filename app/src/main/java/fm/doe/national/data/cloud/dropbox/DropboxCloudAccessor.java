@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
@@ -32,8 +33,7 @@ import io.reactivex.subjects.SingleSubject;
 
 public class DropboxCloudAccessor implements CloudAccessor {
 
-    private static final String IDENTIFIER_APP = "IDENTIFIER_APP";
-
+    private final String identifier;
     private final Context context;
     private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDropboxCloudPreferences();
     private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
@@ -49,6 +49,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     public DropboxCloudAccessor(Context context) {
         this.context = context;
+        identifier = context.getString(R.string.app_name);
         if (hasAuthToken()) initDropbox();
     }
 
@@ -114,7 +115,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     @Override
     public boolean isInUse() {
-        return dropboxClient != null && isSuccessfulAuth();
+        return dropboxClient != null;
     }
 
     public void onAuthActionComplete() {
@@ -178,7 +179,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     private void initClient(@NonNull String accessToken) {
-        DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(IDENTIFIER_APP)
+        DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(identifier)
                 .withHttpRequestor(new OkHttp3Requestor(OkHttp3Requestor.defaultOkHttpClient()))
                 .build();
         dropboxClient = new DbxClientV2(requestConfig, accessToken);
