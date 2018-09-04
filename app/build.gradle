@@ -30,12 +30,17 @@ android {
             storeFile file(System.getenv("KEY_FILE") ?: "KEY_FILE")
             keyPassword System.getenv("KEY_PASSWORD") ?: "KEY_PASSWORD"
         }
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('debug.keystore')
+            storePassword 'android'
+        }
     }
     buildTypes {
         debug {
             versionNameSuffix "-debug"
         }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -140,8 +145,4 @@ dependencies {
     implementation "com.dropbox.core:dropbox-core-sdk:$dropboxVersion"
 
     implementation "com.android.support:multidex:$multidexVersion"
-
-    // Run `adb forward tcp:8080 tcp:8080` in terminal
-    // Open url: http://localhost:8080/ to view database
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 }
