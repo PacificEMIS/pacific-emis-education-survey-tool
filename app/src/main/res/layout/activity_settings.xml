@@ -25,24 +25,24 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/ic_splash_logo"
         app:layout_constraintBottom_toTopOf="@+id/recyclerview_accounts"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_title"
-        app:layout_marginTopPercent="18%"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textview_logo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-light"
         android:textColor="@color/charcoal_grey"
         android:text="@string/default_image"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_logo"
         app:layout_constraintEnd_toStartOf="@+id/textview_change_logo"
         app:layout_constraintStart_toEndOf="@+id/imageview_logo"
@@ -53,8 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextButton"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/action_change_it"
         app:layout_constraintBottom_toBottomOf="@+id/textview_logo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,48 +76,57 @@
             style="@style/Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
             android:text="@string/title_connected_accounts"
             app:layout_section="header" />
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/layout_possible_connections"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_section="footer">
+            android:paddingBottom="8dp"
+            app:layout_section="footer"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textview_title_connect"
                 style="@style/Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_connect_accounts"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_section="header" />
+                android:text="@string/title_connect_accounts" />
 
-            <fm.doe.national.ui.custom_views.CloudConnectionCardView
-                android:id="@+id/cardview_dropbox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardview_drive"
-                app:layout_constraintTop_toBottomOf="@+id/textview_title_connect"/>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <fm.doe.national.ui.custom_views.CloudConnectionCardView
-                android:id="@+id/cardview_drive"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/cardview_dropbox"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_title_connect"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp" >
 
+                    <fm.doe.national.ui.custom_views.CloudConnectionCardView
+                        android:id="@+id/cardview_drive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginEnd="16dp"/>
 
-        </android.support.constraint.ConstraintLayout>
+                    <fm.doe.national.ui.custom_views.CloudConnectionCardView
+                        android:id="@+id/cardview_dropbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="?cardUseCompatPadding"
+                        android:layout_marginBottom="4dp"/>
 
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
-
 
 </android.support.constraint.ConstraintLayout>

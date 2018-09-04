@@ -135,10 +135,10 @@ public class SettingsActivity extends BaseActivity implements
     public void hideConnectView(CloudType type) {
         switch (type) {
             case DRIVE:
-                driveView.setVisibility(View.INVISIBLE);
+                driveView.setVisibility(View.GONE);
                 break;
             case DROPBOX:
-                dropboxView.setVisibility(View.INVISIBLE);
+                dropboxView.setVisibility(View.GONE);
                 break;
         }
     }
