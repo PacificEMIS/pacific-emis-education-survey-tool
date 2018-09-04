@@ -32,6 +32,8 @@ import io.reactivex.subjects.SingleSubject;
 
 public class DropboxCloudAccessor implements CloudAccessor {
 
+    private static final String IDENTIFIER_APP = "IDENTIFIER_APP";
+
     private final Context context;
     private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDropboxCloudPreferences();
     private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
@@ -112,7 +114,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     @Override
     public boolean isInUse() {
-        return dropboxClient != null;
+        return dropboxClient != null && isSuccessfulAuth();
     }
 
     public void onAuthActionComplete() {
@@ -176,7 +178,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     private void initClient(@NonNull String accessToken) {
-        DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(context.getApplicationInfo().name)
+        DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(IDENTIFIER_APP)
                 .withHttpRequestor(new OkHttp3Requestor(OkHttp3Requestor.defaultOkHttpClient()))
                 .build();
         dropboxClient = new DbxClientV2(requestConfig, accessToken);
