@@ -13,11 +13,18 @@ import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.DriveResourceClient;
+import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.MetadataChangeSet;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
+import com.google.android.gms.tasks.Tasks;
 
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccessor;
@@ -74,7 +81,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         exportCompletable = CompletableSubject.create();
         Completable exportContent =
                 Completable
-                        .fromAction(() -> createFile(content, filename, exportFolderId))
+                        .fromAction(() -> writeFile(content, filename, exportFolderId))
                         .andThen(exportCompletable);
         return auth().andThen(exportContent);
     }
@@ -201,7 +208,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         }
     }
 
-    private void createFile(String content, String filename, @Nullable DriveId folderDriveId) {
+    private void writeFile(String content, String filename, @Nullable DriveId folderDriveId) {
         if (driveResourceClient == null) {
             onActionFailure(new FileExportException("DriveResourceClient is null"));
             return;
@@ -212,21 +219,45 @@ public class DriveCloudAccessor implements CloudAccessor {
             return;
         }
 
-        Task<DriveContents> createContentsTask = driveResourceClient.createContents();
-        createContentsTask.continueWithTask(task -> {
-            DriveContents contents = createContentsTask.getResult();
-            try (Writer writer = new OutputStreamWriter(contents.getOutputStream())) {
-                writer.write(content);
-            }
-
-            MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                    .setTitle(filename)
-                    .setMimeType("text/plain")
+        try {
+            Query query = new Query.Builder()
+                    .addFilter(Filters.eq(SearchableField.TITLE, filename))
                     .build();
+            MetadataBuffer buffer = Tasks.await(driveResourceClient.query(query));
+            if (buffer.getCount() == 0) {
+                createFile(content, filename, folderDriveId, driveResourceClient);
+            } else {
+                overwriteFile(buffer.get(0).getDriveId(), content, driveResourceClient);
+            }
+            exportCompletable.onComplete();
+        } catch (ExecutionException | InterruptedException | IOException ex) {
+            exportCompletable.onError(ex);
+        }
+    }
 
-            return driveResourceClient.createFile(folderDriveId.asDriveFolder(), changeSet, contents);
-        })
-                .addOnSuccessListener(driveFile -> exportCompletable.onComplete())
-                .addOnFailureListener(throwable -> exportCompletable.onError(throwable));
+    private void overwriteFile(DriveId fileId, String content, DriveResourceClient resourceClient)
+            throws ExecutionException, InterruptedException, IOException {
+        DriveContents driveContents = Tasks.await(resourceClient.openFile(fileId.asDriveFile(), DriveFile.MODE_WRITE_ONLY));
+        fillContents(driveContents, content);
+        MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                .setLastViewedByMeDate(new Date())
+                .build();
+        Tasks.await(resourceClient.commitContents(driveContents, changeSet));
+    }
+
+    private void createFile(String content, String filename, DriveId folderDriveId, DriveResourceClient resourceClient)
+            throws ExecutionException, InterruptedException, IOException {
+        DriveContents contents = Tasks.await(resourceClient.createContents());
+        fillContents(contents, content);
+        MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                .setTitle(filename)
+                .setMimeType("text/plain")
+                .build();
+        Tasks.await(resourceClient.createFile(folderDriveId.asDriveFolder(), changeSet, contents));
+    }
+
+    private void fillContents(DriveContents contents, String content) throws IOException {
+        Writer writer = new OutputStreamWriter(contents.getOutputStream());
+        writer.write(content);
     }
 }
