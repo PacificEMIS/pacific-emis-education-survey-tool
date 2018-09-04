@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -16,6 +17,14 @@ public class SerializableSubCriteria implements SubCriteria {
 
     @Element(required = false)
     SerializableAnswer answer;
+
+    @Nullable
+    @Element(required = false)
+    String interviewQuestions;
+
+    @Nullable
+    @Element(required = false)
+    String hint;
 
     public SerializableSubCriteria() {
     }
