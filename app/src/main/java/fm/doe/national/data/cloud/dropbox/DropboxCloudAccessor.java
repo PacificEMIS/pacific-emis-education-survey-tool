@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
@@ -176,7 +177,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     private void initClient(@NonNull String accessToken) {
-        DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(context.getApplicationInfo().name)
+        DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(context.getString(R.string.app_name))
                 .withHttpRequestor(new OkHttp3Requestor(OkHttp3Requestor.defaultOkHttpClient()))
                 .build();
         dropboxClient = new DbxClientV2(requestConfig, accessToken);

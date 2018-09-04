@@ -60,4 +60,5 @@
     <string name="integration_dropbox">Dropbox integration</string>
     <string name="default_export">Default for Export</string>
     <string name="change_default_export">Change to default for Export</string>
+    <string name="hint_settings">Connect your cloud accounts for import/export school lists or surveys</string>
 </resources>
