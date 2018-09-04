@@ -10,8 +10,7 @@
         android:id="@+id/imageview_cloud_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_google_drive" />
@@ -20,9 +19,9 @@
         android:id="@+id/textview_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textSize="18sp"
-        android:textColor="@color/black"
+        android:layout_marginStart="18dp"
+        android:textSize="20sp"
+        android:textColor="@color/charcoal_grey"
         android:text="@string/account_drive"
         app:layout_constraintStart_toEndOf="@+id/imageview_cloud_icon"
         app:layout_constraintTop_toTopOf="@+id/imageview_cloud_icon"
@@ -32,7 +31,7 @@
         android:id="@+id/textview_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="18dp"
         android:textColor="@color/charcoal_grey"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_cloud_icon"
@@ -41,11 +40,10 @@
 
     <TextView
         android:id="@+id/textview_export"
+        style="@style/AccountTextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textColor="@color/color_default"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/textview_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageview_cloud_icon"
@@ -55,7 +53,7 @@
         android:id="@+id/imegaview_done_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="6dp"
         app:layout_constraintBottom_toBottomOf="@+id/textview_export"
         app:layout_constraintEnd_toStartOf="@+id/textview_export"
         app:layout_constraintTop_toTopOf="@+id/textview_export"
@@ -74,10 +72,6 @@
             style="@style/ClickableListText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:text="@string/action_import_schools" />
 
         <View style="@style/SettingsDelimeter"/>
@@ -87,10 +81,6 @@
             style="@style/ClickableListText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:text="@string/action_import_surveys" />
 
         <View style="@style/SettingsDelimeter"/>
@@ -103,21 +93,18 @@
                 android:id="@+id/textview_folder_path"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="24dp"
                 tools:text="MyDrive/MyFolder"
                 android:layout_gravity="center_vertical|end"
-                android:textColor="@color/soft_grey"
-                android:textSize="12sp"/>
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/cool_grey"
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/textview_choose_folder"
                 style="@style/ClickableListText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:text="@string/action_export_folder" />
 
         </FrameLayout>
