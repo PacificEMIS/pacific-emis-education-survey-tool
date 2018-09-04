@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.standard;
 
-import android.annotation.SuppressLint;
-
 import com.arellomobile.mvp.InjectViewState;
 
 import java.util.ArrayList;
@@ -37,15 +35,15 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         load(standardId);
     }
 
-    @SuppressLint("CheckResult")
     public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
         Answer.State state = subCriteria.getAnswer().getState();
 
-        dataSource.updateAnswer(passingId, subCriteria.getId(), state)
+        addDisposable(dataSource.updateAnswer(passingId, subCriteria.getId(), state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(this::addDisposable)
-                .subscribe(() -> {}, this::handleError);
+                .subscribe(() -> {
+                    // nothing
+                }, this::handleError));
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
         categoryProgress.recalculate(previousState, state);
@@ -81,21 +79,17 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         loadQuestions();
     }
 
-    @SuppressLint("CheckResult")
     private void loadQuestions() {
         long standardId = standards.get(standardIndex).getId();
-        dataSource.requestCriterias(passingId, standardId)
+        addDisposable(dataSource.requestCriterias(passingId, standardId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    getViewState().showWaiting();
-                    addDisposable(disposable);
-                })
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(criterias -> {
                     getViewState().setCriterias(criterias);
                     updateProgress();
-                }, this::handleError);
+                }, this::handleError));
     }
 
     private int getNextIndex() {
@@ -112,30 +106,26 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         previousIndex = getPrevIndex();
     }
 
-    @SuppressLint("CheckResult")
     private void load(long standardId) {
-        dataSource.requestStandards(passingId)
+        addDisposable(dataSource.requestStandards(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    getViewState().showWaiting();
-                    addDisposable(disposable);
-                })
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doOnSuccess(standards -> this.standards = standards)
                 .flatMap(standards -> dataSource.requestStandard(passingId, standardId))
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(standard -> {
                     initStandardIndexes(standard);
                     updateUi();
-                }, this::handleError);
+                }, this::handleError));
 
-        dataSource.requestSchoolAccreditationPassing(passingId)
+        addDisposable(dataSource.requestSchoolAccreditationPassing(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(passing -> {
                     StandardView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
-                }, this::handleError);
+                }, this::handleError));
     }
 }

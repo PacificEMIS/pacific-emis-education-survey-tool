@@ -39,11 +39,6 @@ class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> {
         }
     }
 
-    @Deprecated
-    protected void add(@NonNull Disposable d){
-        addDisposable(d);
-    }
-
     protected void addDisposable(@NonNull Disposable d) {
         if (!disposed) {
             synchronized (this) {
