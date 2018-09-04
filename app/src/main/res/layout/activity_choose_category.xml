@@ -12,24 +12,20 @@
 
     <TextView
         android:id="@+id/textview_title"
+        style="@style/Subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="@string/header_choose_category"
-        android:textColor="@color/charcoal_grey"
-        android:textSize="@dimen/size_text_titles"
         app:layout_constraintEnd_toStartOf="@+id/imageview_done"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbarLayout" />
 
     <ImageView
         android:id="@+id/imageview_done"
-        android:layout_width="11dp"
-        android:layout_height="9dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/textview_progress"
         app:layout_constraintEnd_toStartOf="@+id/textview_progress"
         app:layout_constraintStart_toEndOf="@+id/textview_title"
@@ -40,7 +36,9 @@
         android:id="@+id/textview_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
+        android:textSize="18sp"
+        android:textColor="@color/charcoal_grey"
         app:layout_constraintBottom_toBottomOf="@+id/textview_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textview_title"
@@ -51,10 +49,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:theme="@style/BaseThemeRecyclerView"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_title"
-        app:showDivider="middle|end"
+        app:showDivider="middle"
+        app:dividerPaddingStart="24dp"
+        app:dividerPaddingEnd="24dp"
         tools:listitem="@layout/item_group_standards">
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
@@ -65,10 +65,12 @@
         android:layout_height="0dp"
         android:visibility="gone"
         android:theme="@style/BaseThemeRecyclerView"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_title"
-        app:showDivider="middle|end"
+        app:showDivider="middle"
+        app:dividerPaddingStart="24dp"
+        app:dividerPaddingEnd="24dp"
         tools:listitem="@layout/item_group_standards">
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
