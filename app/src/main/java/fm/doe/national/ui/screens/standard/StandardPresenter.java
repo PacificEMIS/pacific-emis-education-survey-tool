@@ -5,9 +5,8 @@ import com.arellomobile.mvp.InjectViewState;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
@@ -20,8 +19,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class StandardPresenter extends BasePresenter<StandardView> {
 
-    @Inject
-    DataSource dataSource;
+    private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
+    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
     private long passingId;
     private int standardIndex;
@@ -30,7 +29,6 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private List<Standard> standards = new ArrayList<>();
 
     public StandardPresenter(long passingId, long standardId) {
-        MicronesiaApplication.getAppComponent().inject(this);
         this.passingId = passingId;
         load(standardId);
     }
@@ -41,9 +39,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         addDisposable(dataSource.updateAnswer(passingId, subCriteria.getId(), state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {
-                    // nothing
-                }, this::handleError));
+                .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
         categoryProgress.recalculate(previousState, state);
@@ -72,9 +68,10 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     private void updateUi() {
-        getViewState().setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
-        getViewState().setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
-        getViewState().setNextStandard(standards.get(nextIndex).getName(), nextIndex);
+        StandardView view = getViewState();
+        view.setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
+        view.setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
+        view.setNextStandard(standards.get(nextIndex).getName(), nextIndex);
 
         loadQuestions();
     }
@@ -111,9 +108,9 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
                 .doOnSuccess(standards -> this.standards = standards)
                 .flatMap(standards -> dataSource.requestStandard(passingId, standardId))
-                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(standard -> {
                     initStandardIndexes(standard);
                     updateUi();
@@ -122,6 +119,8 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         addDisposable(dataSource.requestSchoolAccreditationPassing(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(passing -> {
                     StandardView view = getViewState();
                     view.setSurveyYear(passing.getYear());

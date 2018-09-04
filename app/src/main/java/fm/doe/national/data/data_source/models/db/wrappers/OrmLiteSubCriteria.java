@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
@@ -12,9 +13,23 @@ public class OrmLiteSubCriteria implements SubCriteria {
 
     private Answer answer;
 
+    @Nullable
+    private String interviewQuestions = null;
+
+    @Nullable
+    private String hint = null;
+
     public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer) {
         this.surveyItem = surveyItem;
         this.answer = answer;
+    }
+
+    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer,
+                              @Nullable String interviewQuestions, @Nullable String hint) {
+        this.surveyItem = surveyItem;
+        this.answer = answer;
+        this.interviewQuestions = interviewQuestions;
+        this.hint = hint;
     }
 
     @Override
@@ -33,5 +48,15 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return answer;
     }
 
+    @Nullable
+    @Override
+    public String getInterviewQuestions() {
+        return interviewQuestions;
+    }
 
+    @Nullable
+    @Override
+    public String getHint() {
+        return hint;
+    }
 }

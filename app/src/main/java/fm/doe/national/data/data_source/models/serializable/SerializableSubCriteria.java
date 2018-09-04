@@ -1,29 +1,39 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.PropertyElement;
-import com.tickaroo.tikxml.annotation.Xml;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
 
-@Xml(name = "subcriteria")
+@Root(name = "subcriteria")
 public class SerializableSubCriteria implements SubCriteria {
 
-    @PropertyElement
+    @Element
     String name;
 
-    @Element
+    @Element(required = false)
     SerializableAnswer answer;
+
+    @Nullable
+    @Element(required = false)
+    String interviewQuestions;
+
+    @Nullable
+    @Element(required = false)
+    String hint;
 
     public SerializableSubCriteria() {
     }
 
-    public SerializableSubCriteria(String name, SerializableAnswer answer) {
+    public SerializableSubCriteria(String name, SerializableAnswer answer, @Nullable String interviewQuestions, @Nullable String hint) {
         this.name = name;
         this.answer = answer;
+        this.interviewQuestions = interviewQuestions;
+        this.hint = hint;
     }
 
     @NonNull
@@ -40,5 +50,17 @@ public class SerializableSubCriteria implements SubCriteria {
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Nullable
+    @Override
+    public String getInterviewQuestions() {
+        return interviewQuestions;
+    }
+
+    @Nullable
+    @Override
+    public String getHint() {
+        return hint;
     }
 }

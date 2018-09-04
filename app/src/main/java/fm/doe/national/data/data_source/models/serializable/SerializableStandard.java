@@ -2,22 +2,22 @@ package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.PropertyElement;
-import com.tickaroo.tikxml.annotation.Xml;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 
-@Xml(name = "standard")
+@Root(name = "standard")
 public class SerializableStandard implements LinkedStandard, ListConverter.Converter<Criteria, SerializableCriteria> {
 
-    @PropertyElement
+    @Element
     String name;
 
-    @Element
+    @ElementList(inline = true)
     List<SerializableCriteria> criterias;
 
     public SerializableStandard() {

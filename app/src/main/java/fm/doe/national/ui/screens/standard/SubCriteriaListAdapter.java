@@ -63,7 +63,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
 
-            switchableButton.setState(convertToUiState(item.getAnswer().getState()));
+            switchableButton.setStateNotNotifying(convertToUiState(item.getAnswer().getState()));
         }
 
         @Override

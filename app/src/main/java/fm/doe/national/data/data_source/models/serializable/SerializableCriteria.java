@@ -2,9 +2,9 @@ package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.PropertyElement;
-import com.tickaroo.tikxml.annotation.Xml;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
@@ -12,13 +12,13 @@ import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 
-@Xml(name = "criteria")
+@Root(name = "criteria")
 public class SerializableCriteria implements Criteria, ListConverter.Converter<SubCriteria, SerializableSubCriteria> {
 
-    @PropertyElement
+    @Element
     String name;
 
-    @Element
+    @ElementList(inline = true)
     List<SerializableSubCriteria> subCriterias;
 
     public SerializableCriteria() {
@@ -52,6 +52,10 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
 
     @Override
     public SerializableSubCriteria convert(SubCriteria input) {
-        return new SerializableSubCriteria(input.getName(), new SerializableAnswer(input.getAnswer()));
+        return new SerializableSubCriteria(
+                input.getName(),
+                new SerializableAnswer(input.getAnswer()),
+                input.getInterviewQuestions(),
+                input.getHint());
     }
 }

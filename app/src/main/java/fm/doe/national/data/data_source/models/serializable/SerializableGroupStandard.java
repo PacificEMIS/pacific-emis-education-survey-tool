@@ -2,28 +2,29 @@ package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.PropertyElement;
-import com.tickaroo.tikxml.annotation.Xml;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.GroupStandard;
 
-@Xml(name = "groupStandard")
+@Root(name = "groupStandard")
 public class SerializableGroupStandard implements LinkedGroupStandard, ListConverter.Converter<LinkedStandard, SerializableStandard>  {
 
-    @Element
+    @ElementList(inline = true)
     List<SerializableStandard> standards;
 
-    @PropertyElement
+    @Element
     String name;
 
     public SerializableGroupStandard() {
     }
 
-    public SerializableGroupStandard(GroupStandard input) {
+    public SerializableGroupStandard(LinkedGroupStandard input) {
+        name = input.getName();
+        standards = ListConverter.createList(input.getStandards(), this);
     }
 
     @NonNull
