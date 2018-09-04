@@ -12,15 +12,10 @@
     <include layout="@layout/include_appbar" />
 
     <TextView
+        style="@style/Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/header_school_accreditation"
-        android:textColor="@color/charcoal_grey"
-        android:textSize="@dimen/size_text_titles"
-        android:textStyle="normal" />
+        android:text="@string/header_school_accreditation" />
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -31,20 +26,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/BaseThemeRecyclerView"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layoutManager="LinearLayoutManager"
             app:showDivider="end|middle"
+            app:dividerPaddingStart="24dp"
+            app:dividerPaddingEnd="24dp"
             tools:listitem="@layout/item_survey" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_new_accreditation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_gravity="end|bottom"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             app:backgroundTint="@color/colorAccent"
             app:layout_behavior="fm.doe.national.ui.screens.school_accreditation.FloatingActionButtonBehavior"
-            app:srcCompat="@drawable/ic_plus" />
+            app:srcCompat="@drawable/ic_plus"
+            android:scaleType="center"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

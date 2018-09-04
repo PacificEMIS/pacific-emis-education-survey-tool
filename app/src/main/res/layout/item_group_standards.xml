@@ -11,8 +11,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         tools:src="@drawable/ic_standard_teacher_hl" />
 
     <TextView
@@ -22,9 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.5"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:maxLines="1"
         tools:text="Standard 1:Leadership" />
 
     <ProgressBar
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginBottom="20dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginTop="20dp"
         tools:text="24/53" />
 

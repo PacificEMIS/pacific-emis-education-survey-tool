@@ -8,14 +8,14 @@
 
     <TextView
         android:id="@+id/textview_alphabetical_numbering"
-        android:layout_width="48dp"
+        android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:gravity="center_horizontal"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="@dimen/size_criteria_text"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="a." />
@@ -24,9 +24,8 @@
         android:id="@+id/textview_question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="@dimen/size_criteria_text"
-        android:textStyle="normal"
+        android:textColor="@color/charcoal_grey"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/switch_answer"
         app:layout_constraintStart_toEndOf="@+id/textview_alphabetical_numbering"
         tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />

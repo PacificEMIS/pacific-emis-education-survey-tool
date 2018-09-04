@@ -14,14 +14,10 @@
 
     <TextView
         android:id="@+id/textview_title"
+        style="@style/Subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="@string/title_choose_school"
-        android:textColor="@color/black"
-        android:textSize="@dimen/size_text_titles"
         app:layout_constraintBottom_toTopOf="@+id/recyclerview_schools"
         app:layout_constraintEnd_toStartOf="@+id/imageview_clock"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/textview_title"
         app:layout_constraintEnd_toStartOf="@+id/textview_year"
         app:layout_constraintStart_toEndOf="@+id/textview_title"
@@ -44,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textColor="@color/cool_grey"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_clock"
         app:layout_constraintEnd_toStartOf="@+id/button_edit"
@@ -55,7 +51,7 @@
         android:id="@+id/button_edit"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/textview_year"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textview_year"
@@ -71,7 +67,7 @@
         tools:listitem="@layout/item_school"
         android:divider="@color/pinkish_grey"
         android:dividerHeight="1dp"
-        app:dividerPadding="16dp"
+        app:dividerPadding="24dp"
         app:showDivider="middle"/>
 
 

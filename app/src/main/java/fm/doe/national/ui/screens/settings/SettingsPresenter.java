@@ -1,10 +1,12 @@
 package fm.doe.national.ui.screens.settings;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.omega_r.libs.omegatypes.Text;
 
 import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.domain.SettingsInteractor;
@@ -44,7 +46,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(this::updateUi, this::handleError));
+                .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_import_schools_success)), this::handleError));
     }
 
     public void onImportSurveyClick(CloudAccountData viewData) {
@@ -53,7 +55,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(this::updateUi, this::handleError));
+                .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_import_survey_success)), this::handleError));
     }
 
     public void onChooseFolderClick(CloudAccountData viewData) {
