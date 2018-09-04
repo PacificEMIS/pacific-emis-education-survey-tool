@@ -1,5 +1,7 @@
 package fm.doe.national.di.modules;
 
+import org.simpleframework.xml.core.Persister;
+
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -25,5 +27,11 @@ public class ParsersModule {
     @Singleton
     public Parser<List<School>> provideSchoolParser() {
         return new CsvSchoolParser();
+    }
+
+    @Provides
+    @Singleton
+    public Persister providePersister() {
+        return new Persister();
     }
 }

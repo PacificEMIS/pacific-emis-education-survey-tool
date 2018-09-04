@@ -2,8 +2,6 @@ package fm.doe.national.ui.screens.group_standards;
 
 import com.arellomobile.mvp.InjectViewState;
 
-import javax.inject.Inject;
-
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.CategoryProgress;
@@ -18,11 +16,9 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
 
     private long passingId;
 
-    @Inject
-    DataSource dataSource;
+    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
     public GroupStandardsPresenter(long passingId) {
-        MicronesiaApplication.getAppComponent().inject(this);
         this.passingId = passingId;
     }
 

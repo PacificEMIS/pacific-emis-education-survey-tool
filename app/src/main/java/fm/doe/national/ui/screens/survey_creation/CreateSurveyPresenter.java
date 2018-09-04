@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
@@ -17,14 +15,13 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
-    @Inject
-    DataSource dataSource;
+
+    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
     private int year;
     private List<School> schools;
 
     public CreateSurveyPresenter() {
-        MicronesiaApplication.getAppComponent().inject(this);
         loadYear();
         loadSchools();
     }
