@@ -29,9 +29,11 @@ public class SerializableSubCriteria implements SubCriteria {
     public SerializableSubCriteria() {
     }
 
-    public SerializableSubCriteria(String name, SerializableAnswer answer) {
+    public SerializableSubCriteria(String name, SerializableAnswer answer, @Nullable String interviewQuestions, @Nullable String hint) {
         this.name = name;
         this.answer = answer;
+        this.interviewQuestions = interviewQuestions;
+        this.hint = hint;
     }
 
     @NonNull
@@ -48,5 +50,17 @@ public class SerializableSubCriteria implements SubCriteria {
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Nullable
+    @Override
+    public String getInterviewQuestions() {
+        return interviewQuestions;
+    }
+
+    @Nullable
+    @Override
+    public String getHint() {
+        return hint;
     }
 }

@@ -52,6 +52,10 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
 
     @Override
     public SerializableSubCriteria convert(SubCriteria input) {
-        return new SerializableSubCriteria(input.getName(), new SerializableAnswer(input.getAnswer()));
+        return new SerializableSubCriteria(
+                input.getName(),
+                new SerializableAnswer(input.getAnswer()),
+                input.getInterviewQuestions(),
+                input.getHint());
     }
 }
