@@ -2,19 +2,18 @@ package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.Nullable;
 
-import com.tickaroo.tikxml.annotation.PropertyElement;
-import com.tickaroo.tikxml.annotation.Xml;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SynchronizePlatform;
-import fm.doe.national.utils.converters.XmlStateConverter;
 
-@Xml(name = "answer")
+@Root(name = "answer")
 public class SerializableAnswer implements Answer {
 
-    @PropertyElement(converter = XmlStateConverter.class)
+    @Element
     State state;
 
     public SerializableAnswer() {

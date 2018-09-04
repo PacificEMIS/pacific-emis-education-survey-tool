@@ -1,10 +1,6 @@
 package fm.doe.national.ui.screens.group_standards;
 
-import android.annotation.SuppressLint;
-
 import com.arellomobile.mvp.InjectViewState;
-
-import javax.inject.Inject;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
@@ -20,11 +16,9 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
 
     private long passingId;
 
-    @Inject
-    DataSource dataSource;
+    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
     public GroupStandardsPresenter(long passingId) {
-        MicronesiaApplication.getAppComponent().inject(this);
         this.passingId = passingId;
     }
 
@@ -38,15 +32,11 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
         getViewState().navigateToStandardScreen(passingId, standard.getId());
     }
 
-    @SuppressLint("CheckResult")
     public void onGroupClicked(GroupStandard group) {
-        dataSource.requestStandards(passingId, group.getId())
+        addDisposable(dataSource.requestStandards(passingId, group.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    addDisposable(disposable);
-                    getViewState().showWaiting();
-                })
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(standards -> {
                     if (standards.size() > 1) {
@@ -54,29 +44,30 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                     } else {
                         onStandardClicked(standards.get(0));
                     }
-                }, this::handleError);
+                }, this::handleError));
     }
 
-    @SuppressLint("CheckResult")
     private void loadPassing() {
-        dataSource.requestSchoolAccreditationPassing(passingId)
+        addDisposable(dataSource.requestSchoolAccreditationPassing(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    addDisposable(disposable);
-                    getViewState().showWaiting();
-                })
-                .doOnSuccess(passing -> {
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(passing -> {
                     GroupStandardsView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
 
                     CategoryProgress progress = passing.getSchoolAccreditation().getCategoryProgress();
                     view.setGlobalProgress(progress.getAnsweredQuestionsCount(), progress.getTotalQuestionsCount());
-                })
-                .flatMap(passing -> dataSource.requestGroupStandards(passingId))
+                }, this::handleError));
+
+        addDisposable(dataSource.requestGroupStandards(passingId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(groupStandards -> getViewState().showGroupStandards(groupStandards), this::handleError);
+                .subscribe(groupStandards -> getViewState().showGroupStandards(groupStandards), this::handleError));
     }
 
 }

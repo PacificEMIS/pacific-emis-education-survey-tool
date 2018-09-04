@@ -16,6 +16,8 @@ import fm.doe.national.data.cloud.MultipleCloudsRepository;
 import fm.doe.national.data.cloud.CloudTypeKey;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
+import fm.doe.national.data.cloud.uploader.CloudUploader;
+import fm.doe.national.data.cloud.uploader.WorkerCloudUploader;
 
 @Module
 public class CloudModule {
@@ -51,5 +53,11 @@ public class CloudModule {
     @Singleton
     public CloudRepository provideCloudRepository(Map<CloudType, CloudAccessor> accessors) {
         return new MultipleCloudsRepository(accessors);
+    }
+
+    @Provides
+    @Singleton
+    public CloudUploader provideCloudUploader() {
+        return new WorkerCloudUploader();
     }
 }

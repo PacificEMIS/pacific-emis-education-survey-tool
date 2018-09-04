@@ -1,24 +1,23 @@
 package fm.doe.national.data.data_source.models.serializable;
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.PropertyElement;
-import com.tickaroo.tikxml.annotation.Xml;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.GroupStandard;
 
-@Xml(name = "schoolAccreditation")
-public class SerializableSchoolAccreditation implements LinkedSchoolAccreditation, ListConverter.Converter<GroupStandard, SerializableGroupStandard> {
-
-    @PropertyElement
-    String type;
-
-    @PropertyElement
-    int version;
+@Root(name = "schoolAccreditation")
+public class SerializableSchoolAccreditation implements LinkedSchoolAccreditation, ListConverter.Converter<LinkedGroupStandard, SerializableGroupStandard> {
 
     @Element
+    String type;
+
+    @Element
+    int version;
+
+    @ElementList(inline = true)
     List<SerializableGroupStandard> groupStandards;
 
     public SerializableSchoolAccreditation() {
@@ -46,7 +45,7 @@ public class SerializableSchoolAccreditation implements LinkedSchoolAccreditatio
     }
 
     @Override
-    public SerializableGroupStandard convert(GroupStandard input) {
+    public SerializableGroupStandard convert(LinkedGroupStandard input) {
         return new SerializableGroupStandard(input);
     }
 

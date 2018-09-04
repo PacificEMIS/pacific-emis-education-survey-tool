@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
@@ -17,14 +15,13 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
-    @Inject
-    DataSource dataSource;
+
+    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
     private int year;
     private List<School> schools;
 
     public CreateSurveyPresenter() {
-        MicronesiaApplication.getAppComponent().inject(this);
         loadYear();
         loadSchools();
     }
@@ -36,34 +33,24 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadSchools() {
-        dataSource.requestSchools()
+        addDisposable(dataSource.requestSchools()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    getViewState().showWaiting();
-                    add(disposable);
-                })
-                .doOnSuccess(schools -> {
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(schools -> {
                     this.schools = schools;
                     getViewState().setSchools(schools);
-                })
-                .doOnError(this::handleError)
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe();
+                }, this::handleError));
     }
 
     public void onSchoolPicked(School school) {
-        dataSource.createNewSchoolAccreditationPassing(year, school)
+        addDisposable(dataSource.createNewSchoolAccreditationPassing(year, school)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> {
-                    getViewState().showWaiting();
-                    add(disposable);
-                })
-                .doOnSuccess(passing -> getViewState().navigateToCategoryChooser(passing.getId()))
-                .doOnError(this::handleError)
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe();
+                .subscribe(passing -> getViewState().navigateToCategoryChooser(passing.getId()), this::handleError));
     }
 
 

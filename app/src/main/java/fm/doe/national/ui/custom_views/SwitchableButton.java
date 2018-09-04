@@ -79,7 +79,7 @@ public class SwitchableButton extends FrameLayout implements View.OnClickListene
         return state;
     }
 
-    public void setState(State state) {
+    public void setStateNotNotifying(State state) {
         this.state = state;
         switch (state) {
             case POSITIVE:
@@ -92,7 +92,10 @@ public class SwitchableButton extends FrameLayout implements View.OnClickListene
                 becomeNeutral();
                 break;
         }
+    }
 
+    public void setState(State state) {
+        setStateNotNotifying(state);
         if (listener != null) listener.onStateChanged(this, state);
     }
 
