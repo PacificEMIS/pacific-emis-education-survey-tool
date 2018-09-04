@@ -31,7 +31,6 @@ import fm.doe.national.di.modules.ParsersModule;
 import fm.doe.national.di.modules.SerializersModule;
 import fm.doe.national.di.modules.SharedPreferencesModule;
 import fm.doe.national.domain.SettingsInteractor;
-import fm.doe.national.domain.StandardInteractor;
 import fm.doe.national.utils.LifecycleListener;
 
 @Singleton
@@ -66,5 +65,4 @@ public interface AppComponent {
     CloudUploader getCloudUploader();
 
     SettingsInteractor getSettingsInteractor();
-    StandardInteractor getStandardInteractor();
 }

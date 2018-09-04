@@ -72,7 +72,6 @@
         android:id="@+id/recyclerview_drawer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="24dp"
         android:theme="@style/ThemeRecyclerViewSplashMenu"
         android:visibility="invisible"
@@ -82,7 +81,11 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageview_logo"
+        android:dividerHeight="1dp"
+        app:alphaDivider="0.2"
         app:showDivider="end|middle"
+        app:dividerPaddingStart="24dp"
+        app:dividerPaddingEnd="24dp"
         tools:listitem="@layout/item_menuitem" />
 
 
