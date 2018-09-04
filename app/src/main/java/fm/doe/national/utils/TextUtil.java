@@ -31,7 +31,6 @@ public class TextUtil {
 
     @NonNull
     public static String createSurveyFileName(School school, Date date) {
-        return school.getName() + '-' + school.getId() + '-' +
-                DateUtils.createDateFormat("MMM-dd-yyyy").format(date) + ".xml";
+        return school.getName() + '-' + school.getId() + '-' + DateUtils.format(date) + ".xml";
     }
 }
