@@ -24,6 +24,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.utils.TextUtil;
 import fm.doe.national.utils.ViewUtils;
 
 public class StandardActivity extends BaseActivity implements StandardView, SubcriteriaLongClickListener {
@@ -156,7 +157,7 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
         View popupView = getLayoutInflater().inflate(R.layout.popup_hint, null);
         popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         TextView hintView = popupView.findViewById(R.id.textview_hint);
-        hintView.setText(hint);
+        hintView.setText(TextUtil.fixLineSeparators(hint));
         PopupWindow popupWindow = new PopupWindow(
                 popupView,
                 anchor.getMeasuredWidth(),

@@ -72,7 +72,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @Override
         public void onBind(SubCriteria item) {
             String question = item.getName();
-            questionTextView.setText(question);
+            questionTextView.setText(TextUtil.fixLineSeparators(question));
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));

@@ -33,4 +33,9 @@ public class TextUtil {
     public static String createSurveyFileName(School school, Date date) {
         return school.getName() + '-' + school.getId() + '-' + DateUtils.format(date) + ".xml";
     }
+
+    @NonNull
+    public static String fixLineSeparators(@NonNull String brokenString) {
+        return brokenString.replace("\\n", "\n");
+    }
 }
