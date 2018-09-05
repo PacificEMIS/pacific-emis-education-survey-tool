@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.R;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.db.dao.AnswerDao;
 import fm.doe.national.data.data_source.db.dao.CategoryProgressDao;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 import fm.doe.national.data.data_source.db.dao.SchoolDao;
+import fm.doe.national.data.data_source.db.dao.SubcriteriaAdditionDao;
 import fm.doe.national.data.data_source.db.dao.SurveyDao;
 import fm.doe.national.data.data_source.db.dao.SurveyItemDao;
 import fm.doe.national.data.data_source.db.dao.SurveyPassingDao;
@@ -19,7 +19,6 @@ import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
-import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteCriteria;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteGroupStandard;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
@@ -32,7 +31,6 @@ import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.BiFunction;
 
 public class OrmLiteDataSource implements DataSource {
 
@@ -42,6 +40,7 @@ public class OrmLiteDataSource implements DataSource {
     private SurveyPassingDao surveyPassingDao;
     private CategoryProgressDao categoryProgressDao;
     private AnswerDao answerDao;
+    private SubcriteriaAdditionDao subcriteriaAdditionDao;
 
     public OrmLiteDataSource(DatabaseHelper helper) {
         try {
@@ -51,6 +50,7 @@ public class OrmLiteDataSource implements DataSource {
             answerDao = helper.getAnswerDao();
             surveyPassingDao = helper.getSurveyPassingDao();
             categoryProgressDao = helper.getCategoryProgressDao();
+            subcriteriaAdditionDao = helper.getSubcriteriaAdditionDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -209,7 +209,9 @@ public class OrmLiteDataSource implements DataSource {
                                                 .toObservable(),
                                         Observable.fromIterable(criteriaItem.getChildrenItems())
                                                 .flatMap(subcriteriaItem -> answerDao.requestAnswer(subcriteriaItem, passing)
-                                                        .map(answer -> new OrmLiteSubCriteria(subcriteriaItem, answer))
+                                                        .flatMap(answer -> subcriteriaAdditionDao.requestAddition(subcriteriaItem)
+                                                            .map(addition -> new OrmLiteSubCriteria(subcriteriaItem, answer, addition)))
+//                                                        .map(answer -> new OrmLiteSubCriteria(subcriteriaItem, answer))
                                                         .toObservable())
                                                 .toList()
                                                 .toObservable(),

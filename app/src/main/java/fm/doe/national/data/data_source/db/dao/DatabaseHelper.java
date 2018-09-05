@@ -21,6 +21,7 @@ import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
+import fm.doe.national.data.data_source.models.db.OrmLiteSubCriteriaAddition;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
@@ -43,6 +44,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private AnswerDao answerDao;
     private SurveyPassingDao surveyPassingDao;
     private CategoryProgressDao categoryProgressDao;
+    private SubcriteriaAdditionDao subcriteriaAdditionDao;
 
     private AssetManager assetManager;
 
@@ -94,6 +96,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, OrmLiteSurveyPassing.class);
             TableUtils.createTable(connectionSource, OrmLiteAnswer.class);
             TableUtils.createTable(connectionSource, OrmLiteCategoryProgress.class);
+            TableUtils.createTable(connectionSource, OrmLiteSubCriteriaAddition.class);
         } catch (SQLException exc) {
             Log.e(TAG, "Error create Db " + DATABASE_NAME);
             throw new RuntimeException(exc);
@@ -120,6 +123,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, OrmLiteSurveyPassing.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteAnswer.class, true);
             TableUtils.dropTable(connectionSource, OrmLiteCategoryProgress.class, true);
+            TableUtils.dropTable(connectionSource, OrmLiteSubCriteriaAddition.class, true);
         } catch (SQLException exc) {
             Log.e(TAG, "Error drop Db " + DATABASE_NAME);
             throw new RuntimeException(exc);
@@ -143,7 +147,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public SurveyItemDao getSurveyItemDao() throws SQLException {
         if (surveyItemDao == null) {
-            surveyItemDao = new SurveyItemDao(getConnectionSource(), OrmLiteSurveyItem.class);
+            surveyItemDao = new SurveyItemDao(getSubcriteriaAdditionDao(), getConnectionSource(), OrmLiteSurveyItem.class);
         }
         return surveyItemDao;
     }
@@ -172,5 +176,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     OrmLiteCategoryProgress.class);
         }
         return categoryProgressDao;
+    }
+
+    public SubcriteriaAdditionDao getSubcriteriaAdditionDao() throws SQLException {
+        if (subcriteriaAdditionDao == null) {
+            subcriteriaAdditionDao = new SubcriteriaAdditionDao(
+                    getConnectionSource(),
+                    OrmLiteSubCriteriaAddition.class);
+        }
+        return subcriteriaAdditionDao;
     }
 }

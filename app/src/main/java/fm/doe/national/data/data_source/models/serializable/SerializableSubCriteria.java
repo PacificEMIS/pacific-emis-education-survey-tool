@@ -8,6 +8,7 @@ import org.simpleframework.xml.Root;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.data_source.models.SubCriteriaAddition;
 
 @Root(name = "subcriteria")
 public class SerializableSubCriteria implements SubCriteria {
@@ -26,14 +27,17 @@ public class SerializableSubCriteria implements SubCriteria {
     @Element(required = false)
     String hint;
 
+    private TemporarySubCriteriaAddition addition;
+
     public SerializableSubCriteria() {
     }
 
-    public SerializableSubCriteria(String name, SerializableAnswer answer, @Nullable String interviewQuestions, @Nullable String hint) {
+    public SerializableSubCriteria(String name, SerializableAnswer answer, SubCriteriaAddition addition) {
         this.name = name;
         this.answer = answer;
-        this.interviewQuestions = interviewQuestions;
-        this.hint = hint;
+        this.addition = new TemporarySubCriteriaAddition(addition.getInterviewQuestions(), addition.getHint());
+        this.interviewQuestions = addition.getInterviewQuestions();
+        this.hint = addition.getInterviewQuestions();
     }
 
     @NonNull
@@ -52,15 +56,35 @@ public class SerializableSubCriteria implements SubCriteria {
         return null;
     }
 
-    @Nullable
     @Override
-    public String getInterviewQuestions() {
-        return interviewQuestions;
+    public SubCriteriaAddition getSubCriteriaAddition() {
+        return addition != null ? addition : new TemporarySubCriteriaAddition(interviewQuestions, hint);
     }
 
-    @Nullable
-    @Override
-    public String getHint() {
-        return hint;
+    private class TemporarySubCriteriaAddition implements SubCriteriaAddition {
+
+        @Nullable
+        private String interviewQuestions;
+
+        @Nullable
+        private String hint;
+
+        public TemporarySubCriteriaAddition(@Nullable String interviewQuestions, @Nullable String hint) {
+            this.interviewQuestions = interviewQuestions;
+            this.hint = hint;
+        }
+
+        @Nullable
+        @Override
+        public String getInterviewQuestions() {
+            return interviewQuestions;
+        }
+
+        @Nullable
+        @Override
+        public String getHint() {
+            return hint;
+        }
     }
+
 }
