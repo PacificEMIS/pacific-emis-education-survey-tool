@@ -65,8 +65,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_title"
         tools:listitem="@layout/item_school"
-        android:divider="@color/pinkish_grey"
-        android:dividerHeight="1dp"
         app:dividerPadding="24dp"
         app:showDivider="middle"/>
 

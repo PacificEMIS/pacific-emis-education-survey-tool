@@ -20,12 +20,16 @@ public class SchoolsListAdapter extends BaseAdapter<School> {
         @BindView(R.id.textview_name)
         TextView nameTextView;
 
+        @BindView(R.id.textview_id)
+        TextView idTextView;
+
         SchoolViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_school);
         }
 
         @Override
         public void onBind(School item) {
+            idTextView.setText(item.getId());
             nameTextView.setText(item.getName());
         }
     }
