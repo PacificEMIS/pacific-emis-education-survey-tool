@@ -24,6 +24,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
+import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.LifecycleListener;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -66,7 +67,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     @Override
     public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) {
         Completable upload = Completable.fromAction(() -> {
-            if (exportFolderPath == null) throw new IllegalStateException("exportFolderPath is null");
+            if (exportFolderPath == null) throw new IllegalStateException(Constants.Errors.EXPORT_FOLDER_NOT_SPECIFIED);
             dropboxClient.files()
                     .uploadBuilder(exportFolderPath + "/" + filename)
                     .withMode(WriteMode.OVERWRITE)
@@ -186,7 +187,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     @NonNull
     private Single<BrowsingTreeObject> createFolderTree() {
         return Single.fromCallable(() -> {
-            if (!hasAuthToken() || dropboxClient == null) throw new IllegalStateException("Not authorised");
+            if (!hasAuthToken() || dropboxClient == null) throw new IllegalStateException(Constants.Errors.NOT_AUTHORIZED);
 
             BrowsingTreeObject root = new BrowsingTreeObject();
             root.setDirectory(true);
@@ -223,13 +224,12 @@ public class DropboxCloudAccessor implements CloudAccessor {
         }
     }
 
-
     private void startActivityForAuth() {
         Activity activity = lifecycleListener.getCurrentActivity();
         if (activity != null) {
             activity.startActivity(DropboxActivity.createAuthIntent(activity));
         } else {
-            onActionFailure(new IllegalStateException("No activities running"));
+            onActionFailure(new IllegalStateException(Constants.Errors.NO_ACTIVITIES));
         }
     }
 
@@ -238,7 +238,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
         if (activity != null) {
             activity.startActivity(DropboxActivity.createOpenFileIntent(activity, treeObj));
         } else {
-            onActionFailure(new IllegalStateException("No activities running"));
+            onActionFailure(new IllegalStateException(Constants.Errors.NO_ACTIVITIES));
         }
     }
 
@@ -247,7 +247,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
         if (activity != null) {
             activity.startActivity(DropboxActivity.createSelectFolderIntent(activity, treeOb));
         } else {
-            onActionFailure(new IllegalStateException("No activities running"));
+            onActionFailure(new IllegalStateException(Constants.Errors.NO_ACTIVITIES));
         }
     }
 }

@@ -22,6 +22,7 @@ import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.utils.Constants;
 
 public class DriveActivity extends BaseActivity {
 
@@ -67,7 +68,7 @@ public class DriveActivity extends BaseActivity {
                 pickFolder();
                 break;
             default:
-                throw new RuntimeException("DriveActivity started with wrong action");
+                throw new RuntimeException(Constants.Errors.WRONG_INTENT);
         }
     }
 
@@ -83,7 +84,7 @@ public class DriveActivity extends BaseActivity {
                     DriveId id = data.getParcelableExtra(OpenFileActivityOptions.EXTRA_RESPONSE_DRIVE_ID);
                     driveCloudAccessor.onFileContentObtained(id);
                 } else {
-                    driveCloudAccessor.onActionFailure(new FileImportException("Failed to open"));
+                    driveCloudAccessor.onActionFailure(new PickException(Constants.Errors.PICKER_DECLINED));
                 }
                 break;
             case REQUEST_CODE_PICK_FOLDER:
@@ -91,7 +92,7 @@ public class DriveActivity extends BaseActivity {
                     DriveId id = data.getParcelableExtra(OpenFileActivityOptions.EXTRA_RESPONSE_DRIVE_ID);
                     driveCloudAccessor.onFolderPicked(id);
                 } else {
-                    driveCloudAccessor.onActionFailure(new PickException("Picker declined"));
+                    driveCloudAccessor.onActionFailure(new PickException(Constants.Errors.PICKER_DECLINED));
                 }
         }
         finish();
@@ -114,7 +115,7 @@ public class DriveActivity extends BaseActivity {
     private void importFileContent() {
         DriveClient client = driveCloudAccessor.getDriveClient();
         if (client == null) {
-            failure(new FileImportException("driveCloudAccessor not set up"));
+            failure(new FileImportException(Constants.Errors.DRIVE_CLIENT_IS_NULL));
             return;
         }
 
