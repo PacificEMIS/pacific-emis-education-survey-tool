@@ -11,6 +11,7 @@ import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.utils.Constants;
 
 @InjectViewState
 public class DropboxPresenter extends BasePresenter<DropboxView> {
@@ -27,7 +28,7 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
             case PICK:
                 if (browsingRoot == null) {
                     endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(
-                            new IllegalStateException("browsingRoot not passed to activity")));
+                            new IllegalStateException(Constants.Errors.WRONG_INTENT)));
                 } else {
                     getViewState().showPicker(pickerType, browsingRoot);
                 }
@@ -42,7 +43,7 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
                 if (cloudAccessor.isSuccessfulAuth()) {
                     cloudAccessor.onAuthActionComplete();
                 } else {
-                    cloudAccessor.onActionFailure(new AuthenticationException("Auth declined"));
+                    cloudAccessor.onActionFailure(new AuthenticationException(Constants.Errors.AUTH_DECLINED));
                 }
             });
         }
@@ -53,7 +54,7 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
     }
 
     public void pickerCancelled() {
-        endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(new PickException("Picker cancelled")));
+        endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(new PickException(Constants.Errors.PICKER_DECLINED)));
     }
 
     private void endingCloudAccessorAction(@NonNull Runnable action) {

@@ -33,6 +33,7 @@ import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
+import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.LifecycleListener;
 import fm.doe.national.utils.StreamUtils;
 import io.reactivex.Completable;
@@ -131,7 +132,7 @@ public class DriveCloudAccessor implements CloudAccessor {
             initDriveClients();
             authCompletable.onComplete();
         } else {
-            authCompletable.onError(new AuthenticationException("User not signed id"));
+            authCompletable.onError(new AuthenticationException(Constants.Errors.AUTH_FAILED));
         }
     }
 
@@ -139,7 +140,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         if (importSingle == null) return;
 
         if (driveResourceClient == null) {
-            importSingle.onError(new FileImportException("Drive Resource Client lost"));
+            importSingle.onError(new FileImportException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL));
             return;
         }
 
@@ -204,18 +205,18 @@ public class DriveCloudAccessor implements CloudAccessor {
         if (currentActivity != null) {
             currentActivity.startActivity(DriveActivity.createIntent(currentActivity, activityAction));
         } else {
-            onActionFailure(new IllegalStateException("no activities running"));
+            onActionFailure(new IllegalStateException(Constants.Errors.NO_ACTIVITIES));
         }
     }
 
     private void writeFile(String content, String filename, @Nullable DriveId folderDriveId) {
         if (driveResourceClient == null) {
-            onActionFailure(new FileExportException("DriveResourceClient is null"));
+            onActionFailure(new FileExportException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL));
             return;
         }
 
         if (folderDriveId == null) {
-            onActionFailure(new FileExportException("folder not specified"));
+            onActionFailure(new FileExportException(Constants.Errors.EXPORT_FOLDER_NOT_SPECIFIED));
             return;
         }
 
@@ -251,7 +252,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         fillContents(contents, content);
         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
                 .setTitle(filename)
-                .setMimeType("text/plain")
+                .setMimeType(Constants.FILE_MIME_TYPE)
                 .build();
         Tasks.await(resourceClient.createFile(folderDriveId.asDriveFolder(), changeSet, contents));
     }
