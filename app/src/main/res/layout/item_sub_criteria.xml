@@ -25,10 +25,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/charcoal_grey"
+        android:layout_marginEnd="16dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/switch_answer"
         app:layout_constraintStart_toEndOf="@+id/textview_alphabetical_numbering"
         tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
+
 
     <fm.doe.national.ui.custom_views.SwitchableButton
         android:id="@+id/switch_answer"
@@ -38,6 +40,32 @@
         app:layout_constraintBottom_toBottomOf="@+id/textview_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview_question"
-        app:layout_constraintTop_toTopOf="@+id/textview_question"/>
+        app:layout_constraintTop_toTopOf="@+id/textview_question">
+
+    </fm.doe.national.ui.custom_views.SwitchableButton>
+
+    <TextView
+        android:id="@+id/textview_interview_questions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/color_criteria_primary_dark"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/textview_question"
+        app:layout_constraintStart_toStartOf="@+id/textview_question"
+        app:layout_constraintTop_toBottomOf="@+id/textview_question"
+        tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves?" />
+
+    <TextView
+        android:id="@+id/textview_comment_button"
+        style="@style/CapitalizedTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/button_comment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textview_question"
+        app:layout_constraintTop_toBottomOf="@+id/textview_interview_questions" />
 
 </android.support.constraint.ConstraintLayout>

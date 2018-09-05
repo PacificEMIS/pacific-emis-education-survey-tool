@@ -39,7 +39,7 @@ public class OrmLiteSubCriteria implements SubCriteria {
 
     @Override
     public SubCriteriaAddition getSubCriteriaAddition() {
-        return null;
+        return addition;
     }
 
 }

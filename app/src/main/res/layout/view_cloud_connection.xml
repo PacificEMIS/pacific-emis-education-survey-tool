@@ -37,7 +37,7 @@
 
         <TextView
             android:id="@+id/textview_connect"
-            style="@style/ConnectionTextButton"
+            style="@style/CapitalizedTextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"

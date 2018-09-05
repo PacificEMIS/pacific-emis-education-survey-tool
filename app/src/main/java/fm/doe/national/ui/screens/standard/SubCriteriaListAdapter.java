@@ -1,5 +1,7 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -10,6 +12,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.data_source.models.SubCriteriaAddition;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.TextUtil;
@@ -50,6 +53,9 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.switch_answer)
         SwitchableButton switchableButton;
 
+        @BindView(R.id.textview_interview_questions)
+        TextView interviewQuestionsTextView;
+
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
@@ -62,6 +68,15 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
+
+            SubCriteriaAddition addition = item.getSubCriteriaAddition();
+            String interviewQuestions = addition.getInterviewQuestions();
+            if (!TextUtils.isEmpty(interviewQuestions)) {
+                interviewQuestionsTextView.setVisibility(View.VISIBLE);
+                interviewQuestionsTextView.setText(interviewQuestions);
+            } else {
+                interviewQuestionsTextView.setVisibility(View.GONE);
+            }
 
             switchableButton.setStateNotNotifying(convertToUiState(item.getAnswer().getState()));
         }
