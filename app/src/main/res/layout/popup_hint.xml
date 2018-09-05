@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textview_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/black"
+        android:background="@drawable/popup_hint"
+        tools:text="During the accreditation visit interview, the principal demonstrated a deep understanding of what his/her teachers were teaching and how they were doingThe principal conducts or contributes to workshops on curriculum and instructionRegular meeting with school teachers are held to build collaboration among them.Evidence of meeting attendance."/>
+
+    <View android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/tooltip_hint"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="-30dp"/>
+
+</LinearLayout>

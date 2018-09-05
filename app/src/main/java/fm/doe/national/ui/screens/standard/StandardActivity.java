@@ -2,12 +2,16 @@ package fm.doe.national.ui.screens.standard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -18,10 +22,11 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Criteria;
+import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardActivity extends BaseActivity implements StandardView {
+public class StandardActivity extends BaseActivity implements StandardView, SubcriteriaLongClickListener {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
@@ -97,6 +102,7 @@ public class StandardActivity extends BaseActivity implements StandardView {
 
         criteriasRecycler.setAdapter(recyclerAdapter);
         recyclerAdapter.subscribeOnChanges(presenter::onSubCriteriaStateChanged);
+        recyclerAdapter.setLongClickListener(this);
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
@@ -143,6 +149,31 @@ public class StandardActivity extends BaseActivity implements StandardView {
     @Override
     public void setSchoolName(String schoolName) {
         setTitle(schoolName);
+    }
+
+    @Override
+    public void showHint(View anchor, String hint) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_hint, null);
+        popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        TextView hintView = popupView.findViewById(R.id.textview_hint);
+        hintView.setText(hint);
+        PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                anchor.getMeasuredWidth(),
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+
+        popupView.measure(View.MeasureSpec.makeMeasureSpec(anchor.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+        popupWindow.showAsDropDown(anchor, 0, - anchor.getMeasuredHeight() - popupView.getMeasuredHeight(), Gravity.TOP);
+    }
+
+    @Override
+    public void onSubcriteriaLongClick(View anchor, SubCriteria subCriteria) {
+        showHint(anchor, subCriteria.getSubCriteriaAddition().getHint());
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {

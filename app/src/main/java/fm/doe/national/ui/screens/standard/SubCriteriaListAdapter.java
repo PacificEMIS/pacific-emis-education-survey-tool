@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,13 @@ import fm.doe.national.utils.TextUtil;
 public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
     private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
+
+    @Nullable
+    private SubcriteriaLongClickListener longClickListener;
+
+    public void setLongClickListener(@Nullable SubcriteriaLongClickListener listener) {
+        longClickListener= listener;
+    }
 
     public void clearSubscribers() {
         subscribers.clear();
@@ -42,7 +50,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         return new SubCriteriaViewHolder(parent);
     }
 
-    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener {
+    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener, View.OnLongClickListener {
 
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
@@ -64,7 +72,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @Override
         public void onBind(SubCriteria item) {
             String question = item.getName();
-            questionTextView.setText(question.replace("\r\n", " ").replace("\n", " "));
+            questionTextView.setText(question);
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
@@ -79,6 +87,8 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             }
 
             switchableButton.setStateNotNotifying(convertToUiState(item.getAnswer().getState()));
+
+            questionTextView.setOnLongClickListener(this);
         }
 
         @Override
@@ -89,6 +99,16 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             item.getAnswer().setState(convertFromUiState(state));
 
             notifyStateChanged(item, previousState);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (longClickListener != null) {
+                longClickListener.onSubcriteriaLongClick(itemView, getItem());
+                return true;
+            } else {
+                return false;
+            }
         }
 
         private SwitchableButton.State convertToUiState(Answer.State state) {
