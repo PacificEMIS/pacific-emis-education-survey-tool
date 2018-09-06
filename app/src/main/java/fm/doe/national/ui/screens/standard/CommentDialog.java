@@ -1,13 +1,12 @@
 package fm.doe.national.ui.screens.standard;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,11 +27,10 @@ public class CommentDialog extends DialogFragment {
 
     @Nullable
     private CommentDialogListener listener;
-    private View view;
-    private String name = null;
-    private String interviewQuestion = null;
-    private String hint = null;
-    private String comment = null;
+
+    public void setListener(@Nullable CommentDialogListener listener) {
+        this.listener = listener;
+    }
 
     public static CommentDialog create(SubCriteria subCriteria) {
         CommentDialog dialog = new CommentDialog();
@@ -44,26 +42,6 @@ public class CommentDialog extends DialogFragment {
         args.putString(ARG_COMMENT, subCriteria.getAnswer().getComment());
         dialog.setArguments(args);
         return dialog;
-    }
-
-    public void setListener(@Nullable CommentDialogListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.KeyboardDialog);
-        parseArguments();
-    }
-
-    private void parseArguments() {
-        Bundle bundle = getArguments();
-        if (bundle == null) return;
-        name = bundle.getString(ARG_NAME);
-        interviewQuestion = bundle.getString(ARG_INTERVIEW);
-        hint = bundle.getString(ARG_HINT);
-        comment = bundle.getString(ARG_COMMENT);
     }
 
     @Override
@@ -78,36 +56,33 @@ public class CommentDialog extends DialogFragment {
         }
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        initView();
-        Dialog dialog = new AlertDialog.Builder(getActivity())
-                .setView(view)
-                .create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.dialog_comment, container, false);
     }
 
-    private void initView() {
-        if (view != null || getActivity() == null) return;
-
-        view = getActivity().getLayoutInflater().inflate(R.layout.dialog_comment, null);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         TextView nameTextView = view.findViewById(R.id.textview_subcriteria_name);
         TextView interviewTextView = view.findViewById(R.id.textview_interview_question);
         TextView hintTextView = view.findViewById(R.id.textview_hint);
         EditText commentEditText = view.findViewById(R.id.edittext_comment);
-
-        nameTextView.setText(name);
-        interviewTextView.setText(interviewQuestion);
-        hintTextView.setText(hint);
-        commentEditText.setText(comment);
 
         view.findViewById(R.id.button_submit).setOnClickListener(v -> {
             if (listener != null) listener.onCommentSubmit(commentEditText.getText().toString());
             dismiss();
         });
         view.setOnClickListener(v -> dismiss());
+
+        Bundle bundle = getArguments();
+        if (bundle == null) return;
+
+        nameTextView.setText(bundle.getString(ARG_NAME));
+        interviewTextView.setText(bundle.getString(ARG_INTERVIEW));
+        hintTextView.setText(bundle.getString(ARG_HINT));
+        commentEditText.setText(bundle.getString(ARG_COMMENT));
     }
 
     public interface CommentDialogListener {

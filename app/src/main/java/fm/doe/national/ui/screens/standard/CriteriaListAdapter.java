@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.standard;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,7 +10,6 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,18 +23,11 @@ import fm.doe.national.utils.ViewUtils;
 
 public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
-    private List<SubcriteriaCallback> subscribers = new ArrayList<>();
+    @Nullable
+    private SubcriteriaCallback callback = null;
 
-    public void clearSubscribers() {
-        subscribers.clear();
-    }
-
-    public void unsubscribeOnChanges(SubcriteriaCallback listener) {
-        subscribers.remove(listener);
-    }
-
-    public void subscribeOnChanges(SubcriteriaCallback listener) {
-        subscribers.add(listener);
+    public void setCallback(@Nullable SubcriteriaCallback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -42,7 +35,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         return new CriteriaViewHolder(parent);
     }
 
-    protected class CriteriaViewHolder extends ViewHolder implements SubcriteriaCallback {
+    protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -66,8 +59,8 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
         CriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_criteria);
-            adapter.addSubscribers(subscribers);
-            adapter.subscribeOnChanges(this);
+            adapter.setCallback(callback);
+            adapter.setAnswerStateChangedListener(this);
             subcriteriasRecycler.setAdapter(adapter);
         }
 
@@ -91,15 +84,10 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
+        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
             CategoryProgress categoryProgress = getItem().getCategoryProgress();
             categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
             rebindProgress(categoryProgress);
-        }
-
-        @Override
-        public void onSubCriteriaCommentChanged(SubCriteria subCriteria, String newComment) {
-            // nothing
         }
 
         private void rebindProgress(CategoryProgress progress) {

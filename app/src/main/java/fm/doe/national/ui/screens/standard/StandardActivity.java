@@ -29,8 +29,6 @@ public class StandardActivity extends BaseActivity implements
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
-    private static final String EXTRA_GROUPS = "EXTRA_GROUPS";
-    private static final String TAG_DIALOG = "TAG_DIALOG";
 
     private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
@@ -101,7 +99,7 @@ public class StandardActivity extends BaseActivity implements
         setToolbarMode(ToolbarDisplaying.SECONDARY);
 
         criteriasRecycler.setAdapter(recyclerAdapter);
-        recyclerAdapter.subscribeOnChanges(this);
+        recyclerAdapter.setCallback(this);
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());

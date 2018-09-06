@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
@@ -9,9 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -24,23 +22,20 @@ import fm.doe.national.utils.TextUtil;
 
 public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
-    private List<SubcriteriaCallback> subscribers = new ArrayList<>();
+    @Nullable
+    private SubcriteriaCallback callback = null;
 
-    public void clearSubscribers() {
-        subscribers.clear();
+    public void setCallback(@Nullable SubcriteriaCallback callback) {
+        this.callback = callback;
     }
 
-    public void unsubscribeOnChanges(SubcriteriaCallback listener) {
-        subscribers.remove(listener);
+    @Nullable
+    private OnAnswerStateChangedListener answerStateChangedListener = null;
+
+    public void setAnswerStateChangedListener(@Nullable OnAnswerStateChangedListener answerStateChangedListener) {
+        this.answerStateChangedListener = answerStateChangedListener;
     }
 
-    public void subscribeOnChanges(SubcriteriaCallback listener) {
-        subscribers.add(listener);
-    }
-
-    public void addSubscribers(List<SubcriteriaCallback> subscribers) {
-        this.subscribers.addAll(subscribers);
-    }
 
     @Override
     protected SubCriteriaViewHolder provideViewHolder(ViewGroup parent) {
@@ -181,15 +176,14 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         }
 
         private void notifyStateChanged(Answer.State previousState) {
-            for (SubcriteriaCallback subscriber : subscribers) {
-                subscriber.onSubCriteriaStateChanged(getItem(), previousState);
-            }
+            SubCriteria subCriteria = getItem();
+            if (callback != null) callback.onSubCriteriaStateChanged(subCriteria, previousState);
+            if (answerStateChangedListener != null) answerStateChangedListener.onSubCriteriaAnswerChanged(
+                    subCriteria, previousState);
         }
 
         private void notifyCommentChanged(String comment) {
-            for (SubcriteriaCallback subscriber : subscribers) {
-                subscriber.onSubCriteriaCommentChanged(getItem(), comment);
-            }
+            if (callback != null) callback.onSubCriteriaCommentChanged(getItem(), comment);
         }
 
         private void showHint() {
@@ -236,4 +230,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         }
     }
 
+    public interface OnAnswerStateChangedListener {
+        void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState);
+    }
 }
