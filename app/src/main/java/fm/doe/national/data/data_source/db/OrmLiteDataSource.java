@@ -68,13 +68,18 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Completable updateAnswer(long passingId, long subCriteriaId, Answer.State state) {
+    public Completable updateAnswer(long passingId,
+                                    long subCriteriaId,
+                                    Answer.State state,
+                                    String comment,
+                                    List<String> photoPaths) {
         return Completable.fromSingle(surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.getItemSingle(subCriteriaId)
                         .flatMap(subCriteriaItem -> answerDao.requestAnswer(subCriteriaItem, passing)
                                 .flatMap(answer -> Single.zip(
-                                        categoryProgressDao.updateCategoryProgress(subCriteriaItem.getParentItem(), passing, answer.getState(), state),
-                                        answerDao.updateAnswer(subCriteriaItem, passing, state),
+                                        categoryProgressDao.updateCategoryProgress(
+                                                subCriteriaItem.getParentItem(), passing, answer.getState(), state),
+                                        answerDao.updateAnswer(subCriteriaItem, passing, state, comment, photoPaths),
                                         (progress, updatedAnswer) -> updatedAnswer)
                                 ))));
     }
@@ -113,7 +118,8 @@ public class OrmLiteDataSource implements DataSource {
     @Override
     public Single<SchoolAccreditationPassing> requestSchoolAccreditationPassing(long passingId) {
         return surveyPassingDao.getItemSingle(passingId)
-                .flatMap(surveyPassing -> categoryProgressDao.requestCategoryProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems())
+                .flatMap(surveyPassing -> categoryProgressDao.requestCategoryProgress(
+                        surveyPassing, surveyPassing.getSurvey().getSurveyItems())
                         .map(progress -> new OrmLiteSchoolAccreditationPassing(
                                 surveyPassing,
                                 new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress))));
@@ -170,7 +176,8 @@ public class OrmLiteDataSource implements DataSource {
                 .flatMap(surveyPassing -> Single.zip(
                         categoryProgressDao.requestCategoryProgress(surveyPassing, surveyPassing.getSurvey().getSurveyItems()),
                         requestLinkedGroupStandards(passingId),
-                        (progress, groupStandards) -> new OrmLiteSchoolAccreditation(surveyPassing.getSurvey(), progress, groupStandards)
+                        (progress, groupStandards) -> new OrmLiteSchoolAccreditation(
+                                surveyPassing.getSurvey(), progress, groupStandards)
                 ));
     }
 

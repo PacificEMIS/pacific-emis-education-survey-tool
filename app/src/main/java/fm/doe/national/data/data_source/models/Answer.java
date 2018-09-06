@@ -25,7 +25,5 @@ public interface Answer {
 
     List<String> getPhotosPaths();
 
-    void addPhotoPath(String path);
-
-    void removePhotoPath(String path);
+    void setPhotoPath(List<String> paths);
 }

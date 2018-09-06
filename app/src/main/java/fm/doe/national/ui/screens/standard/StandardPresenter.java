@@ -34,12 +34,10 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
-        Answer.State state = subCriteria.getAnswer().getState();
+        Answer answer = subCriteria.getAnswer();
+        Answer.State state = answer.getState();
 
-        addDisposable(dataSource.updateAnswer(passingId, subCriteria.getId(), state)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
+        updateAnswer(passingId, subCriteria.getId(), state, answer.getComment(), answer.getPhotosPaths());
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
         categoryProgress.recalculate(previousState, state);
@@ -68,7 +66,8 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     public void onCommentEdit(SubCriteria subCriteria, String comment) {
-        updateUi();
+        Answer answer = subCriteria.getAnswer();
+        updateAnswer(passingId, subCriteria.getId(), answer.getState(), comment, answer.getPhotosPaths());
     }
 
     private void updateUi() {
@@ -130,5 +129,12 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
                 }, this::handleError));
+    }
+
+    private void updateAnswer(long passingId, long subCriteriaId, Answer.State state, String comment, List<String> photos) {
+        addDisposable(dataSource.updateAnswer(passingId, subCriteriaId, state, comment, photos)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
     }
 }

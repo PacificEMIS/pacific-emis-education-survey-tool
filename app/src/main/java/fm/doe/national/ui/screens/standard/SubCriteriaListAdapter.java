@@ -1,8 +1,12 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,6 +48,8 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
     class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener, View.OnLongClickListener {
 
+        private final static String TAG_DIALOG = "TAG_DIALOG";
+
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
 
@@ -59,9 +65,15 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.textview_comment_button)
         TextView commentButtonTextView;
 
+        private View popupView;
+        private TextView hintView;
+
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
+            popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, null);
+            popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            hintView = popupView.findViewById(R.id.textview_hint);
         }
 
         @Override
@@ -98,9 +110,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         @Override
         public boolean onLongClick(View v) {
-            for (SubcriteriaCallback subscriber : subscribers) {
-                subscriber.onSubCriteriaCallForHint(itemView, getItem());
-            }
+            showHint();
             return true;
         }
 
@@ -108,9 +118,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.textview_comment_button:
-                    for (SubcriteriaCallback subscriber : subscribers) {
-                        subscriber.onSubCriteriaCallForCommentEdit(getItem());
-                    }
+                    showCommentDialog();
                     break;
                 default:
                     super.onClick(v);
@@ -144,6 +152,40 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         private void notifyStateChanged(SubCriteria subCriteria, Answer.State previousState) {
             for (SubcriteriaCallback subscriber : subscribers) {
                 subscriber.onSubCriteriaStateChanged(subCriteria, previousState);
+            }
+        }
+
+        private void showHint() {
+            String hint = getItem().getSubCriteriaQuestion().getHint();
+            if (hint == null) hint = "";
+            hintView.setText(TextUtil.fixLineSeparators(hint));
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    itemView.getMeasuredWidth(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setOutsideTouchable(true);
+
+            popupView.measure(View.MeasureSpec.makeMeasureSpec(itemView.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+            popupWindow.showAsDropDown(itemView,
+                    0,
+                    - itemView.getMeasuredHeight() - popupView.getMeasuredHeight(),
+                    Gravity.TOP);
+        }
+
+        private void showCommentDialog() {
+            try {
+                CommentDialog dialog = CommentDialog.create(getItem());
+                dialog.setListener(comment -> {
+                    // TODO
+                    for (SubcriteriaCallback subscriber : subscribers) {
+                        subscriber.onSubCriteriaCommentChanged(getItem(), comment);
+                    }
+                });
+                dialog.show(((FragmentActivity)getContext()).getSupportFragmentManager(), TAG_DIALOG);
+            } catch (ClassCastException cce) {
+                cce.printStackTrace();
             }
         }
     }

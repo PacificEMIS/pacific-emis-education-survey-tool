@@ -98,12 +98,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaCallForHint(View anchor, SubCriteria subCriteria) {
-            // nothing
-        }
-
-        @Override
-        public void onSubCriteriaCallForCommentEdit(SubCriteria subCriteria) {
+        public void onSubCriteriaCommentChanged(SubCriteria subCriteria, String newComment) {
             // nothing
         }
 

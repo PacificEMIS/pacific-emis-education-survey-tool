@@ -67,12 +67,7 @@ public class SerializableAnswer implements Answer {
     }
 
     @Override
-    public void addPhotoPath(String path) {
-        // nothing
-    }
-
-    @Override
-    public void removePhotoPath(String path) {
+    public void setPhotoPath(List<String> paths) {
         // nothing
     }
 }
