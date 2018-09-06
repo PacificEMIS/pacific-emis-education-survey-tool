@@ -1,71 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textview_alphabetical_numbering"
-        android:layout_width="72dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:gravity="center_horizontal"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="a." />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textview_question"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/charcoal_grey"
-        android:layout_marginEnd="16dp"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/switch_answer"
-        app:layout_constraintStart_toEndOf="@+id/textview_alphabetical_numbering"
-        tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
+        <TextView
+            android:id="@+id/textview_alphabetical_numbering"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="top"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="a." />
 
+        <LinearLayout
+            android:id="@+id/layout_questions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/textview_alphabetical_numbering"
+            android:layout_toStartOf="@id/switch_answer"
+            android:orientation="vertical">
 
-    <fm.doe.national.ui.custom_views.SwitchableButton
-        android:id="@+id/switch_answer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_question"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textview_question"
-        app:layout_constraintTop_toTopOf="@+id/textview_question">
+            <TextView
+                android:id="@+id/textview_question"
+                style="@style/Selectable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/charcoal_grey"
+                android:textSize="16sp"
+                tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
 
-    </fm.doe.national.ui.custom_views.SwitchableButton>
+            <TextView
+                android:id="@+id/textview_interview_questions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/color_criteria_primary_dark"
+                android:textSize="14sp"
+                tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves?" />
 
-    <TextView
-        android:id="@+id/textview_interview_questions"
-        android:layout_width="0dp"
+        </LinearLayout>
+
+        <fm.doe.national.ui.custom_views.SwitchableButton
+            android:id="@+id/switch_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp">
+
+        </fm.doe.national.ui.custom_views.SwitchableButton>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_comment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@color/color_criteria_primary_dark"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/textview_question"
-        app:layout_constraintStart_toStartOf="@+id/textview_question"
-        app:layout_constraintTop_toBottomOf="@+id/textview_question"
-        tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves?" />
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_comment">
 
-    <TextView
-        android:id="@+id/textview_comment_button"
-        style="@style/CapitalizedTextButton"
+        <TextView
+            android:id="@+id/textview_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="@color/charcoal_grey"
+            tools:text="There is a comment that National and State curriculum documents and guidelines are regularly used in planning" />
+
+        <ImageView
+            android:id="@+id/imageview_delete_button"
+            style="@style/SelectableBorderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            app:srcCompat="@drawable/ic_icon_delete"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/textview_comment"/>
+
+        <ImageView
+            android:id="@+id/imageview_edit_button"
+            style="@style/SelectableBorderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            app:srcCompat="@drawable/ic_icon_edit"
+            android:layout_toStartOf="@+id/imageview_delete_button"
+            android:layout_alignTop="@+id/imageview_delete_button"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/button_comment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textview_question"
-        app:layout_constraintTop_toBottomOf="@+id/textview_interview_questions" />
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="72dp"
+        android:orientation="horizontal">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageview_comment_button"
+            style="@style/SelectableBorderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="38dp"
+            android:contentDescription="@string/button_comment"
+            app:srcCompat="@drawable/ic_icon_comment" />
+
+
+        <ImageView
+            android:id="@+id/imageview_photo_button"
+            style="@style/SelectableBorderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/button_comment"
+            app:srcCompat="@drawable/ic_icon_photo" />
+
+    </LinearLayout>
+</LinearLayout>

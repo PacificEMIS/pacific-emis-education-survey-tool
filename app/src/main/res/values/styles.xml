@@ -129,4 +129,12 @@
         <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
+    <style name="Selectable" parent="AppTheme">
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="SelectableBorderless" parent="Selectable">
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>

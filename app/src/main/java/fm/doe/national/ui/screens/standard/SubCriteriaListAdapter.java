@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -62,8 +63,23 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.textview_interview_questions)
         TextView interviewQuestionsTextView;
 
-        @BindView(R.id.textview_comment_button)
-        TextView commentButtonTextView;
+        @BindView(R.id.imageview_comment_button)
+        View commentButtonView;
+
+        @BindView(R.id.imageview_photo_button)
+        View photoButtonView;
+
+        @BindView(R.id.layout_comment)
+        View commentView;
+
+        @BindView(R.id.imageview_delete_button)
+        View commentDeleteButton;
+
+        @BindView(R.id.imageview_edit_button)
+        View commentEditButton;
+
+        @BindView(R.id.textview_comment)
+        TextView commentTextView;
 
         private View popupView;
         private TextView hintView;
@@ -95,7 +111,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             switchableButton.setStateNotNotifying(convertToUiState(item.getAnswer().getState()));
 
             questionTextView.setOnLongClickListener(this);
-            commentButtonTextView.setOnClickListener(this);
+            commentButtonView.setOnClickListener(this);
+            photoButtonView.setOnClickListener(this);
+            commentDeleteButton.setOnClickListener(this);
+            commentEditButton.setOnClickListener(this);
+
+            updateCommentVisibility(item.getAnswer().getComment());
         }
 
         @Override
@@ -105,7 +126,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             Answer.State previousState = item.getAnswer().getState();
             item.getAnswer().setState(convertFromUiState(state));
 
-            notifyStateChanged(item, previousState);
+            notifyStateChanged(previousState);
         }
 
         @Override
@@ -117,7 +138,17 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.textview_comment_button:
+                case R.id.imageview_comment_button:
+                    showCommentDialog();
+                    break;
+                case R.id.imageview_photo_button:
+                    // nothing for now
+                    break;
+                case R.id.imageview_delete_button:
+                    updateCommentVisibility("");
+                    notifyCommentChanged("");
+                    break;
+                case R.id.imageview_edit_button:
                     showCommentDialog();
                     break;
                 default:
@@ -149,9 +180,15 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             return Answer.State.NOT_ANSWERED; // unreachable code
         }
 
-        private void notifyStateChanged(SubCriteria subCriteria, Answer.State previousState) {
+        private void notifyStateChanged(Answer.State previousState) {
             for (SubcriteriaCallback subscriber : subscribers) {
-                subscriber.onSubCriteriaStateChanged(subCriteria, previousState);
+                subscriber.onSubCriteriaStateChanged(getItem(), previousState);
+            }
+        }
+
+        private void notifyCommentChanged(String comment) {
+            for (SubcriteriaCallback subscriber : subscribers) {
+                subscriber.onSubCriteriaCommentChanged(getItem(), comment);
             }
         }
 
@@ -170,7 +207,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
             popupWindow.showAsDropDown(itemView,
                     0,
-                    - itemView.getMeasuredHeight() - popupView.getMeasuredHeight(),
+                    -itemView.getMeasuredHeight() - popupView.getMeasuredHeight(),
                     Gravity.TOP);
         }
 
@@ -178,14 +215,23 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             try {
                 CommentDialog dialog = CommentDialog.create(getItem());
                 dialog.setListener(comment -> {
-                    // TODO
-                    for (SubcriteriaCallback subscriber : subscribers) {
-                        subscriber.onSubCriteriaCommentChanged(getItem(), comment);
-                    }
+                    updateCommentVisibility(comment);
+                    notifyCommentChanged(comment);
                 });
-                dialog.show(((FragmentActivity)getContext()).getSupportFragmentManager(), TAG_DIALOG);
+                dialog.show(((FragmentActivity) getContext()).getSupportFragmentManager(), TAG_DIALOG);
             } catch (ClassCastException cce) {
                 cce.printStackTrace();
+            }
+        }
+
+        private void updateCommentVisibility(@Nullable String currentComment) {
+            if (TextUtils.isEmpty(currentComment)) {
+                commentView.setVisibility(View.GONE);
+                commentButtonView.setVisibility(View.VISIBLE);
+            } else {
+                commentView.setVisibility(View.VISIBLE);
+                commentButtonView.setVisibility(View.GONE);
+                commentTextView.setText(currentComment);
             }
         }
     }
