@@ -64,4 +64,6 @@
     <string name="toast_import_schools_success">Schools successfully imported</string>
     <string name="toast_import_survey_success">Survey successfully imported</string>
     <string name="button_comment">Comment</string>
+    <string name="title_comment">Comment</string>
+    <string name="button_submit">Submit</string>
 </resources>

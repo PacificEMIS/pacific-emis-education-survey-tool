@@ -8,13 +8,14 @@
         <item name="colorAccent">@color/gray</item>
 
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowContentOverlay">@null</item>
 
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+    </style>
 
+    <style name="NonTransculentAppTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 
     <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">
@@ -120,6 +121,12 @@
         <item name="android:layout_marginStart">24dp</item>
         <item name="android:layout_marginEnd">24dp</item>
         <item name="android:background">@color/soft_grey</item>
+    </style>
+
+    <style name="KeyboardDialog" parent="AppTheme">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
 </resources>

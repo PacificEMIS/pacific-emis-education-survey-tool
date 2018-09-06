@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.standard;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,28 +19,21 @@ import fm.doe.national.utils.TextUtil;
 
 public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
-    private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
-
-    @Nullable
-    private SubcriteriaLongClickListener longClickListener;
-
-    public void setLongClickListener(@Nullable SubcriteriaLongClickListener listener) {
-        longClickListener= listener;
-    }
+    private List<SubcriteriaCallback> subscribers = new ArrayList<>();
 
     public void clearSubscribers() {
         subscribers.clear();
     }
 
-    public void unsubscribeOnChanges(SubcriteriaStateChangeListener listener) {
+    public void unsubscribeOnChanges(SubcriteriaCallback listener) {
         subscribers.remove(listener);
     }
 
-    public void subscribeOnChanges(SubcriteriaStateChangeListener listener) {
+    public void subscribeOnChanges(SubcriteriaCallback listener) {
         subscribers.add(listener);
     }
 
-    public void addSubscribers(List<SubcriteriaStateChangeListener> subscribers) {
+    public void addSubscribers(List<SubcriteriaCallback> subscribers) {
         this.subscribers.addAll(subscribers);
     }
 
@@ -63,6 +55,9 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         @BindView(R.id.textview_interview_questions)
         TextView interviewQuestionsTextView;
+
+        @BindView(R.id.textview_comment_button)
+        TextView commentButtonTextView;
 
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
@@ -88,6 +83,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             switchableButton.setStateNotNotifying(convertToUiState(item.getAnswer().getState()));
 
             questionTextView.setOnLongClickListener(this);
+            commentButtonTextView.setOnClickListener(this);
         }
 
         @Override
@@ -102,11 +98,22 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         @Override
         public boolean onLongClick(View v) {
-            if (longClickListener != null) {
-                longClickListener.onSubcriteriaLongClick(itemView, getItem());
-                return true;
-            } else {
-                return false;
+            for (SubcriteriaCallback subscriber : subscribers) {
+                subscriber.onSubCriteriaCallForHint(itemView, getItem());
+            }
+            return true;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.textview_comment_button:
+                    for (SubcriteriaCallback subscriber : subscribers) {
+                        subscriber.onSubCriteriaCallForCommentEdit(getItem());
+                    }
+                    break;
+                default:
+                    super.onClick(v);
             }
         }
 
@@ -135,7 +142,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         }
 
         private void notifyStateChanged(SubCriteria subCriteria, Answer.State previousState) {
-            for (SubcriteriaStateChangeListener subscriber : subscribers) {
+            for (SubcriteriaCallback subscriber : subscribers) {
                 subscriber.onSubCriteriaStateChanged(subCriteria, previousState);
             }
         }

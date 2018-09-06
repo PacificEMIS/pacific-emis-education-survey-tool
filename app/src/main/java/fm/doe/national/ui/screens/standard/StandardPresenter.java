@@ -67,6 +67,10 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         updateUi();
     }
 
+    public void onCommentEdit(SubCriteria subCriteria, String comment) {
+        updateUi();
+    }
+
     private void updateUi() {
         StandardView view = getViewState();
         view.setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);

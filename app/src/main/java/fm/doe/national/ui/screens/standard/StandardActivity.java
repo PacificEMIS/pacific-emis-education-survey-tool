@@ -20,17 +20,21 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.utils.TextUtil;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardActivity extends BaseActivity implements StandardView, SubcriteriaLongClickListener {
+public class StandardActivity extends BaseActivity implements
+        StandardView,
+        SubcriteriaCallback {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private static final String EXTRA_GROUPS = "EXTRA_GROUPS";
+    private static final String TAG_DIALOG = "TAG_DIALOG";
 
     private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
@@ -104,8 +108,7 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
         setToolbarMode(ToolbarDisplaying.SECONDARY);
 
         criteriasRecycler.setAdapter(recyclerAdapter);
-        recyclerAdapter.subscribeOnChanges(presenter::onSubCriteriaStateChanged);
-        recyclerAdapter.setLongClickListener(this);
+        recyclerAdapter.subscribeOnChanges(this);
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
@@ -159,7 +162,9 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
     }
 
     @Override
-    public void showHint(View anchor, String hint) {
+    public void onSubCriteriaCallForHint(View anchor, SubCriteria subCriteria) {
+        String hint = subCriteria.getSubCriteriaQuestion().getHint();
+        if (hint == null) hint = "";
         hintView.setText(TextUtil.fixLineSeparators(hint));
         PopupWindow popupWindow = new PopupWindow(
                 popupView,
@@ -174,8 +179,15 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
     }
 
     @Override
-    public void onSubcriteriaLongClick(View anchor, SubCriteria subCriteria) {
-        showHint(anchor, subCriteria.getSubCriteriaQuestion().getHint());
+    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
+        presenter.onSubCriteriaStateChanged(subCriteria, previousState);
+    }
+
+    @Override
+    public void onSubCriteriaCallForCommentEdit(SubCriteria subCriteria) {
+        CommentDialog dialog = CommentDialog.create(subCriteria);
+        dialog.setListener(comment -> presenter.onCommentEdit(subCriteria, comment));
+        dialog.show(getSupportFragmentManager(), TAG_DIALOG);
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {
