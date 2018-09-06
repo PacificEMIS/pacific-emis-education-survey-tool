@@ -211,7 +211,6 @@ public class OrmLiteDataSource implements DataSource {
                                                 .flatMap(subcriteriaItem -> answerDao.requestAnswer(subcriteriaItem, passing)
                                                         .flatMap(answer -> subcriteriaAdditionDao.requestAddition(subcriteriaItem)
                                                             .map(addition -> new OrmLiteSubCriteria(subcriteriaItem, answer, addition)))
-//                                                        .map(answer -> new OrmLiteSubCriteria(subcriteriaItem, answer))
                                                         .toObservable())
                                                 .toList()
                                                 .toObservable(),

@@ -2,7 +2,6 @@ package fm.doe.national.ui.screens.standard;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -78,6 +77,8 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
     @InjectPresenter
     StandardPresenter presenter;
 
+    private View popupView;
+
     @ProvidePresenter
     public StandardPresenter providePresenter() {
         return new StandardPresenter(
@@ -107,6 +108,8 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
+
+        popupView = getLayoutInflater().inflate(R.layout.popup_hint, null);
     }
 
     @Override
@@ -154,7 +157,6 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
 
     @Override
     public void showHint(View anchor, String hint) {
-        View popupView = getLayoutInflater().inflate(R.layout.popup_hint, null);
         popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         TextView hintView = popupView.findViewById(R.id.textview_hint);
         hintView.setText(TextUtil.fixLineSeparators(hint));
@@ -162,8 +164,6 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
                 popupView,
                 anchor.getMeasuredWidth(),
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(true);
 
         popupView.measure(View.MeasureSpec.makeMeasureSpec(anchor.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
