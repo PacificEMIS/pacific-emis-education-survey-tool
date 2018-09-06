@@ -8,6 +8,7 @@ import org.simpleframework.xml.Root;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 
 @Root(name = "subcriteria")
 public class SerializableSubCriteria implements SubCriteria {
@@ -19,21 +20,24 @@ public class SerializableSubCriteria implements SubCriteria {
     SerializableAnswer answer;
 
     @Nullable
-    @Element(required = false)
-    String interviewQuestions;
+    @Element(required = false, name = "interviewQuestions")
+    String interviewQuestion;
 
     @Nullable
     @Element(required = false)
     String hint;
 
+    private SimpleSubCriteriaQuestion question;
+
     public SerializableSubCriteria() {
     }
 
-    public SerializableSubCriteria(String name, SerializableAnswer answer, @Nullable String interviewQuestions, @Nullable String hint) {
+    public SerializableSubCriteria(String name, SerializableAnswer answer, SubCriteriaQuestion question) {
         this.name = name;
         this.answer = answer;
-        this.interviewQuestions = interviewQuestions;
-        this.hint = hint;
+        this.question = new SimpleSubCriteriaQuestion(question.getInterviewQuestion(), question.getHint());
+        this.interviewQuestion = question.getInterviewQuestion();
+        this.hint = question.getInterviewQuestion();
     }
 
     @NonNull
@@ -52,15 +56,35 @@ public class SerializableSubCriteria implements SubCriteria {
         return null;
     }
 
-    @Nullable
     @Override
-    public String getInterviewQuestions() {
-        return interviewQuestions;
+    public SubCriteriaQuestion getSubCriteriaQuestion() {
+        return question != null ? question : new SimpleSubCriteriaQuestion(interviewQuestion, hint);
     }
 
-    @Nullable
-    @Override
-    public String getHint() {
-        return hint;
+    private class SimpleSubCriteriaQuestion implements SubCriteriaQuestion {
+
+        @Nullable
+        private String interviewQuestion;
+
+        @Nullable
+        private String hint;
+
+        public SimpleSubCriteriaQuestion(@Nullable String interviewQuestion, @Nullable String hint) {
+            this.interviewQuestion = interviewQuestion;
+            this.hint = hint;
+        }
+
+        @Nullable
+        @Override
+        public String getInterviewQuestion() {
+            return interviewQuestion;
+        }
+
+        @Nullable
+        @Override
+        public String getHint() {
+            return hint;
+        }
     }
+
 }

@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.standard;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface StandardView extends BaseView {
     void setNextStandard(String title, int resourceIndex);
     void setSurveyYear(int year);
     void setSchoolName(String schoolName);
+    void showHint(View parent, String hint);
 }

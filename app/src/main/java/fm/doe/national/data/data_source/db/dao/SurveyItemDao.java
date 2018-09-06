@@ -8,17 +8,22 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
 import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
-import io.reactivex.Single;
 
 public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
 
-    SurveyItemDao(ConnectionSource connectionSource, Class<OrmLiteSurveyItem> dataClass)
+    private SubcriteriaQuestionDao subcriteriaQuestionDao;
+
+    SurveyItemDao(SubcriteriaQuestionDao subcriteriaQuestionDao,
+                  ConnectionSource connectionSource,
+                  Class<OrmLiteSurveyItem> dataClass)
             throws SQLException {
         super(connectionSource, dataClass);
+        this.subcriteriaQuestionDao = subcriteriaQuestionDao;
     }
 
     public List<OrmLiteSurveyItem> createFromGroupStandards(
@@ -93,6 +98,9 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
                     null,
                     parentItem);
             create(surveyItem);
+
+            SubCriteriaQuestion question = subCriteria.getSubCriteriaQuestion();
+            subcriteriaQuestionDao.create(question.getInterviewQuestion(), question.getHint(), surveyItem);
 
             surveyItems.add(surveyItem);
         }

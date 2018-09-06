@@ -1,10 +1,10 @@
 package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
 public class OrmLiteSubCriteria implements SubCriteria {
@@ -13,23 +13,12 @@ public class OrmLiteSubCriteria implements SubCriteria {
 
     private Answer answer;
 
-    @Nullable
-    private String interviewQuestions = null;
+    private SubCriteriaQuestion question;
 
-    @Nullable
-    private String hint = null;
-
-    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer) {
+    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer, SubCriteriaQuestion question) {
         this.surveyItem = surveyItem;
         this.answer = answer;
-    }
-
-    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer,
-                              @Nullable String interviewQuestions, @Nullable String hint) {
-        this.surveyItem = surveyItem;
-        this.answer = answer;
-        this.interviewQuestions = interviewQuestions;
-        this.hint = hint;
+        this.question = question;
     }
 
     @Override
@@ -48,15 +37,9 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return answer;
     }
 
-    @Nullable
     @Override
-    public String getInterviewQuestions() {
-        return interviewQuestions;
+    public SubCriteriaQuestion getSubCriteriaQuestion() {
+        return question;
     }
 
-    @Nullable
-    @Override
-    public String getHint() {
-        return hint;
-    }
 }

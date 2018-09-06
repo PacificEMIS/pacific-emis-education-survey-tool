@@ -72,9 +72,6 @@
     </style>
 
     <style name="ClickableListText" parent="ListText">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/dark_sky_blue</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:paddingStart">24dp</item>
         <item name="android:paddingEnd">24dp</item>
@@ -105,7 +102,7 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="ConnectionTextButton" parent="TextButton">
+    <style name="CapitalizedTextButton" parent="TextButton">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">sans-serif-medium</item>
