@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.data.data_source.models.SubCriteriaAddition;
+import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 
 public class OrmLiteSubCriteria implements SubCriteria {
@@ -13,12 +13,12 @@ public class OrmLiteSubCriteria implements SubCriteria {
 
     private Answer answer;
 
-    private SubCriteriaAddition addition;
+    private SubCriteriaQuestion question;
 
-    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer, SubCriteriaAddition addition) {
+    public OrmLiteSubCriteria(OrmLiteSurveyItem surveyItem, Answer answer, SubCriteriaQuestion question) {
         this.surveyItem = surveyItem;
         this.answer = answer;
-        this.addition = addition;
+        this.question = question;
     }
 
     @Override
@@ -38,8 +38,8 @@ public class OrmLiteSubCriteria implements SubCriteria {
     }
 
     @Override
-    public SubCriteriaAddition getSubCriteriaAddition() {
-        return addition;
+    public SubCriteriaQuestion getSubCriteriaQuestion() {
+        return question;
     }
 
 }

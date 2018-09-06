@@ -9,6 +9,6 @@ public interface SubCriteria extends Identifiable {
 
     Answer getAnswer();
 
-    SubCriteriaAddition getSubCriteriaAddition();
+    SubCriteriaQuestion getSubCriteriaQuestion();
 
 }

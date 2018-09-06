@@ -78,6 +78,7 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
     StandardPresenter presenter;
 
     private View popupView;
+    private TextView hintView;
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
@@ -110,6 +111,8 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
 
         popupView = getLayoutInflater().inflate(R.layout.popup_hint, null);
+        popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        hintView = popupView.findViewById(R.id.textview_hint);
     }
 
     @Override
@@ -157,8 +160,6 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
 
     @Override
     public void showHint(View anchor, String hint) {
-        popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        TextView hintView = popupView.findViewById(R.id.textview_hint);
         hintView.setText(TextUtil.fixLineSeparators(hint));
         PopupWindow popupWindow = new PopupWindow(
                 popupView,
@@ -174,7 +175,7 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
 
     @Override
     public void onSubcriteriaLongClick(View anchor, SubCriteria subCriteria) {
-        showHint(anchor, subCriteria.getSubCriteriaAddition().getHint());
+        showHint(anchor, subCriteria.getSubCriteriaQuestion().getHint());
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {

@@ -9,7 +9,7 @@ import fm.doe.national.data.data_source.db.dao.AnswerDao;
 import fm.doe.national.data.data_source.db.dao.CategoryProgressDao;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
 import fm.doe.national.data.data_source.db.dao.SchoolDao;
-import fm.doe.national.data.data_source.db.dao.SubcriteriaAdditionDao;
+import fm.doe.national.data.data_source.db.dao.SubcriteriaQuestionDao;
 import fm.doe.national.data.data_source.db.dao.SurveyDao;
 import fm.doe.national.data.data_source.db.dao.SurveyItemDao;
 import fm.doe.national.data.data_source.db.dao.SurveyPassingDao;
@@ -40,7 +40,7 @@ public class OrmLiteDataSource implements DataSource {
     private SurveyPassingDao surveyPassingDao;
     private CategoryProgressDao categoryProgressDao;
     private AnswerDao answerDao;
-    private SubcriteriaAdditionDao subcriteriaAdditionDao;
+    private SubcriteriaQuestionDao subcriteriaQuestionDao;
 
     public OrmLiteDataSource(DatabaseHelper helper) {
         try {
@@ -50,7 +50,7 @@ public class OrmLiteDataSource implements DataSource {
             answerDao = helper.getAnswerDao();
             surveyPassingDao = helper.getSurveyPassingDao();
             categoryProgressDao = helper.getCategoryProgressDao();
-            subcriteriaAdditionDao = helper.getSubcriteriaAdditionDao();
+            subcriteriaQuestionDao = helper.getSubcriteriaQuestionDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -209,8 +209,8 @@ public class OrmLiteDataSource implements DataSource {
                                                 .toObservable(),
                                         Observable.fromIterable(criteriaItem.getChildrenItems())
                                                 .flatMap(subcriteriaItem -> answerDao.requestAnswer(subcriteriaItem, passing)
-                                                        .flatMap(answer -> subcriteriaAdditionDao.requestAddition(subcriteriaItem)
-                                                            .map(addition -> new OrmLiteSubCriteria(subcriteriaItem, answer, addition)))
+                                                        .flatMap(answer -> subcriteriaQuestionDao.requestQuestion(subcriteriaItem)
+                                                            .map(question -> new OrmLiteSubCriteria(subcriteriaItem, answer, question)))
                                                         .toObservable())
                                                 .toList()
                                                 .toObservable(),

@@ -13,7 +13,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.data.data_source.models.SubCriteriaAddition;
+import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.TextUtil;
@@ -71,14 +71,13 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         @Override
         public void onBind(SubCriteria item) {
-            String question = item.getName();
-            questionTextView.setText(TextUtil.fixLineSeparators(question));
+            questionTextView.setText(TextUtil.fixLineSeparators(item.getName()));
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
 
-            SubCriteriaAddition addition = item.getSubCriteriaAddition();
-            String interviewQuestions = addition.getInterviewQuestions();
+            SubCriteriaQuestion question = item.getSubCriteriaQuestion();
+            String interviewQuestions = question.getInterviewQuestion();
             if (!TextUtils.isEmpty(interviewQuestions)) {
                 interviewQuestionsTextView.setVisibility(View.VISIBLE);
                 interviewQuestionsTextView.setText(interviewQuestions);

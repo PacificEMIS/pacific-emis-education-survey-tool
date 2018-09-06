@@ -55,6 +55,6 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
         return new SerializableSubCriteria(
                 input.getName(),
                 new SerializableAnswer(input.getAnswer()),
-                input.getSubCriteriaAddition());
+                input.getSubCriteriaQuestion());
     }
 }
