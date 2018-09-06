@@ -27,6 +27,7 @@ public class SerializableAnswer implements Answer {
 
     public SerializableAnswer(Answer answer) {
         this.state = answer.getState();
+        this.comment = answer.getComment();
     }
 
     @Override
