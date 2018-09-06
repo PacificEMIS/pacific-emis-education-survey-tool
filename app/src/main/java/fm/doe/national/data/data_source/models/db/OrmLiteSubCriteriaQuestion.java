@@ -15,19 +15,19 @@ public class OrmLiteSubCriteriaQuestion implements SubCriteriaQuestion {
         String SURVEY_ITEM = "surveyItem";
     }
 
-    @DatabaseField(generatedId = true, columnName = OrmLiteSubCriteriaQuestion.Column.ID)
+    @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
 
     @Nullable
-    @DatabaseField(columnName = OrmLiteSubCriteriaQuestion.Column.INTERVIEW_QUESTION, canBeNull = true)
+    @DatabaseField(columnName = Column.INTERVIEW_QUESTION, canBeNull = true)
     protected String interviewQuestion;
 
     @Nullable
-    @DatabaseField(columnName = OrmLiteSubCriteriaQuestion.Column.HINT, canBeNull = true)
+    @DatabaseField(columnName = Column.HINT, canBeNull = true)
     protected String hint;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true,
-            columnName = OrmLiteSubCriteriaQuestion.Column.SURVEY_ITEM)
+            columnName = Column.SURVEY_ITEM)
     protected OrmLiteSurveyItem surveyItem;
 
 

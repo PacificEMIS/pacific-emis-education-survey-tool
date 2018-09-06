@@ -1,5 +1,8 @@
 package fm.doe.national.data.data_source.models.db;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -17,6 +20,8 @@ public class OrmLiteAnswer implements Answer {
         String ID = "id";
         String STATE = "state";
         String SYNCHRONIZED_PLATFORMS = "synchronizePlatforms";
+        String COMMENT = "comment";
+        String PHOTOS = "photos";
         String SURVEY_ITEM = "surveyItem";
         String SURVEY_PASSING = "surveyPassing";
     }
@@ -29,6 +34,13 @@ public class OrmLiteAnswer implements Answer {
 
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.SYNCHRONIZED_PLATFORMS)
     protected ArrayList<SynchronizePlatform> synchronizePlatforms;
+
+    @Nullable
+    @DatabaseField(columnName = Column.COMMENT, canBeNull = true)
+    protected String comment;
+
+    @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = Column.PHOTOS)
+    protected ArrayList<String> photos;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.SURVEY_ITEM)
     protected OrmLiteSurveyItem surveyItem;
@@ -44,6 +56,7 @@ public class OrmLiteAnswer implements Answer {
         this.surveyItem = surveyItem;
         this.surveyPassing = surveyPassing;
         this.synchronizePlatforms = new ArrayList<>();
+        this.photos = new ArrayList<>();
     }
 
     public long getId() {
@@ -81,5 +94,31 @@ public class OrmLiteAnswer implements Answer {
 
     public OrmLiteSurveyPassing getSurveyPassing() {
         return surveyPassing;
+    }
+
+    @Nullable
+    @Override
+    public String getComment() {
+        return comment;
+    }
+
+    @Override
+    public void setComment(@NonNull String comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public List<String> getPhotosPaths() {
+        return photos;
+    }
+
+    @Override
+    public void addPhotoPath(String path) {
+        photos.add(path);
+    }
+
+    @Override
+    public void removePhotoPath(String path) {
+        photos.remove(path);
     }
 }
