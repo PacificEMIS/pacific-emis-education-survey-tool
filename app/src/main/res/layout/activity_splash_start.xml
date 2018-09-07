@@ -54,7 +54,7 @@
         android:layout_marginTop="32dp"
         android:clickable="false"
         android:focusable="false"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@string/font_light"
         android:gravity="center"
         android:lineSpacingExtra="0sp"
         android:text="@string/title_education_survey_tool"

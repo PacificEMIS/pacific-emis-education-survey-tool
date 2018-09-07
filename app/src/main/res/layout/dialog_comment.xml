@@ -72,7 +72,7 @@
             android:background="?selectableItemBackground"
             android:text="@string/button_submit"
             android:textSize="24sp"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@string/font_medium"
             android:textColor="@color/dark_sky_blue" />
 
         <EditText
