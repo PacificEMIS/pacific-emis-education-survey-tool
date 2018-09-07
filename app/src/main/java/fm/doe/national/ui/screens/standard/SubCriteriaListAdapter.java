@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -255,7 +256,13 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                 photosRecyclerView.setVisibility(View.VISIBLE);
                 photoButtonView.setVisibility(View.GONE);
                 photosAdapter.setParentSubCriteria(getItem());
-                photosAdapter.setItems(photos);
+
+                List<PhotoViewData> viewData = new ArrayList<>();
+                for (String path : photos) {
+                    viewData.add(new PhotoViewData(path, PhotoViewData.Type.PHOTO));
+                }
+                viewData.add(new PhotoViewData(null, PhotoViewData.Type.ADDER));
+                photosAdapter.setItems(viewData);
             }
         }
     }
