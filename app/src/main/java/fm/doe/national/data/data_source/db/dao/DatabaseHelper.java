@@ -26,6 +26,7 @@ import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
+import fm.doe.national.data.parsers.ParseException;
 import fm.doe.national.data.parsers.Parser;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -70,7 +71,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     schoolAccreditation.getGroupStandards())
                     .subscribe();
 
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -83,7 +84,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
             schoolDao.addSchools(schools).subscribe();
 
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
