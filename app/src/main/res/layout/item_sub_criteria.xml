@@ -110,6 +110,16 @@
 
     </RelativeLayout>
 
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="16dp">
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
 
     <LinearLayout
         android:id="@+id/layout_buttons"

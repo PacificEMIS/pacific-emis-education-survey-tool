@@ -18,9 +18,10 @@ import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
+import fm.doe.national.data.files.FileRepository;
 import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.data.serializers.Serializer;
-import fm.doe.national.di.modules.AccreditationDataSourceModule;
+import fm.doe.national.di.modules.LocalDataSourceModule;
 import fm.doe.national.di.modules.CloudModule;
 import fm.doe.national.di.modules.ContextModule;
 import fm.doe.national.di.modules.DatabaseHelperModule;
@@ -37,7 +38,7 @@ import fm.doe.national.utils.LifecycleListener;
 @Component(modules = {
         ContextModule.class,
         DatabaseHelperModule.class,
-        AccreditationDataSourceModule.class,
+        LocalDataSourceModule.class,
         GsonModule.class,
         CloudModule.class,
         SharedPreferencesModule.class,
@@ -63,6 +64,7 @@ public interface AppComponent {
     CloudRepository getCloudRepository();
     DataSource getDataSource();
     CloudUploader getCloudUploader();
+    FileRepository getFileRepository();
 
     SettingsInteractor getSettingsInteractor();
 }

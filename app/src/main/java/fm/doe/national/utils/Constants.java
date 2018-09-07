@@ -2,6 +2,8 @@ package fm.doe.national.utils;
 
 public class Constants {
     public static final String FILE_MIME_TYPE = "text/plain";
+    public static final String AUTHORITY_FILE_PROVIDER = "com.example.android.fileprovider";
+    public static final int SIZE_THUMB_PICTURE = 200;
 
     public class Errors {
         public static final String EXPORT_FOLDER_NOT_SPECIFIED = "Export folder not specified";

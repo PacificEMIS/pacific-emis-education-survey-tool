@@ -66,4 +66,5 @@
     <string name="button_comment">Comment</string>
     <string name="title_comment">Comment</string>
     <string name="button_submit">Submit</string>
+    <string name="error_take_picture">Unable to get picture</string>
 </resources>

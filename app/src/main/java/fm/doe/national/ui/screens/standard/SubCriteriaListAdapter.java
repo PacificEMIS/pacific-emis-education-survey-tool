@@ -3,6 +3,8 @@ package fm.doe.national.ui.screens.standard;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -44,6 +48,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
     class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener, View.OnLongClickListener {
 
+        private final static int COUNT_SPANS = 4;
         private final static String TAG_DIALOG = "TAG_DIALOG";
 
         @BindView(R.id.textview_alphabetical_numbering)
@@ -76,6 +81,11 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.textview_comment)
         TextView commentTextView;
 
+        @BindView(R.id.recyclerview_photos)
+        RecyclerView photosRecyclerView;
+
+        private final PhotosAdapter photosAdapter = new PhotosAdapter();
+
         private View popupView;
         private TextView hintView;
 
@@ -83,27 +93,34 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
             popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, null);
-            popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            popupView.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
             hintView = popupView.findViewById(R.id.textview_hint);
+
+            photosRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), COUNT_SPANS));
+            photosRecyclerView.setAdapter(photosAdapter);
+            photosAdapter.setCallback(callback);
         }
 
         @Override
         public void onBind(SubCriteria item) {
+            Answer answer = item.getAnswer();
+            SubCriteriaQuestion question = item.getSubCriteriaQuestion();
+            String interviewQuestions = question.getInterviewQuestion();
+
             questionTextView.setText(TextUtil.fixLineSeparators(item.getName()));
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
 
-            SubCriteriaQuestion question = item.getSubCriteriaQuestion();
-            String interviewQuestions = question.getInterviewQuestion();
             if (!TextUtils.isEmpty(interviewQuestions)) {
                 interviewQuestionsTextView.setVisibility(View.VISIBLE);
                 interviewQuestionsTextView.setText(interviewQuestions);
             } else {
                 interviewQuestionsTextView.setVisibility(View.GONE);
             }
-
-            switchableButton.setStateNotNotifying(convertToUiState(item.getAnswer().getState()));
+            switchableButton.setStateNotNotifying(convertToUiState(answer.getState()));
 
             questionTextView.setOnLongClickListener(this);
             commentButtonView.setOnClickListener(this);
@@ -111,15 +128,16 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             commentDeleteButton.setOnClickListener(this);
             commentEditButton.setOnClickListener(this);
 
-            updateCommentVisibility(item.getAnswer().getComment());
+            updateCommentVisibility(answer.getComment());
+            updatePhotosVisibility(answer.getPhotosPaths());
         }
 
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
-            SubCriteria item = getItem();
+            Answer answer = getItem().getAnswer();
 
-            Answer.State previousState = item.getAnswer().getState();
-            item.getAnswer().setState(convertFromUiState(state));
+            Answer.State previousState = answer.getState();
+            answer.setState(convertFromUiState(state));
 
             notifyStateChanged(previousState);
         }
@@ -137,7 +155,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                     showCommentDialog();
                     break;
                 case R.id.imageview_photo_button:
-                    // nothing for now
+                    if (callback != null) callback.onAddPhotoClicked(getItem());
                     break;
                 case R.id.imageview_delete_button:
                     updateCommentVisibility("");
@@ -226,6 +244,18 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                 commentView.setVisibility(View.VISIBLE);
                 commentButtonView.setVisibility(View.GONE);
                 commentTextView.setText(currentComment);
+            }
+        }
+
+        private void updatePhotosVisibility(List<String> photos) {
+            if (photos.isEmpty()) {
+                photosRecyclerView.setVisibility(View.GONE);
+                photoButtonView.setVisibility(View.VISIBLE);
+            } else {
+                photosRecyclerView.setVisibility(View.VISIBLE);
+                photoButtonView.setVisibility(View.GONE);
+                photosAdapter.setParentSubCriteria(getItem());
+                photosAdapter.setItems(photos);
             }
         }
     }

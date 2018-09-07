@@ -2,9 +2,13 @@ package fm.doe.national.ui.screens.standard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,6 +26,7 @@ import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.ViewUtils;
 
 public class StandardActivity extends BaseActivity implements
@@ -29,6 +35,7 @@ public class StandardActivity extends BaseActivity implements
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
+    private static final int REQUEST_CAMERA = 100;
 
     private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
@@ -72,8 +79,16 @@ public class StandardActivity extends BaseActivity implements
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
+    @BindView(R.id.layout_container)
+    View topContainerView;
+
+    @BindView(R.id.imageview_expand_container)
+    ImageView expandContainerImageView;
+
     @InjectPresenter
     StandardPresenter presenter;
+
+    private int shortAnimationDuration;
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
@@ -93,6 +108,22 @@ public class StandardActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
+        shortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CAMERA:
+                if (resultCode == RESULT_OK) {
+                    presenter.onTakePhotoSuccess();
+                } else {
+                    presenter.onTakePhotoFailure();
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void initViews() {
@@ -156,6 +187,36 @@ public class StandardActivity extends BaseActivity implements
     @Override
     public void onSubCriteriaCommentChanged(SubCriteria subCriteria, String newComment) {
         presenter.onCommentEdit(subCriteria, newComment);
+    }
+
+    @Override
+    public void onAddPhotoClicked(SubCriteria subCriteria) {
+        presenter.onAddPhotoClicked(subCriteria);
+    }
+
+    @Override
+    public void onRemovePhotoClicked(SubCriteria subCriteria, String photoPath) {
+        presenter.onDeletePhotoClicked(subCriteria, photoPath);
+    }
+
+    @Override
+    public void dispatchTakePictureIntent(@NonNull File toFile) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            Uri photoURI = FileProvider.getUriForFile(this, Constants.AUTHORITY_FILE_PROVIDER, toFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_CAMERA);
+        }
+    }
+
+    @Override
+    public void showLargeImage(Bitmap bitmap) {
+        // TODO
+    }
+
+    @Override
+    public void onPhotoClicked(View anchor, String photoPath) {
+        ViewUtils.zoomImageFromThumb(anchor, photoPath, topContainerView, expandContainerImageView, shortAnimationDuration);
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {
