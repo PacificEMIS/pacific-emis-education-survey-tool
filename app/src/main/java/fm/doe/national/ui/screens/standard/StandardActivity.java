@@ -2,7 +2,6 @@ package fm.doe.national.ui.screens.standard;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -210,13 +209,13 @@ public class StandardActivity extends BaseActivity implements
     }
 
     @Override
-    public void showLargeImage(Bitmap bitmap) {
-        // TODO
+    public void onPhotoClicked(View anchor, String photoPath) {
+        ViewUtils.zoomImageFromThumb(anchor, photoPath, topContainerView, expandContainerImageView, shortAnimationDuration);
     }
 
     @Override
-    public void onPhotoClicked(View anchor, String photoPath) {
-        ViewUtils.zoomImageFromThumb(anchor, photoPath, topContainerView, expandContainerImageView, shortAnimationDuration);
+    public void updateListItem(long criteriaId, int subcriteriaIndex) {
+        recyclerAdapter.notify(criteriaId, subcriteriaIndex);
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {

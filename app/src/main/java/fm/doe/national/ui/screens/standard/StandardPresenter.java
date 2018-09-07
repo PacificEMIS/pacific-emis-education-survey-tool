@@ -14,6 +14,7 @@ import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
+import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.files.FileRepository;
@@ -33,6 +34,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private int nextIndex;
     private int previousIndex;
     private List<Standard> standards = new ArrayList<>();
+    private List<Criteria> criterias = new ArrayList<>();
 
     private SubCriteria subCriteriaOnAction = null;
     private File takenPictureFile = null;
@@ -109,7 +111,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private void afterAnyPhotoChanges(SubCriteria subCriteria) {
         Answer answer = subCriteria.getAnswer();
         updateAnswer(passingId, subCriteria.getId(), answer.getState(), answer.getComment(), answer.getPhotosPaths());
-        // TODO update UI
+        updateUiOf(subCriteria);
     }
 
     private void updateUi() {
@@ -129,6 +131,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(criterias -> {
+                    this.criterias = criterias;
                     getViewState().setCriterias(criterias);
                     updateProgress();
                 }, this::handleError));
@@ -178,5 +181,18 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
+    }
+
+    @SuppressWarnings("unchecked")
+    private void updateUiOf(SubCriteria subCriteria) {
+        for (Criteria criteria : criterias) {
+            List<SubCriteria> subCriterias = (List<SubCriteria>)criteria.getSubCriterias();
+            for (int subcriteriaIndex = 0; subcriteriaIndex < subCriterias.size(); subcriteriaIndex++) {
+                if (subCriterias.get(subcriteriaIndex).getId().equals(subCriteria.getId())) {
+                    getViewState().updateListItem(criteria.getId(), subcriteriaIndex);
+                    return;
+                }
+            }
+        }
     }
 }

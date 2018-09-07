@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -26,6 +28,8 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
     @Nullable
     private SubcriteriaCallback callback = null;
 
+    private final Map<CriteriaViewHolder, Long> viewHolders = new HashMap<>();
+
     public void setCallback(@Nullable SubcriteriaCallback callback) {
         this.callback = callback;
     }
@@ -33,6 +37,20 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
     @Override
     protected CriteriaViewHolder provideViewHolder(ViewGroup parent) {
         return new CriteriaViewHolder(parent);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        viewHolders.put((CriteriaViewHolder) holder, getItem(position).getId());
+    }
+
+    public void notify(long criteriaId, int subcriteriaIndex) {
+        for (Map.Entry<CriteriaViewHolder, Long> entry : viewHolders.entrySet()) {
+            if (entry.getValue() == criteriaId) {
+                entry.getKey().notify(subcriteriaIndex);
+            }
+        }
     }
 
     protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
@@ -88,6 +106,10 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
             CategoryProgress categoryProgress = getItem().getCategoryProgress();
             categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
             rebindProgress(categoryProgress);
+        }
+
+        public void notify(int subcriteriaIndex) {
+            adapter.notifyItemChanged(subcriteriaIndex);
         }
 
         private void rebindProgress(CategoryProgress progress) {

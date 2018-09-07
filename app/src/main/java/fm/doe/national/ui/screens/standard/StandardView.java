@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.standard;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
@@ -27,5 +26,5 @@ public interface StandardView extends BaseView {
     void dispatchTakePictureIntent(@NonNull File toFile);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showLargeImage(Bitmap bitmap);
+    void updateListItem(long criteriaId, int subcriteriaIndex);
 }
