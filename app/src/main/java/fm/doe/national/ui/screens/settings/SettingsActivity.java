@@ -2,18 +2,23 @@ package fm.doe.national.ui.screens.settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegatypes.Text;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
@@ -22,9 +27,10 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements
         SettingsView,
-        View.OnClickListener,
         CloudConnectionCardView.OnConnectClickListener,
         SettingsAdapter.Callback {
+
+    private static final int REQUEST_CODE_GALLERY = 201;
 
     private final SettingsAdapter adapter = new SettingsAdapter();
 
@@ -62,7 +68,6 @@ public class SettingsActivity extends BaseActivity implements
     private void initViews() {
         setTitle(R.string.label_settings);
 
-        logoNameTextView.setOnClickListener(this);
         adapter.setCallback(this);
         accountsRecycler.setAdapter(adapter);
 
@@ -80,13 +85,9 @@ public class SettingsActivity extends BaseActivity implements
         return R.layout.activity_settings;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.textview_change_logo:
-                presenter.onChangeLogoClick();
-                break;
-        }
+    @OnClick(R.id.textview_change_logo)
+    public void onChangeLogoClick(View v) {
+        presenter.onChangeLogoClick();
     }
 
     @Override
@@ -142,4 +143,41 @@ public class SettingsActivity extends BaseActivity implements
                 break;
         }
     }
+
+    @Override
+    public void setLogo(String path) {
+        // TODO: waiting for merge with feature/answer_struct_v2 to set Image
+    }
+
+    @Override
+    public void setLogoPath(String path) {
+        logoNameTextView.setText(path);
+    }
+
+    @Override
+    public void pickPhotoFromGallery() {
+        OmegaIntentBuilder.from(this)
+                .pick()
+                .image()
+                .multiply(false)
+                .createIntentHandler(this)
+                .startActivityForResult(REQUEST_CODE_GALLERY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
+            pickImage(data);
+        }
+    }
+
+    private void pickImage(Intent data) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+            presenter.onImagePicked(bitmap);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

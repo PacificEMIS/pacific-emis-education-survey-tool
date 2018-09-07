@@ -1,5 +1,8 @@
 package fm.doe.national.ui.screens.settings;
 
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
 
@@ -11,6 +14,7 @@ import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.utils.Constants;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -18,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final SettingsInteractor interactor = MicronesiaApplication.getAppComponent().getSettingsInteractor();
+    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
 
     public SettingsPresenter() {
         updateUi();
@@ -82,6 +87,21 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void onChangeLogoClick() {
-        // nothing for current sprint
+        getViewState().pickPhotoFromGallery();
+    }
+
+    public void onImagePicked(Bitmap bitmap) {
+        // TODO: waiting for merge with feature/answer_struct_v2 to save to local file
+        String filePath = null; // it won't be null after merge
+        sharedPreferences.edit().putString(Constants.PREF_KEY_LOGO_PATH, filePath).apply();
+
+    }
+
+    private void applyLogo() {
+        String logoPath = sharedPreferences.getString(Constants.PREF_KEY_LOGO_PATH, null);
+        if (logoPath != null) {
+            getViewState().setLogo(logoPath);
+            getViewState().setLogoPath(logoPath);
+        }
     }
 }

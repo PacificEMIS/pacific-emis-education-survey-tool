@@ -16,8 +16,4 @@ public interface MenuView extends BaseView {
     void navigateToSchoolAccreditationScreen();
 
     void setItems(List<Text> items);
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void pickPhotoFromGallery();
-
 }

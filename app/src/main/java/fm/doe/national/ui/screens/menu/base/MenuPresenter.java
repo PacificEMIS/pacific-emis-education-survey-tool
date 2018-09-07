@@ -22,9 +22,4 @@ abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V>
         //TODO changed on correct
         getViewState().navigateToSchoolAccreditationScreen();
     }
-
-    public void onLogoClicked() {
-        getViewState().pickPhotoFromGallery();
-    }
-
 }

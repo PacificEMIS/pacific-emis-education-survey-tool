@@ -2,6 +2,7 @@ package fm.doe.national.utils;
 
 public class Constants {
     public static final String FILE_MIME_TYPE = "text/plain";
+    public static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
 
     public class Errors {
         public static final String EXPORT_FOLDER_NOT_SPECIFIED = "Export folder not specified";
