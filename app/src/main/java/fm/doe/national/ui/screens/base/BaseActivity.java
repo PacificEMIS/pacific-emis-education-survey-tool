@@ -3,6 +3,7 @@ package fm.doe.national.ui.screens.base;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -52,6 +53,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getContentView());
         ButterKnife.bind(this);
         initToolbar();
