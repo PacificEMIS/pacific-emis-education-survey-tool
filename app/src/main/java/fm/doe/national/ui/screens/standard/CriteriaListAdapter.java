@@ -49,6 +49,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         for (Map.Entry<CriteriaViewHolder, Long> entry : viewHolders.entrySet()) {
             if (entry.getValue() == criteriaId) {
                 entry.getKey().notify(subcriteriaIndex);
+                break;
             }
         }
     }
