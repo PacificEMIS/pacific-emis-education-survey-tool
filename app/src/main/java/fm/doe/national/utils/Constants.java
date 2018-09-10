@@ -15,5 +15,7 @@ public class Constants {
         public static final String WRONG_INTENT = "Activity started with wrong intent";
         public static final String PICKER_DECLINED = "Picker declined";
         public static final String NOT_AUTHORIZED = "User not authorized";
+        public static final String UNAVALIBLE_PICTURES_DIR = "DIRECTORY_PICTURES not avalible";
+        public static final String FAILED_TO_CREATE_PICTURES_DIR = "Failed to create DIRECTORY_PICTURES";
     }
 }
