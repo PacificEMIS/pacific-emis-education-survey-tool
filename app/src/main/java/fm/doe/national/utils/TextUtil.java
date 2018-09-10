@@ -1,6 +1,7 @@
 package fm.doe.national.utils;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Date;
 
@@ -34,8 +35,9 @@ public class TextUtil {
         return school.getName() + '-' + school.getId() + '-' + DateUtils.format(date) + ".xml";
     }
 
-    @NonNull
-    public static String fixLineSeparators(@NonNull String brokenString) {
+    @Nullable
+    public static String fixLineSeparators(@Nullable String brokenString) {
+        if (brokenString == null) return null;
         return brokenString.replace("\\n", System.getProperty("line.separator"));
     }
 }

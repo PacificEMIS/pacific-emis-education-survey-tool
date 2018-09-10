@@ -71,8 +71,8 @@ public class SerializableSubCriteria implements SubCriteria {
         private String hint;
 
         public SimpleSubCriteriaQuestion(@Nullable String interviewQuestion, @Nullable String hint) {
-            this.interviewQuestion = interviewQuestion == null ? null : TextUtil.fixLineSeparators(interviewQuestion);
-            this.hint = hint == null ? null : TextUtil.fixLineSeparators(hint);
+            this.interviewQuestion = TextUtil.fixLineSeparators(interviewQuestion);
+            this.hint = TextUtil.fixLineSeparators(hint);
         }
 
         @Nullable
