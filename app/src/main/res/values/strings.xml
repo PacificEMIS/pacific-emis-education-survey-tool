@@ -72,4 +72,6 @@
     <string name="font_medium">sans-serif-medium</string>
     <string name="font_light">sans-serif-light</string>
     <string name="font_black">sans-serif-black</string>
+
+    <string name="transition_tag_fullscreen_image">transition_tag_fullscreen_image</string>
 </resources>
