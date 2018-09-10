@@ -51,14 +51,14 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
             int index = criteria.getSubCriterias().indexOf(subCriteria);
             if (index >= 0) {
                 CriteriaViewHolder viewHolder = CollectionUtils.getKeyByValue(viewHolders, criteria.getId());
-                if (viewHolder != null) viewHolder.notify(index);
+                if (viewHolder != null) {
+                    viewHolder.notify(index);
+                    break;
+                }
             }
         }
     }
 
-    private void ads() {
-
-    }
     protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
 
         @BindView(R.id.textview_criteria_title)

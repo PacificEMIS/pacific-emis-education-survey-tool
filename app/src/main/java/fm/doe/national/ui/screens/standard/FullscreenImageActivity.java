@@ -27,6 +27,11 @@ public class FullscreenImageActivity extends BaseActivity {
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_fullscreen_image;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -43,8 +48,4 @@ public class FullscreenImageActivity extends BaseActivity {
         supportFinishAfterTransition();
     }
 
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_fullscreen_image;
-    }
 }

@@ -49,6 +49,9 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         private final PhotosAdapter photosAdapter = new PhotosAdapter();
 
+        private final View popupView;
+        private final TextView hintView;
+        
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
 
@@ -81,9 +84,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         @BindView(R.id.recyclerview_photos)
         RecyclerView photosRecyclerView;
-
-        private final View popupView;
-        private final TextView hintView;
 
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
