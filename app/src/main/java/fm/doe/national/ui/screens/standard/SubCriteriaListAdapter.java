@@ -3,7 +3,6 @@ package fm.doe.national.ui.screens.standard;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -53,6 +52,8 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         private final static int COUNT_SPANS = 4;
         private final static String TAG_DIALOG = "TAG_DIALOG";
 
+        private final PhotosAdapter photosAdapter = new PhotosAdapter();
+
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
 
@@ -86,21 +87,15 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.recyclerview_photos)
         RecyclerView photosRecyclerView;
 
-        private final PhotosAdapter photosAdapter = new PhotosAdapter();
-
-        private View popupView;
-        private TextView hintView;
+        private final View popupView;
+        private final TextView hintView;
 
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
-            popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, null);
-            popupView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, parent, false);
             hintView = popupView.findViewById(R.id.textview_hint);
 
-            photosRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), COUNT_SPANS));
             photosRecyclerView.setAdapter(photosAdapter);
             photosAdapter.setCallback(callback);
         }
@@ -111,7 +106,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             SubCriteriaQuestion question = item.getSubCriteriaQuestion();
             String interviewQuestions = question.getInterviewQuestion();
 
-            questionTextView.setText(TextUtil.fixLineSeparators(item.getName()));
+            questionTextView.setText(item.getName());
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
