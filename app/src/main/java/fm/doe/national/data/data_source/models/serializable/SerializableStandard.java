@@ -40,8 +40,8 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
     }
 
     @Override
-    public Long getId() {
-        return null;
+    public long getId() {
+        return 0;
     }
 
     @Override

@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@string/font_light"
         android:textColor="@color/charcoal_grey"
         android:text="@string/default_image"
         android:textSize="20sp"

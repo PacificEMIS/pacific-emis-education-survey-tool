@@ -22,7 +22,7 @@ public class OrmLiteSubCriteria implements SubCriteria {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return surveyItem.getId();
     }
 
@@ -42,4 +42,18 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return question;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof SubCriteria) {
+            return ((SubCriteria) obj).getId() == getId();
+        } else {
+            return super.equals(obj);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        long value = getId();
+        return (int)(value ^ (value >>> 32));
+    }
 }

@@ -1,15 +1,21 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
@@ -20,29 +26,18 @@ import fm.doe.national.utils.TextUtil;
 
 public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
-    private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
+    @Nullable
+    private SubcriteriaCallback callback = null;
+
+    public void setCallback(@Nullable SubcriteriaCallback callback) {
+        this.callback = callback;
+    }
 
     @Nullable
-    private SubcriteriaLongClickListener longClickListener;
+    private OnAnswerStateChangedListener answerStateChangedListener = null;
 
-    public void setLongClickListener(@Nullable SubcriteriaLongClickListener listener) {
-        longClickListener= listener;
-    }
-
-    public void clearSubscribers() {
-        subscribers.clear();
-    }
-
-    public void unsubscribeOnChanges(SubcriteriaStateChangeListener listener) {
-        subscribers.remove(listener);
-    }
-
-    public void subscribeOnChanges(SubcriteriaStateChangeListener listener) {
-        subscribers.add(listener);
-    }
-
-    public void addSubscribers(List<SubcriteriaStateChangeListener> subscribers) {
-        this.subscribers.addAll(subscribers);
+    public void setAnswerStateChangedListener(@Nullable OnAnswerStateChangedListener answerStateChangedListener) {
+        this.answerStateChangedListener = answerStateChangedListener;
     }
 
     @Override
@@ -50,7 +45,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         return new SubCriteriaViewHolder(parent);
     }
 
-    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener, View.OnLongClickListener {
+    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener {
+
+        private final PhotosAdapter photosAdapter = new PhotosAdapter();
+
+        private final View popupView;
+        private final TextView hintView;
 
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
@@ -58,56 +58,111 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.textview_question)
         TextView questionTextView;
 
-        @BindView(R.id.switch_answer)
+        @BindView(R.id.switchablebutton_answer)
         SwitchableButton switchableButton;
 
         @BindView(R.id.textview_interview_questions)
         TextView interviewQuestionsTextView;
 
+        @BindView(R.id.imageview_comment_button)
+        View commentButtonView;
+
+        @BindView(R.id.imageview_photo_button)
+        View photoButtonView;
+
+        @BindView(R.id.layout_comment)
+        View commentView;
+
+        @BindView(R.id.imagebutton_delete)
+        View commentDeleteButton;
+
+        @BindView(R.id.imageview_edit_button)
+        View commentEditButton;
+
+        @BindView(R.id.textview_comment)
+        TextView commentTextView;
+
+        @BindView(R.id.recyclerview_photos)
+        RecyclerView photosRecyclerView;
+
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
+            popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, parent, false);
+            hintView = popupView.findViewById(R.id.textview_hint);
+
+            photosRecyclerView.setAdapter(photosAdapter);
+            photosAdapter.setCallback(callback);
         }
 
         @Override
         public void onBind(SubCriteria item) {
-            questionTextView.setText(TextUtil.fixLineSeparators(item.getName()));
+            Answer answer = item.getAnswer();
+            SubCriteriaQuestion question = item.getSubCriteriaQuestion();
+            String interviewQuestions = question.getInterviewQuestion();
+
+            questionTextView.setText(item.getName());
             numberingTextView.setText(getResources().getString(
                     R.string.criteria_char_icon_pattern,
                     TextUtil.convertIntToCharsIcons(getAdapterPosition())));
 
-            SubCriteriaQuestion question = item.getSubCriteriaQuestion();
-            String interviewQuestions = question.getInterviewQuestion();
             if (!TextUtils.isEmpty(interviewQuestions)) {
                 interviewQuestionsTextView.setVisibility(View.VISIBLE);
                 interviewQuestionsTextView.setText(interviewQuestions);
             } else {
                 interviewQuestionsTextView.setVisibility(View.GONE);
             }
+            switchableButton.setStateNotNotifying(convertToUiState(answer.getState()));
 
-            switchableButton.setStateNotNotifying(convertToUiState(item.getAnswer().getState()));
+            updateCommentVisibility(answer.getComment());
+            updatePhotosVisibility(answer.getPhotos());
+        }
 
-            questionTextView.setOnLongClickListener(this);
+        @OnLongClick(R.id.textview_question)
+        public boolean onViewLongClick(View v) {
+            showHint();
+            return true;
+        }
+
+        @OnClick({
+                R.id.imageview_comment_button,
+                R.id.imageview_photo_button,
+                R.id.imagebutton_delete,
+                R.id.imageview_edit_button,
+                R.id.imagebutton_add_photo
+        })
+        public void onViewClick(View v) {
+            if (callback != null) {
+                SubCriteria item = getItem();
+                switch (v.getId()) {
+                    case R.id.imageview_comment_button:
+                        callback.onAddCommentClicked(item);
+                        break;
+                    case R.id.imageview_photo_button:
+                        callback.onAddPhotoClicked(item);
+                        break;
+                    case R.id.imagebutton_delete:
+                        callback.onRemoveCommentClicked(item);
+                        break;
+                    case R.id.imageview_edit_button:
+                        callback.onEditCommentClicked(item);
+                        break;
+                    case R.id.imagebutton_add_photo:
+                        callback.onAddPhotoClicked(item);
+                        break;
+                }
+            }
+
         }
 
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
-            SubCriteria item = getItem();
+            Answer answer = getItem().getAnswer();
 
-            Answer.State previousState = item.getAnswer().getState();
-            item.getAnswer().setState(convertFromUiState(state));
+            Answer.State previousState = answer.getState();
+            answer.setState(convertFromUiState(state));
 
-            notifyStateChanged(item, previousState);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            if (longClickListener != null) {
-                longClickListener.onSubcriteriaLongClick(itemView, getItem());
-                return true;
-            } else {
-                return false;
-            }
+            notifyStateChanged(previousState);
         }
 
         private SwitchableButton.State convertToUiState(Answer.State state) {
@@ -134,11 +189,58 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             return Answer.State.NOT_ANSWERED; // unreachable code
         }
 
-        private void notifyStateChanged(SubCriteria subCriteria, Answer.State previousState) {
-            for (SubcriteriaStateChangeListener subscriber : subscribers) {
-                subscriber.onSubCriteriaStateChanged(subCriteria, previousState);
+        private void notifyStateChanged(Answer.State previousState) {
+            SubCriteria subCriteria = getItem();
+            if (callback != null) callback.onSubCriteriaStateChanged(subCriteria, previousState);
+            if (answerStateChangedListener != null)
+                answerStateChangedListener.onSubCriteriaAnswerChanged(subCriteria, previousState);
+        }
+
+        private void showHint() {
+            hintView.setText(getItem().getSubCriteriaQuestion().getHint());
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    itemView.getMeasuredWidth(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setOutsideTouchable(true);
+
+            // need to measure view before it rendered
+            // showAsDropDown cannot draw popup above anchor in ViewHolder
+            // so just offset it manually
+            popupView.measure(View.MeasureSpec.makeMeasureSpec(itemView.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+            popupWindow.showAsDropDown(itemView,
+                    0,
+                    -itemView.getMeasuredHeight() - popupView.getMeasuredHeight(),
+                    Gravity.TOP);
+        }
+
+        private void updateCommentVisibility(@Nullable String currentComment) {
+            if (TextUtils.isEmpty(currentComment)) {
+                commentView.setVisibility(View.GONE);
+                commentButtonView.setVisibility(View.VISIBLE);
+            } else {
+                commentView.setVisibility(View.VISIBLE);
+                commentButtonView.setVisibility(View.GONE);
+                commentTextView.setText(currentComment);
+            }
+        }
+
+        private void updatePhotosVisibility(List<String> photos) {
+            if (photos.isEmpty()) {
+                photosRecyclerView.setVisibility(View.GONE);
+                photoButtonView.setVisibility(View.VISIBLE);
+            } else {
+                photosRecyclerView.setVisibility(View.VISIBLE);
+                photoButtonView.setVisibility(View.GONE);
+                photosAdapter.setParentSubCriteria(getItem());
+                photosAdapter.setItems(photos);
             }
         }
     }
 
+    public interface OnAnswerStateChangedListener {
+        void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState);
+    }
 }
