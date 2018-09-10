@@ -19,7 +19,7 @@ public class OrmLiteSchoolAccreditationPassing implements SchoolAccreditationPas
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return surveyPassing.getId();
     }
 

@@ -46,8 +46,8 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
     }
 
     @Override
-    public Long getId() {
-        return null;
+    public long getId() {
+        return 0;
     }
 
     @Override

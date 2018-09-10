@@ -53,8 +53,8 @@ public class SerializableSubCriteria implements SubCriteria {
     }
 
     @Override
-    public Long getId() {
-        return null;
+    public long getId() {
+        return 0;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class OrmLiteCriteria implements Criteria{
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return surveyItem.getId();
     }
 
