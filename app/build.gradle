@@ -84,7 +84,6 @@ dependencies {
 
     // moxy
     implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
 
     // RxJava2
