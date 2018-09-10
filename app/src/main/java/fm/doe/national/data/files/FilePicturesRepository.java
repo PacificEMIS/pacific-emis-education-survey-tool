@@ -18,9 +18,6 @@ public class FilePicturesRepository implements PicturesRepository {
     public FilePicturesRepository(Context context) {
         externalPicturesDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         if (externalPicturesDirectory == null) throw new RuntimeException(Constants.Errors.UNAVAILABLE_PICTURES_DIR);
-        if (!externalPicturesDirectory.mkdirs()) {
-            throw new RuntimeException(Constants.Errors.FAILED_TO_CREATE_PICTURES_DIR);
-        }
     }
 
     @Override

@@ -14,7 +14,7 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
-public class PhotosAdapter extends BaseAdapter<PhotoViewData> {
+public class PhotosAdapter extends BaseAdapter<String> {
 
     private SubCriteria parentSubCriteria;
 
@@ -39,46 +39,25 @@ public class PhotosAdapter extends BaseAdapter<PhotoViewData> {
         @BindView(R.id.imageview_photo)
         ImageView photoImageView;
 
-        @BindView(R.id.imageview_add_button)
-        ImageView addImageView;
-
-        @BindView(R.id.imageview_delete_button)
-        View deleteImageView;
-
         PhotoViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_photo_proof);
         }
 
         @Override
-        protected void onBind(PhotoViewData item) {
-            switch (item.getType()) {
-                case ADDER:
-                    photoImageView.setVisibility(View.GONE);
-                    addImageView.setVisibility(View.VISIBLE);
-                    deleteImageView.setVisibility(View.GONE);
-                    break;
-                case PHOTO:
-                    photoImageView.setVisibility(View.VISIBLE);
-                    addImageView.setVisibility(View.GONE);
-                    deleteImageView.setVisibility(View.VISIBLE);
-                    File imgFile = new File(item.getPath());
-                    if (imgFile.exists()) ViewUtils.setScaledDownImageTo(photoImageView, imgFile.getAbsolutePath());
-                    break;
-            }
+        protected void onBind(String item) {
+            File imgFile = new File(item);
+            if (imgFile.exists()) ViewUtils.setScaledDownImageTo(photoImageView, imgFile.getAbsolutePath());
         }
 
-        @OnClick({R.id.imageview_delete_button, R.id.imageview_photo, R.id.imageview_add_button})
+        @OnClick({R.id.imagebutton_delete, R.id.imageview_photo})
         public void onViewClick(View v) {
-            PhotoViewData item = getItem();
+            String item = getItem();
             switch (v.getId()) {
-                case R.id.imageview_delete_button:
-                    if (callback != null) callback.onRemovePhotoClicked(parentSubCriteria, item.getPath());
+                case R.id.imagebutton_delete:
+                    if (callback != null) callback.onRemovePhotoClicked(parentSubCriteria, item);
                     break;
                 case R.id.imageview_photo:
-                    if (callback != null) callback.onPhotoClicked(v, item.getPath());
-                    break;
-                case R.id.imageview_add_button:
-                    if (callback != null) callback.onAddPhotoClicked(parentSubCriteria);
+                    if (callback != null) callback.onPhotoClicked(v, item);
                     break;
             }
         }

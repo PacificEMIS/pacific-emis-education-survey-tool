@@ -13,8 +13,8 @@
         tools:src="@drawable/ic_dropbox"
         android:layout_centerInParent="true"/>
 
-    <ImageView
-        android:id="@+id/imageview_delete_button"
+    <ImageButton
+        android:id="@+id/imagebutton_delete"
         style="@style/SelectableBorderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,14 +23,5 @@
         app:srcCompat="@drawable/ic_icon_remove"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"/>
-
-    <ImageView
-        android:id="@+id/imageview_add_button"
-        style="@style/SelectableBorderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_comment"
-        app:srcCompat="@drawable/ic_icon_photo_more"
-        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

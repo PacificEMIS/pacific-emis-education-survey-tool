@@ -87,7 +87,7 @@
             tools:text="There is a comment that National and State curriculum documents and guidelines are regularly used in planning" />
 
         <ImageView
-            android:id="@+id/imageview_delete_button"
+            android:id="@+id/imagebutton_delete"
             style="@style/SelectableBorderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,8 +105,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
             app:srcCompat="@drawable/ic_icon_edit"
-            android:layout_toStartOf="@+id/imageview_delete_button"
-            android:layout_alignTop="@+id/imageview_delete_button"/>
+            android:layout_toStartOf="@+id/imagebutton_delete"
+            android:layout_alignTop="@+id/imagebutton_delete"/>
 
     </RelativeLayout>
 
@@ -117,6 +117,23 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="72dp"
         android:layout_marginTop="16dp">
+
+        <FrameLayout
+            android:id="@+id/layout_add_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_comment"
+            app:layout_section="footer">
+
+            <ImageButton
+                android:id="@+id/imagebutton_add_photo"
+                style="@style/SelectableBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_icon_photo_more"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 

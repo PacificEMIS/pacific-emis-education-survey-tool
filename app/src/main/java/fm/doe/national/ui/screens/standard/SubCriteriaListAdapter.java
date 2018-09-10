@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
@@ -47,7 +48,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         return new SubCriteriaViewHolder(parent);
     }
 
-    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener, View.OnLongClickListener {
+    class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener {
 
         private final static int COUNT_SPANS = 4;
         private final static String TAG_DIALOG = "TAG_DIALOG";
@@ -73,7 +74,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.layout_comment)
         View commentView;
 
-        @BindView(R.id.imageview_delete_button)
+        @BindView(R.id.imagebutton_delete)
         View commentDeleteButton;
 
         @BindView(R.id.imageview_edit_button)
@@ -123,14 +124,42 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             }
             switchableButton.setStateNotNotifying(convertToUiState(answer.getState()));
 
-            questionTextView.setOnLongClickListener(this);
-            commentButtonView.setOnClickListener(this);
-            photoButtonView.setOnClickListener(this);
-            commentDeleteButton.setOnClickListener(this);
-            commentEditButton.setOnClickListener(this);
-
             updateCommentVisibility(answer.getComment());
             updatePhotosVisibility(answer.getPhotos());
+        }
+
+        @OnLongClick(R.id.textview_question)
+        public boolean onViewLongClick(View v) {
+            showHint();
+            return true;
+        }
+
+        @OnClick({
+                R.id.imageview_comment_button,
+                R.id.imageview_photo_button,
+                R.id.imagebutton_delete,
+                R.id.imageview_edit_button,
+                R.id.imagebutton_add_photo
+        })
+        public void onViewClick(View v) {
+            switch (v.getId()) {
+                case R.id.imageview_comment_button:
+                    showCommentDialog();
+                    break;
+                case R.id.imageview_photo_button:
+                    if (callback != null) callback.onAddPhotoClicked(getItem());
+                    break;
+                case R.id.imagebutton_delete:
+                    updateCommentVisibility("");
+                    notifyCommentChanged("");
+                    break;
+                case R.id.imageview_edit_button:
+                    showCommentDialog();
+                    break;
+                case R.id.imagebutton_add_photo:
+                    if (callback != null) callback.onAddPhotoClicked(getItem());
+                    break;
+            }
         }
 
         @Override
@@ -141,33 +170,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             answer.setState(convertFromUiState(state));
 
             notifyStateChanged(previousState);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            showHint();
-            return true;
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.imageview_comment_button:
-                    showCommentDialog();
-                    break;
-                case R.id.imageview_photo_button:
-                    if (callback != null) callback.onAddPhotoClicked(getItem());
-                    break;
-                case R.id.imageview_delete_button:
-                    updateCommentVisibility("");
-                    notifyCommentChanged("");
-                    break;
-                case R.id.imageview_edit_button:
-                    showCommentDialog();
-                    break;
-                default:
-                    super.onClick(v);
-            }
         }
 
         private SwitchableButton.State convertToUiState(Answer.State state) {
@@ -197,8 +199,8 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         private void notifyStateChanged(Answer.State previousState) {
             SubCriteria subCriteria = getItem();
             if (callback != null) callback.onSubCriteriaStateChanged(subCriteria, previousState);
-            if (answerStateChangedListener != null) answerStateChangedListener.onSubCriteriaAnswerChanged(
-                    subCriteria, previousState);
+            if (answerStateChangedListener != null)
+                answerStateChangedListener.onSubCriteriaAnswerChanged(subCriteria, previousState);
         }
 
         private void notifyCommentChanged(String comment) {
@@ -256,13 +258,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                 photosRecyclerView.setVisibility(View.VISIBLE);
                 photoButtonView.setVisibility(View.GONE);
                 photosAdapter.setParentSubCriteria(getItem());
-
-                List<PhotoViewData> viewData = new ArrayList<>();
-                for (String path : photos) {
-                    viewData.add(new PhotoViewData(path, PhotoViewData.Type.PHOTO));
-                }
-                viewData.add(new PhotoViewData(null, PhotoViewData.Type.ADDER));
-                photosAdapter.setItems(viewData);
+                photosAdapter.setItems(photos);
             }
         }
     }
