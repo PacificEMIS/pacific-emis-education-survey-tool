@@ -59,9 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp">
-
-        </fm.doe.national.ui.custom_views.SwitchableButton>
+            android:layout_marginEnd="16dp"/>
 
     </RelativeLayout>
 
