@@ -63,12 +63,12 @@ public class SerializableAnswer implements Answer {
     }
 
     @Override
-    public List<String> getPhotosPaths() {
+    public List<String> getPhotos() {
         return new ArrayList<>();
     }
 
     @Override
-    public void setPhotoPath(List<String> paths) {
+    public void setPhotos(List<String> photos) {
         // nothing
     }
 }

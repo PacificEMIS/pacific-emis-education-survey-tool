@@ -1,6 +1,5 @@
 package fm.doe.national.data.data_source.models;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
@@ -21,9 +20,9 @@ public interface Answer {
     @Nullable
     String getComment();
 
-    void setComment(@NonNull String comment);
+    void setComment(@Nullable String comment);
 
-    List<String> getPhotosPaths();
+    List<String> getPhotos();
 
-    void setPhotoPath(List<String> paths);
+    void setPhotos(List<String> photos);
 }

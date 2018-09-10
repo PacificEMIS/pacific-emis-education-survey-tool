@@ -17,7 +17,7 @@ import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.data.files.FileRepository;
+import fm.doe.national.data.files.PicturesRepository;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -27,7 +27,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
-    private final FileRepository fileRepository = MicronesiaApplication.getAppComponent().getFileRepository();
+    private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
 
     private long passingId;
     private int standardIndex;
@@ -46,13 +46,12 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
         Answer answer = subCriteria.getAnswer();
-        Answer.State state = answer.getState();
-
-        updateAnswer(passingId, subCriteria.getId(), state, answer.getComment(), answer.getPhotosPaths());
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
-        categoryProgress.recalculate(previousState, state);
+        categoryProgress.recalculate(previousState, answer.getState());
         updateProgress();
+
+        updateAnswer(passingId, subCriteria.getId(), answer);
     }
 
     private void updateProgress() {
@@ -78,13 +77,14 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     public void onCommentEdit(SubCriteria subCriteria, String comment) {
         Answer answer = subCriteria.getAnswer();
-        updateAnswer(passingId, subCriteria.getId(), answer.getState(), comment, answer.getPhotosPaths());
+        answer.setComment(comment);
+        updateAnswer(passingId, subCriteria.getId(), answer);
     }
 
     public void onAddPhotoClicked(SubCriteria subCriteria) {
         subCriteriaOnAction = subCriteria;
         try {
-            takenPictureFile = fileRepository.createEmptyPictureFile();
+            takenPictureFile = picturesRepository.createEmptyFile();
             getViewState().dispatchTakePictureIntent(takenPictureFile);
         } catch (IOException ex) {
             getViewState().showWarning(Text.from(R.string.title_warning), Text.from(R.string.error_take_picture));
@@ -92,25 +92,24 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     public void onTakePhotoSuccess() {
-        subCriteriaOnAction.getAnswer().getPhotosPaths().add(takenPictureFile.getPath());
+        subCriteriaOnAction.getAnswer().getPhotos().add(takenPictureFile.getPath());
         takenPictureFile = null;
         afterAnyPhotoChanges(subCriteriaOnAction);
     }
 
     public void onTakePhotoFailure() {
-        fileRepository.deleteFile(takenPictureFile);
+        picturesRepository.delete(takenPictureFile);
         takenPictureFile = null;
         subCriteriaOnAction = null; // just silently do nothing
     }
 
     public void onDeletePhotoClicked(SubCriteria subCriteria, String photoPath) {
-        subCriteria.getAnswer().getPhotosPaths().remove(photoPath);
+        subCriteria.getAnswer().getPhotos().remove(photoPath);
         afterAnyPhotoChanges(subCriteria);
     }
 
     private void afterAnyPhotoChanges(SubCriteria subCriteria) {
-        Answer answer = subCriteria.getAnswer();
-        updateAnswer(passingId, subCriteria.getId(), answer.getState(), answer.getComment(), answer.getPhotosPaths());
+        updateAnswer(passingId, subCriteria.getId(), subCriteria.getAnswer());
         updateUiOf(subCriteria);
     }
 
@@ -176,8 +175,8 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 }, this::handleError));
     }
 
-    private void updateAnswer(long passingId, long subCriteriaId, Answer.State state, String comment, List<String> photos) {
-        addDisposable(dataSource.updateAnswer(passingId, subCriteriaId, state, comment, photos)
+    private void updateAnswer(long passingId, long subCriteriaId, Answer answer) {
+        addDisposable(dataSource.updateAnswer(passingId, subCriteriaId, answer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));

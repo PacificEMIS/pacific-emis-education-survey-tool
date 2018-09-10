@@ -19,7 +19,7 @@ public interface DataSource {
 
     Single<List<School>> requestSchools();
 
-    Completable updateAnswer(long passingId, long subCriteriaId, Answer.State state, String comment, List<String> photoPaths);
+    Completable updateAnswer(long passingId, long subCriteriaId, Answer answer);
 
     Completable createSchoolAccreditation(LinkedSchoolAccreditation schoolAccreditation);
 

@@ -7,19 +7,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-public class FileRepository {
+public class FilePicturesRepository implements PicturesRepository {
     private final File externalPicturesDirectory;
 
-    public FileRepository(Context context) {
+    public FilePicturesRepository(Context context) {
         externalPicturesDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
 
-    public File createEmptyPictureFile() throws IOException {
+    @Override
+    public File createEmptyFile() throws IOException {
         String imageFileName = "IMG_" + String.valueOf(new Date().getTime());
         return File.createTempFile(imageFileName, ".jpg", externalPicturesDirectory);
     }
 
-    public void deleteFile(File file) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Override
+    public void delete(File file) {
         file.delete();
     }
 }

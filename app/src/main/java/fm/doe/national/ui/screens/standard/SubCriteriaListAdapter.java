@@ -130,7 +130,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             commentEditButton.setOnClickListener(this);
 
             updateCommentVisibility(answer.getComment());
-            updatePhotosVisibility(answer.getPhotosPaths());
+            updatePhotosVisibility(answer.getPhotos());
         }
 
         @Override

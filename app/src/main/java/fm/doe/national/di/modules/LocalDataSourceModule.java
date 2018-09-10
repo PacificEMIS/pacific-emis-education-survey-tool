@@ -9,7 +9,8 @@ import dagger.Provides;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.db.OrmLiteDataSource;
 import fm.doe.national.data.data_source.db.dao.DatabaseHelper;
-import fm.doe.national.data.files.FileRepository;
+import fm.doe.national.data.files.FilePicturesRepository;
+import fm.doe.national.data.files.PicturesRepository;
 
 @Module
 public class LocalDataSourceModule {
@@ -22,8 +23,8 @@ public class LocalDataSourceModule {
 
     @Provides
     @Singleton
-    public FileRepository provideFileRepository(Context context) {
-        return new FileRepository(context);
+    public PicturesRepository providePicturesRepository(Context context) {
+        return new FilePicturesRepository(context);
     }
 
 }

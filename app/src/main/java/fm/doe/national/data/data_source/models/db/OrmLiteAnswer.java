@@ -108,13 +108,13 @@ public class OrmLiteAnswer implements Answer {
     }
 
     @Override
-    public List<String> getPhotosPaths() {
+    public List<String> getPhotos() {
         return photos;
     }
 
     @Override
-    public void setPhotoPath(List<String> paths) {
-        photos.clear();
-        photos.addAll(paths);
+    public void setPhotos(List<String> photos) {
+        this.photos.clear();
+        this.photos.addAll(photos);
     }
 }

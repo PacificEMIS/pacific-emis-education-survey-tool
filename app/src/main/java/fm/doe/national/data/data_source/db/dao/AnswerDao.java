@@ -39,7 +39,7 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
                 .doOnSuccess(answer -> {
                     answer.setState(state);
                     answer.setComment(comment);
-                    answer.setPhotoPath(photoPaths);
+                    answer.setPhotos(photoPaths);
                     update(answer);
                 });
     }
