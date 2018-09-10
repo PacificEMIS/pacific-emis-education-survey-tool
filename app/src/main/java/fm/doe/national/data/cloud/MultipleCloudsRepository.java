@@ -1,5 +1,7 @@
 package fm.doe.national.data.cloud;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +14,25 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class MultipleCloudsRepository implements CloudRepository {
+    public static final String PREF_KEY_DEFAULT_CLOUD = "PREF_KEY_DEFAULT_CLOUD";
 
-    private Map<CloudType, CloudAccessor> accessorMap;
+    private final SharedPreferences sharedPreferences;
+
+    private final Map<CloudType, CloudAccessor> accessorMap;
     private CloudType primaryType = CloudType.DRIVE;
 
-    public MultipleCloudsRepository(Map<CloudType, CloudAccessor> accessorMap) {
+    public MultipleCloudsRepository(Map<CloudType, CloudAccessor> accessorMap, SharedPreferences sharedPreferences) {
         this.accessorMap = accessorMap;
+        this.sharedPreferences = sharedPreferences;
+
+        String savedPrimaryTypeString = sharedPreferences.getString(PREF_KEY_DEFAULT_CLOUD, null);
+        if (savedPrimaryTypeString != null) {
+            try {
+                primaryType = CloudType.valueOf(savedPrimaryTypeString);
+            } catch (IllegalStateException ex) {
+                // nothing, just use default
+            }
+        }
     }
 
     @Override
@@ -69,6 +84,7 @@ public class MultipleCloudsRepository implements CloudRepository {
     @Override
     public void setPrimary(CloudType type) {
         this.primaryType = type;
+        sharedPreferences.edit().putString(PREF_KEY_DEFAULT_CLOUD, type.toString()).apply();
     }
 
     @Override
