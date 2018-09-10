@@ -38,8 +38,6 @@
         <activity
             android:name=".ui.screens.settings.SettingsActivity"
             android:label="@string/label_settings" />
-        <activity android:name=".ui.screens.standard.FullscreenImageActivity"/>
-
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
@@ -60,7 +58,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
+            android:authorities="fm.doe.national.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
