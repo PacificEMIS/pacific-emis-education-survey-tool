@@ -226,7 +226,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         private void showCommentDialog() {
             try {
-                CommentDialog dialog = CommentDialog.create(getItem());
+                CommentDialogFragment dialog = CommentDialogFragment.create(getItem());
                 dialog.setListener(comment -> {
                     updateCommentVisibility(comment);
                     notifyCommentChanged(comment);
