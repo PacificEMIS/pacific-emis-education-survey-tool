@@ -6,8 +6,11 @@ import android.os.Environment;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 
 public class FilePicturesRepository implements PicturesRepository {
+    private static final String EXT_PICTURE = ".jpg";
+    private static final String PATTERN_FILENAME = "IMG_%d";
     private final File externalPicturesDirectory;
 
     public FilePicturesRepository(Context context) {
@@ -16,8 +19,8 @@ public class FilePicturesRepository implements PicturesRepository {
 
     @Override
     public File createEmptyFile() throws IOException {
-        String imageFileName = "IMG_" + String.valueOf(new Date().getTime());
-        return File.createTempFile(imageFileName, ".jpg", externalPicturesDirectory);
+        String imageFileName = String.format(Locale.getDefault(), PATTERN_FILENAME, new Date().getTime());
+        return File.createTempFile(imageFileName, EXT_PICTURE, externalPicturesDirectory);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
