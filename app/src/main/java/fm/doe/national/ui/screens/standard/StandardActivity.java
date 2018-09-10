@@ -3,6 +3,7 @@ package fm.doe.national.ui.screens.standard;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.omega_r.libs.omegatypes.Text;
 
 import java.io.File;
 import java.util.List;
@@ -216,8 +218,16 @@ public class StandardActivity extends BaseActivity implements
 
     @Override
     public void takePictureTo(@NonNull File toFile) {
+        PackageManager pm = getPackageManager();
+
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            showToast(Text.from(R.string.error_take_picture));
+            presenter.onTakePhotoFailure();
+            return;
+        }
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(pm) != null) {
             Uri photoURI = FileProvider.getUriForFile(this, Constants.AUTHORITY_FILE_PROVIDER, toFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_CAMERA);

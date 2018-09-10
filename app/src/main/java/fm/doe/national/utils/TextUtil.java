@@ -38,6 +38,6 @@ public class TextUtil {
     @Nullable
     public static String fixLineSeparators(@Nullable String brokenString) {
         if (brokenString == null) return null;
-        return brokenString.replace("\\n", System.getProperty("line.separator"));
+        return brokenString.replace("\\n", "\n");
     }
 }
