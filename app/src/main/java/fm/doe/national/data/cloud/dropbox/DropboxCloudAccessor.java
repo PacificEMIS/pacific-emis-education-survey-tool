@@ -49,7 +49,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     public DropboxCloudAccessor(Context context) {
         this.context = context;
-        if (hasAuthToken()) initDropbox();
+        if (hasAuthToken()) initDropbox(false);
     }
 
     @Override
@@ -78,8 +78,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     @Override
     public Completable auth() {
-        if (isSuccessfulAuth()) {
-            initDropbox();
+        if (isAuthenticated()) {
             return Completable.complete();
         }
 
@@ -87,6 +86,16 @@ public class DropboxCloudAccessor implements CloudAccessor {
         return Completable
                 .fromAction(this::startActivityForAuth)
                 .andThen(authCompletable);
+    }
+
+    private boolean isAuthenticated() {
+        try {
+            if (dropboxClient == null) initDropbox(false);
+            return dropboxClient != null && dropboxClient.users().getCurrentAccount() != null;
+        } catch (DbxException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -118,7 +127,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     public void onAuthActionComplete() {
-        initDropbox();
+        initDropbox(true);
         authCompletable.onComplete();
         authCompletable = null;
     }
@@ -178,9 +187,9 @@ public class DropboxCloudAccessor implements CloudAccessor {
         return cloudPreferences.getAccessToken() != null;
     }
 
-    private void initDropbox() {
+    private void initDropbox(boolean forced) {
         String accessToken = cloudPreferences.getAccessToken();
-        if (accessToken == null) {
+        if (accessToken == null || forced) {
             accessToken = Auth.getOAuth2Token();
             if (accessToken != null) {
                 cloudPreferences.setAccessToken(accessToken);
