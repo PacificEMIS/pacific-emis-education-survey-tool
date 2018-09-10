@@ -9,6 +9,7 @@ import org.simpleframework.xml.Root;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
+import fm.doe.national.utils.TextUtil;
 
 @Root(name = "subcriteria")
 public class SerializableSubCriteria implements SubCriteria {
@@ -70,8 +71,8 @@ public class SerializableSubCriteria implements SubCriteria {
         private String hint;
 
         public SimpleSubCriteriaQuestion(@Nullable String interviewQuestion, @Nullable String hint) {
-            this.interviewQuestion = interviewQuestion;
-            this.hint = hint;
+            this.interviewQuestion = interviewQuestion == null ? null : TextUtil.fixLineSeparators(interviewQuestion);
+            this.hint = hint == null ? null : TextUtil.fixLineSeparators(hint);
         }
 
         @Nullable

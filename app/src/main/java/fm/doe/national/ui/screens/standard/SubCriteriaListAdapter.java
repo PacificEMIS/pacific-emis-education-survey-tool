@@ -205,7 +205,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         private void showHint() {
             String hint = getItem().getSubCriteriaQuestion().getHint();
             if (hint == null) hint = "";
-            hintView.setText(TextUtil.fixLineSeparators(hint));
+            hintView.setText(hint);
             PopupWindow popupWindow = new PopupWindow(
                     popupView,
                     itemView.getMeasuredWidth(),

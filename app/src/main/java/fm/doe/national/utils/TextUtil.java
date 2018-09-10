@@ -36,6 +36,6 @@ public class TextUtil {
 
     @NonNull
     public static String fixLineSeparators(@NonNull String brokenString) {
-        return brokenString.replace("\\n", "\n");
+        return brokenString.replace("\\n", System.getProperty("line.separator"));
     }
 }
