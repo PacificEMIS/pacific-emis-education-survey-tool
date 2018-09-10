@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -58,10 +59,6 @@ public class CommentDialogFragment extends BaseDialogFragment {
         return dialog;
     }
 
-    public void setListener(@Nullable OnCommentSubmitListener listener) {
-        this.listener = listener;
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -75,6 +72,16 @@ public class CommentDialogFragment extends BaseDialogFragment {
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnCommentSubmitListener) {
+            listener = (OnCommentSubmitListener) context;
+        } else {
+            throw new RuntimeException("Parent should implement OnCommentSubmitListener");
         }
     }
 

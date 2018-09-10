@@ -2,7 +2,6 @@ package fm.doe.national.ui.screens.standard;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -41,16 +40,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         this.answerStateChangedListener = answerStateChangedListener;
     }
 
-
     @Override
     protected SubCriteriaViewHolder provideViewHolder(ViewGroup parent) {
         return new SubCriteriaViewHolder(parent);
     }
 
     class SubCriteriaViewHolder extends ViewHolder implements SwitchableButton.StateChangedListener {
-
-        private final static int COUNT_SPANS = 4;
-        private final static String TAG_DIALOG = "TAG_DIALOG";
 
         private final PhotosAdapter photosAdapter = new PhotosAdapter();
 
@@ -60,7 +55,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.textview_question)
         TextView questionTextView;
 
-        @BindView(R.id.switch_answer)
+        @BindView(R.id.switchablebutton_answer)
         SwitchableButton switchableButton;
 
         @BindView(R.id.textview_interview_questions)
@@ -137,24 +132,27 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                 R.id.imagebutton_add_photo
         })
         public void onViewClick(View v) {
-            switch (v.getId()) {
-                case R.id.imageview_comment_button:
-                    showCommentDialog();
-                    break;
-                case R.id.imageview_photo_button:
-                    if (callback != null) callback.onAddPhotoClicked(getItem());
-                    break;
-                case R.id.imagebutton_delete:
-                    updateCommentVisibility("");
-                    notifyCommentChanged("");
-                    break;
-                case R.id.imageview_edit_button:
-                    showCommentDialog();
-                    break;
-                case R.id.imagebutton_add_photo:
-                    if (callback != null) callback.onAddPhotoClicked(getItem());
-                    break;
+            if (callback != null) {
+                SubCriteria item = getItem();
+                switch (v.getId()) {
+                    case R.id.imageview_comment_button:
+                        callback.onAddCommentClicked(item);
+                        break;
+                    case R.id.imageview_photo_button:
+                        callback.onAddPhotoClicked(item);
+                        break;
+                    case R.id.imagebutton_delete:
+                        callback.onRemoveCommentClicked(item);
+                        break;
+                    case R.id.imageview_edit_button:
+                        callback.onEditCommentClicked(item);
+                        break;
+                    case R.id.imagebutton_add_photo:
+                        callback.onAddPhotoClicked(item);
+                        break;
+                }
             }
+
         }
 
         @Override
@@ -198,20 +196,17 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                 answerStateChangedListener.onSubCriteriaAnswerChanged(subCriteria, previousState);
         }
 
-        private void notifyCommentChanged(String comment) {
-            if (callback != null) callback.onSubCriteriaCommentChanged(getItem(), comment);
-        }
-
         private void showHint() {
-            String hint = getItem().getSubCriteriaQuestion().getHint();
-            if (hint == null) hint = "";
-            hintView.setText(hint);
+            hintView.setText(getItem().getSubCriteriaQuestion().getHint());
             PopupWindow popupWindow = new PopupWindow(
                     popupView,
                     itemView.getMeasuredWidth(),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setOutsideTouchable(true);
 
+            // need to measure view before it rendered
+            // showAsDropDown cannot draw popup above anchor in ViewHolder
+            // so just offset it manually
             popupView.measure(View.MeasureSpec.makeMeasureSpec(itemView.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 
@@ -219,19 +214,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                     0,
                     -itemView.getMeasuredHeight() - popupView.getMeasuredHeight(),
                     Gravity.TOP);
-        }
-
-        private void showCommentDialog() {
-            try {
-                CommentDialogFragment dialog = CommentDialogFragment.create(getItem());
-                dialog.setListener(comment -> {
-                    updateCommentVisibility(comment);
-                    notifyCommentChanged(comment);
-                });
-                dialog.show(((FragmentActivity) getContext()).getSupportFragmentManager(), TAG_DIALOG);
-            } catch (ClassCastException cce) {
-                cce.printStackTrace();
-            }
         }
 
         private void updateCommentVisibility(@Nullable String currentComment) {

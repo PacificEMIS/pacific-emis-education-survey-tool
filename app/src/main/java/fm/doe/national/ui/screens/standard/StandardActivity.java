@@ -31,10 +31,12 @@ import fm.doe.national.utils.ViewUtils;
 
 public class StandardActivity extends BaseActivity implements
         StandardView,
-        SubcriteriaCallback {
+        SubcriteriaCallback,
+        CommentDialogFragment.OnCommentSubmitListener {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
+    private final static String TAG_DIALOG = "TAG_DIALOG";
     private static final int REQUEST_CAMERA = 100;
 
     private static final int[] icons = {
@@ -185,8 +187,18 @@ public class StandardActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSubCriteriaCommentChanged(SubCriteria subCriteria, String newComment) {
-        presenter.onCommentEdit(subCriteria, newComment);
+    public void onEditCommentClicked(SubCriteria subCriteria) {
+        presenter.onEditCommentClicked(subCriteria);
+    }
+
+    @Override
+    public void onAddCommentClicked(SubCriteria subCriteria) {
+        presenter.onAddCommentClicked(subCriteria);
+    }
+
+    @Override
+    public void onRemoveCommentClicked(SubCriteria subCriteria) {
+        presenter.onDeleteCommentClicked(subCriteria);
     }
 
     @Override
@@ -217,6 +229,17 @@ public class StandardActivity extends BaseActivity implements
     @Override
     public void notifySubCriteriaChanged(SubCriteria subCriteria) {
         recyclerAdapter.notify(subCriteria);
+    }
+
+    @Override
+    public void showCommentEditor(SubCriteria subCriteria) {
+        CommentDialogFragment dialog = CommentDialogFragment.create(subCriteria);
+        dialog.show(getSupportFragmentManager(), TAG_DIALOG);
+    }
+
+    @Override
+    public void onCommentSubmit(String comment) {
+        presenter.onCommentEdit(comment);
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {

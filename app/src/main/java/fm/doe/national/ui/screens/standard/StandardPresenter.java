@@ -80,12 +80,6 @@ public class StandardPresenter extends BasePresenter<StandardView> {
         updateUi();
     }
 
-    public void onCommentEdit(SubCriteria subCriteria, String comment) {
-        Answer answer = subCriteria.getAnswer();
-        answer.setComment(comment);
-        updateAnswer(passingId, subCriteria.getId(), answer);
-    }
-
     public void onAddPhotoClicked(SubCriteria subCriteria) {
         selectedSubCriteria = subCriteria;
         try {
@@ -112,6 +106,30 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     public void onDeletePhotoClicked(SubCriteria subCriteria, String photoPath) {
         subCriteria.getAnswer().getPhotos().remove(photoPath);
         afterAnyPhotoChanges(subCriteria);
+    }
+
+    public void onAddCommentClicked(SubCriteria subCriteria) {
+        selectedSubCriteria = subCriteria;
+        getViewState().showCommentEditor(subCriteria);
+    }
+
+    public void onEditCommentClicked(SubCriteria subCriteria) {
+        selectedSubCriteria = subCriteria;
+        getViewState().showCommentEditor(subCriteria);
+    }
+
+    public void onCommentEdit(String comment) {
+        if (selectedSubCriteria == null) return;
+        Answer answer = selectedSubCriteria.getAnswer();
+        answer.setComment(comment);
+        updateAnswer(passingId, selectedSubCriteria.getId(), answer);
+        getViewState().notifySubCriteriaChanged(selectedSubCriteria);
+        selectedSubCriteria = null;
+    }
+
+    public void onDeleteCommentClicked(SubCriteria subCriteria) {
+        subCriteria.getAnswer().setComment(null);
+        getViewState().notifySubCriteriaChanged(subCriteria);
     }
 
     private void afterAnyPhotoChanges(SubCriteria subCriteria) {

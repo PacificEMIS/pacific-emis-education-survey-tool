@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/textview_alphabetical_numbering"
-            android:layout_toStartOf="@id/switch_answer"
+            android:layout_toStartOf="@id/switchablebutton_answer"
             android:orientation="vertical">
 
             <TextView
@@ -55,7 +55,7 @@
         </LinearLayout>
 
         <fm.doe.national.ui.custom_views.SwitchableButton
-            android:id="@+id/switch_answer"
+            android:id="@+id/switchablebutton_answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
