@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 
-import fm.doe.national.utils.Constants;
-
 public class FilePicturesRepository implements PicturesRepository {
     private static final String EXT_PICTURE = ".jpg";
     private static final String PATTERN_FILENAME = "IMG_%d";
@@ -17,7 +15,6 @@ public class FilePicturesRepository implements PicturesRepository {
 
     public FilePicturesRepository(Context context) {
         externalPicturesDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        if (externalPicturesDirectory == null) throw new RuntimeException(Constants.Errors.UNAVAILABLE_PICTURES_DIR);
     }
 
     @Override
