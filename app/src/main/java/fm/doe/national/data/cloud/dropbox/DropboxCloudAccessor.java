@@ -120,6 +120,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     public void onAuthActionComplete() {
         initDropbox();
         authCompletable.onComplete();
+        authCompletable = null;
     }
 
     public boolean isSuccessfulAuth() {
@@ -143,7 +144,10 @@ public class DropboxCloudAccessor implements CloudAccessor {
             return new String(outputStream.toByteArray());
         })
                 .subscribeOn(Schedulers.io())
-                .doOnSuccess(importSingle::onSuccess)
+                .doOnSuccess(content -> {
+                    importSingle.onSuccess(content);
+                    importSingle = null;
+                })
                 .doOnError(importSingle::onError)
                 .subscribe();
     }
@@ -152,12 +156,22 @@ public class DropboxCloudAccessor implements CloudAccessor {
         exportFolderPath = object.getPath();
         cloudPreferences.setExportFolder(exportFolderPath);
         folderPickCompletable.onComplete();
+        folderPickCompletable = null;
     }
 
     public void onActionFailure(Throwable throwable) {
-        if (authCompletable != null) authCompletable.onError(throwable);
-        if (importSingle != null) importSingle.onError(throwable);
-        if (folderPickCompletable != null) folderPickCompletable.onError(throwable);
+        if (authCompletable != null) {
+            authCompletable.onError(throwable);
+            authCompletable = null;
+        }
+        if (importSingle != null) {
+            importSingle.onError(throwable);
+            importSingle = null;
+        }
+        if (folderPickCompletable != null) {
+            folderPickCompletable.onError(throwable);
+            folderPickCompletable = null;
+        }
     }
 
     private boolean hasAuthToken() {
