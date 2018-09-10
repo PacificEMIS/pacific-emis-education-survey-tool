@@ -19,6 +19,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import java.io.File;
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Answer;
@@ -87,7 +88,8 @@ public class StandardActivity extends BaseActivity implements
     @InjectPresenter
     StandardPresenter presenter;
 
-    private int shortAnimationDuration;
+    @BindInt(android.R.integer.config_shortAnimTime)
+    int shortAnimationDuration;
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
@@ -107,7 +109,6 @@ public class StandardActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
-        shortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
     }
 
     @Override
@@ -199,7 +200,7 @@ public class StandardActivity extends BaseActivity implements
     }
 
     @Override
-    public void dispatchTakePictureIntent(@NonNull File toFile) {
+    public void takePictureTo(@NonNull File toFile) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             Uri photoURI = FileProvider.getUriForFile(this, Constants.AUTHORITY_FILE_PROVIDER, toFile);
@@ -214,8 +215,8 @@ public class StandardActivity extends BaseActivity implements
     }
 
     @Override
-    public void updateListItem(long criteriaId, int subcriteriaIndex) {
-        recyclerAdapter.notify(criteriaId, subcriteriaIndex);
+    public void notifySubCriteriaChanged(SubCriteria subCriteria) {
+        recyclerAdapter.notify(subCriteria);
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {

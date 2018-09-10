@@ -1,11 +1,13 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.support.annotation.Nullable;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
@@ -33,11 +35,14 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     private int standardIndex;
     private int nextIndex;
     private int previousIndex;
-    private List<Standard> standards = new ArrayList<>();
-    private List<Criteria> criterias = new ArrayList<>();
+    private List<Standard> standards = Collections.emptyList();
+    private List<Criteria> criterias = Collections.emptyList();
 
-    private SubCriteria subCriteriaOnAction = null;
-    private File takenPictureFile = null;
+    @Nullable
+    private SubCriteria selectedSubCriteria;
+
+    @Nullable
+    private File takenPictureFile;
 
     public StandardPresenter(long passingId, long standardId) {
         this.passingId = passingId;
@@ -82,25 +87,26 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     public void onAddPhotoClicked(SubCriteria subCriteria) {
-        subCriteriaOnAction = subCriteria;
+        selectedSubCriteria = subCriteria;
         try {
             takenPictureFile = picturesRepository.createEmptyFile();
-            getViewState().dispatchTakePictureIntent(takenPictureFile);
+            if (takenPictureFile != null) getViewState().takePictureTo(takenPictureFile);
         } catch (IOException ex) {
             getViewState().showWarning(Text.from(R.string.title_warning), Text.from(R.string.error_take_picture));
         }
     }
 
     public void onTakePhotoSuccess() {
-        subCriteriaOnAction.getAnswer().getPhotos().add(takenPictureFile.getPath());
+        if (selectedSubCriteria == null || takenPictureFile == null) return;
+        selectedSubCriteria.getAnswer().getPhotos().add(takenPictureFile.getPath());
         takenPictureFile = null;
-        afterAnyPhotoChanges(subCriteriaOnAction);
+        afterAnyPhotoChanges(selectedSubCriteria);
     }
 
     public void onTakePhotoFailure() {
         picturesRepository.delete(takenPictureFile);
         takenPictureFile = null;
-        subCriteriaOnAction = null; // just silently do nothing
+        selectedSubCriteria = null; // just silently do nothing
     }
 
     public void onDeletePhotoClicked(SubCriteria subCriteria, String photoPath) {
@@ -110,7 +116,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
 
     private void afterAnyPhotoChanges(SubCriteria subCriteria) {
         updateAnswer(passingId, subCriteria.getId(), subCriteria.getAnswer());
-        updateUiOf(subCriteria);
+        getViewState().notifySubCriteriaChanged(subCriteria);
     }
 
     private void updateUi() {
@@ -180,18 +186,5 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
-    }
-
-    @SuppressWarnings("unchecked")
-    private void updateUiOf(SubCriteria subCriteria) {
-        for (Criteria criteria : criterias) {
-            List<SubCriteria> subCriterias = (List<SubCriteria>)criteria.getSubCriterias();
-            for (int subcriteriaIndex = 0; subcriteriaIndex < subCriterias.size(); subcriteriaIndex++) {
-                if (subCriterias.get(subcriteriaIndex).getId().equals(subCriteria.getId())) {
-                    getViewState().updateListItem(criteria.getId(), subcriteriaIndex);
-                    return;
-                }
-            }
-        }
     }
 }

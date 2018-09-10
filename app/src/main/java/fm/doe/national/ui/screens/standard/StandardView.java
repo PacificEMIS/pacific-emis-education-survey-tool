@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
+import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
@@ -23,8 +24,8 @@ public interface StandardView extends BaseView {
     void setSchoolName(String schoolName);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void dispatchTakePictureIntent(@NonNull File toFile);
+    void takePictureTo(@NonNull File toFile);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void updateListItem(long criteriaId, int subcriteriaIndex);
+    void notifySubCriteriaChanged(SubCriteria subCriteria);
 }

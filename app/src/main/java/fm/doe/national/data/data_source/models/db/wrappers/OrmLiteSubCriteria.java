@@ -42,4 +42,12 @@ public class OrmLiteSubCriteria implements SubCriteria {
         return question;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof SubCriteria) {
+            return ((SubCriteria) obj).getId().equals(getId());
+        } else {
+            return super.equals(obj);
+        }
+    }
 }

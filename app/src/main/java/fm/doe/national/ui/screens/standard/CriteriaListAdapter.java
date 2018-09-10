@@ -21,6 +21,7 @@ import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.utils.CollectionUtils;
 import fm.doe.national.utils.ViewUtils;
 
 public class CriteriaListAdapter extends BaseAdapter<Criteria> {
@@ -45,15 +46,19 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         viewHolders.put((CriteriaViewHolder) holder, getItem(position).getId());
     }
 
-    public void notify(long criteriaId, int subcriteriaIndex) {
-        for (Map.Entry<CriteriaViewHolder, Long> entry : viewHolders.entrySet()) {
-            if (entry.getValue() == criteriaId) {
-                entry.getKey().notify(subcriteriaIndex);
-                break;
+    public void notify(SubCriteria subCriteria) {
+        for (Criteria criteria : getItems()) {
+            int index = criteria.getSubCriterias().indexOf(subCriteria);
+            if (index >= 0) {
+                CriteriaViewHolder viewHolder = CollectionUtils.getKeyByValue(viewHolders, criteria.getId());
+                if (viewHolder != null) viewHolder.notify(index);
             }
         }
     }
 
+    private void ads() {
+
+    }
     protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
 
         @BindView(R.id.textview_criteria_title)
