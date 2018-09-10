@@ -104,10 +104,10 @@ public class CommentDialogFragment extends BaseDialogFragment {
         ViewData data = (ViewData) bundle.getSerializable(ARG_DATA);
         if (data == null) throw new RuntimeException(Constants.Errors.WRONG_FRAGMENT_ARGS);
 
-        nameTextView.setText(data.getName());
-        interviewTextView.setText(data.getInterviewQuestions());
-        hintTextView.setText(data.getHint());
-        commentEditText.setText(data.getComment());
+        nameTextView.setText(data.name);
+        interviewTextView.setText(data.interviewQuestions);
+        hintTextView.setText(data.hint);
+        commentEditText.setText(data.comment);
     }
 
     @OnClick(R.id.button_submit)
@@ -121,32 +121,16 @@ public class CommentDialogFragment extends BaseDialogFragment {
     }
 
     private static class ViewData implements Serializable {
-        private String name;
-        private String interviewQuestions;
-        private String hint;
-        private String comment;
+        public final String name;
+        public final String interviewQuestions;
+        public final String hint;
+        public final String comment;
 
         ViewData(String name, String interviewQuestions, String hint, String comment) {
             this.name = name;
             this.interviewQuestions = interviewQuestions;
             this.hint = hint;
             this.comment = comment;
-        }
-
-        String getName() {
-            return name;
-        }
-
-        String getInterviewQuestions() {
-            return interviewQuestions;
-        }
-
-        String getHint() {
-            return hint;
-        }
-
-        String getComment() {
-            return comment;
         }
     }
 }
