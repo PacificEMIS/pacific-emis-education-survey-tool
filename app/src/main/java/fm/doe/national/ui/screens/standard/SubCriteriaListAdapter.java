@@ -51,7 +51,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         private final View popupView;
         private final TextView hintView;
-        
+
         @BindView(R.id.textview_alphabetical_numbering)
         TextView numberingTextView;
 

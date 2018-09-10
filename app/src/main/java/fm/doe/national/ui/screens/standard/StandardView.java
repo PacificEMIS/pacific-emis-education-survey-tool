@@ -29,5 +29,6 @@ public interface StandardView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void notifySubCriteriaChanged(SubCriteria subCriteria);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showCommentEditor(SubCriteria subCriteria);
 }
