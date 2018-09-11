@@ -1,6 +1,7 @@
 package fm.doe.national.di.modules;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.Map;
 
@@ -51,8 +52,8 @@ public class CloudModule {
 
     @Provides
     @Singleton
-    public CloudRepository provideCloudRepository(Map<CloudType, CloudAccessor> accessors) {
-        return new MultipleCloudsRepository(accessors);
+    public CloudRepository provideCloudRepository(Map<CloudType, CloudAccessor> accessors, SharedPreferences sharedPreferences) {
+        return new MultipleCloudsRepository(accessors, sharedPreferences);
     }
 
     @Provides
