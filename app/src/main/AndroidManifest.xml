@@ -27,10 +27,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.screens.standard.StandardActivity"
+            android:name=".ui.screens.criterias.CriteriasActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.group_standards.GroupStandardsActivity"
+            android:name=".ui.screens.categories.CategoriesActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
@@ -43,15 +43,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.cloud.DriveActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.cloud.DropboxActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.settings.SettingsActivity"
             android:label="@string/label_settings"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
@@ -79,6 +78,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".ui.screens.standards.StandardsActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/appbarLayout"
+        layout="@layout/include_appbar" />
+
+    <TextView
+        android:id="@+id/textview_title"
+        style="@style/Subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/header_choose_category" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/BaseThemeRecyclerView"
+        app:layoutManager="LinearLayoutManager"
+        app:showDivider="middle"
+        app:dividerPaddingStart="24dp"
+        app:dividerPaddingEnd="24dp"
+        tools:listitem="@layout/item_standard">
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/delimeter_grey"/>
+</LinearLayout>

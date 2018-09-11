@@ -23,4 +23,5 @@
     <color name="greyed_blue">#8db3c4</color>
     <color name="hint">#fffae0</color>
     <color name="comment_stroke">#51191919</color>
+    <color name="delimeter_grey">#e0e0e0</color>
 </resources>

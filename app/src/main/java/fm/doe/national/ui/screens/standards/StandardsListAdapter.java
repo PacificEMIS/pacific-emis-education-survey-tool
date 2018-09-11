@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.group_standards;
+package fm.doe.national.ui.screens.standards;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,7 @@ import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardListAdapter extends BaseAdapter<Standard> {
+public class StandardsListAdapter extends BaseAdapter<Standard> {
 
     @Override
     protected CategoryViewHolder provideViewHolder(ViewGroup parent) {
@@ -35,12 +35,15 @@ public class StandardListAdapter extends BaseAdapter<Standard> {
         ProgressBar progressBar;
 
         CategoryViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_group_standards);
+            super(parent, R.layout.item_standard);
         }
 
         @Override
         public void onBind(Standard item) {
-            standardIconImageView.setImageResource(R.drawable.ic_format_list_bulleted);
+            if (getAdapterPosition() < ViewUtils.STANDARD_ICONS.length) {
+                standardIconImageView.setImageResource(ViewUtils.STANDARD_ICONS[getAdapterPosition()]);
+                standardIconImageView.setActivated(true);
+            }
 
             categoryNameTextView.setText(item.getName());
 

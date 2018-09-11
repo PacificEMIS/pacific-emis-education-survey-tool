@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.standard;
+package fm.doe.national.ui.screens.criterias;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -34,8 +34,8 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardActivity extends BaseActivity implements
-        StandardView,
+public class CriteriasActivity extends BaseActivity implements
+        CriteriasView,
         SubcriteriaCallback,
         CommentDialogFragment.OnCommentSubmitListener {
 
@@ -93,21 +93,21 @@ public class StandardActivity extends BaseActivity implements
     ImageView expandContainerImageView;
 
     @InjectPresenter
-    StandardPresenter presenter;
+    CriteriasPresenter presenter;
 
     @BindInt(android.R.integer.config_shortAnimTime)
     int shortAnimationDuration;
 
     @ProvidePresenter
-    public StandardPresenter providePresenter() {
-        return new StandardPresenter(
+    public CriteriasPresenter providePresenter() {
+        return new CriteriasPresenter(
                 getIntent().getLongExtra(EXTRA_ACCREDITATION, -1),
                 getIntent().getLongExtra(EXTRA_STANDARD, -1));
     }
 
     @NonNull
     public static Intent createIntent(@NonNull Context context, long passingId, long standardId) {
-        return new Intent(context, StandardActivity.class)
+        return new Intent(context, CriteriasActivity.class)
                 .putExtra(EXTRA_ACCREDITATION, passingId)
                 .putExtra(EXTRA_STANDARD, standardId);
     }
@@ -144,7 +144,7 @@ public class StandardActivity extends BaseActivity implements
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_standard;
+        return R.layout.activity_criterias;
     }
 
     @Override

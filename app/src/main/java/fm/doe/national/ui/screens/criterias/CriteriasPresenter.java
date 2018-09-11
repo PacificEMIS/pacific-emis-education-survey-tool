@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.standard;
+package fm.doe.national.ui.screens.criterias;
 
 import android.support.annotation.Nullable;
 
@@ -25,7 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class StandardPresenter extends BasePresenter<StandardView> {
+public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
@@ -44,7 +44,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     @Nullable
     private File takenPictureFile;
 
-    public StandardPresenter(long passingId, long standardId) {
+    public CriteriasPresenter(long passingId, long standardId) {
         this.passingId = passingId;
         load(standardId);
     }
@@ -138,7 +138,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     private void updateUi() {
-        StandardView view = getViewState();
+        CriteriasView view = getViewState();
         view.setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
         view.setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
         view.setNextStandard(standards.get(nextIndex).getName(), nextIndex);
@@ -193,7 +193,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(passing -> {
-                    StandardView view = getViewState();
+                    CriteriasView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
                 }, this::handleError));

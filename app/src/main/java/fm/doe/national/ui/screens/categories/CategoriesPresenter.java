@@ -1,50 +1,33 @@
-package fm.doe.national.ui.screens.group_standards;
+package fm.doe.national.ui.screens.categories;
 
 import com.arellomobile.mvp.InjectViewState;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.GroupStandard;
-import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
+public class CategoriesPresenter extends BasePresenter<CategoriesView> {
 
-    private long passingId;
+    private final long passingId;
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
-    public GroupStandardsPresenter(long passingId) {
+    public CategoriesPresenter(long passingId) {
         this.passingId = passingId;
     }
 
     @Override
-    public void attachView(GroupStandardsView view) {
+    public void attachView(CategoriesView view) {
         super.attachView(view);
         loadPassing();
     }
 
-    public void onStandardClicked(Standard standard) {
-        getViewState().navigateToStandardScreen(passingId, standard.getId());
-    }
-
-    public void onGroupClicked(GroupStandard group) {
-        addDisposable(dataSource.requestStandards(passingId, group.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(standards -> {
-                    if (standards.size() > 1) {
-                        getViewState().showStandards(standards);
-                    } else {
-                        onStandardClicked(standards.get(0));
-                    }
-                }, this::handleError));
+    public void onCategoryClicked(GroupStandard group) {
+        getViewState().navigateToStandardsScreen(passingId, group.getId());
     }
 
     private void loadPassing() {
@@ -54,12 +37,9 @@ public class GroupStandardsPresenter extends BasePresenter<GroupStandardsView> {
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(passing -> {
-                    GroupStandardsView view = getViewState();
+                    CategoriesView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
-
-                    CategoryProgress progress = passing.getSchoolAccreditation().getCategoryProgress();
-                    view.setGlobalProgress(progress.getAnsweredQuestionsCount(), progress.getTotalQuestionsCount());
                 }, this::handleError));
 
         addDisposable(dataSource.requestGroupStandards(passingId)
