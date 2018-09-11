@@ -71,6 +71,10 @@
     <string name="button_submit">Submit</string>
     <string name="error_take_picture">Unable to get picture</string>
     <string name="error_save_logo">Unable to save logo</string>
+    <string name="first_criteria">c1</string>
+    <string name="second_criteria">c2</string>
+    <string name="third_criteria">c3</string>
+    <string name="forth_criteria">c4</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>
