@@ -3,11 +3,9 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 import android.support.annotation.NonNull;
 
 import java.util.List;
-import java.util.Objects;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.Standard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
 
@@ -30,7 +28,7 @@ public class OrmLiteStandard implements LinkedStandard {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return surveyItem.getId();
     }
 
@@ -50,7 +48,7 @@ public class OrmLiteStandard implements LinkedStandard {
         if (this == o) return true;
         if (!(o instanceof OrmLiteStandard)) return false;
         OrmLiteStandard that = (OrmLiteStandard) o;
-        return this.getId().equals(that.getId());
+        return this.getId() == that.getId();
     }
 
     @Override

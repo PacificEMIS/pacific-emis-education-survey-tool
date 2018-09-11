@@ -3,6 +3,7 @@ package fm.doe.national.data.data_source.db.dao;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
@@ -24,14 +25,21 @@ public class AnswerDao extends BaseRxDao<OrmLiteAnswer, Long> {
                     .and()
                     .eq(OrmLiteAnswer.Column.SURVEY_ITEM, surveyItem)
                     .queryForFirst();
-            return answer != null ? answer : createIfNotExists(new OrmLiteAnswer(Answer.State.NOT_ANSWERED, surveyItem, surveyPassing));
+            return answer != null ? answer : createIfNotExists(
+                    new OrmLiteAnswer(Answer.State.NOT_ANSWERED, surveyItem, surveyPassing));
         });
     }
 
-    public Single<OrmLiteAnswer> updateAnswer(OrmLiteSurveyItem surveyItem, OrmLiteSurveyPassing surveyPassing, Answer.State state) {
+    public Single<OrmLiteAnswer> updateAnswer(OrmLiteSurveyItem surveyItem,
+                                              OrmLiteSurveyPassing surveyPassing,
+                                              Answer.State state,
+                                              String comment,
+                                              List<String> photoPaths) {
         return requestAnswer(surveyItem, surveyPassing)
                 .doOnSuccess(answer -> {
                     answer.setState(state);
+                    answer.setComment(comment);
+                    answer.setPhotos(photoPaths);
                     update(answer);
                 });
     }

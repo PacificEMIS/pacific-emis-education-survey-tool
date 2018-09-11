@@ -65,4 +65,14 @@
     <string name="toast_import_schools_success">Schools successfully imported</string>
     <string name="toast_import_survey_success">Survey successfully imported</string>
     <string name="button_comment">Comment</string>
+    <string name="title_comment">Comment</string>
+    <string name="button_submit">Submit</string>
+    <string name="error_take_picture">Unable to get picture</string>
+
+    <string name="font_normal">sans-serif</string>
+    <string name="font_medium">sans-serif-medium</string>
+    <string name="font_light">sans-serif-light</string>
+    <string name="font_black">sans-serif-black</string>
+
+    <string name="transition_tag_fullscreen_image">transition_tag_fullscreen_image</string>
 </resources>

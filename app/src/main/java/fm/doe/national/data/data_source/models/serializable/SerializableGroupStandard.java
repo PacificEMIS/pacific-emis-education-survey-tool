@@ -39,8 +39,8 @@ public class SerializableGroupStandard implements LinkedGroupStandard, ListConve
     }
 
     @Override
-    public Long getId() {
-        return null;
+    public long getId() {
+        return 0;
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
 import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
@@ -29,7 +28,7 @@ public class OrmLiteGroupStandard implements LinkedGroupStandard {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return surveyItem.getId();
     }
 

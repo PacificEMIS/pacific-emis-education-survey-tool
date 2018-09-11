@@ -29,6 +29,10 @@ public abstract class BaseAdapter<T>
         return items.get(position);
     }
 
+    protected List<T> getItems() {
+        return items;
+    }
+
     public void setListener(@Nullable OnItemClickListener<T> listener) {
         this.listener = listener;
     }

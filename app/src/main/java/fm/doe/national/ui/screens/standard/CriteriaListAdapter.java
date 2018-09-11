@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -20,29 +21,18 @@ import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.utils.CollectionUtils;
 import fm.doe.national.utils.ViewUtils;
 
 public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
-    private List<SubcriteriaStateChangeListener> subscribers = new ArrayList<>();
-
     @Nullable
-    private SubcriteriaLongClickListener longClickListener;
+    private SubcriteriaCallback callback = null;
 
-    public void setLongClickListener(@Nullable SubcriteriaLongClickListener listener) {
-        longClickListener= listener;
-    }
+    private final Map<CriteriaViewHolder, Long> viewHolders = new HashMap<>();
 
-    public void clearSubscribers() {
-        subscribers.clear();
-    }
-
-    public void unsubscribeOnChanges(SubcriteriaStateChangeListener listener) {
-        subscribers.remove(listener);
-    }
-
-    public void subscribeOnChanges(SubcriteriaStateChangeListener listener) {
-        subscribers.add(listener);
+    public void setCallback(@Nullable SubcriteriaCallback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -50,7 +40,26 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         return new CriteriaViewHolder(parent);
     }
 
-    protected class CriteriaViewHolder extends ViewHolder implements SubcriteriaStateChangeListener {
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        viewHolders.put((CriteriaViewHolder) holder, getItem(position).getId());
+    }
+
+    public void notify(SubCriteria subCriteria) {
+        for (Criteria criteria : getItems()) {
+            int index = criteria.getSubCriterias().indexOf(subCriteria);
+            if (index >= 0) {
+                CriteriaViewHolder viewHolder = CollectionUtils.getKeyByValue(viewHolders, criteria.getId());
+                if (viewHolder != null) {
+                    viewHolder.notify(index);
+                    break;
+                }
+            }
+        }
+    }
+
+    protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -74,9 +83,8 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
         CriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_criteria);
-            adapter.addSubscribers(subscribers);
-            adapter.subscribeOnChanges(this);
-            adapter.setLongClickListener(longClickListener);
+            adapter.setCallback(callback);
+            adapter.setAnswerStateChangedListener(this);
             subcriteriasRecycler.setAdapter(adapter);
         }
 
@@ -100,10 +108,14 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
+        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
             CategoryProgress categoryProgress = getItem().getCategoryProgress();
             categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
             rebindProgress(categoryProgress);
+        }
+
+        public void notify(int subcriteriaIndex) {
+            adapter.notifyItemChanged(subcriteriaIndex);
         }
 
         private void rebindProgress(CategoryProgress progress) {
