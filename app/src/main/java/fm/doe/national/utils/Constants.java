@@ -2,6 +2,7 @@ package fm.doe.national.utils;
 
 public class Constants {
     public static final String FILE_MIME_TYPE = "text/plain";
+    public static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
     public static final String AUTHORITY_FILE_PROVIDER = "fm.doe.national.fileprovider";
     public static final int SIZE_THUMB_PICTURE = 200;
 
@@ -15,8 +16,6 @@ public class Constants {
         public static final String WRONG_INTENT = "Activity started with wrong intent";
         public static final String PICKER_DECLINED = "Picker declined";
         public static final String NOT_AUTHORIZED = "User not authorized";
-        public static final String UNAVAILABLE_PICTURES_DIR = "DIRECTORY_PICTURES not available";
-        public static final String FAILED_TO_CREATE_PICTURES_DIR = "Failed to create DIRECTORY_PICTURES";
         public static final String WRONG_FRAGMENT_ARGS = "Fragment should be created with static create() method";
     }
 }

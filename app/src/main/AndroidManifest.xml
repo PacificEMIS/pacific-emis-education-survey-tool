@@ -17,27 +17,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.screens.splash.SplashActivity">
+        <activity
+            android:name=".ui.screens.splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.screens.standard.StandardActivity" />
-        <activity android:name=".ui.screens.group_standards.GroupStandardsActivity" />
+        <activity
+            android:name=".ui.screens.standard.StandardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.screens.group_standards.GroupStandardsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
             android:label="@string/label_create_survey"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.school_accreditation.SchoolAccreditationActivity"
-            android:label="@string/label_school_accreditation" />
-        <activity android:name=".ui.screens.cloud.DriveActivity" />
-        <activity android:name=".ui.screens.cloud.DropboxActivity" />
+            android:label="@string/label_school_accreditation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.screens.cloud.DriveActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.screens.cloud.DropboxActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.screens.settings.SettingsActivity"
-            android:label="@string/label_settings" />
+            android:label="@string/label_settings"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"

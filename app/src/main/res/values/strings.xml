@@ -30,6 +30,7 @@
     <string name="error_import">Survey importing failed</string>
     <string name="error_picker">Picker action failed</string>
     <string name="error_any">Some error occurred</string>
+    <string name="error_parse">Failed to parse file</string>
     <string name="warn_unable_to_update_answer">Unable to update answer</string>
     <string name="warn_unable_to_create_answer">Unable to create answer</string>
     <string name="warn_unable_to_load_recent_surveys">Unable to load recent surveys</string>
@@ -68,6 +69,7 @@
     <string name="title_comment">Comment</string>
     <string name="button_submit">Submit</string>
     <string name="error_take_picture">Unable to get picture</string>
+    <string name="error_save_logo">Unable to save logo</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>

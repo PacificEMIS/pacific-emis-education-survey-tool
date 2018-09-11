@@ -46,7 +46,7 @@ public class SplashPresenter extends MenuPresenter<SplashView> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getViewState()::showSelector, this::handleError));
 
-        } catch (IOException ex) {
+        } catch (IOException | Parser.ParseException ex) {
             getViewState().showWarning(Text.from(R.string.title_warning), Text.from(R.string.warn_failed_to_load_assets));
         }
     }

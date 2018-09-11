@@ -1,7 +1,5 @@
 package fm.doe.national.data.parsers;
 
-import android.util.Log;
-
 import org.simpleframework.xml.core.Persister;
 
 import java.io.InputStream;
@@ -19,14 +17,15 @@ public class XmlSchoolAccreditationParser implements Parser<LinkedSchoolAccredit
     private final Persister serializer = MicronesiaApplication.getAppComponent().getPersister();
 
     @Override
-    public LinkedSchoolAccreditation parse(InputStream dataStream) {
+    public LinkedSchoolAccreditation parse(InputStream dataStream) throws ParseException {
         LinkedSchoolAccreditation schoolAccreditation = null;
         try {
             Reader reader = new StringReader(StreamUtils.asString(dataStream));
             schoolAccreditation = serializer.read(SerializableSchoolAccreditation.class, reader);
         } catch (Exception ex) {
-            Log.e(TAG, "parse: ", ex);
+            throw new ParseException();
         }
+        if (schoolAccreditation == null) throw new ParseException();
         return schoolAccreditation;
     }
 }

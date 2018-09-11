@@ -1,5 +1,7 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -203,6 +205,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                     itemView.getMeasuredWidth(),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setOutsideTouchable(true);
+
+            // fix - on devices with Android ver. < 6.0 it's impossible to close popup window
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                popupWindow.setFocusable(true);
+                popupWindow.setBackgroundDrawable(new ColorDrawable());
+            }
 
             // need to measure view before it rendered
             // showAsDropDown cannot draw popup above anchor in ViewHolder
