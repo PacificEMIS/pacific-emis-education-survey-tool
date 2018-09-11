@@ -136,7 +136,6 @@ public class StandardActivity extends BaseActivity implements
     private void initViews() {
         setToolbarMode(ToolbarDisplaying.SECONDARY);
 
-        criteriasRecycler.setAdapter(recyclerAdapter);
         recyclerAdapter.setCallback(this);
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
@@ -151,6 +150,11 @@ public class StandardActivity extends BaseActivity implements
     @Override
     public void setCriterias(@NonNull List<Criteria> criterias) {
         recyclerAdapter.setItems(criterias);
+
+        // Fix for bug #55747 The following category is displayed from the end
+        //
+        // need to reset recycler adapter when changing criteria to collapse everything and scroll to top
+        criteriasRecycler.setAdapter(recyclerAdapter);
     }
 
     @Override
