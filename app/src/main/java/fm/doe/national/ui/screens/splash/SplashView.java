@@ -10,6 +10,6 @@ import fm.doe.national.ui.screens.menu.base.MenuView;
 public interface SplashView extends MenuView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void startAnimate();
+    void showSelector();
 
 }
