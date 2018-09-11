@@ -34,9 +34,6 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
                     StandardsView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
-
-                    CategoryProgress progress = passing.getSchoolAccreditation().getCategoryProgress();
-                    view.setGlobalProgress(progress.getAnsweredQuestionsCount(), progress.getTotalQuestionsCount());
                 }, this::handleError));
     }
 
@@ -46,7 +43,17 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(getViewState()::showStandards, this::handleError));
+                .subscribe(standards -> {
+                    StandardsView view = getViewState();
+                    view.showStandards(standards);
+
+                    int completedCount = 0;
+                    for (Standard standard : standards) {
+                        CategoryProgress progress = standard.getCategoryProgress();
+                        if (progress.getAnsweredQuestionsCount() == progress.getTotalQuestionsCount()) completedCount++;
+                    }
+                    view.setGlobalProgress(completedCount, standards.size());
+                }, this::handleError));
     }
 
     public void onStandardClicked(Standard standard) {
