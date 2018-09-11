@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.settings;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,6 +55,9 @@ public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
         @BindView(R.id.textview_choose_folder)
         TextView chooseFolderTextView;
 
+        @BindView(R.id.imageview_folder_selected)
+        View folderSelectedView;
+
         AccountViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_account);
         }
@@ -64,10 +68,20 @@ public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
                 case DRIVE:
                     iconImageView.setImageResource(R.drawable.ic_google_drive);
                     nameTextView.setText(R.string.account_drive);
+
+                    // Fix for bug #55664 Incorrect folder name for export for Google Drive
+                    //
+                    // It is impossible to get path for Google Drive because it have not a tree structure
+                    // Just showing "vote" sign when some folder selected
+                    folderSelectedView.setVisibility(TextUtils.isEmpty(item.getExportPath()) ? View.VISIBLE : View.GONE);
+                    folderPathTextView.setVisibility(View.GONE);
                     break;
                 case DROPBOX:
                     iconImageView.setImageResource(R.drawable.ic_dropbox);
                     nameTextView.setText(R.string.account_dropbox);
+                    folderPathTextView.setVisibility(View.VISIBLE);
+                    folderSelectedView.setVisibility(View.GONE);
+                    folderPathTextView.setText(item.getExportPath());
                     break;
             }
 
@@ -86,8 +100,6 @@ public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
             importSchoolsTextView.setOnClickListener(this);
             importSurveyTextView.setOnClickListener(this);
             chooseFolderTextView.setOnClickListener(this);
-
-            folderPathTextView.setText(item.getExportPath());
         }
 
         @Override
@@ -113,8 +125,11 @@ public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
 
     public interface Callback {
         void onImportSchoolsClick(CloudAccountData viewData);
+
         void onImportSurveyClick(CloudAccountData viewData);
+
         void onChooseFolderClick(CloudAccountData viewData);
+
         void onChooseDefaultClick(CloudAccountData viewData);
     }
 }
