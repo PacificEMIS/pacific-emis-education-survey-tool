@@ -1,7 +1,6 @@
 package fm.doe.national.data.data_source.db.dao;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,14 +9,9 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.List;
 
 import fm.doe.national.BuildConfig;
-import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.db.OrmLiteAnswer;
 import fm.doe.national.data.data_source.models.db.OrmLiteCategoryProgress;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
@@ -25,18 +19,11 @@ import fm.doe.national.data.data_source.models.db.OrmLiteSubCriteriaQuestion;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
-import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
-import fm.doe.national.data.parsers.Parser;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "NDOE_Data_Collection.db";
-
-    private final Parser<LinkedSchoolAccreditation> schoolAccreditationParser =
-            MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
-    private final Parser<List<School>> schoolsParser =
-            MicronesiaApplication.getAppComponent().getSchoolsParser();
 
     private SchoolDao schoolDao;
     private SurveyDao surveyDao;
@@ -46,46 +33,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private CategoryProgressDao categoryProgressDao;
     private SubcriteriaQuestionDao subcriteriaQuestionDao;
 
-    private AssetManager assetManager;
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, BuildConfig.DATA_BASE_VERSION);
-        assetManager = context.getAssets();
     }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         createAllTables(connectionSource);
-    }
-
-    // TODO: Remove after cloud storage integration
-    private void createSurvey() {
-        try {
-            InputStream inputStream = assetManager.open(BuildConfig.SURVEYS_FILE_NAME);
-            LinkedSchoolAccreditation schoolAccreditation = schoolAccreditationParser.parse(inputStream);
-
-            surveyDao.createSchoolAccreditation(
-                    schoolAccreditation.getVersion(),
-                    schoolAccreditation.getType(),
-                    schoolAccreditation.getGroupStandards())
-                    .subscribe();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // TODO: Remove after cloud storage integration
-    private void createSchools() {
-        try {
-            InputStream inputStream = assetManager.open(BuildConfig.SCHOOLS_FILE_NAME);
-            List<School> schools = schoolsParser.parse(inputStream);
-
-            schoolDao.addSchools(schools).subscribe();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void createAllTables(ConnectionSource connectionSource) {
@@ -112,7 +66,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         // Now we don't need this method
         dropAllTables();
         createAllTables(connectionSource);
-        createSurvey();
     }
 
     private void dropAllTables() {

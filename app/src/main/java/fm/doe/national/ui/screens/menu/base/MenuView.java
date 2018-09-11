@@ -17,7 +17,5 @@ public interface MenuView extends BaseView {
 
     void setItems(List<Text> items);
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void pickPhotoFromGallery();
-
+    void setLogo(String path);
 }

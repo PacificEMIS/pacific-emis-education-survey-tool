@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -97,12 +98,13 @@ public abstract class BaseDrawerActivity extends MenuActivity implements
 
     @Override
     public void navigateToEducationSurveyToolScreen() {
-        //TODO added logic afters creating Education Survey Tool screen
+        //TODO add logic afters Education Survey Tool screen created
     }
 
     @Override
     public void navigateToSettingsScreen() {
         startActivity(SettingsActivity.createIntent(this));
+        drawerLayout.closeDrawer(Gravity.START);
     }
 
     @Override

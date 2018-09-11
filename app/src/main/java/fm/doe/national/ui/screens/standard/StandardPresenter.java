@@ -76,7 +76,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     public void onPreviousPressed() {
         nextIndex = standardIndex;
         standardIndex = previousIndex;
-        nextIndex = getPrevIndex();
+        previousIndex = getPrevIndex();
         updateUi();
     }
 

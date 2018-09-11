@@ -10,7 +10,7 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
 
-@Root(name = "groupStandard")
+@Root(name = "category")
 public class SerializableGroupStandard implements LinkedGroupStandard, ListConverter.Converter<LinkedStandard, SerializableStandard>  {
 
     @ElementList(inline = true)

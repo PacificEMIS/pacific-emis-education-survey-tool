@@ -1,36 +1,32 @@
 package fm.doe.national.ui.screens.menu.base;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
-import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegatypes.Text;
 
-import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.menu.MenuListAdapter;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
+import fm.doe.national.utils.ViewUtils;
 
 public abstract class MenuActivity extends BaseActivity implements MenuView {
-
-    private static final int REQUEST_CODE_GALLERY = 201;
 
     protected final MenuListAdapter menuAdapter = new MenuListAdapter();
 
     @BindView(R.id.recyclerview_drawer)
     protected OmegaRecyclerView recyclerView;
 
+    @Nullable
     @BindView(R.id.imageview_logo)
-    protected CircleImageView logoImageView;
+    protected ImageView logoImageView;
 
     protected abstract MenuPresenter getPresenter();
 
@@ -41,35 +37,10 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
         recyclerView.setAdapter(menuAdapter);
     }
 
-    @OnClick(R.id.imageview_logo)
-    public void onLogoClicked() {
-        getPresenter().onLogoClicked();
-    }
-
     @Override
-    public void pickPhotoFromGallery() {
-        OmegaIntentBuilder.from(this)
-                .pick()
-                .image()
-                .multiply(false)
-                .createIntentHandler(this)
-                .startActivityForResult(REQUEST_CODE_GALLERY);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
-            pickImage(data);
-        }
-    }
-
-    private void pickImage(Intent data) {
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-            logoImageView.setImageBitmap(bitmap);
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
+    protected void onResume() {
+        super.onResume();
+        getPresenter().notifyReturnedFromBackground();
     }
 
     @Override
@@ -86,5 +57,10 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
 
     public void onRecyclerItemClick(Text item) {
         getPresenter().onTypeTestClicked();
+    }
+
+    @Override
+    public void setLogo(String path) {
+        if (logoImageView != null) ViewUtils.setImageTo(logoImageView, path);
     }
 }

@@ -134,6 +134,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         } else {
             authCompletable.onError(new AuthenticationException(Constants.Errors.AUTH_FAILED));
         }
+        authCompletable = null;
     }
 
     public void onFileContentObtained(@NonNull DriveId fileDriveId) {
@@ -141,6 +142,7 @@ public class DriveCloudAccessor implements CloudAccessor {
 
         if (driveResourceClient == null) {
             importSingle.onError(new FileImportException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL));
+            importSingle = null;
             return;
         }
 
@@ -149,6 +151,7 @@ public class DriveCloudAccessor implements CloudAccessor {
                 .continueWith(task -> {
                     DriveContents contents = task.getResult();
                     importSingle.onSuccess(StreamUtils.asString(contents.getInputStream()));
+                    importSingle = null;
                     return driveResourceClient.discardContents(contents);
                 });
     }
@@ -159,13 +162,26 @@ public class DriveCloudAccessor implements CloudAccessor {
         exportFolderId = driveId;
         cloudPreferences.setExportFolder(exportFolderId.encodeToString());
         pickDirectoryCompletable.onComplete();
+        pickDirectoryCompletable = null;
     }
 
     public void onActionFailure(Throwable throwable) {
-        if (authCompletable != null) authCompletable.onError(throwable);
-        if (importSingle != null) importSingle.onError(throwable);
-        if (exportCompletable != null) exportCompletable.onError(throwable);
-        if (pickDirectoryCompletable != null) pickDirectoryCompletable.onError(throwable);
+        if (authCompletable != null) {
+            authCompletable.onError(throwable);
+            authCompletable = null;
+        }
+        if (importSingle != null) {
+            importSingle.onError(throwable);
+            importSingle = null;
+        }
+        if (exportCompletable != null) {
+            exportCompletable.onError(throwable);
+            exportCompletable = null;
+        }
+        if (pickDirectoryCompletable != null) {
+            pickDirectoryCompletable.onError(throwable);
+            pickDirectoryCompletable = null;
+        }
     }
 
     @Nullable
@@ -234,6 +250,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         } catch (ExecutionException | InterruptedException | IOException ex) {
             exportCompletable.onError(ex);
         }
+        exportCompletable = null;
     }
 
     private void overwriteFile(DriveId fileId, String content, DriveResourceClient resourceClient)

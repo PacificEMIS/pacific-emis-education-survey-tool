@@ -20,7 +20,7 @@ public class CsvSchoolParser implements Parser<List<School>> {
     }
 
     @Override
-    public List<School> parse(InputStream dataStream) {
+    public List<School> parse(InputStream dataStream) throws ParseException {
         List<School> schoolList = new ArrayList<>();
 
         try {
@@ -36,9 +36,9 @@ public class CsvSchoolParser implements Parser<List<School>> {
                 schoolList.add(new OrmLiteSchool(schoolNumber, name));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ParseException();
         }
-
+        if (schoolList.isEmpty()) throw new ParseException();
         return schoolList;
     }
 }
