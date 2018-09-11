@@ -14,7 +14,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class MultipleCloudsRepository implements CloudRepository {
-    public static final String PREF_KEY_DEFAULT_CLOUD = "PREF_KEY_DEFAULT_CLOUD";
+    private static final String PREF_KEY_DEFAULT_CLOUD = "PREF_KEY_DEFAULT_CLOUD";
 
     private final SharedPreferences sharedPreferences;
 
