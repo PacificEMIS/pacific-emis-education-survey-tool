@@ -24,6 +24,7 @@ import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.utils.ViewUtils;
 
 public class SettingsActivity extends BaseActivity implements
         SettingsView,
@@ -146,12 +147,12 @@ public class SettingsActivity extends BaseActivity implements
 
     @Override
     public void setLogo(String path) {
-        // TODO: waiting for merge with feature/answer_struct_v2 to set Image
+        ViewUtils.setScaledDownImageTo(logoImageView, path);
     }
 
     @Override
-    public void setLogoPath(String path) {
-        logoNameTextView.setText(path);
+    public void setLogoName(String logoName) {
+        logoNameTextView.setText(logoName);
     }
 
     @Override
@@ -167,17 +168,12 @@ public class SettingsActivity extends BaseActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
-            pickImage(data);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                presenter.onImagePicked(bitmap);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
-
-    private void pickImage(Intent data) {
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-            presenter.onImagePicked(bitmap);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
 }

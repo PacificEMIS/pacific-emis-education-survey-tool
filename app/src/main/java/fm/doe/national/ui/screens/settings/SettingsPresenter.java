@@ -6,12 +6,16 @@ import android.graphics.Bitmap;
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
+import fm.doe.national.data.files.PicturesRepository;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.utils.Constants;
@@ -23,8 +27,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final SettingsInteractor interactor = MicronesiaApplication.getAppComponent().getSettingsInteractor();
     private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+    private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
 
     public SettingsPresenter() {
+        loadLogo();
         updateUi();
     }
 
@@ -91,17 +97,24 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     public void onImagePicked(Bitmap bitmap) {
-        // TODO: waiting for merge with feature/answer_struct_v2 to save to local file
-        String filePath = null; // it won't be null after merge
-        sharedPreferences.edit().putString(Constants.PREF_KEY_LOGO_PATH, filePath).apply();
-
+        try {
+            File pictureFile = picturesRepository.createEmptyFile();
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            String filePath = pictureFile.getPath();
+            sharedPreferences.edit().putString(Constants.PREF_KEY_LOGO_PATH, filePath).apply();
+            loadLogo();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_save_logo));
+        }
     }
 
-    private void applyLogo() {
+    private void loadLogo() {
         String logoPath = sharedPreferences.getString(Constants.PREF_KEY_LOGO_PATH, null);
         if (logoPath != null) {
             getViewState().setLogo(logoPath);
-            getViewState().setLogoPath(logoPath);
+            getViewState().setLogoName(new File(logoPath).getName());
         }
     }
 }

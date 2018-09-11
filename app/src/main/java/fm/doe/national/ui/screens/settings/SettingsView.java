@@ -19,5 +19,5 @@ public interface SettingsView extends BaseView {
     void pickPhotoFromGallery();
 
     void setLogo(String path);
-    void setLogoPath(String path);
+    void setLogoName(String logoName);
 }

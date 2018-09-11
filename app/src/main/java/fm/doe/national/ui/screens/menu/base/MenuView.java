@@ -16,4 +16,6 @@ public interface MenuView extends BaseView {
     void navigateToSchoolAccreditationScreen();
 
     void setItems(List<Text> items);
+
+    void setLogo(String path);
 }
