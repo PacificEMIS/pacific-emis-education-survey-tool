@@ -96,7 +96,7 @@
                 android:layout_marginEnd="24dp"
                 tools:text="MyDrive/MyFolder"
                 android:layout_gravity="center_vertical|end"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="@string/font_light"
                 android:textColor="@color/cool_grey"
                 android:textSize="16sp"/>
 

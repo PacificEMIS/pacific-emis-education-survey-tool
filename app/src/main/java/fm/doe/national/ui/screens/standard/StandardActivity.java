@@ -1,36 +1,48 @@
 package fm.doe.national.ui.screens.standard;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.omega_r.libs.omegatypes.Text;
 
+import java.io.File;
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.utils.TextUtil;
+import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardActivity extends BaseActivity implements StandardView, SubcriteriaLongClickListener {
+public class StandardActivity extends BaseActivity implements
+        StandardView,
+        SubcriteriaCallback,
+        CommentDialogFragment.OnCommentSubmitListener {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
-    private static final String EXTRA_GROUPS = "EXTRA_GROUPS";
+    private final static String TAG_DIALOG = "TAG_DIALOG";
+    private static final int REQUEST_CAMERA = 100;
 
     private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
@@ -74,11 +86,17 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
+    @BindView(R.id.layout_container)
+    View topContainerView;
+
+    @BindView(R.id.imageview_expand_container)
+    ImageView expandContainerImageView;
+
     @InjectPresenter
     StandardPresenter presenter;
 
-    private View popupView;
-    private TextView hintView;
+    @BindInt(android.R.integer.config_shortAnimTime)
+    int shortAnimationDuration;
 
     @ProvidePresenter
     public StandardPresenter providePresenter() {
@@ -100,19 +118,29 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
         initViews();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CAMERA:
+                if (resultCode == RESULT_OK) {
+                    presenter.onTakePhotoSuccess();
+                } else {
+                    presenter.onTakePhotoFailure();
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     private void initViews() {
         setToolbarMode(ToolbarDisplaying.SECONDARY);
 
         criteriasRecycler.setAdapter(recyclerAdapter);
-        recyclerAdapter.subscribeOnChanges(presenter::onSubCriteriaStateChanged);
-        recyclerAdapter.setLongClickListener(this);
+        recyclerAdapter.setCallback(this);
 
         prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
         nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
-
-        popupView = getLayoutInflater().inflate(R.layout.popup_hint, null);
-        popupView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        hintView = popupView.findViewById(R.id.textview_hint);
     }
 
     @Override
@@ -159,23 +187,81 @@ public class StandardActivity extends BaseActivity implements StandardView, Subc
     }
 
     @Override
-    public void showHint(View anchor, String hint) {
-        hintView.setText(TextUtil.fixLineSeparators(hint));
-        PopupWindow popupWindow = new PopupWindow(
-                popupView,
-                anchor.getMeasuredWidth(),
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setOutsideTouchable(true);
-
-        popupView.measure(View.MeasureSpec.makeMeasureSpec(anchor.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-        popupWindow.showAsDropDown(anchor, 0, - anchor.getMeasuredHeight() - popupView.getMeasuredHeight(), Gravity.TOP);
+    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
+        presenter.onSubCriteriaStateChanged(subCriteria, previousState);
     }
 
     @Override
-    public void onSubcriteriaLongClick(View anchor, SubCriteria subCriteria) {
-        showHint(anchor, subCriteria.getSubCriteriaQuestion().getHint());
+    public void onEditCommentClicked(SubCriteria subCriteria) {
+        presenter.onEditCommentClicked(subCriteria);
+    }
+
+    @Override
+    public void onAddCommentClicked(SubCriteria subCriteria) {
+        presenter.onAddCommentClicked(subCriteria);
+    }
+
+    @Override
+    public void onRemoveCommentClicked(SubCriteria subCriteria) {
+        presenter.onDeleteCommentClicked(subCriteria);
+    }
+
+    @Override
+    public void onAddPhotoClicked(SubCriteria subCriteria) {
+        presenter.onAddPhotoClicked(subCriteria);
+    }
+
+    @Override
+    public void onRemovePhotoClicked(SubCriteria subCriteria, String photoPath) {
+        presenter.onDeletePhotoClicked(subCriteria, photoPath);
+    }
+
+    @Override
+    public void takePictureTo(@NonNull File toFile) {
+        PackageManager pm = getPackageManager();
+
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            showToast(Text.from(R.string.error_take_picture));
+            presenter.onTakePhotoFailure();
+            return;
+        }
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(pm) != null) {
+            Uri photoURI = FileProvider.getUriForFile(this, Constants.AUTHORITY_FILE_PROVIDER, toFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_CAMERA);
+        }
+    }
+
+    @Override
+    public void onPhotoClicked(View anchor, String photoPath) {
+        Intent intent = FullscreenImageActivity.createIntent(this, photoPath);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ViewCompat.setTransitionName(anchor, FullscreenImageActivity.TRANSITION_IMAGE);
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(this, anchor, FullscreenImageActivity.TRANSITION_IMAGE);
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
+
+    }
+
+    @Override
+    public void notifySubCriteriaChanged(SubCriteria subCriteria) {
+        recyclerAdapter.notify(subCriteria);
+    }
+
+    @Override
+    public void showCommentEditor(SubCriteria subCriteria) {
+        CommentDialogFragment dialog = CommentDialogFragment.create(subCriteria);
+        dialog.show(getSupportFragmentManager(), TAG_DIALOG);
+    }
+
+    @Override
+    public void onCommentSubmit(String comment) {
+        presenter.onCommentEdit(comment);
     }
 
     private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {

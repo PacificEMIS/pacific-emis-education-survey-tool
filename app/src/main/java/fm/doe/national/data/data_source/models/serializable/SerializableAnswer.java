@@ -1,10 +1,12 @@
 package fm.doe.national.data.data_source.models.serializable;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Answer;
@@ -16,11 +18,16 @@ public class SerializableAnswer implements Answer {
     @Element
     State state;
 
+    @Nullable
+    @Element(required = false)
+    String comment;
+
     public SerializableAnswer() {
     }
 
     public SerializableAnswer(Answer answer) {
         this.state = answer.getState();
+        this.comment = answer.getComment();
     }
 
     @Override
@@ -41,6 +48,27 @@ public class SerializableAnswer implements Answer {
 
     @Override
     public void addSynchronizedPlatform(SynchronizePlatform platform) {
+        // nothing
+    }
+
+    @Nullable
+    @Override
+    public String getComment() {
+        return comment;
+    }
+
+    @Override
+    public void setComment(@NonNull String comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public List<String> getPhotos() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void setPhotos(List<String> photos) {
         // nothing
     }
 }
