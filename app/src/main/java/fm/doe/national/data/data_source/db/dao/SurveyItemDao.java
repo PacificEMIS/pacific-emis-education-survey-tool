@@ -57,7 +57,9 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
                     null,
                     parentItem);
             create(surveyItem);
-            surveyItem.addChildren(createFromCriterias(standard.getCriterias(), surveyItem));
+
+            List<? extends Criteria> criterias = standard.getCriterias();
+            if (criterias != null) surveyItem.addChildren(createFromCriterias(criterias, surveyItem));
 
             surveyItems.add(surveyItem);
         }

@@ -41,7 +41,6 @@ public class SplashPresenter extends MenuPresenter<SplashView> {
             inputStream = assetManager.open(BuildConfig.SCHOOLS_FILE_NAME);
             List<School> schools = schoolsParser.parse(inputStream);
 
-
             addDisposable(dataSource.requestSchools()
                     .flatMapCompletable(resultList -> {
                         if (resultList.isEmpty()) {
