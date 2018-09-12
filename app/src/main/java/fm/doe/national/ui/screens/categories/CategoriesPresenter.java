@@ -6,8 +6,9 @@ import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.CategoryProgress;
+import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.Observable;
@@ -77,10 +78,15 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                                 .flatMapSingle(standard -> dataSource.requestCriterias(passingId, standard.getId())
                                         .flatMap(criterias -> Observable.fromIterable(criterias)
                                                 .map(criteria -> {
-                                                    CategoryProgress progress = criteria.getCategoryProgress();
+                                                    int positiveAnswersCount = 0;
+                                                    for (SubCriteria subCriteria : criteria.getSubCriterias()) {
+                                                        if (subCriteria.getAnswer().getState() == Answer.State.POSITIVE) {
+                                                            positiveAnswersCount++;
+                                                        }
+                                                    }
                                                     return new SummaryViewData.Standard.Progress(
-                                                            progress.getTotalQuestionsCount(),
-                                                            progress.getAnsweredQuestionsCount());
+                                                            criteria.getCategoryProgress().getTotalQuestionsCount(),
+                                                            positiveAnswersCount);
                                                 })
                                                 .toList())
                                         .map(progresses -> new SummaryViewData.Standard(standard.getName(), progresses)))
