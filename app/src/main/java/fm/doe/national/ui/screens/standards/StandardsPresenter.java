@@ -57,6 +57,6 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
     }
 
     public void onStandardClicked(Standard standard) {
-        getViewState().navigateToCriteriasScreen(passingId, standard.getId());
+        getViewState().navigateToCriteriasScreen(passingId, categoryId, standard.getId());
     }
 }

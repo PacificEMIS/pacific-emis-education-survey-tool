@@ -13,7 +13,7 @@ import fm.doe.national.ui.screens.base.BaseView;
 public interface StandardsView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToCriteriasScreen(long passingId, long standardId);
+    void navigateToCriteriasScreen(long passingId, long categoryId, long standardId);
 
     void showStandards(List<Standard> standards);
 

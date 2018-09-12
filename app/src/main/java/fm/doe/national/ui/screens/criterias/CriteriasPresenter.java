@@ -31,7 +31,8 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
 
-    private long passingId;
+    private final long passingId;
+    private final long categoryId;
     private int standardIndex;
     private int nextIndex;
     private int previousIndex;
@@ -44,8 +45,9 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     @Nullable
     private File takenPictureFile;
 
-    public CriteriasPresenter(long passingId, long standardId) {
+    public CriteriasPresenter(long passingId, long categoryId, long standardId) {
         this.passingId = passingId;
+        this.categoryId = categoryId;
         load(standardId);
     }
 
@@ -175,7 +177,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     private void load(long standardId) {
-        addDisposable(dataSource.requestStandards(passingId)
+        addDisposable(dataSource.requestStandards(passingId, categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())

@@ -84,8 +84,8 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     }
 
     @Override
-    public void navigateToCriteriasScreen(long passingId, long standardId) {
-        startActivity(CriteriasActivity.createIntent(this, passingId, standardId));
+    public void navigateToCriteriasScreen(long passingId, long categoryId, long standardId) {
+        startActivity(CriteriasActivity.createIntent(this, passingId, categoryId, standardId));
     }
 
     @Override

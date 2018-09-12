@@ -40,6 +40,7 @@ public class CriteriasActivity extends BaseActivity implements
         CommentDialogFragment.OnCommentSubmitListener {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
+    private static final String EXTRA_CATEGORY = "EXTRA_CATEGORY";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private final static String TAG_DIALOG = "TAG_DIALOG";
     private static final int REQUEST_CAMERA = 100;
@@ -86,12 +87,6 @@ public class CriteriasActivity extends BaseActivity implements
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
-    @BindView(R.id.layout_container)
-    View topContainerView;
-
-    @BindView(R.id.imageview_expand_container)
-    ImageView expandContainerImageView;
-
     @InjectPresenter
     CriteriasPresenter presenter;
 
@@ -100,15 +95,18 @@ public class CriteriasActivity extends BaseActivity implements
 
     @ProvidePresenter
     public CriteriasPresenter providePresenter() {
+        Intent intent = getIntent();
         return new CriteriasPresenter(
-                getIntent().getLongExtra(EXTRA_ACCREDITATION, -1),
-                getIntent().getLongExtra(EXTRA_STANDARD, -1));
+                intent.getLongExtra(EXTRA_ACCREDITATION, -1),
+                intent.getLongExtra(EXTRA_CATEGORY, -1),
+                intent.getLongExtra(EXTRA_STANDARD, -1));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, long passingId, long standardId) {
+    public static Intent createIntent(@NonNull Context context, long passingId, long categoryId, long standardId) {
         return new Intent(context, CriteriasActivity.class)
                 .putExtra(EXTRA_ACCREDITATION, passingId)
+                .putExtra(EXTRA_CATEGORY, categoryId)
                 .putExtra(EXTRA_STANDARD, standardId);
     }
 
