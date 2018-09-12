@@ -21,5 +21,5 @@ public interface StandardsView extends BaseView {
 
     void setSurveyYear(int year);
 
-    void setSchoolName(String schoolName);
+    void setCategoryName(String schoolName);
 }

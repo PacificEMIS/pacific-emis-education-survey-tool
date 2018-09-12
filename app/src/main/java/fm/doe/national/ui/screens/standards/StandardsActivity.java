@@ -79,7 +79,7 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     }
 
     @Override
-    public void setSchoolName(String schoolName) {
+    public void setCategoryName(String schoolName) {
         setTitle(schoolName);
     }
 
