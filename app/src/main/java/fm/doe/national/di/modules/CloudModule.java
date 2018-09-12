@@ -13,6 +13,7 @@ import dagger.multibindings.IntoMap;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.CloudType;
+import fm.doe.national.data.cloud.EmptyCloudAccessor;
 import fm.doe.national.data.cloud.MultipleCloudsRepository;
 import fm.doe.national.data.cloud.CloudTypeKey;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
@@ -37,6 +38,14 @@ public class CloudModule {
     @Singleton
     public CloudAccessor provideDropboxCloudAccessorForSet(Context context) {
         return new DropboxCloudAccessor(context);
+    }
+
+    @Provides
+    @IntoMap
+    @CloudTypeKey(CloudType.EMPTY)
+    @Singleton
+    public CloudAccessor provideEmptyCloudAccessorForSet() {
+        return new EmptyCloudAccessor();
     }
 
 
