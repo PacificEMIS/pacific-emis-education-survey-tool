@@ -1,5 +1,6 @@
 package fm.doe.national.ui.custom_views.summary;
 
+import android.content.res.Resources;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -19,10 +20,10 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData.Standard
 
     class StandardViewHolder extends ViewHolder {
 
-        private static final int BOUNDARY_PASS = 2;
+        private static final float BOUNDARY_PASS_PERCENTAGE = 0.5f;
 
+        private final Resources resources;
         private final int nameColor;
-        private final int cellColor;
         private final int emptyColor;
 
         @BindView(R.id.textview_summary_name)
@@ -33,9 +34,9 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData.Standard
 
         StandardViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary);
-            nameColor = getResources().getColor(R.color.color_criteria_primary_dark);
-            cellColor = getResources().getColor(R.color.color_summary);
-            emptyColor = getResources().getColor(R.color.white);
+            resources = getResources();
+            nameColor = resources.getColor(R.color.color_criteria_primary_dark);
+            emptyColor = resources.getColor(R.color.white);
         }
 
         @Override
@@ -51,9 +52,11 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData.Standard
             for (; i < item.progresses.size(); i++) {
                 TextView currentTextView = cellTextViews.get(i);
                 SummaryViewData.Standard.Progress progress = item.progresses.get(i);
-                currentTextView.setBackgroundColor(cellColor);
 
-                boolean isPassed = progress.completed >= BOUNDARY_PASS;
+                // NOTE: if Drawable is stored in private final field selector works incorrect
+                currentTextView.setBackground(resources.getDrawable(R.drawable.summary));
+
+                boolean isPassed = (float) progress.completed / progress.total >= BOUNDARY_PASS_PERCENTAGE;
                 currentTextView.setActivated(isPassed);
                 currentTextView.setText(isPassed ?
                         String.format(getString(R.string.criteria_progress), progress.completed, progress.total) : null);
