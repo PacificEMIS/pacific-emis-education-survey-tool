@@ -73,7 +73,7 @@ public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
                     //
                     // It is impossible to get path for Google Drive because it have not a tree structure
                     // Just showing "vote" sign when some folder selected
-                    folderSelectedView.setVisibility(TextUtils.isEmpty(item.getExportPath()) ? View.VISIBLE : View.GONE);
+                    folderSelectedView.setVisibility(TextUtils.isEmpty(item.getExportPath()) ? View.GONE : View.VISIBLE);
                     folderPathTextView.setVisibility(View.GONE);
                     break;
                 case DROPBOX:

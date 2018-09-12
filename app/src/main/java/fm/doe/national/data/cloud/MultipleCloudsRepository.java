@@ -19,7 +19,7 @@ public class MultipleCloudsRepository implements CloudRepository {
     private final SharedPreferences sharedPreferences;
 
     private final Map<CloudType, CloudAccessor> accessorMap;
-    private CloudType primaryType = CloudType.DRIVE;
+    private CloudType primaryType = CloudType.EMPTY;
 
     public MultipleCloudsRepository(Map<CloudType, CloudAccessor> accessorMap, SharedPreferences sharedPreferences) {
         this.accessorMap = accessorMap;
