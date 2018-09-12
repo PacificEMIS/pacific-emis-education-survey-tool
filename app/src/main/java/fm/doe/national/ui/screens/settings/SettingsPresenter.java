@@ -48,7 +48,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(this::updateUi, this::handleError));
+                .subscribe(() -> {
+                    interactor.setDefaultCloudForExport(type);
+                    updateUi();
+                }, this::handleError));
     }
 
     public void onImportSchoolsClick(CloudAccountData viewData) {

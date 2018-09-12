@@ -78,24 +78,28 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     @Override
     public Completable auth() {
-        if (isAuthenticated()) {
-            return Completable.complete();
-        }
-
         authCompletable = CompletableSubject.create();
-        return Completable
-                .fromAction(this::startActivityForAuth)
-                .andThen(authCompletable);
+        return isAuthenticated()
+                .flatMapCompletable(isAuthenticated -> {
+                    if (isAuthenticated) return Completable.complete();
+                    return Completable.fromAction(this::startActivityForAuth)
+                            .andThen(authCompletable);
+                });
     }
 
-    private boolean isAuthenticated() {
-        try {
-            if (dropboxClient == null) initDropbox(false);
-            return dropboxClient != null && dropboxClient.users().getCurrentAccount() != null;
-        } catch (DbxException ex) {
-            ex.printStackTrace();
-            return false;
-        }
+    // NOTE: there is no method in Dropbox API to check token
+    // Just make simple API call and catch exceptions
+    // all API calls are network, wrapping it to Rx object to avoid NetworkInMainThreadException
+    private Single<Boolean> isAuthenticated() {
+        return Single.fromCallable(() -> {
+            try {
+                if (dropboxClient == null) initDropbox(false);
+                return dropboxClient != null && dropboxClient.users().getCurrentAccount() != null;
+            } catch (DbxException ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        });
     }
 
     @Override

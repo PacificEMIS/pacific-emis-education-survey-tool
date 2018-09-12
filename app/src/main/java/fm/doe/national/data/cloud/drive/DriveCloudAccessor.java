@@ -53,7 +53,6 @@ public class DriveCloudAccessor implements CloudAccessor {
 
     private CompletableSubject authCompletable;
     private SingleSubject<String> importSingle;
-    private CompletableSubject exportCompletable;
     private CompletableSubject pickDirectoryCompletable;
 
     @Nullable
@@ -79,12 +78,8 @@ public class DriveCloudAccessor implements CloudAccessor {
 
     @Override
     public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) {
-        exportCompletable = CompletableSubject.create();
-        Completable exportContent =
-                Completable
-                        .fromAction(() -> writeFile(content, filename, exportFolderId))
-                        .andThen(exportCompletable);
-        return auth().andThen(exportContent);
+        return auth()
+                .andThen(Completable.fromAction(() -> writeFile(content, filename, exportFolderId)));
     }
 
     @Override
@@ -174,10 +169,6 @@ public class DriveCloudAccessor implements CloudAccessor {
             importSingle.onError(throwable);
             importSingle = null;
         }
-        if (exportCompletable != null) {
-            exportCompletable.onError(throwable);
-            exportCompletable = null;
-        }
         if (pickDirectoryCompletable != null) {
             pickDirectoryCompletable.onError(throwable);
             pickDirectoryCompletable = null;
@@ -225,7 +216,8 @@ public class DriveCloudAccessor implements CloudAccessor {
         }
     }
 
-    private void writeFile(String content, String filename, @Nullable DriveId folderDriveId) {
+    private void writeFile(String content, String filename, @Nullable DriveId folderDriveId)
+            throws ExecutionException, InterruptedException, IOException  {
         if (driveResourceClient == null) {
             onActionFailure(new FileExportException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL));
             return;
@@ -236,21 +228,15 @@ public class DriveCloudAccessor implements CloudAccessor {
             return;
         }
 
-        try {
-            Query query = new Query.Builder()
-                    .addFilter(Filters.eq(SearchableField.TITLE, filename))
-                    .build();
-            MetadataBuffer buffer = Tasks.await(driveResourceClient.query(query));
-            if (buffer.getCount() == 0) {
-                createFile(content, filename, folderDriveId, driveResourceClient);
-            } else {
-                overwriteFile(buffer.get(0).getDriveId(), content, driveResourceClient);
-            }
-            exportCompletable.onComplete();
-        } catch (ExecutionException | InterruptedException | IOException ex) {
-            exportCompletable.onError(ex);
+        Query query = new Query.Builder()
+                .addFilter(Filters.eq(SearchableField.TITLE, filename))
+                .build();
+        MetadataBuffer buffer = Tasks.await(driveResourceClient.query(query));
+        if (buffer.getCount() == 0) {
+            createFile(content, filename, folderDriveId, driveResourceClient);
+        } else {
+            overwriteFile(buffer.get(0).getDriveId(), content, driveResourceClient);
         }
-        exportCompletable = null;
     }
 
     private void overwriteFile(DriveId fileId, String content, DriveResourceClient resourceClient)
