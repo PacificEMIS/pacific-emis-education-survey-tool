@@ -9,6 +9,8 @@
     <dimen name="drawer_menu_width">506dp</dimen>
     <dimen name="size_toolbar">56dp</dimen>
 
+    <dimen name="textsize_summary_category">10sp</dimen>
+
     <integer name="weight_summary_criteria">15</integer>
     <integer name="weight_summary_standard">40</integer>
 </resources>

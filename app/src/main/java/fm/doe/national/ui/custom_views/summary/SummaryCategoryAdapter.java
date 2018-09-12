@@ -43,7 +43,7 @@ public class SummaryCategoryAdapter extends BaseAdapter<SummaryViewData> {
             nameTextView.setText(item.category);
             nameTextView.setBackgroundColor(headerColor);
             nameTextView.setAllCaps(true);
-            nameTextView.setTextSize(10);
+            nameTextView.setTextSize(getResources().getDimension(R.dimen.textsize_summary_category));
             for (TextView textView : cellTextViews) {
                 textView.setBackgroundColor(headerColor);
             }
