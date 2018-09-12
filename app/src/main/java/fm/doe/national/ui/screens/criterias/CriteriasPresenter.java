@@ -199,7 +199,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
                 })
-                .flatMap(passing -> dataSource.requestGroupStandards(passingId))
+                .flatMap(passing -> dataSource.requestCategories(passingId))
                 .toObservable()
                 .flatMapIterable(it -> it)
                 .filter(category -> category.getId() == categoryId)

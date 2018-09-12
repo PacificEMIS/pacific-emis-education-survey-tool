@@ -7,7 +7,7 @@ import java.util.List;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.Category;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BasePresenter;
@@ -34,8 +34,8 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
         loadCategories();
     }
 
-    public void onCategoryClicked(GroupStandard group) {
-        getViewState().navigateToStandardsScreen(passingId, group.getId());
+    public void onCategoryClicked(Category category) {
+        getViewState().navigateToStandardsScreen(passingId, category.getId());
     }
 
     private void loadPassing() {
@@ -52,7 +52,7 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
     }
 
     private void loadCategories() {
-        addDisposable(dataSource.requestGroupStandards(passingId)
+        addDisposable(dataSource.requestCategories(passingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -60,8 +60,8 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                 .subscribe(this::onCategoriesLoaded, this::handleError));
     }
 
-    private void onCategoriesLoaded(List<GroupStandard> categories) {
-        getViewState().showGroupStandards(categories);
+    private void onCategoriesLoaded(List<Category> categories) {
+        getViewState().showCategories(categories);
 
         addDisposable(requestSummary(categories)
                 .subscribeOn(Schedulers.io())
@@ -71,7 +71,7 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                 .subscribe(getViewState()::setSummaryData, this::handleError));
     }
 
-    private Single<List<SummaryViewData>> requestSummary(List<GroupStandard> categories) {
+    private Single<List<SummaryViewData>> requestSummary(List<Category> categories) {
         return Observable.fromIterable(categories)
                 .flatMapSingle(category -> dataSource.requestStandards(passingId, category.getId())
                         .flatMap(standards -> Observable.fromIterable(standards)

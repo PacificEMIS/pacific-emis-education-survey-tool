@@ -6,13 +6,13 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.Category;
 import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
 public class CategoriesListAdapter
-        extends BaseAdapter<GroupStandard> {
+        extends BaseAdapter<Category> {
 
     @Override
     protected CategoryViewHolder provideViewHolder(ViewGroup parent) {
@@ -35,7 +35,7 @@ public class CategoriesListAdapter
         }
 
         @Override
-        public void onBind(GroupStandard item) {
+        public void onBind(Category item) {
             categoryNameTextView.setText(item.getName());
 
             CategoryProgress categoryProgress = item.getCategoryProgress();

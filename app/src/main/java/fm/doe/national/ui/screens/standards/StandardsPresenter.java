@@ -31,7 +31,7 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .doOnSuccess(passing -> getViewState().setSurveyYear(passing.getYear()))
-                .flatMap(passing -> dataSource.requestGroupStandards(passingId))
+                .flatMap(passing -> dataSource.requestCategories(passingId))
                 .toObservable()
                 .flatMapIterable(it -> it)
                 .filter(category -> category.getId() == categoryId)

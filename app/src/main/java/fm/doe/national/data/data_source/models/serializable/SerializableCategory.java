@@ -11,7 +11,7 @@ import java.util.List;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 
 @Root(name = "category")
-public class SerializableGroupStandard implements LinkedGroupStandard, ListConverter.Converter<LinkedStandard, SerializableStandard>  {
+public class SerializableCategory implements LinkedCategory, ListConverter.Converter<LinkedStandard, SerializableStandard>  {
 
     @ElementList(inline = true)
     List<SerializableStandard> standards;
@@ -19,10 +19,10 @@ public class SerializableGroupStandard implements LinkedGroupStandard, ListConve
     @Element
     String name;
 
-    public SerializableGroupStandard() {
+    public SerializableCategory() {
     }
 
-    public SerializableGroupStandard(LinkedGroupStandard input) {
+    public SerializableCategory(LinkedCategory input) {
         name = input.getName();
         standards = ListConverter.createList(input.getStandards(), this);
     }

@@ -3,9 +3,8 @@ package fm.doe.national.data.data_source.models.db.wrappers;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
-import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
+import fm.doe.national.data.data_source.models.serializable.LinkedCategory;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 
 public class OrmLiteSchoolAccreditation implements LinkedSchoolAccreditation {
@@ -14,11 +13,11 @@ public class OrmLiteSchoolAccreditation implements LinkedSchoolAccreditation {
 
     private CategoryProgress progress;
 
-    private List<LinkedGroupStandard> groupStandards;
+    private List<LinkedCategory> categories;
 
-    public OrmLiteSchoolAccreditation(OrmLiteSurvey survey, CategoryProgress progress, List<LinkedGroupStandard> groupStandards) {
+    public OrmLiteSchoolAccreditation(OrmLiteSurvey survey, CategoryProgress progress, List<LinkedCategory> categories) {
         this(survey, progress);
-        this.groupStandards = groupStandards;
+        this.categories = categories;
     }
 
     public OrmLiteSchoolAccreditation(OrmLiteSurvey survey, CategoryProgress progress) {
@@ -42,7 +41,7 @@ public class OrmLiteSchoolAccreditation implements LinkedSchoolAccreditation {
     }
 
     @Override
-    public List<? extends LinkedGroupStandard> getGroupStandards() {
-        return groupStandards;
+    public List<? extends LinkedCategory> getCategories() {
+        return categories;
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 
 @Root(name = "schoolAccreditation")
-public class SerializableSchoolAccreditation implements LinkedSchoolAccreditation, ListConverter.Converter<LinkedGroupStandard, SerializableGroupStandard> {
+public class SerializableSchoolAccreditation implements LinkedSchoolAccreditation, ListConverter.Converter<LinkedCategory, SerializableCategory> {
 
     @Element
     String type;
@@ -18,7 +18,7 @@ public class SerializableSchoolAccreditation implements LinkedSchoolAccreditatio
     int version;
 
     @ElementList(inline = true)
-    List<SerializableGroupStandard> groupStandards;
+    List<SerializableCategory> categories;
 
     public SerializableSchoolAccreditation() {
     }
@@ -26,7 +26,7 @@ public class SerializableSchoolAccreditation implements LinkedSchoolAccreditatio
     public SerializableSchoolAccreditation(LinkedSchoolAccreditation schoolAccreditation) {
         this.type = schoolAccreditation.getType();
         this.version = schoolAccreditation.getVersion();
-        this.groupStandards = ListConverter.createList(schoolAccreditation.getGroupStandards(), this);
+        this.categories = ListConverter.createList(schoolAccreditation.getCategories(), this);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class SerializableSchoolAccreditation implements LinkedSchoolAccreditatio
     }
 
     @Override
-    public SerializableGroupStandard convert(LinkedGroupStandard input) {
-        return new SerializableGroupStandard(input);
+    public SerializableCategory convert(LinkedCategory input) {
+        return new SerializableCategory(input);
     }
 
     @Override
-    public List<? extends LinkedGroupStandard> getGroupStandards() {
-        return groupStandards;
+    public List<? extends LinkedCategory> getCategories() {
+        return categories;
     }
 }

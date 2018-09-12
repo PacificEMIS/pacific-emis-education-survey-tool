@@ -5,7 +5,7 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.Category;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
@@ -31,13 +31,13 @@ public interface DataSource {
 
     Single<SchoolAccreditationPassing> requestSchoolAccreditationPassing(long passingId);
 
-    Single<List<GroupStandard>> requestGroupStandards(long passingId);
+    Single<List<Category>> requestCategories(long passingId);
 
     Single<Standard> requestStandard(long passingId, long standardId);
 
     Single<List<Standard>> requestStandards(long passingId);
 
-    Single<List<Standard>> requestStandards(long passingId, long groupStandardId);
+    Single<List<Standard>> requestStandards(long passingId, long categoryId);
 
     Single<List<Criteria>> requestCriterias(long passingId, long standardId);
 }

@@ -13,14 +13,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.GroupStandard;
+import fm.doe.national.data.data_source.models.Category;
 import fm.doe.national.ui.custom_views.summary.SummaryView;
 import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.standards.StandardsActivity;
 
-public class CategoriesActivity extends BaseActivity implements CategoriesView, BaseAdapter.OnItemClickListener<GroupStandard> {
+public class CategoriesActivity extends BaseActivity implements CategoriesView, BaseAdapter.OnItemClickListener<Category> {
 
     private static final String EXTRA_PASSING_ID = "EXTRA_PASSING_ID";
 
@@ -62,8 +62,8 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     }
 
     @Override
-    public void showGroupStandards(List<GroupStandard> groups) {
-        categoriesListAdapter.setItems(groups);
+    public void showCategories(List<Category> categories) {
+        categoriesListAdapter.setItems(categories);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     }
 
     @Override
-    public void onItemClick(GroupStandard item) {
+    public void onItemClick(Category item) {
         categoriesPresenter.onCategoryClicked(item);
     }
 
