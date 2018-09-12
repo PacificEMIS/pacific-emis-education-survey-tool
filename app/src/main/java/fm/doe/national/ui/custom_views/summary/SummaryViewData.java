@@ -11,26 +11,16 @@ public class SummaryViewData {
         this.standards = standards;
     }
 
-    public class Standard {
+    public static class Standard {
         public String name;
-        public Progress firstCatregoryProgress;
-        public Progress secondCatregoryProgress;
-        public Progress thirdCatregoryProgress;
-        public Progress forthCatregoryProgress;
+        public List<Progress> progresses;
 
-        public Standard(String name,
-                        Progress firstCatregoryProgress,
-                        Progress secondCatregoryProgress,
-                        Progress thirdCatregoryProgress,
-                        Progress forthCatregoryProgress) {
+        public Standard(String name, List<Progress> progresses) {
             this.name = name;
-            this.firstCatregoryProgress = firstCatregoryProgress;
-            this.secondCatregoryProgress = secondCatregoryProgress;
-            this.thirdCatregoryProgress = thirdCatregoryProgress;
-            this.forthCatregoryProgress = forthCatregoryProgress;
+            this.progresses = progresses;
         }
 
-        public class Progress {
+        public static class Progress {
             public int total;
             public int completed;
 

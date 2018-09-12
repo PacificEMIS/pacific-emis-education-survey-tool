@@ -38,8 +38,29 @@
         android:layout_marginEnd="24dp"
         android:background="@color/delimeter_grey"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/summary"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:id="@+id/progressbar_summary_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:progressDrawable="@drawable/loading"
+        android:indeterminate="true" />
+
     <fm.doe.national.ui.custom_views.summary.SummaryView
         android:id="@+id/summaryview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>
 </LinearLayout>

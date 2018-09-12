@@ -75,6 +75,7 @@
     <string name="second_criteria">c2</string>
     <string name="third_criteria">c3</string>
     <string name="forth_criteria">c4</string>
+    <string name="summary">Summary</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>
