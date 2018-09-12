@@ -194,11 +194,16 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(passing -> {
+                .doOnSuccess(passing -> {
                     CriteriasView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
-                }, this::handleError));
+                })
+                .flatMap(passing -> dataSource.requestGroupStandards(passingId))
+                .toObservable()
+                .flatMapIterable(it -> it)
+                .filter(category -> category.getId() == categoryId)
+                .subscribe(category -> getViewState().setCategoryName(category.getName()), this::handleError));
     }
 
     private void updateAnswer(long passingId, long subCriteriaId, Answer answer) {

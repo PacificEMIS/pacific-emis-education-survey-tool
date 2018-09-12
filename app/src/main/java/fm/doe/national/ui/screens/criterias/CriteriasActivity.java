@@ -15,6 +15,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -66,6 +67,9 @@ public class CriteriasActivity extends BaseActivity implements
     @BindView(R.id.textview_standard_progress)
     TextView progressTextView;
 
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
+
     @BindView(R.id.imageview_standard_icon)
     ImageView iconImageView;
 
@@ -86,6 +90,12 @@ public class CriteriasActivity extends BaseActivity implements
 
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
+
+    @BindView(R.id.textview_year)
+    TextView yearTextView;
+
+    @BindView(R.id.textview_category_name)
+    TextView categoryNameTextView;
 
     @InjectPresenter
     CriteriasPresenter presenter;
@@ -132,12 +142,12 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     private void initViews() {
-        setToolbarMode(ToolbarDisplaying.SECONDARY);
+        setToolbarMode(ToolbarDisplaying.PRIMARY);
 
         recyclerAdapter.setCallback(this);
 
-        prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
-        nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
+        prevStandardView.setOnClickListener(v -> presenter.onPreviousPressed());
+        nextStandardView.setOnClickListener(v -> presenter.onNextPressed());
     }
 
     @Override
@@ -157,13 +167,13 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void setGlobalInfo(String title, int resourceIndex) {
-        titleTextView.setText(title);
+        setTitle(title);
         applyIcon(iconImageView, resourceIndex, false);
     }
 
     @Override
     public void setProgress(int answered, int total) {
-        progressTextView.setText(getString(R.string.criteria_progress, answered, total));
+        ViewUtils.rebindProgress(total, answered, getString(R.string.criteria_progress), progressTextView, progressBar);
     }
 
     @Override
@@ -180,12 +190,17 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void setSurveyYear(int year) {
-        setToolbarYear(year);
+        yearTextView.setText(String.valueOf(year));
     }
 
     @Override
     public void setSchoolName(String schoolName) {
-        setTitle(schoolName);
+        titleTextView.setText(schoolName);
+    }
+
+    @Override
+    public void setCategoryName(String categoryName) {
+        categoryNameTextView.setText(categoryName);
     }
 
     @Override

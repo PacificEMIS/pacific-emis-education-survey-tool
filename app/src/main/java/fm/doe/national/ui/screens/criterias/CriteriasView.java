@@ -22,6 +22,7 @@ public interface CriteriasView extends BaseView {
     void setNextStandard(String title, int resourceIndex);
     void setSurveyYear(int year);
     void setSchoolName(String schoolName);
+    void setCategoryName(String categoryName);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void takePictureTo(@NonNull File toFile);
