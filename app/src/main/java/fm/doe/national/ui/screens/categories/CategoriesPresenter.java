@@ -72,10 +72,11 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
     }
 
     private Single<List<SummaryViewData>> requestSummary(List<Category> categories) {
-        return Observable.fromIterable(categories)
-                .flatMapSingle(category -> dataSource.requestStandards(passingId, category.getId())
-                        .flatMap(standards -> Observable.fromIterable(standards)
-                                .flatMapSingle(standard -> dataSource.requestCriterias(passingId, standard.getId())
+        return dataSource.requestStandards(passingId)
+                .flatMap(standards -> Observable.fromIterable(standards)
+                        .flatMapSingle(standard -> Single.zip(
+                                dataSource.requestCategoryOfStandard(passingId, standard),
+                                dataSource.requestCriterias(passingId, standard.getId())
                                         .flatMap(criterias -> Observable.fromIterable(criterias)
                                                 .map(criteria -> {
                                                     int positiveAnswersCount = 0;
@@ -84,15 +85,13 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                                                             positiveAnswersCount++;
                                                         }
                                                     }
-                                                    return new SummaryViewData.Standard.Progress(
+                                                    return new SummaryViewData.Progress(
                                                             criteria.getCategoryProgress().getTotalQuestionsCount(),
                                                             positiveAnswersCount);
                                                 })
-                                                .toList())
-                                        .map(progresses -> new SummaryViewData.Standard(standard.getName(), progresses)))
-                                .toList())
-                        .map(standardViewDatas -> new SummaryViewData(category.getName(), standardViewDatas)))
-                .toList();
+                                                .toList()),
+                                (category, progresses) -> new SummaryViewData(category, standard.getName(), progresses)))
+                        .toList());
     }
 
 }

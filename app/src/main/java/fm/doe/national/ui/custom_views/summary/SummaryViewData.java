@@ -2,32 +2,27 @@ package fm.doe.national.ui.custom_views.summary;
 
 import java.util.List;
 
-public class SummaryViewData {
-    public String category;
-    public List<Standard> standards;
+import fm.doe.national.data.data_source.models.Category;
 
-    public SummaryViewData(String category, List<Standard> standards) {
+public class SummaryViewData {
+
+    public Category category;
+    public String name;
+    public List<Progress> progresses;
+
+    public SummaryViewData(Category category, String name, List<Progress> progresses) {
         this.category = category;
-        this.standards = standards;
+        this.name = name;
+        this.progresses = progresses;
     }
 
-    public static class Standard {
-        public String name;
-        public List<Progress> progresses;
+    public static class Progress {
+        public int total;
+        public int completed;
 
-        public Standard(String name, List<Progress> progresses) {
-            this.name = name;
-            this.progresses = progresses;
-        }
-
-        public static class Progress {
-            public int total;
-            public int completed;
-
-            public Progress(int total, int completed) {
-                this.total = total;
-                this.completed = completed;
-            }
+        public Progress(int total, int completed) {
+            this.total = total;
+            this.completed = completed;
         }
     }
 }

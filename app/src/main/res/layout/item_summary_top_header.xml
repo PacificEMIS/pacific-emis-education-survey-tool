@@ -4,68 +4,58 @@
     android:layout_height="48dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/delimeter_grey"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="1dp">
 
-    <TextView
-        android:id="@+id/textview_summary_name"
+    <View
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/weight_summary_standard"
         android:layout_margin="0.5dp"
-        android:gravity="center_vertical"
-        android:padding="8dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="14sp"
-        android:textColor="@color/charcoal_grey"
-        tools:text="Standard 1: Leadership"
         android:background="@color/white"/>
 
     <TextView
-        android:id="@+id/textview_c1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/weight_summary_criteria"
         android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
         android:gravity="center"
-        android:background="@drawable/summary"
-        tools:text="4/4"/>
+        android:background="@color/white"
+        android:text="@string/first_criteria"/>
 
     <TextView
-        android:id="@+id/textview_c2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/weight_summary_criteria"
         android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
         android:gravity="center"
-        android:background="@drawable/summary"
-        tools:text="4/4"/>
+        android:background="@color/white"
+        android:text="@string/second_criteria"/>
 
     <TextView
-        android:id="@+id/textview_c3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/weight_summary_criteria"
         android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
         android:gravity="center"
-        android:background="@drawable/summary"
-        tools:text="4/4"/>
+        android:background="@color/white"
+        android:text="@string/third_criteria"/>
 
     <TextView
-        android:id="@+id/textview_c4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="@integer/weight_summary_criteria"
         android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
         android:gravity="center"
-        android:background="@drawable/summary"
-        tools:text="4/4"/>
+        android:background="@color/white"
+        android:text="@string/forth_criteria"/>
+
 </LinearLayout>

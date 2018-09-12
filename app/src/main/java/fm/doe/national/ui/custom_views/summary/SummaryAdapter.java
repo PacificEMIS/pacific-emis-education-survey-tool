@@ -1,0 +1,94 @@
+package fm.doe.national.ui.custom_views.summary;
+
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
+import com.omega_r.libs.omegarecyclerview.sticky_header.StickyHeaderAdapter;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
+import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.Category;
+import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.utils.Constants;
+
+public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements StickyHeaderAdapter<SummaryAdapter.HeaderViewHolder> {
+
+    @Override
+    public long getHeaderId(int i) {
+        return getItem(i).category.getId();
+    }
+
+    @Override
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
+        return new HeaderViewHolder(viewGroup);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(HeaderViewHolder headerViewHolder, int i) {
+        headerViewHolder.bind(getItem(i).category);
+    }
+
+    @Override
+    protected ItemViewHolder provideViewHolder(ViewGroup parent) {
+        return new ItemViewHolder(parent);
+    }
+
+    class ItemViewHolder extends ViewHolder {
+        private static final float BOUNDARY_PASS_PERCENTAGE = 0.5f;
+        private final int emptyColor;
+
+        @BindView(R.id.textview_summary_name)
+        TextView nameTextView;
+
+        @BindViews({R.id.textview_c1, R.id.textview_c2, R.id.textview_c3, R.id.textview_c4})
+        List<TextView> cellTextViews;
+
+        ItemViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_summary);
+            emptyColor = getResources().getColor(R.color.white);
+        }
+
+        @Override
+        protected void onBind(SummaryViewData item) {
+            nameTextView.setText(item.name);
+
+            if (cellTextViews.size() < item.progresses.size())
+                throw new IllegalStateException(Constants.Errors.WRONT_SUMMARY_INPUT_PARAMETER);
+
+            int i = 0;
+            for (; i < item.progresses.size(); i++) {
+                TextView currentTextView = cellTextViews.get(i);
+                SummaryViewData.Progress progress = item.progresses.get(i);
+
+                boolean isPassed = (float) progress.completed / progress.total >= BOUNDARY_PASS_PERCENTAGE;
+                currentTextView.setActivated(isPassed);
+                currentTextView.setText(isPassed ?
+                        String.format(getString(R.string.criteria_progress), progress.completed, progress.total) : null);
+            }
+
+            // fill missing fields with color
+            for (; i < cellTextViews.size(); i++) {
+                cellTextViews.get(i).setBackgroundColor(emptyColor);
+            }
+        }
+    }
+
+    class HeaderViewHolder extends OmegaRecyclerView.ViewHolder {
+        @BindView(R.id.textview_header_name)
+        TextView headerTextView;
+
+        HeaderViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_summary_sticky_header);
+            ButterKnife.bind(this, itemView);
+        }
+
+        void bind(Category category) {
+            headerTextView.setText(category.getName());
+        }
+    }
+}

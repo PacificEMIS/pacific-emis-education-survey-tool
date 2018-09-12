@@ -231,4 +231,11 @@ public class OrmLiteDataSource implements DataSource {
                         .map(ArrayList<Criteria>::new));
     }
 
+    @Override
+    public Single<Category> requestCategoryOfStandard(long passingId, Standard standard) {
+        return surveyPassingDao.getItemSingle(passingId)
+                .flatMap(passing -> surveyItemDao.getItemSingle(standard.getId())
+                        .flatMap(standardItem -> categoryProgressDao.requestCategoryProgress(passing, standardItem.getParentItem())
+                                .map(progress -> new OrmLiteCategory(standardItem.getParentItem(), progress))));
+    }
 }

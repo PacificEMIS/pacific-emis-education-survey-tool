@@ -26,10 +26,7 @@
         app:layoutManager="LinearLayoutManager"
         app:showDivider="middle"
         app:dividerPaddingStart="24dp"
-        app:dividerPaddingEnd="24dp"
-        tools:listitem="@layout/item_standard">
-
-    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+        app:dividerPaddingEnd="24dp"/>
 
     <View
         android:layout_width="match_parent"
@@ -57,11 +54,19 @@
         android:progressDrawable="@drawable/loading"
         android:indeterminate="true" />
 
-    <fm.doe.national.ui.custom_views.summary.SummaryView
-        android:id="@+id/summaryview"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="24dp"
+        app:cardElevation="0dp" >
+
+        <fm.doe.national.ui.custom_views.summary.SummaryView
+            android:id="@+id/summaryview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>

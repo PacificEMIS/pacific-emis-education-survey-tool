@@ -40,4 +40,6 @@ public interface DataSource {
     Single<List<Standard>> requestStandards(long passingId, long categoryId);
 
     Single<List<Criteria>> requestCriterias(long passingId, long standardId);
+
+    Single<Category> requestCategoryOfStandard(long passingId, Standard standard);
 }
