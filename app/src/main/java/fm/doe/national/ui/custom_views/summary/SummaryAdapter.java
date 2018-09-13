@@ -45,7 +45,7 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
         @BindView(R.id.textview_summary_name)
         TextView nameTextView;
 
-        @BindViews({R.id.textview_c1, R.id.textview_c2, R.id.textview_c3, R.id.textview_c4})
+        @BindViews({R.id.textview_cell_1, R.id.textview_cell_2, R.id.textview_cell_3, R.id.textview_cell_4})
         List<TextView> cellTextViews;
 
         ItemViewHolder(ViewGroup parent) {

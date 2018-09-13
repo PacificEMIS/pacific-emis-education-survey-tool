@@ -8,64 +8,26 @@
 
     <TextView
         android:id="@+id/textview_summary_name"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_standard"
-        android:layout_margin="0.5dp"
-        android:gravity="center_vertical"
-        android:padding="8dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="14sp"
-        android:textColor="@color/charcoal_grey"
-        tools:text="Standard 1: Leadership"
-        android:background="@color/white"/>
+        style="@style/StandardSummaryCell"
+        tools:text="Standard 1: Leadership"/>
 
     <TextView
-        android:id="@+id/textview_c1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:background="@drawable/summary"
+        android:id="@+id/textview_cell_1"
+        style="@style/CriteriaSummaryCell"
         tools:text="4/4"/>
 
     <TextView
-        android:id="@+id/textview_c2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:background="@drawable/summary"
+        android:id="@+id/textview_cell_2"
+        style="@style/CriteriaSummaryCell"
         tools:text="4/4"/>
 
     <TextView
-        android:id="@+id/textview_c3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:background="@drawable/summary"
+        android:id="@+id/textview_cell_3"
+        style="@style/CriteriaSummaryCell"
         tools:text="4/4"/>
 
     <TextView
-        android:id="@+id/textview_c4"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:background="@drawable/summary"
+        android:id="@+id/textview_cell_4"
+        style="@style/CriteriaSummaryCell"
         tools:text="4/4"/>
 </LinearLayout>

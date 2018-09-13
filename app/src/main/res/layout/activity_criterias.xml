@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/layout_container">
+    android:orientation="vertical">
 
     <include
-        android:id="@+id/appbar"
-        layout="@layout/include_standard_appbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/appbarlayout"
+        layout="@layout/include_standard_appbar" />
 
 
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview_criterias"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
@@ -65,4 +60,4 @@
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

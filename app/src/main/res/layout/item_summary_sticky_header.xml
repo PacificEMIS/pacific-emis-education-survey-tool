@@ -9,45 +9,12 @@
 
     <TextView
         android:id="@+id/textview_header_name"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_standard"
-        android:layout_margin="0.5dp"
-        android:background="@color/color_criteria_progress_bg"
-        android:textAllCaps="true"
-        android:textColor="@color/charcoal_grey"
-        android:textSize="10sp"
-        android:gravity="center_vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        style="@style/StickyNameSummaryCell"
         tools:text="Principal's interview"/>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:background="@color/color_criteria_progress_bg"/>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:background="@color/color_criteria_progress_bg"/>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:background="@color/color_criteria_progress_bg"/>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:background="@color/color_criteria_progress_bg"/>
+    <View style="@style/StickyItemSummaryCell"/>
+    <View style="@style/StickyItemSummaryCell"/>
+    <View style="@style/StickyItemSummaryCell"/>
+    <View style="@style/StickyItemSummaryCell"/>
 
 </LinearLayout>

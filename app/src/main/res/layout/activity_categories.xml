@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/appbarLayout"
+        android:id="@+id/appbarlayout"
         layout="@layout/include_appbar" />
 
     <android.support.v4.widget.NestedScrollView
@@ -34,8 +34,7 @@
                 android:theme="@style/BaseThemeRecyclerView"
                 app:layoutManager="LinearLayoutManager"
                 app:showDivider="middle"
-                app:dividerPaddingStart="24dp"
-                app:dividerPaddingEnd="24dp"/>
+                app:dividerPadding="24dp"/>
 
             <View
                 android:layout_width="match_parent"

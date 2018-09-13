@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/appbarLayout"
+        android:id="@+id/appbarlayout"
         layout="@layout/include_appbar" />
 
     <TextView
@@ -23,28 +23,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/BaseThemeRecyclerView"
+        app:dividerPadding="24dp"
         app:layoutManager="LinearLayoutManager"
         app:showDivider="middle"
-        app:dividerPaddingStart="24dp"
-        app:dividerPaddingEnd="24dp"
-        tools:listitem="@layout/item_standard">
-
-    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+        tools:listitem="@layout/item_standard" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:background="@color/delimeter_grey"/>
+        android:layout_marginStart="24dp"
+        android:background="@color/delimeter_grey" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
-        android:orientation="horizontal"
-        android:gravity="end|center_vertical">
+        android:layout_marginTop="40dp"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
 
         <ProgressBar
             android:id="@+id/progressbar"
@@ -60,8 +57,8 @@
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="20sp"
             android:textColor="@color/charcoal_grey"
+            android:textSize="20sp"
             tools:text="1/7" />
 
     </LinearLayout>

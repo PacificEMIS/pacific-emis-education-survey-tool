@@ -2,60 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/delimeter_grey"
     android:orientation="horizontal"
     android:paddingBottom="1dp">
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_standard"
-        android:layout_margin="0.5dp"
-        android:background="@color/white"/>
+    <View style="@style/HeaderNameSummaryCell"/>
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:background="@color/white"
+        style="@style/HeaderItemSummaryCell"
         android:text="@string/first_criteria"/>
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:background="@color/white"
+        style="@style/HeaderItemSummaryCell"
         android:text="@string/second_criteria"/>
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:background="@color/white"
+        style="@style/HeaderItemSummaryCell"
         android:text="@string/third_criteria"/>
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_criteria"
-        android:layout_margin="0.5dp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:background="@color/white"
+        style="@style/HeaderItemSummaryCell"
         android:text="@string/forth_criteria"/>
 
 </LinearLayout>
