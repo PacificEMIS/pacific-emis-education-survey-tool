@@ -13,6 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/item_summary_category"/>
+        tools:listitem="@layout/item_summary"/>
 
 </LinearLayout>

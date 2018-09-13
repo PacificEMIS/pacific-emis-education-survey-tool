@@ -37,6 +37,7 @@ public class SummaryView extends LinearLayout {
     private void initViews() {
         Resources resources = getContext().getResources();
         summaryRecyclerView.setAdapter(adapter);
+        summaryRecyclerView.setNestedScrollingEnabled(true);
     }
 
     public void setData(List<SummaryViewData> data) {
