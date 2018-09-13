@@ -54,6 +54,8 @@
         <activity
             android:name=".ui.screens.standards.StandardsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.screens.criterias.FullscreenImageActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.dropbox.core.android.AuthActivity"

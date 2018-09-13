@@ -234,6 +234,11 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
+    public void onMorePhotosClick(SubCriteria subCriteria) {
+        showToast(Text.from("MORE CLICKED"));
+    }
+
+    @Override
     public void takePictureTo(@NonNull File toFile) {
         PackageManager pm = getPackageManager();
 

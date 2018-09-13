@@ -108,35 +108,13 @@
 
     </RelativeLayout>
 
-    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-        android:id="@+id/recyclerview_photos"
+    <fm.doe.national.ui.custom_views.photos_view.PhotosFrameLayout
+        android:id="@+id/layout_photos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="16dp"
-        app:layoutManager="GridLayoutManager"
-        app:spanCount="4">
-
-        <FrameLayout
-            android:id="@+id/layout_add_photo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_comment"
-            app:layout_section="footer">
-
-            <ImageButton
-                android:id="@+id/imagebutton_add_photo"
-                style="@style/SelectableBorderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_icon_photo_more"
-                android:layout_gravity="center"/>
-
-        </FrameLayout>
-
-    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
-
+        android:layout_marginTop="16dp"/>
 
     <LinearLayout
         android:id="@+id/layout_buttons"

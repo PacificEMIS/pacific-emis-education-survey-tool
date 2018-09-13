@@ -10,7 +10,4 @@
     <dimen name="size_toolbar">56dp</dimen>
 
     <dimen name="textsize_summary_category">10sp</dimen>
-
-    <integer name="weight_summary_item">15</integer>
-    <integer name="weight_summary_name">40</integer>
 </resources>
