@@ -89,6 +89,8 @@ public class CreateSurveyActivity extends BaseActivity implements
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         return true;
     }
 

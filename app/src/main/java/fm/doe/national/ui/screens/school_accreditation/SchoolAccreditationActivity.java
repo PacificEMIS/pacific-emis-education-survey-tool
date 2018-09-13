@@ -74,6 +74,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         return true;
     }
 
