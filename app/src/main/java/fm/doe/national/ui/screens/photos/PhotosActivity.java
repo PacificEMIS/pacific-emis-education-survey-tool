@@ -23,7 +23,6 @@ import fm.doe.national.ui.screens.criterias.FullscreenImageActivity;
 
 public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAdapter.Callback {
 
-    public static final int REQUEST_CHANGES = 432;
     private static final String EXTRA_PASSING = "EXTRA_PASSING";
     private static final String EXTRA_SUBCRITERIA = "EXTRA_SUBCRITERIA";
 

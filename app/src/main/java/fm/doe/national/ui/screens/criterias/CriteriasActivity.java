@@ -46,6 +46,7 @@ public class CriteriasActivity extends BaseActivity implements
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private final static String TAG_DIALOG = "TAG_DIALOG";
     private static final int REQUEST_CAMERA = 100;
+    private static final int REQUEST_CHANGES = 101;
 
     private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
@@ -137,7 +138,7 @@ public class CriteriasActivity extends BaseActivity implements
                     presenter.onTakePhotoFailure();
                 }
                 break;
-            case PhotosActivity.REQUEST_CHANGES:
+            case REQUEST_CHANGES:
                 presenter.onReturnedFromMorePhotos();
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -243,9 +244,7 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void navigateToPhotos(long passingId, SubCriteria subCriteria) {
-        startActivityForResult(
-                PhotosActivity.createIntent(this, passingId, subCriteria),
-                PhotosActivity.REQUEST_CHANGES);
+        startActivityForResult(PhotosActivity.createIntent(this, passingId, subCriteria), REQUEST_CHANGES);
     }
 
     @Override

@@ -22,7 +22,7 @@ import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 import fm.doe.national.ui.custom_views.SwitchableButton;
-import fm.doe.national.ui.custom_views.photos_view.PhotosFrameLayout;
+import fm.doe.national.ui.custom_views.photos_view.PhotoBoxView;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.TextUtil;
 
@@ -49,7 +49,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
     class SubCriteriaViewHolder extends ViewHolder implements
             SwitchableButton.StateChangedListener,
-            PhotosFrameLayout.Callback {
+            PhotoBoxView.Callback {
 
         private final View popupView;
         private final TextView hintView;
@@ -84,15 +84,15 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.textview_comment)
         TextView commentTextView;
 
-        @BindView(R.id.layout_photos)
-        PhotosFrameLayout photosLayout;
+        @BindView(R.id.photoboxview)
+        PhotoBoxView photoBoxView;
 
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
             popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, parent, false);
             hintView = popupView.findViewById(R.id.textview_hint);
-            photosLayout.setCallback(this);
+            photoBoxView.setCallback(this);
         }
 
         @Override
@@ -255,12 +255,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         private void updatePhotosVisibility(List<String> photos) {
             if (photos.isEmpty()) {
-                photosLayout.setVisibility(View.GONE);
+                photoBoxView.setVisibility(View.GONE);
                 photoButtonView.setVisibility(View.VISIBLE);
             } else {
-                photosLayout.setVisibility(View.VISIBLE);
+                photoBoxView.setVisibility(View.VISIBLE);
                 photoButtonView.setVisibility(View.GONE);
-                photosLayout.setPhotos(photos);
+                photoBoxView.setPhotos(photos);
             }
         }
     }

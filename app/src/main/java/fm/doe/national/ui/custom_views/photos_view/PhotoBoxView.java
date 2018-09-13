@@ -16,9 +16,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.doe.national.R;
 
-public class PhotosFrameLayout extends FrameLayout implements PhotosAdapter.Callback {
+public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback {
 
     private final int maxPhotos;
+    private final int countPhotosExtended;
 
     private final PhotosAdapter adapter = new PhotosAdapter();
 
@@ -34,21 +35,22 @@ public class PhotosFrameLayout extends FrameLayout implements PhotosAdapter.Call
     @BindView(R.id.textview_more_photos)
     TextView morePhotosTextView;
 
-    public PhotosFrameLayout(Context context) {
+    public PhotoBoxView(Context context) {
         this(context, null);
     }
 
-    public PhotosFrameLayout(Context context, AttributeSet attributeSet) {
+    public PhotoBoxView(Context context, AttributeSet attributeSet) {
         this(context, attributeSet, 0);
     }
 
-    public PhotosFrameLayout(Context context, AttributeSet attributeSet, int defStyle) {
+    public PhotoBoxView(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
         inflate(context, R.layout.view_photos, this);
         ButterKnife.bind(this);
         photosRecyclerView.setAdapter(adapter);
         adapter.setCallback(this);
         maxPhotos = getContext().getResources().getInteger(R.integer.count_spans_photos_preview);
+        countPhotosExtended = maxPhotos - 2; // 2 == spans { addPhoto, morePhotos }
     }
 
     public void setPhotos(List<String> photos) {
@@ -56,10 +58,10 @@ public class PhotosFrameLayout extends FrameLayout implements PhotosAdapter.Call
             adapter.setItems(photos);
             photosRecyclerView.setFootersVisibility(false);
         } else {
-            adapter.setItems(photos.subList(0, 4));
+            adapter.setItems(photos.subList(0, countPhotosExtended));
             morePhotosTextView.setText(getContext().getString(
                     R.string.more_photos_pattern,
-                    photos.size() - (maxPhotos - 2))); // 2 == spans { addPhoto, morePhotos }
+                    photos.size() - countPhotosExtended));
             photosRecyclerView.setFootersVisibility(true);
         }
     }
