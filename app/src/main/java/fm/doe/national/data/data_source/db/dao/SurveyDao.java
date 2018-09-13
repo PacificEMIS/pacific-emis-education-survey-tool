@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
-import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
+import fm.doe.national.data.data_source.models.serializable.LinkedCategory;
 import io.reactivex.Completable;
 
 public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
@@ -22,11 +22,11 @@ public class SurveyDao extends BaseRxDao<OrmLiteSurvey, Long> {
 
     public Completable createSchoolAccreditation(int version,
                                                  String type,
-                                                 List<? extends LinkedGroupStandard> groupStandards) {
+                                                 List<? extends LinkedCategory> categories) {
         return Completable.fromCallable(() -> {
             OrmLiteSurvey ormLiteSurvey = new OrmLiteSurvey(version, type);
             createIfNotExists(ormLiteSurvey);
-            surveyItemDao.createFromGroupStandards(groupStandards, ormLiteSurvey);
+            surveyItemDao.createFromCategories(categories, ormLiteSurvey);
 
             return  ormLiteSurvey;
         });

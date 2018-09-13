@@ -18,7 +18,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.screens.group_standards.GroupStandardsActivity;
+import fm.doe.national.ui.screens.categories.CategoriesActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
@@ -32,7 +32,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
 
-    @BindView(R.id.recyclerview_groups)
+    @BindView(R.id.recyclerview_categories)
     RecyclerView recyclerView;
 
     @BindView(R.id.fab_new_accreditation)
@@ -79,7 +79,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     public void navigateToCategoryChooser(long passingId) {
-        startActivity(GroupStandardsActivity.createIntent(this, passingId));
+        startActivity(CategoriesActivity.createIntent(this, passingId));
     }
 
     @Override

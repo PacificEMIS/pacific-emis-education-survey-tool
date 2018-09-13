@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.standard;
+package fm.doe.national.ui.screens.criterias;
 
 import android.support.annotation.NonNull;
 
@@ -14,7 +14,7 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface StandardView extends BaseView {
+public interface CriteriasView extends BaseView {
     void setGlobalInfo(String title, int resourceIndex);
     void setCriterias(@NonNull List<Criteria> criterias);
     void setProgress(int answered, int total);
@@ -22,6 +22,7 @@ public interface StandardView extends BaseView {
     void setNextStandard(String title, int resourceIndex);
     void setSurveyYear(int year);
     void setSchoolName(String schoolName);
+    void setCategoryName(String categoryName);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void takePictureTo(@NonNull File toFile);

@@ -23,7 +23,7 @@ public class OrmLiteSurveyItem {
     }
 
     public enum Type {
-        GROUP_STANDARD,
+        CATEGORY,
         STANDARD,
         CRITERIA,
         SUBCRITERIA

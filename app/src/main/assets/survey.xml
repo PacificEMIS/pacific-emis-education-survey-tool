@@ -1,8 +1,8 @@
 <schoolAccreditation>
     <type>school_accreditation</type>
-    <version>2</version>
-    <groupStandard>
-        <name>Standard 1: Leadership</name>
+    <version>1</version>
+    <category>
+        <name>Principal's Interview</name>
         <standard>
             <name>Standard 1: Leadership</name>
             <criteria>
@@ -38,8 +38,7 @@
                 <subcriteria>
                     <name>The principal conducts weekly planning meetings with teachers and staff to develop and review curriculum, syllabi, programs of study, and lesson plans.</name>
                     <interviewQuestions>How often do you conduct meetings with your staff to review curriculum, syllabi, and lesson plans? What sort of documentation do you have to support that those meetings took place and were attended?</interviewQuestions>
-                    <hint>-Weekly planning meetings are held to develop instructional plans and class assignments. \n-Physical and/or electronic copies of teachers’ syllabi/lesson plans are documented. \n-Evidence of meeting attendance
-                    </hint>
+                    <hint>-Weekly planning meetings are held to develop instructional plans and class assignments. \n-Physical and/or electronic copies of teachers’ syllabi/lesson plans are documented. \n-Evidence of meeting attendance</hint>
                 </subcriteria>
                 <subcriteria>
                     <name>The principal ensures that there is continuity and progression among students between grades in the school.</name>
@@ -79,13 +78,11 @@
                 <subcriteria>
                     <name>There are regular, structured classroom observations and written reports are produced.</name>
                     <interviewQuestions>How often do you formally observe each classroom teacher in a given academic year? How often do you informally observe teachers in a given academic year?</interviewQuestions>
-                    <hint>-Evidence of observation forms that each teacher is being formally observed per SDOE policy. \n-Evidence that each teacher is also being informally observed per SDOE policy.
-                    </hint>
+                    <hint>-Evidence of observation forms that each teacher is being formally observed per SDOE policy. \n-Evidence that each teacher is also being informally observed per SDOE policy.</hint>
                 </subcriteria>
                 <subcriteria>
                     <name>Feedback on observations is constructive and designed to improve teaching and learning.</name>
-                    <hint>-Evidence that written feedbacks is provided to ALL teachers based on what was observed and focusing on the following: \nAreas of strengths and weaknesses. \nStrategies or skills areas to improve. \n-Evidence that a follow up plans and strategies for improvement was discussed and agreed with the teacher.
-                    </hint>
+                    <hint>-Evidence that written feedbacks is provided to ALL teachers based on what was observed and focusing on the following: \nAreas of strengths and weaknesses. \nStrategies or skills areas to improve. \n-Evidence that a follow up plans and strategies for improvement was discussed and agreed with the teacher.</hint>
                 </subcriteria>
                 <subcriteria>
                     <name>The principal coaches teachers and conducts model lessons where necessary.</name>
@@ -98,9 +95,6 @@
                 </subcriteria>
             </criteria>
         </standard>
-    </groupStandard>
-    <groupStandard>
-        <name>Standard 2: Teacher Performance</name>
         <standard>
             <name>Standard 2: Teacher Performance</name>
             <criteria>
@@ -132,8 +126,7 @@
                 </subcriteria>
                 <subcriteria>
                     <name>There are designated areas of the classrooms with topical displays.</name>
-                    <hint>-Each classroom contains reading corners/learning centers \n-Each classroom’s displays are organized in a designated area
-                    </hint>
+                    <hint>-Each classroom contains reading corners/learning centers \n-Each classroom’s displays are organized in a designated area</hint>
                 </subcriteria>
                 <subcriteria>
                     <name>Book corners or activity centers have appropriate learning materials.</name>
@@ -142,8 +135,7 @@
                 </subcriteria>
                 <subcriteria>
                     <name>A wide range of student work of very high quality is neatly displayed and clearly labeled.</name>
-                    <hint>-Student work is displayed \n-Student work ranges from knowledge to evaluation-type questions on Bloom’s Taxonomy
-                    </hint>
+                    <hint>-Student work is displayed \n-Student work ranges from knowledge to evaluation-type questions on Bloom’s Taxonomy</hint>
                 </subcriteria>
             </criteria>
             <criteria>
@@ -185,9 +177,411 @@
                 </subcriteria>
             </criteria>
         </standard>
-    </groupStandard>
-    <groupStandard>
-        <name>Standard 3: Data Management</name>
+        <standard>
+            <name>Standard 4: National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
+            <criteria>
+                <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.</name>
+                <subcriteria>
+                    <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics, Social Studies, and Science are taught throughout the school in accordance with the National Curriculum and/or State Curriculum.</name>
+                    <interviewQuestions>What written policies do you have at your school regarding the use of the national and/or state curriculum?</interviewQuestions>
+                    <hint>-Evidence of a written policy that the school follows the National Curriculum exclusively \nOR \n-Evidence of a written policy that the school follows the State Curriculum exclusively</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>All observed lesson plans are based on the National or State Curriculum Standards, Benchmarks and Student Learning Outcomes.</name>
+                    <hint>-Evidence of lesson plans following the National Curriculum exclusively \nOR \n-Evidence of lesson plans following the State Curriculum exclusively</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Classroom schedules follow the National and/or State adopted Core Classes.</name>
+                    <hint>Evidence that the classrooms follow the adopted Core Classes.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>All observed lesson plans in 2.1 include the SDOE-required components.</name>
+                    <hint>Evidence that the lesson plans include SDOE required components</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>Student performance data shows that the vast majority of students reach Competent or Minimum Competent levels on the NMCT and pass other State-mandated exams.</name>
+                <subcriteria>
+                    <name>Whole assessment benchmark data in all tested Mathematics NMCTs show 50% as their average benchmark score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows at least 50% of benchmarks are at competent or minimum competent levels \nOR \n-The NMCT result at the school shows a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Whole assessment benchmark data in all tested English Language Arts NMCTs show 50% as their average benchmark score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows at least 50% of benchmarks are at competent or minimum competent levels \nOR \n-The NMCT result at the school shows a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>The average student score in all tested Mathematics NMCTs show 50% as their average student score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows the average student score is at least 50% of questions correct \nOR \n-The NMCT result at the school shows the average student score had a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>The average student score in all tested English Language Arts NMCTs show 50% as their average student score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows the average student score is at least 50% of questions correct \nOR \n-The NMCT result at the school shows the average student score had a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>All students in all grades have their own copies of modern textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
+                <subcriteria>
+                    <name>All students in all grades have their own copies of modern (and/or any) textbooks and/or relevant resources to support the benchmarks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
+                    <hint>-Evidence of (a comprehensive list showing) each student having access to their own textbook for each core subject (e.g. if 26 students in one period take ELA, there are 26 books) \nAND/OR \n-Evidence of relevant resources that support the benchmarks in the core subjects (e.g. solar/digital library, flashdrives/portable harddrives with resources, etc.)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>All textbooks available at the school are aligned to the correct grade level or students are working above grade level and there is clear progression from one grade to the next.</name>
+                    <hint>-Evidence of textbooks aligned to the correct grade level \n-A comprehensive textbook list incorporating every textbook and assigned grade-level on campus</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Students have access to additional resources, including on-line resources, in a well-stocked library, and/or traditional knowledge for schools.</name>
+                    <hint>-There is a library on campus \n-The library has an internet connection \n-The library has relevant materials for the school’s grade levels</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>All teachers have a Teacher’s Guide/Teacher’s Edition for all grades and core subject areas taught.</name>
+                    <hint>-All teachers have a teacher’s guide edition for their core subject textbooks</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>A full timetable of extra-curricular academic, sports, cultural, civic and community activities are conducted after school for both boys and girls.</name>
+                <subcriteria>
+                    <name>At least two extra-curricular academic and/or sports activities are conducted after school for both boys and girls.</name>
+                    <interviewQuestions>What kinds of extracurricular activities are on offer at your school?</interviewQuestions>
+                    <hint>Each extracurricular activity has documented rules \n-Extracurricular activities do not discriminate against boys or girls</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>The school informs students of, and promotes cultural, civic and community activities.</name>
+                    <interviewQuestions>How does your school promote cultural and community activities?</interviewQuestions>
+                    <hint>-Documentation, such as a list of participants, assigned classwork or homework re: cultural and community activities, state events that the school participates in e.g. Cultural Day or Constitution Day events, a poster or agenda marketing an activity etc., shows that the school informs students of activities afterschool, e.g. weaving, carving, dancing, chanting, feasts</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Students have received awards for extra-curricular activities from local and/or international bodies and organizations.</name>
+                    <hint>-Evidence of students receiving awards, either from local organizations (e.g. Public Health, TSP, School-based awards) or international organizations (e.g. IOM, SCRIPPS Spelling Bee)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Values such as fair play and healthy lifestyles are promoted.</name>
+                    <hint>-Rules promoted fair play and healthy lifestyles</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+    </category>
+    <category>
+        <name>Classroom Observation</name>
+        <standard>
+            <name>Standard 1: Planning and preparation</name>
+            <criteria>
+                <name>Long term plans show an understanding of the curriculum, the connections between different subject areas and an attempt to link the curriculum to local contexts.</name>
+                <subcriteria>
+                    <name>There is evidence that National and State curriculum documents and guidelines are regularly used in planning</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>There is a written program for all curriculum areas for a period of at least 4 weeks </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The program identifies major concepts and breaks them down into sequenced learning steps and appropriate learning activities</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Some learning objectives are integrated in themes or topics and the use of Information and Communications Technology is integrated</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The program is linked to local events and seasonal activities</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>Short term lesson plans provide adequate guidance for teaching and learning activities</name>
+                <subcriteria>
+                    <name>Written plans for at least 1 week show continuity and progression between lessons</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Plans include sequenced, measurable learning objectives from the curriculum </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Plans include appropriate learning activities including differentiated activities for different learners, including students with IEPs</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Plans have enough detail to guide teaching and learning</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>State planning forms are used</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <name>Standard 2: Classroom   Management</name>
+            <criteria>
+                <name>Time is managed effectively to maximize students’ learning opportunities</name>
+                <subcriteria>
+                    <name>Time is used constructively for teaching and learning of new material</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Children are on-task and engaged in appropriate learning activities for most of the lesson time</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The lesson starts and finishes on time</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The pace of the lesson is neither too slow nor too rushed</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The teacher allocates their time fairly and equitably towards all children</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>Resources and learning materials are managed effectively</name>
+                <subcriteria>
+                    <name>All resources and learning materials needed for the lesson are prepared in advance</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Children have access to adequate and appropriate resources and learning materials</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Resources and learning materials are stored neatly, safely and securely</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Children are partly responsible for the management of resources and learning materials</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Resources and learning materials are collected and put away at the end of the lesson</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>A positive, supportive climate for learning is created</name>
+                <subcriteria>
+                    <name>The teacher expects, recognizes and rewards high standards of student behavior and achievement</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The classroom is orderly, safe and non-threatening</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Classroom rules and routines are clearly explained and children follow them</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Violence, threats or other forms of physical punishment are not used </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Children are encouraged to act responsibly and  learn cooperatively</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>A high quality physical learning environment is created</name>
+                <subcriteria>
+                    <name>The environment is rich in print and visual displays that are related to the current learning objectives </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The classroom is clean, receives enough daylight light and is well ventilated </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The arrangement of furniture allows and supports a variety of teaching and learning activities</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The arrangement of furniture allows the teacher to move about the room to monitor and assist all children</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>There are designated areas of the classroom where topical displays or activity centers are located</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <name>Standard 3: Teaching and learning</name>
+            <criteria>
+                <name>The lesson is structured and objectives are clear</name>
+                <subcriteria>
+                    <name>The lesson begins with a review of previous learning </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The learning objectives of the lesson are clearly stated</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The lesson contains a balance of teacher instruction and student activity</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The lesson is adapted to take account of student feedback </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The lesson ends with a review of what has been learned</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>New material is accurately and clearly presented, explained and placed within a meaningful context</name>
+                <subcriteria>
+                    <name>New material or content is presented with authority in a logical and systematic way using clearly recognizable steps</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Explanations and demonstrations are clear, concise and easy to follow</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Concepts are explained in several different ways using relevant examples and meaningful contexts</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The language of instruction is appropriate to the needs of the children</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Verbal communication is clear, concise and understandable and is supported by print or other media</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>A variety of highly efficient interactive teaching and learning strategies are used</name>
+                <subcriteria>
+                    <name>The teacher facilitates a wide variety of interactive teaching and cooperative learning strategies </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Children are actively and meaningfully engaged in appropriate, challenging activities and learning takes place through activity</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Learning activities include higher-order thinking, inquiry, observation, analysis and problem solving </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Students are given opportunities to apply their learning in meaningful contexts, including through the use of ICT</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Different learning activities are assigned according to individual children’s needs</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>Questioning and discussion are used effectively to support learning</name>
+                <subcriteria>
+                    <name>The majority of teacher questions are open and enabling and encourage higher order thinking</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Questions are adapted to individual students’ needs and abilities, including those with IEPs</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The teacher responds positively to students’ responses and asks appropriate supplementary or follow-up questions</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Question and answer time is efficiently managed with appropriate routines such as wait time, hands up and other forms of signaling</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Discussions are managed so as to allow contributions from all students</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <name>Standard 4: Student assessment</name>
+            <criteria>
+                <name>Assessment is planned and integrated into the lesson and is based on observable and measurable criteria</name>
+                <subcriteria>
+                    <name>Learning objectives and assessment criteria are explained to the children in language they can understand</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>A variety of assessment strategies are used in the lesson and feedback is given to students at strategic points </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The results of assessment are used to adapt current and future teaching and learning activities </name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Individual assessment outcomes are recorded by the teacher or stored in a student portfolio or other record system</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>Children are involved in conducting self or peer assessments</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <name>Standard 5: Evaluation and professional development</name>
+            <criteria>
+                <name>The teacher reflects upon and evaluates their performance and participates in professional development </name>
+                <subcriteria>
+                    <name>The teacher regularly makes thoughtful and accurate evaluations of lesson effectiveness based on children’s learning outcomes</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The teacher adjusts future lessons based on evaluation</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The teacher welcomes and acts upon feedback from observers, principal or other teachers</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The teacher participates in a school-based appraisal program</name>
+                </subcriteria>
+                <subcriteria>
+                    <name>The teacher actively seeks appropriate ways to enhance their professional knowledge and practice</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+    </category>
+    <category>
+        <name>School Checklist</name>
+        <standard>
+            <name>Standard 5: School Campus, Classrooms and Facilities</name>
+            <criteria>
+                <name>The school has a written maintenance and facilities development plan.</name>
+                <subcriteria>
+                    <name>The school has a written maintenance plan that sets out a schedule of routine cleaning, minor repairs, painting and preventative maintenance.</name>
+                    <interviewQuestions>Has your school developed a written maintenance plan and facilities development plan? What documentation do you keep to demonstrate the plans are effective?</interviewQuestions>
+                    <hint>-There is a written maintenance plan that schedules cleaning, repairs, etc.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Records show that maintenance work is regularly carried out.</name>
+                    <hint>-There is written evidence of the maintenance plan in effect</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>The school has a written facilities development plan that sets out a schedule for major maintenance works, refurbishment or rebuilding.</name>
+                    <hint>-There is a written facilities development plan that schedules major maintenance, refurbishment, etc.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Records and plans show that the facilities development plan is actively implemented.</name>
+                    <hint>-There is written evidence of the facilities development plan in effect</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones.</name>
+                <subcriteria>
+                    <name>Buildings are neat, clean, safe and secure (inside-out and outside-in), free of graffiti (e.g. writing on walls) vandalism (i.e. destruction of government property), and are explicitly drug-free zones.</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that buildings are neat, clean, safe, and secure</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>The school compound is neat, clean, safe and secure, free of graffiti (e.g. writing on walls), vandalism (i.e. destruction of government property), and is explicitly a drug-free zone.</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that public areas are clean, neat, and attractive (e.g. no litter, etc.)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>All school facilities are easily accessible to students with special needs (inside-out and outside-in).</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that all school facilities are accessible to students with special needs. \n-Documented plans to assist students with special needs.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>The campus is used as a learning resource, with a school garden, and sports and play area.</name>
+                    <hint>-There is a school garden \n-There is a sports and/or play facility (e.g. basketball court, gymnasium)</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>Classrooms meet recommended area requirements, with adequate lighting and ventilation.</name>
+                <subcriteria>
+                    <name>All classrooms used by groups of 30 or more students exceed 25 feet by 25 feet in area (625 square feet), and classrooms used by less than 30 students allow an excess of 20 square feet of floor space per student.</name>
+                    <hint>-Using measuring tape during the accreditation visit, all classrooms used by less than 30 students have an excess of 20 square feet of floor space per student. \n-The classroom is not visibly congested, i.e. the teacher can walk between each row and help each student without resources, chairs etc. getting in their way</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>All classrooms are bright, well ventilated and equipped with adequate lighting, and if electricity is present then all electrical outlets and all electrical fittings are in as-new condition with safety cut-off switches or circuit breakers.</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that all classrooms are bright, ventilated, well-lit, and have working electrical outlets \n-Photographic evidence and Classroom Checklist sheets demonstrate all electrical fittings are in like-new condition with safety switches or circuit breakers</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>All classrooms have adequate student and teacher furniture, including adequate storage and display.</name>
+                    <hint>-All classrooms have adequate storage for supplies and texts, and high-quality furniture (i.e. chairs)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>There is a science lab (e.g. with chemicals, beakers, Bunsen burners, thermometers, microscopes, telescopes, etc.) and it has a sink/s with running water. [For secondary schools] \nThere is a designated area for science experimentation on campus or its surrounds. [For elementary schools and secondary schools without science labs]</name>
+                    <hint>-If science labs exist, they are well supplied and have a sink/s with running water \n-There is a designated area for science experimentation on campus or its surrounds</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <name>Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an emergency evacuation plan with evidence of a drill.</name>
+                <subcriteria>
+                    <name>All food handling and preparation personnel wear protective clothing, are certified by the Public Health Department and their certificates are clearly displayed. [For schools with vendors, ECE centers, cafeterias] \nIf there are no vendors, ECE centers, or cafeterias onsite, ignore this indicator and receive an automatic point.</name>
+                    <hint>-Evidence of recommended repairs and improvements \n-Evidence of implementation or attempted implementation (e.g. if the school needs new chairs, evidence of communication to SDOE requesting new chairs) \n-All food handling and preparation personnel wear proper clothing and have their Public Health (yellow card) clearly displayed</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>Toilets have a current EPA certificate verifying that they are safe and clean.</name>
+                    <interviewQuestions>Can you provide documentation demonstrating that the EPA certifies your school’s toilets and water as being clean?</interviewQuestions>
+                    <hint>-All toilets have a current EPA certificate \n-If toilets are not EPA-certified, evidence of the school reaching out to SDOE and/or EPA regarding this issue</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>There is adequate safe drinking water.</name>
+                    <interviewQuestions>How do you ensure your students have access to water at all times?</interviewQuestions>
+                    <hint>-Each classroom is equipped with a water container \n-The school has onsite, or nearby access to, water container refill stations \n-EPA certifies the water is safe to drink</hint>
+                </subcriteria>
+                <subcriteria>
+                    <name>There is an emergency evacuation plan and evidence of a drill within the past 3 months.</name>
+                    <interviewQuestions>How does your school engage in routine emergency drills?</interviewQuestions>
+                    <hint>-Evidence of an Emergency Action Plan \n-Evidence of an Emergency Drill within the past 3 months</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+    </category>
+    <category>
+        <name>Data Checklist</name>
         <standard>
             <name>Standard 3: Data Management</name>
             <criteria>
@@ -273,180 +667,6 @@
                 </subcriteria>
             </criteria>
         </standard>
-    </groupStandard>
-    <groupStandard>
-        <name>Standard 4: National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
-        <standard>
-            <name>Standard 4: National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
-            <criteria>
-                <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.</name>
-                <subcriteria>
-                    <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics, Social Studies, and Science are taught throughout the school in accordance with the National Curriculum and/or State Curriculum.</name>
-                    <interviewQuestions>What written policies do you have at your school regarding the use of the national and/or state curriculum?</interviewQuestions>
-                    <hint>-Evidence of a written policy that the school follows the National Curriculum exclusively \nOR \n-Evidence of a written policy that the school follows the State Curriculum exclusively</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>All observed lesson plans are based on the National or State Curriculum Standards, Benchmarks and Student Learning Outcomes.</name>
-                    <hint>-Evidence of lesson plans following the National Curriculum exclusively \nOR \n-Evidence of lesson plans following the State Curriculum exclusively</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Classroom schedules follow the National and/or State adopted Core Classes.</name>
-                    <hint>Evidence that the classrooms follow the adopted Core Classes.</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>All observed lesson plans in 2.1 include the SDOE-required components.</name>
-                    <hint>Evidence that the lesson plans include SDOE required components</hint>
-                </subcriteria>
-            </criteria>
-            <criteria>
-                <name>Student performance data shows that the vast majority of students reach Competent or Minimum Competent levels on the NMCT and pass other State-mandated exams.</name>
-                <subcriteria>
-                    <name>Whole assessment benchmark data in all tested Mathematics NMCTs show 50% as their average benchmark score or a 2%+ increase compared to the previous year.</name>
-                    <hint>- The NMCT result at the school shows at least 50% of benchmarks are at competent or minimum competent levels \nOR \n-The NMCT result at the school shows a 2%+ increase compared to the previous year</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Whole assessment benchmark data in all tested English Language Arts NMCTs show 50% as their average benchmark score or a 2%+ increase compared to the previous year.</name>
-                    <hint>- The NMCT result at the school shows at least 50% of benchmarks are at competent or minimum competent levels \nOR \n-The NMCT result at the school shows a 2%+ increase compared to the previous year</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>The average student score in all tested Mathematics NMCTs show 50% as their average student score or a 2%+ increase compared to the previous year.</name>
-                    <hint>- The NMCT result at the school shows the average student score is at least 50% of questions correct \nOR \n-The NMCT result at the school shows the average student score had a 2%+ increase compared to the previous year</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>The average student score in all tested English Language Arts NMCTs show 50% as their average student score or a 2%+ increase compared to the previous year.</name>
-                    <hint>- The NMCT result at the school shows the average student score is at least 50% of questions correct \nOR \n-The NMCT result at the school shows the average student score had a 2%+ increase compared to the previous year</hint>
-                </subcriteria>
-            </criteria>
-            <criteria>
-                <name>All students in all grades have their own copies of modern textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
-                <subcriteria>
-                    <name>All students in all grades have their own copies of modern (and/or any) textbooks and/or relevant resources to support the benchmarks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
-                    <hint>-Evidence of (a comprehensive list showing) each student having access to their own textbook for each core subject (e.g. if 26 students in one period take ELA, there are 26 books) \nAND/OR \n-Evidence of relevant resources that support the benchmarks in the core subjects (e.g. solar/digital library, flashdrives/portable harddrives with resources, etc.)</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>All textbooks available at the school are aligned to the correct grade level or students are working above grade level and there is clear progression from one grade to the next.</name>
-                    <hint>-Evidence of textbooks aligned to the correct grade level \n-A comprehensive textbook list incorporating every textbook and assigned grade-level on campus</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Students have access to additional resources, including on-line resources, in a well-stocked library, and/or traditional knowledge for schools.</name>
-                    <hint>-There is a library on campus \n-The library has an internet connection \n-The library has relevant materials for the school’s grade levels</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>All teachers have a Teacher’s Guide/Teacher’s Edition for all grades and core subject areas taught.</name>
-                    <hint>-All teachers have a teacher’s guide edition for their core subject textbooks</hint>
-                </subcriteria>
-            </criteria>
-            <criteria>
-                <name>A full timetable of extra-curricular academic, sports, cultural, civic and community activities are conducted after school for both boys and girls.</name>
-                <subcriteria>
-                    <name>At least two extra-curricular academic and/or sports activities are conducted after school for both boys and girls.</name>
-                    <interviewQuestions>What kinds of extracurricular activities are on offer at your school?</interviewQuestions>
-                    <hint>Each extracurricular activity has documented rules \n-Extracurricular activities do not discriminate against boys or girls</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>The school informs students of, and promotes cultural, civic and community activities.</name>
-                    <interviewQuestions>How does your school promote cultural and community activities?</interviewQuestions>
-                    <hint>-Documentation, such as a list of participants, assigned classwork or homework re: cultural and community activities, state events that the school participates in e.g. Cultural Day or Constitution Day events, a poster or agenda marketing an activity etc., shows that the school informs students of activities afterschool, e.g. weaving, carving, dancing, chanting, feasts</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Students have received awards for extra-curricular activities from local and/or international bodies and organizations.</name>
-                    <hint>-Evidence of students receiving awards, either from local organizations (e.g. Public Health, TSP, School-based awards) or international organizations (e.g. IOM, SCRIPPS Spelling Bee)</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Values such as fair play and healthy lifestyles are promoted.</name>
-                    <hint>-Rules promoted fair play and healthy lifestyles</hint>
-                </subcriteria>
-            </criteria>
-        </standard>
-    </groupStandard>
-    <groupStandard>
-        <name>Standard 5: School Campus, Classrooms and Facilities</name>
-        <standard>
-            <name>Standard 5: School Campus, Classrooms and Facilities</name>
-            <criteria>
-                <name>The school has a written maintenance and facilities development plan.</name>
-                <subcriteria>
-                    <name>The school has a written maintenance plan that sets out a schedule of routine cleaning, minor repairs, painting and preventative maintenance.</name>
-                    <interviewQuestions>Has your school developed a written maintenance plan and facilities development plan? What documentation do you keep to demonstrate the plans are effective?</interviewQuestions>
-                    <hint>-There is a written maintenance plan that schedules cleaning, repairs, etc.</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Records show that maintenance work is regularly carried out.</name>
-                    <hint>-There is written evidence of the maintenance plan in effect</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>The school has a written facilities development plan that sets out a schedule for major maintenance works, refurbishment or rebuilding.</name>
-                    <hint>-There is a written facilities development plan that schedules major maintenance, refurbishment, etc.</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Records and plans show that the facilities development plan is actively implemented.</name>
-                    <hint>-There is written evidence of the facilities development plan in effect</hint>
-                </subcriteria>
-            </criteria>
-            <criteria>
-                <name>The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones.</name>
-                <subcriteria>
-                    <name>Buildings are neat, clean, safe and secure (inside-out and outside-in), free of graffiti (e.g. writing on walls) vandalism (i.e. destruction of government property), and are explicitly drug-free zones.</name>
-                    <hint>-Photographic evidence during the accreditation visit demonstrates that buildings are neat, clean, safe, and secure</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>The school compound is neat, clean, safe and secure, free of graffiti (e.g. writing on walls), vandalism (i.e. destruction of government property), and is explicitly a drug-free zone.</name>
-                    <hint>-Photographic evidence during the accreditation visit demonstrates that public areas are clean, neat, and attractive (e.g. no litter, etc.)</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>All school facilities are easily accessible to students with special needs (inside-out and outside-in).</name>
-                    <hint>-Photographic evidence during the accreditation visit demonstrates that all school facilities are accessible to students with special needs. \n-Documented plans to assist students with special needs.</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>The campus is used as a learning resource, with a school garden, and sports and play area.</name>
-                    <hint>-There is a school garden \n-There is a sports and/or play facility (e.g. basketball court, gymnasium)</hint>
-                </subcriteria>
-            </criteria>
-            <criteria>
-                <name>Classrooms meet recommended area requirements, with adequate lighting and ventilation.</name>
-                <subcriteria>
-                    <name>All classrooms used by groups of 30 or more students exceed 25 feet by 25 feet in area (625 square feet), and classrooms used by less than 30 students allow an excess of 20 square feet of floor space per student.</name>
-                    <hint>-Using measuring tape during the accreditation visit, all classrooms used by less than 30 students have an excess of 20 square feet of floor space per student. \n-The classroom is not visibly congested, i.e. the teacher can walk between each row and help each student without resources, chairs etc. getting in their way</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>All classrooms are bright, well ventilated and equipped with adequate lighting, and if electricity is present then all electrical outlets and all electrical fittings are in as-new condition with safety cut-off switches or circuit breakers.</name>
-                    <hint>-Photographic evidence during the accreditation visit demonstrates that all classrooms are bright, ventilated, well-lit, and have working electrical outlets \n-Photographic evidence and Classroom Checklist sheets demonstrate all electrical fittings are in like-new condition with safety switches or circuit breakers</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>All classrooms have adequate student and teacher furniture, including adequate storage and display.</name>
-                    <hint>-All classrooms have adequate storage for supplies and texts, and high-quality furniture (i.e. chairs)</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>There is a science lab (e.g. with chemicals, beakers, Bunsen burners, thermometers, microscopes, telescopes, etc.) and it has a sink/s with running water. [For secondary schools] \nThere is a designated area for science experimentation on campus or its surrounds. [For elementary schools and secondary schools without science labs]</name>
-                    <hint>-If science labs exist, they are well supplied and have a sink/s with running water \n-There is a designated area for science experimentation on campus or its surrounds</hint>
-                </subcriteria>
-            </criteria>
-            <criteria>
-                <name>Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an emergency evacuation plan with evidence of a drill.</name>
-                <subcriteria>
-                    <name>All food handling and preparation personnel wear protective clothing, are certified by the Public Health Department and their certificates are clearly displayed. [For schools with vendors, ECE centers, cafeterias] \nIf there are no vendors, ECE centers, or cafeterias onsite, ignore this indicator and receive an automatic point.</name>
-                    <hint>-Evidence of recommended repairs and improvements \n-Evidence of implementation or attempted implementation (e.g. if the school needs new chairs, evidence of communication to SDOE requesting new chairs) \n-All food handling and preparation personnel wear proper clothing and have their Public Health (yellow card) clearly displayed</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>Toilets have a current EPA certificate verifying that they are safe and clean.</name>
-                    <interviewQuestions>Can you provide documentation demonstrating that the EPA certifies your school’s toilets and water as being clean?</interviewQuestions>
-                    <hint>-All toilets have a current EPA certificate \n-If toilets are not EPA-certified, evidence of the school reaching out to SDOE and/or EPA regarding this issue</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>There is adequate safe drinking water.</name>
-                    <interviewQuestions>How do you ensure your students have access to water at all times?</interviewQuestions>
-                    <hint>-Each classroom is equipped with a water container \n-The school has onsite, or nearby access to, water container refill stations \n-EPA certifies the water is safe to drink</hint>
-                </subcriteria>
-                <subcriteria>
-                    <name>There is an emergency evacuation plan and evidence of a drill within the past 3 months.</name>
-                    <interviewQuestions>How does your school engage in routine emergency drills?</interviewQuestions>
-                    <hint>-Evidence of an Emergency Action Plan \n-Evidence of an Emergency Drill within the past 3 months</hint>
-                </subcriteria>
-            </criteria>
-        </standard>
-    </groupStandard>
-    <groupStandard>
-        <name>Standard 6: School Improvement Planning</name>
         <standard>
             <name>Standard 6: School Improvement Planning</name>
             <criteria>
@@ -527,5 +747,5 @@
                 </subcriteria>
             </criteria>
         </standard>
-    </groupStandard>
+    </category>
 </schoolAccreditation>

@@ -77,7 +77,7 @@ public abstract class BaseAdapter<T>
             itemView.setOnClickListener(this);
         }
 
-        private void bind(T item) {
+        public void bind(T item) {
             this.item = item;
             onBind(item);
         }

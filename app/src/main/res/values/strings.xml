@@ -18,6 +18,7 @@
     <string name="navigation_drawer_close" translatable="false">DRAWER_CLOSE</string>
     <string name="header_school_accreditation">Recent Surveys</string>
     <string name="header_choose_category">Choose category</string>
+    <string name="header_choose_standard">Choose standard</string>
     <string name="action_search">Search</string>
     <string name="write_school">Enter the school</string>
     <string name="criteria_hint">For detailed information, make a long touch on interested item</string>
@@ -70,6 +71,11 @@
     <string name="button_submit">Submit</string>
     <string name="error_take_picture">Unable to get picture</string>
     <string name="error_save_logo">Unable to save logo</string>
+    <string name="first_criteria">c1</string>
+    <string name="second_criteria">c2</string>
+    <string name="third_criteria">c3</string>
+    <string name="forth_criteria">c4</string>
+    <string name="summary">Summary</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>

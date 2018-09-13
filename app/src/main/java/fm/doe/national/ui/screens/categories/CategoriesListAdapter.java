@@ -1,19 +1,18 @@
-package fm.doe.national.ui.screens.group_standards;
+package fm.doe.national.ui.screens.categories;
 
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.data.data_source.models.Category;
 import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.GroupStandard;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
-public class GroupStandardsListAdapter
-        extends BaseAdapter<GroupStandard> {
+public class CategoriesListAdapter
+        extends BaseAdapter<Category> {
 
     @Override
     protected CategoryViewHolder provideViewHolder(ViewGroup parent) {
@@ -21,9 +20,6 @@ public class GroupStandardsListAdapter
     }
 
     protected class CategoryViewHolder extends ViewHolder {
-
-        @BindView(R.id.imageview_category_icon)
-        ImageView standardIconImageView;
 
         @BindView(R.id.textview_category_name)
         TextView categoryNameTextView;
@@ -35,16 +31,11 @@ public class GroupStandardsListAdapter
         ProgressBar progressBar;
 
         CategoryViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_group_standards);
+            super(parent, R.layout.item_category);
         }
 
         @Override
-        public void onBind(GroupStandard item) {
-            if (getAdapterPosition() < ViewUtils.STANDARD_ICONS.length) {
-                standardIconImageView.setImageResource(ViewUtils.STANDARD_ICONS[getAdapterPosition()]);
-                standardIconImageView.setActivated(true);
-            }
-
+        public void onBind(Category item) {
             categoryNameTextView.setText(item.getName());
 
             CategoryProgress categoryProgress = item.getCategoryProgress();

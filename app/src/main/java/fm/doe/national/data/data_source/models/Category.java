@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-public interface GroupStandard extends Identifiable {
+public interface Category extends Identifiable {
     @NonNull
     String getName();
 

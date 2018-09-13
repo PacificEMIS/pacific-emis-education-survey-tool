@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.standard;
+package fm.doe.national.ui.screens.criterias;
 
 import android.support.annotation.Nullable;
 
@@ -25,13 +25,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class StandardPresenter extends BasePresenter<StandardView> {
+public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
 
-    private long passingId;
+    private final long passingId;
+    private final long categoryId;
     private int standardIndex;
     private int nextIndex;
     private int previousIndex;
@@ -44,8 +45,9 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     @Nullable
     private File takenPictureFile;
 
-    public StandardPresenter(long passingId, long standardId) {
+    public CriteriasPresenter(long passingId, long categoryId, long standardId) {
         this.passingId = passingId;
+        this.categoryId = categoryId;
         load(standardId);
     }
 
@@ -138,7 +140,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     private void updateUi() {
-        StandardView view = getViewState();
+        CriteriasView view = getViewState();
         view.setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
         view.setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
         view.setNextStandard(standards.get(nextIndex).getName(), nextIndex);
@@ -175,7 +177,7 @@ public class StandardPresenter extends BasePresenter<StandardView> {
     }
 
     private void load(long standardId) {
-        addDisposable(dataSource.requestStandards(passingId)
+        addDisposable(dataSource.requestStandards(passingId, categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -192,11 +194,16 @@ public class StandardPresenter extends BasePresenter<StandardView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(passing -> {
-                    StandardView view = getViewState();
+                .doOnSuccess(passing -> {
+                    CriteriasView view = getViewState();
                     view.setSurveyYear(passing.getYear());
                     view.setSchoolName(passing.getSchool().getName());
-                }, this::handleError));
+                })
+                .flatMap(passing -> dataSource.requestCategories(passingId))
+                .toObservable()
+                .flatMapIterable(it -> it)
+                .filter(category -> category.getId() == categoryId)
+                .subscribe(category -> getViewState().setCategoryName(category.getName()), this::handleError));
     }
 
     private void updateAnswer(long passingId, long subCriteriaId, Answer answer) {
