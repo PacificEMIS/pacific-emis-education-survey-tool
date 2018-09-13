@@ -205,6 +205,7 @@ public class DropboxActivity extends BaseActivity implements
             currentBrowsingItem = possibleParent;
             updateUi();
         } else {
+            presenter.pickerCancelled();
             super.onBackPressed();
         }
     }

@@ -9,7 +9,7 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.data.cloud.exceptions.AuthenticationException;
-import fm.doe.national.data.cloud.exceptions.PickException;
+import fm.doe.national.data.cloud.exceptions.PickerDeclinedException;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.utils.Constants;
 
@@ -54,7 +54,7 @@ public class DropboxPresenter extends BasePresenter<DropboxView> {
     }
 
     public void pickerCancelled() {
-        endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(new PickException(Constants.Errors.PICKER_DECLINED)));
+        endingCloudAccessorAction(() -> cloudAccessor.onActionFailure(new PickerDeclinedException()));
     }
 
     private void endingCloudAccessorAction(@NonNull Runnable action) {
