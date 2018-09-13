@@ -17,5 +17,7 @@ public class Constants {
         public static final String PICKER_DECLINED = "Picker declined";
         public static final String NOT_AUTHORIZED = "User not authorized";
         public static final String WRONG_FRAGMENT_ARGS = "Fragment should be created with static create() method";
+        public static final String WRONT_SUMMARY_INPUT_PARAMETER = "Progresses must be less than 4";
+        public static final String SUMMARY_COLUMNS_MISMATCH = "Columns mismatch";
     }
 }

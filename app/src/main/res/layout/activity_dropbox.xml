@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbarLayout"
+            android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/recyclerview_browse"
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/view_delimeter"
-            app:layout_constraintTop_toBottomOf="@+id/appbarLayout"
+            app:layout_constraintTop_toBottomOf="@+id/appbarlayout"
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/item_browsing_content" />
 

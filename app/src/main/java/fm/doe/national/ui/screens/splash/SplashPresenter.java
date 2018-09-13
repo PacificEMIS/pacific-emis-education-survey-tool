@@ -17,6 +17,7 @@ import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.ui.screens.menu.base.MenuPresenter;
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -40,8 +41,15 @@ public class SplashPresenter extends MenuPresenter<SplashView> {
             inputStream = assetManager.open(BuildConfig.SCHOOLS_FILE_NAME);
             List<School> schools = schoolsParser.parse(inputStream);
 
-            addDisposable(dataSource.addSchools(schools)
-                    .andThen(dataSource.createSchoolAccreditation(schoolAccreditation))
+            addDisposable(dataSource.requestSchools()
+                    .flatMapCompletable(resultList -> {
+                        if (resultList.isEmpty()) {
+                            return dataSource
+                                    .addSchools(schools)
+                                    .andThen(dataSource.createSchoolAccreditation(schoolAccreditation));
+                        }
+                        return Completable.complete(); // already exists
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getViewState()::showSelector, this::handleError));

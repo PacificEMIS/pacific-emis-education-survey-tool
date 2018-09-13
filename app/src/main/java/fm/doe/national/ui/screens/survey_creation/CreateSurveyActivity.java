@@ -19,7 +19,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.screens.group_standards.GroupStandardsActivity;
+import fm.doe.national.ui.screens.categories.CategoriesActivity;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,
@@ -74,7 +74,7 @@ public class CreateSurveyActivity extends BaseActivity implements
 
     @Override
     public void navigateToCategoryChooser(long passingId) {
-        startActivity(GroupStandardsActivity.createIntent(this, passingId));
+        startActivity(CategoriesActivity.createIntent(this, passingId));
     }
 
     @Override

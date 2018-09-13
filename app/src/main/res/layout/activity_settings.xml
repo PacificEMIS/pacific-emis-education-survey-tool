@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/appbar"
+        android:id="@+id/appbarlayout"
         layout="@layout/include_appbar"
         app:layout_constraintBottom_toTopOf="@+id/textview_title"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="@string/title_choose_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_logo"

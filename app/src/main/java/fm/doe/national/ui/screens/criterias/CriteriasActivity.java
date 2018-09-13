@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.standard;
+package fm.doe.national.ui.screens.criterias;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -34,12 +35,13 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardActivity extends BaseActivity implements
-        StandardView,
+public class CriteriasActivity extends BaseActivity implements
+        CriteriasView,
         SubcriteriaCallback,
         CommentDialogFragment.OnCommentSubmitListener {
 
     private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
+    private static final String EXTRA_CATEGORY = "EXTRA_CATEGORY";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private final static String TAG_DIALOG = "TAG_DIALOG";
     private static final int REQUEST_CAMERA = 100;
@@ -65,6 +67,9 @@ public class StandardActivity extends BaseActivity implements
     @BindView(R.id.textview_standard_progress)
     TextView progressTextView;
 
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
+
     @BindView(R.id.imageview_standard_icon)
     ImageView iconImageView;
 
@@ -86,29 +91,32 @@ public class StandardActivity extends BaseActivity implements
     @BindView(R.id.textview_standard_title_next)
     TextView nextStandardTitleTextView;
 
-    @BindView(R.id.layout_container)
-    View topContainerView;
+    @BindView(R.id.textview_year)
+    TextView yearTextView;
 
-    @BindView(R.id.imageview_expand_container)
-    ImageView expandContainerImageView;
+    @BindView(R.id.textview_category_name)
+    TextView categoryNameTextView;
 
     @InjectPresenter
-    StandardPresenter presenter;
+    CriteriasPresenter presenter;
 
     @BindInt(android.R.integer.config_shortAnimTime)
     int shortAnimationDuration;
 
     @ProvidePresenter
-    public StandardPresenter providePresenter() {
-        return new StandardPresenter(
-                getIntent().getLongExtra(EXTRA_ACCREDITATION, -1),
-                getIntent().getLongExtra(EXTRA_STANDARD, -1));
+    public CriteriasPresenter providePresenter() {
+        Intent intent = getIntent();
+        return new CriteriasPresenter(
+                intent.getLongExtra(EXTRA_ACCREDITATION, -1),
+                intent.getLongExtra(EXTRA_CATEGORY, -1),
+                intent.getLongExtra(EXTRA_STANDARD, -1));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, long passingId, long standardId) {
-        return new Intent(context, StandardActivity.class)
+    public static Intent createIntent(@NonNull Context context, long passingId, long categoryId, long standardId) {
+        return new Intent(context, CriteriasActivity.class)
                 .putExtra(EXTRA_ACCREDITATION, passingId)
+                .putExtra(EXTRA_CATEGORY, categoryId)
                 .putExtra(EXTRA_STANDARD, standardId);
     }
 
@@ -134,17 +142,17 @@ public class StandardActivity extends BaseActivity implements
     }
 
     private void initViews() {
-        setToolbarMode(ToolbarDisplaying.SECONDARY);
+        setToolbarMode(ToolbarDisplaying.PRIMARY);
 
         recyclerAdapter.setCallback(this);
 
-        prevStandardView.setOnClickListener((View v) -> presenter.onPreviousPressed());
-        nextStandardView.setOnClickListener((View v) -> presenter.onNextPressed());
+        prevStandardView.setOnClickListener(v -> presenter.onPreviousPressed());
+        nextStandardView.setOnClickListener(v -> presenter.onNextPressed());
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_standard;
+        return R.layout.activity_criterias;
     }
 
     @Override
@@ -159,13 +167,13 @@ public class StandardActivity extends BaseActivity implements
 
     @Override
     public void setGlobalInfo(String title, int resourceIndex) {
-        titleTextView.setText(title);
+        setTitle(title);
         applyIcon(iconImageView, resourceIndex, false);
     }
 
     @Override
     public void setProgress(int answered, int total) {
-        progressTextView.setText(getString(R.string.criteria_progress, answered, total));
+        ViewUtils.rebindProgress(total, answered, getString(R.string.criteria_progress), progressTextView, progressBar);
     }
 
     @Override
@@ -182,12 +190,17 @@ public class StandardActivity extends BaseActivity implements
 
     @Override
     public void setSurveyYear(int year) {
-        setToolbarYear(year);
+        yearTextView.setText(String.valueOf(year));
     }
 
     @Override
     public void setSchoolName(String schoolName) {
-        setTitle(schoolName);
+        titleTextView.setText(schoolName);
+    }
+
+    @Override
+    public void setCategoryName(String categoryName) {
+        categoryNameTextView.setText(categoryName);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -17,7 +18,8 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
     @Element
     String name;
 
-    @ElementList(inline = true)
+    @Nullable
+    @ElementList(inline = true, required = false)
     List<SerializableCriteria> criterias;
 
     public SerializableStandard() {
@@ -49,6 +51,7 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
         return new SerializableCriteria(input);
     }
 
+    @Nullable
     @Override
     public List<? extends Criteria> getCriterias() {
         return criterias;

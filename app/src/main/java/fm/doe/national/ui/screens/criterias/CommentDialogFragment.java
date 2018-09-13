@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.standard;
+package fm.doe.national.ui.screens.criterias;
 
 import android.content.Context;
 import android.graphics.Color;

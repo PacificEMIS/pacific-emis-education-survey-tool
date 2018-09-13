@@ -6,10 +6,10 @@ import java.util.List;
 
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
-import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
+import fm.doe.national.data.data_source.models.serializable.LinkedCategory;
 import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
 
-public class OrmLiteGroupStandard implements LinkedGroupStandard {
+public class OrmLiteCategory implements LinkedCategory {
 
     private OrmLiteSurveyItem surveyItem;
 
@@ -17,12 +17,12 @@ public class OrmLiteGroupStandard implements LinkedGroupStandard {
 
     private List<LinkedStandard> standards;
 
-    public OrmLiteGroupStandard(OrmLiteSurveyItem surveyItem, CategoryProgress progress, List<LinkedStandard> standards) {
+    public OrmLiteCategory(OrmLiteSurveyItem surveyItem, CategoryProgress progress, List<LinkedStandard> standards) {
         this(surveyItem, progress);
         this.standards = standards;
     }
 
-    public OrmLiteGroupStandard(OrmLiteSurveyItem surveyItem, CategoryProgress progress) {
+    public OrmLiteCategory(OrmLiteSurveyItem surveyItem, CategoryProgress progress) {
         this.surveyItem = surveyItem;
         this.progress = progress;
     }

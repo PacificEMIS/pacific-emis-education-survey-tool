@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="2dp"
         android:layout_marginEnd="16dp"
-        android:progressDrawable="@drawable/progress_bar_states"
+        android:progressDrawable="@drawable/progress_bar_states_selector"
         app:layout_constraintBottom_toBottomOf="@+id/textview_progress"
         app:layout_constraintEnd_toStartOf="@+id/textview_progress"
         app:layout_constraintTop_toTopOf="@+id/textview_progress" />

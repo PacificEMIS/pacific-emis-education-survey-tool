@@ -11,7 +11,7 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurvey;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
-import fm.doe.national.data.data_source.models.serializable.LinkedGroupStandard;
+import fm.doe.national.data.data_source.models.serializable.LinkedCategory;
 import fm.doe.national.data.data_source.models.serializable.LinkedStandard;
 
 public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
@@ -26,18 +26,18 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
         this.subcriteriaQuestionDao = subcriteriaQuestionDao;
     }
 
-    public List<OrmLiteSurveyItem> createFromGroupStandards(
-            List<? extends LinkedGroupStandard> groupStandards,
+    public List<OrmLiteSurveyItem> createFromCategories(
+            List<? extends LinkedCategory> categories,
             OrmLiteSurvey survey) throws SQLException {
         List<OrmLiteSurveyItem> surveyItems = new ArrayList<>();
 
-        for (LinkedGroupStandard groupStandard : groupStandards) {
+        for (LinkedCategory category : categories) {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
-                    groupStandard.getName(),
-                    OrmLiteSurveyItem.Type.GROUP_STANDARD, survey,
+                    category.getName(),
+                    OrmLiteSurveyItem.Type.CATEGORY, survey,
                     null);
             create(surveyItem);
-            surveyItem.addChildren(createFromStandards(groupStandard.getStandards(), surveyItem));
+            surveyItem.addChildren(createFromStandards(category.getStandards(), surveyItem));
 
             surveyItems.add(surveyItem);
         }
@@ -57,7 +57,9 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
                     null,
                     parentItem);
             create(surveyItem);
-            surveyItem.addChildren(createFromCriterias(standard.getCriterias(), surveyItem));
+
+            List<? extends Criteria> criterias = standard.getCriterias();
+            if (criterias != null) surveyItem.addChildren(createFromCriterias(criterias, surveyItem));
 
             surveyItems.add(surveyItem);
         }
