@@ -32,6 +32,7 @@ import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.photos.PhotosActivity;
 import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.ViewUtils;
 
@@ -136,6 +137,8 @@ public class CriteriasActivity extends BaseActivity implements
                     presenter.onTakePhotoFailure();
                 }
                 break;
+            case PhotosActivity.REQUEST_CHANGES:
+                presenter.onReturnedFromMorePhotos();
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -235,7 +238,14 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void onMorePhotosClick(SubCriteria subCriteria) {
-        showToast(Text.from("MORE CLICKED"));
+        presenter.onMorePhotosClick(subCriteria);
+    }
+
+    @Override
+    public void navigateToPhotos(long passingId, SubCriteria subCriteria) {
+        startActivityForResult(
+                PhotosActivity.createIntent(this, passingId, subCriteria),
+                PhotosActivity.REQUEST_CHANGES);
     }
 
     @Override
