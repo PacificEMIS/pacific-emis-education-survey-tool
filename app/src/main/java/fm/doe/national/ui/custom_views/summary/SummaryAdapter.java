@@ -3,16 +3,13 @@ package fm.doe.national.ui.custom_views.summary;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegarecyclerview.sticky_header.StickyHeaderAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
-import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Category;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.Constants;
 
@@ -30,7 +27,7 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
 
     @Override
     public void onBindHeaderViewHolder(HeaderViewHolder headerViewHolder, int i) {
-        headerViewHolder.bind(getItem(i).category);
+        headerViewHolder.bind(getItem(i));
     }
 
     @Override
@@ -78,17 +75,17 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
         }
     }
 
-    class HeaderViewHolder extends OmegaRecyclerView.ViewHolder {
+    class HeaderViewHolder extends ViewHolder {
         @BindView(R.id.textview_header_name)
         TextView headerTextView;
 
         HeaderViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary_sticky_header);
-            ButterKnife.bind(this, itemView);
         }
 
-        void bind(Category category) {
-            headerTextView.setText(category.getName());
+        @Override
+        protected void onBind(SummaryViewData item) {
+            headerTextView.setText(item.category.getName());
         }
     }
 }
