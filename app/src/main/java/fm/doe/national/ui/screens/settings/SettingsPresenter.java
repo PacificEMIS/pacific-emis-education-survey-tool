@@ -19,6 +19,7 @@ import fm.doe.national.data.files.PicturesRepository;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.utils.Constants;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -90,9 +91,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         SettingsView view = getViewState();
         List<CloudAccountData> connectedAccounts = interactor.getConnectedAccounts();
         view.showAccountConnections(connectedAccounts);
-        for (CloudAccountData accountData : connectedAccounts) {
-            view.hideConnectView(accountData.getType());
-        }
+        addDisposable(Observable.fromIterable(connectedAccounts)
+                .map(CloudAccountData::getType)
+                .toList()
+                .subscribe(getViewState()::hideConnectViews));
     }
 
     public void onChangeLogoClick() {

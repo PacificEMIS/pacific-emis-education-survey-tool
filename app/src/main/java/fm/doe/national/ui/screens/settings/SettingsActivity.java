@@ -56,6 +56,9 @@ public class SettingsActivity extends BaseActivity implements
     @BindView(R.id.cardview_drive)
     CloudConnectionCardView driveView;
 
+    @BindView(R.id.layout_possible_connections)
+    View possibleConnectionsView;
+
     public static Intent createIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
     }
@@ -134,14 +137,21 @@ public class SettingsActivity extends BaseActivity implements
     }
 
     @Override
-    public void hideConnectView(CloudType type) {
-        switch (type) {
-            case DRIVE:
-                driveView.setVisibility(View.GONE);
-                break;
-            case DROPBOX:
-                dropboxView.setVisibility(View.GONE);
-                break;
+    public void hideConnectViews(List<CloudType> types) {
+        // hide possible connection view if all clouds already connected
+        if (CloudType.values().length - 1 == types.size()) {
+            possibleConnectionsView.setVisibility(View.GONE);
+        } else {
+            for (CloudType type : types) {
+                switch (type) {
+                    case DRIVE:
+                        driveView.setVisibility(View.GONE);
+                        break;
+                    case DROPBOX:
+                        dropboxView.setVisibility(View.GONE);
+                        break;
+                }
+            }
         }
     }
 
