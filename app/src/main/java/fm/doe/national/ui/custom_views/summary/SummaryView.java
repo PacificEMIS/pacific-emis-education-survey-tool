@@ -1,7 +1,6 @@
 package fm.doe.national.ui.custom_views.summary;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -35,7 +34,6 @@ public class SummaryView extends LinearLayout {
     }
 
     private void initViews() {
-        Resources resources = getContext().getResources();
         summaryRecyclerView.setAdapter(adapter);
         summaryRecyclerView.setNestedScrollingEnabled(true);
         summaryRecyclerView.setHasFixedSize(true);
