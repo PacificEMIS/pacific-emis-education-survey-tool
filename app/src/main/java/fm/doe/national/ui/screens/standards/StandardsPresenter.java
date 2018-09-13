@@ -21,6 +21,11 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
         this.passingId = passingId;
         this.categoryId = categoryId;
         loadPassing();
+    }
+
+    @Override
+    public void attachView(StandardsView view) {
+        super.attachView(view);
         loadStandards();
     }
 

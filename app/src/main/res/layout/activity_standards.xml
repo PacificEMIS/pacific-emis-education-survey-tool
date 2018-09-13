@@ -52,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:progressDrawable="@drawable/progress_bar_states_selector" />
 
         <TextView
             android:id="@+id/textview_progress"
