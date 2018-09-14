@@ -120,7 +120,9 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    implementation "org.simpleframework:simple-xml:$simpleXmlVersion"
+    implementation ("org.simpleframework:simple-xml:$simpleXmlVersion") {
+        exclude group: 'xpp3', module: 'xpp3'
+    }
 
     // FastCsv
     implementation "de.siegmar:fastcsv:$fastCsvVersion"
