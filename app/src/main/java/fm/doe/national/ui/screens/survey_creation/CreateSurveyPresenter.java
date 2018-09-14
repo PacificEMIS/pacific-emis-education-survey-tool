@@ -57,7 +57,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     public void onSearchQueryChanged(String query) {
         List<School> queriedSchools = new ArrayList<>();
         for (School school : schools) {
-            if (school.getName().contains(query)) {
+            if (school.getName().toLowerCase().contains(query.toLowerCase())) {
                 queriedSchools.add(school);
             }
         }
