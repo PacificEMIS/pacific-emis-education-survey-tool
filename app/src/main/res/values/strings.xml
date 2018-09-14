@@ -78,6 +78,7 @@
     <string name="summary">Summary</string>
     <string name="more_photos_pattern">+%1$d</string>
     <string name="label_attached_photos">Attached photos</string>
+    <string name="menu_item_confirm">Confirm</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>

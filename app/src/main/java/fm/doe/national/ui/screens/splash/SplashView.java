@@ -12,4 +12,9 @@ public interface SplashView extends MenuView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showSelector();
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showLongLoadingProgressBar();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void hideLongLoadingProgressBar();
 }
