@@ -1,15 +1,14 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
@@ -267,16 +266,12 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void onPhotoClicked(View anchor, String photoPath) {
-        Intent intent = FullscreenImageActivity.createIntent(this, photoPath);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewCompat.setTransitionName(anchor, FullscreenImageActivity.TRANSITION_IMAGE);
-            ActivityOptions options = ActivityOptions
-                    .makeSceneTransitionAnimation(this, anchor, FullscreenImageActivity.TRANSITION_IMAGE);
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
-        }
+        String transitionName = ViewCompat.getTransitionName(anchor);
 
+        Intent intent = FullscreenImageActivity.createIntent(this, photoPath, transitionName);
+        ActivityOptionsCompat optionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this, anchor, transitionName);
+        startActivity(intent, optionsCompat.toBundle());
     }
 
     @Override

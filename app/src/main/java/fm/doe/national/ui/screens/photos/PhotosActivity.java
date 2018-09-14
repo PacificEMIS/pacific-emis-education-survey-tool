@@ -1,10 +1,9 @@
 package fm.doe.national.ui.screens.photos;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -75,15 +74,12 @@ public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAd
 
     @Override
     public void onPhotoClick(View v, String photo) {
-        Intent intent = FullscreenImageActivity.createIntent(this, photo);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewCompat.setTransitionName(v, FullscreenImageActivity.TRANSITION_IMAGE);
-            ActivityOptions options = ActivityOptions
-                    .makeSceneTransitionAnimation(this, v, FullscreenImageActivity.TRANSITION_IMAGE);
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
-        }
+        String transitionName = ViewCompat.getTransitionName(v);
+
+        Intent intent = FullscreenImageActivity.createIntent(this, photo, transitionName);
+        ActivityOptionsCompat optionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this, v, transitionName);
+        startActivity(intent, optionsCompat.toBundle());
     }
 
     @Override
