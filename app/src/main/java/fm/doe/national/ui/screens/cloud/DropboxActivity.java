@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -25,7 +24,6 @@ import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class DropboxActivity extends BaseActivity implements
         DropboxView,
-        View.OnClickListener,
         BaseAdapter.OnItemClickListener<BrowsingTreeObject> {
 
     private static final int ACTION_DEFAULT = -1;
@@ -36,11 +34,11 @@ public class DropboxActivity extends BaseActivity implements
     private static final String EXTRA_ACTION = "EXTRA_ACTION";
     private static final String EXTRA_BROWSING_ROOT = "EXTRA_BROWSING_ROOT";
 
-    @BindView(R.id.constraintlayout_picker)
-    ConstraintLayout pickerView;
+    private float titleTextSizePrimary;
+    private float titleTextSizeSecondary;
 
-    @BindView(R.id.imageview_back)
-    ImageView backImageView;
+    @BindView(R.id.layout_picker)
+    View pickerView;
 
     @BindView(R.id.textview_title)
     TextView titleTextView;
@@ -51,18 +49,14 @@ public class DropboxActivity extends BaseActivity implements
     @BindView(R.id.recyclerview_browse)
     RecyclerView browseRecycler;
 
-    @BindView(R.id.button_confirm)
-    Button confirmButton;
-
-    @BindView(R.id.button_cancel)
-    Button cancelButton;
-
     @InjectPresenter
     DropboxPresenter presenter;
 
     private boolean haveBeenPaused = false;
     private FilePickerListAdapter adapter = new FilePickerListAdapter();
     private BrowsingTreeObject currentBrowsingItem;
+    private MenuItem selectMenuItem;
+    private boolean shouldShowConfirm;
 
 
     public static Intent createAuthIntent(@NonNull Context context) {
@@ -119,19 +113,38 @@ public class DropboxActivity extends BaseActivity implements
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_dropbox;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         pickerView.setVisibility(View.GONE);
-        confirmButton.setOnClickListener(this);
-        cancelButton.setOnClickListener(this);
-        backImageView.setOnClickListener(this);
         browseRecycler.setAdapter(adapter);
+
+        titleTextSizePrimary = getResources().getDimension(R.dimen.textsize_dropbox_title_primary);
+        titleTextSizeSecondary = getResources().getDimension(R.dimen.textsize_dropbox_title_secondary);
     }
 
     @Override
-    protected int getContentView() {
-        return R.layout.activity_dropbox;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_dropbox, menu);
+        selectMenuItem = menu.findItem(R.id.action_confirm);
+        selectMenuItem.setVisible(shouldShowConfirm);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_confirm:
+                presenter.onBrowsingItemPicked(currentBrowsingItem);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -165,13 +178,10 @@ public class DropboxActivity extends BaseActivity implements
 
         switch (pickerType) {
             case FILE:
-                confirmButton.setVisibility(View.GONE);
-                cancelButton.setVisibility(View.GONE);
                 titleTextView.setText(R.string.title_select_file);
                 break;
             case FOLDER:
-                confirmButton.setVisibility(View.VISIBLE);
-                cancelButton.setVisibility(View.VISIBLE);
+                shouldShowConfirm = true;
                 titleTextView.setText(R.string.title_select_folder);
                 break;
         }
@@ -184,29 +194,22 @@ public class DropboxActivity extends BaseActivity implements
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.button_confirm:
-                presenter.onBrowsingItemPicked(currentBrowsingItem);
-                break;
-            case R.id.button_cancel:
-                presenter.pickerCancelled();
-                break;
-            case R.id.imageview_back:
-                onBackPressed();
-                break;
-        }
+    public void onBackPressed() {
+        onUpPressed();
     }
 
     @Override
-    public void onBackPressed() {
+    public void onHomePressed() {
+        onUpPressed();
+    }
+
+    private void onUpPressed() {
         BrowsingTreeObject possibleParent = currentBrowsingItem.getParent();
         if (possibleParent != null) {
             currentBrowsingItem = possibleParent;
             updateUi();
         } else {
             presenter.pickerCancelled();
-            super.onBackPressed();
         }
     }
 
@@ -222,7 +225,16 @@ public class DropboxActivity extends BaseActivity implements
 
     private void updateUi() {
         adapter.setItems(currentBrowsingItem.getChilds());
-        pathTextView.setText(currentBrowsingItem.getPath());
-        backImageView.setVisibility(currentBrowsingItem.getParent() != null ? View.VISIBLE : View.GONE);
+
+        if (currentBrowsingItem.getParent() != null) {
+            titleTextView.setTextSize(titleTextSizeSecondary);
+            titleTextView.setAllCaps(true);
+            pathTextView.setText(currentBrowsingItem.getPath());
+            pathTextView.setVisibility(View.VISIBLE);
+        } else {
+            titleTextView.setTextSize(titleTextSizePrimary);
+            titleTextView.setAllCaps(false);
+            pathTextView.setVisibility(View.GONE);
+        }
     }
 }

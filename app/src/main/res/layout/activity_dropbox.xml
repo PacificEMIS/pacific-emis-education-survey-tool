@@ -4,112 +4,34 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white">
+    tools:context=".ui.screens.cloud.DropboxActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintlayout_picker"
+    <LinearLayout
+        android:id="@+id/layout_picker"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerview_browse"
-            app:layout_constraintTop_toTopOf="parent">
+            android:fitsSystemWindows="true">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_toolbar">
-
-                <ImageView
-                    android:id="@+id/imageview_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    app:srcCompat="@drawable/ic_arrow_back_24dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textview_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:textAllCaps="true"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toTopOf="@+id/textview_path"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageview_back"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="TextView" />
-
-                <TextView
-                    android:id="@+id/textview_path"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/soft_grey"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textview_title"
-                    app:layout_constraintTop_toBottomOf="@+id/textview_title"
-                    tools:text="a/b/c/d" />
-
-            </android.support.constraint.ConstraintLayout>
+            <include layout="@layout/toolbar_dropbox"/>
 
         </android.support.design.widget.AppBarLayout>
 
         <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
             android:id="@+id/recyclerview_browse"
+            style="@style/BaseThemeRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/view_delimeter"
-            app:layout_constraintTop_toBottomOf="@+id/appbarlayout"
+            android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_browsing_content" />
-
-        <View
-            android:id="@+id/view_delimeter"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/blue"
-            app:layout_constraintBottom_toTopOf="@+id/button_confirm"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerview_browse" />
-
-        <Button
-            android:id="@+id/button_confirm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/confirm"
-            android:textColor="@color/blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_cancel"
-            app:layout_constraintTop_toBottomOf="@+id/view_delimeter" />
-
-        <Button
-            android:id="@+id/button_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/cancel"
-            android:textColor="@color/blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_confirm"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_delimeter" />
-
-    </android.support.constraint.ConstraintLayout>
+            app:showDivider="middle"
+            app:dividerPadding="24dp"
+            tools:listitem="@layout/item_browsing_content"/>
+    </LinearLayout>
 
 </FrameLayout>

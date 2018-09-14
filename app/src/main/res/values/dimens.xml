@@ -10,4 +10,6 @@
     <dimen name="size_toolbar">56dp</dimen>
 
     <dimen name="textsize_summary_category">10sp</dimen>
+    <dimen name="textsize_dropbox_title_primary">20sp</dimen>
+    <dimen name="textsize_dropbox_title_secondary">16sp</dimen>
 </resources>

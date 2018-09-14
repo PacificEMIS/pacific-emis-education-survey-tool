@@ -40,10 +40,10 @@ public class FilePickerListAdapter extends BaseAdapter<BrowsingTreeObject> {
             boolean isObjectEnabled = item.isDirectory() || kind == DropboxView.PickerType.FILE;
             if (!isObjectEnabled) {
                 itemView.setOnClickListener(null);
-                nameTextView.setTextColor(getResources().getColor(R.color.soft_grey));
+                nameTextView.setAlpha(0.5f);
             } else {
                 itemView.setOnClickListener(this);
-                nameTextView.setTextColor(getResources().getColor(R.color.black));
+                nameTextView.setAlpha(1.0f);
             }
             nameTextView.setText(item.getName());
             iconImageView.setImageResource(item.isDirectory() ? R.drawable.ic_folder_24dp : R.drawable.ic_file_24dp);
