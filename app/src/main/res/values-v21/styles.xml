@@ -3,8 +3,8 @@
     <style name="AppTheme" parent="BaseAppTheme">
         <item name="android:windowActivityTransitions">true</item>
 
-        <item name="android:windowSharedElementEnterTransition">@transition/change_image_transform</item>
-        <item name="android:windowSharedElementExitTransition">@transition/change_image_transform</item>
+        <item name="android:windowEnterTransition">@transition/window_fade</item>
+        <item name="android:windowExitTransition">@transition/window_fade</item>
     </style>
     
 </resources>

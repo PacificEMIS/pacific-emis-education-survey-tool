@@ -1,15 +1,14 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +31,7 @@ import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.photos.PhotosActivity;
 import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.ViewUtils;
 
@@ -45,6 +45,7 @@ public class CriteriasActivity extends BaseActivity implements
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private final static String TAG_DIALOG = "TAG_DIALOG";
     private static final int REQUEST_CAMERA = 100;
+    private static final int REQUEST_CHANGES = 101;
 
     private static final int[] icons = {
             R.drawable.ic_standard_leadership_selector,
@@ -136,6 +137,8 @@ public class CriteriasActivity extends BaseActivity implements
                     presenter.onTakePhotoFailure();
                 }
                 break;
+            case REQUEST_CHANGES:
+                presenter.onReturnedFromMorePhotos();
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -234,6 +237,16 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
+    public void onMorePhotosClick(SubCriteria subCriteria) {
+        presenter.onMorePhotosClick(subCriteria);
+    }
+
+    @Override
+    public void navigateToPhotos(long passingId, SubCriteria subCriteria) {
+        startActivityForResult(PhotosActivity.createIntent(this, passingId, subCriteria), REQUEST_CHANGES);
+    }
+
+    @Override
     public void takePictureTo(@NonNull File toFile) {
         PackageManager pm = getPackageManager();
 
@@ -253,16 +266,12 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void onPhotoClicked(View anchor, String photoPath) {
-        Intent intent = FullscreenImageActivity.createIntent(this, photoPath);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewCompat.setTransitionName(anchor, FullscreenImageActivity.TRANSITION_IMAGE);
-            ActivityOptions options = ActivityOptions
-                    .makeSceneTransitionAnimation(this, anchor, FullscreenImageActivity.TRANSITION_IMAGE);
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
-        }
+        String transitionName = ViewCompat.getTransitionName(anchor);
 
+        Intent intent = FullscreenImageActivity.createIntent(this, photoPath, transitionName);
+        ActivityOptionsCompat optionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this, anchor, transitionName);
+        startActivity(intent, optionsCompat.toBundle());
     }
 
     @Override

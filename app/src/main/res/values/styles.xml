@@ -191,4 +191,16 @@
         <item name="android:background">@color/white</item>
     </style>
     <!-- endregion -->
+
+    <!-- region Photos -->
+    <style name="DeleteButton" parent="SelectableBorderless">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
+    <!-- endregion -->
+
 </resources>

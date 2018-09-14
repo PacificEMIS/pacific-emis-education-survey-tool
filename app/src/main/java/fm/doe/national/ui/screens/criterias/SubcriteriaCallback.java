@@ -14,4 +14,5 @@ public interface SubcriteriaCallback {
     void onAddPhotoClicked(SubCriteria subCriteria);
     void onRemovePhotoClicked(SubCriteria subCriteria, String photoPath);
     void onPhotoClicked(View anchor, String photoPath);
+    void onMorePhotosClick(SubCriteria subCriteria);
 }

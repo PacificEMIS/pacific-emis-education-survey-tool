@@ -13,7 +13,7 @@ import fm.doe.national.ui.screens.base.BaseView;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SettingsView extends BaseView {
     void showAccountConnections(List<CloudAccountData> viewDataList);
-    void hideConnectView(CloudType type);
+    void hideConnectViews(List<CloudType> types);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void pickPhotoFromGallery();

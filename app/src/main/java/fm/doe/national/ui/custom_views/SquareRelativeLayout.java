@@ -1,20 +1,20 @@
 package fm.doe.national.ui.custom_views;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.widget.RelativeLayout;
 
-public class SquareImageView extends AppCompatImageView {
+public class SquareRelativeLayout extends RelativeLayout {
 
-    public SquareImageView(Context context) {
+    public SquareRelativeLayout(Context context) {
         this(context, null);
     }
 
-    public SquareImageView(Context context, AttributeSet attributeSet) {
+    public SquareRelativeLayout(Context context, AttributeSet attributeSet) {
         this(context, attributeSet, 0);
     }
 
-    public SquareImageView(Context context, AttributeSet attributeSet, int defStyle) {
+    public SquareRelativeLayout(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
     }
 

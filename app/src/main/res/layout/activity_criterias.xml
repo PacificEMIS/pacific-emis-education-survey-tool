@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.screens.criterias.CriteriasActivity">
 
     <include
         android:id="@+id/appbarlayout"
         layout="@layout/include_standard_appbar" />
-
 
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview_criterias"
@@ -33,6 +33,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
                 android:gravity="end">
+                
                 <ProgressBar
                     android:id="@+id/progressbar"
                     style="?android:attr/progressBarStyleHorizontal"

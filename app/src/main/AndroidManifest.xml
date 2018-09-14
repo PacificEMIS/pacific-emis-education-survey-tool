@@ -53,8 +53,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.standards.StandardsActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.screens.criterias.FullscreenImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.screens.photos.PhotosActivity"
+            android:label="@string/label_attached_photos"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"

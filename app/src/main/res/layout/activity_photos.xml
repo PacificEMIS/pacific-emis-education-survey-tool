@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screens.photos.PhotosActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_appbar" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_photos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="24dp"
+        app:layoutManager="GridLayoutManager"
+        app:spanCount="@integer/count_spans_photos"
+        tools:listitem="@layout/item_photo"/>
+
+</LinearLayout>

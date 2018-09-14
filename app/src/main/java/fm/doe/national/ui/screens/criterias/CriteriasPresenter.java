@@ -134,6 +134,24 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         getViewState().notifySubCriteriaChanged(subCriteria);
     }
 
+    public void onMorePhotosClick(SubCriteria subCriteria) {
+        selectedSubCriteria = subCriteria;
+        getViewState().navigateToPhotos(passingId, subCriteria);
+    }
+
+    public void onReturnedFromMorePhotos() {
+        if (selectedSubCriteria == null) return;
+
+        addDisposable(dataSource.requestAnswer(passingId, selectedSubCriteria.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(answer -> {
+                    selectedSubCriteria.getAnswer().setPhotos(answer.getPhotos());
+                    getViewState().notifySubCriteriaChanged(selectedSubCriteria);
+                    selectedSubCriteria = null;
+                }, this::handleError));
+    }
+
     private void afterAnyPhotoChanges(SubCriteria subCriteria) {
         updateAnswer(passingId, subCriteria.getId(), subCriteria.getAnswer());
         getViewState().notifySubCriteriaChanged(subCriteria);

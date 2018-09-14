@@ -44,7 +44,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     public void onSearchQueryChanged(String query) {
         List<SchoolAccreditationPassing> queriedPassings = new ArrayList<>();
         for (SchoolAccreditationPassing passing : passings) {
-            if (passing.getSchool().getName().contains(query)) {
+            if (passing.getSchool().getName().toLowerCase().contains(query.toLowerCase())) {
                 queriedPassings.add(passing);
             }
         }

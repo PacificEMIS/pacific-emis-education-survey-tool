@@ -21,6 +21,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.data.cloud.exceptions.PickException;
+import fm.doe.national.data.cloud.exceptions.PickerDeclinedException;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.utils.Constants;
 
@@ -84,7 +85,7 @@ public class DriveActivity extends BaseActivity {
                     DriveId id = data.getParcelableExtra(OpenFileActivityOptions.EXTRA_RESPONSE_DRIVE_ID);
                     driveCloudAccessor.onFileContentObtained(id);
                 } else {
-                    driveCloudAccessor.onActionFailure(new PickException(Constants.Errors.PICKER_DECLINED));
+                    driveCloudAccessor.onActionFailure(new PickerDeclinedException());
                 }
                 break;
             case REQUEST_CODE_PICK_FOLDER:
@@ -92,7 +93,7 @@ public class DriveActivity extends BaseActivity {
                     DriveId id = data.getParcelableExtra(OpenFileActivityOptions.EXTRA_RESPONSE_DRIVE_ID);
                     driveCloudAccessor.onFolderPicked(id);
                 } else {
-                    driveCloudAccessor.onActionFailure(new PickException(Constants.Errors.PICKER_DECLINED));
+                    driveCloudAccessor.onActionFailure(new PickerDeclinedException());
                 }
         }
         finish();

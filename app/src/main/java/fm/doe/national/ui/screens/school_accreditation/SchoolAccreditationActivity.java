@@ -74,6 +74,9 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
+        // SearchView is not MATCH_PARENT in Toolbar, it's bounded by MaxWidth
+        // To make it MATCH_PARENT just set MaxValue to MAX_INT
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         return true;
     }
 
