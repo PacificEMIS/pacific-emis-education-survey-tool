@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.base;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,8 +25,11 @@ import java.io.Serializable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
+import fm.doe.national.ui.custom_views.ProgressDialogFragment;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
+
+    private static final String TAG_PROGRESS_DIALOG = "TAG_PROGRESS_DIALOG";
 
     @Nullable
     @BindView(R.id.imageview_toolbar_clock)
@@ -46,7 +48,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     protected Toolbar toolbar;
 
     @Nullable
-    private ProgressDialog progressDialog = null;
+    private ProgressDialogFragment progressDialog = null;
     private int progressDialogsCount = 0;
 
     @Override
@@ -177,12 +179,10 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     }
 
     @NonNull
-    private ProgressDialog createProgressDialog(Text text) {
-        ProgressDialog dialog = new ProgressDialog(this, R.style.Theme_AppCompat_Dialog);
-        dialog.setIndeterminate(true);
+    private ProgressDialogFragment createProgressDialog(Text text) {
+        ProgressDialogFragment dialog = ProgressDialogFragment.create();
         dialog.setCancelable(false);
-        dialog.setMessage(text.getString(getResources()));
-        dialog.show();
+        dialog.show(getSupportFragmentManager(), TAG_PROGRESS_DIALOG);
         return dialog;
     }
 
