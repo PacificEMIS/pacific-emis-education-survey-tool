@@ -37,7 +37,6 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
 
     class ItemViewHolder extends ViewHolder {
         private static final float BOUNDARY_PASS_PERCENTAGE = 0.5f;
-        private final int emptyColor;
 
         @BindView(R.id.textview_summary_name)
         TextView nameTextView;
@@ -47,7 +46,6 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
 
         ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary);
-            emptyColor = getResources().getColor(R.color.white);
         }
 
         @Override
@@ -57,20 +55,22 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
             if (cellTextViews.size() < item.progresses.size())
                 throw new IllegalStateException(Constants.Errors.WRONT_SUMMARY_INPUT_PARAMETER);
 
-            int i = 0;
-            for (; i < item.progresses.size(); i++) {
+            for (int i = 0; i < cellTextViews.size(); i++) {
                 TextView currentTextView = cellTextViews.get(i);
+
+                boolean isProgressExist = i < item.progresses.size();
+                currentTextView.setEnabled(isProgressExist);
+
+                if (!isProgressExist) {
+                    continue;
+                }
+
                 SummaryViewData.Progress progress = item.progresses.get(i);
 
                 boolean isPassed = (float) progress.completed / progress.total >= BOUNDARY_PASS_PERCENTAGE;
-                currentTextView.setActivated(isPassed);
+                currentTextView.setSelected(isPassed);
                 currentTextView.setText(isPassed ?
                         String.format(getString(R.string.criteria_progress), progress.completed, progress.total) : null);
-            }
-
-            // fill missing fields with color
-            for (; i < cellTextViews.size(); i++) {
-                cellTextViews.get(i).setBackgroundColor(emptyColor);
             }
         }
     }
