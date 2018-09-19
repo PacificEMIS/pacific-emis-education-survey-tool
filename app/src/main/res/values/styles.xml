@@ -7,8 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/gray</item>
 
-        <item name="android:windowTranslucentStatus">true</item>
-
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
@@ -18,8 +17,8 @@
 
     <style name="AppTheme" parent="BaseAppTheme"/>
 
-    <style name="NonTransculentAppTheme" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">false</item>
+    <style name="TranslucentAppTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">
