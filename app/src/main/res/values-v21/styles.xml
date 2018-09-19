@@ -2,8 +2,10 @@
 
     <style name="AppTheme" parent="BaseAppTheme">
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowEnterTransition">@transition/window_fade</item>
         <item name="android:windowExitTransition">@transition/window_fade</item>
     </style>
-    
+
 </resources>

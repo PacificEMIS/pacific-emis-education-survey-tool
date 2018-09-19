@@ -20,7 +20,7 @@
         <activity
             android:name=".ui.screens.splash.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentAppTheme">
+            android:theme="@style/LightIconsTranslucentAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,41 +29,52 @@
         </activity>
         <activity
             android:name=".ui.screens.criterias.CriteriasActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.categories.CategoriesActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:label="@string/label_create_survey"
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.school_accreditation.SchoolAccreditationActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:label="@string/label_school_accreditation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.cloud.DriveActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.cloud.DropboxActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.settings.SettingsActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:label="@string/label_settings"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.standards.StandardsActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.criterias.FullscreenImageActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.photos.PhotosActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:label="@string/label_attached_photos"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
+            android:theme="@style/DarkIconsTranslucentAppTheme"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask">
             <intent-filter>

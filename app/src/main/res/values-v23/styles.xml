@@ -3,8 +3,15 @@
 
     <style name="AppTheme" parent="BaseAppTheme">
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowEnterTransition">@transition/window_fade</item>
         <item name="android:windowExitTransition">@transition/window_fade</item>
+    </style>
+
+    <style name="LightIconsTranslucentAppTheme" parent="AppTheme">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="DarkIconsTranslucentAppTheme" parent="AppTheme">
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

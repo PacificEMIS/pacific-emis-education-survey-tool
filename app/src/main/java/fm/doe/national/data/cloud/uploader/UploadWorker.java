@@ -39,6 +39,7 @@ public class UploadWorker extends Worker {
                         .flatMapCompletable(passing -> cloudRepository.uploadContent(
                                 serializer.serialize(linkedSchoolAccreditation), createFilename(passing))))
                 .subscribe(() -> {
+                    System.out.println();
                     // nothing
                 }, throwable -> Log.e(TAG, "doWork: ", throwable));
         return Result.SUCCESS;

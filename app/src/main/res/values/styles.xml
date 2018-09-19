@@ -1,13 +1,14 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@color/gray</item>
 
-        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
@@ -17,9 +18,9 @@
 
     <style name="AppTheme" parent="BaseAppTheme"/>
 
-    <style name="TranslucentAppTheme" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
-    </style>
+    <style name="LightIconsTranslucentAppTheme" parent="AppTheme"/>
+
+    <style name="DarkIconsTranslucentAppTheme" parent="AppTheme"/>
 
     <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/charcoal_grey</item>
