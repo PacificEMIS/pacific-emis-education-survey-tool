@@ -4,19 +4,50 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.omega_r.libs.omegarecyclerview.sticky_header.StickyHeaderAdapter;
+
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
-public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationPassing> {
+public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationPassing> implements StickyHeaderAdapter<SchoolAccreditationAdapter.HeaderViewHolder> {
 
     @Override
     protected SchoolAccreditationViewHolder provideViewHolder(ViewGroup parent) {
         return new SchoolAccreditationViewHolder(parent);
     }
+
+    @Override
+    public long getHeaderId(int i) {
+        return 0;
+    }
+
+    @Override
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
+        return new HeaderViewHolder(viewGroup);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(HeaderViewHolder headerViewHolder, int i) {
+
+    }
+
+    protected class HeaderViewHolder extends ViewHolder {
+
+        HeaderViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_surveys_sticky_header);
+        }
+
+        @Override
+        protected void onBind(SchoolAccreditationPassing item) {
+
+        }
+    }
+
 
     protected class SchoolAccreditationViewHolder extends ViewHolder {
 

@@ -7,13 +7,17 @@
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@color/gray</item>
 
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
 
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
 
         <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
+
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowEnterTransition" tools:targetApi="lollipop">@transition/window_fade</item>
+        <item name="android:windowExitTransition" tools:targetApi="lollipop">@transition/window_fade</item>
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme"/>

@@ -1,48 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.screens.school_accreditation.SchoolAccreditationActivity">
 
+
+
     <include layout="@layout/include_appbar" />
 
-    <TextView
-        style="@style/Subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/header_school_accreditation" />
-
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-            android:id="@+id/recyclerview_categories"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/BaseThemeRecyclerView"
-            app:layoutManager="LinearLayoutManager"
-            app:showDivider="middle"
-            app:dividerPaddingStart="24dp"
-            app:dividerPaddingEnd="24dp"
-            tools:listitem="@layout/item_survey" />
+            android:orientation="vertical">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_new_accreditation"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="end|bottom"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="24dp"
-            app:backgroundTint="@color/colorAccent"
-            app:layout_behavior="fm.doe.national.ui.screens.school_accreditation.FloatingActionButtonBehavior"
-            app:srcCompat="@drawable/ic_plus"
-            android:scaleType="center"/>
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/header_school_accreditation" />
 
-    </android.support.design.widget.CoordinatorLayout>
+            <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+                android:id="@+id/recyclerview_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/BaseThemeRecyclerView"
+                app:dividerPaddingEnd="24dp"
+                app:dividerPaddingStart="24dp"
+                app:layoutManager="LinearLayoutManager"
+                app:showDivider="middle"
+                tools:listitem="@layout/item_survey">
 
-</LinearLayout>
+
+            </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_new_accreditation"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:scaleType="center"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_behavior="fm.doe.national.ui.screens.school_accreditation.FloatingActionButtonBehavior"
+        app:srcCompat="@drawable/ic_plus" />
+
+</android.support.design.widget.CoordinatorLayout>
