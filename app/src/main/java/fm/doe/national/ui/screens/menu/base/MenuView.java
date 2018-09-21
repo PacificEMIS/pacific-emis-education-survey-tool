@@ -8,6 +8,7 @@ import com.omega_r.libs.omegatypes.Text;
 import java.util.List;
 
 import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.ui.screens.menu.MainMenuItem;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface MenuView extends BaseView {
@@ -15,7 +16,7 @@ public interface MenuView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSchoolAccreditationScreen();
 
-    void setItems(List<Text> items);
+    void setItems(List<MainMenuItem> items);
 
     void setLogo(String path);
 }

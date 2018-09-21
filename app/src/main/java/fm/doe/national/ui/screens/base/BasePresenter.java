@@ -15,25 +15,25 @@ import io.reactivex.exceptions.OnErrorNotImplementedException;
 public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T> {
     protected void handleError(Throwable throwable) {
         if (throwable instanceof NetworkIOException) {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_network));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_network));
         } else if (throwable instanceof AuthenticationException) {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_auth));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_auth));
         } else if (throwable instanceof FileExportException) {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_export));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_export));
         } else if (throwable instanceof FileImportException) {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_import));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_import));
         } else if (throwable instanceof PickerDeclinedException) {
             // nothing - user just declined picker
         } else if (throwable instanceof PickException) {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_picker));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_picker));
         } else if (throwable instanceof Parser.ParseException) {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_parse));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_parse));
         } else if (throwable instanceof OnErrorNotImplementedException) {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_any));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_any));
         } else if (throwable instanceof RuntimeException) {
             throw (RuntimeException) throwable;
         } else {
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_any));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_any));
         }
     }
 }

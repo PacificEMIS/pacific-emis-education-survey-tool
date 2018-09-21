@@ -88,7 +88,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
             takenPictureFile = picturesRepository.createEmptyFile();
             if (takenPictureFile != null) getViewState().takePictureTo(takenPictureFile);
         } catch (IOException ex) {
-            getViewState().showWarning(Text.from(R.string.title_warning), Text.from(R.string.error_take_picture));
+            getViewState().showMessage(Text.from(R.string.title_warning), Text.from(R.string.error_take_picture));
         }
     }
 

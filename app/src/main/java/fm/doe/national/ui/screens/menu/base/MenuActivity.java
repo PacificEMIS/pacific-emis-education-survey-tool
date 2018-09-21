@@ -13,6 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.menu.MainMenuItem;
 import fm.doe.national.ui.screens.menu.MenuListAdapter;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
 import fm.doe.national.utils.ViewUtils;
@@ -51,12 +52,12 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
     }
 
     @Override
-    public void setItems(List<Text> items) {
+    public void setItems(List<MainMenuItem> items) {
         menuAdapter.setItems(items);
     }
 
-    public void onRecyclerItemClick(Text item) {
-        getPresenter().onTypeTestClicked();
+    public void onRecyclerItemClick(MainMenuItem item) {
+        getPresenter().onTypeTestClicked(item);
     }
 
     @Override
