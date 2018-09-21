@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
@@ -24,12 +23,10 @@ import fm.doe.national.data.files.PicturesRepository;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 @InjectViewState
 public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
-    public static final int ANSWER_UPDATE_INTERVAL = 2;
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
@@ -48,12 +45,9 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     @Nullable
     private File takenPictureFile;
 
-    private PublishSubject<SubCriteria> subCriteriaChangeSubject = PublishSubject.create();
-
     public CriteriasPresenter(long passingId, long categoryId, long standardId) {
         this.passingId = passingId;
         this.categoryId = categoryId;
-
         load(standardId);
     }
 
@@ -64,7 +58,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         categoryProgress.recalculate(previousState, answer.getState());
         updateProgress();
 
-        subCriteriaChangeSubject.onNext(subCriteria);
+        updateAnswer(passingId, subCriteria.getId(), answer);
     }
 
     private void updateProgress() {
@@ -228,18 +222,12 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .flatMapIterable(it -> it)
                 .filter(category -> category.getId() == categoryId)
                 .subscribe(category -> getViewState().setCategoryName(category.getName()), this::handleError));
-
-        addDisposable(subCriteriaChangeSubject
-                .flatMapSingle(subCriteria -> dataSource.updateAnswer(passingId, subCriteria.getId(), subCriteria.getAnswer()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(answer -> cloudUploader.scheduleUploading(passingId), this::handleError));
     }
 
     private void updateAnswer(long passingId, long subCriteriaId, Answer answer) {
         addDisposable(dataSource.updateAnswer(passingId, subCriteriaId, answer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((updatedAnswer) -> cloudUploader.scheduleUploading(passingId), this::handleError));
+                .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
     }
 }
