@@ -68,10 +68,10 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Completable updateAnswer(long passingId,
+    public Single<Answer> updateAnswer(long passingId,
                                     long subCriteriaId,
                                     Answer answer) {
-        return Completable.fromSingle(surveyPassingDao.getItemSingle(passingId)
+        return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.getItemSingle(subCriteriaId)
                         .flatMap(subCriteriaItem -> answerDao.requestAnswer(subCriteriaItem, passing)
                                 .flatMap(oldAnswer -> Single.zip(
@@ -86,7 +86,7 @@ public class OrmLiteDataSource implements DataSource {
                                                 answer.getComment(),
                                                 answer.getPhotos()),
                                         (progress, updatedAnswer) -> updatedAnswer)
-                                ))));
+                                )));
     }
 
 
