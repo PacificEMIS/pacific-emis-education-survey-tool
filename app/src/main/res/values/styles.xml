@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/gray</item>
 
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
@@ -15,20 +16,16 @@
 
         <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
 
-        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
-        <item name="android:windowEnterTransition" tools:targetApi="lollipop">@transition/window_fade</item>
-        <item name="android:windowExitTransition" tools:targetApi="lollipop">@transition/window_fade</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="l">true</item>
+        <item name="android:windowEnterTransition" tools:targetApi="l">@transition/window_fade</item>
+        <item name="android:windowExitTransition" tools:targetApi="l">@transition/window_fade</item>
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme"/>
 
     <style name="LightIconsTranslucentAppTheme" parent="AppTheme">
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/dark_grey</item>
-    </style>
-
-    <style name="DarkIconsTranslucentAppTheme" parent="AppTheme">
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-
+        <item name="android:statusBarColor" tools:targetApi="l">@color/dark_grey</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
     <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">
