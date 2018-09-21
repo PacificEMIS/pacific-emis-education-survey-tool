@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.criterias;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -85,6 +86,8 @@ public class CommentDialogFragment extends BaseDialogFragment {
             throw new RuntimeException("Parent should implement OnCommentSubmitListener");
         }
     }
+
+
 
     @Nullable
     @Override

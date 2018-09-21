@@ -1,80 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:fitsSystemWindows="true">
 
     <include
-        layout="@layout/include_appbar"/>
+        android:id="@+id/appbarlayout"
+        layout="@layout/include_appbar"
+        app:layout_constraintBottom_toTopOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v4.widget.NestedScrollView
+    <TextView
+        android:id="@+id/textview_title"
+        style="@style/Subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_choose_school"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview_schools"
+        app:layout_constraintEnd_toStartOf="@+id/imageview_clock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout" />
+
+    <ImageView
+        android:id="@+id/imageview_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_title"
+        app:layout_constraintEnd_toStartOf="@+id/textview_year"
+        app:layout_constraintStart_toEndOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="@+id/textview_title"
+        app:srcCompat="@drawable/ic_clock" />
+
+    <TextView
+        android:id="@+id/textview_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/cool_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/imageview_clock"
+        app:layout_constraintEnd_toStartOf="@+id/button_edit"
+        app:layout_constraintTop_toTopOf="@+id/imageview_clock"
+        tools:text="2018" />
+
+    <Button
+        android:id="@+id/button_edit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_year"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview_year"
+        android:background="@drawable/ic_edit" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_schools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textview_title"
-                style="@style/Subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/title_choose_school"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerview_schools"
-                app:layout_constraintEnd_toStartOf="@+id/imageview_clock"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageview_clock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textview_title"
-                app:layout_constraintEnd_toStartOf="@+id/textview_year"
-                app:layout_constraintStart_toEndOf="@+id/textview_title"
-                app:layout_constraintTop_toTopOf="@+id/textview_title"
-                app:srcCompat="@drawable/ic_clock" />
-
-            <TextView
-                android:id="@+id/textview_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textSize="18sp"
-                android:textColor="@color/cool_grey"
-                app:layout_constraintBottom_toBottomOf="@+id/imageview_clock"
-                app:layout_constraintEnd_toStartOf="@+id/button_edit"
-                app:layout_constraintTop_toTopOf="@+id/imageview_clock"
-                tools:text="2018" />
-
-            <Button
-                android:id="@+id/button_edit"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textview_year"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textview_year"
-                android:background="@drawable/ic_edit" />
-
-            <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-                android:id="@+id/recyclerview_schools"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                app:dividerPadding="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/textview_title"
-                app:showDivider="middle"
-                tools:listitem="@layout/item_school" />
-
-        </android.support.constraint.ConstraintLayout>
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"
+        tools:listitem="@layout/item_school"
+        app:dividerPadding="24dp"
+        app:showDivider="middle"/>
 
 
-    </android.support.v4.widget.NestedScrollView>
-
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

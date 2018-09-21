@@ -6,8 +6,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
-    app:layout_scrollFlags="enterAlways">
+    app:layout_scrollFlags="scroll|enterAlways">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +29,6 @@
 
         <ImageView
             android:id="@+id/imageview_toolbar_clock"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -38,12 +36,10 @@
             app:layout_constraintBottom_toBottomOf="@+id/textview_toolbar_year"
             app:layout_constraintEnd_toStartOf="@+id/textview_toolbar_year"
             app:layout_constraintTop_toTopOf="@+id/textview_toolbar_year"
-            app:srcCompat="@drawable/ic_clock"
-            android:contentDescription="TODO" />
+            app:srcCompat="@drawable/ic_clock" />
 
         <TextView
             android:id="@+id/textview_toolbar_year"
-
             tools:text="2018"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

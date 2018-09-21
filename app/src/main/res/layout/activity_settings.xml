@@ -1,158 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/include_appbar" />
+    <include
+        android:id="@+id/appbarlayout"
+        layout="@layout/include_appbar"
+        app:layout_constraintBottom_toTopOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.ConstraintLayout
+    <TextView
+        android:id="@+id/textview_title"
+        style="@style/Subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_choose_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageview_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_splash_logo"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview_accounts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/textview_logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@string/font_light"
+        android:textColor="@color/charcoal_grey"
+        android:text="@string/default_image"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageview_logo"
+        app:layout_constraintEnd_toStartOf="@+id/textview_change_logo"
+        app:layout_constraintStart_toEndOf="@+id/imageview_logo"
+        app:layout_constraintTop_toTopOf="@+id/imageview_logo" />
+
+    <TextView
+        android:id="@+id/textview_change_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextButton"
+        android:layout_marginEnd="24dp"
+        android:text="@string/action_change_it"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_logo"
+        app:layout_constraintTop_toTopOf="@+id/textview_logo" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_accounts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:itemSpace="24dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageview_logo">
 
         <TextView
-            android:id="@+id/textview_title"
+            android:id="@+id/textview_title_accounts"
             style="@style/Subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/title_choose_icon"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageview_logo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="4dp"
-            android:src="@drawable/ic_splash_logo"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerview_accounts"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_title"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/textview_logo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@string/font_light"
-            android:text="@string/default_image"
-            android:textColor="@color/charcoal_grey"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageview_logo"
-            app:layout_constraintEnd_toStartOf="@+id/textview_change_logo"
-            app:layout_constraintStart_toEndOf="@+id/imageview_logo"
-            app:layout_constraintTop_toTopOf="@+id/imageview_logo" />
-
-        <TextView
-            android:id="@+id/textview_change_logo"
-            style="@style/TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:text="@string/action_change_it"
-            app:layout_constraintBottom_toBottomOf="@+id/textview_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textview_logo"
-            app:layout_constraintTop_toTopOf="@+id/textview_logo" />
+            android:paddingBottom="20dp"
+            android:text="@string/title_connected_accounts"
+            app:layout_section="header" />
 
-        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-            android:id="@+id/recyclerview_accounts"
+        <LinearLayout
+            android:id="@+id/layout_possible_connections"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:overScrollMode="never"
-            app:itemSpace="24dp"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageview_logo">
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            app:layout_section="footer"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_title_accounts"
+                android:id="@+id/textview_title_connect"
                 style="@style/Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
-                android:text="@string/title_connected_accounts"
-                app:layout_section="header" />
+                android:text="@string/title_connect_accounts" />
 
-            <LinearLayout
-                android:id="@+id/layout_possible_connections"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                app:layout_section="footer">
-
-                <TextView
-                    android:id="@+id/textview_title_connect"
-                    style="@style/Subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_connect_accounts" />
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginStart="24dp"
-                        android:orientation="horizontal">
-
-                        <fm.doe.national.ui.custom_views.CloudConnectionCardView
-                            android:id="@+id/cardview_drive"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="4dp" />
-
-                        <fm.doe.national.ui.custom_views.CloudConnectionCardView
-                            android:id="@+id/cardview_dropbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:layout_marginStart="4dp" />
-
-                    </LinearLayout>
-
-                </HorizontalScrollView>
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp" >
 
-                    <ImageView
+                    <fm.doe.national.ui.custom_views.CloudConnectionCardView
+                        android:id="@+id/cardview_drive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_criteria_hint_24dp" />
+                        android:layout_marginStart="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginEnd="16dp"/>
 
-                    <TextView
+                    <fm.doe.national.ui.custom_views.CloudConnectionCardView
+                        android:id="@+id/cardview_dropbox"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/hint_settings"
-                        android:textColor="@color/soft_grey"
-                        android:textSize="14sp"
-                        android:textStyle="italic" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginBottom="4dp"/>
+
                 </LinearLayout>
 
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_criteria_hint_24dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    android:textColor="@color/soft_grey"
+                    android:gravity="center_vertical"
+                    android:text="@string/hint_settings" />
             </LinearLayout>
 
-        </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+        </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

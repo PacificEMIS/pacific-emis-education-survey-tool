@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
-    <include layout="@layout/include_appbar" />
+    <include
+        android:id="@+id/appbarlayout"
+        layout="@layout/include_appbar" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,26 +33,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/BaseThemeRecyclerView"
-                app:dividerPadding="24dp"
                 app:layoutManager="LinearLayoutManager"
-                app:showDivider="middle" />
+                app:showDivider="middle"
+                app:dividerPadding="24dp"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                android:background="@color/delimeter_grey" />
+                android:layout_marginEnd="24dp"
+                android:background="@color/delimeter_grey"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="40dp"
                 android:text="@string/summary"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="16dp"
                 android:textStyle="bold" />
 
             <ProgressBar
@@ -59,21 +60,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:indeterminate="true"
-                android:progressDrawable="@drawable/loading" />
+                android:progressDrawable="@drawable/loading"
+                android:indeterminate="true" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="24dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                app:cardElevation="0dp">
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                app:cardElevation="0dp" >
 
                 <fm.doe.national.ui.custom_views.summary.SummaryView
                     android:id="@+id/summaryview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
             </android.support.v7.widget.CardView>
 
@@ -81,4 +82,4 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

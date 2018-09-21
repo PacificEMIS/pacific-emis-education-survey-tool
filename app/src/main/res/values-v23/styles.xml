@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="LightIconsTranslucentAppTheme" parent="AppTheme">
-        <item name="android:windowLightStatusBar">false</item>
+    <style name="AppTheme" parent="BaseAppTheme">
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 
-    <style name="DarkIconsTranslucentAppTheme" parent="AppTheme">
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
 </resources>
