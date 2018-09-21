@@ -30,7 +30,7 @@ import io.reactivex.subjects.PublishSubject;
 @InjectViewState
 public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
-    public static final int ANSWER_UPDATE_TIMEOUT = 500;
+    private static final int ANSWER_UPDATE_TIMEOUT = 500;
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
