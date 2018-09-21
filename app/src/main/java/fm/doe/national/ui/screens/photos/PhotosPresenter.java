@@ -33,7 +33,7 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
         addDisposable(dataSource.updateAnswer(passingId, subCriteriaId, answer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((answer) -> cloudUploader.scheduleUploading(passingId), this::handleError));
+                .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
     }
 
     private void loadAnswer() {
