@@ -43,8 +43,10 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     public void onSearchQueryChanged(String query) {
         List<SchoolAccreditationPassing> queriedPassings = new ArrayList<>();
+        String lowerQuery = query.toLowerCase();
         for (SchoolAccreditationPassing passing : passings) {
-            if (passing.getSchool().getName().toLowerCase().contains(query.toLowerCase())) {
+            if (passing.getSchool().getName().toLowerCase().contains(lowerQuery) ||
+                    passing.getSchool().getId().toLowerCase().contains(lowerQuery)) {
                 queriedPassings.add(passing);
             }
         }
