@@ -4,6 +4,7 @@
     <category>
         <name>Principal's Interview</name>
         <standard>
+            <icon>1</icon>
             <name>Standard 1: Leadership</name>
             <criteria>
                 <name>The principal has very high expectations for students and teachers.</name>
@@ -96,6 +97,7 @@
             </criteria>
         </standard>
         <standard>
+            <icon>2</icon>
             <name>Standard 2: Teacher Performance</name>
             <criteria>
                 <name>At least 75% of observed teachers prepare standardized long, medium or short-term lesson plans that provide adequate guidance for teaching and learning activities.</name>
@@ -178,6 +180,7 @@
             </criteria>
         </standard>
         <standard>
+            <icon>4</icon>
             <name>Standard 4: National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
             <criteria>
                 <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.</name>
@@ -263,6 +266,7 @@
     <category>
         <name>Classroom Observation</name>
         <standard>
+            <icon>1</icon>
             <name>Standard 1: Planning and preparation</name>
             <criteria>
                 <name>Long term plans show an understanding of the curriculum, the connections between different subject areas and an attempt to link the curriculum to local contexts.</name>
@@ -302,6 +306,7 @@
             </criteria>
         </standard>
         <standard>
+            <icon>2</icon>
             <name>Standard 2: Classroom   Management</name>
             <criteria>
                 <name>Time is managed effectively to maximize students’ learning opportunities</name>
@@ -377,6 +382,7 @@
             </criteria>
         </standard>
         <standard>
+            <icon>3</icon>
             <name>Standard 3: Teaching and learning</name>
             <criteria>
                 <name>The lesson is structured and objectives are clear</name>
@@ -452,6 +458,7 @@
             </criteria>
         </standard>
         <standard>
+            <icon>4</icon>
             <name>Standard 4: Student assessment</name>
             <criteria>
                 <name>Assessment is planned and integrated into the lesson and is based on observable and measurable criteria</name>
@@ -473,6 +480,7 @@
             </criteria>
         </standard>
         <standard>
+            <icon>5</icon>
             <name>Standard 5: Evaluation and professional development</name>
             <criteria>
                 <name>The teacher reflects upon and evaluates their performance and participates in professional development </name>
@@ -497,6 +505,7 @@
     <category>
         <name>School Checklist</name>
         <standard>
+            <icon>5</icon>
             <name>Standard 5: School Campus, Classrooms and Facilities</name>
             <criteria>
                 <name>The school has a written maintenance and facilities development plan.</name>
@@ -583,6 +592,7 @@
     <category>
         <name>Data Checklist</name>
         <standard>
+            <icon>3</icon>
             <name>Standard 3: Data Management</name>
             <criteria>
                 <name>Comprehensive and accurate school data is collected on a regular schedule.</name>
@@ -668,6 +678,7 @@
             </criteria>
         </standard>
         <standard>
+            <icon>6</icon>
             <name>Standard 6: School Improvement Planning</name>
             <criteria>
                 <name>The School Improvement Plan has been developed and evaluated in accordance with the National Guidelines.</name>

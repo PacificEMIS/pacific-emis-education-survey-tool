@@ -41,6 +41,7 @@
     <string name="title_school_accreditation">School accreditation</string>
     <string name="title_school_data_verification">School data verification</string>
     <string name="title_monitoring_and_evaluation">Monitoring and evalution</string>
+    <string name="title_water_sanitation_and_hygiene">Water Sanitation and Hygiene</string>
     <string name="title_drive_open_file">Choose file to import</string>
     <string name="survey_report">Survey report %1$s</string>
     <string name="title_upload">Upload report &#8230;</string>
@@ -79,6 +80,7 @@
     <string name="more_photos_pattern">+%1$d</string>
     <string name="label_attached_photos">Attached photos</string>
     <string name="menu_item_confirm">Confirm</string>
+    <string name="coming_soon">Coming soon</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>

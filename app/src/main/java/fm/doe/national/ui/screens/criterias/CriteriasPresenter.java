@@ -93,7 +93,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
             takenPictureFile = picturesRepository.createEmptyFile();
             if (takenPictureFile != null) getViewState().takePictureTo(takenPictureFile);
         } catch (IOException ex) {
-            getViewState().showWarning(Text.from(R.string.title_warning), Text.from(R.string.error_take_picture));
+            getViewState().showMessage(Text.from(R.string.title_warning), Text.from(R.string.error_take_picture));
         }
     }
 
@@ -164,9 +164,13 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
     private void updateUi() {
         CriteriasView view = getViewState();
-        view.setGlobalInfo(standards.get(standardIndex).getName(), standardIndex);
-        view.setPrevStandard(standards.get(previousIndex).getName(), previousIndex);
-        view.setNextStandard(standards.get(nextIndex).getName(), nextIndex);
+        Standard currentStandard = standards.get(standardIndex);
+        Standard prevStandard = standards.get(previousIndex);
+        Standard nextStandard = standards.get(nextIndex);
+
+        view.setGlobalInfo(currentStandard.getName(), currentStandard.getIcon());
+        view.setPrevStandard(prevStandard.getName(), prevStandard.getIcon());
+        view.setNextStandard(nextStandard.getName(), nextStandard.getIcon());
 
         loadQuestions();
     }

@@ -3,13 +3,11 @@ package fm.doe.national.ui.screens.menu;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.omega_r.libs.omegatypes.Text;
-
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class MenuListAdapter extends BaseAdapter<Text> {
+public class MenuListAdapter extends BaseAdapter<MainMenuItem> {
 
     @Override
     protected MenuItemViewHolder provideViewHolder(ViewGroup parent) {
@@ -26,8 +24,8 @@ public class MenuListAdapter extends BaseAdapter<Text> {
         }
 
         @Override
-        public void onBind(Text item) {
-            typeTestTextView.setText(item.getString(getResources()));
+        public void onBind(MainMenuItem item) {
+            typeTestTextView.setText(getString(item.resId));
             itemView.setOnClickListener(this);
         }
 

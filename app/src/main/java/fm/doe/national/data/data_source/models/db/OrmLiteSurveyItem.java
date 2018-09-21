@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models.db;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -20,6 +21,7 @@ public class OrmLiteSurveyItem {
         String PARENT = "parent";
         String SURVEY = "survey";
         String CHILDREN = "children";
+        String ICON = "icon";
     }
 
     public enum Type {
@@ -38,6 +40,10 @@ public class OrmLiteSurveyItem {
     @DatabaseField(columnName = Column.TYPE)
     protected Type type;
 
+    @Nullable
+    @DatabaseField(columnName = Column.ICON, canBeNull = true)
+    protected Integer icon;
+
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT)
     protected OrmLiteSurveyItem parentItem;
 
@@ -50,9 +56,10 @@ public class OrmLiteSurveyItem {
     public OrmLiteSurveyItem() {
     }
 
-    public OrmLiteSurveyItem(String name, Type type, OrmLiteSurvey survey, OrmLiteSurveyItem parentItem) {
+    public OrmLiteSurveyItem(String name, Type type, @Nullable Integer icon, OrmLiteSurvey survey, OrmLiteSurveyItem parentItem) {
         this.name = name;
         this.type = type;
+        this.icon = icon;
         this.survey = survey;
         this.parentItem = parentItem;
         this.childrenItems = new ArrayList<>();
@@ -92,6 +99,11 @@ public class OrmLiteSurveyItem {
         for (OrmLiteSurveyItem surveyItem : surveyItems) {
             addChild(surveyItem);
         }
+    }
+
+    @Nullable
+    public Integer getIcon() {
+        return icon;
     }
 
     public OrmLiteSurvey getSurvey() {

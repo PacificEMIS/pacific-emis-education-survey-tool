@@ -108,7 +108,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     }
 
     @Override
-    public void showWarning(Text title, Text message) {
+    public void showMessage(Text title, Text message) {
         new AlertDialog.Builder(this)
                 .setTitle(title.getString(getResources()))
                 .setMessage(message.getString(getResources()))

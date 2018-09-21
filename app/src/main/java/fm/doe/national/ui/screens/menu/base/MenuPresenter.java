@@ -10,9 +10,15 @@ import java.util.List;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.ui.screens.menu.MainMenuItem;
 import fm.doe.national.utils.Constants;
 
 abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V> {
+
+    private static final int ITEM_SCHOOL_ACCREDITATION = R.string.title_school_accreditation;
+    private static final int ITEM_DATA_VERIFICATION = R.string.title_school_data_verification;
+    private static final int ITEM_MONITORING_AND_EVALUATION = R.string.title_monitoring_and_evaluation;
+    private static final int ITEM_HYGIENE = R.string.title_water_sanitation_and_hygiene;
 
     private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
 
@@ -21,10 +27,11 @@ abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V>
     }
 
     private void setupSelector() {
-        List<Text> items = new ArrayList<>();
-        items.add(Text.from(R.string.title_school_accreditation));
-        items.add(Text.from(R.string.title_school_data_verification));
-        items.add(Text.from(R.string.title_monitoring_and_evaluation));
+        List<MainMenuItem> items = new ArrayList<>();
+        items.add(new MainMenuItem(ITEM_SCHOOL_ACCREDITATION));
+        items.add(new MainMenuItem(ITEM_DATA_VERIFICATION));
+        items.add(new MainMenuItem(ITEM_MONITORING_AND_EVALUATION));
+        items.add(new MainMenuItem(ITEM_HYGIENE));
         getViewState().setItems(items);
     }
 
@@ -35,9 +42,17 @@ abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V>
         }
     }
 
-    public void onTypeTestClicked() {
-        //TODO changed on correct
-        getViewState().navigateToSchoolAccreditationScreen();
+    public void onTypeTestClicked(MainMenuItem item) {
+        switch (item.resId) {
+            case ITEM_SCHOOL_ACCREDITATION:
+                getViewState().navigateToSchoolAccreditationScreen();
+                break;
+            case ITEM_DATA_VERIFICATION:
+            case ITEM_MONITORING_AND_EVALUATION:
+            case ITEM_HYGIENE:
+                getViewState().showMessage(Text.empty(), Text.from(R.string.coming_soon));
+                break;
+        }
     }
 
     public void notifyReturnedFromBackground() {

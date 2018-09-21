@@ -111,7 +111,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             loadLogo();
         } catch (IOException ex) {
             ex.printStackTrace();
-            getViewState().showWarning(Text.from(R.string.title_error), Text.from(R.string.error_save_logo));
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_save_logo));
         }
     }
 

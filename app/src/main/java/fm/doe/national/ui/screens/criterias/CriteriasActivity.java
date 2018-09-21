@@ -3,11 +3,12 @@ package fm.doe.national.ui.screens.criterias;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewCompat;
@@ -169,9 +170,9 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void setGlobalInfo(String title, int resourceIndex) {
+    public void setGlobalInfo(String title, @Nullable Integer resourceIndex) {
         setTitle(title);
-        applyIcon(iconImageView, resourceIndex, false);
+        applyIcon(iconImageView, ViewUtils.getStandardIconRes(resourceIndex), false);
     }
 
     @Override
@@ -180,15 +181,15 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void setPrevStandard(String title, int resourceIndex) {
+    public void setPrevStandard(String title, @Nullable Integer resourceIndex) {
         prevStandardTitleTextView.setText(title);
-        applyIcon(iconPrevStandardImageView, resourceIndex, true);
+        applyIcon(iconPrevStandardImageView, ViewUtils.getStandardIconRes(resourceIndex), true);
     }
 
     @Override
-    public void setNextStandard(String title, int resourceIndex) {
+    public void setNextStandard(String title, @Nullable Integer resourceIndex) {
         nextStandardTitleTextView.setText(title);
-        applyIcon(iconNextStandardImageView, resourceIndex, true);
+        applyIcon(iconNextStandardImageView, ViewUtils.getStandardIconRes(resourceIndex), true);
     }
 
     @Override
@@ -290,11 +291,10 @@ public class CriteriasActivity extends BaseActivity implements
         presenter.onCommentEdit(comment);
     }
 
-    private void applyIcon(ImageView imageView, int forIndex, boolean isHighlighted) {
-        if (forIndex >= ViewUtils.STANDARD_ICONS.length) return;
-
-        Drawable drawable = getResources().getDrawable(ViewUtils.STANDARD_ICONS[forIndex]);
-        imageView.setImageDrawable(drawable);
-        imageView.setActivated(isHighlighted);
+    private void applyIcon(ImageView imageView, @Nullable Integer resourceIndex, boolean isHighlighted) {
+        if (resourceIndex != null) {
+            imageView.setImageResource(resourceIndex);
+            imageView.setActivated(isHighlighted);
+        }
     }
 }
