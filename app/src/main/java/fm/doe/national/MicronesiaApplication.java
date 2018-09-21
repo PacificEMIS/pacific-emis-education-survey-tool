@@ -1,6 +1,7 @@
 package fm.doe.national;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -9,7 +10,7 @@ import fm.doe.national.di.DaggerAppComponent;
 import fm.doe.national.di.modules.ContextModule;
 import io.fabric.sdk.android.Fabric;
 
-public class MicronesiaApplication extends Application  {
+public class MicronesiaApplication extends MultiDexApplication {
 
     private static AppComponent appComponent;
 

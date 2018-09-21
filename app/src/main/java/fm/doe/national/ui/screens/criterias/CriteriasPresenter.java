@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.criterias;
 
 import android.support.annotation.Nullable;
+import android.util.LongSparseArray;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
@@ -23,10 +25,12 @@ import fm.doe.national.data.files.PicturesRepository;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 @InjectViewState
 public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
+    private static final int ANSWER_UPDATE_TIMEOUT = 500;
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
@@ -37,10 +41,11 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     private int nextIndex;
     private int previousIndex;
     private List<Standard> standards = Collections.emptyList();
-    private List<Criteria> criterias = Collections.emptyList();
 
     @Nullable
     private SubCriteria selectedSubCriteria;
+
+    private LongSparseArray<PublishSubject<SubCriteria>> subCriteriaChangeSubjects = new LongSparseArray<>();
 
     @Nullable
     private File takenPictureFile;
@@ -58,7 +63,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         categoryProgress.recalculate(previousState, answer.getState());
         updateProgress();
 
-        updateAnswer(passingId, subCriteria.getId(), answer);
+        subCriteriaChangeSubjects.get(subCriteria.getId()).onNext(subCriteria);
     }
 
     private void updateProgress() {
@@ -178,10 +183,26 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(criterias -> {
-                    this.criterias = criterias;
                     getViewState().setCriterias(criterias);
+                    initSubCriteriaSubjects(criterias);
                     updateProgress();
                 }, this::handleError));
+    }
+
+    private void initSubCriteriaSubjects(List<Criteria> criterias) {
+        for (Criteria criteria : criterias) {
+            for (SubCriteria subCriteria : criteria.getSubCriterias()) {
+                PublishSubject<SubCriteria> subject = PublishSubject.create();
+                subCriteriaChangeSubjects.append(subCriteria.getId(), subject);
+
+                addDisposable(subject
+                        .throttleLast(ANSWER_UPDATE_TIMEOUT, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .flatMapSingle(changedSubCriteria -> dataSource.updateAnswer(passingId, changedSubCriteria.getId(), changedSubCriteria.getAnswer()))
+                        .subscribe(answer -> cloudUploader.scheduleUploading(passingId), this::handleError));
+            }
+        }
     }
 
     private int getNextIndex() {
@@ -232,6 +253,6 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         addDisposable(dataSource.updateAnswer(passingId, subCriteriaId, answer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> cloudUploader.scheduleUploading(passingId), this::handleError));
+                .subscribe((updatedAnswer) -> cloudUploader.scheduleUploading(passingId), this::handleError));
     }
 }
