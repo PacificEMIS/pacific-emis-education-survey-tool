@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.criterias;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
@@ -15,11 +16,11 @@ import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CriteriasView extends BaseView {
-    void setGlobalInfo(String title, int resourceIndex);
+    void setGlobalInfo(String title, @Nullable Integer resourceIndex);
     void setCriterias(@NonNull List<Criteria> criterias);
     void setProgress(int answered, int total);
-    void setPrevStandard(String title, int resourceIndex);
-    void setNextStandard(String title, int resourceIndex);
+    void setPrevStandard(String title, @Nullable Integer resourceIndex);
+    void setNextStandard(String title, @Nullable Integer resourceIndex);
     void setSurveyYear(int year);
     void setSchoolName(String schoolName);
     void setCategoryName(String categoryName);

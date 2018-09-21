@@ -22,6 +22,10 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
     @ElementList(inline = true, required = false)
     List<SerializableCriteria> criterias;
 
+    @Nullable
+    @Element(required = false)
+    Integer icon;
+
     public SerializableStandard() {
     }
 
@@ -57,4 +61,9 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
         return criterias;
     }
 
+    @Nullable
+    @Override
+    public Integer getIcon() {
+        return icon;
+    }
 }

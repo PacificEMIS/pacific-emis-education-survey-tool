@@ -34,7 +34,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
         for (LinkedCategory category : categories) {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
                     category.getName(),
-                    OrmLiteSurveyItem.Type.CATEGORY, survey,
+                    OrmLiteSurveyItem.Type.CATEGORY, null, survey,
                     null);
             create(surveyItem);
             surveyItem.addChildren(createFromStandards(category.getStandards(), surveyItem));
@@ -54,6 +54,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
                     standard.getName(),
                     OrmLiteSurveyItem.Type.STANDARD,
+                    standard.getIcon(),
                     null,
                     parentItem);
             create(surveyItem);
@@ -77,6 +78,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
                     criteria.getName(),
                     OrmLiteSurveyItem.Type.CRITERIA,
                     null,
+                    null,
                     parentItem);
 
             create(surveyItem);
@@ -97,6 +99,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
                     subCriteria.getName(),
                     OrmLiteSurveyItem.Type.SUBCRITERIA,
+                    null,
                     null,
                     parentItem);
             create(surveyItem);

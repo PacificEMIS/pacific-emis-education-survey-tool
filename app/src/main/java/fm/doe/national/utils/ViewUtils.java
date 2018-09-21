@@ -2,8 +2,12 @@ package fm.doe.national.utils;
 
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -12,18 +16,23 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import fm.doe.national.R;
 
 public class ViewUtils {
 
-    public static final int[] STANDARD_ICONS = {
-            R.drawable.ic_standard_leadership_selector,
-            R.drawable.ic_standard_teacher_selector,
-            R.drawable.ic_standard_data_selector,
-            R.drawable.ic_standard_cirriculum_selector,
-            R.drawable.ic_standard_facility_selector,
-            R.drawable.ic_standard_improvement_selector,
-            R.drawable.ic_standard_observation_selector
+    private static final SparseArray<Integer> STANDARD_ICONS = new SparseArray<>();
+    static {
+        STANDARD_ICONS.put(1, R.drawable.ic_standard_leadership_selector);
+        STANDARD_ICONS.put(2, R.drawable.ic_standard_teacher_selector);
+        STANDARD_ICONS.put(3, R.drawable.ic_standard_data_selector);
+        STANDARD_ICONS.put(4, R.drawable.ic_standard_cirriculum_selector);
+        STANDARD_ICONS.put(5, R.drawable.ic_standard_facility_selector);
+        STANDARD_ICONS.put(6, R.drawable.ic_standard_improvement_selector);
+        STANDARD_ICONS.put(7, R.drawable.ic_standard_observation_selector);
     };
 
 
@@ -117,6 +126,13 @@ public class ViewUtils {
 
     public static void setImageTo(ImageView imageView, String imagePath) {
         imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+    }
+
+    @Nullable
+    @DrawableRes
+    public static Integer getStandardIconRes(@Nullable Integer id) {
+        if (id == null) return null;
+        return STANDARD_ICONS.get(id);
     }
 
 }

@@ -40,8 +40,9 @@ public class StandardsListAdapter extends BaseAdapter<Standard> {
 
         @Override
         public void onBind(Standard item) {
-            if (getAdapterPosition() < ViewUtils.STANDARD_ICONS.length) {
-                standardIconImageView.setImageResource(ViewUtils.STANDARD_ICONS[getAdapterPosition()]);
+            Integer icon = ViewUtils.getStandardIconRes(item.getIcon());
+            if (icon != null) {
+                standardIconImageView.setImageResource(icon);
                 standardIconImageView.setActivated(true);
             }
 
