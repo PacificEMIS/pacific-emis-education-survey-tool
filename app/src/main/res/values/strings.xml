@@ -9,9 +9,6 @@
     <string name="criteria_char_icon_pattern">%1$s.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="action_school_accreditation">School accreditation</string>
-    <string name="action_school_data_verification">School data verification</string>
-    <string name="action_monitoring_and_evaluation">Monitoring and evaluation</string>
     <string name="action_education_survey_tool">Education survey tool</string>
     <string name="title_education_survey_tool">Education\nsurvey tool</string>
     <string name="navigation_drawer_open" translatable="false">DRAWER_OPEN</string>
@@ -38,10 +35,10 @@
     <string name="warn_unable_to_get_schools">Unable to get schools</string>
     <string name="warn_failed_to_load_assets">Failed to load schools and survey from assets. You can load it from Settings screen</string>
     <string name="title_choose_school">Choose school</string>
-    <string name="title_school_accreditation">School accreditation</string>
-    <string name="title_school_data_verification">School data verification</string>
-    <string name="title_monitoring_and_evaluation">Monitoring and evalution</string>
-    <string name="title_water_sanitation_and_hygiene">Water Sanitation and Hygiene</string>
+    <string name="title_school_accreditation">School Accreditation</string>
+    <string name="title_school_data_verification">School Data Verification</string>
+    <string name="title_monitoring_and_evaluation">Monitoring and Evaluation</string>
+    <string name="title_water_sanitation_and_hygiene">Water, Sanitation and Hygiene</string>
     <string name="title_drive_open_file">Choose file to import</string>
     <string name="survey_report">Survey report %1$s</string>
     <string name="title_upload">Upload report &#8230;</string>
