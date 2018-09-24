@@ -168,7 +168,6 @@ public class DropboxCloudAccessor implements CloudAccessor {
     private void onFolderPicked(@NonNull BrowsingTreeObject object) {
         exportFolderPath = object.getPath();
         cloudPreferences.setExportFolder(exportFolderPath);
-
         folderPickCompletable.onComplete();
         folderPickCompletable = null;
     }

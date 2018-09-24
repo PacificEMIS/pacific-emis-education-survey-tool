@@ -7,6 +7,7 @@ public interface CloudPreferences {
 
     @Nullable
     String getExportFolder();
+
     @Nullable
     String getExportFolderPath();
 

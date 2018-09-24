@@ -106,7 +106,7 @@ public class DriveCloudAccessor implements CloudAccessor {
         Completable pickDirectory = Completable.
                 fromAction(() -> startActivityAction(DriveActivity.ACTION_PICK_FOLDER))
                 .andThen(pickDirectoryCompletable)
-                .andThen(extractFolderPath());
+                .andThen(extractExportFolderPath());
         return auth().andThen(pickDirectory);
     }
 
@@ -158,7 +158,7 @@ public class DriveCloudAccessor implements CloudAccessor {
                 });
     }
 
-    private Completable extractFolderPath() {
+    private Completable extractExportFolderPath() {
         return Completable.fromAction(() -> {
             if (driveResourceClient == null) {
                 throw new PickException(Constants.Errors.DRIVE_CLIENT_IS_NULL);
@@ -169,14 +169,14 @@ public class DriveCloudAccessor implements CloudAccessor {
             DriveResource driveResource = exportFolderId.asDriveResource();
             Metadata folderMeta = Tasks.await(driveResourceClient.getMetadata(driveResource));
 
-            makePath(pathBuilder, driveResource);
+            extractPath(pathBuilder, driveResource);
             pathBuilder.append(folderMeta.getTitle());
 
             cloudPreferences.setExportFolderPath(pathBuilder.toString());
         }).subscribeOn(Schedulers.io());
     }
 
-    private void makePath(StringBuilder pathBuilder, DriveResource driveResource) throws PickException, ExecutionException, InterruptedException {
+    private void extractPath(StringBuilder pathBuilder, DriveResource driveResource) throws PickException, ExecutionException, InterruptedException {
         if (driveResourceClient == null) {
             throw new PickException(Constants.Errors.DRIVE_CLIENT_IS_NULL);
         }
@@ -187,8 +187,8 @@ public class DriveCloudAccessor implements CloudAccessor {
         // We get first parent to provide at least one correct path
         if (iterator.hasNext()) {
             Metadata parentMeta = iterator.next();
-            makePath(pathBuilder, parentMeta.getDriveId().asDriveResource());
-            pathBuilder.append(parentMeta.getTitle()).append("/");
+            extractPath(pathBuilder, parentMeta.getDriveId().asDriveResource());
+            pathBuilder.append(parentMeta.getTitle()).append(Constants.SYMBOL_SLASH);
         }
     }
 
