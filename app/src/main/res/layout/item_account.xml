@@ -97,7 +97,7 @@
                 tools:text="MyDrive/MyFolder"
                 android:layout_gravity="center_vertical|end"
                 android:fontFamily="@string/font_light"
-                android:textColor="@color/green"
+                android:textColor="@color/dark_mint"
                 android:textSize="16sp"/>
 
             <ImageView
