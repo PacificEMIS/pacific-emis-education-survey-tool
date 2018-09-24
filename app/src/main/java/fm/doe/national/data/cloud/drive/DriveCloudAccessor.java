@@ -12,7 +12,9 @@ import com.google.android.gms.drive.DriveClient;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.DriveResource;
 import com.google.android.gms.drive.DriveResourceClient;
+import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.drive.query.Filters;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import fm.doe.national.MicronesiaApplication;
@@ -32,12 +35,14 @@ import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
+import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
 import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.LifecycleListener;
 import fm.doe.national.utils.StreamUtils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.SingleSubject;
 
@@ -100,7 +105,8 @@ public class DriveCloudAccessor implements CloudAccessor {
         pickDirectoryCompletable = CompletableSubject.create();
         Completable pickDirectory = Completable.
                 fromAction(() -> startActivityAction(DriveActivity.ACTION_PICK_FOLDER))
-                .andThen(pickDirectoryCompletable);
+                .andThen(pickDirectoryCompletable)
+                .andThen(extractExportFolderPath());
         return auth().andThen(pickDirectory);
     }
 
@@ -111,8 +117,9 @@ public class DriveCloudAccessor implements CloudAccessor {
 
     @Override
     public String getExportPath() {
-        if (exportFolderId == null) return "";
-        return exportFolderId.toString();
+        String exportFolderPath = cloudPreferences.getExportFolderPath();
+        if (exportFolderPath == null) return "";
+        return exportFolderPath;
     }
 
     @Override
@@ -149,6 +156,34 @@ public class DriveCloudAccessor implements CloudAccessor {
                     importSingle = null;
                     return driveResourceClient.discardContents(contents);
                 });
+    }
+
+    private Completable extractExportFolderPath() {
+        return Completable.fromAction(() -> {
+            if (driveResourceClient == null) {
+                throw new PickException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL);
+            }
+
+            StringBuilder pathBuilder = new StringBuilder();
+
+            DriveResource driveResource = exportFolderId.asDriveResource();
+            Metadata folderMeta = Tasks.await(driveResourceClient.getMetadata(driveResource));
+
+            extractPath(pathBuilder, driveResource);
+            pathBuilder.append(folderMeta.getTitle());
+
+            cloudPreferences.setExportFolderPath(pathBuilder.toString());
+        }).subscribeOn(Schedulers.io());
+    }
+
+    private void extractPath(StringBuilder pathBuilder, DriveResource driveResource) throws PickException, ExecutionException, InterruptedException {
+        MetadataBuffer parentsMetaBuffer = Tasks.await(driveResourceClient.listParents(driveResource));
+
+        if (parentsMetaBuffer.getCount() != 0) {
+            Metadata parentMeta = parentsMetaBuffer.get(0);
+            extractPath(pathBuilder, parentMeta.getDriveId().asDriveResource());
+            pathBuilder.append(parentMeta.getTitle()).append(Constants.SYMBOL_SLASH);
+        }
     }
 
     public void onFolderPicked(@NonNull DriveId driveId) {

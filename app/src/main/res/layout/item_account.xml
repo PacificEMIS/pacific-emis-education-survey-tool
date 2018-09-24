@@ -97,16 +97,8 @@
                 tools:text="MyDrive/MyFolder"
                 android:layout_gravity="center_vertical|end"
                 android:fontFamily="@string/font_light"
-                android:textColor="@color/cool_grey"
+                android:textColor="@color/dark_mint"
                 android:textSize="16sp"/>
-
-            <ImageView
-                android:id="@+id/imageview_folder_selected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_gravity="center_vertical|end"
-                app:srcCompat="@drawable/ic_done_mint" />
 
             <TextView
                 android:id="@+id/textview_choose_folder"

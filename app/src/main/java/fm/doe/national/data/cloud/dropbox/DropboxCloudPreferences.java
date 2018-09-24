@@ -20,9 +20,20 @@ public class DropboxCloudPreferences implements CloudPreferences {
         return sharedPreferences.getString(PREFS_KEY_DROPBOX_FOLDER, null);
     }
 
+    @Nullable
+    @Override
+    public String getExportFolderPath() {
+        return getExportFolder();
+    }
+
     @Override
     public void setExportFolder(@NonNull String folder) {
         sharedPreferences.edit().putString(PREFS_KEY_DROPBOX_FOLDER, folder).apply();
+    }
+
+    @Override
+    public void setExportFolderPath(@NonNull String folderPath) {
+        setExportFolder(folderPath);
     }
 
     @Nullable
