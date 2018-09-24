@@ -12,9 +12,17 @@ import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveClient;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.DriveResource;
+import com.google.android.gms.drive.Metadata;
+import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.OpenFileActivityOptions;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.SearchableField;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+
+import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
@@ -24,6 +32,9 @@ import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.data.cloud.exceptions.PickerDeclinedException;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.utils.Constants;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class DriveActivity extends BaseActivity {
 
@@ -76,6 +87,7 @@ public class DriveActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case REQUEST_CODE_AUTH:
                 driveCloudAccessor.onAuth();

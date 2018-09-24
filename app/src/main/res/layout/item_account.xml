@@ -97,7 +97,7 @@
                 tools:text="MyDrive/MyFolder"
                 android:layout_gravity="center_vertical|end"
                 android:fontFamily="@string/font_light"
-                android:textColor="@color/cool_grey"
+                android:textColor="@color/green"
                 android:textSize="16sp"/>
 
             <ImageView
@@ -106,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_gravity="center_vertical|end"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_done_mint" />
 
             <TextView

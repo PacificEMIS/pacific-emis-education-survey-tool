@@ -68,22 +68,13 @@ public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
                 case DRIVE:
                     iconImageView.setImageResource(R.drawable.ic_google_drive);
                     nameTextView.setText(R.string.account_drive);
-
-                    // Fix for bug #55664 Incorrect folder name for export for Google Drive
-                    //
-                    // It is impossible to get path for Google Drive because it have not a tree structure
-                    // Just showing "vote" sign when some folder selected
-                    folderSelectedView.setVisibility(TextUtils.isEmpty(item.getExportPath()) ? View.GONE : View.VISIBLE);
-                    folderPathTextView.setVisibility(View.GONE);
                     break;
                 case DROPBOX:
                     iconImageView.setImageResource(R.drawable.ic_dropbox);
                     nameTextView.setText(R.string.account_dropbox);
-                    folderPathTextView.setVisibility(View.VISIBLE);
-                    folderSelectedView.setVisibility(View.GONE);
-                    folderPathTextView.setText(item.getExportPath());
                     break;
             }
+            folderPathTextView.setText(item.getExportPath());
 
             if (item.isDefault()) {
                 exportIconImageView.setVisibility(View.VISIBLE);

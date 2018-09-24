@@ -7,8 +7,12 @@ public interface CloudPreferences {
 
     @Nullable
     String getExportFolder();
+    @Nullable
+    String getExportFolderPath();
 
     void setExportFolder(@NonNull String folder);
+
+    void setExportFolderPath(@NonNull String folderPath);
 
     @Nullable
     String getAccessToken();
