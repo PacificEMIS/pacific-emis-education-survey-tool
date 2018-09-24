@@ -179,11 +179,8 @@ public class DriveCloudAccessor implements CloudAccessor {
     private void extractPath(StringBuilder pathBuilder, DriveResource driveResource) throws PickException, ExecutionException, InterruptedException {
         MetadataBuffer parentsMetaBuffer = Tasks.await(driveResourceClient.listParents(driveResource));
 
-        Iterator<Metadata> iterator = parentsMetaBuffer.iterator();
-
-        // We get first parent to provide at least one correct path
-        if (iterator.hasNext()) {
-            Metadata parentMeta = iterator.next();
+        Metadata parentMeta = parentsMetaBuffer.get(0);
+        if (parentMeta != null) {
             extractPath(pathBuilder, parentMeta.getDriveId().asDriveResource());
             pathBuilder.append(parentMeta.getTitle()).append(Constants.SYMBOL_SLASH);
         }
