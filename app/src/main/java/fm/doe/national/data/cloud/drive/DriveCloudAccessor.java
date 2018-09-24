@@ -161,7 +161,7 @@ public class DriveCloudAccessor implements CloudAccessor {
     private Completable extractExportFolderPath() {
         return Completable.fromAction(() -> {
             if (driveResourceClient == null) {
-                throw new PickException(Constants.Errors.DRIVE_CLIENT_IS_NULL);
+                throw new PickException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL);
             }
 
             StringBuilder pathBuilder = new StringBuilder();
@@ -177,9 +177,6 @@ public class DriveCloudAccessor implements CloudAccessor {
     }
 
     private void extractPath(StringBuilder pathBuilder, DriveResource driveResource) throws PickException, ExecutionException, InterruptedException {
-        if (driveResourceClient == null) {
-            throw new PickException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL);
-        }
         MetadataBuffer parentsMetaBuffer = Tasks.await(driveResourceClient.listParents(driveResource));
 
         Iterator<Metadata> iterator = parentsMetaBuffer.iterator();

@@ -100,15 +100,6 @@
                 android:textColor="@color/dark_mint"
                 android:textSize="16sp"/>
 
-            <ImageView
-                android:id="@+id/imageview_folder_selected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_gravity="center_vertical|end"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_done_mint" />
-
             <TextView
                 android:id="@+id/textview_choose_folder"
                 style="@style/ClickableListText"

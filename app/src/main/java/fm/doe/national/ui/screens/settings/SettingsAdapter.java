@@ -55,9 +55,6 @@ public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
         @BindView(R.id.textview_choose_folder)
         TextView chooseFolderTextView;
 
-        @BindView(R.id.imageview_folder_selected)
-        View folderSelectedView;
-
         AccountViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_account);
         }
