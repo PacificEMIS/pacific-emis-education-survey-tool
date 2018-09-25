@@ -20,6 +20,8 @@ import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
+import com.google.android.gms.drive.query.SortOrder;
+import com.google.android.gms.drive.query.SortableField;
 import com.google.android.gms.tasks.Tasks;
 
 import java.io.IOException;
@@ -38,6 +40,7 @@ import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
 import fm.doe.national.utils.Constants;
+import fm.doe.national.utils.DateUtils;
 import fm.doe.national.utils.LifecycleListener;
 import fm.doe.national.utils.StreamUtils;
 import io.reactivex.Completable;
@@ -49,6 +52,7 @@ import io.reactivex.subjects.SingleSubject;
 
 public class DriveCloudAccessor implements CloudAccessor {
 
+    private final String DRIVE_ROOT_FOLDER = "My Drive";
     private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDriveCloudPreferences();
     private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
     private final Context context;
@@ -168,15 +172,19 @@ public class DriveCloudAccessor implements CloudAccessor {
 
             DriveResource driveResource = exportFolderId.asDriveResource();
             Metadata folderMeta = Tasks.await(driveResourceClient.getMetadata(driveResource));
+            String folderTitle = folderMeta.getTitle();
 
-            extractPath(pathBuilder, driveResource);
-            pathBuilder.append(folderMeta.getTitle());
+            if (!folderTitle.equals(DRIVE_ROOT_FOLDER)) {
+                extractPath(pathBuilder, driveResource);
+            }
+
+            pathBuilder.append(folderTitle);
 
             cloudPreferences.setExportFolderPath(pathBuilder.toString());
         }).subscribeOn(Schedulers.io());
     }
 
-    private void extractPath(StringBuilder pathBuilder, DriveResource driveResource) throws PickException, ExecutionException, InterruptedException {
+    private void extractPath(StringBuilder pathBuilder, DriveResource driveResource) throws ExecutionException, InterruptedException {
         MetadataBuffer parentsMetaBuffer = Tasks.await(driveResourceClient.listParents(driveResource));
 
         if (parentsMetaBuffer.getCount() != 0) {
@@ -263,11 +271,17 @@ public class DriveCloudAccessor implements CloudAccessor {
             return;
         }
 
+        SortOrder modifiedDateOrder = new SortOrder.Builder()
+                .addSortDescending(SortableField.MODIFIED_BY_ME_DATE)
+                .build();
+
         Query query = new Query.Builder()
+                .setSortOrder(modifiedDateOrder)
                 .addFilter(Filters.eq(SearchableField.TITLE, filename))
                 .build();
-        MetadataBuffer buffer = Tasks.await(driveResourceClient.query(query));
-        if (buffer.getCount() == 0) {
+        MetadataBuffer buffer = Tasks.await(driveResourceClient.queryChildren(folderDriveId.asDriveFolder(), query));
+
+        if (buffer.getCount() == 0 || buffer.get(0).isTrashed()) {
             createFile(content, filename, folderDriveId, driveResourceClient);
         } else {
             overwriteFile(buffer.get(0).getDriveId(), content, driveResourceClient);
