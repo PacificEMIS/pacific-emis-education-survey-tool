@@ -12,7 +12,7 @@
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="32dp"
-        tools:src="@drawable/ic_standard_teacher_hl" />
+        tools:src="@drawable/ic_standard_teacher" />
 
     <TextView
         android:id="@+id/textview_category_name"

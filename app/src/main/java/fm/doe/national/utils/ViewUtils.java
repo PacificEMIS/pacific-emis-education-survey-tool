@@ -26,13 +26,13 @@ public class ViewUtils {
 
     private static final SparseArray<Integer> STANDARD_ICONS = new SparseArray<>();
     static {
-        STANDARD_ICONS.put(1, R.drawable.ic_standard_leadership_selector);
-        STANDARD_ICONS.put(2, R.drawable.ic_standard_teacher_selector);
-        STANDARD_ICONS.put(3, R.drawable.ic_standard_data_selector);
-        STANDARD_ICONS.put(4, R.drawable.ic_standard_cirriculum_selector);
-        STANDARD_ICONS.put(5, R.drawable.ic_standard_facility_selector);
-        STANDARD_ICONS.put(6, R.drawable.ic_standard_improvement_selector);
-        STANDARD_ICONS.put(7, R.drawable.ic_standard_observation_selector);
+        STANDARD_ICONS.put(1, R.drawable.ic_standard_leadership);
+        STANDARD_ICONS.put(2, R.drawable.ic_standard_teacher);
+        STANDARD_ICONS.put(3, R.drawable.ic_standard_data);
+        STANDARD_ICONS.put(4, R.drawable.ic_standard_cirriculum);
+        STANDARD_ICONS.put(5, R.drawable.ic_standard_facility);
+        STANDARD_ICONS.put(6, R.drawable.ic_standard_improvement);
+        STANDARD_ICONS.put(7, R.drawable.ic_standard_observation);
     };
 
 

@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_standard_observation_hl" />
+            tools:src="@drawable/ic_standard_observation" />
 
         <TextView
             android:id="@+id/textview_standard_title_prev"
@@ -62,7 +62,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_standard_teacher_hl" />
+            tools:src="@drawable/ic_standard_teacher" />
 
         <TextView
             android:id="@+id/textview_standard_title_next"
