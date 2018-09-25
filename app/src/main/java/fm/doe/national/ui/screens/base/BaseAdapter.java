@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.base;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -92,6 +93,10 @@ public abstract class BaseAdapter<T>
         @Override
         public void onClick(View v) {
             onItemClick(item);
+        }
+
+        protected String getString(@StringRes int resId, Object... vararg) {
+            return getResources().getString(resId, vararg);
         }
     }
 

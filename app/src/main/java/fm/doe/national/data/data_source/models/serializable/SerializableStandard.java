@@ -24,7 +24,7 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
 
     @Nullable
     @Element(required = false)
-    Integer icon;
+    Integer index;
 
     public SerializableStandard() {
     }
@@ -63,7 +63,7 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
 
     @Nullable
     @Override
-    public Integer getIcon() {
-        return icon;
+    public Integer getIndex() {
+        return index;
     }
 }

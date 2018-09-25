@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    app:layout_scrollFlags="scroll|enterAlways">
+    app:layout_scrollFlags="scroll|enterAlways"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:textAllCaps="true"
             android:textSize="16sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             tools:text="TextView" />
 
         <TextView
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textColor="@color/soft_grey"
+            android:textColor="@color/color_criteria_progress_bg"
             android:textSize="12sp"
             tools:text="a/b/c/d" />
     </LinearLayout>

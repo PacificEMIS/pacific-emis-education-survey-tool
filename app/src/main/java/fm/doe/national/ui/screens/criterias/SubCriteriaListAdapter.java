@@ -120,7 +120,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
         @OnLongClick(R.id.textview_question)
         public boolean onViewLongClick(View v) {
-            showHint();
+            if (!TextUtils.isEmpty(getItem().getSubCriteriaQuestion().getHint())) showHint();
             return true;
         }
 

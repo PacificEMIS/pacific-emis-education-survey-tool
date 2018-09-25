@@ -1,5 +1,8 @@
 package fm.doe.national.ui.screens.standards;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,17 +19,17 @@ import fm.doe.national.utils.ViewUtils;
 public class StandardsListAdapter extends BaseAdapter<Standard> {
 
     @Override
-    protected CategoryViewHolder provideViewHolder(ViewGroup parent) {
-        return new CategoryViewHolder(parent);
+    protected StandardViewHolder provideViewHolder(ViewGroup parent) {
+        return new StandardViewHolder(parent);
     }
 
-    protected class CategoryViewHolder extends ViewHolder implements View.OnClickListener {
+    protected class StandardViewHolder extends ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.imageview_category_icon)
+        @BindView(R.id.imageview_standard_icon)
         ImageView standardIconImageView;
 
-        @BindView(R.id.textview_category_name)
-        TextView categoryNameTextView;
+        @BindView(R.id.textview_standard_name)
+        TextView standardNameTextView;
 
         @BindView(R.id.textview_progress)
         TextView progressTextView;
@@ -34,19 +37,25 @@ public class StandardsListAdapter extends BaseAdapter<Standard> {
         @BindView(R.id.progressbar)
         ProgressBar progressBar;
 
-        CategoryViewHolder(ViewGroup parent) {
+        StandardViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_standard);
         }
 
         @Override
         public void onBind(Standard item) {
-            Integer icon = ViewUtils.getStandardIconRes(item.getIcon());
+            Integer icon = ViewUtils.getStandardIconRes(item.getIndex());
             if (icon != null) {
                 standardIconImageView.setImageResource(icon);
                 standardIconImageView.setActivated(true);
             }
 
-            categoryNameTextView.setText(item.getName());
+            String standardPrefix = getString(R.string.format_standard, item.getIndex());
+            SpannableString spannableString = new SpannableString(standardPrefix + " " + item.getName());
+            spannableString.setSpan(
+                    new TypefaceSpan(getString(R.string.font_normal)),
+                    0, standardPrefix.length(),
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            standardNameTextView.setText(spannableString);
 
             CategoryProgress categoryProgress = item.getCategoryProgress();
             ViewUtils.rebindProgress(

@@ -12,8 +12,7 @@
         android:id="@+id/constraintlayout_subtoolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:layout_constraintTop_toBottomOf="@+id/include_toolbar">
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <ImageView
             android:id="@+id/imageview_icon_bg"
@@ -29,7 +28,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <ImageView
             android:id="@+id/imageview_standard_icon"
             android:layout_width="wrap_content"
@@ -44,7 +42,7 @@
             android:id="@+id/textview_category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/cool_grey"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/textview_standard_name"
             app:layout_constraintStart_toStartOf="@+id/textview_standard_name"
@@ -57,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:textColor="@color/charcoal_grey"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageview_icon_bg"
             app:layout_constraintEnd_toStartOf="@+id/imageview_clock"
@@ -73,14 +71,14 @@
             app:layout_constraintBottom_toBottomOf="@+id/textview_year"
             app:layout_constraintEnd_toStartOf="@+id/textview_year"
             app:layout_constraintTop_toTopOf="@+id/textview_year"
-            app:srcCompat="@drawable/ic_clock" />
+            app:srcCompat="@drawable/ic_clock_light" />
 
         <TextView
             android:id="@+id/textview_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:textColor="@color/cool_grey"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/textview_standard_name"
             app:layout_constraintEnd_toEndOf="parent"

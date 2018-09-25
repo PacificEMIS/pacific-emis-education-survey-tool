@@ -21,7 +21,7 @@ public class OrmLiteSurveyItem {
         String PARENT = "parent";
         String SURVEY = "survey";
         String CHILDREN = "children";
-        String ICON = "icon";
+        String INDEX = "index";
     }
 
     public enum Type {
@@ -41,8 +41,8 @@ public class OrmLiteSurveyItem {
     protected Type type;
 
     @Nullable
-    @DatabaseField(columnName = Column.ICON, canBeNull = true)
-    protected Integer icon;
+    @DatabaseField(columnName = Column.INDEX, canBeNull = true)
+    protected String index;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = Column.PARENT)
     protected OrmLiteSurveyItem parentItem;
@@ -56,10 +56,10 @@ public class OrmLiteSurveyItem {
     public OrmLiteSurveyItem() {
     }
 
-    public OrmLiteSurveyItem(String name, Type type, @Nullable Integer icon, OrmLiteSurvey survey, OrmLiteSurveyItem parentItem) {
+    public OrmLiteSurveyItem(String name, Type type, @Nullable String index, OrmLiteSurvey survey, OrmLiteSurveyItem parentItem) {
         this.name = name;
         this.type = type;
-        this.icon = icon;
+        this.index = index;
         this.survey = survey;
         this.parentItem = parentItem;
         this.childrenItems = new ArrayList<>();
@@ -102,8 +102,8 @@ public class OrmLiteSurveyItem {
     }
 
     @Nullable
-    public Integer getIcon() {
-        return icon;
+    public String getIndex() {
+        return index;
     }
 
     public OrmLiteSurvey getSurvey() {

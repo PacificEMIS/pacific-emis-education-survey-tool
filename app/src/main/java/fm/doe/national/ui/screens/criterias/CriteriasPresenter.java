@@ -168,9 +168,9 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         Standard prevStandard = standards.get(previousIndex);
         Standard nextStandard = standards.get(nextIndex);
 
-        view.setGlobalInfo(currentStandard.getName(), currentStandard.getIcon());
-        view.setPrevStandard(prevStandard.getName(), prevStandard.getIcon());
-        view.setNextStandard(nextStandard.getName(), nextStandard.getIcon());
+        view.setGlobalInfo(currentStandard.getName(), currentStandard.getIndex());
+        view.setPrevStandard(prevStandard.getName(), prevStandard.getIndex());
+        view.setNextStandard(nextStandard.getName(), nextStandard.getIndex());
 
         loadQuestions();
     }

@@ -6,7 +6,8 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_scrollFlags="scroll|enterAlways">
+    app:layout_scrollFlags="scroll|enterAlways"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:maxLines="1"
-            android:textColor="@color/color_toolbar_text"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageview_toolbar_clock"
@@ -35,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/textview_toolbar_year"
             app:layout_constraintEnd_toStartOf="@+id/textview_toolbar_year"
             app:layout_constraintTop_toTopOf="@+id/textview_toolbar_year"
-            app:srcCompat="@drawable/ic_clock" />
+            app:srcCompat="@drawable/ic_clock_light" />
 
         <TextView
             android:id="@+id/textview_toolbar_year"
@@ -43,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/cool_grey"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

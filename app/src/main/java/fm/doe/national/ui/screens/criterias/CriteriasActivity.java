@@ -48,16 +48,6 @@ public class CriteriasActivity extends BaseActivity implements
     private static final int REQUEST_CAMERA = 100;
     private static final int REQUEST_CHANGES = 101;
 
-    private static final int[] icons = {
-            R.drawable.ic_standard_leadership_selector,
-            R.drawable.ic_standard_teacher_selector,
-            R.drawable.ic_standard_data_selector,
-            R.drawable.ic_standard_cirriculum_selector,
-            R.drawable.ic_standard_facility_selector,
-            R.drawable.ic_standard_improvement_selector,
-            R.drawable.ic_standard_observation_selector
-    };
-
     private final CriteriaListAdapter recyclerAdapter = new CriteriaListAdapter();
 
     @BindView(R.id.recyclerview_criterias)

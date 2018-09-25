@@ -10,7 +10,7 @@
         android:layout_height="34dp"
         android:background="@drawable/ic_yes_no_left"
         android:text="@string/yes"
-        android:textColor="@color/black"/>
+        android:textColor="@color/color_criteria_primary_dark"/>
 
     <Button
         android:id="@+id/button_negative"
@@ -18,5 +18,5 @@
         android:layout_height="34dp"
         android:background="@drawable/ic_yes_no_right"
         android:text="@string/no"
-        android:textColor="@color/black" />
+        android:textColor="@color/color_criteria_primary_dark" />
 </LinearLayout>

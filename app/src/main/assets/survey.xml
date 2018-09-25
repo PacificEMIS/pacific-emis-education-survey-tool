@@ -4,9 +4,10 @@
     <category>
         <name>Principal's Interview</name>
         <standard>
-            <icon>1</icon>
-            <name>Standard 1: Leadership</name>
+            <index>1</index>
+            <name>Leadership</name>
             <criteria>
+                <index>1.1</index>
                 <name>The principal has very high expectations for students and teachers.</name>
                 <subcriteria>
                     <name>The principal ensures that a minimum of 180 instructional days are delivered and can provide documentary evidence.</name>
@@ -30,6 +31,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>1.2</index>
                 <name>The principal has a clear philosophy of education and is an expert in curriculum and instruction.</name>
                 <subcriteria>
                     <name>The principal manages a program of teacher collaboration for instructional planning.</name>
@@ -52,6 +54,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>1.3</index>
                 <name>The principal is involved in a program of continuous professional development and appraisal by supervisors, board members or peers.</name>
                 <subcriteria>
                     <name>The principal keeps up to date with innovations in education.</name>
@@ -75,6 +78,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>1.4</index>
                 <name>The principal conducts a regular program of teacher performance appraisals.</name>
                 <subcriteria>
                     <name>There are regular, structured classroom observations and written reports are produced.</name>
@@ -97,9 +101,10 @@
             </criteria>
         </standard>
         <standard>
-            <icon>2</icon>
-            <name>Standard 2: Teacher Performance</name>
+            <index>2</index>
+            <name>Teacher Performance</name>
             <criteria>
+                <index>2.1</index>
                 <name>At least 75% of observed teachers prepare standardized long, medium or short-term lesson plans that provide adequate guidance for teaching and learning activities.</name>
                 <subcriteria>
                     <name>Plans include appropriate learning activities including differentiated activities for different learners, including those with IEPs, for at least 75% of teachers observed (all teachers are observed).</name>
@@ -120,6 +125,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>2.2</index>
                 <name>All teachers create high quality classroom learning environments.</name>
                 <subcriteria>
                     <name>The classrooms and other teaching areas are rich in print and visual displays that are related to the current learning objectives.</name>
@@ -141,6 +147,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>2.3</index>
                 <name>All teachers manage their time effectively to maximize students’ learning opportunities.</name>
                 <subcriteria>
                     <name>All observed lessons start and finish on time.</name>
@@ -160,6 +167,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>2.4</index>
                 <name>All teachers actively participate with enthusiasm in a school-based appraisal program.</name>
                 <subcriteria>
                     <name>All teachers, individually or in groups, reflect upon and evaluate their performance.</name>
@@ -180,9 +188,10 @@
             </criteria>
         </standard>
         <standard>
-            <icon>4</icon>
-            <name>Standard 4: National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
+            <index>4</index>
+            <name>National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
             <criteria>
+                <index>4.1</index>
                 <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.</name>
                 <subcriteria>
                     <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics, Social Studies, and Science are taught throughout the school in accordance with the National Curriculum and/or State Curriculum.</name>
@@ -203,6 +212,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>4.2</index>
                 <name>Student performance data shows that the vast majority of students reach Competent or Minimum Competent levels on the NMCT and pass other State-mandated exams.</name>
                 <subcriteria>
                     <name>Whole assessment benchmark data in all tested Mathematics NMCTs show 50% as their average benchmark score or a 2%+ increase compared to the previous year.</name>
@@ -222,6 +232,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>4.3</index>
                 <name>All students in all grades have their own copies of modern textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
                 <subcriteria>
                     <name>All students in all grades have their own copies of modern (and/or any) textbooks and/or relevant resources to support the benchmarks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
@@ -241,6 +252,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>4.4</index>
                 <name>A full timetable of extra-curricular academic, sports, cultural, civic and community activities are conducted after school for both boys and girls.</name>
                 <subcriteria>
                     <name>At least two extra-curricular academic and/or sports activities are conducted after school for both boys and girls.</name>
@@ -266,9 +278,10 @@
     <category>
         <name>Classroom Observation</name>
         <standard>
-            <icon>1</icon>
-            <name>Standard 1: Planning and preparation</name>
+            <index>1</index>
+            <name>Planning and preparation</name>
             <criteria>
+                <index>1.1</index>
                 <name>Long term plans show an understanding of the curriculum, the connections between different subject areas and an attempt to link the curriculum to local contexts.</name>
                 <subcriteria>
                     <name>There is evidence that National and State curriculum documents and guidelines are regularly used in planning</name>
@@ -287,6 +300,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>1.2</index>
                 <name>Short term lesson plans provide adequate guidance for teaching and learning activities</name>
                 <subcriteria>
                     <name>Written plans for at least 1 week show continuity and progression between lessons</name>
@@ -306,9 +320,10 @@
             </criteria>
         </standard>
         <standard>
-            <icon>2</icon>
-            <name>Standard 2: Classroom   Management</name>
+            <index>2</index>
+            <name>Classroom   Management</name>
             <criteria>
+                <index>2.1</index>
                 <name>Time is managed effectively to maximize students’ learning opportunities</name>
                 <subcriteria>
                     <name>Time is used constructively for teaching and learning of new material</name>
@@ -327,6 +342,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>2.2</index>
                 <name>Resources and learning materials are managed effectively</name>
                 <subcriteria>
                     <name>All resources and learning materials needed for the lesson are prepared in advance</name>
@@ -345,6 +361,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>2.3</index>
                 <name>A positive, supportive climate for learning is created</name>
                 <subcriteria>
                     <name>The teacher expects, recognizes and rewards high standards of student behavior and achievement</name>
@@ -363,6 +380,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>2.4</index>
                 <name>A high quality physical learning environment is created</name>
                 <subcriteria>
                     <name>The environment is rich in print and visual displays that are related to the current learning objectives </name>
@@ -382,9 +400,10 @@
             </criteria>
         </standard>
         <standard>
-            <icon>3</icon>
-            <name>Standard 3: Teaching and learning</name>
+            <index>3</index>
+            <name>Teaching and learning</name>
             <criteria>
+                <index>3.1</index>
                 <name>The lesson is structured and objectives are clear</name>
                 <subcriteria>
                     <name>The lesson begins with a review of previous learning </name>
@@ -403,6 +422,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>3.2</index>
                 <name>New material is accurately and clearly presented, explained and placed within a meaningful context</name>
                 <subcriteria>
                     <name>New material or content is presented with authority in a logical and systematic way using clearly recognizable steps</name>
@@ -421,6 +441,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>3.3</index>
                 <name>A variety of highly efficient interactive teaching and learning strategies are used</name>
                 <subcriteria>
                     <name>The teacher facilitates a wide variety of interactive teaching and cooperative learning strategies </name>
@@ -439,6 +460,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>3.4</index>
                 <name>Questioning and discussion are used effectively to support learning</name>
                 <subcriteria>
                     <name>The majority of teacher questions are open and enabling and encourage higher order thinking</name>
@@ -458,9 +480,10 @@
             </criteria>
         </standard>
         <standard>
-            <icon>4</icon>
-            <name>Standard 4: Student assessment</name>
+            <index>4</index>
+            <name>Student assessment</name>
             <criteria>
+                <index>4.1</index>
                 <name>Assessment is planned and integrated into the lesson and is based on observable and measurable criteria</name>
                 <subcriteria>
                     <name>Learning objectives and assessment criteria are explained to the children in language they can understand</name>
@@ -480,9 +503,10 @@
             </criteria>
         </standard>
         <standard>
-            <icon>5</icon>
-            <name>Standard 5: Evaluation and professional development</name>
+            <index>5</index>
+            <name>Evaluation and professional development</name>
             <criteria>
+                <index>5.1</index>
                 <name>The teacher reflects upon and evaluates their performance and participates in professional development </name>
                 <subcriteria>
                     <name>The teacher regularly makes thoughtful and accurate evaluations of lesson effectiveness based on children’s learning outcomes</name>
@@ -505,9 +529,10 @@
     <category>
         <name>School Checklist</name>
         <standard>
-            <icon>5</icon>
-            <name>Standard 5: School Campus, Classrooms and Facilities</name>
+            <index>5</index>
+            <name>School Campus, Classrooms and Facilities</name>
             <criteria>
+                <index>5.1</index>
                 <name>The school has a written maintenance and facilities development plan.</name>
                 <subcriteria>
                     <name>The school has a written maintenance plan that sets out a schedule of routine cleaning, minor repairs, painting and preventative maintenance.</name>
@@ -528,6 +553,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>5.2</index>
                 <name>The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones.</name>
                 <subcriteria>
                     <name>Buildings are neat, clean, safe and secure (inside-out and outside-in), free of graffiti (e.g. writing on walls) vandalism (i.e. destruction of government property), and are explicitly drug-free zones.</name>
@@ -547,6 +573,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>5.3</index>
                 <name>Classrooms meet recommended area requirements, with adequate lighting and ventilation.</name>
                 <subcriteria>
                     <name>All classrooms used by groups of 30 or more students exceed 25 feet by 25 feet in area (625 square feet), and classrooms used by less than 30 students allow an excess of 20 square feet of floor space per student.</name>
@@ -566,6 +593,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>5.4</index>
                 <name>Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an emergency evacuation plan with evidence of a drill.</name>
                 <subcriteria>
                     <name>All food handling and preparation personnel wear protective clothing, are certified by the Public Health Department and their certificates are clearly displayed. [For schools with vendors, ECE centers, cafeterias] \nIf there are no vendors, ECE centers, or cafeterias onsite, ignore this indicator and receive an automatic point.</name>
@@ -592,9 +620,10 @@
     <category>
         <name>Data Checklist</name>
         <standard>
-            <icon>3</icon>
-            <name>Standard 3: Data Management</name>
+            <index>3</index>
+            <name>Data Management</name>
             <criteria>
+                <index>3.1</index>
                 <name>Comprehensive and accurate school data is collected on a regular schedule.</name>
                 <subcriteria>
                     <name>Comprehensive and accurate school data is collected on a quarterly schedule.</name>
@@ -616,6 +645,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>3.2</index>
                 <name>All school data is centrally located and carefully filed.</name>
                 <subcriteria>
                     <name>All SDOE-mandated school data files, per the Data Checklist, are backed-up or duplicated and are securely held, including IEPs.</name>
@@ -635,6 +665,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>3.3</index>
                 <name>All student performance data, including classroom assessment, teacher observations, student portfolios and test data, is analyzed by all teachers during regular assessment meetings to identify individual students’ strengths and weaknesses, including students with IEPs.</name>
                 <subcriteria>
                     <name>Scheduled assessment meetings are held by teacher teams at least once per quarter, with said meetings analyzing assessment results.</name>
@@ -655,6 +686,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>3.4</index>
                 <name>An extensive collection of school data is used to guide all management decision making.</name>
                 <subcriteria>
                     <name>An extensive collection of school data is used to guide all management and resource decision making, with at least two examples given during the Principal Interview of decisions made because of data.</name>
@@ -678,9 +710,10 @@
             </criteria>
         </standard>
         <standard>
-            <icon>6</icon>
-            <name>Standard 6: School Improvement Planning</name>
+            <index>6</index>
+            <name>School Improvement Planning</name>
             <criteria>
+                <index>6.1</index>
                 <name>The School Improvement Plan has been developed and evaluated in accordance with the National Guidelines.</name>
                 <subcriteria>
                     <name>The School Improvement Plan has been developed by a school improvement team that includes selected teachers, parents, and other community members as consistent with the National Guidelines.</name>
@@ -701,6 +734,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>6.2</index>
                 <name>The school principal plays a leadership role in the development and implementation of the SIP.</name>
                 <subcriteria>
                     <name>The SIP contains a Vision and Mission, the former successfully stating what the school wants to become, and the latter successfully stating what they do and how they do it.</name>
@@ -720,6 +754,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>6.3</index>
                 <name>The School Improvement Plan contains comprehensive data analysis of student performance, attendance, resources and school management, over a period of at least three years, noting school strengths and weaknesses.</name>
                 <subcriteria>
                     <name>The School Improvement Plan contains three years of comprehensive data analysis of student performance, presented graphically</name>
@@ -739,6 +774,7 @@
                 </subcriteria>
             </criteria>
             <criteria>
+                <index>6.4</index>
                 <name>The School Improvement Plan contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes.</name>
                 <subcriteria>
                     <name>The SIP is posted in a public place (on campus, in the principal’s office, DOE website, or a bulletin board) and regular monitoring reports are issued to the community.</name>
