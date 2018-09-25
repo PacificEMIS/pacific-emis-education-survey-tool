@@ -39,7 +39,7 @@
             android:layout_gravity="end|bottom"
             android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
-            app:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorPrimary"
             app:layout_behavior="fm.doe.national.ui.screens.school_accreditation.FloatingActionButtonBehavior"
             app:srcCompat="@drawable/ic_plus"
             android:scaleType="center"/>
