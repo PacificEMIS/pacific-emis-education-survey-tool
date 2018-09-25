@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:id="@android:id/background">
         <shape>
             <solid android:color="@color/color_criteria_progress_bg" />
@@ -9,9 +9,8 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <solid android:color="@color/dark_mint" />
+                <solid android:color="@color/color_progress" />
             </shape>
         </clip>
     </item>
-
 </layer-list>

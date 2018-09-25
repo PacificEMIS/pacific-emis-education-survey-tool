@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:state_activated="true"
-        android:drawable="@drawable/progress_bar_states_hl" />
-    <item
-        android:state_activated="false"
-        android:drawable="@drawable/progress_bar_states" />
-</selector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="@color/color_criteria_progress_bg" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="@color/cool_grey" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>
