@@ -10,6 +10,6 @@ public interface Standard extends Identifiable {
     CategoryProgress getCategoryProgress();
 
     @Nullable
-    Integer getIcon();
+    Integer getIndex();
 
 }

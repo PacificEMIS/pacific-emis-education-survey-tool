@@ -78,6 +78,8 @@
     <string name="label_attached_photos">Attached photos</string>
     <string name="menu_item_confirm">Confirm</string>
     <string name="coming_soon">Coming soon</string>
+    <string name="format_standard">Standard %1$d:</string>
+    <string name="format_criteria">Criteria %1$s:</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>

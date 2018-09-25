@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models.serializable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -20,6 +21,10 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
 
     @ElementList(inline = true)
     List<SerializableSubCriteria> subCriterias;
+
+    @Nullable
+    @Element(required = false)
+    String index;
 
     public SerializableCriteria() {
     }
@@ -56,5 +61,11 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
                 input.getName(),
                 new SerializableAnswer(input.getAnswer()),
                 input.getSubCriteriaQuestion());
+    }
+
+    @Nullable
+    @Override
+    public String getIndex() {
+        return index;
     }
 }

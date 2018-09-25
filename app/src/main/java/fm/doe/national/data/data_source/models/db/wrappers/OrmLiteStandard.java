@@ -59,8 +59,12 @@ public class OrmLiteStandard implements LinkedStandard {
 
     @Nullable
     @Override
-    public Integer getIcon() {
-        return surveyItem.getIcon();
+    public Integer getIndex() {
+        try {
+            return Integer.parseInt(surveyItem.getIndex());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 }
 

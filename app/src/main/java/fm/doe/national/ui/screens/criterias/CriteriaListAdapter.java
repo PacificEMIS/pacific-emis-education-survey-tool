@@ -1,7 +1,14 @@
 package fm.doe.national.ui.screens.criterias;
 
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -92,7 +99,15 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         @Override
         public void onBind(Criteria item) {
             adapter.setItems((List<SubCriteria>) item.getSubCriterias());
-            titleTextView.setText(item.getName());
+
+            String criteriaPrefix = getString(R.string.format_criteria, item.getIndex());
+            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.getName());
+            spannableString.setSpan(
+                    new TypefaceSpan(getString(R.string.font_medium)),
+                    0, criteriaPrefix.length(),
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            titleTextView.setText(spannableString);
+
             rebindProgress(item.getCategoryProgress());
 
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
