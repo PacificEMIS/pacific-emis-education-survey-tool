@@ -52,7 +52,7 @@ import io.reactivex.subjects.SingleSubject;
 
 public class DriveCloudAccessor implements CloudAccessor {
 
-    private final String DRIVE_ROOT_FOLDER = "My Drive";
+    private final String DRIVE_ROOT_FOLDER = "root";
     private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDriveCloudPreferences();
     private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
     private final Context context;
@@ -174,7 +174,7 @@ public class DriveCloudAccessor implements CloudAccessor {
             Metadata folderMeta = Tasks.await(driveResourceClient.getMetadata(driveResource));
             String folderTitle = folderMeta.getTitle();
 
-            if (!folderTitle.equals(DRIVE_ROOT_FOLDER)) {
+            if (!exportFolderId.getResourceId().equals(DRIVE_ROOT_FOLDER)) {
                 extractPath(pathBuilder, driveResource);
             }
 
