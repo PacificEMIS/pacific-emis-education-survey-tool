@@ -46,7 +46,7 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(passing -> {
                     CategoriesView view = getViewState();
-                    view.setSurveyYear(passing.getYear());
+                    view.setSurveyDate(passing.getStartDate());
                     view.setSchoolName(passing.getSchool().getName());
                 }, this::handleError));
     }

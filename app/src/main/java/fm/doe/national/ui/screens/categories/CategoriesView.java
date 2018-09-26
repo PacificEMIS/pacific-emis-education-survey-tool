@@ -4,6 +4,7 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Category;
@@ -18,7 +19,7 @@ public interface CategoriesView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToStandardsScreen(long passingId, long categoryId);
 
-    void setSurveyYear(int year);
+    void setSurveyDate(Date date);
 
     void setSchoolName(String schoolName);
 

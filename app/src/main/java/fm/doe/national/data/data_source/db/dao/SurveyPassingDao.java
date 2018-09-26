@@ -20,9 +20,9 @@ public class SurveyPassingDao extends BaseRxDao<OrmLiteSurveyPassing, Long> {
         this.surveyDao = surveyDao;
     }
 
-    public Single<OrmLiteSurveyPassing> createSurveyPassing(int year, OrmLiteSchool school) throws SQLException {
+    public Single<OrmLiteSurveyPassing> createSurveyPassing(Date startDate, OrmLiteSchool school) throws SQLException {
         return Single
-                .just(new OrmLiteSurveyPassing(year, school, surveyDao.getRelevantSurvey()))
+                .just(new OrmLiteSurveyPassing(startDate, school, surveyDao.getRelevantSurvey()))
                 .map(this::createIfNotExists);
     }
 

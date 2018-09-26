@@ -239,7 +239,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .doOnSuccess(passing -> {
                     CriteriasView view = getViewState();
-                    view.setSurveyYear(passing.getYear());
+                    view.setSurveyDate(passing.getStartDate());
                     view.setSchoolName(passing.getSchool().getName());
                 })
                 .flatMap(passing -> dataSource.requestCategories(passingId))

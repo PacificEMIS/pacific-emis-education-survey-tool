@@ -8,7 +8,6 @@ public class OrmLiteSurveyPassing {
 
     public interface Column {
         String ID = "id";
-        String YEAR = "version";
         String SCHOOL = "school";
         String SURVEY = "surveyPassing";
         String START_DATE = "startDate";
@@ -17,9 +16,6 @@ public class OrmLiteSurveyPassing {
 
     @DatabaseField(generatedId = true, columnName = Column.ID)
     protected long id;
-
-    @DatabaseField(columnName = Column.YEAR)
-    protected int year;
 
     @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true, columnName = Column.SCHOOL)
     protected OrmLiteSchool school;
@@ -36,23 +32,14 @@ public class OrmLiteSurveyPassing {
     public OrmLiteSurveyPassing() {
     }
 
-    public OrmLiteSurveyPassing(int year, OrmLiteSchool school, OrmLiteSurvey survey) {
-        this.year = year;
+    public OrmLiteSurveyPassing(Date startDate, OrmLiteSchool school, OrmLiteSurvey survey) {
         this.school = school;
         this.survey = survey;
-        this.startDate = new Date();
+        this.startDate = startDate;
     }
 
     public long getId() {
         return id;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public OrmLiteSchool getSchool() {

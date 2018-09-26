@@ -4,6 +4,7 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Standard;
@@ -19,7 +20,7 @@ public interface StandardsView extends BaseView {
 
     void setGlobalProgress(int completed, int total);
 
-    void setSurveyYear(int year);
+    void setSurveyDate(Date date);
 
     void setCategoryName(String schoolName);
 }

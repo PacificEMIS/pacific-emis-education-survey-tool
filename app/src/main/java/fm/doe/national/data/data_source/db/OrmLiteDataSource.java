@@ -2,6 +2,7 @@ package fm.doe.national.data.data_source.db;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.DataSource;
@@ -99,9 +100,9 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(int year, School school) {
+    public Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(Date startDate, School school) {
         return schoolDao.requestSchool(school.getId())
-                .flatMap(schoolItem -> surveyPassingDao.createSurveyPassing(year, schoolItem)
+                .flatMap(schoolItem -> surveyPassingDao.createSurveyPassing(startDate, schoolItem)
                         .flatMap(surveyPassing -> categoryProgressDao.requestCategoryProgress(
                                 surveyPassing,
                                 surveyPassing.getSurvey().getSurveyItems())
