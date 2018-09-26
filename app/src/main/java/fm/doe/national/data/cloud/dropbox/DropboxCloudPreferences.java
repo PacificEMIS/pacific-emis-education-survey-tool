@@ -10,6 +10,7 @@ import fm.doe.national.data.cloud.CloudPreferences;
 public class DropboxCloudPreferences implements CloudPreferences {
 
     private static final String PREFS_KEY_DROPBOX_FOLDER = "PREFS_KEY_DROPBOX_FOLDER";
+    private static final String PREFS_KEY_DROPBOX_FOLDER_PATH = "PREFS_KEY_DROPBOX_FOLDER_PATH";
     private static final String PREFS_KEY_TOKEN = "PREFS_KEY_TOKEN";
 
     private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
@@ -23,7 +24,7 @@ public class DropboxCloudPreferences implements CloudPreferences {
     @Nullable
     @Override
     public String getExportFolderPath() {
-        return getExportFolder();
+        return sharedPreferences.getString(PREFS_KEY_DROPBOX_FOLDER_PATH, null);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class DropboxCloudPreferences implements CloudPreferences {
 
     @Override
     public void setExportFolderPath(@NonNull String folderPath) {
-        setExportFolder(folderPath);
+        sharedPreferences.edit().putString(PREFS_KEY_DROPBOX_FOLDER_PATH, folderPath).apply();
     }
 
     @Nullable
