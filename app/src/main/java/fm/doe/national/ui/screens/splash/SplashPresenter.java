@@ -13,6 +13,7 @@ import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
+import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.screens.menu.base.MenuPresenter;
 import fm.doe.national.utils.Constants;
 import io.reactivex.Completable;
@@ -21,7 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class SplashPresenter extends MenuPresenter<SplashView> {
+public class SplashPresenter extends BasePresenter<SplashView> {
 
     private final Parser<LinkedSchoolAccreditation> schoolAccreditationParser =
             MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
@@ -52,8 +53,7 @@ public class SplashPresenter extends MenuPresenter<SplashView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     isFinishedLoading = true;
-                    getViewState().showSelector();
-                    getViewState().hideLongLoadingProgressBar();
+                    getViewState().navigateToSplashEnd();
                 } , this::handleError));
     }
 

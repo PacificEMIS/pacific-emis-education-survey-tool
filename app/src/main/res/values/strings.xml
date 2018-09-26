@@ -87,4 +87,7 @@
     <string name="font_black">sans-serif-black</string>
 
     <string name="transition_tag_fullscreen_image">transition_tag_fullscreen_image</string>
+    <string name="transition_tag_splash_title">transition_tag_splash_title</string>
+    <string name="transition_tag_splash_logo">transition_tag_splash_logo</string>
+
 </resources>

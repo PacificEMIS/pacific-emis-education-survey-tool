@@ -1,33 +1,38 @@
 package fm.doe.national.ui.screens.splash;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.transition.ChangeBounds;
-import android.support.transition.TransitionManager;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import butterknife.BindView;
+import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.menu.base.MenuActivity;
-import fm.doe.national.ui.screens.menu.base.MenuPresenter;
+import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.splash_end.SplashEndActivity;
 
-public class SplashActivity extends MenuActivity implements SplashView {
+
+public class SplashActivity extends BaseActivity implements SplashView {
 
     private static final long DURATION_ANIMATION = 1000;
 
-    @BindView(R.id.layout_splash_start)
-    ConstraintLayout constraintLayout;
-
     @BindView(R.id.progressbar_long_loading)
     ProgressBar longLoadingProgressBar;
+
+    @BindView(R.id.textview_title)
+    TextView titleTextView;
+
+    @BindView(R.id.imageview_logo)
+    ImageView logoImageView;
 
     @InjectPresenter
     SplashPresenter splashPresenter;
@@ -43,18 +48,20 @@ public class SplashActivity extends MenuActivity implements SplashView {
     }
 
     @Override
-    public void showSelector() {
-        ConstraintSet newConstraintSet = new ConstraintSet();
-        newConstraintSet.clone(getApplicationContext(), R.layout.activity_splash_end);
-        newConstraintSet.applyTo(constraintLayout);
-        TransitionManager.beginDelayedTransition(constraintLayout, new ChangeBounds()
-                .setInterpolator(new AccelerateInterpolator())
-                .setDuration(DURATION_ANIMATION));
-    }
+    public void navigateToSplashEnd() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setExitTransition(null);
+        }
 
-    @Override
-    protected MenuPresenter getPresenter() {
-        return splashPresenter;
+        String transitionNameText = ViewCompat.getTransitionName(titleTextView);
+        String transitionNameImage = ViewCompat.getTransitionName(logoImageView);
+
+        Intent intent = new Intent(this, SplashEndActivity.class);
+        ActivityOptionsCompat optionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                        Pair.create(titleTextView, transitionNameText),
+                        Pair.create(logoImageView, transitionNameImage));
+        startActivity(intent, optionsCompat.toBundle());
     }
 
     @Override
@@ -65,21 +72,5 @@ public class SplashActivity extends MenuActivity implements SplashView {
                 .alpha(1.0f)
                 .setDuration(DURATION_ANIMATION)
                 .setInterpolator(new AccelerateDecelerateInterpolator());
-    }
-
-    @Override
-    public void hideLongLoadingProgressBar() {
-        if (longLoadingProgressBar.getVisibility() == View.GONE) return;
-
-        longLoadingProgressBar.animate()
-                .alpha(0.0f)
-                .setDuration(DURATION_ANIMATION)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        longLoadingProgressBar.setVisibility(View.GONE);
-                    }
-                });
     }
 }
