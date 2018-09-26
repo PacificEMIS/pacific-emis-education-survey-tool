@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,6 +60,9 @@ public class SettingsActivity extends BaseActivity implements
 
     @BindView(R.id.layout_possible_connections)
     View possibleConnectionsView;
+
+    @BindView(R.id.layout_connections)
+    ConstraintLayout layoutConnections;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
@@ -145,14 +150,27 @@ public class SettingsActivity extends BaseActivity implements
             for (CloudType type : types) {
                 switch (type) {
                     case DRIVE:
-                        driveView.setVisibility(View.GONE);
+                        hideDrive();
                         break;
                     case DROPBOX:
-                        dropboxView.setVisibility(View.GONE);
+                        hideDropbox();
                         break;
                 }
             }
         }
+    }
+
+    private void hideDrive() {
+        driveView.setVisibility(View.GONE);
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(layoutConnections);
+        constraintSet.connect(dropboxView.getId(), ConstraintSet.START, R.id.view_left_panel, ConstraintSet.START);
+        constraintSet.connect(dropboxView.getId(), ConstraintSet.END, R.id.view_left_panel, ConstraintSet.END);
+        constraintSet.applyTo(layoutConnections);
+    }
+
+    private void hideDropbox() {
+        dropboxView.setVisibility(View.GONE);
     }
 
     @Override

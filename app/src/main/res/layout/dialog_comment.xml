@@ -20,48 +20,89 @@
         android:focusable="true">
 
         <LinearLayout
-            android:id="@+id/layout_questions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="32dp"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/textview_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_comment"
-                android:textColor="@color/charcoal_grey"
-                android:textSize="32sp" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button_submit"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="32dp">
 
-            <TextView
-                android:id="@+id/textview_subcriteria_name"
+            <ScrollView
+                android:id="@+id/scrollview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textColor="@color/charcoal_grey"
-                android:textSize="16sp"
-                tools:text="The principal manages a program of teacher collaboration for instructional planning. " />
+                android:layout_height="0dp"
+                android:layout_weight="2">
 
-            <TextView
-                android:id="@+id/textview_interview_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textColor="@color/color_criteria_primary_dark"
-                tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves? " />
+                <LinearLayout
+                    android:id="@+id/layout_questions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginStart="40dp"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textview_hint"
+                    <TextView
+                        android:id="@+id/textview_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_comment"
+                        android:textColor="@color/charcoal_grey"
+                        android:textSize="32sp" />
+
+                    <TextView
+                        android:id="@+id/textview_subcriteria_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/charcoal_grey"
+                        android:textSize="16sp"
+                        android:lineSpacingExtra="8sp"
+                        tools:text="The principal manages a program of teacher collaboration for instructional planning. " />
+
+                    <TextView
+                        android:id="@+id/textview_interview_question"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:lineSpacingExtra="5sp"
+                        android:textColor="@color/color_criteria_primary_dark"
+                        tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves? " />
+
+                    <TextView
+                        android:id="@+id/textview_hint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        tools:text="During the accreditation visit interview, the principal demonstrated a deep understanding of what his/her teachers were teaching and how they were doing  The principal conducts or contributes to workshops on curriculum and instruction  Regular meeting with school teachers are held to build collaboration among them.   Evidence of meeting attendance." />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+            <EditText
+                android:id="@+id/edittext_comment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="24dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
                 android:textColor="@color/black"
                 android:textSize="12sp"
+                android:gravity="start|top"
+                android:letterSpacing="0.03"
+                android:background="@drawable/field_comment"
+                android:minHeight="100dp"
                 tools:text="During the accreditation visit interview, the principal demonstrated a deep understanding of what his/her teachers were teaching and how they were doing  The principal conducts or contributes to workshops on curriculum and instruction  Regular meeting with school teachers are held to build collaboration among them.   Evidence of meeting attendance." />
-
         </LinearLayout>
+
+
 
         <Button
             android:id="@+id/button_submit"
@@ -74,26 +115,6 @@
             android:textSize="24sp"
             android:fontFamily="@string/font_medium"
             android:textColor="@color/colorPrimary" />
-
-        <EditText
-            android:id="@+id/edittext_comment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="24dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
-            android:layout_below="@id/layout_questions"
-            android:layout_above="@id/button_submit"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:gravity="start|top"
-            android:background="@drawable/field_comment"
-            tools:text="During the accreditation visit interview, the principal demonstrated a deep understanding of what his/her teachers were teaching and how they were doing  The principal conducts or contributes to workshops on curriculum and instruction  Regular meeting with school teachers are held to build collaboration among them.   Evidence of meeting attendance." />
 
     </RelativeLayout>
 </FrameLayout>
