@@ -173,13 +173,17 @@ public class DropboxCloudAccessor implements CloudAccessor {
         extractExportFolderPath(pathBuilder, object);
 
         String objectName = object.getName();
-        pathBuilder.append(objectName.equals(DROPBOX_ROOT_FOLDER) ? Constants.DEFAULT_ROOT_FOLDER : objectName);
+        pathBuilder.append(replaceToAliasIfNeeds(objectName));
 
         exportFolder = object.getPath();
         cloudPreferences.setExportFolder(exportFolder);
         cloudPreferences.setExportFolderPath(pathBuilder.toString());
         folderPickCompletable.onComplete();
         folderPickCompletable = null;
+    }
+
+    private String replaceToAliasIfNeeds(String folderName) {
+       return folderName.equals(DROPBOX_ROOT_FOLDER) ? Constants.DEFAULT_ROOT_FOLDER : folderName;
     }
 
     private void extractExportFolderPath(StringBuilder pathBuilder, @NonNull BrowsingTreeObject object) {
@@ -189,7 +193,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
             String parentName = parent.getName();
             pathBuilder
-                    .append(parentName.equals(DROPBOX_ROOT_FOLDER) ? Constants.DEFAULT_ROOT_FOLDER : parentName)
+                    .append(replaceToAliasIfNeeds(parentName))
                     .append(Constants.SYMBOL_SLASH);
 
         }
