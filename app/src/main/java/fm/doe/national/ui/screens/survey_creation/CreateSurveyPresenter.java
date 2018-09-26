@@ -19,7 +19,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
-    private Date surveyStartDate;
+    private Date surveyStartDate = new Date();
     private List<School> schools;
 
     public CreateSurveyPresenter() {
@@ -28,7 +28,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadDate() {
-        getViewState().setStartDate(new Date());
+        getViewState().setStartDate(surveyStartDate);
     }
 
     private void loadSchools() {
