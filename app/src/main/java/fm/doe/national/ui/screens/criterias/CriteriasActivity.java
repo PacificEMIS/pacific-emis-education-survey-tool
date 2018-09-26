@@ -185,7 +185,7 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void setSurveyDate(Date date) {
-        yearTextView.setText(DateUtils.formatFromYearToMonth(date));
+        yearTextView.setText(DateUtils.formatMonthYear(date));
     }
 
     @Override

@@ -13,7 +13,7 @@ public class DateUtils {
         return dateFormat.format(date);
     }
 
-    public static String formatFromYearToMonth(Date date) {
+    public static String formatMonthYear(Date date) {
         return monthYearDateFormat.format(date);
     }
 }

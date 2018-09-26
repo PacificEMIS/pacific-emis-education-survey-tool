@@ -45,7 +45,7 @@ public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationP
             School school = item.getSchool();
             schoolIdTextView.setText(school.getId());
             nameSchoolTextView.setText(school.getName());
-            createdYearTextView.setText(DateUtils.formatFromYearToMonth(item.getStartDate()));
+            createdYearTextView.setText(DateUtils.formatMonthYear(item.getStartDate()));
 
             itemView.setOnClickListener(this);
 

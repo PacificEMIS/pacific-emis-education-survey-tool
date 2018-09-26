@@ -163,7 +163,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
 
     public void setToolbarDate(Date date) {
         if (clockIconImageView == null || yearTextView == null) return;
-        yearTextView.setText(DateUtils.formatFromYearToMonth(date));
+        yearTextView.setText(DateUtils.formatMonthYear(date));
         clockIconImageView.setVisibility(View.VISIBLE);
         yearTextView.setVisibility(View.VISIBLE);
     }
