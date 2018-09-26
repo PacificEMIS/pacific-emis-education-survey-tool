@@ -20,5 +20,5 @@ public interface CreateSurveyView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToCategoryChooser(long passingId);
 
-    void showDatePickerDialog(int currentYear, int currentMonth, int currentDay);
+    void showDatePicker(int currentYear, int currentMonth, int currentDay);
 }

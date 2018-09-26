@@ -11,7 +11,6 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.utils.DateUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -71,7 +70,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        getViewState().showDatePickerDialog(year, month, day);
+        getViewState().showDatePicker(year, month, day);
     }
 
     public void onDatePicked(int year, int month, int dayOfMonth) {

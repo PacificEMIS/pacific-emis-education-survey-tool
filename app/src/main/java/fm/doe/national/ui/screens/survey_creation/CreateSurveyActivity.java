@@ -84,9 +84,9 @@ public class CreateSurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void showDatePickerDialog(int currentYear, int currentMonth, int currentDay) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, currentYear, currentMonth, currentDay);
-        datePickerDialog.show();
+    public void showDatePicker(int currentYear, int currentMonth, int currentDay) {
+        new DatePickerDialog(this, this, currentYear, currentMonth, currentDay)
+                .show();
     }
 
     @Override
