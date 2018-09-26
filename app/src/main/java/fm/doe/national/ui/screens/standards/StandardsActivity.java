@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,8 +75,8 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     }
 
     @Override
-    public void setSurveyYear(int year) {
-        setToolbarYear(year);
+    public void setSurveyDate(Date date) {
+        setToolbarDate(date);
     }
 
     @Override

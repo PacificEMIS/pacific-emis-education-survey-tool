@@ -35,7 +35,7 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .doOnSuccess(passing -> getViewState().setSurveyYear(passing.getYear()))
+                .doOnSuccess(passing -> getViewState().setSurveyDate(passing.getStartDate()))
                 .flatMap(passing -> dataSource.requestCategories(passingId))
                 .toObservable()
                 .flatMapIterable(it -> it)

@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.survey_creation;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,25 +9,30 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.categories.CategoriesActivity;
+import fm.doe.national.utils.DateUtils;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,
         BaseAdapter.OnItemClickListener<School>,
-        SearchView.OnQueryTextListener {
+        SearchView.OnQueryTextListener, DatePickerDialog.OnDateSetListener {
 
     private final SchoolsListAdapter adapter = new SchoolsListAdapter();
+    private final static String TAG_DIALOG = "TAG_DIALOG";
 
     @BindView(R.id.textview_year)
     TextView yearTextView;
@@ -68,13 +74,19 @@ public class CreateSurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void setYear(int year) {
-        yearTextView.setText(String.valueOf(year));
+    public void setStartDate(Date date) {
+        yearTextView.setText(DateUtils.formatFromYearToMonth(date));
     }
 
     @Override
     public void navigateToCategoryChooser(long passingId) {
         startActivity(CategoriesActivity.createIntent(this, passingId));
+    }
+
+    @Override
+    public void showDatePickerDialog(int currentYear, int currentMonth, int currentDay) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, currentYear, currentMonth, currentDay);
+        datePickerDialog.show();
     }
 
     @Override
@@ -102,8 +114,19 @@ public class CreateSurveyActivity extends BaseActivity implements
         return true;
     }
 
+    @OnClick(R.id.button_edit)
+    public void onEditButtonClick() {
+        presenter.onEditButtonClick();
+    }
+
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        presenter.onDatePicked(year, month, dayOfMonth);
     }
 }

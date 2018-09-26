@@ -9,6 +9,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.utils.DateUtils;
 import fm.doe.national.utils.ViewUtils;
 
 public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationPassing> {
@@ -44,7 +45,7 @@ public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationP
             School school = item.getSchool();
             schoolIdTextView.setText(school.getId());
             nameSchoolTextView.setText(school.getName());
-            createdYearTextView.setText(String.valueOf(item.getYear()));
+            createdYearTextView.setText(DateUtils.formatFromYearToMonth(item.getStartDate()));
 
             itemView.setOnClickListener(this);
 

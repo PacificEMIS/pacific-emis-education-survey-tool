@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source;
 
 
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Answer;
@@ -25,7 +26,7 @@ public interface DataSource {
 
     Single<LinkedSchoolAccreditation> requestLinkedSchoolAccreditation(long passingId);
 
-    Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(int year, School school);
+    Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(Date startDate, School school);
 
     Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings();
 
