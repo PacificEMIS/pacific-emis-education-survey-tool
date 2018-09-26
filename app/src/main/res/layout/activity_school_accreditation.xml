@@ -28,6 +28,7 @@
             android:theme="@style/BaseThemeRecyclerView"
             app:layoutManager="LinearLayoutManager"
             app:showDivider="middle"
+            app:alphaDivider="0.25"
             app:dividerPaddingStart="24dp"
             app:dividerPaddingEnd="24dp"
             tools:listitem="@layout/item_survey" />
