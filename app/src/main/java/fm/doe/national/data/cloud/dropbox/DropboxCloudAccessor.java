@@ -34,6 +34,7 @@ import io.reactivex.subjects.SingleSubject;
 
 public class DropboxCloudAccessor implements CloudAccessor {
 
+    public static final String DROPBOX_ROOT_FOLDER = "~";
     private final Context context;
     private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDropboxCloudPreferences();
     private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
@@ -44,7 +45,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
     private DbxClientV2 dropboxClient;
 
     @Nullable
-    private String exportFolderPath = cloudPreferences.getExportFolder();
+    private String exportFolder = cloudPreferences.getExportFolder();
 
 
     public DropboxCloudAccessor(Context context) {
@@ -67,9 +68,9 @@ public class DropboxCloudAccessor implements CloudAccessor {
     @Override
     public Completable exportContentToCloud(@NonNull String content, @NonNull String filename) {
         Completable upload = Completable.fromAction(() -> {
-            if (exportFolderPath == null) throw new IllegalStateException(Constants.Errors.EXPORT_FOLDER_NOT_SPECIFIED);
+            if (exportFolder == null) throw new IllegalStateException(Constants.Errors.EXPORT_FOLDER_NOT_SPECIFIED);
             dropboxClient.files()
-                    .uploadBuilder(exportFolderPath + "/" + filename)
+                    .uploadBuilder(exportFolder + "/" + filename)
                     .withMode(WriteMode.OVERWRITE)
                     .uploadAndFinish(new ByteArrayInputStream(content.getBytes()));
         }).subscribeOn(Schedulers.io());
@@ -121,6 +122,7 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     @Override
     public String getExportPath() {
+        String exportFolderPath = cloudPreferences.getExportFolderPath();
         if (exportFolderPath == null) return "";
         return exportFolderPath;
     }
@@ -166,10 +168,35 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     private void onFolderPicked(@NonNull BrowsingTreeObject object) {
-        exportFolderPath = object.getPath();
-        cloudPreferences.setExportFolder(exportFolderPath);
+        StringBuilder pathBuilder = new StringBuilder();
+
+        extractExportFolderPath(pathBuilder, object);
+
+        String objectName = object.getName();
+        pathBuilder.append(replaceToAliasIfNeeds(objectName));
+
+        exportFolder = object.getPath();
+        cloudPreferences.setExportFolder(exportFolder);
+        cloudPreferences.setExportFolderPath(pathBuilder.toString());
         folderPickCompletable.onComplete();
         folderPickCompletable = null;
+    }
+
+    private String replaceToAliasIfNeeds(String folderName) {
+       return folderName.equals(DROPBOX_ROOT_FOLDER) ? Constants.DEFAULT_ROOT_FOLDER : folderName;
+    }
+
+    private void extractExportFolderPath(StringBuilder pathBuilder, @NonNull BrowsingTreeObject object) {
+        BrowsingTreeObject parent = object.getParent();
+        if (parent != null) {
+            extractExportFolderPath(pathBuilder, parent);
+
+            String parentName = parent.getName();
+            pathBuilder
+                    .append(replaceToAliasIfNeeds(parentName))
+                    .append(Constants.SYMBOL_SLASH);
+
+        }
     }
 
     public void onActionFailure(Throwable throwable) {
