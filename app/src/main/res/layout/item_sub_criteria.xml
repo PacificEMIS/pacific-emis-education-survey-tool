@@ -41,6 +41,7 @@
                 android:layout_marginEnd="16dp"
                 android:textColor="@color/charcoal_grey"
                 android:textSize="16sp"
+                android:lineSpacingExtra="8sp"
                 tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
 
             <TextView
@@ -50,6 +51,7 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/color_criteria_primary_dark"
                 android:textSize="14sp"
+                android:lineSpacingExtra="5sp"
                 tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves?" />
 
         </LinearLayout>
@@ -82,6 +84,7 @@
             android:textSize="14sp"
             android:textStyle="italic"
             android:textColor="@color/charcoal_grey"
+            android:lineSpacingExtra="5sp"
             tools:text="There is a comment that National and State curriculum documents and guidelines are regularly used in planning" />
 
         <ImageView

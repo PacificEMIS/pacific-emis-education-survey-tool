@@ -18,16 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.screens.splash.SplashActivity"
+            android:name=".ui.screens.splash.SplashStartActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"
-            android:theme="@style/LightIconsTranslucentAppTheme">
+            android:theme="@style/AppTheme.NoExitTransitions">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.screens.splash_end.SplashEndActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoEnterTransitions" />
         <activity
             android:name=".ui.screens.criterias.CriteriasActivity"
             android:screenOrientation="portrait" />
