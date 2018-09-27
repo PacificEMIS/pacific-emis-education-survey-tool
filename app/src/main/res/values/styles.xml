@@ -22,11 +22,11 @@
 
     <style name="AppTheme" parent="BaseAppTheme"/>
 
-    <style name="AppTheme.NoTransitions.Enter" parent="AppTheme">
+    <style name="AppTheme.NoEnterTransitions" >
         <item name="android:windowEnterTransition" tools:targetApi="l">@null</item>
     </style>
 
-    <style name="AppTheme.NoTransitions.Exit" parent="AppTheme">
+    <style name="AppTheme.NoExitTransitions">
         <item name="android:windowExitTransition" tools:targetApi="l">@null</item>
     </style>
 
