@@ -86,7 +86,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @NonNull
     public SchoolDao getSchoolDao() throws SQLException {
         if (schoolDao == null) {
-            schoolDao = new SchoolDao(getConnectionSource(), OrmLiteSchool.class);
+            schoolDao = new SchoolDao(getSurveyPassingDao(), getConnectionSource(), OrmLiteSchool.class);
         }
         return schoolDao;
     }

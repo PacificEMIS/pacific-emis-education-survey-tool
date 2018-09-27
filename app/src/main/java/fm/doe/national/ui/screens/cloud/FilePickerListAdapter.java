@@ -13,6 +13,10 @@ public class FilePickerListAdapter extends BaseAdapter<BrowsingTreeObject> {
 
     private DropboxView.PickerType kind = DropboxView.PickerType.FILE;
 
+    public FilePickerListAdapter(OnItemClickListener<BrowsingTreeObject> clickListener) {
+        super(clickListener);
+    }
+
     public void setPickerType(DropboxView.PickerType pickerType) {
         this.kind = pickerType;
         notifyDataSetChanged();

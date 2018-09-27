@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
-import com.omega_r.libs.omegatypes.Text;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import fm.doe.national.utils.ViewUtils;
 
 public abstract class MenuActivity extends BaseActivity implements MenuView {
 
-    protected final MenuListAdapter menuAdapter = new MenuListAdapter();
+    protected final MenuListAdapter menuAdapter = new MenuListAdapter(this::onRecyclerItemClick);
 
     @BindView(R.id.recyclerview_drawer)
     protected OmegaRecyclerView recyclerView;
@@ -34,7 +33,6 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        menuAdapter.setListener(this::onRecyclerItemClick);
         recyclerView.setAdapter(menuAdapter);
     }
 

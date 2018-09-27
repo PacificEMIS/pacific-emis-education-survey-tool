@@ -28,7 +28,8 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadDate() {
-        getViewState().setStartDate(new Date());
+        surveyStartDate = new Date();
+        getViewState().setStartDate(surveyStartDate);
     }
 
     private void loadSchools() {

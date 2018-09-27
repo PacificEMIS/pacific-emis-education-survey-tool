@@ -19,11 +19,34 @@ public abstract class BaseAdapter<T>
     private List<T> items = new ArrayList<>();
 
     @Nullable
-    private OnItemClickListener<T> listener = null;
+    private OnItemClickListener<T> clickListener = null;
+
+    @Nullable
+    private OnItemLongClickListener<T> longClickListener = null;
+
+    public BaseAdapter(OnItemClickListener<T> clickListener, OnItemLongClickListener<T> longClickListener) {
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
+    }
+
+    public BaseAdapter(OnItemClickListener<T> clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public BaseAdapter() {
+    }
 
     public void setItems(@NonNull List<T> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public void removeItem(@NonNull T item) {
+        int index = items.indexOf(item);
+        if (index >= 0) {
+            items.remove(index);
+            notifyItemRemoved(index);
+        }
     }
 
     protected T getItem(int position) {
@@ -34,13 +57,15 @@ public abstract class BaseAdapter<T>
         return items;
     }
 
-    public void setListener(@Nullable OnItemClickListener<T> listener) {
-        this.listener = listener;
+    protected void onItemClick(T item) {
+        if (clickListener != null) {
+            clickListener.onItemClick(item);
+        }
     }
 
-    protected void onItemClick(T item) {
-        if (listener != null) {
-            listener.onItemClick(item);
+    protected void onLongItemClick(T item) {
+        if (longClickListener != null) {
+            longClickListener.onItemLongClick(item);
         }
     }
 
@@ -63,7 +88,7 @@ public abstract class BaseAdapter<T>
 
     protected abstract BaseAdapter<T>.ViewHolder provideViewHolder(ViewGroup parent);
 
-    public abstract class ViewHolder extends OmegaRecyclerView.ViewHolder implements View.OnClickListener  {
+    public abstract class ViewHolder extends OmegaRecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener  {
 
         private T item;
 
@@ -75,7 +100,12 @@ public abstract class BaseAdapter<T>
         public ViewHolder(ViewGroup parent, int res) {
             super(parent, res);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
+            if (clickListener != null) {
+                itemView.setOnClickListener(this);
+            }
+            if (longClickListener != null) {
+                itemView.setOnLongClickListener(this);
+            }
         }
 
         public void bind(T item) {
@@ -95,6 +125,12 @@ public abstract class BaseAdapter<T>
             onItemClick(item);
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            onLongItemClick(item);
+            return true;
+        }
+
         protected String getString(@StringRes int resId, Object... vararg) {
             return getResources().getString(resId, vararg);
         }
@@ -102,5 +138,9 @@ public abstract class BaseAdapter<T>
 
     public interface OnItemClickListener<T> {
         void onItemClick(T item);
+    }
+
+    public interface OnItemLongClickListener<T> {
+        void onItemLongClick(T item);
     }
 }

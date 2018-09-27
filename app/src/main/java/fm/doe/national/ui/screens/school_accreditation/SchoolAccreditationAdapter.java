@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.school_accreditation;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,12 +15,16 @@ import fm.doe.national.utils.ViewUtils;
 
 public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationPassing> {
 
+    public SchoolAccreditationAdapter(OnItemClickListener<SchoolAccreditationPassing> clickListener, OnItemLongClickListener<SchoolAccreditationPassing> longClickListener) {
+        super(clickListener, longClickListener);
+    }
+
     @Override
     protected SchoolAccreditationViewHolder provideViewHolder(ViewGroup parent) {
         return new SchoolAccreditationViewHolder(parent);
     }
 
-    protected class SchoolAccreditationViewHolder extends ViewHolder {
+    protected class SchoolAccreditationViewHolder extends ViewHolder implements View.OnLongClickListener {
 
         @BindView(R.id.textview_id_school)
         TextView schoolIdTextView;
@@ -47,7 +52,6 @@ public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationP
             nameSchoolTextView.setText(school.getName());
             createdYearTextView.setText(DateUtils.formatMonthYear(item.getStartDate()));
 
-            itemView.setOnClickListener(this);
 
             ViewUtils.rebindProgress(
                     item.getSchoolAccreditation().getCategoryProgress().getTotalQuestionsCount(),
@@ -55,6 +59,5 @@ public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationP
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
         }
-
     }
 }

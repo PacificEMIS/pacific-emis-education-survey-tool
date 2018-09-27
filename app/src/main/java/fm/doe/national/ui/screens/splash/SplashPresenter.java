@@ -43,7 +43,7 @@ public class SplashPresenter extends MenuPresenter<SplashView> {
                                     .flatMapCompletable(resultList -> {
                                         if (resultList.isEmpty()) {
                                             return dataSource
-                                                    .addSchools(schools)
+                                                    .updateSchools(schools)
                                                     .andThen(dataSource.createSchoolAccreditation(schoolAccreditation));
                                         }
                                         return Completable.complete(); // already exists

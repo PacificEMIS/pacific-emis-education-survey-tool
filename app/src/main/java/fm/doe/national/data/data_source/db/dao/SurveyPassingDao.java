@@ -7,6 +7,7 @@ import java.util.Date;
 
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class SurveyPassingDao extends BaseRxDao<OrmLiteSurveyPassing, Long> {

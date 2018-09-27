@@ -14,6 +14,10 @@ import fm.doe.national.utils.ViewUtils;
 public class CategoriesListAdapter
         extends BaseAdapter<Category> {
 
+    public CategoriesListAdapter(OnItemClickListener<Category> clickListener) {
+        super(clickListener);
+    }
+
     @Override
     protected CategoryViewHolder provideViewHolder(ViewGroup parent) {
         return new CategoryViewHolder(parent);

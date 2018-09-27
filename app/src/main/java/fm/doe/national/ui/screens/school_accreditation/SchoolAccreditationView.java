@@ -18,4 +18,8 @@ interface SchoolAccreditationView extends BaseDrawerView {
 
     void setAccreditations(List<SchoolAccreditationPassing> accreditations);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showSurveyDeleteConfirmation();
+
+    void removeSurveyPassing(SchoolAccreditationPassing passing);
 }

@@ -25,7 +25,7 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
 
     private static final String EXTRA_PASSING_ID = "EXTRA_PASSING_ID";
 
-    private final CategoriesListAdapter categoriesListAdapter = new CategoriesListAdapter();
+    private final CategoriesListAdapter categoriesListAdapter = new CategoriesListAdapter(this);
 
     @InjectPresenter
     CategoriesPresenter categoriesPresenter;
@@ -52,7 +52,6 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoriesListAdapter.setListener(this);
         categoriesRecyclerView.setAdapter(categoriesListAdapter);
         summaryView.setVisibility(View.GONE);
     }

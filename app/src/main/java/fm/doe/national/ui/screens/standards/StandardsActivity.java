@@ -25,7 +25,7 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     private static final String EXTRA_PASSING_ID = "EXTRA_PASSING_ID";
     private static final String EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID";
 
-    private final StandardsListAdapter standardAdapter = new StandardsListAdapter();
+    private final StandardsListAdapter standardAdapter = new StandardsListAdapter(this);
 
     @BindView(R.id.recyclerview_standards)
     RecyclerView standardsRecyclerView;
@@ -61,7 +61,6 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        standardAdapter.setListener(this);
         standardsRecyclerView.setAdapter(standardAdapter);
     }
 
