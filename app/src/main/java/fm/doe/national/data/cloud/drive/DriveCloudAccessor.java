@@ -166,31 +166,11 @@ public class DriveCloudAccessor implements CloudAccessor {
             if (driveResourceClient == null) {
                 throw new PickException(Constants.Errors.DRIVE_RESOURCE_CLIENT_IS_NULL);
             }
-
-            StringBuilder pathBuilder = new StringBuilder();
-
             DriveResource driveResource = exportFolderId.asDriveResource();
             Metadata folderMeta = Tasks.await(driveResourceClient.getMetadata(driveResource));
-            String folderTitle = folderMeta.getTitle();
 
-            if (!exportFolderId.getResourceId().equals(DRIVE_ROOT_FOLDER)) {
-                extractPath(pathBuilder, driveResource);
-            }
-
-            pathBuilder.append(folderTitle);
-
-            cloudPreferences.setExportFolderPath(pathBuilder.toString());
+            cloudPreferences.setExportFolderPath(folderMeta.getTitle());
         }).subscribeOn(Schedulers.io());
-    }
-
-    private void extractPath(StringBuilder pathBuilder, DriveResource driveResource) throws ExecutionException, InterruptedException {
-        MetadataBuffer parentsMetaBuffer = Tasks.await(driveResourceClient.listParents(driveResource));
-
-        if (parentsMetaBuffer.getCount() != 0) {
-            Metadata parentMeta = parentsMetaBuffer.get(0);
-            extractPath(pathBuilder, parentMeta.getDriveId().asDriveResource());
-            pathBuilder.append(parentMeta.getTitle()).append(Constants.SYMBOL_SLASH);
-        }
     }
 
     public void onFolderPicked(@NonNull DriveId driveId) {
