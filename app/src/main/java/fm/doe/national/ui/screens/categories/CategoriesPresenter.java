@@ -90,7 +90,7 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                                                             positiveAnswersCount);
                                                 })
                                                 .toList()),
-                                (category, progresses) -> new SummaryViewData(category, standard.getName(), progresses)))
+                                (category, progresses) -> new SummaryViewData(category, standard, progresses)))
                         .toList());
     }
 

@@ -13,23 +13,22 @@
 
         <TextView
             android:id="@+id/textview_alphabetical_numbering"
-            android:layout_width="72dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_gravity="top"
-            android:gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/charcoal_grey"
             android:textSize="16sp"
-            android:textStyle="bold"
-            tools:text="a." />
+            android:fontFamily="@string/font_medium"
+            android:layout_marginStart="32dp"
+            tools:text="Subcriteria CO1.1.a" />
 
         <LinearLayout
             android:id="@+id/layout_questions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/textview_alphabetical_numbering"
+            android:layout_marginStart="72dp"
+            android:layout_below="@id/textview_alphabetical_numbering"
             android:layout_toStartOf="@id/switchablebutton_answer"
             android:orientation="vertical">
 
@@ -61,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/layout_questions"
             android:layout_marginEnd="16dp"/>
 
     </RelativeLayout>

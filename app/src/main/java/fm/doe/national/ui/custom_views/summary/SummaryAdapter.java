@@ -1,10 +1,14 @@
 package fm.doe.national.ui.custom_views.summary;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.sticky_header.StickyHeaderAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,7 +54,13 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
 
         @Override
         protected void onBind(SummaryViewData item) {
-            nameTextView.setText(item.name);
+            String criteriaPrefix = getString(R.string.format_criteria, item.standard.getIndex());
+            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.standard.getName());
+            spannableString.setSpan(
+                    new TypefaceSpan(getString(R.string.font_medium)),
+                    0, criteriaPrefix.length(),
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            nameTextView.setText(spannableString);
 
             if (cellTextViews.size() < item.progresses.size())
                 throw new IllegalStateException(Constants.Errors.WRONT_SUMMARY_INPUT_PARAMETER);

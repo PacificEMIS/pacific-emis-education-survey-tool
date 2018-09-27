@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models.db.wrappers;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SubCriteria;
@@ -55,5 +56,11 @@ public class OrmLiteSubCriteria implements SubCriteria {
     public int hashCode() {
         long value = getId();
         return (int)(value ^ (value >>> 32));
+    }
+
+    @Nullable
+    @Override
+    public String getIndex() {
+        return surveyItem.getIndex();
     }
 }

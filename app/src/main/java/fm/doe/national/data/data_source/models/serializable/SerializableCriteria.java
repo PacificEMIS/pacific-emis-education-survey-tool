@@ -23,15 +23,16 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
     List<SerializableSubCriteria> subCriterias;
 
     @Nullable
-    @Element(required = false)
+    @Element(name = "id", required = false)
     String index;
 
     public SerializableCriteria() {
     }
 
     public SerializableCriteria(Criteria criteria) {
-        this.name = criteria.getName();
-        this.subCriterias = ListConverter.createList(criteria.getSubCriterias(), this);
+        name = criteria.getName();
+        index = criteria.getIndex();
+        subCriterias = ListConverter.createList(criteria.getSubCriterias(), this);
     }
 
     @NonNull
@@ -57,10 +58,7 @@ public class SerializableCriteria implements Criteria, ListConverter.Converter<S
 
     @Override
     public SerializableSubCriteria convert(SubCriteria input) {
-        return new SerializableSubCriteria(
-                input.getName(),
-                new SerializableAnswer(input.getAnswer()),
-                input.getSubCriteriaQuestion());
+        return new SerializableSubCriteria(input);
     }
 
     @Nullable
