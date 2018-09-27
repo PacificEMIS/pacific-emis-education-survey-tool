@@ -80,6 +80,7 @@
     <string name="coming_soon">Coming soon</string>
     <string name="format_standard">Standard %1$s:</string>
     <string name="format_criteria">Criteria %1$s:</string>
+    <string name="format_subcriteria">Subcriteria %1$s:</string>
 
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>
