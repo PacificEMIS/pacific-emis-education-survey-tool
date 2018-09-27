@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -36,9 +37,6 @@ public class CreateSurveyActivity extends BaseActivity implements
 
     @BindView(R.id.textview_year)
     TextView yearTextView;
-
-    @BindView(R.id.button_edit)
-    Button editButton;
 
     @BindView(R.id.recyclerview_schools)
     RecyclerView schoolsRecycler;
@@ -113,7 +111,7 @@ public class CreateSurveyActivity extends BaseActivity implements
         return true;
     }
 
-    @OnClick(R.id.button_edit)
+    @OnClick(R.id.layout_date)
     public void onEditButtonClick() {
         presenter.onEditButtonClick();
     }
