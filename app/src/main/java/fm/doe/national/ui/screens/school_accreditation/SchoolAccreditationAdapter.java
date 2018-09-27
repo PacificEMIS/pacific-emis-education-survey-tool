@@ -15,7 +15,9 @@ import fm.doe.national.utils.ViewUtils;
 
 public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationPassing> {
 
-    public SchoolAccreditationAdapter(OnItemClickListener<SchoolAccreditationPassing> clickListener, OnItemLongClickListener<SchoolAccreditationPassing> longClickListener) {
+    public SchoolAccreditationAdapter(
+            OnItemClickListener<SchoolAccreditationPassing> clickListener,
+            OnItemLongClickListener<SchoolAccreditationPassing> longClickListener) {
         super(clickListener, longClickListener);
     }
 

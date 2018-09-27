@@ -9,11 +9,8 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
-import io.reactivex.Completable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.CompletableSubject;
 
 @InjectViewState
 public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccreditationView> {
@@ -22,7 +19,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     private List<SchoolAccreditationPassing> passings = new ArrayList<>();
 
-    private SchoolAccreditationPassing pendingToDeletePassing;
+    private SchoolAccreditationPassing passingToDelete;
 
     @Override
     public void attachView(SchoolAccreditationView view) {
@@ -59,16 +56,16 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     }
 
     public void onAccreditationLongClicked(SchoolAccreditationPassing item) {
-        pendingToDeletePassing = item;
+        passingToDelete = item;
         getViewState().showSurveyDeleteConfirmation();
     }
 
     public void onSurveyDeletionConfirmed() {
-        addDisposable(dataSource.removeSchoolAccreditationPassing(pendingToDeletePassing.getId())
+        addDisposable(dataSource.removeSchoolAccreditationPassing(passingToDelete.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
-                    getViewState().removeSurveyPassing(pendingToDeletePassing);
+                    getViewState().removeSurveyPassing(passingToDelete);
                 }, this::handleError));
     }
 }

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SurveyPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
 import fm.doe.national.utils.Constants;
@@ -47,7 +46,7 @@ public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
 
             for (OrmLiteSchool school : currentSchools) {
                 int index = newSchools.indexOf(school);
-                if (index != Constants.NOT_FOUND) {
+                if (index != Constants.INDEX_NOT_FOUND) {
                     updateSchool(school, newSchools.get(index));
                     newSchools.remove(school);
                 } else {

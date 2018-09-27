@@ -48,7 +48,7 @@ public abstract class BaseAdapter<T>
         }
 
         int index = items.indexOf(item);
-        if (index != Constants.NOT_FOUND) {
+        if (index != Constants.INDEX_NOT_FOUND) {
             items.remove(index);
             notifyItemRemoved(index);
         }

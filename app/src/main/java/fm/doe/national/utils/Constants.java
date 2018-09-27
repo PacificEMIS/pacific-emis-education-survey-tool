@@ -8,7 +8,7 @@ public class Constants {
     public static final String DEFAULT_ROOT_FOLDER = "Root";
     public static final int SIZE_THUMB_PICTURE = 200;
     public static final int SECONDS_TO_LONG_LOADING_INDICATION = 5;
-    public static final int NOT_FOUND = -1;
+    public static final int INDEX_NOT_FOUND = -1;
 
     public class Errors {
         public static final String EXPORT_FOLDER_NOT_SPECIFIED = "Export folder not specified";
