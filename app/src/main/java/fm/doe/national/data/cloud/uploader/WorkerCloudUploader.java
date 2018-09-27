@@ -19,7 +19,7 @@ public class WorkerCloudUploader implements CloudUploader {
 
     private static final String TAG = WorkerCloudUploader.class.getName();
 
-    private static final long ANSWER_UPDATE_TIMEOUT = 1; // minute
+    private static final long ANSWER_UPDATE_TIMEOUT_MINUTES = 1;
 
     private final Constraints constraints = new Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -27,11 +27,11 @@ public class WorkerCloudUploader implements CloudUploader {
 
     private final LongSparseArray<UUID> currentWorkers = new LongSparseArray<>();
 
-    private PublishSubject<Long> publishSubject = PublishSubject.create();
+    private final PublishSubject<Long> publishSubject = PublishSubject.create();
 
     public WorkerCloudUploader() {
         publishSubject
-                .throttleLast(ANSWER_UPDATE_TIMEOUT, TimeUnit.MINUTES)
+                .throttleLast(ANSWER_UPDATE_TIMEOUT_MINUTES, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(passingId -> {
