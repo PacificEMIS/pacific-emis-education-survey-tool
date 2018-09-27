@@ -37,6 +37,16 @@ public abstract class BaseAdapter<T>
     public BaseAdapter() {
     }
 
+    public void setClickListener(@Nullable OnItemClickListener<T> clickListener) {
+        this.clickListener = clickListener;
+        notifyDataSetChanged();
+    }
+
+    public void setLongClickListener(@Nullable OnItemLongClickListener<T> longClickListener) {
+        this.longClickListener = longClickListener;
+        notifyDataSetChanged();
+    }
+
     public void setItems(@NonNull List<T> items) {
         this.items = items;
         notifyDataSetChanged();
@@ -105,16 +115,18 @@ public abstract class BaseAdapter<T>
         public ViewHolder(ViewGroup parent, int res) {
             super(parent, res);
             ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(T item) {
+            this.item = item;
+
             if (clickListener != null) {
                 itemView.setOnClickListener(this);
             }
             if (longClickListener != null) {
                 itemView.setOnLongClickListener(this);
             }
-        }
 
-        public void bind(T item) {
-            this.item = item;
             onBind(item);
         }
 
