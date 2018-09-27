@@ -62,25 +62,43 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             nameTextView.setText(spannableString);
 
-            if (cellTextViews.size() < item.progresses.size())
+            int progressesSize = item.progresses.size();
+
+            if (cellTextViews.size() < progressesSize)
                 throw new IllegalStateException(Constants.Errors.WRONT_SUMMARY_INPUT_PARAMETER);
 
             for (int i = 0; i < cellTextViews.size(); i++) {
                 TextView currentTextView = cellTextViews.get(i);
 
-                boolean isProgressExist = i < item.progresses.size();
-                currentTextView.setEnabled(isProgressExist);
+                boolean isProgressExist = i < progressesSize;
 
                 if (!isProgressExist) {
+                    currentTextView.setActivated(false);
+                    currentTextView.setSelected(false);
                     continue;
                 }
 
                 SummaryViewData.Progress progress = item.progresses.get(i);
 
-                boolean isPassed = (float) progress.completed / progress.total >= BOUNDARY_PASS_PERCENTAGE;
-                currentTextView.setSelected(isPassed);
-                currentTextView.setText(isPassed ?
-                        String.format(getString(R.string.criteria_progress), progress.completed, progress.total) : null);
+                int completedCount = progress.completed;
+                int totalCount = progress.total;
+
+                if (completedCount == 0) {
+                    currentTextView.setActivated(false);
+                    currentTextView.setSelected(true);
+                } else if (completedCount == totalCount) {
+                    currentTextView.setActivated(true);
+                    currentTextView.setSelected(true);
+                } else {
+                    currentTextView.setActivated(true);
+                    currentTextView.setSelected(false);
+                }
+
+                // Clients want to make text progress temporary invisible
+//                boolean isPassed = (float) completedCount / totalCount >= BOUNDARY_PASS_PERCENTAGE;
+//                currentTextView.setSelected(isPassed);
+//                currentTextView.setText(isPassed ?
+//                        String.format(getString(R.string.criteria_progress), completedCount, totalCount) : null);
             }
         }
     }

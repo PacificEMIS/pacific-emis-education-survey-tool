@@ -87,7 +87,7 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                                                     }
                                                     return new SummaryViewData.Progress(
                                                             criteria.getCategoryProgress().getTotalQuestionsCount(),
-                                                            positiveAnswersCount);
+                                                            criteria.getCategoryProgress().getAnsweredQuestionsCount());
                                                 })
                                                 .toList()),
                                 (category, progresses) -> new SummaryViewData(category, standard, progresses)))
