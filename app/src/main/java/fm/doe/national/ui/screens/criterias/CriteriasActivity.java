@@ -161,7 +161,7 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void setGlobalInfo(String title, @Nullable Integer resourceIndex) {
+    public void setGlobalInfo(String title, @Nullable String resourceIndex) {
         setTitle(title);
         applyIcon(iconImageView, ViewUtils.getStandardIconRes(resourceIndex), false);
     }
@@ -172,13 +172,13 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void setPrevStandard(String title, @Nullable Integer resourceIndex) {
+    public void setPrevStandard(String title, @Nullable String resourceIndex) {
         prevStandardTitleTextView.setText(title);
         applyIcon(iconPrevStandardImageView, ViewUtils.getStandardIconRes(resourceIndex), true);
     }
 
     @Override
-    public void setNextStandard(String title, @Nullable Integer resourceIndex) {
+    public void setNextStandard(String title, @Nullable String resourceIndex) {
         nextStandardTitleTextView.setText(title);
         applyIcon(iconNextStandardImageView, ViewUtils.getStandardIconRes(resourceIndex), true);
     }

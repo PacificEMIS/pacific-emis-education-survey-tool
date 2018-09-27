@@ -69,17 +69,18 @@
     <string name="button_submit">Submit</string>
     <string name="error_take_picture">Unable to get picture</string>
     <string name="error_save_logo">Unable to save logo</string>
-    <string name="first_criteria">c1</string>
-    <string name="second_criteria">c2</string>
-    <string name="third_criteria">c3</string>
-    <string name="forth_criteria">c4</string>
+    <string name="first_criteria">C1</string>
+    <string name="second_criteria">C2</string>
+    <string name="third_criteria">C3</string>
+    <string name="forth_criteria">C4</string>
     <string name="summary">Summary</string>
     <string name="more_photos_pattern">+%1$d</string>
     <string name="label_attached_photos">Attached photos</string>
     <string name="menu_item_confirm">Confirm</string>
     <string name="coming_soon">Coming soon</string>
-    <string name="format_standard">Standard %1$d:</string>
+    <string name="format_standard">Standard %1$s:</string>
     <string name="format_criteria">Criteria %1$s:</string>
+    <string name="format_subcriteria">Subcriteria %1$s:</string>
 
     <string name="title_delete_confirmation">Confirm Removal</string>
     <string name="survey_delete_confirmation">Are you sure you want to remove the survey?</string>
@@ -91,4 +92,7 @@
     <string name="font_black">sans-serif-black</string>
 
     <string name="transition_tag_fullscreen_image">transition_tag_fullscreen_image</string>
+    <string name="transition_tag_splash_title">transition_tag_splash_title</string>
+    <string name="transition_tag_splash_logo">transition_tag_splash_logo</string>
+
 </resources>

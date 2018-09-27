@@ -1,7 +1,7 @@
 package fm.doe.national.utils;
 
 public class Constants {
-    public static final String FILE_MIME_TYPE = "text/plain";
+    public static final String FILE_MIME_TYPE = "text/xml";
     public static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
     public static final String AUTHORITY_FILE_PROVIDER = "fm.doe.national.fileprovider";
     public static final String SYMBOL_SLASH = "/";

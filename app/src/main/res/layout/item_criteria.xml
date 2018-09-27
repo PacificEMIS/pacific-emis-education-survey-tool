@@ -29,6 +29,7 @@
                 android:layout_marginTop="18dp"
                 android:textColor="@color/charcoal_grey"
                 android:textSize="16sp"
+                android:lineSpacingExtra="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageview_expanding_arrow"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,11 +90,11 @@
                 app:layout_section="header">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="32dp"
-                    app:srcCompat="@drawable/ic_criteria_hint_24dp" />
+                    app:srcCompat="@drawable/ic_info" />
 
                 <TextView
                     android:layout_width="wrap_content"

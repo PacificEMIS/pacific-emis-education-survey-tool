@@ -22,6 +22,9 @@
         android:layout_weight="0.5"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:lineSpacingExtra="4sp"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
@@ -41,9 +44,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="20dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="20dp"
         tools:text="24/53" />
 
 </LinearLayout>

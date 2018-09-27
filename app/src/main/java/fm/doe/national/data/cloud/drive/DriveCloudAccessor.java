@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -286,6 +287,8 @@ public class DriveCloudAccessor implements CloudAccessor {
         } else {
             overwriteFile(buffer.get(0).getDriveId(), content, driveResourceClient);
         }
+
+        buffer.release();
     }
 
     private void overwriteFile(DriveId fileId, String content, DriveResourceClient resourceClient)

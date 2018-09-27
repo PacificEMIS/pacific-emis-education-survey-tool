@@ -27,13 +27,14 @@
         app:dividerPadding="24dp"
         app:layoutManager="LinearLayoutManager"
         app:showDivider="middle"
-        tools:listitem="@layout/item_standard" />
+        app:alphaDivider="0.25" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:background="@color/delimeter_grey" />
 
     <LinearLayout

@@ -102,9 +102,8 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             String interviewQuestions = question.getInterviewQuestion();
 
             questionTextView.setText(item.getName());
-            numberingTextView.setText(getResources().getString(
-                    R.string.criteria_char_icon_pattern,
-                    TextUtil.convertIntToCharsIcons(getAdapterPosition())));
+
+            if (item.getIndex() != null) numberingTextView.setText(getString(R.string.format_subcriteria, item.getIndex()));
 
             if (!TextUtils.isEmpty(interviewQuestions)) {
                 interviewQuestionsTextView.setVisibility(View.VISIBLE);

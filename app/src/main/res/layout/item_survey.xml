@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:minWidth="86dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@+id/textview_name_school"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,17 +26,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/textview_id_school"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview_id_school"
         tools:text="Ban Sam Kong School" />
 
     <TextView
         android:id="@+id/textview_created_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/cool_grey"

@@ -28,17 +28,25 @@ public class SerializableSubCriteria implements SubCriteria {
     @Element(required = false)
     String hint;
 
+    @Nullable
+    @Element(name = "id", required = false)
+    String index;
+
     private SimpleSubCriteriaQuestion question;
 
     public SerializableSubCriteria() {
     }
 
-    public SerializableSubCriteria(String name, SerializableAnswer answer, SubCriteriaQuestion question) {
-        this.name = name;
-        this.answer = answer;
-        this.question = new SimpleSubCriteriaQuestion(question.getInterviewQuestion(), question.getHint());
-        this.interviewQuestion = question.getInterviewQuestion();
-        this.hint = question.getInterviewQuestion();
+    public SerializableSubCriteria(SubCriteria subCriteria) {
+        name = subCriteria.getName();
+        answer = new SerializableAnswer(subCriteria.getAnswer());
+        index = subCriteria.getIndex();
+        SubCriteriaQuestion otherQuestion = subCriteria.getSubCriteriaQuestion();
+        if (otherQuestion != null) {
+            interviewQuestion = otherQuestion.getInterviewQuestion();
+            hint = otherQuestion.getHint();
+            question = new SimpleSubCriteriaQuestion(interviewQuestion, hint);
+        }
     }
 
     @NonNull
@@ -60,6 +68,12 @@ public class SerializableSubCriteria implements SubCriteria {
     @Override
     public SubCriteriaQuestion getSubCriteriaQuestion() {
         return question != null ? question : new SimpleSubCriteriaQuestion(interviewQuestion, hint);
+    }
+
+    @Nullable
+    @Override
+    public String getIndex() {
+        return index;
     }
 
     private class SimpleSubCriteriaQuestion implements SubCriteriaQuestion {

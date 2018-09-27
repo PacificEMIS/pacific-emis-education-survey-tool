@@ -3,16 +3,17 @@ package fm.doe.national.ui.custom_views.summary;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Category;
+import fm.doe.national.data.data_source.models.Standard;
 
 public class SummaryViewData {
 
     public Category category;
-    public String name;
+    public Standard standard;
     public List<Progress> progresses;
 
-    public SummaryViewData(Category category, String name, List<Progress> progresses) {
+    public SummaryViewData(Category category, Standard standard, List<Progress> progresses) {
         this.category = category;
-        this.name = name;
+        this.standard = standard;
         this.progresses = progresses;
     }
 

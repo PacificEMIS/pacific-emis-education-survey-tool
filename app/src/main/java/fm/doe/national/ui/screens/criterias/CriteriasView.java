@@ -17,11 +17,11 @@ import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CriteriasView extends BaseView {
-    void setGlobalInfo(String title, @Nullable Integer resourceIndex);
+    void setGlobalInfo(String title, @Nullable String resourceIndex);
     void setCriterias(@NonNull List<Criteria> criterias);
     void setProgress(int answered, int total);
-    void setPrevStandard(String title, @Nullable Integer resourceIndex);
-    void setNextStandard(String title, @Nullable Integer resourceIndex);
+    void setPrevStandard(String title, @Nullable String resourceIndex);
+    void setNextStandard(String title, @Nullable String resourceIndex);
     void setSurveyDate(Date date);
     void setSchoolName(String schoolName);
     void setCategoryName(String categoryName);

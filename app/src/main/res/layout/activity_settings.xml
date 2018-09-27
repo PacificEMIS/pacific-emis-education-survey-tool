@@ -97,36 +97,52 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_connect_accounts" />
 
-            <HorizontalScrollView
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_connections"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:paddingTop="4dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <View
+                    android:id="@+id/view_left_panel"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:paddingTop="4dp">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/view_right_panel" />
 
-                    <fm.doe.national.ui.custom_views.CloudConnectionCardView
-                        android:id="@+id/cardview_drive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginEnd="16dp"/>
+                <View
+                    android:id="@+id/view_right_panel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/view_left_panel"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-                    <fm.doe.national.ui.custom_views.CloudConnectionCardView
-                        android:id="@+id/cardview_dropbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginBottom="4dp"/>
+                <fm.doe.national.ui.custom_views.CloudConnectionCardView
+                    android:id="@+id/cardview_drive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/view_left_panel"
+                    app:layout_constraintEnd_toEndOf="@+id/view_left_panel"/>
 
-                </LinearLayout>
+                <fm.doe.national.ui.custom_views.CloudConnectionCardView
+                    android:id="@+id/cardview_dropbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="4dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/view_right_panel"
+                    app:layout_constraintEnd_toEndOf="@+id/view_right_panel"/>
 
-            </HorizontalScrollView>
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -137,7 +153,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_criteria_hint_24dp"/>
+                    app:srcCompat="@drawable/ic_info"/>
 
                 <TextView
                     android:layout_width="wrap_content"

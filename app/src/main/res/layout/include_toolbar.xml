@@ -22,6 +22,7 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="20sp"
+            android:fontFamily="@string/font_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageview_toolbar_clock"
             app:layout_constraintStart_toStartOf="parent"
