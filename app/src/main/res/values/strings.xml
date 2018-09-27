@@ -80,7 +80,7 @@
     <string name="coming_soon">Coming soon</string>
     <string name="format_standard">Standard %1$s:</string>
     <string name="format_criteria">Criteria %1$s:</string>
-    <string name="format_subcriteria">Subcriteria %1$s:</string>
+    <string name="format_subcriteria">Sub-criteria %1$s:</string>
 
     <string name="title_delete_confirmation">Confirm Removal</string>
     <string name="survey_delete_confirmation">Are you sure you want to remove the survey?</string>
