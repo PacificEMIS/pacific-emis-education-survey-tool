@@ -9,6 +9,7 @@ import android.view.View;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,8 +68,8 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     }
 
     @Override
-    public void setSurveyYear(int year) {
-        setToolbarYear(year);
+    public void setSurveyDate(Date date) {
+        setToolbarDate(date);
     }
 
     @Override

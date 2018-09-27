@@ -21,11 +21,13 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.ui.custom_views.ProgressDialogFragment;
+import fm.doe.national.utils.DateUtils;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
@@ -159,9 +161,9 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         }
     }
 
-    public void setToolbarYear(int year) {
+    public void setToolbarDate(Date date) {
         if (clockIconImageView == null || yearTextView == null) return;
-        yearTextView.setText(String.valueOf(year));
+        yearTextView.setText(DateUtils.formatMonthYear(date));
         clockIconImageView.setVisibility(View.VISIBLE);
         yearTextView.setVisibility(View.VISIBLE);
     }

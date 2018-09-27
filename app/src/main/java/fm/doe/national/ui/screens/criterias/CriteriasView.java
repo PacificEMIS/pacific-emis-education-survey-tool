@@ -8,6 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.models.Criteria;
@@ -21,7 +22,7 @@ public interface CriteriasView extends BaseView {
     void setProgress(int answered, int total);
     void setPrevStandard(String title, @Nullable Integer resourceIndex);
     void setNextStandard(String title, @Nullable Integer resourceIndex);
-    void setSurveyYear(int year);
+    void setSurveyDate(Date date);
     void setSchoolName(String schoolName);
     void setCategoryName(String categoryName);
 

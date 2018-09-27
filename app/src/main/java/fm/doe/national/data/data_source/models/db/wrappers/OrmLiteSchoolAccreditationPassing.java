@@ -24,11 +24,6 @@ public class OrmLiteSchoolAccreditationPassing implements SchoolAccreditationPas
     }
 
     @Override
-    public int getYear() {
-        return surveyPassing.getYear();
-    }
-
-    @Override
     public School getSchool() {
         return surveyPassing.getSchool();
     }

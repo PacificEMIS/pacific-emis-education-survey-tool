@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
@@ -18,18 +19,16 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
-    private int year;
+    private Date surveyStartDate = new Date();
     private List<School> schools;
 
     public CreateSurveyPresenter() {
-        loadYear();
+        loadDate();
         loadSchools();
     }
 
-    private void loadYear() {
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        getViewState().setYear(year);
+    private void loadDate() {
+        getViewState().setStartDate(surveyStartDate);
     }
 
     private void loadSchools() {
@@ -45,7 +44,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     public void onSchoolPicked(School school) {
-        addDisposable(dataSource.createNewSchoolAccreditationPassing(year, school)
+        addDisposable(dataSource.createNewSchoolAccreditationPassing(surveyStartDate, school)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -63,5 +62,24 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
             }
         }
         getViewState().setSchools(queriedSchools);
+    }
+
+    public void onEditButtonClick() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        getViewState().showDatePicker(year, month, day);
+    }
+
+    public void onDatePicked(int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, dayOfMonth);
+        Date surveyStartDate = calendar.getTime();
+
+        getViewState().setStartDate(surveyStartDate);
+
+        this.surveyStartDate = surveyStartDate;
     }
 }

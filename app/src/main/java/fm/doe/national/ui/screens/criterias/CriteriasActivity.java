@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -23,6 +22,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindInt;
@@ -34,6 +34,7 @@ import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
 import fm.doe.national.utils.Constants;
+import fm.doe.national.utils.DateUtils;
 import fm.doe.national.utils.ViewUtils;
 
 public class CriteriasActivity extends BaseActivity implements
@@ -183,8 +184,8 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void setSurveyYear(int year) {
-        yearTextView.setText(String.valueOf(year));
+    public void setSurveyDate(Date date) {
+        yearTextView.setText(DateUtils.formatMonthYear(date));
     }
 
     @Override
