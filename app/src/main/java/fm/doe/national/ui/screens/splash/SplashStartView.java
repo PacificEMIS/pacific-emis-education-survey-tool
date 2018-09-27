@@ -8,7 +8,7 @@ import fm.doe.national.ui.screens.base.BaseView;
 import fm.doe.national.ui.screens.menu.base.MenuView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface SplashView extends BaseView {
+public interface SplashStartView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSplashEnd();

@@ -14,7 +14,6 @@ import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.ui.screens.menu.base.MenuPresenter;
 import fm.doe.national.utils.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -22,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class SplashPresenter extends BasePresenter<SplashView> {
+public class SplashStartPresenter extends BasePresenter<SplashStartView> {
 
     private final Parser<LinkedSchoolAccreditation> schoolAccreditationParser =
             MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
@@ -31,7 +30,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     
     private boolean isFinishedLoading;
 
-    public SplashPresenter(AssetManager assetManager) {
+    public SplashStartPresenter(AssetManager assetManager) {
         loadAssets(assetManager);
         scheduleShowingProgress();
     }

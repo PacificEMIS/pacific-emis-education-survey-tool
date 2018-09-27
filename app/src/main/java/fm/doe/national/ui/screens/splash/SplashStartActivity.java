@@ -1,7 +1,6 @@
 package fm.doe.national.ui.screens.splash;
 
 import android.content.Intent;
-import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
@@ -15,13 +14,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import butterknife.BindView;
-import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.splash_end.SplashEndActivity;
 
 
-public class SplashActivity extends BaseActivity implements SplashView {
+public class SplashStartActivity extends BaseActivity implements SplashStartView {
 
     private static final long DURATION_ANIMATION = 1000;
 
@@ -35,11 +33,11 @@ public class SplashActivity extends BaseActivity implements SplashView {
     ImageView logoImageView;
 
     @InjectPresenter
-    SplashPresenter splashPresenter;
+    SplashStartPresenter splashStartPresenter;
 
     @ProvidePresenter
-    SplashPresenter providePresenter() {
-        return new SplashPresenter(getAssets());
+    SplashStartPresenter providePresenter() {
+        return new SplashStartPresenter(getAssets());
     }
 
     @Override
@@ -49,14 +47,10 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     @Override
     public void navigateToSplashEnd() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setExitTransition(null);
-        }
-
         String transitionNameText = ViewCompat.getTransitionName(titleTextView);
         String transitionNameImage = ViewCompat.getTransitionName(logoImageView);
 
-        Intent intent = new Intent(this, SplashEndActivity.class);
+        Intent intent = SplashEndActivity.createIntent(this);
         ActivityOptionsCompat optionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this,
                         Pair.create(titleTextView, transitionNameText),

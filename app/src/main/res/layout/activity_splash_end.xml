@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_splash_gradient"
     android:orientation="vertical"
-    tools:context=".ui.screens.splash.SplashActivity">
+    tools:context=".ui.screens.splash.SplashStartActivity">
 
     <TextView
         android:id="@+id/textview_title"

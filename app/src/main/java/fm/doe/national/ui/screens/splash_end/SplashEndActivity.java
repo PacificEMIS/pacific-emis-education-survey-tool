@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.splash_end;
 
-import android.os.Build;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -21,10 +22,14 @@ public class SplashEndActivity extends MenuActivity implements SplashEndView {
     TextView titleTextView;
 
     @BindView(R.id.recyclerview_drawer)
-    View recyclerView;
+    View drawerView;
 
     @InjectPresenter
     SplashEndPresenter splashEndPresenter;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, SplashEndActivity.class);
+    }
 
     @Override
     protected int getContentView() {
@@ -39,14 +44,10 @@ public class SplashEndActivity extends MenuActivity implements SplashEndView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setEnterTransition(null);
-        }
-
-        float y = recyclerView.getY();
-        recyclerView.setAlpha(0.0f);
-        recyclerView.setY(y + ANIM_OFFSET_Y);
-        recyclerView.animate()
+        float y = drawerView.getY();
+        drawerView.setAlpha(0.0f);
+        drawerView.setY(y + ANIM_OFFSET_Y);
+        drawerView.animate()
                 .translationY(y)
                 .alpha(1.0f)
                 .setStartDelay(ANIM_DELAY);

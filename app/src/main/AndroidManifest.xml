@@ -18,9 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.screens.splash.SplashActivity"
+            android:name=".ui.screens.splash.SplashStartActivity"
             android:screenOrientation="portrait"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoTransitions.Exit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +31,8 @@
         <activity
             android:name=".ui.screens.splash_end.SplashEndActivity"
             android:screenOrientation="portrait"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoTransitions.Enter" />
         <activity
             android:name=".ui.screens.criterias.CriteriasActivity"
             android:screenOrientation="portrait" />
