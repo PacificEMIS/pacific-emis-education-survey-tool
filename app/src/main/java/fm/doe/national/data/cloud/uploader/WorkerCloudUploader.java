@@ -30,21 +30,28 @@ public class WorkerCloudUploader implements CloudUploader {
     private final PublishSubject<Long> publishSubject = PublishSubject.create();
 
     public WorkerCloudUploader() {
+        setupPublisher();
+    }
+
+    private void setupPublisher() {
         publishSubject
                 .throttleLast(ANSWER_UPDATE_TIMEOUT_MINUTES, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(passingId -> {
-                    OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UploadWorker.class)
-                            .setConstraints(constraints)
-                            .setInputData(new Data.Builder()
-                                    .putLong(UploadWorker.DATA_PASSING_ID, passingId)
-                                    .build())
-                            .build();
-                    WorkManager.getInstance().enqueue(workRequest);
-                    currentWorkers.put(passingId, workRequest.getId());
-                }, throwable -> Log.e(TAG, "Publisher error : ", throwable));
+                .subscribe(this::enqueueWorker, throwable -> Log.e(TAG, "Publisher error : ", throwable));
     }
+
+    private void enqueueWorker(long passingId) {
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UploadWorker.class)
+                .setConstraints(constraints)
+                .setInputData(new Data.Builder()
+                        .putLong(UploadWorker.DATA_PASSING_ID, passingId)
+                        .build())
+                .build();
+        WorkManager.getInstance().enqueue(workRequest);
+        currentWorkers.put(passingId, workRequest.getId());
+    }
+
 
     @Override
     public void scheduleUploading(long passingId) {
