@@ -23,22 +23,6 @@ public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
         this.surveyPassingDao = surveyPassingDao;
     }
 
-    public Single<OrmLiteSchool> createSchool(String schoolName, String id) {
-        return Single.fromCallable(() -> {
-            OrmLiteSchool school = new OrmLiteSchool(id, schoolName);
-            create(school);
-            return school;
-        });
-    }
-
-    public Completable addSchools(List<School> schools) {
-        return Completable.fromAction(() -> {
-            for (School school : schools) {
-                createOrUpdate(new OrmLiteSchool(school.getId(), school.getName()));
-            }
-        });
-    }
-
     public Completable updateSchools(List<School> schools) {
         return Completable.fromAction(() -> {
             List<OrmLiteSchool> currentSchools = queryForAll();
