@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,11 +24,11 @@ import com.google.android.gms.drive.query.SortOrder;
 import com.google.android.gms.drive.query.SortableField;
 import com.google.android.gms.tasks.Tasks;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import fm.doe.national.MicronesiaApplication;
@@ -41,7 +40,6 @@ import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
 import fm.doe.national.utils.Constants;
-import fm.doe.national.utils.DateUtils;
 import fm.doe.national.utils.LifecycleListener;
 import fm.doe.national.utils.StreamUtils;
 import io.reactivex.Completable;
@@ -313,7 +311,13 @@ public class DriveCloudAccessor implements CloudAccessor {
     }
 
     private void fillContents(DriveContents contents, String content) throws IOException {
-        Writer writer = new OutputStreamWriter(contents.getOutputStream());
-        writer.write(content);
+        InputStream inputStream = new ByteArrayInputStream(content.getBytes());
+        OutputStream outputStream = contents.getOutputStream();
+        byte[] data = new byte[1024];
+        for (int n ; (n = inputStream.read(data)) != -1 ;)  {
+            outputStream.write(data, 0, n);
+        }
+        inputStream.close();
+        outputStream.close();
     }
 }
