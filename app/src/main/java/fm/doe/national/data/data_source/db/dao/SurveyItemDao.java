@@ -54,7 +54,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
                     standard.getName(),
                     OrmLiteSurveyItem.Type.STANDARD,
-                    String.valueOf(standard.getIndex()),
+                    standard.getIndex(),
                     null,
                     parentItem);
             create(surveyItem);
@@ -99,7 +99,7 @@ public class SurveyItemDao extends BaseRxDao<OrmLiteSurveyItem, Long> {
             OrmLiteSurveyItem surveyItem = new OrmLiteSurveyItem(
                     subCriteria.getName(),
                     OrmLiteSurveyItem.Type.SUBCRITERIA,
-                    null,
+                    subCriteria.getIndex(),
                     null,
                     parentItem);
             create(surveyItem);

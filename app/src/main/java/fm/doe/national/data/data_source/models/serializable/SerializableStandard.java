@@ -23,15 +23,16 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
     List<SerializableCriteria> criterias;
 
     @Nullable
-    @Element(required = false)
-    Integer index;
+    @Element(name = "id", required = false)
+    String index;
 
     public SerializableStandard() {
     }
 
     public SerializableStandard(LinkedStandard standard) {
-        this.name = standard.getName();
-        this.criterias = ListConverter.createList(standard.getCriterias(), this);
+        name = standard.getName();
+        index = standard.getIndex();
+        criterias = ListConverter.createList(standard.getCriterias(), this);
     }
 
     @NonNull
@@ -63,7 +64,7 @@ public class SerializableStandard implements LinkedStandard, ListConverter.Conve
 
     @Nullable
     @Override
-    public Integer getIndex() {
+    public String getIndex() {
         return index;
     }
 }

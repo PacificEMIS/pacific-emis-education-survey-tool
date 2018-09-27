@@ -135,4 +135,16 @@ public class ViewUtils {
         return STANDARD_ICONS.get(id);
     }
 
+    @Nullable
+    @DrawableRes
+    public static Integer getStandardIconRes(@Nullable String idString) {
+        if (idString == null) return null;
+        idString = idString.replaceAll("\\D+","");
+        try {
+            return STANDARD_ICONS.get(Integer.parseInt(idString));
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
 }
