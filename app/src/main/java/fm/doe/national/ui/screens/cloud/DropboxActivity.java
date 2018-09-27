@@ -187,7 +187,6 @@ public class DropboxActivity extends BaseActivity implements
         }
 
         adapter.setPickerType(pickerType);
-//        adapter.setClickListener(this);
 
         currentBrowsingItem = root;
         updateUi();

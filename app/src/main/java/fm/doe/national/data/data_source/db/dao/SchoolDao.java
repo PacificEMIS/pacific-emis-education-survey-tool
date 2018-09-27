@@ -11,12 +11,12 @@ import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SurveyPassing;
 import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyPassing;
+import fm.doe.national.utils.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
 
-    private static final int NOT_FOUND = -1;
     private final SurveyPassingDao surveyPassingDao;
 
     SchoolDao(SurveyPassingDao surveyPassingDao, ConnectionSource connectionSource, Class<OrmLiteSchool> dataClass) throws SQLException {
@@ -47,7 +47,7 @@ public class SchoolDao extends BaseRxDao<OrmLiteSchool, Long> {
 
             for (OrmLiteSchool school : currentSchools) {
                 int index = newSchools.indexOf(school);
-                if (index != NOT_FOUND) {
+                if (index != Constants.NOT_FOUND) {
                     updateSchool(school, newSchools.get(index));
                     newSchools.remove(school);
                 } else {

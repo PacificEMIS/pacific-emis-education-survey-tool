@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import fm.doe.national.utils.Constants;
 
 public abstract class BaseAdapter<T>
         extends OmegaRecyclerView.Adapter<BaseAdapter<T>.ViewHolder> {
@@ -25,7 +26,7 @@ public abstract class BaseAdapter<T>
     private OnItemLongClickListener<T> longClickListener = null;
 
     public BaseAdapter(OnItemClickListener<T> clickListener, OnItemLongClickListener<T> longClickListener) {
-        this.clickListener = clickListener;
+        this(clickListener);
         this.longClickListener = longClickListener;
     }
 
@@ -42,8 +43,12 @@ public abstract class BaseAdapter<T>
     }
 
     public void removeItem(@NonNull T item) {
+        if (getItemCount() == 0) {
+            return;
+        }
+
         int index = items.indexOf(item);
-        if (index >= 0) {
+        if (index != Constants.NOT_FOUND) {
             items.remove(index);
             notifyItemRemoved(index);
         }

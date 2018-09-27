@@ -18,7 +18,6 @@ import fm.doe.national.utils.ViewUtils;
 
 public class StandardsListAdapter extends BaseAdapter<Standard> {
 
-
     public StandardsListAdapter(OnItemClickListener<Standard> clickListener) {
         super(clickListener);
     }

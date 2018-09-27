@@ -24,8 +24,6 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     private SchoolAccreditationPassing pendingToDeletePassing;
 
-    private CompletableSubject completableSubject;
-
     @Override
     public void attachView(SchoolAccreditationView view) {
         super.attachView(view);

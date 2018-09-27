@@ -27,10 +27,10 @@ import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
 public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
-        BaseAdapter.OnItemClickListener<SchoolAccreditationPassing>,
+        SearchView.OnQueryTextListener,
         View.OnClickListener,
-        DialogInterface.OnClickListener,
-        SearchView.OnQueryTextListener, BaseAdapter.OnItemLongClickListener<SchoolAccreditationPassing> {
+        BaseAdapter.OnItemClickListener<SchoolAccreditationPassing>,
+        BaseAdapter.OnItemLongClickListener<SchoolAccreditationPassing> {
 
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
@@ -121,11 +121,6 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
-
-    }
-
-    @Override
     public void onItemClick(SchoolAccreditationPassing item) {
         presenter.onAccreditationClicked(item);
     }
@@ -147,7 +142,6 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     private class DeleteConfirmationListener implements DialogInterface.OnClickListener {
-
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
