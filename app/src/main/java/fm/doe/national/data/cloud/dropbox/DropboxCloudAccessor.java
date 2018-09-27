@@ -168,35 +168,15 @@ public class DropboxCloudAccessor implements CloudAccessor {
     }
 
     private void onFolderPicked(@NonNull BrowsingTreeObject object) {
-        StringBuilder pathBuilder = new StringBuilder();
-
-        extractExportFolderPath(pathBuilder, object);
-
-        String objectName = object.getName();
-        pathBuilder.append(replaceToAliasIfNeeds(objectName));
-
         exportFolder = object.getPath();
         cloudPreferences.setExportFolder(exportFolder);
-        cloudPreferences.setExportFolderPath(pathBuilder.toString());
+        cloudPreferences.setExportFolderPath(replaceToAliasIfNeeds(object.getName()));
         folderPickCompletable.onComplete();
         folderPickCompletable = null;
     }
 
     private String replaceToAliasIfNeeds(String folderName) {
        return folderName.equals(DROPBOX_ROOT_FOLDER) ? Constants.DEFAULT_ROOT_FOLDER : folderName;
-    }
-
-    private void extractExportFolderPath(StringBuilder pathBuilder, @NonNull BrowsingTreeObject object) {
-        BrowsingTreeObject parent = object.getParent();
-        if (parent != null) {
-            extractExportFolderPath(pathBuilder, parent);
-
-            String parentName = parent.getName();
-            pathBuilder
-                    .append(replaceToAliasIfNeeds(parentName))
-                    .append(Constants.SYMBOL_SLASH);
-
-        }
     }
 
     public void onActionFailure(Throwable throwable) {
