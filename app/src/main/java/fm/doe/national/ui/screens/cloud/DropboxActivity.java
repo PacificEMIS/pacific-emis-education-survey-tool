@@ -53,7 +53,7 @@ public class DropboxActivity extends BaseActivity implements
     DropboxPresenter presenter;
 
     private boolean haveBeenPaused = false;
-    private FilePickerListAdapter adapter = new FilePickerListAdapter();
+    private FilePickerListAdapter adapter = new FilePickerListAdapter(this);
     private BrowsingTreeObject currentBrowsingItem;
     private MenuItem selectMenuItem;
     private boolean shouldShowConfirm;
@@ -187,7 +187,6 @@ public class DropboxActivity extends BaseActivity implements
         }
 
         adapter.setPickerType(pickerType);
-        adapter.setListener(this);
 
         currentBrowsingItem = root;
         updateUi();

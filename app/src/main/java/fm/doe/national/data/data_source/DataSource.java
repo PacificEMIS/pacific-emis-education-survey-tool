@@ -16,7 +16,7 @@ import io.reactivex.Single;
 
 public interface DataSource {
 
-    Completable addSchools(List<School> schoolList);
+    Completable updateSchools(List<School> schoolList);
 
     Single<List<School>> requestSchools();
 
@@ -29,6 +29,8 @@ public interface DataSource {
     Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(Date startDate, School school);
 
     Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings();
+
+    Completable removeSchoolAccreditationPassing(long passingId);
 
     Single<SchoolAccreditationPassing> requestSchoolAccreditationPassing(long passingId);
 

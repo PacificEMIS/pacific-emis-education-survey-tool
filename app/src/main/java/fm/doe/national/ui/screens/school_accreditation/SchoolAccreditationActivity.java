@@ -1,9 +1,11 @@
 package fm.doe.national.ui.screens.school_accreditation;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -25,9 +27,10 @@ import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
 public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
-        BaseAdapter.OnItemClickListener<SchoolAccreditationPassing>,
+        SearchView.OnQueryTextListener,
         View.OnClickListener,
-        SearchView.OnQueryTextListener {
+        BaseAdapter.OnItemClickListener<SchoolAccreditationPassing>,
+        BaseAdapter.OnItemLongClickListener<SchoolAccreditationPassing> {
 
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
@@ -38,7 +41,8 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     @BindView(R.id.fab_new_accreditation)
     FloatingActionButton newAccreditationFab;
 
-    private final SchoolAccreditationAdapter schoolAccreditationAdapter = new SchoolAccreditationAdapter();
+    private final SchoolAccreditationAdapter schoolAccreditationAdapter = new SchoolAccreditationAdapter(this, this);
+    private final DeleteConfirmationListener deleteConfirmationListener = new DeleteConfirmationListener();
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SchoolAccreditationActivity.class);
@@ -57,7 +61,6 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     private void initViews() {
         setTitle(R.string.label_school_accreditation);
-        schoolAccreditationAdapter.setListener(this);
         recyclerView.setAdapter(schoolAccreditationAdapter);
         newAccreditationFab.setOnClickListener(this);
     }
@@ -91,6 +94,22 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
+    public void showSurveyDeleteConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.title_delete_confirmation)
+                .setMessage(R.string.survey_delete_confirmation)
+                .setPositiveButton(R.string.yes, deleteConfirmationListener)
+                .setNegativeButton(R.string.no, deleteConfirmationListener)
+                .create()
+                .show();
+    }
+
+    @Override
+    public void removeSurveyPassing(SchoolAccreditationPassing passing) {
+        schoolAccreditationAdapter.removeItem(passing);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_new_accreditation:
@@ -107,6 +126,11 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
+    public void onItemLongClick(SchoolAccreditationPassing item) {
+        presenter.onAccreditationLongClicked(item);
+    }
+
+    @Override
     public boolean onQueryTextChange(String newText) {
         presenter.onSearchQueryChanged(newText);
         return true;
@@ -115,5 +139,19 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
+    }
+
+    private class DeleteConfirmationListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    presenter.onSurveyDeletionConfirmed();
+                    break;
+                default:
+                    dialog.dismiss();
+            }
+
+        }
     }
 }

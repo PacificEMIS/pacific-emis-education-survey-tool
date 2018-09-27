@@ -31,7 +31,7 @@ public class CreateSurveyActivity extends BaseActivity implements
         BaseAdapter.OnItemClickListener<School>,
         SearchView.OnQueryTextListener, DatePickerDialog.OnDateSetListener {
 
-    private final SchoolsListAdapter adapter = new SchoolsListAdapter();
+    private final SchoolsListAdapter adapter = new SchoolsListAdapter(this);
     private final static String TAG_DIALOG = "TAG_DIALOG";
 
     @BindView(R.id.textview_year)
@@ -60,7 +60,6 @@ public class CreateSurveyActivity extends BaseActivity implements
         setTitle(R.string.label_create_survey);
 
         schoolsRecycler.setAdapter(adapter);
-        adapter.setListener(this);
     }
 
     @Override

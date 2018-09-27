@@ -9,7 +9,6 @@ import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SchoolAccreditation;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.parsers.Parser;
 import io.reactivex.Completable;
@@ -26,7 +25,7 @@ public class SettingsInteractor {
 
     public Completable importSchools(CloudType type) {
         return cloudRepository.requestContent(type)
-                .flatMapCompletable(content -> localDataRepository.addSchools(
+                .flatMapCompletable(content -> localDataRepository.updateSchools(
                         schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
     }
 

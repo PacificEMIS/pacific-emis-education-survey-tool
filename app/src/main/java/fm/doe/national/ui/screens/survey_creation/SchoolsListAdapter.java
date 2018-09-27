@@ -10,6 +10,10 @@ import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class SchoolsListAdapter extends BaseAdapter<School> {
 
+    public SchoolsListAdapter(OnItemClickListener<School> clickListener) {
+        super(clickListener);
+    }
+
     @Override
     protected SchoolViewHolder provideViewHolder(ViewGroup parent) {
         return new SchoolViewHolder(parent);

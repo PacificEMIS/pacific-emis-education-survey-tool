@@ -18,6 +18,10 @@ import fm.doe.national.utils.ViewUtils;
 
 public class StandardsListAdapter extends BaseAdapter<Standard> {
 
+    public StandardsListAdapter(OnItemClickListener<Standard> clickListener) {
+        super(clickListener);
+    }
+
     @Override
     protected StandardViewHolder provideViewHolder(ViewGroup parent) {
         return new StandardViewHolder(parent);

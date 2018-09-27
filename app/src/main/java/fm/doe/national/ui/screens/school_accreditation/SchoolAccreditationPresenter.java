@@ -19,6 +19,8 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     private List<SchoolAccreditationPassing> passings = new ArrayList<>();
 
+    private SchoolAccreditationPassing passingToDelete;
+
     @Override
     public void attachView(SchoolAccreditationView view) {
         super.attachView(view);
@@ -53,4 +55,17 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
         getViewState().setAccreditations(queriedPassings);
     }
 
+    public void onAccreditationLongClicked(SchoolAccreditationPassing item) {
+        passingToDelete = item;
+        getViewState().showSurveyDeleteConfirmation();
+    }
+
+    public void onSurveyDeletionConfirmed() {
+        addDisposable(dataSource.removeSchoolAccreditationPassing(passingToDelete.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    getViewState().removeSurveyPassing(passingToDelete);
+                }, this::handleError));
+    }
 }

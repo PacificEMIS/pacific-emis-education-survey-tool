@@ -9,6 +9,10 @@ import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class MenuListAdapter extends BaseAdapter<MainMenuItem> {
 
+    public MenuListAdapter(OnItemClickListener<MainMenuItem> clickListener) {
+        super(clickListener);
+    }
+
     @Override
     protected MenuItemViewHolder provideViewHolder(ViewGroup parent) {
         return new MenuItemViewHolder(parent);

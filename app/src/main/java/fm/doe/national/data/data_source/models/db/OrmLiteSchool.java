@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Objects;
+
 import fm.doe.national.data.data_source.models.School;
 
 @DatabaseTable
@@ -40,4 +42,20 @@ public class OrmLiteSchool implements School {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrmLiteSchool)) return false;
+        OrmLiteSchool school = (OrmLiteSchool) o;
+        return Objects.equals(getId(), school.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

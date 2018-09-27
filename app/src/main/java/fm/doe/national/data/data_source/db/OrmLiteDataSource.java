@@ -58,9 +58,10 @@ public class OrmLiteDataSource implements DataSource {
     }
 
     @Override
-    public Completable addSchools(List<School> schoolList) {
-        return schoolDao.addSchools(schoolList);
+    public Completable updateSchools(List<School> schoolList) {
+        return schoolDao.updateSchools(schoolList);
     }
+
 
     @Override
     public Single<List<School>> requestSchools() {
@@ -120,6 +121,11 @@ public class OrmLiteDataSource implements DataSource {
                 .flatMap(surveyPassing -> requestSchoolAccreditationPassing(surveyPassing.getId())
                         .toObservable())
                 .toList();
+    }
+
+    @Override
+    public Completable removeSchoolAccreditationPassing(long passingId) {
+        return Completable.fromAction(() -> surveyPassingDao.deleteById(passingId));
     }
 
     @Override
