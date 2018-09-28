@@ -25,11 +25,12 @@
 
         <LinearLayout
             android:id="@+id/layout_questions"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
             android:layout_below="@id/textview_alphabetical_numbering"
             android:layout_toStartOf="@id/switchablebutton_answer"
+            android:layout_alignParentStart="true"
             android:orientation="vertical">
 
             <TextView
@@ -41,7 +42,7 @@
                 android:textColor="@color/charcoal_grey"
                 android:textSize="16sp"
                 android:lineSpacingExtra="8sp"
-                tools:text="There is evidence that National and State curriculum documents and guidelines are regularly used in planning" />
+                tools:text="Them documents and guidelines are regularly used in planning" />
 
             <TextView
                 android:id="@+id/textview_interview_questions"
