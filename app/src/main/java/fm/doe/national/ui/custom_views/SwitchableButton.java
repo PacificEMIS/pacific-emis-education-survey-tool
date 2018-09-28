@@ -60,7 +60,7 @@ public class SwitchableButton extends FrameLayout implements View.OnClickListene
         drawableRightActive = resources.getDrawable(R.drawable.ic_yes_no_right_active);
         drawableRightInActive = resources.getDrawable(R.drawable.ic_yes_no_right);
         colorTextActive = resources.getColor(R.color.white);
-        colorTextInActive = resources.getColor(R.color.color_criteria_primary_dark);
+        colorTextInActive = resources.getColor(R.color.grey_600);
     }
 
     @Override

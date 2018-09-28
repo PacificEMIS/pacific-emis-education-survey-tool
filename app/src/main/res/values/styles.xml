@@ -99,6 +99,16 @@
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
     </style>
+    
+    <style name="ProgressText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/color_progress_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="LargeProgressText" parent="ProgressText">
+        <item name="android:textSize">20sp</item>
+    </style>
 
     <style name="HorizontalProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_bar_hor_states_selector</item>
@@ -171,7 +181,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@color/color_criteria_primary_dark</item>
+        <item name="android:textColor">@color/grey_600</item>
     </style>
 
     <style name="SummaryCell.Item">
@@ -205,7 +215,7 @@
     </style>
 
     <style name="HeaderItemSummaryCell" parent="SummaryCell.Item">
-        <item name="android:textColor">@color/color_criteria_primary_dark</item>
+        <item name="android:textColor">@color/grey_600</item>
         <item name="android:textSize">12sp</item>
         <item name="android:background">@color/white</item>
         <item name="android:fontFamily">@string/font_normal</item>

@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textColor="@color/color_criteria_primary_dark"
+                android:textColor="@color/grey_600"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5sp"
                 tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves?" />

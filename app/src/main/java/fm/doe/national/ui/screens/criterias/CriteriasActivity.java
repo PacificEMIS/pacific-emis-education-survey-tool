@@ -57,7 +57,7 @@ public class CriteriasActivity extends BaseActivity implements
     @BindView(R.id.textview_standard_name)
     TextView titleTextView;
 
-    @BindView(R.id.textview_standard_progress)
+    @BindView(R.id.textview_progress)
     TextView progressTextView;
 
     @BindView(R.id.progressbar)
