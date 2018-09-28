@@ -63,6 +63,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textview_created_year"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textview_created_year"
+        style="@style/ProgressText"
         tools:text="24/53" />
 
 </android.support.constraint.ConstraintLayout>

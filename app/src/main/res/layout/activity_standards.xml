@@ -57,9 +57,7 @@
             android:id="@+id/textview_progress"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="@color/charcoal_grey"
-            android:textSize="20sp"
+            style="@style/LargeProgressText"
             tools:text="1/7" />
 
     </LinearLayout>

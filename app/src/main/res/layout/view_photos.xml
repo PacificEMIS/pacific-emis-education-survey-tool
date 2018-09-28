@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:textColor="@color/color_criteria_primary_dark"
+                android:textColor="@color/grey_600"
                 android:background="@drawable/bg_comment"
                 tools:text="+6"/>
 

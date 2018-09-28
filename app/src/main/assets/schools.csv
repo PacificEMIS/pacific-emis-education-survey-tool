@@ -1,4 +1,4 @@
-schoolNumber,name
+schNo,schName
 CHK001,Akoyikoyi School
 CHK002,Amwachang Elementary School
 CHK003,Berea Christian School
@@ -33,7 +33,7 @@ CHK031,Munien/Nechocho Elementary School
 CHK032,Murilo Elementary School
 CHK033,Mwan Elementary School
 CHK034,Namoluk Elementary School
-CHK035,Neauo Annex (Wichap)
+CHK035,Neauo Annex (Wichap)0
 CHK036,Neauo Elementary School
 CHK037,Nechap Elementary School
 CHK038,Neirenomw Elementary School

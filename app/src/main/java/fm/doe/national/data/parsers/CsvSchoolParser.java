@@ -15,8 +15,8 @@ import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 public class CsvSchoolParser implements Parser<List<School>> {
 
     private interface Column {
-        String SCHOOL_NUMBER = "schoolNumber";
-        String NAME = "name";
+        String SCHOOL_NUMBER = "schNo";
+        String NAME = "schName";
     }
 
     @Override
