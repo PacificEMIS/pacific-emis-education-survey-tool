@@ -2,7 +2,6 @@ package fm.doe.national;
 
 import android.app.Application;
 import android.support.multidex.MultiDexApplication;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.crashlytics.android.Crashlytics;
 
