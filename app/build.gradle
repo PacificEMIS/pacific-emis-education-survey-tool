@@ -2,18 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "fm.doe.national"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
-        vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"survey.xml\""
         buildConfigField "String", "SCHOOLS_FILE_NAME", "\"schools.csv\""
 
@@ -51,13 +50,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
+
 }
 
 dependencies {
-    def supportVersion = '27.1.1'
+    def supportVersion = '28.0.0'
     def ormliteVersion = '4.48'
-    def daggerVersion = '2.11'
+    def daggerVersion = '2.15'
     def moxyVersion = '1.5.5'
     def retrofitVersion = '2.3.0'
     def okhttpVersion = '3.4.1'
@@ -74,6 +74,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:support-media-compat:$supportVersion"
+    implementation "com.android.support:support-v4:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintVersion"
     implementation "com.android.support:recyclerview-v7:$supportVersion"
