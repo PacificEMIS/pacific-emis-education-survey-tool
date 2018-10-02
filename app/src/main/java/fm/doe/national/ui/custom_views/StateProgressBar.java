@@ -8,12 +8,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.animation.Animation;
 import android.widget.ProgressBar;
 
 import fm.doe.national.R;
 
-public class OmegaProgressBar extends ProgressBar {
+public class StateProgressBar extends ProgressBar {
 
     private Drawable backgroundDrawable;
     private Drawable progressDrawable;
@@ -22,22 +21,22 @@ public class OmegaProgressBar extends ProgressBar {
     private LayerDrawable defaultProgressDrawable;
 
 
-    public OmegaProgressBar(Context context, AttributeSet attrs) {
+    public StateProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttrs(context, attrs, 0);
     }
 
-    public OmegaProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StateProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(context, attrs, defStyleAttr);
     }
 
     private void initAttrs(Context context, AttributeSet attributeSet, int defStyleAttr) {
-        TypedArray styledAttributes = context.obtainStyledAttributes(attributeSet, R.styleable.OmegaProgressBar, defStyleAttr, 0);
+        TypedArray styledAttributes = context.obtainStyledAttributes(attributeSet, R.styleable.StateProgressBar, defStyleAttr, 0);
         try {
-            setBackgroundProgressDrawable(styledAttributes.getDrawable(R.styleable.OmegaProgressBar_backgroundColor));
-            setProgressStateDrawable(styledAttributes.getDrawable(R.styleable.OmegaProgressBar_progressColor));
-            setSuccessStateDrawable(styledAttributes.getDrawable(R.styleable.OmegaProgressBar_successColor));
+            setBackgroundProgressDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_backgroundColor));
+            setProgressStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_progressColor));
+            setSuccessStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_successColor));
             defaultProgressDrawable = (LayerDrawable) getProgressDrawable();
         } catch (Exception ignored) { }
 

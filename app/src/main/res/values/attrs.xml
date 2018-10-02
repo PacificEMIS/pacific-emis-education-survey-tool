@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <declare-styleable name="OmegaProgressBar">
+    <declare-styleable name="StateProgressBar">
         <attr name="backgroundColor" format="reference"/>
         <attr name="progressColor" format="reference"/>
         <attr name="successColor" format="reference"/>
