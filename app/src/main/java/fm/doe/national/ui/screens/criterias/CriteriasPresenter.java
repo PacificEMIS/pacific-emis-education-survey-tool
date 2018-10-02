@@ -1,7 +1,6 @@
 package fm.doe.national.ui.screens.criterias;
 
 import android.support.annotation.Nullable;
-import android.support.v7.content.res.AppCompatResources;
 import android.util.LongSparseArray;
 
 import com.arellomobile.mvp.InjectViewState;

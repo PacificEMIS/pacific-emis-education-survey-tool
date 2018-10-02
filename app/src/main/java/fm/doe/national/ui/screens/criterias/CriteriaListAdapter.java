@@ -1,13 +1,9 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +23,6 @@ import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.ui.custom_views.OmegaProgressBar;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.CollectionUtils;
 import fm.doe.national.utils.ViewUtils;
@@ -76,7 +71,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         TextView progressTextView;
 
         @BindView(R.id.progressbar)
-        OmegaProgressBar progressBar;
+        ProgressBar progressBar;
 
         @BindView(R.id.recyclerview_subcriterias)
         OmegaRecyclerView subcriteriasRecycler;
@@ -108,7 +103,6 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
                     0, criteriaPrefix.length(),
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             titleTextView.setText(spannableString);
-
 
             rebindProgress(item.getCategoryProgress());
 
