@@ -71,12 +71,11 @@ public class StateProgressBar extends ProgressBar {
     }
 
     @Override
-    protected synchronized void onDraw(Canvas canvas) {
+    public synchronized void setProgress(int progress) {
+        super.setProgress(progress);
         if (!isIndeterminate() && needToDrawCustomProgress()) {
             updateVisualState();
         }
-
-        super.onDraw(canvas);
     }
 
     private boolean needToDrawCustomProgress() {
