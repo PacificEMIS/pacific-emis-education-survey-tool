@@ -62,8 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:progressDrawable="@drawable/loading"
-                android:indeterminate="true" />
+                android:theme="@style/IndeterminateProgressBar" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
