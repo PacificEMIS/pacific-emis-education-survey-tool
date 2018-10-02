@@ -33,13 +33,10 @@ public class StateProgressBar extends ProgressBar {
 
     private void initAttrs(Context context, AttributeSet attributeSet, int defStyleAttr) {
         TypedArray styledAttributes = context.obtainStyledAttributes(attributeSet, R.styleable.StateProgressBar, defStyleAttr, 0);
-        try {
-            setBackgroundProgressDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_backgroundColor));
-            setProgressStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_progressColor));
-            setSuccessStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_successColor));
-            defaultProgressDrawable = (LayerDrawable) getProgressDrawable();
-        } catch (Exception ignored) { }
-
+        setBackgroundProgressDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_backgroundColor));
+        setProgressStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_progressColor));
+        setSuccessStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_successColor));
+        defaultProgressDrawable = (LayerDrawable) getProgressDrawable();
         styledAttributes.recycle();
     }
 
