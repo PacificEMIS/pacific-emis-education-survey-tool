@@ -19,7 +19,7 @@
         android:gravity="center_vertical"
         tools:text="Standard 1:Leadership" />
 
-    <ProgressBar
+    <fm.doe.national.ui.custom_views.StateProgressBar
         android:id="@+id/progressbar"
         android:layout_width="wrap_content"
         android:layout_height="2dp"

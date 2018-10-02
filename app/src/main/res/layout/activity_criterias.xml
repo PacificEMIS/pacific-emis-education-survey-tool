@@ -35,13 +35,12 @@
                 android:layout_marginBottom="40dp"
                 android:gravity="end">
                 
-                <ProgressBar
+                <fm.doe.national.ui.custom_views.StateProgressBar
                     android:id="@+id/progressbar"
-                    style="?android:attr/progressBarStyleHorizontal"
+                    style="@style/HorizontalProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="2dp"
                     android:layout_gravity="center_vertical"
-                    android:progressDrawable="@drawable/progress_bar_hor_states_selector"
                     android:layout_marginEnd="8dp" />
 
                 <TextView

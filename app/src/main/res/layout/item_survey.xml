@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textview_name_school"
         tools:text="2018" />
 
-    <ProgressBar
+    <fm.doe.national.ui.custom_views.StateProgressBar
         android:id="@+id/progressbar"
         style="@style/HorizontalProgressBar"
         android:layout_width="wrap_content"

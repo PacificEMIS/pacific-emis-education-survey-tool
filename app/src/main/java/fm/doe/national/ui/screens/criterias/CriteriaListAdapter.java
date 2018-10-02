@@ -1,13 +1,9 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.view.ViewGroup;
