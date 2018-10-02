@@ -27,6 +27,7 @@ import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.ui.custom_views.OmegaProgressBar;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.CollectionUtils;
 import fm.doe.national.utils.ViewUtils;
@@ -75,7 +76,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         TextView progressTextView;
 
         @BindView(R.id.progressbar)
-        ProgressBar progressBar;
+        OmegaProgressBar progressBar;
 
         @BindView(R.id.recyclerview_subcriterias)
         OmegaRecyclerView subcriteriasRecycler;
@@ -107,6 +108,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
                     0, criteriaPrefix.length(),
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             titleTextView.setText(spannableString);
+
 
             rebindProgress(item.getCategoryProgress());
 

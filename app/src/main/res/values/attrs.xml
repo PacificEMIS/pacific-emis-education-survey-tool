@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="OmegaProgressBar">
+        <attr name="backgroundColor" format="reference"/>
+        <attr name="progressColor" format="reference"/>
+        <attr name="successColor" format="reference"/>
+    </declare-styleable>
+    
+</resources>
