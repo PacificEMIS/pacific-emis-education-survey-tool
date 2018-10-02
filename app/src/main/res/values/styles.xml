@@ -13,6 +13,8 @@
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
 
+        <item name="alertDialogTheme">@style/AlertDialog</item>
+
         <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
 
         <item name="android:windowActivityTransitions" tools:targetApi="l">true</item>
@@ -114,6 +116,16 @@
         <item name="android:progressDrawable">@drawable/progress_bar_hor_states_selector</item>
         <item name="android:indeterminateOnly">false</item>
     </style>
+
+    <style name="IndeterminateProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:indeterminateOnly">true</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 
     <style name="Subtitle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
