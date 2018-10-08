@@ -113,10 +113,10 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             if (expandedCriteriaIds.contains(item.getId())) {
                 subcriteriasRecycler.setVisibility(View.VISIBLE);
-                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
+                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
             } else {
                 subcriteriasRecycler.setVisibility(View.GONE);
-                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
+                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
             }
 
             header.setOnClickListener((View v) -> {
