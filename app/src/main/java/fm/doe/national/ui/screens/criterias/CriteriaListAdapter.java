@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -33,6 +36,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
     private SubcriteriaCallback callback = null;
 
     private final Map<CriteriaViewHolder, Long> viewHolders = new HashMap<>();
+    private Set<Long> expandedCriteriaIds = new HashSet<>();
 
     public void setCallback(@Nullable SubcriteriaCallback callback) {
         this.callback = callback;
@@ -107,14 +111,22 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
             rebindProgress(item.getCategoryProgress());
 
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
+            if (expandedCriteriaIds.contains(item.getId())) {
+                subcriteriasRecycler.setVisibility(View.VISIBLE);
+                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
+            } else {
+                subcriteriasRecycler.setVisibility(View.GONE);
+                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
+            }
+
             header.setOnClickListener((View v) -> {
                 if (subcriteriasRecycler.getVisibility() == View.VISIBLE) {
-                    ViewUtils.animateCollapsing(subcriteriasRecycler);
-                    arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
+                    expandedCriteriaIds.remove(item.getId());
                 } else {
-                    ViewUtils.animateExpanding(subcriteriasRecycler);
-                    arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
+                    expandedCriteriaIds.add(item.getId());
                 }
+
+                notifyItemChanged(getAdapterPosition());
             });
         }
 
