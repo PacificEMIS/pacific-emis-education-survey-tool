@@ -15,8 +15,10 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -34,7 +36,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
     private SubcriteriaCallback callback = null;
 
     private final Map<CriteriaViewHolder, Long> viewHolders = new HashMap<>();
-    private List<Long> expandedCriteriaIds = new ArrayList<>();
+    private Set<Long> expandedCriteriaIds = new HashSet<>();
 
     public void setCallback(@Nullable SubcriteriaCallback callback) {
         this.callback = callback;
