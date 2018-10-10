@@ -66,6 +66,11 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
     }
 
+    public void collapseAllCriterias() {
+        expandedCriteriaIds.clear();
+        notifyDataSetChanged();
+    }
+
     protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
 
         @BindView(R.id.textview_criteria_title)

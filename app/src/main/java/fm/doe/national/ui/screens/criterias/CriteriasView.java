@@ -37,4 +37,7 @@ public interface CriteriasView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToPhotos(long passingId, SubCriteria subCriteria);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void collapseAllCriterias();
 }

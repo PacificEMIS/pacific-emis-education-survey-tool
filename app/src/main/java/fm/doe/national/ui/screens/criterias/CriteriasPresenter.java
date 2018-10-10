@@ -61,6 +61,11 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
         CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
         categoryProgress.recalculate(previousState, answer.getState());
+
+        if (categoryProgress.getAnsweredQuestionsCount() == categoryProgress.getTotalQuestionsCount()) {
+            getViewState().collapseAllCriterias();
+        }
+
         updateProgress();
 
         subCriteriaChangeSubjects.get(subCriteria.getId()).onNext(subCriteria);
