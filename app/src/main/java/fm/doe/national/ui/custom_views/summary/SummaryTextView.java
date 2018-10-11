@@ -35,7 +35,7 @@ public class SummaryTextView extends AppCompatTextView {
     }
 
     public void setAnswersCount(int answersCount, AnswerType type) throws RuntimeException {
-        throwErrorIfNegativeCount(answersCount);
+        checkForNegativeCount(answersCount);
         switch (type) {
             case NEGATIVE:
                 this.negativeAnswers = answersCount;
@@ -50,7 +50,7 @@ public class SummaryTextView extends AppCompatTextView {
         updateColor();
     }
 
-    private void throwErrorIfNegativeCount(int count) throws RuntimeException {
+    private void checkForNegativeCount(int count) throws RuntimeException {
         if (count < 0) {
             throw new RuntimeException(Constants.Errors.NEGATIVE_ANSWERS_COUNT);
         }
@@ -58,25 +58,25 @@ public class SummaryTextView extends AppCompatTextView {
 
     private void updateColor() {
         if (maxAnswers == 0) {
-            setBackgroundColor(getResources().getColor(R.color.white));
+            setBackgroundResource(R.color.white);
             return;
         }
 
         if (positiveAnswers + negativeAnswers < maxAnswers) {
-            setBackgroundColor(getResources().getColor(R.color.pink));
+            setBackgroundResource(R.color.pink);
             return;
         }
 
         float positiveAnswersPercent = positiveAnswers / maxAnswers * 100;
 
         if (positiveAnswersPercent <= 25) {
-            setBackgroundColor(getResources().getColor(R.color.pink));
+            setBackgroundResource(R.color.pink);
         } else if (positiveAnswersPercent < 75) {
-            setBackgroundColor(getResources().getColor(R.color.yellow));
+            setBackgroundResource(R.color.yellow);
         } else if (positiveAnswersPercent < 100) {
-            setBackgroundColor(getResources().getColor(R.color.light_mint));
+            setBackgroundResource(R.color.light_mint);
         } else {
-            setBackgroundColor(getResources().getColor(R.color.dark_mint));
+            setBackgroundResource(R.color.dark_mint);
         }
 
         invalidate();
