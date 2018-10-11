@@ -58,16 +58,6 @@ public class SummaryTextView extends AppCompatTextView {
     }
 
     private void updateColor() {
-        if (maxAnswers == 0) {
-            setBackgroundResource(R.color.white);
-            return;
-        }
-
-        if (positiveAnswers + negativeAnswers < maxAnswers) {
-            setBackgroundResource(R.color.pink);
-            return;
-        }
-
         float positiveAnswersPercent = positiveAnswers / maxAnswers * 100;
 
         setBackgroundResource(getColorResource(positiveAnswersPercent));
@@ -76,6 +66,14 @@ public class SummaryTextView extends AppCompatTextView {
     }
 
     private @ColorRes int getColorResource(float positiveAnswersPercent) {
+        if (maxAnswers == 0) {
+            return R.color.pink;
+        }
+
+        if (positiveAnswers + negativeAnswers < maxAnswers) {
+            return R.color.pink;
+        }
+
         if (positiveAnswersPercent <= 25) {
             return R.color.pink;
         } else if (positiveAnswersPercent < 75) {
