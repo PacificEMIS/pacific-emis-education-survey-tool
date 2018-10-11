@@ -40,13 +40,12 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
     }
 
     class ItemViewHolder extends ViewHolder {
-        private static final float BOUNDARY_PASS_PERCENTAGE = 0.5f;
 
         @BindView(R.id.textview_summary_name)
         TextView nameTextView;
 
         @BindViews({R.id.textview_cell_1, R.id.textview_cell_2, R.id.textview_cell_3, R.id.textview_cell_4})
-        List<TextView> cellTextViews;
+        List<SummaryTextView> cellTextViews;
 
         ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary);
@@ -68,31 +67,19 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
                 throw new IllegalStateException(Constants.Errors.WRONT_SUMMARY_INPUT_PARAMETER);
 
             for (int i = 0; i < cellTextViews.size(); i++) {
-                TextView currentTextView = cellTextViews.get(i);
+                SummaryTextView currentTextView = cellTextViews.get(i);
 
                 boolean isProgressExist = i < progressesSize;
 
                 if (!isProgressExist) {
-                    currentTextView.setActivated(false);
-                    currentTextView.setSelected(false);
                     continue;
                 }
 
                 SummaryViewData.Progress progress = item.progresses.get(i);
 
-                int completedCount = progress.completed;
-                int totalCount = progress.total;
-
-                if (completedCount == 0) {
-                    currentTextView.setActivated(false);
-                    currentTextView.setSelected(true);
-                } else if (completedCount == totalCount) {
-                    currentTextView.setActivated(true);
-                    currentTextView.setSelected(true);
-                } else {
-                    currentTextView.setActivated(true);
-                    currentTextView.setSelected(false);
-                }
+                currentTextView.setAnswersCount(progress.total, SummaryTextView.AnswerType.MAX);
+                currentTextView.setAnswersCount(progress.positive, SummaryTextView.AnswerType.POSITIVE);
+                currentTextView.setAnswersCount(progress.negative, SummaryTextView.AnswerType.NEGATIVE);
 
                 // Clients want to make text progress temporary invisible
 //                boolean isPassed = (float) completedCount / totalCount >= BOUNDARY_PASS_PERCENTAGE;

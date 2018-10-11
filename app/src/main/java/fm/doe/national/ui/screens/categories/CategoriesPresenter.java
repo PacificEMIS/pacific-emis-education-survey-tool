@@ -80,14 +80,18 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                                         .flatMap(criterias -> Observable.fromIterable(criterias)
                                                 .map(criteria -> {
                                                     int positiveAnswersCount = 0;
+                                                    int negativeAnswersCount = 0;
                                                     for (SubCriteria subCriteria : criteria.getSubCriterias()) {
                                                         if (subCriteria.getAnswer().getState() == Answer.State.POSITIVE) {
                                                             positiveAnswersCount++;
+                                                        } else if (subCriteria.getAnswer().getState() == Answer.State.NEGATIVE) {
+                                                            negativeAnswersCount++;
                                                         }
                                                     }
                                                     return new SummaryViewData.Progress(
                                                             criteria.getCategoryProgress().getTotalQuestionsCount(),
-                                                            criteria.getCategoryProgress().getAnsweredQuestionsCount());
+                                                            positiveAnswersCount,
+                                                            negativeAnswersCount);
                                                 })
                                                 .toList()),
                                 (category, progresses) -> new SummaryViewData(category, standard, progresses)))

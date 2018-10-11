@@ -19,11 +19,13 @@ public class SummaryViewData {
 
     public static class Progress {
         public int total;
-        public int completed;
+        public int positive;
+        public int negative;
 
-        public Progress(int total, int completed) {
+        public Progress(int total, int positive, int negative) {
             this.total = total;
-            this.completed = completed;
+            this.positive = positive;
+            this.negative = negative;
         }
     }
 }
