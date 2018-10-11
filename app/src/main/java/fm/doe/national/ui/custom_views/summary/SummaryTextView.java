@@ -38,13 +38,13 @@ public class SummaryTextView extends AppCompatTextView {
         checkForNegativeCount(answersCount);
         switch (type) {
             case NEGATIVE:
-                this.negativeAnswers = answersCount;
+                negativeAnswers = answersCount;
                 break;
             case POSITIVE:
-                this.positiveAnswers = answersCount;
+                positiveAnswers = answersCount;
                 break;
             case MAX:
-                this.maxAnswers = answersCount;
+                maxAnswers = answersCount;
                 break;
         }
         updateColor();
