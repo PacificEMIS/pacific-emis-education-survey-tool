@@ -1,6 +1,7 @@
 package fm.doe.national.ui.custom_views.summary;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
@@ -69,16 +70,20 @@ public class SummaryTextView extends AppCompatTextView {
 
         float positiveAnswersPercent = positiveAnswers / maxAnswers * 100;
 
-        if (positiveAnswersPercent <= 25) {
-            setBackgroundResource(R.color.pink);
-        } else if (positiveAnswersPercent < 75) {
-            setBackgroundResource(R.color.yellow);
-        } else if (positiveAnswersPercent < 100) {
-            setBackgroundResource(R.color.light_mint);
-        } else {
-            setBackgroundResource(R.color.dark_mint);
-        }
+        setBackgroundResource(getColorResource(positiveAnswersPercent));
 
         invalidate();
+    }
+
+    private @ColorRes int getColorResource(float positiveAnswersPercent) {
+        if (positiveAnswersPercent <= 25) {
+            return R.color.pink;
+        } else if (positiveAnswersPercent < 75) {
+            return R.color.yellow;
+        } else if (positiveAnswersPercent < 100) {
+            return R.color.light_mint;
+        } else {
+            return R.color.dark_mint;
+        }
     }
 }
