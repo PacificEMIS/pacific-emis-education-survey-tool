@@ -67,7 +67,7 @@ public class SummaryTextView extends AppCompatTextView {
 
     private @ColorRes int getColorResource(float positiveAnswersPercent) {
         if (maxAnswers == 0) {
-            return R.color.pink;
+            return R.color.white;
         }
 
         if (positiveAnswers + negativeAnswers < maxAnswers) {
