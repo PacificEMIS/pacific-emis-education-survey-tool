@@ -75,7 +75,7 @@ public class SummaryTextView extends AppCompatTextView {
         }
 
         if (positiveAnswersPercent <= 25) {
-            return R.color.pink;
+            return R.color.red;
         } else if (positiveAnswersPercent < 75) {
             return R.color.yellow;
         } else if (positiveAnswersPercent < 100) {
