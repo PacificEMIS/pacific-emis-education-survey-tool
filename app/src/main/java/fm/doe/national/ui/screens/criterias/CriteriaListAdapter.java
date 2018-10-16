@@ -66,11 +66,6 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
     }
 
-    public void collapseAllCriterias() {
-        expandedCriteriaIds.clear();
-        notifyDataSetChanged();
-    }
-
     protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
 
         @BindView(R.id.textview_criteria_title)
@@ -130,7 +125,6 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
                 } else {
                     expandedCriteriaIds.add(item.getId());
                 }
-
                 notifyItemChanged(getAdapterPosition());
             });
         }
@@ -139,6 +133,12 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
             CategoryProgress categoryProgress = getItem().getCategoryProgress();
             categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
+
+            if (categoryProgress.getAnsweredQuestionsCount() == categoryProgress.getTotalQuestionsCount()) {
+                expandedCriteriaIds.remove(getItem().getId());
+                notifyItemChanged(getAdapterPosition());
+            }
+
             rebindProgress(categoryProgress);
         }
 

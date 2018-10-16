@@ -239,11 +239,6 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void collapseAllCriterias() {
-        recyclerAdapter.collapseAllCriterias();
-    }
-
-    @Override
     public void takePictureTo(@NonNull File toFile) {
         PackageManager pm = getPackageManager();
 
