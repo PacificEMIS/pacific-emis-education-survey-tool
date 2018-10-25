@@ -33,7 +33,10 @@ public class CsvSchoolParser implements Parser<List<School>> {
             while ((row = parser.nextRow()) != null) {
                 String schoolNumber = row.getField(Column.SCHOOL_NUMBER);
                 String name = row.getField(Column.NAME);
-                schoolList.add(new OrmLiteSchool(schoolNumber, name));
+
+                if (schoolNumber != null && name != null) {
+                    schoolList.add(new OrmLiteSchool(schoolNumber, name));
+                }
             }
         } catch (IOException e) {
             throw new ParseException();
