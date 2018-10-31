@@ -14,11 +14,6 @@ import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
 
 public class CsvSchoolParser implements Parser<List<School>> {
 
-    private interface Column {
-        String SCHOOL_NUMBER = "schNo";
-        String NAME = "schName";
-    }
-
     @Override
     public List<School> parse(InputStream dataStream) throws ParseException {
         List<School> schoolList = new ArrayList<>();
@@ -31,8 +26,8 @@ public class CsvSchoolParser implements Parser<List<School>> {
             CsvRow row;
 
             while ((row = parser.nextRow()) != null) {
-                String schoolNumber = row.getField(Column.SCHOOL_NUMBER);
-                String name = row.getField(Column.NAME);
+                String schoolNumber = row.getField(0);
+                String name = row.getField(1);
 
                 if (schoolNumber != null && name != null) {
                     schoolList.add(new OrmLiteSchool(schoolNumber, name));

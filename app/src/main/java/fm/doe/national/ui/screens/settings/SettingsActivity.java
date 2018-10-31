@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,7 @@ import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.utils.PackageUtils;
 import fm.doe.national.utils.ViewUtils;
 
 public class SettingsActivity extends BaseActivity implements
@@ -75,7 +77,9 @@ public class SettingsActivity extends BaseActivity implements
     }
 
     private void initViews() {
-        setTitle(R.string.label_settings);
+        String versionName = PackageUtils.getVersionName(this);
+        int versionCode = PackageUtils.getVersionNumber(this);
+        setTitle(getString(R.string.label_settings, versionName, versionCode));
 
         adapter.setCallback(this);
         accountsRecycler.setAdapter(adapter);
