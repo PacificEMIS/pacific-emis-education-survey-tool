@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="GridLayoutManager"
+        app:spanCount="@integer/count_spans_photos_preview"
+        tools:listitem="@layout/item_photo">
+
+        <fm.doe.national.ui.custom_views.SquareRelativeLayout
+            android:id="@+id/layout_add_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_section="header"
+            android:paddingTop="4dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="4dp"
+            android:background="@android:color/transparent">
+
+            <ImageButton
+                android:id="@+id/imagebutton_add_photo"
+                style="@style/Selectable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_icon_photo_more"
+                android:background="@drawable/bg_comment"
+                android:gravity="center"/>
+
+        </fm.doe.national.ui.custom_views.SquareRelativeLayout>
+
+        <fm.doe.national.ui.custom_views.SquareRelativeLayout
+            android:id="@+id/layout_more_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_section="footer"
+            android:paddingTop="4dp"
+            android:paddingStart="4dp"
+            android:paddingBottom="4dp"
+            android:background="@android:color/transparent">
+
+            <TextView
+                android:id="@+id/textview_more_photos"
+                style="@style/Selectable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/grey_600"
+                android:background="@drawable/bg_comment"
+                tools:text="+6"/>
+
+        </fm.doe.national.ui.custom_views.SquareRelativeLayout>
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+</FrameLayout>

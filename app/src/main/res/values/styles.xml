@@ -1,11 +1,256 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+
+        <item name="alertDialogTheme">@style/AlertDialog</item>
+
+        <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
+
+        <item name="android:windowActivityTransitions" tools:targetApi="l">true</item>
+        <item name="android:windowEnterTransition" tools:targetApi="l">@transition/window_fade</item>
+        <item name="android:windowExitTransition" tools:targetApi="l">@transition/window_fade</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseAppTheme"/>
+
+    <style name="AppTheme.NoEnterTransitions" >
+        <item name="android:windowEnterTransition" tools:targetApi="l">@null</item>
+    </style>
+
+    <style name="AppTheme.NoExitTransitions">
+        <item name="android:windowExitTransition" tools:targetApi="l">@null</item>
+    </style>
+
+    <style name="LightIconsTranslucentAppTheme" parent="AppTheme">
+        <item name="android:statusBarColor" tools:targetApi="l">@color/dark_grey</item>
+    </style>
+
+    <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/charcoal_grey</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="BaseThemeRecyclerView" parent="AppTheme">
+        <item name="android:divider">@color/pinkish_grey</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="ThemeRecyclerViewSplashMenu" parent="BaseThemeRecyclerView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ThemeRecyclerViewNavigationDrawer" parent="BaseThemeRecyclerView">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="TextViewNavigationDrawerHeader" parent="TextViewBaseDrawerScreen">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@string/font_light</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextViewNavigationDrawerFooter" parent="TextViewBaseDrawerScreen">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:fontFamily">@string/font_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingExtra">10sp</item>
+    </style>
+
+    <style name="TextViewStandardsNavigationDrawerFooter" parent="AppTheme">
+        <item name="android:fontFamily">@string/font_black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ListText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/charcoal_grey</item>
+        <item name="android:fontFamily">@string/font_light</item>
+    </style>
+
+    <style name="GreyedListText" parent="ListText">
+        <item name="android:textColor">@color/greyed_blue</item>
+    </style>
+
+    <style name="ClickableListText" parent="ListText">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+    
+    <style name="ProgressText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/color_progress_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="LargeProgressText" parent="ProgressText">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="HorizontalProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_bar_hor_states_selector</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="progressColor">@color/yellow</item>
+        <item name="successColor">@color/dark_mint</item>
+    </style>
+
+    <style name="IndeterminateProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:indeterminateOnly">true</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+
+    <style name="Subtitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/charcoal_grey</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:fontFamily">@string/font_normal</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextButton" parent="TextAppearance.AppCompat">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">@string/font_light</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="CapitalizedTextButton" parent="TextButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@string/font_medium</item>
+    </style>
+
+    <style name="AccountTextButton" parent="TextButton">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/color_default</item>
+        <item name="android:fontFamily">@string/font_normal</item>
+    </style>
+
+    <style name="SettingsDelimeter" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:background">@color/soft_grey</item>
+        <item name="android:alpha">0.25</item>
+    </style>
+
+    <style name="KeyboardDialog" parent="AppTheme">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+    </style>
+
+    <style name="Selectable" parent="AppTheme">
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="SelectableBorderless" parent="Selectable">
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <!-- region SummaryCells -->
+    <style name="SummaryCell">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">0.5dp</item>
+    </style>
+
+    <style name="SummaryCell.Name">
+        <item name="android:layout_weight">@integer/weight_summary_name</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/grey_600</item>
+    </style>
+
+    <style name="SummaryCell.Item">
+        <item name="android:layout_weight">@integer/weight_summary_item</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="StandardSummaryCell" parent="SummaryCell.Name">
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="StickyNameSummaryCell" parent="SummaryCell.Name">
+        <item name="android:textSize">10sp</item>
+        <item name="android:background">@color/color_criteria_progress_bg</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="HeaderNameSummaryCell" parent="SummaryCell.Name">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="CriteriaSummaryCell" parent="SummaryCell.Item">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/summary</item>
+    </style>
+
+    <style name="StickyItemSummaryCell" parent="SummaryCell.Item">
+        <item name="android:background">@color/color_criteria_progress_bg</item>
+    </style>
+
+    <style name="HeaderItemSummaryCell" parent="SummaryCell.Item">
+        <item name="android:textColor">@color/grey_600</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:fontFamily">@string/font_normal</item>
+    </style>
+    <!-- endregion -->
+
+    <!-- region Photos -->
+    <style name="DeleteButton" parent="SelectableBorderless">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
+    <!-- endregion -->
+
+    <style name="AppTheme.Widget.ActionButton" parent="@style/Widget.AppCompat.ActionButton">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
 </resources>

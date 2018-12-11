@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?selectableItemBackground">
+
+    <TextView
+        android:id="@+id/textview_id_school"
+        style="@style/GreyedListText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="86dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/textview_name_school"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="005068" />
+
+    <TextView
+        android:id="@+id/textview_name_school"
+        style="@style/ListText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintStart_toEndOf="@+id/textview_id_school"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview_id_school"
+        tools:text="Ban Sam Kong School" />
+
+    <TextView
+        android:id="@+id/textview_created_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/cool_grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_name_school"
+        tools:text="2018" />
+
+    <fm.doe.national.ui.custom_views.StateProgressBar
+        android:id="@+id/progressbar"
+        style="@style/HorizontalProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_progress"
+        app:layout_constraintEnd_toStartOf="@+id/textview_progress"
+        app:layout_constraintTop_toTopOf="@+id/textview_progress" />
+
+    <TextView
+        android:id="@+id/textview_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_created_year"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview_created_year"
+        style="@style/ProgressText"
+        tools:text="24/53" />
+
+</android.support.constraint.ConstraintLayout>
