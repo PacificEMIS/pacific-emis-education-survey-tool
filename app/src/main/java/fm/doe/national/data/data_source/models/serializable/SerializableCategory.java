@@ -1,6 +1,5 @@
 package fm.doe.national.data.data_source.models.serializable;
 
-import android.support.annotation.NonNull;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -8,6 +7,7 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import fm.doe.national.data.data_source.models.CategoryProgress;
 
 @Root(name = "category")

@@ -1,9 +1,9 @@
 package fm.doe.national.data.data_source.models.db;
 
-import android.support.annotation.Nullable;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import androidx.annotation.Nullable;
 import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 
 public class OrmLiteSubCriteriaQuestion implements SubCriteriaQuestion {

@@ -1,9 +1,9 @@
 package fm.doe.national.data.data_source.models.serializable;
 
-import android.support.annotation.Nullable;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.Standard;
 

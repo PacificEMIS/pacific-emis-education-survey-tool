@@ -1,8 +1,6 @@
 package fm.doe.national.ui.custom_views;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +8,8 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegatypes.Text;
 
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;

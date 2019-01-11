@@ -1,6 +1,7 @@
 package fm.doe.national.ui.screens.menu;
 
-import android.support.annotation.StringRes;
+
+import androidx.annotation.StringRes;
 
 public class MainMenuItem {
 

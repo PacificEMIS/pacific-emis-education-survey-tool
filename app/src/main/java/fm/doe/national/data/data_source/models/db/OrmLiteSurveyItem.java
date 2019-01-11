@@ -1,7 +1,5 @@
 package fm.doe.national.data.data_source.models.db;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -10,6 +8,9 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 @DatabaseTable
 public class OrmLiteSurveyItem {

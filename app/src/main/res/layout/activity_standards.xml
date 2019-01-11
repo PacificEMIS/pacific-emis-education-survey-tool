@@ -26,7 +26,7 @@
         android:theme="@style/BaseThemeRecyclerView"
         app:dividerPadding="24dp"
         app:layoutManager="LinearLayoutManager"
-        app:showDivider="middle"
+        app:dividerShow="middle"
         app:alphaDivider="0.25" />
 
     <View

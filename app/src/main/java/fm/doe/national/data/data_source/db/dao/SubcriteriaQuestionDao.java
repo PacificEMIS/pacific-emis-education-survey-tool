@@ -1,11 +1,11 @@
 package fm.doe.national.data.data_source.db.dao;
 
-import android.support.annotation.Nullable;
 
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 
+import androidx.annotation.Nullable;
 import fm.doe.national.data.data_source.models.db.OrmLiteSubCriteriaQuestion;
 import fm.doe.national.data.data_source.models.db.OrmLiteSurveyItem;
 import io.reactivex.Single;

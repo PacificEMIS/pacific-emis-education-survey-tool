@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.omega_r.libs.layouts.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/drawer_menu_width"
     android:layout_height="match_parent"
     android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
     android:background="@drawable/bg_splash_gradient">
 
@@ -13,7 +14,7 @@
         style="@style/TextViewNavigationDrawerHeader"
         android:layout_alignParentStart="true"
         android:text="@string/title_education_survey_tool"
-        app:layout_marginTopPercent="8%" />
+        android:layout_marginTop="88dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_logo"
@@ -34,7 +35,7 @@
         android:layout_below="@+id/imageview_logo"
         android:theme="@style/ThemeRecyclerViewNavigationDrawer"
         app:layoutManager="LinearLayoutManager"
-        app:showDivider="end|middle"
+        app:dividerShow="end|middle"
         app:dividerPadding="20dp"
         app:alphaDivider="0.25"
         android:dividerHeight="1dp"
@@ -70,4 +71,4 @@
     </RelativeLayout>
 
 
-</com.omega_r.libs.layouts.percent.PercentRelativeLayout>
+</RelativeLayout>

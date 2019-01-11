@@ -1,7 +1,5 @@
 package fm.doe.national.data.data_source.models.serializable;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -9,6 +7,8 @@ import org.simpleframework.xml.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SynchronizePlatform;
 

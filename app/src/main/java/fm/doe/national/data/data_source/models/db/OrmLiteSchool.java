@@ -1,12 +1,12 @@
 package fm.doe.national.data.data_source.models.db;
 
-import android.support.annotation.NonNull;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import fm.doe.national.data.data_source.models.School;
 
 @DatabaseTable

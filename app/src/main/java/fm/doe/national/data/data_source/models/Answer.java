@@ -1,8 +1,9 @@
 package fm.doe.national.data.data_source.models;
 
-import android.support.annotation.Nullable;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public interface Answer {
     enum State {

@@ -1,9 +1,9 @@
 package fm.doe.national.ui.screens.splash;
 
 import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -45,6 +45,7 @@ public class SplashStartActivity extends BaseActivity implements SplashStartView
         return R.layout.activity_splash_start;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void navigateToSplashEnd() {
         String transitionNameText = ViewCompat.getTransitionName(titleTextView);

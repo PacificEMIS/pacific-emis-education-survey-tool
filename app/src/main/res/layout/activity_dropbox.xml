@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
 
             <include layout="@layout/toolbar_dropbox"/>
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
             android:id="@+id/recyclerview_browse"
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
-            app:showDivider="middle"
+            app:dividerShow="middle"
             app:dividerPadding="24dp"
             tools:listitem="@layout/item_browsing_content"/>
     </LinearLayout>

@@ -1,6 +1,7 @@
 package fm.doe.national.data.data_source.models;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 public interface SubCriteriaQuestion {
     @Nullable

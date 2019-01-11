@@ -1,7 +1,8 @@
 package fm.doe.national.utils;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 public interface LifecycleListener {
     @Nullable

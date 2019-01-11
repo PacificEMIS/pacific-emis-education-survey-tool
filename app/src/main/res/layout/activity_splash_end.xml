@@ -66,8 +66,8 @@
         android:visibility="visible"
         app:alphaDivider="0.25"
         app:dividerPadding="24dp"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:showDivider="end|middle"
+        app:layoutManager="LinearLayoutManager"
+        app:dividerShow="end|middle"
         tools:listitem="@layout/item_menuitem" />
 
 </LinearLayout>

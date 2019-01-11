@@ -3,21 +3,22 @@ package fm.doe.national.ui.screens.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.MvpAppCompatActivityX;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.Serializable;
@@ -29,7 +30,7 @@ import fm.doe.national.R;
 import fm.doe.national.ui.custom_views.ProgressDialogFragment;
 import fm.doe.national.utils.DateUtils;
 
-public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
+public abstract class BaseActivity extends MvpAppCompatActivityX implements BaseView {
 
     private static final String TAG_PROGRESS_DIALOG = "TAG_PROGRESS_DIALOG";
 

@@ -1,8 +1,9 @@
 package fm.doe.national.utils;
 
-import android.support.annotation.Nullable;
 
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 public class CollectionUtils {
 

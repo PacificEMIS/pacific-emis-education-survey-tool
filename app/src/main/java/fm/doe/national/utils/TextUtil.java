@@ -1,10 +1,10 @@
 package fm.doe.national.utils;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.Date;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import fm.doe.national.data.data_source.models.School;
 
 public class TextUtil {

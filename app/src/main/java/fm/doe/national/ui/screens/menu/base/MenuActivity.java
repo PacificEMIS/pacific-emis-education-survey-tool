@@ -2,13 +2,13 @@ package fm.doe.national.ui.screens.menu.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;

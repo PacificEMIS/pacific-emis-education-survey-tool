@@ -3,7 +3,8 @@ package fm.doe.national.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 public class PackageUtils {
     public static int getVersionNumber(Context context) {

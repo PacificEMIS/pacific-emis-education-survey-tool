@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 
 
+import androidx.annotation.Nullable;
 import fm.doe.national.MicronesiaApplication;
 
 public class ActivityLifecycleListener implements LifecycleListener, Application.ActivityLifecycleCallbacks {

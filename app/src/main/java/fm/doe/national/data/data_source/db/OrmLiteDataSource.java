@@ -20,8 +20,8 @@ import fm.doe.national.data.data_source.models.Criteria;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.Standard;
-import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteCriteria;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteCategory;
+import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteCriteria;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditation;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteSchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.db.wrappers.OrmLiteStandard;
@@ -71,8 +71,8 @@ public class OrmLiteDataSource implements DataSource {
 
     @Override
     public Single<Answer> updateAnswer(long passingId,
-                                    long subCriteriaId,
-                                    Answer answer) {
+                                       long subCriteriaId,
+                                       Answer answer) {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.getItemSingle(subCriteriaId)
                         .flatMap(subCriteriaItem -> answerDao.requestAnswer(subCriteriaItem, passing)
@@ -230,7 +230,7 @@ public class OrmLiteDataSource implements DataSource {
                                         Observable.fromIterable(criteriaItem.getChildrenItems())
                                                 .flatMap(subcriteriaItem -> answerDao.requestAnswer(subcriteriaItem, passing)
                                                         .flatMap(answer -> subcriteriaQuestionDao.requestQuestion(subcriteriaItem)
-                                                            .map(question -> new OrmLiteSubCriteria(subcriteriaItem, answer, question)))
+                                                                .map(question -> new OrmLiteSubCriteria(subcriteriaItem, answer, question)))
                                                         .toObservable())
                                                 .toList()
                                                 .toObservable(),
@@ -251,6 +251,6 @@ public class OrmLiteDataSource implements DataSource {
     public Single<Answer> requestAnswer(long passingId, long subCriteriaId) {
         return surveyPassingDao.getItemSingle(passingId)
                 .flatMap(passing -> surveyItemDao.getItemSingle(subCriteriaId)
-                                .flatMap(subCriteria -> answerDao.requestAnswer(subCriteria, passing)));
+                        .flatMap(subCriteria -> answerDao.requestAnswer(subCriteria, passing)));
     }
 }

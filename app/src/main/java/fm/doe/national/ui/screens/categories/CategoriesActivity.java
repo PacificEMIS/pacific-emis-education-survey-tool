@@ -3,7 +3,6 @@ package fm.doe.national.ui.screens.categories;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -12,6 +11,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import java.util.Date;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Category;

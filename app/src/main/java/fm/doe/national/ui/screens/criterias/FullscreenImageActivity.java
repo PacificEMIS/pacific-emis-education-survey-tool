@@ -3,7 +3,7 @@ package fm.doe.national.ui.screens.criterias;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 

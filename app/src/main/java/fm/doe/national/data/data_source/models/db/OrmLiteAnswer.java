@@ -1,7 +1,5 @@
 package fm.doe.national.data.data_source.models.db;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -10,6 +8,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import fm.doe.national.data.data_source.models.Answer;
 import fm.doe.national.data.data_source.models.SynchronizePlatform;
 

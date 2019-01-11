@@ -1,9 +1,9 @@
 package fm.doe.national.data.cloud.dropbox;
 
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudPreferences;
 

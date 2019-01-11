@@ -3,7 +3,6 @@ package fm.doe.national.ui.screens.standards;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -13,6 +12,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import java.util.Date;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.data_source.models.Standard;

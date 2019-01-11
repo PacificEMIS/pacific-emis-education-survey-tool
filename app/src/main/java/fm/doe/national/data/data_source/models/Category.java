@@ -1,8 +1,9 @@
 package fm.doe.national.data.data_source.models;
 
-import android.support.annotation.NonNull;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public interface Category extends Identifiable {
     @NonNull

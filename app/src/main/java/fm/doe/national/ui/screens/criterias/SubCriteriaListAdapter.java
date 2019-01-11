@@ -2,8 +2,6 @@ package fm.doe.national.ui.screens.criterias;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +12,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
@@ -24,7 +24,6 @@ import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.custom_views.photos_view.PhotoBoxView;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.TextUtil;
 
 public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 

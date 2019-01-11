@@ -1,12 +1,11 @@
 package fm.doe.national.ui.screens.settings;
 
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccountData;

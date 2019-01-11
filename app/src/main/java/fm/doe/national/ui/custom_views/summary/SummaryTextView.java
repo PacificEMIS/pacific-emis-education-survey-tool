@@ -1,8 +1,9 @@
 package fm.doe.national.ui.custom_views.summary;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.v7.widget.AppCompatTextView;
+
+import androidx.annotation.ColorRes;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import fm.doe.national.R;
@@ -65,7 +66,8 @@ public class SummaryTextView extends AppCompatTextView {
         invalidate();
     }
 
-    private @ColorRes int getColorResource(float positiveAnswersPercent) {
+    private @ColorRes
+    int getColorResource(float positiveAnswersPercent) {
         if (maxAnswers == 0) {
             return R.color.gray;
         }

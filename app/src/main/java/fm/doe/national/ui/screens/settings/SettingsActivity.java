@@ -2,12 +2,9 @@ package fm.doe.national.ui.screens.settings;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +17,8 @@ import com.omega_r.libs.omegatypes.Text;
 import java.io.IOException;
 import java.util.List;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;

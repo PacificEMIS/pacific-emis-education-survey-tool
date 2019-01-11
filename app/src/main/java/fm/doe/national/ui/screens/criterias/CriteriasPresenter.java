@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.support.annotation.Nullable;
 import android.util.LongSparseArray;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -12,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Nullable;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.uploader.CloudUploader;

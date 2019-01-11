@@ -1,10 +1,9 @@
 package fm.doe.national;
 
-import android.app.Application;
-import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 
+import androidx.multidex.MultiDexApplication;
 import fm.doe.national.di.AppComponent;
 import fm.doe.national.di.DaggerAppComponent;
 import fm.doe.national.di.modules.ContextModule;
