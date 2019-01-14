@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.room.Room;
@@ -15,6 +16,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.SurveyDao;
 import fm.doe.national.data.persistence.entity.Survey;
+import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.*;
 
@@ -95,5 +97,37 @@ public class SurveyTests {
         surveyDao.deleteAll();
         surveyDao.update(RoomTestData.getSurveyFor_updateSurveyTest());
         assertTrue(surveyDao.getAll().isEmpty());
+    }
+
+    @Test
+    public void getByIdTest() {
+        surveyDao.deleteAll();
+        surveyDao.insert(RoomTestData.getSurveyFor_updateSurveyTest());
+
+        Survey survey = surveyDao.getAll().get(0);
+        Survey surveyById = surveyDao.getById(survey.uid);
+
+        assertEquals(survey.schoolName, surveyById.schoolName);
+
+        assertNull(surveyDao.getById(78235235));
+    }
+
+    @Test
+    public void deleteByIdTest() {
+        surveyDao.deleteAll();
+
+        surveyDao.insert(RoomTestData.getSurveyFor_updateSurveyTest());
+        surveyDao.insert(RoomTestData.getSurveyFor_updateSurveyTest());
+        surveyDao.insert(RoomTestData.getSurveyFor_updateSurveyTest());
+
+        long firstId = surveyDao.getAll().get(0).uid;
+        long secondId = surveyDao.getAll().get(1).uid;
+        long thirdId = surveyDao.getAll().get(2).uid;
+
+        surveyDao.deleteById(firstId);
+
+        List<Survey> surveys = surveyDao.getAll();
+        assertEquals(2, surveys.size());
+        assertEquals(Arrays.asList(secondId, thirdId), Arrays.asList(surveys.get(0).uid, surveys.get(1).uid));
     }
 }

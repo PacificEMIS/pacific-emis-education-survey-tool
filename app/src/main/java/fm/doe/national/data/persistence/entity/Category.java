@@ -17,4 +17,8 @@ public class Category {
     @ColumnInfo(name = "survey_id")
     public long surveyId;
 
+    public Category(String title, long surveyId) {
+        this.title = title;
+        this.surveyId = surveyId;
+    }
 }
