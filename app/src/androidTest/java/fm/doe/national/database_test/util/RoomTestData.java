@@ -3,6 +3,7 @@ package fm.doe.national.database_test.util;
 import java.util.Date;
 
 import fm.doe.national.data.persistence.entity.Category;
+import fm.doe.national.data.persistence.entity.Standard;
 import fm.doe.national.data.persistence.entity.Survey;
 
 public class RoomTestData {
@@ -17,5 +18,9 @@ public class RoomTestData {
 
     public static Category getCategoryFor_createDeleteTest(long surveyId) {
         return new Category("Category One", surveyId);
+    }
+
+    public static Standard getTestStandard(long categoryId) {
+        return new Standard("Standard One", categoryId, "1");
     }
 }

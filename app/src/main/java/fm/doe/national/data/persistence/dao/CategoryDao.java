@@ -32,4 +32,7 @@ public interface CategoryDao {
 
     @Query("DELETE FROM category WHERE survey_id = :surveyId")
     void deleteAllForSurveyWithId(long surveyId);
+
+    @Query("DELETE FROM category WHERE uid = :id")
+    void deleteById(long id);
 }
