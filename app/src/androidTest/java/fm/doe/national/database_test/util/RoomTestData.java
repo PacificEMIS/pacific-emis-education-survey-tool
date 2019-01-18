@@ -3,6 +3,7 @@ package fm.doe.national.database_test.util;
 import java.util.Date;
 
 import fm.doe.national.data.persistence.entity.Category;
+import fm.doe.national.data.persistence.entity.Criteria;
 import fm.doe.national.data.persistence.entity.Standard;
 import fm.doe.national.data.persistence.entity.Survey;
 
@@ -22,5 +23,9 @@ public class RoomTestData {
 
     public static Standard getTestStandard(long categoryId) {
         return new Standard("Standard One", categoryId, "1");
+    }
+
+    public static Criteria getTestCriteria(long standardId) {
+        return new Criteria("Criteria One", standardId, "1");
     }
 }
