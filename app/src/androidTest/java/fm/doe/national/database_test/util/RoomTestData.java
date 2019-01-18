@@ -4,7 +4,9 @@ import java.util.Date;
 
 import fm.doe.national.data.persistence.entity.Category;
 import fm.doe.national.data.persistence.entity.Criteria;
+import fm.doe.national.data.persistence.entity.PhotoEntity;
 import fm.doe.national.data.persistence.entity.Standard;
+import fm.doe.national.data.persistence.entity.SubCriteria;
 import fm.doe.national.data.persistence.entity.Survey;
 
 public class RoomTestData {
@@ -27,5 +29,13 @@ public class RoomTestData {
 
     public static Criteria getTestCriteria(long standardId) {
         return new Criteria("Criteria One", standardId, "1");
+    }
+
+    public static SubCriteria getTestSubCriteria(long criteriaId) {
+        return new SubCriteria("SubCriteria One", criteriaId, "1");
+    }
+
+    public static PhotoEntity getTestPhotoEntity(long subCriteriaId) {
+        return new PhotoEntity("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", subCriteriaId);
     }
 }
