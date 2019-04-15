@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    def roomVersion = '2.1.0-alpha03'
+    def roomVersion = '2.1.0-alpha06'
     def moxyVersion = '1.5.5'
     def okhttpVersion = '3.12.1'
     def retrofitVersion = '2.5.0'
@@ -64,10 +64,10 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    implementation 'com.google.android.material:material:1.1.0-alpha05'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -76,7 +76,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     // WorkManager
-    implementation 'android.arch.work:work-runtime:1.0.0-beta01'
+    implementation 'android.arch.work:work-runtime:1.0.1'
 
     // Room
     implementation "androidx.room:room-runtime:$roomVersion"
@@ -108,7 +108,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // OmegaLibs
-    implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.0@aar'
+    implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.3@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.0.4'
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.5'
 
@@ -133,7 +133,7 @@ dependencies {
     }
 
     // CircleImageView
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 
     // Dropbox
     implementation "com.dropbox.core:dropbox-core-sdk:3.0.11"
