@@ -58,8 +58,4 @@ public class PersistenceStandard implements Standard {
         return uid;
     }
 
-    @Override
-    public void setId(long newId) {
-        uid = newId;
-    }
 }

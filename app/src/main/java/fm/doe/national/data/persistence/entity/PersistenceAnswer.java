@@ -67,8 +67,4 @@ public class PersistenceAnswer implements Answer {
         return uid;
     }
 
-    @Override
-    public void setId(long newId) {
-        uid = newId;
-    }
 }

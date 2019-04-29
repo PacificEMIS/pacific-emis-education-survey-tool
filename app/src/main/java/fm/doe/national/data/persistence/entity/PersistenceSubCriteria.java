@@ -77,8 +77,4 @@ public class PersistenceSubCriteria implements SubCriteria {
         return uid;
     }
 
-    @Override
-    public void setId(long newId) {
-        uid = newId;
-    }
 }

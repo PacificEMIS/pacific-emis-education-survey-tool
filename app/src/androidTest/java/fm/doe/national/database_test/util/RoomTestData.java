@@ -8,6 +8,7 @@ import fm.doe.national.data.persistence.entity.PersistenceAnswer;
 import fm.doe.national.data.persistence.entity.PersistenceCategory;
 import fm.doe.national.data.persistence.entity.PersistenceCriteria;
 import fm.doe.national.data.persistence.entity.PersistencePhoto;
+import fm.doe.national.data.persistence.entity.PersistenceSchool;
 import fm.doe.national.data.persistence.entity.PersistenceStandard;
 import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 import fm.doe.national.data.persistence.entity.PersistenceSurvey;
@@ -51,5 +52,9 @@ public class RoomTestData {
         answer.state = AnswerState.POSITIVE;
         answer.comment = "Comment";
         return answer;
+    }
+
+    public static PersistenceSchool getTestSchool() {
+        return new PersistenceSchool("Test School 1", "SCH001");
     }
 }

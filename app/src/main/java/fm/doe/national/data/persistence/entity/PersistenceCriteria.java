@@ -58,9 +58,5 @@ public class PersistenceCriteria implements Criteria {
         return uid;
     }
 
-    @Override
-    public void setId(long newId) {
-        uid = newId;
-    }
 }
 

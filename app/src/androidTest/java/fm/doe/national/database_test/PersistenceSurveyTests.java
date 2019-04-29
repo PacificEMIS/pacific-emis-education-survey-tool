@@ -92,7 +92,7 @@ public class PersistenceSurveyTests {
         assertEquals(SurveyType.SCHOOL_ACCREDITATION, existingSurvey.getSurveyType());
 
         PersistenceSurvey updatedSurvey = RoomTestData.getSurveyFor_updateSurveyTest();
-        updatedSurvey.setId(existingSurvey.getId());
+        updatedSurvey.uid = existingSurvey.getId();
         surveyDao.update(updatedSurvey);
 
         updatedSurvey = surveyDao.getAll().get(0);
@@ -114,7 +114,7 @@ public class PersistenceSurveyTests {
         PersistenceSurvey survey = surveyDao.getAll().get(0);
         PersistenceSurvey surveyById = surveyDao.getById(survey.getId());
 
-        assertEquals(survey.getVersion(), survey.getVersion());
+        assertEquals(survey.getVersion(), surveyById.getVersion());
 
         assertNull(surveyDao.getById(78235235));
     }

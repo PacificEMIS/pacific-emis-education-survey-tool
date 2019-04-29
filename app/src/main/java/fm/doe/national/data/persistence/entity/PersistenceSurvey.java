@@ -92,8 +92,4 @@ public class PersistenceSurvey implements Survey {
         return uid;
     }
 
-    @Override
-    public void setId(long newId) {
-        uid = newId;
-    }
 }

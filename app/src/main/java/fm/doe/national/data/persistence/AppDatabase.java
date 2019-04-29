@@ -8,6 +8,7 @@ import fm.doe.national.data.persistence.dao.AnswerDao;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.CriteriaDao;
 import fm.doe.national.data.persistence.dao.PhotoDao;
+import fm.doe.national.data.persistence.dao.SchoolDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
@@ -15,6 +16,7 @@ import fm.doe.national.data.persistence.entity.PersistenceAnswer;
 import fm.doe.national.data.persistence.entity.PersistenceCategory;
 import fm.doe.national.data.persistence.entity.PersistenceCriteria;
 import fm.doe.national.data.persistence.entity.PersistencePhoto;
+import fm.doe.national.data.persistence.entity.PersistenceSchool;
 import fm.doe.national.data.persistence.entity.PersistenceStandard;
 import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 import fm.doe.national.data.persistence.entity.PersistenceSurvey;
@@ -27,7 +29,8 @@ import fm.doe.national.data.persistence.entity.PersistenceSurvey;
                 PersistenceCriteria.class,
                 PersistenceSubCriteria.class,
                 PersistenceAnswer.class,
-                PersistencePhoto.class
+                PersistencePhoto.class,
+                PersistenceSchool.class
         },
         version = 1,
         exportSchema = false)
@@ -47,4 +50,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PhotoDao getPhotoDao();
 
     public abstract AnswerDao getAnswerDao();
+
+    public abstract SchoolDao getSchoolDao();
 }

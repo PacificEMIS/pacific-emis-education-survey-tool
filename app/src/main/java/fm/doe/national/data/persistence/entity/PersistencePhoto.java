@@ -53,8 +53,4 @@ public class PersistencePhoto implements Photo {
         return uid;
     }
 
-    @Override
-    public void setId(long newId) {
-        uid = newId;
-    }
 }

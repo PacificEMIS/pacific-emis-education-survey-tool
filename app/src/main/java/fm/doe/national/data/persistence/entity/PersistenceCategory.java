@@ -51,9 +51,4 @@ public class PersistenceCategory implements Category {
         return uid;
     }
 
-    @Override
-    public void setId(long newId) {
-        uid = newId;
-    }
-
 }
