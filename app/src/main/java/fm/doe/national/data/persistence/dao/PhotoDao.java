@@ -8,28 +8,29 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import fm.doe.national.data.persistence.entity.PersistencePhotoEntity;
+
+import fm.doe.national.data.persistence.entity.PersistencePhoto;
 
 @Dao
 public interface PhotoDao {
     @Insert
-    void insert(PersistencePhotoEntity photoEntity);
+    void insert(PersistencePhoto photoEntity);
 
     @Update
-    void update(PersistencePhotoEntity photoEntity);
+    void update(PersistencePhoto photoEntity);
 
     @Delete
-    void delete(PersistencePhotoEntity photoEntity);
+    void delete(PersistencePhoto photoEntity);
 
     @Nullable
-    @Query("SELECT * FROM PersistencePhotoEntity WHERE uid = :id LIMIT 1")
-    PersistencePhotoEntity getById(long id);
+    @Query("SELECT * FROM PersistencePhoto WHERE uid = :id LIMIT 1")
+    PersistencePhoto getById(long id);
 
-    @Query("SELECT * FROM PersistencePhotoEntity WHERE subcriteria_id = :subCriteriaId")
-    List<PersistencePhotoEntity> getAllForSubCriteriaWithId(long subCriteriaId);
+    @Query("SELECT * FROM PersistencePhoto WHERE answer_id = :answerId")
+    List<PersistencePhoto> getAllForAnswerWithId(long answerId);
 
-    @Query("DELETE FROM PersistencePhotoEntity WHERE subcriteria_id = :subCriteriaId")
-    void deleteAllForSubCriteriaWithId(long subCriteriaId);
+    @Query("DELETE FROM PersistencePhoto WHERE answer_id = :answerId")
+    void deleteAllForAnswerWithId(long answerId);
 
     @Query("DELETE FROM PersistenceSubCriteria WHERE uid = :id")
     void deleteById(long id);

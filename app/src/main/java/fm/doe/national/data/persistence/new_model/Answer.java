@@ -4,22 +4,18 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public interface Answer {
+public interface Answer extends IdentifiedObject {
 
-    State getState();
+    AnswerState getState();
 
-    void setState(State state);
+    void setState(AnswerState state);
 
     @Nullable
     String getComment();
 
     void setComment(@Nullable String comment);
 
-    List<PhotoEntity> getPhotos();
+    List<Photo> getPhotos();
 
-    void setPhotos(List<PhotoEntity> photos);
-
-    enum State {
-        NOT_ANSWERED, POSITIVE, NEGATIVE
-    }
+    void setPhotos(List<Photo> photos);
 }

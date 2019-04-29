@@ -9,7 +9,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import fm.doe.national.data.persistence.new_model.Answer;
-import fm.doe.national.data.persistence.new_model.PhotoEntity;
+import fm.doe.national.data.persistence.new_model.AnswerState;
+import fm.doe.national.data.persistence.new_model.Photo;
 
 @Entity(foreignKeys = @ForeignKey(entity = PersistenceSubCriteria.class, parentColumns = "uid", childColumns = "sub_criteria_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("sub_criteria_id")})
@@ -21,18 +22,18 @@ public class PersistenceAnswer implements Answer {
     @ColumnInfo(name = "sub_criteria_id")
     public long subCriteriaId;
 
-    public State state;
+    public AnswerState state;
 
     @Nullable
     public String comment;
 
     @Override
-    public State getState() {
+    public AnswerState getState() {
         return null;
     }
 
     @Override
-    public void setState(State state) {
+    public void setState(AnswerState state) {
         this.state = state;
     }
 
@@ -48,12 +49,22 @@ public class PersistenceAnswer implements Answer {
     }
 
     @Override
-    public List<PhotoEntity> getPhotos() {
+    public List<Photo> getPhotos() {
         return null;
     }
 
     @Override
-    public void setPhotos(List<PhotoEntity> photos) {
+    public void setPhotos(List<Photo> photos) {
 
+    }
+
+    @Override
+    public long getId() {
+        return uid;
+    }
+
+    @Override
+    public void setId(long newId) {
+        uid = newId;
     }
 }

@@ -9,9 +9,10 @@ import fm.doe.national.data.persistence.dao.PhotoDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
+import fm.doe.national.data.persistence.entity.PersistenceAnswer;
 import fm.doe.national.data.persistence.entity.PersistenceCategory;
 import fm.doe.national.data.persistence.entity.PersistenceCriteria;
-import fm.doe.national.data.persistence.entity.PersistencePhotoEntity;
+import fm.doe.national.data.persistence.entity.PersistencePhoto;
 import fm.doe.national.data.persistence.entity.PersistenceStandard;
 import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 import fm.doe.national.data.persistence.entity.PersistenceSurvey;
@@ -23,7 +24,8 @@ import fm.doe.national.data.persistence.entity.PersistenceSurvey;
                 PersistenceStandard.class,
                 PersistenceCriteria.class,
                 PersistenceSubCriteria.class,
-                PersistencePhotoEntity.class
+                PersistenceAnswer.class,
+                PersistencePhoto.class
         },
         version = 1,
         exportSchema = false)

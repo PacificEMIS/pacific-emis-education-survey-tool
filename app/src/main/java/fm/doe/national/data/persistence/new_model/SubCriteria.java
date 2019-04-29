@@ -3,7 +3,7 @@ package fm.doe.national.data.persistence.new_model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public interface SubCriteria {
+public interface SubCriteria extends IdentifiedObject {
 
     @NonNull
     String getSuffix();
@@ -16,11 +16,6 @@ public interface SubCriteria {
 
     @Nullable
     String getHint();
-
-    @Nullable
-    String getComment();
-
-    void setComment(@Nullable String comment);
 
     @Nullable
     Answer getAnswer();

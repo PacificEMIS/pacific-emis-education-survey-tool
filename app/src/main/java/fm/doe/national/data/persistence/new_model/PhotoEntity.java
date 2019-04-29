@@ -1,5 +1,0 @@
-package fm.doe.national.data.persistence.new_model;
-
-public interface PhotoEntity {
-    String getLocalPath();
-}

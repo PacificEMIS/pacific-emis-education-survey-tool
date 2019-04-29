@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    def roomVersion = '2.1.0-alpha06'
+    def roomVersion = '2.1.0-alpha07'
     def moxyVersion = '1.5.5'
     def okhttpVersion = '3.12.1'
     def retrofitVersion = '2.5.0'
