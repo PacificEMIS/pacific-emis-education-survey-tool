@@ -8,30 +8,30 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import fm.doe.national.data.persistence.entity.Survey;
+import fm.doe.national.data.persistence.entity.PersistenceSurvey;
 
 @Dao
 public interface SurveyDao {
 
     @Insert
-    void insert(Survey survey);
+    void insert(PersistenceSurvey survey);
 
     @Update
-    void update(Survey survey);
+    void update(PersistenceSurvey survey);
 
     @Delete
-    void delete(Survey survey);
+    void delete(PersistenceSurvey survey);
 
-    @Query("SELECT * FROM survey")
-    List<Survey> getAll();
+    @Query("SELECT * FROM PersistenceSurvey")
+    List<PersistenceSurvey> getAll();
 
     @Nullable
-    @Query("SELECT * FROM survey WHERE uid = :id LIMIT 1")
-    Survey getById(long id);
+    @Query("SELECT * FROM PersistenceSurvey WHERE uid = :id LIMIT 1")
+    PersistenceSurvey getById(long id);
 
-    @Query("DELETE FROM survey")
+    @Query("DELETE FROM PersistenceSurvey")
     void deleteAll();
 
-    @Query("DELETE FROM survey WHERE uid = :id")
+    @Query("DELETE FROM PersistenceSurvey WHERE uid = :id")
     void deleteById(long id);
 }

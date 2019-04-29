@@ -9,9 +9,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import fm.doe.national.data.data_source.models.Criteria;
+import fm.doe.national.data.data_source.models.Survey;
 
 @Entity
-public class Survey {
+public class PersistenceSurvey {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -25,10 +26,16 @@ public class Survey {
     @ColumnInfo(name = "start_date")
     public Date startDate;
 
+    @ColumnInfo(name = "version")
+    public int version;
+
+    @ColumnInfo(name = "type")
+    public String type;
+
     @Ignore
     private List<Criteria> criterias = new ArrayList<>();
 
-    public Survey(String schoolId, String schoolName, Date startDate) {
+    public PersistenceSurvey(String schoolId, String schoolName, Date startDate) {
         this.schoolId = schoolId;
         this.schoolName = schoolName;
         this.startDate = startDate;
@@ -40,5 +47,13 @@ public class Survey {
 
     public void setCriterias(List<Criteria> criterias) {
         this.criterias = criterias;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public String getType() {
+        return type;
     }
 }

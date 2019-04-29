@@ -15,13 +15,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.Category;
+import fm.doe.national.data.persistence.entity.PersistenceCategory;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
-public class CategoryTests {
+public class PersistenceCategoryTests {
 
     private CategoryDao categoryDao;
     private AppDatabase database;
@@ -54,23 +54,23 @@ public class CategoryTests {
     public void createDeleteTest() {
         categoryDao.deleteAllForSurveyWithId(testSurveyId);
 
-        Category testCategory = RoomTestData.getCategoryFor_createDeleteTest(testSurveyId);
+        PersistenceCategory testCategory = RoomTestData.getCategoryFor_createDeleteTest(testSurveyId);
 
         categoryDao.insert(testCategory);
         assertEquals(1, categoryDao.getAllForSurveyWithId(testSurveyId).size());
 
-        testCategory.title = "Category Two";
+        testCategory.title = "PersistenceCategory Two";
         categoryDao.insert(testCategory);
 
-        List<Category> categoriesInDb = categoryDao.getAllForSurveyWithId(testSurveyId);
+        List<PersistenceCategory> categoriesInDb = categoryDao.getAllForSurveyWithId(testSurveyId);
         assertEquals(2, categoriesInDb.size());
-        assertEquals("Category Two", categoriesInDb.get(1).title);
+        assertEquals("PersistenceCategory Two", categoriesInDb.get(1).title);
 
         categoryDao.delete(categoriesInDb.get(0));
 
         categoriesInDb = categoryDao.getAllForSurveyWithId(testSurveyId);
         assertEquals(1, categoriesInDb.size());
-        assertEquals("Category Two", categoriesInDb.get(0).title);
+        assertEquals("PersistenceCategory Two", categoriesInDb.get(0).title);
 
         categoryDao.insert(testCategory);
         categoryDao.deleteAllForSurveyWithId(testSurveyId);
@@ -84,14 +84,14 @@ public class CategoryTests {
         categoryDao.deleteAllForSurveyWithId(testSurveyId);
 
         categoryDao.insert(RoomTestData.getCategoryFor_createDeleteTest(testSurveyId));
-        Category insertedCategory = categoryDao.getAllForSurveyWithId(testSurveyId).get(0);
-        assertEquals("Category One", insertedCategory.title);
+        PersistenceCategory insertedCategory = categoryDao.getAllForSurveyWithId(testSurveyId).get(0);
+        assertEquals("PersistenceCategory One", insertedCategory.title);
 
-        insertedCategory.title = "Category Two";
+        insertedCategory.title = "PersistenceCategory Two";
         categoryDao.update(insertedCategory);
 
         insertedCategory = categoryDao.getAllForSurveyWithId(testSurveyId).get(0);
-        assertEquals("Category Two", insertedCategory.title);
+        assertEquals("PersistenceCategory Two", insertedCategory.title);
     }
 
     @Test
@@ -99,8 +99,8 @@ public class CategoryTests {
         categoryDao.deleteAllForSurveyWithId(testSurveyId);
         categoryDao.insert(RoomTestData.getCategoryFor_createDeleteTest(testSurveyId));
 
-        Category insertedCategory = categoryDao.getAllForSurveyWithId(testSurveyId).get(0);
-        Category categoryById = categoryDao.getById(insertedCategory.uid);
+        PersistenceCategory insertedCategory = categoryDao.getAllForSurveyWithId(testSurveyId).get(0);
+        PersistenceCategory categoryById = categoryDao.getById(insertedCategory.uid);
 
         assertEquals(insertedCategory.title, categoryById.title);
         assertNull(categoryDao.getById(123984));
@@ -117,7 +117,7 @@ public class CategoryTests {
         categoryDao.insert(RoomTestData.getCategoryFor_createDeleteTest(testSurveyId));
         categoryDao.insert(RoomTestData.getCategoryFor_createDeleteTest(testSurveyId));
 
-        List<Category> insertedCategories = categoryDao.getAllForSurveyWithId(testSurveyId);
+        List<PersistenceCategory> insertedCategories = categoryDao.getAllForSurveyWithId(testSurveyId);
         assertEquals(6, insertedCategories.size());
 
         database.getSurveyDao().deleteById(testSurveyId);

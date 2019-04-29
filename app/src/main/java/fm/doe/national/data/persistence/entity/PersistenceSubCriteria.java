@@ -7,9 +7,9 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = Criteria.class, parentColumns = "uid", childColumns = "criteria_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = PersistenceCriteria.class, parentColumns = "uid", childColumns = "criteria_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("criteria_id")})
-public class SubCriteria {
+public class PersistenceSubCriteria {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -24,8 +24,7 @@ public class SubCriteria {
     @Nullable
     public String hint;
 
-    @Nullable
-    public String comment;
+
 
     @Nullable
     @ColumnInfo(name = "answer_as_string")
@@ -34,7 +33,7 @@ public class SubCriteria {
     @ColumnInfo(name = "criteria_id")
     public long criteriaId;
 
-    public SubCriteria(String title, long criteriaId, String suffix) {
+    public PersistenceSubCriteria(String title, long criteriaId, String suffix) {
         this.title = title;
         this.criteriaId = criteriaId;
         this.suffix = suffix;

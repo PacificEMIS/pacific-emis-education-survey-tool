@@ -17,14 +17,14 @@ import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.CriteriaDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.Criteria;
+import fm.doe.national.data.persistence.entity.PersistenceCriteria;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class CriteriaTests {
+public class PersistenceCriteriaTests {
     private CriteriaDao criteriaDao;
     private AppDatabase database;
 
@@ -64,23 +64,23 @@ public class CriteriaTests {
     public void createDeleteTest() {
         criteriaDao.deleteAllForStandardWithId(testStandardId);
 
-        Criteria testCriteria = RoomTestData.getTestCriteria(testStandardId);
+        PersistenceCriteria testCriteria = RoomTestData.getTestCriteria(testStandardId);
 
         criteriaDao.insert(testCriteria);
         assertEquals(1, criteriaDao.getAllForStandardWithId(testStandardId).size());
 
-        testCriteria.title = "Criteria 2";
+        testCriteria.title = "PersistenceCriteria 2";
         criteriaDao.insert(testCriteria);
 
-        List<Criteria> criteriasInDb = criteriaDao.getAllForStandardWithId(testStandardId);
+        List<PersistenceCriteria> criteriasInDb = criteriaDao.getAllForStandardWithId(testStandardId);
         assertEquals(2, criteriasInDb.size());
-        assertEquals("Criteria 2", criteriasInDb.get(1).title);
+        assertEquals("PersistenceCriteria 2", criteriasInDb.get(1).title);
 
         criteriaDao.delete(criteriasInDb.get(0));
 
         criteriasInDb = criteriaDao.getAllForStandardWithId(testStandardId);
         assertEquals(1, criteriasInDb.size());
-        assertEquals("Criteria 2", criteriasInDb.get(0).title);
+        assertEquals("PersistenceCriteria 2", criteriasInDb.get(0).title);
 
         criteriaDao.insert(testCriteria);
         criteriaDao.deleteAllForStandardWithId(testStandardId);
@@ -94,14 +94,14 @@ public class CriteriaTests {
         criteriaDao.deleteAllForStandardWithId(testStandardId);
 
         criteriaDao.insert(RoomTestData.getTestCriteria(testStandardId));
-        Criteria insertedStandard = criteriaDao.getAllForStandardWithId(testStandardId).get(0);
-        assertEquals("Criteria One", insertedStandard.title);
+        PersistenceCriteria insertedStandard = criteriaDao.getAllForStandardWithId(testStandardId).get(0);
+        assertEquals("PersistenceCriteria One", insertedStandard.title);
 
-        insertedStandard.title = "Criteria Two";
+        insertedStandard.title = "PersistenceCriteria Two";
         criteriaDao.update(insertedStandard);
 
         insertedStandard = criteriaDao.getAllForStandardWithId(testStandardId).get(0);
-        assertEquals("Criteria Two", insertedStandard.title);
+        assertEquals("PersistenceCriteria Two", insertedStandard.title);
     }
 
     @Test
@@ -109,8 +109,8 @@ public class CriteriaTests {
         criteriaDao.deleteAllForStandardWithId(testStandardId);
         criteriaDao.insert(RoomTestData.getTestCriteria(testStandardId));
 
-        Criteria insertedCriteria = criteriaDao.getAllForStandardWithId(testStandardId).get(0);
-        Criteria criteriaById = criteriaDao.getById(insertedCriteria.uid);
+        PersistenceCriteria insertedCriteria = criteriaDao.getAllForStandardWithId(testStandardId).get(0);
+        PersistenceCriteria criteriaById = criteriaDao.getById(insertedCriteria.uid);
 
         assertEquals(insertedCriteria.title, criteriaById.title);
         assertNull(criteriaDao.getById(123984));
@@ -127,7 +127,7 @@ public class CriteriaTests {
         criteriaDao.insert(RoomTestData.getTestCriteria(testStandardId));
         criteriaDao.insert(RoomTestData.getTestCriteria(testStandardId));
 
-        List<Criteria> insertedCriterias = criteriaDao.getAllForStandardWithId(testStandardId);
+        List<PersistenceCriteria> insertedCriterias = criteriaDao.getAllForStandardWithId(testStandardId);
         assertEquals(6, insertedCriterias.size());
 
         database.getCategoryDao().deleteById(testStandardId);

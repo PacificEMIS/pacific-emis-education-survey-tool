@@ -7,9 +7,9 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = Survey.class, parentColumns = "uid", childColumns = "survey_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = PersistenceSurvey.class, parentColumns = "uid", childColumns = "survey_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("survey_id")})
-public class Category {
+public class PersistenceCategory {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -19,7 +19,7 @@ public class Category {
     @ColumnInfo(name = "survey_id")
     public long surveyId;
 
-    public Category(String title, long surveyId) {
+    public PersistenceCategory(String title, long surveyId) {
         this.title = title;
         this.surveyId = surveyId;
     }

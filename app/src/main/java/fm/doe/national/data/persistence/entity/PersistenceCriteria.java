@@ -6,9 +6,9 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = Standard.class, parentColumns = "uid", childColumns = "standard_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = PersistenceStandard.class, parentColumns = "uid", childColumns = "standard_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("standard_id")})
-public class Criteria {
+public class PersistenceCriteria {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -19,7 +19,7 @@ public class Criteria {
     @ColumnInfo(name = "standard_id")
     public long standardId;
 
-    public Criteria(String title, long standardId, String suffix) {
+    public PersistenceCriteria(String title, long standardId, String suffix) {
         this.title = title;
         this.standardId = standardId;
         this.suffix = suffix;

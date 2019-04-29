@@ -15,13 +15,13 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.Survey;
+import fm.doe.national.data.persistence.entity.PersistenceSurvey;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
-public class SurveyTests {
+public class PersistenceSurveyTests {
 
     private SurveyDao surveyDao;
     private AppDatabase database;
@@ -44,10 +44,10 @@ public class SurveyTests {
     public void putSurveyEntityTest() {
         surveyDao.deleteAll();
 
-        Survey survey = RoomTestData.getSurveyFor_putSurveyEntityTest();
+        PersistenceSurvey survey = RoomTestData.getSurveyFor_putSurveyEntityTest();
         surveyDao.insert(survey);
 
-        List<Survey> allSurveys = surveyDao.getAll();
+        List<PersistenceSurvey> allSurveys = surveyDao.getAll();
         assertEquals(allSurveys.size(), 1);
         assertEquals(allSurveys.get(0).schoolName, survey.schoolName);
         assertEquals(allSurveys.get(0).uid, 1);
@@ -63,11 +63,11 @@ public class SurveyTests {
 
     @Test
     public void deleteSurveysTest() {
-        Survey survey = RoomTestData.getSurveyFor_putSurveyEntityTest();
+        PersistenceSurvey survey = RoomTestData.getSurveyFor_putSurveyEntityTest();
         surveyDao.insert(survey);
         surveyDao.insert(survey); // twice
 
-        Survey existingSurvey = surveyDao.getAll().get(0);
+        PersistenceSurvey existingSurvey = surveyDao.getAll().get(0);
         surveyDao.delete(existingSurvey);
         assertEquals(1, surveyDao.getAll().size());
 
@@ -82,12 +82,12 @@ public class SurveyTests {
         surveyDao.deleteAll();
         surveyDao.insert(RoomTestData.getSurveyFor_updateSurveyTest());
 
-        Survey existingSurvey = surveyDao.getAll().get(0);
+        PersistenceSurvey existingSurvey = surveyDao.getAll().get(0);
         existingSurvey.schoolName = "11";
         existingSurvey.schoolId = "__";
         surveyDao.update(existingSurvey);
 
-        Survey updatedSurvey = surveyDao.getAll().get(0);
+        PersistenceSurvey updatedSurvey = surveyDao.getAll().get(0);
         assertEquals("11", updatedSurvey.schoolName);
         assertEquals("__", updatedSurvey.schoolId);
     }
@@ -104,8 +104,8 @@ public class SurveyTests {
         surveyDao.deleteAll();
         surveyDao.insert(RoomTestData.getSurveyFor_updateSurveyTest());
 
-        Survey survey = surveyDao.getAll().get(0);
-        Survey surveyById = surveyDao.getById(survey.uid);
+        PersistenceSurvey survey = surveyDao.getAll().get(0);
+        PersistenceSurvey surveyById = surveyDao.getById(survey.uid);
 
         assertEquals(survey.schoolName, surveyById.schoolName);
 
@@ -126,7 +126,7 @@ public class SurveyTests {
 
         surveyDao.deleteById(firstId);
 
-        List<Survey> surveys = surveyDao.getAll();
+        List<PersistenceSurvey> surveys = surveyDao.getAll();
         assertEquals(2, surveys.size());
         assertEquals(Arrays.asList(secondId, thirdId), Arrays.asList(surveys.get(0).uid, surveys.get(1).uid));
     }

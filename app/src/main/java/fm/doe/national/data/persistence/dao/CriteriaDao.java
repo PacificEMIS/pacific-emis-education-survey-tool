@@ -8,29 +8,29 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import fm.doe.national.data.persistence.entity.Criteria;
+import fm.doe.national.data.persistence.entity.PersistenceCriteria;
 
 @Dao
 public interface CriteriaDao {
     @Insert
-    void insert(Criteria criteria);
+    void insert(PersistenceCriteria criteria);
 
     @Update
-    void update(Criteria criteria);
+    void update(PersistenceCriteria criteria);
 
     @Delete
-    void delete(Criteria criteria);
+    void delete(PersistenceCriteria criteria);
 
     @Nullable
-    @Query("SELECT * FROM criteria WHERE uid = :id LIMIT 1")
-    Criteria getById(long id);
+    @Query("SELECT * FROM PersistenceCriteria WHERE uid = :id LIMIT 1")
+    PersistenceCriteria getById(long id);
 
-    @Query("SELECT * FROM criteria WHERE standard_id = :standardId")
-    List<Criteria> getAllForStandardWithId(long standardId);
+    @Query("SELECT * FROM PersistenceCriteria WHERE standard_id = :standardId")
+    List<PersistenceCriteria> getAllForStandardWithId(long standardId);
 
-    @Query("DELETE FROM criteria WHERE standard_id = :standardId")
+    @Query("DELETE FROM PersistenceCriteria WHERE standard_id = :standardId")
     void deleteAllForStandardWithId(long standardId);
 
-    @Query("DELETE FROM criteria WHERE uid = :id")
+    @Query("DELETE FROM PersistenceCriteria WHERE uid = :id")
     void deleteById(long id);
 }

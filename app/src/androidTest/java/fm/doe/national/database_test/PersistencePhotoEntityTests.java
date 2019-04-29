@@ -19,14 +19,14 @@ import fm.doe.national.data.persistence.dao.PhotoDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.PhotoEntity;
+import fm.doe.national.data.persistence.entity.PersistencePhotoEntity;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class PhotoEntityTests {
+public class PersistencePhotoEntityTests {
 
     private PhotoDao photoDao;
     private AppDatabase database;
@@ -77,7 +77,7 @@ public class PhotoEntityTests {
     public void createDeleteTest() {
         photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
 
-        PhotoEntity photoEntity = RoomTestData.getTestPhotoEntity(testSubCriteriaId);
+        PersistencePhotoEntity photoEntity = RoomTestData.getTestPhotoEntity(testSubCriteriaId);
 
         photoDao.insert(photoEntity);
         assertEquals(1, photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).size());
@@ -85,7 +85,7 @@ public class PhotoEntityTests {
         photoEntity.url = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
         photoDao.insert(photoEntity);
 
-        List<PhotoEntity> photosInDb = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
+        List<PersistencePhotoEntity> photosInDb = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
         assertEquals(2, photosInDb.size());
         assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photosInDb.get(1).url);
 
@@ -107,7 +107,7 @@ public class PhotoEntityTests {
         photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
 
         photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
-        PhotoEntity photoEntity = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0);
+        PersistencePhotoEntity photoEntity = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0);
         assertEquals("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", photoEntity.url);
 
         photoEntity.url = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
@@ -122,8 +122,8 @@ public class PhotoEntityTests {
         photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
         photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
 
-        PhotoEntity photoEntity = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0);
-        PhotoEntity subCriteriaById = photoDao.getById(photoEntity.uid);
+        PersistencePhotoEntity photoEntity = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0);
+        PersistencePhotoEntity subCriteriaById = photoDao.getById(photoEntity.uid);
 
         assertEquals(photoEntity.url, subCriteriaById.url);
         assertNull(photoDao.getById(123984));
@@ -140,7 +140,7 @@ public class PhotoEntityTests {
         photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
         photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
 
-        List<PhotoEntity> insertedSubCriterias = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
+        List<PersistencePhotoEntity> insertedSubCriterias = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
         assertEquals(6, insertedSubCriterias.size());
 
         database.getCategoryDao().deleteById(testSubCriteriaId);

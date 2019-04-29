@@ -9,21 +9,21 @@ import fm.doe.national.data.persistence.dao.PhotoDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.Category;
-import fm.doe.national.data.persistence.entity.Criteria;
-import fm.doe.national.data.persistence.entity.PhotoEntity;
-import fm.doe.national.data.persistence.entity.Standard;
-import fm.doe.national.data.persistence.entity.SubCriteria;
-import fm.doe.national.data.persistence.entity.Survey;
+import fm.doe.national.data.persistence.entity.PersistenceCategory;
+import fm.doe.national.data.persistence.entity.PersistenceCriteria;
+import fm.doe.national.data.persistence.entity.PersistencePhotoEntity;
+import fm.doe.national.data.persistence.entity.PersistenceStandard;
+import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
+import fm.doe.national.data.persistence.entity.PersistenceSurvey;
 
 @Database(
         entities = {
-                Survey.class,
-                Category.class,
-                Standard.class,
-                Criteria.class,
-                SubCriteria.class,
-                PhotoEntity.class
+                PersistenceSurvey.class,
+                PersistenceCategory.class,
+                PersistenceStandard.class,
+                PersistenceCriteria.class,
+                PersistenceSubCriteria.class,
+                PersistencePhotoEntity.class
         },
         version = 1,
         exportSchema = false)

@@ -18,14 +18,14 @@ import fm.doe.national.data.persistence.dao.CriteriaDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.SubCriteria;
+import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class SubCriteriaTests {
+public class PersistenceSubCriteriaTests {
     private SubCriteriaDao subCriteriaDao;
     private AppDatabase database;
 
@@ -70,23 +70,23 @@ public class SubCriteriaTests {
     public void createDeleteTest() {
         subCriteriaDao.deleteAllForCriteriaWithId(testCriteriaId);
 
-        SubCriteria subCriteria = RoomTestData.getTestSubCriteria(testCriteriaId);
+        PersistenceSubCriteria subCriteria = RoomTestData.getTestSubCriteria(testCriteriaId);
 
         subCriteriaDao.insert(subCriteria);
         assertEquals(1, subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).size());
 
-        subCriteria.title = "SubCriteria 2";
+        subCriteria.title = "PersistenceSubCriteria 2";
         subCriteriaDao.insert(subCriteria);
 
-        List<SubCriteria> subCriteriasInDb = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId);
+        List<PersistenceSubCriteria> subCriteriasInDb = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId);
         assertEquals(2, subCriteriasInDb.size());
-        assertEquals("SubCriteria 2", subCriteriasInDb.get(1).title);
+        assertEquals("PersistenceSubCriteria 2", subCriteriasInDb.get(1).title);
 
         subCriteriaDao.delete(subCriteriasInDb.get(0));
 
         subCriteriasInDb = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId);
         assertEquals(1, subCriteriasInDb.size());
-        assertEquals("SubCriteria 2", subCriteriasInDb.get(0).title);
+        assertEquals("PersistenceSubCriteria 2", subCriteriasInDb.get(0).title);
 
         subCriteriaDao.insert(subCriteria);
         subCriteriaDao.deleteAllForCriteriaWithId(testCriteriaId);
@@ -100,14 +100,14 @@ public class SubCriteriaTests {
         subCriteriaDao.deleteAllForCriteriaWithId(testCriteriaId);
 
         subCriteriaDao.insert(RoomTestData.getTestSubCriteria(testCriteriaId));
-        SubCriteria subCriteria = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).get(0);
-        assertEquals("SubCriteria One", subCriteria.title);
+        PersistenceSubCriteria subCriteria = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).get(0);
+        assertEquals("PersistenceSubCriteria One", subCriteria.title);
 
-        subCriteria.title = "SubCriteria Two";
+        subCriteria.title = "PersistenceSubCriteria Two";
         subCriteriaDao.update(subCriteria);
 
         subCriteria = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).get(0);
-        assertEquals("SubCriteria Two", subCriteria.title);
+        assertEquals("PersistenceSubCriteria Two", subCriteria.title);
     }
 
     @Test
@@ -115,8 +115,8 @@ public class SubCriteriaTests {
         subCriteriaDao.deleteAllForCriteriaWithId(testCriteriaId);
         subCriteriaDao.insert(RoomTestData.getTestSubCriteria(testCriteriaId));
 
-        SubCriteria subCriteria = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).get(0);
-        SubCriteria subCriteriaById = subCriteriaDao.getById(subCriteria.uid);
+        PersistenceSubCriteria subCriteria = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).get(0);
+        PersistenceSubCriteria subCriteriaById = subCriteriaDao.getById(subCriteria.uid);
 
         assertEquals(subCriteria.title, subCriteriaById.title);
         assertNull(subCriteriaDao.getById(123984));
@@ -133,7 +133,7 @@ public class SubCriteriaTests {
         subCriteriaDao.insert(RoomTestData.getTestSubCriteria(testCriteriaId));
         subCriteriaDao.insert(RoomTestData.getTestSubCriteria(testCriteriaId));
 
-        List<SubCriteria> insertedSubCriterias = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId);
+        List<PersistenceSubCriteria> insertedSubCriterias = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId);
         assertEquals(6, insertedSubCriterias.size());
 
         database.getCategoryDao().deleteById(testCriteriaId);

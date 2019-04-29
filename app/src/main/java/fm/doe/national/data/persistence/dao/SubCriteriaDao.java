@@ -8,29 +8,29 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import fm.doe.national.data.persistence.entity.SubCriteria;
+import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 
 @Dao
 public interface SubCriteriaDao {
     @Insert
-    void insert(SubCriteria subcriteria);
+    void insert(PersistenceSubCriteria subcriteria);
 
     @Update
-    void update(SubCriteria subcriteria);
+    void update(PersistenceSubCriteria subcriteria);
 
     @Delete
-    void delete(SubCriteria subcriteria);
+    void delete(PersistenceSubCriteria subcriteria);
 
     @Nullable
-    @Query("SELECT * FROM subcriteria WHERE uid = :id LIMIT 1")
-    SubCriteria getById(long id);
+    @Query("SELECT * FROM PersistenceSubCriteria WHERE uid = :id LIMIT 1")
+    PersistenceSubCriteria getById(long id);
 
-    @Query("SELECT * FROM subcriteria WHERE criteria_id = :criteriaId")
-    List<SubCriteria> getAllForCriteriaWithId(long criteriaId);
+    @Query("SELECT * FROM PersistenceSubCriteria WHERE criteria_id = :criteriaId")
+    List<PersistenceSubCriteria> getAllForCriteriaWithId(long criteriaId);
 
-    @Query("DELETE FROM subcriteria WHERE criteria_id = :criteriaId")
+    @Query("DELETE FROM PersistenceSubCriteria WHERE criteria_id = :criteriaId")
     void deleteAllForCriteriaWithId(long criteriaId);
 
-    @Query("DELETE FROM subcriteria WHERE uid = :id")
+    @Query("DELETE FROM PersistenceSubCriteria WHERE uid = :id")
     void deleteById(long id);
 }

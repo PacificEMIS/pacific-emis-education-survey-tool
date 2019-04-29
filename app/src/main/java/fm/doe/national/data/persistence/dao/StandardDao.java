@@ -8,30 +8,30 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import fm.doe.national.data.persistence.entity.Standard;
+import fm.doe.national.data.persistence.entity.PersistenceStandard;
 
 @Dao
 public interface StandardDao {
 
     @Insert
-    void insert(Standard category);
+    void insert(PersistenceStandard category);
 
     @Update
-    void update(Standard category);
+    void update(PersistenceStandard category);
 
     @Delete
-    void delete(Standard category);
+    void delete(PersistenceStandard category);
 
     @Nullable
-    @Query("SELECT * FROM standard WHERE uid = :id LIMIT 1")
-    Standard getById(long id);
+    @Query("SELECT * FROM PersistenceStandard WHERE uid = :id LIMIT 1")
+    PersistenceStandard getById(long id);
 
-    @Query("SELECT * FROM standard WHERE category_id = :categoryId")
-    List<Standard> getAllForCategoryWithId(long categoryId);
+    @Query("SELECT * FROM PersistenceStandard WHERE category_id = :categoryId")
+    List<PersistenceStandard> getAllForCategoryWithId(long categoryId);
 
-    @Query("DELETE FROM standard WHERE category_id = :categoryId")
+    @Query("DELETE FROM PersistenceStandard WHERE category_id = :categoryId")
     void deleteAllForCategoryWithId(long categoryId);
 
-    @Query("DELETE FROM standard WHERE uid = :id")
+    @Query("DELETE FROM PersistenceStandard WHERE uid = :id")
     void deleteById(long id);
 }
