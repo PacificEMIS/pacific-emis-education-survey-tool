@@ -1,16 +1,14 @@
 package fm.doe.national.data.persistence.entity;
 
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
 import fm.doe.national.data.persistence.new_model.Answer;
 import fm.doe.national.data.persistence.new_model.AnswerState;
-import fm.doe.national.data.persistence.new_model.Photo;
 
 @Entity(foreignKeys = @ForeignKey(entity = PersistenceSubCriteria.class, parentColumns = "uid", childColumns = "sub_criteria_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("sub_criteria_id")})
@@ -50,16 +48,6 @@ public class PersistenceAnswer implements Answer {
     @Override
     public void setComment(@Nullable String comment) {
         this.comment = comment;
-    }
-
-    @Override
-    public List<Photo> getPhotos() {
-        return null;
-    }
-
-    @Override
-    public void setPhotos(List<Photo> photos) {
-
     }
 
     @Override

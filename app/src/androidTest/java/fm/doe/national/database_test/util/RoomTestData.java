@@ -18,11 +18,11 @@ import fm.doe.national.data.persistence.new_model.SurveyType;
 public class RoomTestData {
 
     public static PersistenceSurvey getSurveyFor_putSurveyEntityTest() {
-        return new PersistenceSurvey(1, SurveyType.SCHOOL_ACCREDITATION, null, new Date(10000));
+        return new PersistenceSurvey(1, SurveyType.SCHOOL_ACCREDITATION, null, null, new Date(10000));
     }
 
     public static PersistenceSurvey getSurveyFor_updateSurveyTest() {
-        return new PersistenceSurvey(3, SurveyType.WASH, null, new Date(20000));
+        return new PersistenceSurvey(3, SurveyType.WASH, null, null, new Date(20000));
     }
 
     public static PersistenceCategory getCategoryFor_createDeleteTest(long surveyId) {

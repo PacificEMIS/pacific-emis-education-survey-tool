@@ -10,6 +10,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
 import fm.doe.national.data.persistence.new_model.Category;
 import fm.doe.national.data.persistence.new_model.School;
@@ -22,10 +23,6 @@ public class PersistenceSurvey implements Survey {
     @PrimaryKey(autoGenerate = true)
     public long uid;
 
-    @Nullable
-    @ColumnInfo(name = "school_id")
-    public Long schoolId;
-
     @ColumnInfo(name = "start_date")
     public Date startDate;
 
@@ -35,23 +32,29 @@ public class PersistenceSurvey implements Survey {
     @ColumnInfo(name = "type")
     public SurveyType type;
 
+    @ColumnInfo(name = "school_name")
+    public String schoolName;
+
+    @ColumnInfo(name = "school_id")
+    public String schoolId;
+
     @Ignore
     private List<Category> categories = new ArrayList<>();
 
-    public PersistenceSurvey(int version, SurveyType type, @Nullable Long schoolId, Date startDate) {
+    public PersistenceSurvey(int version,
+                             SurveyType type,
+                             @Nullable String schoolName,
+                             @Nullable String schoolId,
+                             Date startDate) {
         this.version = version;
         this.type = type;
+        this.schoolName = schoolName;
         this.schoolId = schoolId;
         this.startDate = startDate;
     }
 
     public PersistenceSurvey(@NonNull Survey otherSurvey) {
         uid = otherSurvey.getId();
-        if (otherSurvey.getSchool() == null) {
-            schoolId = null;
-        } else {
-            schoolId = otherSurvey.getSchool().getId();
-        }
         startDate = otherSurvey.getDate();
         version = otherSurvey.getVersion();
         type = otherSurvey.getSurveyType();
@@ -75,10 +78,16 @@ public class PersistenceSurvey implements Survey {
         return startDate;
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public School getSchool() {
-        return null;
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    @Nullable
+    @Override
+    public String getSchoolId() {
+        return schoolId;
     }
 
     @NonNull
