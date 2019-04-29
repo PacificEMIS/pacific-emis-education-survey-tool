@@ -22,8 +22,7 @@ public class PersistencePhoto implements Photo {
     @ColumnInfo(name = "answer_id")
     public long answerId;
 
-    public PersistencePhoto(String localUrl, long answerId) {
-        this.localUrl = localUrl;
+    public PersistencePhoto(long answerId) {
         this.answerId = answerId;
     }
 

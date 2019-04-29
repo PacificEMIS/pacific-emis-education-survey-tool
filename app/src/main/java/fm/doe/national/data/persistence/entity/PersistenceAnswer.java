@@ -27,6 +27,10 @@ public class PersistenceAnswer implements Answer {
     @Nullable
     public String comment;
 
+    public PersistenceAnswer(long subCriteriaId) {
+        this.subCriteriaId = subCriteriaId;
+    }
+
     @Override
     public AnswerState getState() {
         return null;

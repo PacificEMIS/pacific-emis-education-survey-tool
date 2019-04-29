@@ -13,6 +13,7 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import fm.doe.national.data.persistence.AppDatabase;
+import fm.doe.national.data.persistence.dao.AnswerDao;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.CriteriaDao;
 import fm.doe.national.data.persistence.dao.PhotoDao;
@@ -31,7 +32,7 @@ public class PersistencePhotoTests {
     private PhotoDao photoDao;
     private AppDatabase database;
 
-    private long testSubCriteriaId = -1;
+    private long testAnswerId = -1;
 
     @Before
     public void createDb() {
@@ -62,90 +63,93 @@ public class PersistencePhotoTests {
         standardDao.insert(RoomTestData.getTestStandard(testCategoryId));
         long testStandardId = standardDao.getAllForCategoryWithId(testCategoryId).get(0).uid;
 
-
         CriteriaDao criteriaDao = database.getCriteriaDao();
         criteriaDao.insert(RoomTestData.getTestCriteria(testStandardId));
         long testCriteriaId = criteriaDao.getAllForStandardWithId(testStandardId).get(0).uid;
 
-
         SubCriteriaDao subCriteriaDao = database.getSubcriteriaDao();
         subCriteriaDao.insert(RoomTestData.getTestSubCriteria(testCriteriaId));
-        testSubCriteriaId = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).get(0).uid;
+        long testSubCriteriaId = subCriteriaDao.getAllForCriteriaWithId(testCriteriaId).get(0).uid;
+
+        AnswerDao answerDao = database.getAnswerDao();
+        answerDao.insert(RoomTestData.getTestAnswer(testSubCriteriaId));
+        testAnswerId = answerDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0).uid;
+
     }
 
     @Test
     public void createDeleteTest() {
-        photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
+        photoDao.deleteAllForAnswerWithId(testAnswerId);
 
-        PersistencePhoto photoEntity = RoomTestData.getTestPhotoEntity(testSubCriteriaId);
+        PersistencePhoto photoEntity = RoomTestData.getTestPhotoEntity(testAnswerId);
 
         photoDao.insert(photoEntity);
-        assertEquals(1, photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).size());
+        assertEquals(1, photoDao.getAllForAnswerWithId(testAnswerId).size());
 
-        photoEntity.url = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
+        photoEntity.remoteUrl = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
         photoDao.insert(photoEntity);
 
-        List<PersistencePhoto> photosInDb = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
+        List<PersistencePhoto> photosInDb = photoDao.getAllForAnswerWithId(testAnswerId);
         assertEquals(2, photosInDb.size());
-        assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photosInDb.get(1).url);
+        assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photosInDb.get(1).remoteUrl);
 
         photoDao.delete(photosInDb.get(0));
 
-        photosInDb = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
+        photosInDb = photoDao.getAllForAnswerWithId(testAnswerId);
         assertEquals(1, photosInDb.size());
-        assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photosInDb.get(0).url);
+        assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photosInDb.get(0).remoteUrl);
 
         photoDao.insert(photoEntity);
-        photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
+        photoDao.deleteAllForAnswerWithId(testAnswerId);
 
-        photosInDb = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
+        photosInDb = photoDao.getAllForAnswerWithId(testAnswerId);
         assertEquals(0, photosInDb.size());
     }
 
     @Test
     public void updateTest() {
-        photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
+        photoDao.deleteAllForAnswerWithId(testAnswerId);
 
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
-        PersistencePhoto photoEntity = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0);
-        assertEquals("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", photoEntity.url);
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
+        PersistencePhoto photoEntity = photoDao.getAllForAnswerWithId(testAnswerId).get(0);
+        assertEquals("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", photoEntity.remoteUrl);
 
-        photoEntity.url = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
+        photoEntity.remoteUrl = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
         photoDao.update(photoEntity);
 
-        photoEntity = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0);
-        assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photoEntity.url);
+        photoEntity = photoDao.getAllForAnswerWithId(testAnswerId).get(0);
+        assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photoEntity.remoteUrl);
     }
 
     @Test
     public void getByIdTest() {
-        photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
+        photoDao.getAllForAnswerWithId(testAnswerId);
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
 
-        PersistencePhoto photoEntity = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).get(0);
-        PersistencePhoto subCriteriaById = photoDao.getById(photoEntity.uid);
+        PersistencePhoto photoEntity = photoDao.getAllForAnswerWithId(testAnswerId).get(0);
+        PersistencePhoto photoById = photoDao.getById(photoEntity.uid);
 
-        assertEquals(photoEntity.url, subCriteriaById.url);
+        assertEquals(photoEntity.remoteUrl, photoById.remoteUrl);
         assertNull(photoDao.getById(123984));
     }
 
     @Test
     public void cascadeDeleteTest() {
-        photoDao.deleteAllForSubCriteriaWithId(testSubCriteriaId);
+        photoDao.deleteAllForAnswerWithId(testAnswerId);
 
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
-        photoDao.insert(RoomTestData.getTestPhotoEntity(testSubCriteriaId));
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
+        photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
 
-        List<PersistencePhoto> insertedSubCriterias = photoDao.getAllForSubCriteriaWithId(testSubCriteriaId);
+        List<PersistencePhoto> insertedSubCriterias = photoDao.getAllForAnswerWithId(testAnswerId);
         assertEquals(6, insertedSubCriterias.size());
 
-        database.getCategoryDao().deleteById(testSubCriteriaId);
+        database.getCategoryDao().deleteById(testAnswerId);
 
-        assertEquals(0, photoDao.getAllForSubCriteriaWithId(testSubCriteriaId).size());
+        assertEquals(0, photoDao.getAllForAnswerWithId(testAnswerId).size());
 
         insertedSubCriterias.forEach(standard -> assertNull(photoDao.getById(standard.uid)));
 

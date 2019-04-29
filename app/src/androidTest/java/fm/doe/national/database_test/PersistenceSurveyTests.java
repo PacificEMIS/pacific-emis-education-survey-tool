@@ -62,8 +62,9 @@ public class PersistenceSurveyTests {
         assertEquals(allSurveys.size(), 2);
         assertNotEquals(allSurveys.get(0).getId(), allSurveys.get(1).getId());
         assertEquals(allSurveys.get(1).getId(), 2);
-        assertEquals(allSurveys.get(0).getVersion(), 3);
-        assertEquals(allSurveys.get(0).getSurveyType(), SurveyType.WASH);
+        assertEquals(allSurveys.get(0).getVersion(), 1);
+        assertEquals(allSurveys.get(1).getVersion(), 3);
+        assertEquals(allSurveys.get(1).getSurveyType(), SurveyType.WASH);
     }
 
     @Test

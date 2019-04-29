@@ -3,6 +3,8 @@ package fm.doe.national.data.persistence;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+
+import fm.doe.national.data.persistence.dao.AnswerDao;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.CriteriaDao;
 import fm.doe.national.data.persistence.dao.PhotoDao;
@@ -43,4 +45,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract SubCriteriaDao getSubcriteriaDao();
 
     public abstract PhotoDao getPhotoDao();
+
+    public abstract AnswerDao getAnswerDao();
 }

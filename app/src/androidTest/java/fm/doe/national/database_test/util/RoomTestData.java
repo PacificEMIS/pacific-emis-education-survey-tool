@@ -1,13 +1,17 @@
 package fm.doe.national.database_test.util;
 
+import androidx.test.espresso.PerformException;
+
 import java.util.Date;
 
+import fm.doe.national.data.persistence.entity.PersistenceAnswer;
 import fm.doe.national.data.persistence.entity.PersistenceCategory;
 import fm.doe.national.data.persistence.entity.PersistenceCriteria;
 import fm.doe.national.data.persistence.entity.PersistencePhoto;
 import fm.doe.national.data.persistence.entity.PersistenceStandard;
 import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 import fm.doe.national.data.persistence.entity.PersistenceSurvey;
+import fm.doe.national.data.persistence.new_model.AnswerState;
 import fm.doe.national.data.persistence.new_model.SurveyType;
 
 public class RoomTestData {
@@ -36,7 +40,16 @@ public class RoomTestData {
         return new PersistenceSubCriteria("PersistenceSubCriteria One", criteriaId, "1");
     }
 
-    public static PersistencePhoto getTestPhotoEntity(long subCriteriaId) {
-        return new PersistencePhoto("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", subCriteriaId);
+    public static PersistencePhoto getTestPhotoEntity(long answerId) {
+        PersistencePhoto photo = new PersistencePhoto(answerId);
+        photo.remoteUrl = "https://avatars1.githubusercontent.com/u/28600571?s=200&v=4";
+        return photo;
+    }
+
+    public static PersistenceAnswer getTestAnswer(long subCriteriaId) {
+        PersistenceAnswer answer = new PersistenceAnswer(subCriteriaId);
+        answer.state = AnswerState.POSITIVE;
+        answer.comment = "Comment";
+        return answer;
     }
 }

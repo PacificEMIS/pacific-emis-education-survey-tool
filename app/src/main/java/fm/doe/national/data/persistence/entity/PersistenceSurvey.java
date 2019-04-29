@@ -47,7 +47,11 @@ public class PersistenceSurvey implements Survey {
 
     public PersistenceSurvey(@NonNull Survey otherSurvey) {
         uid = otherSurvey.getId();
-        schoolId = otherSurvey.getSchool().getId();
+        if (otherSurvey.getSchool() == null) {
+            schoolId = null;
+        } else {
+            schoolId = otherSurvey.getSchool().getId();
+        }
         startDate = otherSurvey.getDate();
         version = otherSurvey.getVersion();
         type = otherSurvey.getSurveyType();
