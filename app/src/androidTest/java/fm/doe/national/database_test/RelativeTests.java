@@ -20,6 +20,8 @@ import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
 import fm.doe.national.data.persistence.entity.relative.RelativePersistenceAnswer;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSubCriteria;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
@@ -100,7 +102,7 @@ public class RelativeTests {
     }
 
     @Test
-    public void testAnswerPhotos() {
+    public void testAnswerRelations() {
         database.getSurveyDao().deleteById(testSurveyId);
         fillTable();
 
@@ -110,6 +112,32 @@ public class RelativeTests {
         assertNotNull(relativePersistenceAnswer.photos);
         assertFalse(relativePersistenceAnswer.photos.isEmpty());
         assertEquals(relativePersistenceAnswer.photos.get(0).getRemotePath(), database.getPhotoDao().getById(testPhotoId).getRemotePath());
+    }
+
+    @Test
+    public void setTestSubCriteriaRelations() {
+        database.getSurveyDao().deleteById(testSurveyId);
+        fillTable();
+
+        RelativePersistenceSubCriteria relativePersistenceSubCriteria = database.getSubcriteriaDao().getFilledById(testSubCriteriaId);
+        assertNotNull(relativePersistenceSubCriteria.answers);
+        assertFalse(relativePersistenceSubCriteria.answers.isEmpty());
+        assertEquals(testAnswerId, relativePersistenceSubCriteria.answers.get(0).answer.getId());
+        assertEquals(testPhotoId, relativePersistenceSubCriteria.answers.get(0).photos.get(0).getId());
+    }
+
+    @Test
+    public void setTestCriteriaRelations() {
+        database.getSurveyDao().deleteById(testSurveyId);
+        fillTable();
+
+        RelativePersistenceCriteria relativePersistenceCriteria = database.getCriteriaDao().getFilledById(testSubCriteriaId);
+        assertNotNull(relativePersistenceCriteria.criteria);
+        assertNotNull(relativePersistenceCriteria.subCriterias);
+        assertFalse(relativePersistenceCriteria.subCriterias.isEmpty());
+        assertEquals(testSubCriteriaId, relativePersistenceCriteria.subCriterias.get(0).subCriteria.getId());
+        assertEquals(testAnswerId, relativePersistenceCriteria.subCriterias.get(0).answers.get(0).answer.getId());
+        assertEquals(testPhotoId, relativePersistenceCriteria.subCriterias.get(0).answers.get(0).photos.get(0).getId());
     }
 
 }

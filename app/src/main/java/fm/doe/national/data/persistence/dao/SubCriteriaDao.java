@@ -1,14 +1,17 @@
 package fm.doe.national.data.persistence.dao;
 
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
+
+import java.util.List;
+
 import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSubCriteria;
 
 @Dao
 public interface SubCriteriaDao {
@@ -33,4 +36,13 @@ public interface SubCriteriaDao {
 
     @Query("DELETE FROM PersistenceSubCriteria WHERE uid = :id")
     void deleteById(long id);
+
+    @Nullable
+    @Transaction
+    @Query("SELECT * FROM PersistenceSubCriteria WHERE uid = :id LIMIT 1")
+    RelativePersistenceSubCriteria getFilledById(long id);
+
+    @Transaction
+    @Query("SELECT * FROM PersistenceSubCriteria WHERE criteria_id = :criteriaId")
+    List<RelativePersistenceSubCriteria> getAllFilledForCriteriaWithId(long criteriaId);
 }
