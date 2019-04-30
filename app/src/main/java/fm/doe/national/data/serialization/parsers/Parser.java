@@ -1,4 +1,4 @@
-package fm.doe.national.data.parsers;
+package fm.doe.national.data.serialization.parsers;
 
 import java.io.InputStream;
 

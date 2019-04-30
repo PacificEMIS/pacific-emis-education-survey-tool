@@ -2,10 +2,10 @@ package fm.doe.national.data.persistence.entity;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -26,9 +26,6 @@ public class PersistenceCategory implements Category {
     @ColumnInfo(name = "survey_id")
     public long surveyId;
 
-    @Ignore
-    private List<Standard> standards;
-
     public PersistenceCategory(String title, long surveyId) {
         this.title = title;
         this.surveyId = surveyId;
@@ -40,10 +37,10 @@ public class PersistenceCategory implements Category {
         return title;
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public List<Standard> getStandards() {
-        return standards;
+    public List<? extends Standard> getStandards() {
+        return null;
     }
 
     @Override

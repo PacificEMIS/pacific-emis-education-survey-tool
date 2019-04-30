@@ -11,7 +11,7 @@ import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
-import fm.doe.national.data.serializers.Serializer;
+import fm.doe.national.data.serialization.serializers.Serializer;
 import fm.doe.national.utils.TextUtil;
 
 public class UploadWorker extends Worker {

@@ -13,7 +13,7 @@ public interface Survey extends IdentifiedObject {
     @NonNull
     SurveyType getSurveyType();
 
-    @NonNull
+    @Nullable
     Date getDate();
 
     @Nullable
@@ -22,7 +22,7 @@ public interface Survey extends IdentifiedObject {
     @Nullable
     String getSchoolId();
 
-    @NonNull
-    List<Category> getCategories();
+    @Nullable
+    List<? extends Category> getCategories();
 
 }

@@ -1,4 +1,4 @@
-package fm.doe.national.data.serializers;
+package fm.doe.national.data.serialization.serializers;
 
 public interface Serializer<T> {
     String serialize(T data);

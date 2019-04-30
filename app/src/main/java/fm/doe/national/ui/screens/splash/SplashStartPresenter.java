@@ -12,7 +12,7 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.data_source.models.School;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
-import fm.doe.national.data.parsers.Parser;
+import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.utils.Constants;
 import io.reactivex.Completable;

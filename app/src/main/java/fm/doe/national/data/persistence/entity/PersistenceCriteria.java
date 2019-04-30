@@ -1,10 +1,10 @@
 package fm.doe.national.data.persistence.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -26,9 +26,6 @@ public class PersistenceCriteria implements Criteria {
     @ColumnInfo(name = "standard_id")
     public long standardId;
 
-    @Ignore
-    private List<SubCriteria> subCriterias;
-
     public PersistenceCriteria(String title, long standardId, String suffix) {
         this.title = title;
         this.standardId = standardId;
@@ -47,10 +44,10 @@ public class PersistenceCriteria implements Criteria {
         return suffix;
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public List<SubCriteria> getSubCriterias() {
-        return subCriterias;
+    public List<? extends SubCriteria> getSubCriterias() {
+        return null;
     }
 
     @Override

@@ -5,8 +5,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
-import fm.doe.national.data.serializers.Serializer;
-import fm.doe.national.data.serializers.XmlSchoolAccreditationSerializer;
+import fm.doe.national.data.serialization.serializers.Serializer;
+import fm.doe.national.data.serialization.serializers.XmlSchoolAccreditationSerializer;
 
 @Module
 public class SerializersModule {

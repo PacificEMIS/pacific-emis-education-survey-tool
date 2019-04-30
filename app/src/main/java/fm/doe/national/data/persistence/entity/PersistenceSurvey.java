@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,14 +34,11 @@ public class PersistenceSurvey implements Survey {
     @ColumnInfo(name = "school_id")
     public String schoolId;
 
-    @Ignore
-    private List<Category> categories = new ArrayList<>();
-
     public PersistenceSurvey(int version,
                              SurveyType type,
                              @Nullable String schoolName,
                              @Nullable String schoolId,
-                             Date startDate) {
+                             @Nullable Date startDate) {
         this.version = version;
         this.type = type;
         this.schoolName = schoolName;
@@ -56,7 +51,6 @@ public class PersistenceSurvey implements Survey {
         startDate = otherSurvey.getDate();
         version = otherSurvey.getVersion();
         type = otherSurvey.getSurveyType();
-        categories = otherSurvey.getCategories();
     }
 
     @Override
@@ -70,7 +64,7 @@ public class PersistenceSurvey implements Survey {
         return type;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public Date getDate() {
         return startDate;
@@ -88,10 +82,10 @@ public class PersistenceSurvey implements Survey {
         return schoolId;
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public List<Category> getCategories() {
-        return categories;
+    public List<? extends Category> getCategories() {
+        return null;
     }
 
     @Override

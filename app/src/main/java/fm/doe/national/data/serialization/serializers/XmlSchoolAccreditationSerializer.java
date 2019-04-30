@@ -1,4 +1,4 @@
-package fm.doe.national.data.serializers;
+package fm.doe.national.data.serialization.serializers;
 
 import android.util.Log;
 
