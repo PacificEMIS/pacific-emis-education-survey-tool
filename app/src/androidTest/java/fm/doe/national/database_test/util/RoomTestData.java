@@ -1,7 +1,5 @@
 package fm.doe.national.database_test.util;
 
-import androidx.test.espresso.PerformException;
-
 import java.util.Date;
 
 import fm.doe.national.data.persistence.entity.PersistenceAnswer;
@@ -12,8 +10,8 @@ import fm.doe.national.data.persistence.entity.PersistenceSchool;
 import fm.doe.national.data.persistence.entity.PersistenceStandard;
 import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 import fm.doe.national.data.persistence.entity.PersistenceSurvey;
-import fm.doe.national.data.persistence.new_model.AnswerState;
-import fm.doe.national.data.persistence.new_model.SurveyType;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.SurveyType;
 
 public class RoomTestData {
 

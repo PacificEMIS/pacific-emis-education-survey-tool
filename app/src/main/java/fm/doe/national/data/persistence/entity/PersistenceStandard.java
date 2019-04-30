@@ -10,8 +10,8 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.new_model.Criteria;
-import fm.doe.national.data.persistence.new_model.Standard;
+import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.Standard;
 
 @Entity(foreignKeys = @ForeignKey(entity = PersistenceCategory.class, parentColumns = "uid", childColumns = "category_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("category_id")})

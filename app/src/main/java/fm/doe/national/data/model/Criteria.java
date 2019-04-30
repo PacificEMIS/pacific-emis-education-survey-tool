@@ -1,10 +1,10 @@
-package fm.doe.national.data.persistence.new_model;
+package fm.doe.national.data.model;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
 
-public interface Standard extends IdentifiedObject {
+public interface Criteria extends IdentifiedObject {
 
     @NonNull
     String getTitle();
@@ -13,5 +13,5 @@ public interface Standard extends IdentifiedObject {
     String getSuffix();
 
     @NonNull
-    List<Criteria> getCriterias();
+    List<SubCriteria> getSubCriterias();
 }

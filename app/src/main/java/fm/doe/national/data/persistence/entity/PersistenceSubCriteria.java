@@ -9,8 +9,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import fm.doe.national.data.persistence.new_model.Answer;
-import fm.doe.national.data.persistence.new_model.SubCriteria;
+import fm.doe.national.data.model.Answer;
+import fm.doe.national.data.model.SubCriteria;
 
 @Entity(foreignKeys = @ForeignKey(entity = PersistenceCriteria.class, parentColumns = "uid", childColumns = "criteria_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("criteria_id")})

@@ -4,9 +4,8 @@ import java.util.Date;
 
 import androidx.room.TypeConverter;
 
-import fm.doe.national.data.persistence.new_model.Answer;
-import fm.doe.national.data.persistence.new_model.AnswerState;
-import fm.doe.national.data.persistence.new_model.SurveyType;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.SurveyType;
 
 public class Converters {
     @TypeConverter

@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import fm.doe.national.data.persistence.new_model.School;
+import fm.doe.national.data.model.School;
 
 @Entity(indices = {@Index("uid")})
 public class PersistenceSchool implements School {

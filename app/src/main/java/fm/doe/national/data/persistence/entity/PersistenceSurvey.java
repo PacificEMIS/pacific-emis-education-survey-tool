@@ -1,21 +1,19 @@
 package fm.doe.national.data.persistence.entity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
-import fm.doe.national.data.persistence.new_model.Category;
-import fm.doe.national.data.persistence.new_model.School;
-import fm.doe.national.data.persistence.new_model.Survey;
-import fm.doe.national.data.persistence.new_model.SurveyType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.Survey;
+import fm.doe.national.data.model.SurveyType;
 
 @Entity
 public class PersistenceSurvey implements Survey {

@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import fm.doe.national.data.persistence.new_model.Photo;
+import fm.doe.national.data.model.Photo;
 
 @Entity(foreignKeys = @ForeignKey(entity = PersistenceAnswer.class, parentColumns = "uid", childColumns = "answer_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("answer_id")})

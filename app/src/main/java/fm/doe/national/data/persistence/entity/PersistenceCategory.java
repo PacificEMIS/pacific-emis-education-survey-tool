@@ -11,8 +11,8 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.new_model.Category;
-import fm.doe.national.data.persistence.new_model.Standard;
+import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.Standard;
 
 @Entity(foreignKeys = @ForeignKey(entity = PersistenceSurvey.class, parentColumns = "uid", childColumns = "survey_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("survey_id")})

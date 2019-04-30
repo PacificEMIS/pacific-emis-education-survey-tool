@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import androidx.room.Room;
@@ -17,7 +16,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.SurveyDao;
 import fm.doe.national.data.persistence.entity.PersistenceSurvey;
-import fm.doe.national.data.persistence.new_model.SurveyType;
+import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.*;

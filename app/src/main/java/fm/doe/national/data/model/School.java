@@ -1,4 +1,4 @@
-package fm.doe.national.data.persistence.new_model;
+package fm.doe.national.data.model;
 
 import androidx.annotation.NonNull;
 
