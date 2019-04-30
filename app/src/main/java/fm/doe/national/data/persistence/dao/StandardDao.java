@@ -1,14 +1,17 @@
 package fm.doe.national.data.persistence.dao;
 
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
+
+import java.util.List;
+
 import fm.doe.national.data.persistence.entity.PersistenceStandard;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceStandard;
 
 @Dao
 public interface StandardDao {
@@ -34,4 +37,13 @@ public interface StandardDao {
 
     @Query("DELETE FROM PersistenceStandard WHERE uid = :id")
     void deleteById(long id);
+
+    @Nullable
+    @Transaction
+    @Query("SELECT * FROM PersistenceStandard WHERE uid = :id LIMIT 1")
+    RelativePersistenceStandard getFilledById(long id);
+
+    @Transaction
+    @Query("SELECT * FROM PersistenceStandard WHERE category_id = :categoryId")
+    List<RelativePersistenceStandard> getAllFilledForCategoryWithId(long categoryId);
 }
