@@ -6,7 +6,7 @@ import fm.doe.national.data.model.IdentifiedObject;
 
 public class BaseMutableEntity implements Serializable, IdentifiedObject {
 
-    private long id;
+    protected long id;
 
     @Override
     public long getId() {

@@ -5,12 +5,10 @@ import androidx.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-import java.io.Serializable;
-
 import fm.doe.national.data.model.Photo;
 
 @Root(name = "photo")
-public class SerializablePhoto implements Photo, Serializable {
+public class SerializablePhoto implements Photo {
 
     @Nullable
     @Element(required = false)

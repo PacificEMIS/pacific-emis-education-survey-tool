@@ -5,13 +5,11 @@ import androidx.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-import java.io.Serializable;
-
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
 
 @Root(name = "answer")
-public class SerializableAnswer implements Answer, Serializable {
+public class SerializableAnswer implements Answer {
 
     @Element
     AnswerState state;

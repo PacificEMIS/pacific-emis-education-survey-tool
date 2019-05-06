@@ -7,14 +7,13 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-import java.io.Serializable;
 import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.SubCriteria;
 
 @Root(name = "criteria")
-public class SerializableCriteria implements Criteria, Serializable {
+public class SerializableCriteria implements Criteria {
 
     @Element
     String name;

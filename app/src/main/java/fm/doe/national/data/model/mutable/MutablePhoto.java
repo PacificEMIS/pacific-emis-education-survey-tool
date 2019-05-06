@@ -1,5 +1,6 @@
 package fm.doe.national.data.model.mutable;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import fm.doe.national.data.model.Photo;
@@ -11,6 +12,15 @@ public class MutablePhoto extends BaseMutableEntity implements Photo {
 
     @Nullable
     private String remotePath;
+
+    public MutablePhoto() {
+    }
+
+    public MutablePhoto(@NonNull Photo otherPhoto) {
+        this.id = otherPhoto.getId();
+        this.localPath = otherPhoto.getLocalPath();
+        this.remotePath = otherPhoto.getRemotePath();
+    }
 
     @Nullable
     @Override

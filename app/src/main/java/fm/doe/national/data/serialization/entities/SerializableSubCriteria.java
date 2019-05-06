@@ -6,13 +6,11 @@ import androidx.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-import java.io.Serializable;
-
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.SubCriteria;
 
 @Root(name = "subcriteria")
-public class SerializableSubCriteria implements SubCriteria, Serializable {
+public class SerializableSubCriteria implements SubCriteria {
 
     @Element
     String name;

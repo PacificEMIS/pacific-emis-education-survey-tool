@@ -8,7 +8,6 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import fm.doe.national.data.serialization.converters.SurveyTypeConverter;
 
 
 @Root(name = "survey")
-public class SerializableSurvey implements Survey, Serializable {
+public class SerializableSurvey implements Survey {
 
     @Element
     @Convert(SurveyTypeConverter.class)

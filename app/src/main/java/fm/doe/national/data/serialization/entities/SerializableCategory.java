@@ -7,14 +7,13 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-import java.io.Serializable;
 import java.util.List;
 
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Standard;
 
 @Root(name = "category")
-public class SerializableCategory implements Category, Serializable {
+public class SerializableCategory implements Category {
 
     @ElementList(inline = true)
     List<SerializableStandard> standards;

@@ -3,6 +3,7 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.SubCriteria;
 
 public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria {
@@ -12,6 +13,21 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
     private String interviewQuestions;
     private String hint;
     private MutableAnswer answer;
+
+    public MutableSubCriteria() {
+    }
+
+    public MutableSubCriteria(@NonNull SubCriteria otherSubCriteria) {
+        this.id = otherSubCriteria.getId();
+        this.suffix = otherSubCriteria.getSuffix();
+        this.title = otherSubCriteria.getTitle();
+        this.interviewQuestions = otherSubCriteria.getInterviewQuestions();
+        this.hint = otherSubCriteria.getHint();
+        Answer answer = otherSubCriteria.getAnswer();
+        if (answer != null) {
+            this.answer = new MutableAnswer(answer);
+        }
+    }
 
     @NonNull
     @Override
