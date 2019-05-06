@@ -1,5 +1,6 @@
 package fm.doe.national.data.persistence.entity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -24,6 +25,12 @@ public class PersistencePhoto implements Photo {
 
     public PersistencePhoto(long answerId) {
         this.answerId = answerId;
+    }
+
+    public PersistencePhoto(@NonNull Photo otherPhoto) {
+        this.uid = otherPhoto.getId();
+        this.localUrl = otherPhoto.getLocalPath();
+        this.remoteUrl = otherPhoto.getRemotePath();
     }
 
     @Nullable

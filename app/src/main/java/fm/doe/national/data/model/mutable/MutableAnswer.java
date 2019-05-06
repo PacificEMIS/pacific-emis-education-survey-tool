@@ -3,12 +3,11 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Photo;
+import fm.doe.national.utils.CollectionUtils;
 
 public class MutableAnswer extends BaseMutableEntity implements Answer {
 
@@ -23,15 +22,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.id = otherAnswer.getId();
         this.answerState = otherAnswer.getState();
         this.comment = otherAnswer.getComment();
-        if (otherAnswer.getPhotos() == null) {
-            return;
-        }
-
-        ArrayList<MutablePhoto> photos = new ArrayList<>();
-        for (Photo photo : otherAnswer.getPhotos()) {
-            photos.add(new MutablePhoto(photo));
-        }
-        this.photos = photos;
+        this.photos = CollectionUtils.map(otherAnswer.getPhotos(), MutablePhoto::new);
     }
 
     @Override

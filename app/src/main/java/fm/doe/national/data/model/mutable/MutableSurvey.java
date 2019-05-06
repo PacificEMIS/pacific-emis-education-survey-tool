@@ -3,13 +3,12 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
+import fm.doe.national.utils.CollectionUtils;
 
 public class MutableSurvey extends BaseMutableEntity implements Survey {
 
@@ -30,16 +29,7 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         this.date = other.getDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
-
-        if (other.getCategories() == null) {
-            return;
-        }
-
-        ArrayList<MutableCategory> categories = new ArrayList<>();
-        for (Category category : other.getCategories()) {
-            categories.add(new MutableCategory(category));
-        }
-        this.categories = categories;
+        this.categories = CollectionUtils.map(other.getCategories(), MutableCategory::new);
     }
 
     @Override

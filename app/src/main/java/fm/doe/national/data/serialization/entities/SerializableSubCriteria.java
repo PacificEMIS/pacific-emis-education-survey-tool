@@ -30,6 +30,20 @@ public class SerializableSubCriteria implements SubCriteria {
     @Element(name = "id", required = false)
     String index;
 
+    public SerializableSubCriteria() {
+    }
+
+    public SerializableSubCriteria(@NonNull SubCriteria otherSubCriteria) {
+        this.index = otherSubCriteria.getSuffix();
+        this.name = otherSubCriteria.getTitle();
+        this.interviewQuestion = otherSubCriteria.getInterviewQuestions();
+        this.hint = otherSubCriteria.getHint();
+        Answer answer = otherSubCriteria.getAnswer();
+        if (answer != null) {
+            this.answer = new SerializableAnswer(answer);
+        }
+    }
+
     @NonNull
     @Override
     public String getSuffix() {

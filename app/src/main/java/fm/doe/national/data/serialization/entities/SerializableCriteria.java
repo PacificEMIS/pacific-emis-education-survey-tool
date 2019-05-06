@@ -11,6 +11,8 @@ import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableSubCriteria;
+import fm.doe.national.utils.CollectionUtils;
 
 @Root(name = "criteria")
 public class SerializableCriteria implements Criteria {
@@ -24,6 +26,15 @@ public class SerializableCriteria implements Criteria {
     @Nullable
     @Element(name = "id", required = false)
     String index;
+
+    public SerializableCriteria() {
+    }
+
+    public SerializableCriteria(@NonNull Criteria other) {
+        this.name = other.getTitle();
+        this.index = other.getSuffix();
+        this.subCriterias = CollectionUtils.map(other.getSubCriterias(), SerializableSubCriteria::new);
+    }
 
     @NonNull
     @Override

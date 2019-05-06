@@ -46,11 +46,13 @@ public class PersistenceSurvey implements Survey {
         this.startDate = startDate;
     }
 
-    public PersistenceSurvey(@NonNull Survey otherSurvey) {
-        uid = otherSurvey.getId();
-        startDate = otherSurvey.getDate();
-        version = otherSurvey.getVersion();
-        type = otherSurvey.getSurveyType();
+    public PersistenceSurvey(@NonNull Survey other) {
+        this.uid = other.getId();
+        this.version = other.getVersion();
+        this.type = other.getSurveyType();
+        this.startDate = other.getDate();
+        this.schoolName = other.getSchoolName();
+        this.schoolId = other.getSchoolId();
     }
 
     @Override

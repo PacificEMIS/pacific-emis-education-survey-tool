@@ -3,11 +3,10 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.model.Category;
-import fm.doe.national.data.model.Standard;
+import fm.doe.national.utils.CollectionUtils;
 
 public class MutableCategory extends BaseMutableEntity implements Category {
 
@@ -17,16 +16,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
     public MutableCategory(@NonNull Category other) {
         this.id = other.getId();
         this.title = other.getTitle();
-
-        if (other.getStandards() == null) {
-            return;
-        }
-
-        ArrayList<MutableStandard> standards = new ArrayList<>();
-        for (Standard standard : other.getStandards()) {
-            standards.add(new MutableStandard(standard));
-        }
-        this.standards = standards;
+        this.standards = CollectionUtils.map(other.getStandards(), MutableStandard::new);
     }
 
     public MutableCategory() {

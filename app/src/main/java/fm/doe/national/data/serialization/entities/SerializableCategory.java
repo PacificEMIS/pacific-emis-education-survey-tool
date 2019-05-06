@@ -11,6 +11,8 @@ import java.util.List;
 
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Standard;
+import fm.doe.national.data.model.mutable.MutableStandard;
+import fm.doe.national.utils.CollectionUtils;
 
 @Root(name = "category")
 public class SerializableCategory implements Category {
@@ -20,6 +22,14 @@ public class SerializableCategory implements Category {
 
     @Element
     String name;
+
+    public SerializableCategory(@NonNull Category other) {
+        this.name = other.getTitle();
+        this.standards = CollectionUtils.map(other.getStandards(), SerializableStandard::new);
+    }
+
+    public SerializableCategory() {
+    }
 
     @NonNull
     @Override

@@ -12,6 +12,10 @@ import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.model.SurveyType;
+import fm.doe.national.data.model.mutable.MutableCategory;
+import fm.doe.national.data.model.mutable.MutableCriteria;
+import fm.doe.national.data.model.mutable.MutableStandard;
+import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.data.serialization.entities.SerializableSurvey;
 import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.data.serialization.parsers.XmlSurveyParser;
@@ -62,6 +66,33 @@ public class SerializationTests {
         assertEquals("Teaching and learning", standard.getTitle());
         assertEquals(4, standard.getCriterias().size());
         Criteria criteria = standard.getCriterias().get(0);
+        assertEquals("CO3.1", criteria.getSuffix());
+        assertFalse(criteria.getSubCriterias().isEmpty());
+    }
+
+    @Test
+    public void testSurveyInMutableState() {
+        SerializableSurvey survey;
+        try {
+            survey = PARSER.parse(openSurveyFile());
+            assertNotNull(survey);
+        } catch (Parser.ParseException exception) {
+            fail();
+            return;
+        }
+        MutableSurvey mutableSurvey = new MutableSurvey(survey);
+
+        assertEquals(SurveyType.SCHOOL_ACCREDITATION, mutableSurvey.getSurveyType());
+        assertEquals(1, mutableSurvey.getVersion());
+        assertEquals(4, mutableSurvey.getCategories().size());
+        MutableCategory category = mutableSurvey.getCategories().get(3);
+        assertEquals("Classroom Observation", category.getTitle());
+        assertEquals(5, category.getStandards().size());
+        MutableStandard standard = category.getStandards().get(2);
+        assertEquals("CO3", standard.getSuffix());
+        assertEquals("Teaching and learning", standard.getTitle());
+        assertEquals(4, standard.getCriterias().size());
+        MutableCriteria criteria = standard.getCriterias().get(0);
         assertEquals("CO3.1", criteria.getSuffix());
         assertFalse(criteria.getSubCriterias().isEmpty());
     }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.Standard;
+import fm.doe.national.utils.CollectionUtils;
 
 @Root(name = "standard")
 public class SerializableStandard implements Standard {
@@ -25,6 +26,15 @@ public class SerializableStandard implements Standard {
     @Nullable
     @Element(name = "id", required = false)
     String index;
+
+    public SerializableStandard() {
+    }
+
+    public SerializableStandard(@NonNull Standard other) {
+        this.name = other.getTitle();
+        this.index = other.getSuffix();
+        this.criterias = CollectionUtils.map(other.getCriterias(), SerializableCriteria::new);
+    }
 
     @NonNull
     @Override

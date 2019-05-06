@@ -31,6 +31,11 @@ public class PersistenceCategory implements Category {
         this.surveyId = surveyId;
     }
 
+    public PersistenceCategory(@NonNull Category other) {
+        this.uid = other.getId();
+        this.title = other.getTitle();
+    }
+
     @NonNull
     @Override
     public String getTitle() {

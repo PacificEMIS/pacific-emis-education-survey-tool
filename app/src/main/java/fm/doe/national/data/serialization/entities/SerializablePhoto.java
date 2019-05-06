@@ -1,5 +1,6 @@
 package fm.doe.national.data.serialization.entities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.simpleframework.xml.Element;
@@ -17,6 +18,14 @@ public class SerializablePhoto implements Photo {
     @Nullable
     @Element(required = false)
     String remotePath;
+
+    public SerializablePhoto() {
+    }
+
+    public SerializablePhoto(@NonNull Photo otherPhoto) {
+        this.localPath = otherPhoto.getLocalPath();
+        this.remotePath = otherPhoto.getRemotePath();
+    }
 
     @Nullable
     @Override

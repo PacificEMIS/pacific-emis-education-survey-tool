@@ -3,11 +3,10 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.utils.CollectionUtils;
 
 public class MutableCriteria extends BaseMutableEntity implements Criteria {
 
@@ -22,16 +21,7 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.id = other.getId();
         this.title = other.getTitle();
         this.suffix = other.getSuffix();
-
-        if (other.getSubCriterias() == null) {
-            return;
-        }
-
-        ArrayList<MutableSubCriteria> subCriterias = new ArrayList<>();
-        for (SubCriteria subCriteria : other.getSubCriterias()) {
-            subCriterias.add(new MutableSubCriteria(subCriteria));
-        }
-        this.subCriteriaList = subCriterias;
+        this.subCriteriaList = CollectionUtils.map(other.getSubCriterias(), MutableSubCriteria::new);
     }
 
     @NonNull

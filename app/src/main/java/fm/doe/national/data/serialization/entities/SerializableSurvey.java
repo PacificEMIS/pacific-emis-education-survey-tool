@@ -15,6 +15,7 @@ import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.serialization.converters.SurveyTypeConverter;
+import fm.doe.national.utils.CollectionUtils;
 
 
 @Root(name = "survey")
@@ -41,6 +42,18 @@ public class SerializableSurvey implements Survey {
 
     @ElementList(inline = true)
     List<SerializableCategory> categories;
+
+    public SerializableSurvey() {
+    }
+
+    public SerializableSurvey(@NonNull Survey other) {
+        this.version = other.getVersion();
+        this.type = other.getSurveyType();
+        this.date = other.getDate();
+        this.schoolName = other.getSchoolName();
+        this.schoolId = other.getSchoolId();
+        this.categories = CollectionUtils.map(other.getCategories(), SerializableCategory::new);
+    }
 
     @Override
     public int getVersion() {

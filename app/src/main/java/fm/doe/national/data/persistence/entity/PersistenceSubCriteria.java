@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -29,10 +28,6 @@ public class PersistenceSubCriteria implements SubCriteria {
     @Nullable
     public String hint;
 
-    @Ignore
-    @Nullable
-    private Answer answer;
-
     @ColumnInfo(name = "criteria_id")
     public long criteriaId;
 
@@ -40,6 +35,14 @@ public class PersistenceSubCriteria implements SubCriteria {
         this.title = title;
         this.criteriaId = criteriaId;
         this.suffix = suffix;
+    }
+
+    public PersistenceSubCriteria(@NonNull SubCriteria otherSubCriteria) {
+        this.uid = otherSubCriteria.getId();
+        this.suffix = otherSubCriteria.getSuffix();
+        this.title = otherSubCriteria.getTitle();
+        this.interviewQuestion = otherSubCriteria.getInterviewQuestions();
+        this.hint = otherSubCriteria.getHint();
     }
 
     @NonNull
@@ -69,7 +72,7 @@ public class PersistenceSubCriteria implements SubCriteria {
     @Nullable
     @Override
     public Answer getAnswer() {
-        return answer;
+        return null;
     }
 
     @Override

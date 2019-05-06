@@ -32,6 +32,12 @@ public class PersistenceStandard implements Standard {
         this.suffix = suffix;
     }
 
+    public PersistenceStandard(@NonNull Standard other) {
+        this.uid = other.getId();
+        this.title = other.getTitle();
+        this.suffix = other.getSuffix();
+    }
+
     @NonNull
     @Override
     public String getTitle() {

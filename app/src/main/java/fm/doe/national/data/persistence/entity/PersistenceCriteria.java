@@ -32,6 +32,12 @@ public class PersistenceCriteria implements Criteria {
         this.suffix = suffix;
     }
 
+    public PersistenceCriteria(@NonNull Criteria other) {
+        this.uid = other.getId();
+        this.title = other.getTitle();
+        this.suffix = other.getSuffix();
+    }
+
     @NonNull
     @Override
     public String getTitle() {
