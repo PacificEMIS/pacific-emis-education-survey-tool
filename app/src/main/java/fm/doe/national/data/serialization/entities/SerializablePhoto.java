@@ -26,20 +26,10 @@ public class SerializablePhoto implements Photo, Serializable {
         return localPath;
     }
 
-    @Override
-    public void setLocalPath(@Nullable String path) {
-        this.localPath = path;
-    }
-
     @Nullable
     @Override
     public String getRemotePath() {
         return remotePath;
-    }
-
-    @Override
-    public void setRemotePath(@Nullable String remotePath) {
-        this.remotePath = remotePath;
     }
 
     @Override

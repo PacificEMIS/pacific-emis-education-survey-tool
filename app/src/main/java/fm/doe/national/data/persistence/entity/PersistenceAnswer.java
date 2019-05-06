@@ -34,20 +34,10 @@ public class PersistenceAnswer implements Answer {
         return null;
     }
 
-    @Override
-    public void setState(AnswerState state) {
-        this.state = state;
-    }
-
     @Nullable
     @Override
     public String getComment() {
         return comment;
-    }
-
-    @Override
-    public void setComment(@Nullable String comment) {
-        this.comment = comment;
     }
 
     @Override

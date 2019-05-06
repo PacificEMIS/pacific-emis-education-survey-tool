@@ -32,20 +32,10 @@ public class PersistencePhoto implements Photo {
         return localUrl;
     }
 
-    @Override
-    public void setLocalPath(@Nullable String path) {
-        localUrl = path;
-    }
-
     @Nullable
     @Override
     public String getRemotePath() {
         return remoteUrl;
-    }
-
-    @Override
-    public void setRemotePath(@Nullable String remotePath) {
-        remoteUrl = remotePath;
     }
 
     @Override

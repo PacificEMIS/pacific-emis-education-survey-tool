@@ -15,4 +15,5 @@ public interface Criteria extends IdentifiedObject {
 
     @Nullable
     List<? extends SubCriteria> getSubCriterias();
+
 }

@@ -1,6 +1,8 @@
 package fm.doe.national.data.model;
 
-public interface IdentifiedObject {
+import java.io.Serializable;
+
+public interface IdentifiedObject extends Serializable {
 
     long getId();
 
