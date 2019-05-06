@@ -9,8 +9,8 @@ import java.util.List;
 import de.siegmar.fastcsv.reader.CsvParser;
 import de.siegmar.fastcsv.reader.CsvReader;
 import de.siegmar.fastcsv.reader.CsvRow;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.db.OrmLiteSchool;
+import fm.doe.national.data.model.School;
+import fm.doe.national.data.persistence.entity.PersistenceSchool;
 
 public class CsvSchoolParser implements Parser<List<School>> {
 
@@ -35,7 +35,7 @@ public class CsvSchoolParser implements Parser<List<School>> {
                 String name = row.getField(Column.NAME);
 
                 if (schoolNumber != null && name != null) {
-                    schoolList.add(new OrmLiteSchool(schoolNumber, name));
+                    schoolList.add(new PersistenceSchool(schoolNumber, name));
                 }
             }
         } catch (IOException e) {

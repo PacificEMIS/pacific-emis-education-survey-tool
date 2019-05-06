@@ -8,6 +8,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSurvey;
 import fm.doe.national.utils.CollectionUtils;
 
 public class MutableSurvey extends BaseMutableEntity implements Survey {
@@ -30,6 +31,11 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
         this.categories = CollectionUtils.map(other.getCategories(), MutableCategory::new);
+    }
+
+    public MutableSurvey(@NonNull RelativePersistenceSurvey relativePersistenceSurvey) {
+        this(relativePersistenceSurvey.survey);
+        categories = CollectionUtils.map(relativePersistenceSurvey.categories, MutableCategory::new);
     }
 
     @Override

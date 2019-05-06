@@ -16,14 +16,13 @@ import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudPreferences;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
 import fm.doe.national.data.files.PicturesRepository;
+import fm.doe.national.data.model.School;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.data.serialization.serializers.Serializer;
 import fm.doe.national.di.modules.CloudModule;
 import fm.doe.national.di.modules.ContextModule;
-import fm.doe.national.di.modules.DatabaseHelperModule;
 import fm.doe.national.di.modules.GsonModule;
 import fm.doe.national.di.modules.InteractorsModule;
 import fm.doe.national.di.modules.LifecycleModule;
@@ -37,7 +36,6 @@ import fm.doe.national.utils.LifecycleListener;
 @Singleton
 @Component(modules = {
         ContextModule.class,
-        DatabaseHelperModule.class,
         LocalDataSourceModule.class,
         GsonModule.class,
         CloudModule.class,
@@ -47,9 +45,9 @@ import fm.doe.national.utils.LifecycleListener;
         LifecycleModule.class,
         InteractorsModule.class})
 public interface AppComponent {
-    Parser<LinkedSchoolAccreditation> getSchoolAccreditationParser();
+    Parser<Survey> getSchoolAccreditationParser();
     Parser<List<School>> getSchoolsParser();
-    Serializer<LinkedSchoolAccreditation> getSchoolAccreditationSerizlizer();
+    Serializer<Survey> getSchoolAccreditationSerizlizer();
     Persister getPersister();
 
     SharedPreferences getSharedPreferences();

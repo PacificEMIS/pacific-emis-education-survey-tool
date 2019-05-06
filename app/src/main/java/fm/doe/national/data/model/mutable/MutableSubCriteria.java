@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSubCriteria;
 
 public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria {
 
@@ -26,6 +27,13 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
         Answer answer = otherSubCriteria.getAnswer();
         if (answer != null) {
             this.answer = new MutableAnswer(answer);
+        }
+    }
+
+    public MutableSubCriteria(@NonNull RelativePersistenceSubCriteria other) {
+        this(other.subCriteria);
+        if (other.answers != null && !other.answers.isEmpty()) {
+            this.answer = new MutableAnswer(other.answers.get(0));
         }
     }
 

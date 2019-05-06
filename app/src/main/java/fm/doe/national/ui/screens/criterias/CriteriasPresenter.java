@@ -2,6 +2,8 @@ package fm.doe.national.ui.screens.criterias;
 
 import android.util.LongSparseArray;
 
+import androidx.annotation.Nullable;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
 
@@ -11,17 +13,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.Nullable;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.Standard;
-import fm.doe.national.data.data_source.models.SubCriteria;
 import fm.doe.national.data.files.PicturesRepository;
+import fm.doe.national.data.model.Answer;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Standard;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -56,22 +56,21 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         load(standardId);
     }
 
-    public void onSubCriteriaStateChanged(SubCriteria subCriteria, Answer.State previousState) {
-        Answer answer = subCriteria.getAnswer();
-
-        CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
-        categoryProgress.recalculate(previousState, answer.getState());
+    public void onSubCriteriaStateChanged(SubCriteria subCriteria, AnswerState previousState) {
+//        Answer answer = subCriteria.getAnswer();
+//
+//        CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
+//        categoryProgress.recalculate(previousState, answer.getState());
 
         updateProgress();
-
         subCriteriaChangeSubjects.get(subCriteria.getId()).onNext(subCriteria);
     }
 
     private void updateProgress() {
-        CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
-        getViewState().setProgress(
-                categoryProgress.getAnsweredQuestionsCount(),
-                categoryProgress.getTotalQuestionsCount());
+//        CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
+//        getViewState().setProgress(
+//                categoryProgress.getAnsweredQuestionsCount(),
+//                categoryProgress.getTotalQuestionsCount());
     }
 
     public void onNextPressed() {

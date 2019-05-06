@@ -1,50 +1,32 @@
 package fm.doe.national.data.data_source;
 
-
-import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.Category;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.data.data_source.models.Standard;
-import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
+import fm.doe.national.data.model.Answer;
+import fm.doe.national.data.model.Photo;
+import fm.doe.national.data.model.School;
+import fm.doe.national.data.model.Survey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface DataSource {
 
-    Completable updateSchools(List<School> schoolList);
+    Single<List<? extends School>> loadSchools();
 
-    Single<List<School>> requestSchools();
+    Completable createSchools(List<School> schools);
 
-    Single<Answer> updateAnswer(long passingId, long subCriteriaId, Answer answer);
+    Single<? extends Survey> loadFullSurvey(Survey survey);
 
-    Completable createSchoolAccreditation(LinkedSchoolAccreditation schoolAccreditation);
+    Single<List<? extends Survey>> loadAllSurveys();
 
-    Single<LinkedSchoolAccreditation> requestLinkedSchoolAccreditation(long passingId);
+    Single<? extends Survey> createSurvey(Survey survey);
 
-    Single<SchoolAccreditationPassing> createNewSchoolAccreditationPassing(Date startDate, School school);
+    Completable deleteSurvey(Survey survey);
 
-    Single<List<SchoolAccreditationPassing>> requestSchoolAccreditationPassings();
+    Single<? extends Answer> createOrUpdateAnswer(Answer answer, long subCriteriaId);
 
-    Completable removeSchoolAccreditationPassing(long passingId);
+    Single<? extends Photo> createOrUpdatePhoto(Photo photo, long answerId);
 
-    Single<SchoolAccreditationPassing> requestSchoolAccreditationPassing(long passingId);
+    Completable deletePhoto(Photo photo);
 
-    Single<List<Category>> requestCategories(long passingId);
-
-    Single<Standard> requestStandard(long passingId, long standardId);
-
-    Single<List<Standard>> requestStandards(long passingId);
-
-    Single<List<Standard>> requestStandards(long passingId, long categoryId);
-
-    Single<List<Criteria>> requestCriterias(long passingId, long standardId);
-
-    Single<Category> requestCategoryOfStandard(long passingId, Standard standard);
-
-    Single<Answer> requestAnswer(long passingId, long subCriteriaId);
 }

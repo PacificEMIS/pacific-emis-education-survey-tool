@@ -7,15 +7,16 @@ import java.io.Reader;
 import java.io.StringReader;
 
 import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.serialization.entities.SerializableSurvey;
 import fm.doe.national.utils.StreamUtils;
 
-public class XmlSurveyParser implements Parser<SerializableSurvey> {
+public class XmlSurveyParser implements Parser<Survey> {
 
     private final Persister serializer = MicronesiaApplication.getAppComponent().getPersister();
 
     @Override
-    public SerializableSurvey parse(InputStream dataStream) throws ParseException {
+    public Survey parse(InputStream dataStream) throws ParseException {
         SerializableSurvey serializableSurvey;
         try {
             Reader reader = new StringReader(StreamUtils.asString(dataStream));

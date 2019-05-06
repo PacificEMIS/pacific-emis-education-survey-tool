@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCriteria;
 import fm.doe.national.utils.CollectionUtils;
 
 public class MutableCriteria extends BaseMutableEntity implements Criteria {
@@ -22,6 +23,11 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.title = other.getTitle();
         this.suffix = other.getSuffix();
         this.subCriteriaList = CollectionUtils.map(other.getSubCriterias(), MutableSubCriteria::new);
+    }
+
+    public MutableCriteria(@NonNull RelativePersistenceCriteria other) {
+        this(other.criteria);
+        this.subCriteriaList = CollectionUtils.map(other.subCriterias, MutableSubCriteria::new);
     }
 
     @NonNull

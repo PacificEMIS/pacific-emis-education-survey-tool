@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import fm.doe.national.data.model.Standard;
+import fm.doe.national.data.persistence.entity.relative.RelativePersistenceStandard;
 import fm.doe.national.utils.CollectionUtils;
 
 public class MutableStandard extends BaseMutableEntity implements Standard {
@@ -22,6 +23,11 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         this.title = other.getTitle();
         this.suffix = other.getSuffix();
         this.criterias = CollectionUtils.map(other.getCriterias(), MutableCriteria::new);
+    }
+
+    public MutableStandard(@NonNull RelativePersistenceStandard other) {
+        this(other.standard);
+        this.criterias = CollectionUtils.map(other.criterias, MutableCriteria::new);
     }
 
     @NonNull
