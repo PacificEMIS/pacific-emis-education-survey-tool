@@ -30,12 +30,16 @@ public interface DataSource {
 
     Single<MutableSurvey> createSurvey(String schoolId, String schoolName, Date date);
 
-    Completable deleteSurvey(Survey survey);
+    Completable deleteSurvey(long surveyId);
 
-    Single<MutableAnswer> createOrUpdateAnswer(Answer answer, long subCriteriaId);
+    Single<MutableAnswer> updateAnswer(Answer answer, long subCriteriaId);
 
-    Single<MutablePhoto> createOrUpdatePhoto(Photo photo, long answerId);
+    Single<MutablePhoto> createPhoto(Photo photo, long answerId);
 
-    Completable deletePhoto(Photo photo);
+    Completable deletePhoto(long photoId);
+
+    Completable clearDynamicData();
+
+    void closeConnections();
 
 }

@@ -32,6 +32,6 @@ public interface PhotoDao {
     @Query("DELETE FROM PersistencePhoto WHERE answer_id = :answerId")
     void deleteAllForAnswerWithId(long answerId);
 
-    @Query("DELETE FROM PersistenceSubCriteria WHERE uid = :id")
+    @Query("DELETE FROM PersistencePhoto WHERE uid = :id")
     void deleteById(long id);
 }

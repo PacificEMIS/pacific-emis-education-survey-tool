@@ -212,7 +212,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .flatMapSingle(changedSubCriteria ->
-                                dataSource.createOrUpdateAnswer(changedSubCriteria.getAnswer(), changedSubCriteria.getId()))
+                                dataSource.updateAnswer(changedSubCriteria.getAnswer(), changedSubCriteria.getId()))
                         .subscribe(answer -> cloudUploader.scheduleUploading(passingId), this::handleError));
             }
         }
@@ -264,7 +264,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     private void updateAnswer(long passingId, long subCriteriaId, Answer answer) {
-        addDisposable(dataSource.createOrUpdateAnswer(answer, subCriteriaId)
+        addDisposable(dataSource.updateAnswer(answer, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(updatedAnswer -> cloudUploader.scheduleUploading(passingId), this::handleError));

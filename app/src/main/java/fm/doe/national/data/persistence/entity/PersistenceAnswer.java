@@ -31,6 +31,7 @@ public class PersistenceAnswer implements Answer {
 
     public PersistenceAnswer(long subCriteriaId) {
         this.subCriteriaId = subCriteriaId;
+        this.state = AnswerState.NOT_ANSWERED;
     }
 
     public PersistenceAnswer(@NonNull Answer otherAnswer) {
@@ -41,7 +42,7 @@ public class PersistenceAnswer implements Answer {
 
     @Override
     public AnswerState getState() {
-        return null;
+        return state;
     }
 
     @Nullable

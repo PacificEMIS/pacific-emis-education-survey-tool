@@ -64,7 +64,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     }
 
     public void onSurveyDeletionConfirmed() {
-        addDisposable(dataSource.deleteSurvey(passingToDelete)
+        addDisposable(dataSource.deleteSurvey(passingToDelete.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> getViewState().removeSurveyPassing(passingToDelete), this::handleError));

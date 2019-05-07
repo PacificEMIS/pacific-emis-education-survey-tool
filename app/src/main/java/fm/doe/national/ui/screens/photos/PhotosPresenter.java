@@ -31,7 +31,7 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
         // TODO: fixme
 //        answer.getPhotos().remove(photo);
 //        getViewState().showPhotos(answer.getPhotos());
-        addDisposable(dataSource.createOrUpdateAnswer(answer, subCriteriaId)
+        addDisposable(dataSource.updateAnswer(answer, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((answer) -> cloudUploader.scheduleUploading(passingId), this::handleError));

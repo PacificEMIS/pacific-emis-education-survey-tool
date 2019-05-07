@@ -55,6 +55,12 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
+    public void closeConnections() {
+        dynamicDatabase.close();
+        staticDatabase.close();
+    }
+
+    @Override
     public Single<List<PersistenceSchool>> loadSchools() {
         return Single.fromCallable(staticDatabase.getSchoolDao()::getAll);
     }
@@ -74,57 +80,77 @@ public class RoomDataSource implements DataSource {
     public Completable rewriteStaticSurvey(Survey survey) {
         return Completable.fromAction(() -> {
             staticDatabase.getSurveyDao().deleteAll();
-            saveSurvey(staticDatabase, survey);
+            saveSurvey(staticDatabase, survey, false);
         });
     }
 
-    private long saveSurvey(AppDatabase database, Survey survey) {
+    private long saveSurvey(AppDatabase database, Survey survey, boolean shouldCreateAnswers) {
         PersistenceSurvey persistenceSurvey = new PersistenceSurvey(survey);
+        persistenceSurvey.uid = 0;
         long id = database.getSurveyDao().insert(persistenceSurvey);
         if (survey.getCategories() != null) {
-            saveCategories(database, survey.getCategories(), id);
+            saveCategories(database, survey.getCategories(), id, shouldCreateAnswers);
         }
         return id;
     }
 
-    private void saveCategories(AppDatabase database, List<? extends Category> categories, long surveyId) {
+    private void saveCategories(AppDatabase database,
+                                List<? extends Category> categories,
+                                long surveyId,
+                                boolean shouldCreateAnswers) {
         for (Category category : categories) {
             PersistenceCategory persistenceCategory = new PersistenceCategory(category);
+            persistenceCategory.uid = 0;
             persistenceCategory.surveyId = surveyId;
             long id = database.getCategoryDao().insert(persistenceCategory);
             if (category.getStandards() != null) {
-                saveStandards(database, category.getStandards(), id);
+                saveStandards(database, category.getStandards(), id, shouldCreateAnswers);
             }
         }
     }
 
-    private void saveStandards(AppDatabase database, List<? extends Standard> standards, long categoryId) {
+    private void saveStandards(AppDatabase database,
+                               List<? extends Standard> standards,
+                               long categoryId,
+                               boolean shouldCreateAnswers) {
         for (Standard standard : standards) {
             PersistenceStandard persistenceStandard = new PersistenceStandard(standard);
+            persistenceStandard.uid = 0;
             persistenceStandard.categoryId = categoryId;
             long id = database.getStandardDao().insert(persistenceStandard);
             if (standard.getCriterias() != null) {
-                saveCriterias(database, standard.getCriterias(), id);
+                saveCriterias(database, standard.getCriterias(), id, shouldCreateAnswers);
             }
         }
     }
 
-    private void saveCriterias(AppDatabase database, List<? extends Criteria> criterias, long standardId) {
+    private void saveCriterias(AppDatabase database,
+                               List<? extends Criteria> criterias,
+                               long standardId,
+                               boolean shouldCreateAnswers) {
         for (Criteria criteria : criterias) {
             PersistenceCriteria persistenceCriteria = new PersistenceCriteria(criteria);
+            persistenceCriteria.uid = 0;
             persistenceCriteria.standardId = standardId;
             long id = database.getCriteriaDao().insert(persistenceCriteria);
             if (criteria.getSubCriterias() != null) {
-                saveSubCriterias(database, criteria.getSubCriterias(), id);
+                saveSubCriterias(database, criteria.getSubCriterias(), id, shouldCreateAnswers);
             }
         }
     }
 
-    private void saveSubCriterias(AppDatabase database, List<? extends SubCriteria> subCriterias, long criteriaId) {
+    private void saveSubCriterias(AppDatabase database,
+                                  List<? extends SubCriteria> subCriterias,
+                                  long criteriaId,
+                                  boolean shouldCreateAnswers) {
         for (SubCriteria subCriteria : subCriterias) {
             PersistenceSubCriteria persistenceSubCriteria = new PersistenceSubCriteria(subCriteria);
+            persistenceSubCriteria.uid = 0;
             persistenceSubCriteria.criteriaId = criteriaId;
-            database.getSubcriteriaDao().insert(persistenceSubCriteria);
+            long id = database.getSubcriteriaDao().insert(persistenceSubCriteria);
+            if (shouldCreateAnswers) {
+                database.getAnswerDao().insert(new PersistenceAnswer(id));
+            }
         }
     }
 
@@ -152,49 +178,34 @@ public class RoomDataSource implements DataSource {
     public Single<MutableSurvey> createSurvey(String schoolId, String schoolName, Date date) {
         return getStaticSurvey()
                 .flatMap(mutableSurvey -> {
+                    mutableSurvey.setId(0);
                     mutableSurvey.setSchoolName(schoolName);
                     mutableSurvey.setSchoolId(schoolId);
                     mutableSurvey.setDate(date);
-                    long id = saveSurvey(dynamicDatabase, mutableSurvey);
+                    long id = saveSurvey(dynamicDatabase, mutableSurvey, true);
                     return loadFullSurvey(id);
                 });
     }
 
     @Override
-    public Completable deleteSurvey(Survey survey) {
-        return Completable.fromAction(() -> surveyDao.deleteById(survey.getId()));
+    public Completable deleteSurvey(long surveyId) {
+        return Completable.fromAction(() -> surveyDao.deleteById(surveyId));
     }
 
     @Override
-    public Single<MutableAnswer> createOrUpdateAnswer(Answer answer, long subCriteriaId) {
+    public Single<MutableAnswer> updateAnswer(Answer answer, long subCriteriaId) {
         return Single.fromCallable(() -> {
             PersistenceAnswer existingAnswer = answerDao.getAllForSubCriteriaWithId(subCriteriaId).get(0);
-
-            if (existingAnswer != null) {
-                existingAnswer.comment = answer.getComment();
-                existingAnswer.state = answer.getState();
-                answerDao.update(existingAnswer);
-                return new MutableAnswer(answerDao.getFilledById(existingAnswer.uid));
-            }
-
-            PersistenceAnswer persistenceAnswer = new PersistenceAnswer(answer);
-            persistenceAnswer.subCriteriaId = subCriteriaId;
-            long answerId = answerDao.insert(persistenceAnswer);
-            return new MutableAnswer(answerDao.getFilledById(answerId));
+            existingAnswer.comment = answer.getComment();
+            existingAnswer.state = answer.getState();
+            answerDao.update(existingAnswer);
+            return new MutableAnswer(answerDao.getFilledById(existingAnswer.uid));
         });
     }
 
     @Override
-    public Single<MutablePhoto> createOrUpdatePhoto(Photo photo, long answerId) {
+    public Single<MutablePhoto> createPhoto(Photo photo, long answerId) {
         return Single.fromCallable(() -> {
-            PersistencePhoto existingPhoto = photoDao.getById(photo.getId());
-            if (existingPhoto != null && existingPhoto.answerId == answerId) {
-                existingPhoto.localUrl = photo.getLocalPath();
-                existingPhoto.remoteUrl = photo.getRemotePath();
-                photoDao.update(existingPhoto);
-                return new MutablePhoto(photoDao.getById(existingPhoto.uid));
-            }
-
             PersistencePhoto persistencePhoto = new PersistencePhoto(photo);
             persistencePhoto.answerId = answerId;
             long photoId = photoDao.insert(persistencePhoto);
@@ -203,7 +214,12 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Completable deletePhoto(Photo photo) {
-        return Completable.fromAction(() -> photoDao.deleteById(photo.getId()));
+    public Completable deletePhoto(long photoId) {
+        return Completable.fromAction(() -> photoDao.deleteById(photoId));
+    }
+
+    @Override
+    public Completable clearDynamicData() {
+        return Completable.fromAction(surveyDao::deleteAll);
     }
 }
