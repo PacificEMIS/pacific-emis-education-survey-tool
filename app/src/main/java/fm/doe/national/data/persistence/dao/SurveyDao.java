@@ -17,7 +17,7 @@ import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSurve
 public interface SurveyDao {
 
     @Insert
-    void insert(PersistenceSurvey survey);
+    long insert(PersistenceSurvey survey);
 
     @Update
     void update(PersistenceSurvey survey);
@@ -42,5 +42,10 @@ public interface SurveyDao {
     @Transaction
     @Query("SELECT * FROM PersistenceSurvey WHERE uid = :id LIMIT 1")
     RelativePersistenceSurvey getFilledById(long id);
+
+    @Nullable
+    @Transaction
+    @Query("SELECT * FROM PersistenceSurvey LIMIT 1")
+    RelativePersistenceSurvey getFirstFilled();
 
 }

@@ -18,7 +18,7 @@ import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCateg
 public interface CategoryDao {
 
     @Insert
-    void insert(PersistenceCategory category);
+    long insert(PersistenceCategory category);
 
     @Update
     void update(PersistenceCategory category);

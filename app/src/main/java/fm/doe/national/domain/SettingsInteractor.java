@@ -32,9 +32,8 @@ public class SettingsInteractor {
 
     public Completable importSurvey(CloudType type) {
         return cloudRepository.requestContent(type)
-                .flatMap(content -> localDataRepository.createSurvey(
-                        surveyParser.parse(new ByteArrayInputStream(content.getBytes()))))
-                .ignoreElement();
+                .flatMapCompletable(content -> localDataRepository.rewriteStaticSurvey(
+                        surveyParser.parse(new ByteArrayInputStream(content.getBytes()))));
     }
 
     public Completable selectExportFolder(CloudType type) {

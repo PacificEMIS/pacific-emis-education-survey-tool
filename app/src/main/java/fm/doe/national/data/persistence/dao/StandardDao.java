@@ -17,7 +17,7 @@ import fm.doe.national.data.persistence.entity.relative.RelativePersistenceStand
 public interface StandardDao {
 
     @Insert
-    void insert(PersistenceStandard category);
+    long insert(PersistenceStandard category);
 
     @Update
     void update(PersistenceStandard category);

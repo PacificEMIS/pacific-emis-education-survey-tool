@@ -1,5 +1,6 @@
 package fm.doe.national.data.data_source;
 
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.model.Answer;
@@ -19,11 +20,15 @@ public interface DataSource {
 
     Completable rewriteSchools(List<School> schools);
 
+    Completable rewriteStaticSurvey(Survey survey);
+
+    Single<MutableSurvey> getStaticSurvey();
+
     Single<MutableSurvey> loadFullSurvey(long surveyId);
 
     Single<List<MutableSurvey>> loadAllSurveys();
 
-    Single<MutableSurvey> createSurvey(Survey survey);
+    Single<MutableSurvey> createSurvey(String schoolId, String schoolName, Date date);
 
     Completable deleteSurvey(Survey survey);
 

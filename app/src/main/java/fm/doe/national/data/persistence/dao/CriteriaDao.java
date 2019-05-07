@@ -16,7 +16,7 @@ import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCrite
 @Dao
 public interface CriteriaDao {
     @Insert
-    void insert(PersistenceCriteria criteria);
+    long insert(PersistenceCriteria criteria);
 
     @Update
     void update(PersistenceCriteria criteria);

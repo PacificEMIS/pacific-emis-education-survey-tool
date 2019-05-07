@@ -35,7 +35,7 @@ public class CsvSchoolParser implements Parser<List<School>> {
                 String name = row.getField(Column.NAME);
 
                 if (schoolNumber != null && name != null) {
-                    schoolList.add(new PersistenceSchool(schoolNumber, name));
+                    schoolList.add(new PersistenceSchool(name, schoolNumber));
                 }
             }
         } catch (IOException e) {

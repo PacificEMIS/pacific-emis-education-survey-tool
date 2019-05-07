@@ -10,7 +10,6 @@ import java.util.List;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.School;
-import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.utils.CollectionUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -46,11 +45,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     public void onSchoolPicked(School school) {
-        MutableSurvey survey = new MutableSurvey();
-        survey.setDate(surveyStartDate);
-        survey.setSchoolId(school.getSuffix());
-        survey.setSchoolName(school.getSuffix());
-        addDisposable(dataSource.createSurvey(survey)
+        addDisposable(dataSource.createSurvey(school.getSuffix(), school.getName(), surveyStartDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
