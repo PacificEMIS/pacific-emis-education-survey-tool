@@ -16,10 +16,10 @@ import fm.doe.national.data.persistence.entity.relative.RelativePersistenceAnswe
 @Dao
 public interface AnswerDao {
     @Insert
-    PersistenceAnswer insert(PersistenceAnswer answer);
+    long insert(PersistenceAnswer answer);
 
     @Update
-    PersistenceAnswer update(PersistenceAnswer answer);
+    void update(PersistenceAnswer answer);
 
     @Delete
     void delete(PersistenceAnswer answer);

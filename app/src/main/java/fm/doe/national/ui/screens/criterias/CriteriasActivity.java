@@ -6,16 +6,17 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -25,20 +26,17 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
 import fm.doe.national.utils.Constants;
 import fm.doe.national.utils.DateUtils;
 import fm.doe.national.utils.ViewUtils;
-
-import static android.app.Activity.RESULT_OK;
 
 public class CriteriasActivity extends BaseActivity implements
         CriteriasView,
@@ -202,7 +200,7 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
+    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, AnswerState previousState) {
         presenter.onSubCriteriaStateChanged(subCriteria, previousState);
     }
 

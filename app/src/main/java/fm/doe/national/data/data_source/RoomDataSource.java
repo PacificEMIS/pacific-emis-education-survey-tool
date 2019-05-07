@@ -10,6 +10,8 @@ import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.Photo;
 import fm.doe.national.data.model.School;
 import fm.doe.national.data.model.Survey;
+import fm.doe.national.data.model.mutable.MutableAnswer;
+import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.AnswerDao;
@@ -21,6 +23,7 @@ import fm.doe.national.data.persistence.entity.PersistencePhoto;
 import fm.doe.national.data.persistence.entity.PersistenceSchool;
 import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSurvey;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class RoomDataSource implements DataSource {
@@ -41,12 +44,12 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<? extends School>> loadSchools() {
+    public Single<List<PersistenceSchool>> loadSchools() {
         return Single.fromCallable(schoolDao::getAll);
     }
 
     @Override
-    public Completable createSchools(List<School> schools) {
+    public Completable rewriteSchools(List<School> schools) {
         return Completable.fromAction(() -> {
             // TODO: this might become CCE if another School impl appear, but for now on it is OK
             for (School school : schools) {
@@ -56,9 +59,9 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<? extends Survey> loadFullSurvey(Survey survey) {
+    public Single<MutableSurvey> loadFullSurvey(long surveyId) {
         return Single.fromCallable(() -> {
-            RelativePersistenceSurvey relativePersistenceSurvey = surveyDao.getFilledById(survey.getId());
+            RelativePersistenceSurvey relativePersistenceSurvey = surveyDao.getFilledById(surveyId);
             if (relativePersistenceSurvey == null) {
                 return new MutableSurvey();
             }
@@ -67,12 +70,15 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<? extends Survey>> loadAllSurveys() {
-        return Single.fromCallable(surveyDao::getAll);
+    public Single<List<MutableSurvey>> loadAllSurveys() {
+        return Single.fromCallable(surveyDao::getAll)
+                .flatMap(persistenceSurveys -> Observable.fromIterable(surveyDao.getAll())
+                        .map(MutableSurvey::new)
+                        .toList());
     }
 
     @Override
-    public Single<? extends Survey> createSurvey(Survey survey) {
+    public Single<MutableSurvey> createSurvey(Survey survey) {
         return null;
     }
 
@@ -82,35 +88,39 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<? extends Answer> createOrUpdateAnswer(Answer answer, long subCriteriaId) {
+    public Single<MutableAnswer> createOrUpdateAnswer(Answer answer, long subCriteriaId) {
         return Single.fromCallable(() -> {
             PersistenceAnswer existingAnswer = answerDao.getAllForSubCriteriaWithId(subCriteriaId).get(0);
 
             if (existingAnswer != null) {
                 existingAnswer.comment = answer.getComment();
                 existingAnswer.state = answer.getState();
-                return answerDao.update(existingAnswer);
+                answerDao.update(existingAnswer);
+                return new MutableAnswer(answerDao.getFilledById(existingAnswer.uid));
             }
 
             PersistenceAnswer persistenceAnswer = new PersistenceAnswer(answer);
             persistenceAnswer.subCriteriaId = subCriteriaId;
-            return answerDao.insert(persistenceAnswer);
+            long answerId = answerDao.insert(persistenceAnswer);
+            return new MutableAnswer(answerDao.getFilledById(answerId));
         });
     }
 
     @Override
-    public Single<? extends Photo> createOrUpdatePhoto(Photo photo, long answerId) {
+    public Single<MutablePhoto> createOrUpdatePhoto(Photo photo, long answerId) {
         return Single.fromCallable(() -> {
             PersistencePhoto existingPhoto = photoDao.getById(photo.getId());
             if (existingPhoto != null && existingPhoto.answerId == answerId) {
                 existingPhoto.localUrl = photo.getLocalPath();
                 existingPhoto.remoteUrl = photo.getRemotePath();
-                return photoDao.update(existingPhoto);
+                photoDao.update(existingPhoto);
+                return new MutablePhoto(photoDao.getById(existingPhoto.uid));
             }
 
             PersistencePhoto persistencePhoto = new PersistencePhoto(photo);
             persistencePhoto.answerId = answerId;
-            return photoDao.insert(persistencePhoto);
+            long photoId = photoDao.insert(persistencePhoto);
+            return new MutablePhoto(photoDao.getById(photoId));
         });
     }
 

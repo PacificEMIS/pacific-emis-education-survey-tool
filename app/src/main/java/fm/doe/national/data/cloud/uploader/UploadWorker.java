@@ -6,11 +6,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
-import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
+import fm.doe.national.data.model.Survey;
+import fm.doe.national.data.persistence.entity.PersistenceSchool;
 import fm.doe.national.data.serialization.serializers.Serializer;
 import fm.doe.national.utils.TextUtil;
 
@@ -20,7 +21,7 @@ public class UploadWorker extends Worker {
     private static final String TAG = UploadWorker.class.getName();
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
-    private final Serializer<LinkedSchoolAccreditation> serializer =
+    private final Serializer<Survey> serializer =
             MicronesiaApplication.getAppComponent().getSchoolAccreditationSerizlizer();
     private final CloudRepository cloudRepository = MicronesiaApplication.getAppComponent().getCloudRepository();
 
@@ -29,15 +30,13 @@ public class UploadWorker extends Worker {
     }
 
     @SuppressWarnings("CheckResult")
+    @NonNull
     @Override
     public Result doWork() {
         long passingId = getInputData().getLong(DATA_PASSING_ID, VALUE_ID_NOT_FOUND);
         if (passingId == VALUE_ID_NOT_FOUND) return Result.failure();
-
-        dataSource.requestLinkedSchoolAccreditation(passingId)
-                .flatMapCompletable(linkedSchoolAccreditation -> dataSource.requestSchoolAccreditationPassing(passingId)
-                        .flatMapCompletable(passing -> cloudRepository.uploadContent(
-                                serializer.serialize(linkedSchoolAccreditation), createFilename(passing))))
+        dataSource.loadFullSurvey(passingId)
+                .flatMapCompletable(survey -> cloudRepository.uploadContent(serializer.serialize(survey), createFilename(survey)))
                 .subscribe(() -> {
                     // nothing
                 }, throwable -> Log.e(TAG, "doWork: ", throwable));
@@ -45,7 +44,7 @@ public class UploadWorker extends Worker {
     }
 
     @NonNull
-    private String createFilename(SchoolAccreditationPassing passing) {
-        return TextUtil.createSurveyFileName(passing.getSchool(), passing.getStartDate());
+    private String createFilename(Survey survey) {
+        return TextUtil.createSurveyFileName(new PersistenceSchool(survey.getSchoolName(), survey.getSchoolId()), survey.getDate());
     }
 }

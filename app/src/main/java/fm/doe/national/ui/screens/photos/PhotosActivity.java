@@ -3,19 +3,20 @@ package fm.doe.national.ui.screens.photos;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
-import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.custom_views.photos_view.PhotosAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.criterias.FullscreenImageActivity;
@@ -35,8 +36,9 @@ public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAd
     PhotosPresenter presenter;
 
     public static Intent createIntent(Context context, long passingId, SubCriteria subCriteria) {
-        List<String> photos = subCriteria.getAnswer().getPhotos();
-        String[] photosAsArray = photos.toArray(new String[photos.size()]);
+        // TODO: fixme
+//        List<Photo> photos = subCriteria.getAnswer().getPhotos();
+//        String[] photosAsArray = photos.toArray(new String[photos.size()]);
         return new Intent(context, PhotosActivity.class)
                 .putExtra(EXTRA_PASSING, passingId)
                 .putExtra(EXTRA_SUBCRITERIA, subCriteria.getId());

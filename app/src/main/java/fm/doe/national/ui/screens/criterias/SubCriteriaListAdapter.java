@@ -10,17 +10,19 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.SubCriteria;
-import fm.doe.national.data.data_source.models.SubCriteriaQuestion;
+import fm.doe.national.data.model.Answer;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.custom_views.photos_view.PhotoBoxView;
 import fm.doe.national.ui.screens.base.BaseAdapter;
@@ -97,28 +99,26 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @Override
         public void onBind(SubCriteria item) {
             Answer answer = item.getAnswer();
-            SubCriteriaQuestion question = item.getSubCriteriaQuestion();
-            String interviewQuestions = question.getInterviewQuestion();
+            questionTextView.setText(item.getTitle());
 
-            questionTextView.setText(item.getName());
+            numberingTextView.setText(getString(R.string.format_subcriteria, item.getSuffix()));
 
-            if (item.getIndex() != null) numberingTextView.setText(getString(R.string.format_subcriteria, item.getIndex()));
-
-            if (!TextUtils.isEmpty(interviewQuestions)) {
+            if (!TextUtils.isEmpty(item.getInterviewQuestions())) {
                 interviewQuestionsTextView.setVisibility(View.VISIBLE);
-                interviewQuestionsTextView.setText(interviewQuestions);
+                interviewQuestionsTextView.setText(item.getInterviewQuestions());
             } else {
                 interviewQuestionsTextView.setVisibility(View.GONE);
             }
             switchableButton.setStateNotNotifying(convertToUiState(answer.getState()));
 
             updateCommentVisibility(answer.getComment());
-            updatePhotosVisibility(answer.getPhotos());
+            // TODO: fixme
+//            updatePhotosVisibility(answer.getPhotos());
         }
 
         @OnLongClick(R.id.textview_question)
         public boolean onViewLongClick(View v) {
-            if (!TextUtils.isEmpty(getItem().getSubCriteriaQuestion().getHint())) showHint();
+            if (!TextUtils.isEmpty(getItem().getHint())) showHint();
             return true;
         }
 
@@ -157,8 +157,13 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
             Answer answer = getItem().getAnswer();
 
-            Answer.State previousState = answer.getState();
-            answer.setState(convertFromUiState(state));
+            if (answer == null) {
+                answer = new MutableAnswer();
+            }
+
+            AnswerState previousState = answer.getState();
+            // TODO: fixme
+//            answer.setState(convertFromUiState(state));
 
             notifyStateChanged(previousState);
         }
@@ -183,7 +188,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             if (callback != null) callback.onPhotoClicked(v, photo);
         }
 
-        private SwitchableButton.State convertToUiState(Answer.State state) {
+        private SwitchableButton.State convertToUiState(AnswerState state) {
             switch (state) {
                 case NOT_ANSWERED:
                     return SwitchableButton.State.NEUTRAL;
@@ -195,19 +200,19 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             return SwitchableButton.State.NEUTRAL; // unreachable code
         }
 
-        private Answer.State convertFromUiState(SwitchableButton.State state) {
+        private AnswerState convertFromUiState(SwitchableButton.State state) {
             switch (state) {
                 case NEUTRAL:
-                    return Answer.State.NOT_ANSWERED;
+                    return AnswerState.NOT_ANSWERED;
                 case NEGATIVE:
-                    return Answer.State.NEGATIVE;
+                    return AnswerState.NEGATIVE;
                 case POSITIVE:
-                    return Answer.State.POSITIVE;
+                    return AnswerState.POSITIVE;
             }
-            return Answer.State.NOT_ANSWERED; // unreachable code
+            return AnswerState.NOT_ANSWERED; // unreachable code
         }
 
-        private void notifyStateChanged(Answer.State previousState) {
+        private void notifyStateChanged(AnswerState previousState) {
             SubCriteria subCriteria = getItem();
             if (callback != null) callback.onSubCriteriaStateChanged(subCriteria, previousState);
             if (answerStateChangedListener != null)
@@ -215,7 +220,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         }
 
         private void showHint() {
-            hintView.setText(getItem().getSubCriteriaQuestion().getHint());
+            hintView.setText(getItem().getHint());
             PopupWindow popupWindow = new PopupWindow(
                     popupView,
                     itemView.getMeasuredWidth(),
@@ -264,6 +269,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
     }
 
     public interface OnAnswerStateChangedListener {
-        void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState);
+        void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, AnswerState previousState);
     }
 }

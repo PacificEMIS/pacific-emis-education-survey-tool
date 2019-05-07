@@ -5,7 +5,7 @@ import com.arellomobile.mvp.InjectViewState;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.Answer;
+import fm.doe.national.data.model.Answer;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -28,23 +28,25 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
     }
 
     public void onDeletePhotoClick(String photo) {
-        answer.getPhotos().remove(photo);
-        getViewState().showPhotos(answer.getPhotos());
-        addDisposable(dataSource.updateAnswer(passingId, subCriteriaId, answer)
+        // TODO: fixme
+//        answer.getPhotos().remove(photo);
+//        getViewState().showPhotos(answer.getPhotos());
+        addDisposable(dataSource.createOrUpdateAnswer(answer, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((answer) -> cloudUploader.scheduleUploading(passingId), this::handleError));
     }
 
     private void loadAnswer() {
-        addDisposable(dataSource.requestAnswer(passingId, subCriteriaId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(getViewState()::hideWaiting)
-                .subscribe(answerResult -> {
-                    answer = answerResult;
-                    getViewState().showPhotos(answer.getPhotos());
-                }, this::handleError));
+        // TODO: fixme
+//        addDisposable(dataSource.requestAnswer(passingId, subCriteriaId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe(disposable -> getViewState().showWaiting())
+//                .doFinally(getViewState()::hideWaiting)
+//                .subscribe(answerResult -> {
+//                    answer = answerResult;
+//                    getViewState().showPhotos(answer.getPhotos());
+//                }, this::handleError));
     }
 }

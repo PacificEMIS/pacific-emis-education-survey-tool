@@ -8,15 +8,16 @@ import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
+import fm.doe.national.data.model.School;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.serialization.parsers.Parser;
 import io.reactivex.Completable;
 
 public class SettingsInteractor {
+
     private final CloudRepository cloudRepository = MicronesiaApplication.getAppComponent().getCloudRepository();
     private final DataSource localDataRepository = MicronesiaApplication.getAppComponent().getDataSource();
-    private final Parser<LinkedSchoolAccreditation> surveyParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
+    private final Parser<Survey> surveyParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
     private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
 
     public Completable auth(CloudType type) {
@@ -25,14 +26,15 @@ public class SettingsInteractor {
 
     public Completable importSchools(CloudType type) {
         return cloudRepository.requestContent(type)
-                .flatMapCompletable(content -> localDataRepository.updateSchools(
+                .flatMapCompletable(content -> localDataRepository.rewriteSchools(
                         schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
     }
 
     public Completable importSurvey(CloudType type) {
         return cloudRepository.requestContent(type)
-                .flatMapCompletable(content -> localDataRepository.createSchoolAccreditation(
-                        surveyParser.parse(new ByteArrayInputStream(content.getBytes()))));
+                .flatMap(content -> localDataRepository.createSurvey(
+                        surveyParser.parse(new ByteArrayInputStream(content.getBytes()))))
+                .ignoreElement();
     }
 
     public Completable selectExportFolder(CloudType type) {
@@ -45,9 +47,5 @@ public class SettingsInteractor {
 
     public List<CloudAccountData> getConnectedAccounts() {
         return cloudRepository.getUsedAccounts();
-    }
-
-    public List<CloudAccountData> getNotConnectedAccounts() {
-        return cloudRepository.getUnusedAccounts();
     }
 }

@@ -27,7 +27,6 @@ import fm.doe.national.di.modules.GsonModule;
 import fm.doe.national.di.modules.InteractorsModule;
 import fm.doe.national.di.modules.LifecycleModule;
 import fm.doe.national.di.modules.LocalDataSourceModule;
-import fm.doe.national.di.modules.ParsersModule;
 import fm.doe.national.di.modules.SerializersModule;
 import fm.doe.national.di.modules.SharedPreferencesModule;
 import fm.doe.national.domain.SettingsInteractor;
@@ -40,7 +39,6 @@ import fm.doe.national.utils.LifecycleListener;
         GsonModule.class,
         CloudModule.class,
         SharedPreferencesModule.class,
-        ParsersModule.class,
         SerializersModule.class,
         LifecycleModule.class,
         InteractorsModule.class})

@@ -1,11 +1,12 @@
 package fm.doe.national.utils;
 
 
-import java.util.Date;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import fm.doe.national.data.data_source.models.School;
+
+import java.util.Date;
+
+import fm.doe.national.data.model.School;
 
 public class TextUtil {
     private static final int ALPHABET_SIZE = 24;
@@ -20,7 +21,7 @@ public class TextUtil {
 
     private static void fillBuilderWithCharNumbers(int number, StringBuilder builder) {
         int offset = 1;
-        int div = Math.round(number / ALPHABET_SIZE);
+        int div = number / ALPHABET_SIZE;
         int mod = number % ALPHABET_SIZE;
 
         if (div > 0) {

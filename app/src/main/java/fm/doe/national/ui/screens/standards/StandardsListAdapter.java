@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.data.model.Standard;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
@@ -47,26 +46,27 @@ public class StandardsListAdapter extends BaseAdapter<Standard> {
 
         @Override
         public void onBind(Standard item) {
-            Integer icon = ViewUtils.getStandardIconRes(item.getIndex());
+            Integer icon = ViewUtils.getStandardIconRes(item.getSuffix());
             if (icon != null) {
                 standardIconImageView.setImageResource(icon);
                 standardIconImageView.setActivated(true);
             }
 
-            String standardPrefix = getString(R.string.format_standard, item.getIndex());
-            SpannableString spannableString = new SpannableString(standardPrefix + " " + item.getName());
+            String standardPrefix = getString(R.string.format_standard, item.getSuffix());
+            SpannableString spannableString = new SpannableString(standardPrefix + " " + item.getTitle());
             spannableString.setSpan(
                     new TypefaceSpan(getString(R.string.font_normal)),
                     0, standardPrefix.length(),
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             standardNameTextView.setText(spannableString);
 
-            CategoryProgress categoryProgress = item.getCategoryProgress();
-            ViewUtils.rebindProgress(
-                    categoryProgress.getTotalQuestionsCount(),
-                    categoryProgress.getAnsweredQuestionsCount(),
-                    getString(R.string.criteria_progress),
-                    progressTextView, progressBar);
+            // TODO: fixme
+//            CategoryProgress categoryProgress = item.getCategoryProgress();
+//            ViewUtils.rebindProgress(
+//                    categoryProgress.getTotalQuestionsCount(),
+//                    categoryProgress.getAnsweredQuestionsCount(),
+//                    getString(R.string.criteria_progress),
+//                    progressTextView, progressBar);
 
             itemView.setOnClickListener(this);
         }

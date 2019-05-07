@@ -6,7 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
@@ -16,11 +16,11 @@ interface SchoolAccreditationView extends BaseDrawerView {
     void navigateToCategoryChooser(long passingId);
 
 
-    void setAccreditations(List<SchoolAccreditationPassing> accreditations);
+    void setAccreditations(List<Survey> accreditations);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showSurveyDeleteConfirmation();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void removeSurveyPassing(SchoolAccreditationPassing passing);
+    void removeSurveyPassing(Survey passing);
 }

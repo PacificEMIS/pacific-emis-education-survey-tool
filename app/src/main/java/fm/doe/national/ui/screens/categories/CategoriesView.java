@@ -7,7 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.Category;
+import fm.doe.national.data.model.Category;
 import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseView;
 

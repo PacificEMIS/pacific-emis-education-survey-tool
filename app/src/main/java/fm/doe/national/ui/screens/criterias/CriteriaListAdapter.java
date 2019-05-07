@@ -9,23 +9,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.CollectionUtils;
 import fm.doe.national.utils.ViewUtils;
@@ -100,15 +99,16 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         public void onBind(Criteria item) {
             adapter.setItems((List<SubCriteria>) item.getSubCriterias());
 
-            String criteriaPrefix = getString(R.string.format_criteria, item.getIndex());
-            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.getName());
+            String criteriaPrefix = getString(R.string.format_criteria, item.getSuffix());
+            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.getTitle());
             spannableString.setSpan(
                     new TypefaceSpan(getString(R.string.font_medium)),
                     0, criteriaPrefix.length(),
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             titleTextView.setText(spannableString);
 
-            rebindProgress(item.getCategoryProgress());
+            // TODO: fixme
+//            rebindProgress(item.getCategoryProgress());
 
             // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             if (expandedCriteriaIds.contains(item.getId())) {
@@ -130,30 +130,32 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
-            CategoryProgress categoryProgress = getItem().getCategoryProgress();
-            categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
-
-            if (categoryProgress.getAnsweredQuestionsCount() == categoryProgress.getTotalQuestionsCount()) {
-                expandedCriteriaIds.remove(getItem().getId());
-                notifyItemChanged(getAdapterPosition());
-            }
-
-            rebindProgress(categoryProgress);
+        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, AnswerState previousState) {
+            // TODO: fixme
+//            CategoryProgress categoryProgress = getItem().getCategoryProgress();
+//            categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
+//
+//            if (categoryProgress.getAnsweredQuestionsCount() == categoryProgress.getTotalQuestionsCount()) {
+//                expandedCriteriaIds.remove(getItem().getId());
+//                notifyItemChanged(getAdapterPosition());
+//            }
+//
+//            rebindProgress(categoryProgress);
         }
 
         public void notify(int subcriteriaIndex) {
             adapter.notifyItemChanged(subcriteriaIndex);
         }
 
-        private void rebindProgress(CategoryProgress progress) {
-            ViewUtils.rebindProgress(
-                    progress.getTotalQuestionsCount(),
-                    progress.getAnsweredQuestionsCount(),
-                    getString(R.string.criteria_progress),
-                    progressTextView,
-                    progressBar);
-        }
+        // TODO: fixme
+//        private void rebindProgress(CategoryProgress progress) {
+//            ViewUtils.rebindProgress(
+//                    progress.getTotalQuestionsCount(),
+//                    progress.getAnsweredQuestionsCount(),
+//                    getString(R.string.criteria_progress),
+//                    progressTextView,
+//                    progressBar);
+//        }
 
     }
 }

@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 import fm.doe.national.BuildConfig;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
+import fm.doe.national.data.model.School;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.utils.Constants;
@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SplashStartPresenter extends BasePresenter<SplashStartView> {
 
-    private final Parser<LinkedSchoolAccreditation> schoolAccreditationParser =
+    private final Parser<Survey> schoolAccreditationParser =
             MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
     private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
@@ -39,12 +39,12 @@ public class SplashStartPresenter extends BasePresenter<SplashStartView> {
         addDisposable(Single.fromCallable(() -> schoolAccreditationParser.parse(assetManager.open(BuildConfig.SURVEYS_FILE_NAME)))
                 .flatMapCompletable(schoolAccreditation -> Single.fromCallable(() ->
                     schoolsParser.parse(assetManager.open(BuildConfig.SCHOOLS_FILE_NAME)))
-                        .flatMapCompletable(schools -> dataSource.requestSchools()
+                        .flatMapCompletable(schools -> dataSource.loadSchools()
                                     .flatMapCompletable(resultList -> {
                                         if (resultList.isEmpty()) {
                                             return dataSource
-                                                    .updateSchools(schools)
-                                                    .andThen(dataSource.createSchoolAccreditation(schoolAccreditation));
+                                                    .rewriteSchools(schools)
+                                                    .andThen(dataSource.createSurvey(schoolAccreditation).ignoreElement());
                                         }
                                         return Completable.complete(); // already exists
                                     })))

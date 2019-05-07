@@ -14,10 +14,10 @@ import fm.doe.national.data.persistence.entity.PersistencePhoto;
 @Dao
 public interface PhotoDao {
     @Insert
-    PersistencePhoto insert(PersistencePhoto photoEntity);
+    long insert(PersistencePhoto photoEntity);
 
     @Update
-    PersistencePhoto update(PersistencePhoto photoEntity);
+    void update(PersistencePhoto photoEntity);
 
     @Delete
     void delete(PersistencePhoto photoEntity);

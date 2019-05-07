@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.School;
+import fm.doe.national.data.model.School;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class SchoolsListAdapter extends BaseAdapter<School> {
@@ -33,7 +33,7 @@ public class SchoolsListAdapter extends BaseAdapter<School> {
 
         @Override
         public void onBind(School item) {
-            idTextView.setText(item.getId());
+            idTextView.setText(item.getSuffix());
             nameTextView.setText(item.getName());
         }
     }

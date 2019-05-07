@@ -3,11 +3,12 @@ package fm.doe.national.ui.screens.criterias;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.SubCriteria;
+
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.SubCriteria;
 
 public interface SubcriteriaCallback {
-    void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState);
+    void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, AnswerState previousState);
     void onEditCommentClicked(SubCriteria subCriteria);
     void onAddCommentClicked(SubCriteria subCriteria);
     void onRemoveCommentClicked(SubCriteria subCriteria);

@@ -6,10 +6,8 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Category;
-import fm.doe.national.data.data_source.models.CategoryProgress;
+import fm.doe.national.data.model.Category;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.ViewUtils;
 
 public class CategoriesListAdapter
         extends BaseAdapter<Category> {
@@ -40,14 +38,15 @@ public class CategoriesListAdapter
 
         @Override
         public void onBind(Category item) {
-            categoryNameTextView.setText(item.getName());
+            categoryNameTextView.setText(item.getTitle());
 
-            CategoryProgress categoryProgress = item.getCategoryProgress();
-            ViewUtils.rebindProgress(
-                    categoryProgress.getTotalQuestionsCount(),
-                    categoryProgress.getAnsweredQuestionsCount(),
-                    getString(R.string.criteria_progress),
-                    progressTextView, progressBar);
+            // TODO: fixme
+//            CategoryProgress categoryProgress = item.getCategoryProgress();
+//            ViewUtils.rebindProgress(
+//                    categoryProgress.getTotalQuestionsCount(),
+//                    categoryProgress.getAnsweredQuestionsCount(),
+//                    getString(R.string.criteria_progress),
+//                    progressTextView, progressBar);
 
             itemView.setOnClickListener(this);
         }

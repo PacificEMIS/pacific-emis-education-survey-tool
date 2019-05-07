@@ -48,7 +48,7 @@ public class SerializationTests {
     public void testParseNewSurvey() {
         SerializableSurvey survey;
         try {
-            survey = PARSER.parse(openSurveyFile());
+            survey = new SerializableSurvey(PARSER.parse(openSurveyFile()));
             assertNotNull(survey);
         } catch (Parser.ParseException exception) {
             fail();
@@ -74,7 +74,7 @@ public class SerializationTests {
     public void testSurveyInMutableState() {
         SerializableSurvey survey;
         try {
-            survey = PARSER.parse(openSurveyFile());
+            survey = new SerializableSurvey(PARSER.parse(openSurveyFile()));
             assertNotNull(survey);
         } catch (Parser.ParseException exception) {
             fail();
