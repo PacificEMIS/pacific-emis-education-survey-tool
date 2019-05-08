@@ -298,7 +298,7 @@ public class DataSourceTest {
     }
 
     @Test
-    public void testCanCreatePhoto() {
+    public void testCanCreateAndDeletePhoto() {
         TestObserver<MutableSurvey> testObserver = new TestObserver<>();
         dataSource.clearDynamicData()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))

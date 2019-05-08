@@ -7,6 +7,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCriteria;
+import fm.doe.national.domain.model.Progress;
 import fm.doe.national.utils.CollectionUtils;
 
 public class MutableCriteria extends BaseMutableEntity implements Criteria {
@@ -14,6 +15,7 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
     private String title;
     private String suffix;
     private List<MutableSubCriteria> subCriteriaList;
+    private Progress progress = new Progress(0, 0);
 
     public MutableCriteria() {
     }
@@ -58,5 +60,13 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
 
     public void setSubCriterias(@Nullable List<MutableSubCriteria> subCriterias) {
         this.subCriteriaList = subCriterias;
+    }
+
+    public Progress getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Progress progress) {
+        this.progress = progress;
     }
 }

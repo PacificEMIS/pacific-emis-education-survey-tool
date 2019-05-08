@@ -48,4 +48,9 @@ public interface SurveyDao {
     @Query("SELECT * FROM PersistenceSurvey LIMIT 1")
     RelativePersistenceSurvey getFirstFilled();
 
+    @Nullable
+    @Transaction
+    @Query("SELECT * FROM PersistenceSurvey")
+    List<RelativePersistenceSurvey> getAllFilled();
+
 }

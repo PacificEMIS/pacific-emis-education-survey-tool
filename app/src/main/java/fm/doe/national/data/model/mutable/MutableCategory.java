@@ -7,12 +7,14 @@ import java.util.List;
 
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCategory;
+import fm.doe.national.domain.model.Progress;
 import fm.doe.national.utils.CollectionUtils;
 
 public class MutableCategory extends BaseMutableEntity implements Category {
 
     private String title;
     private List<MutableStandard> standards;
+    private Progress progress = new Progress(0, 0);
 
     public MutableCategory(@NonNull Category other) {
         this.id = other.getId();
@@ -46,5 +48,13 @@ public class MutableCategory extends BaseMutableEntity implements Category {
 
     public void setStandards(List<MutableStandard> standards) {
         this.standards = standards;
+    }
+
+    public Progress getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Progress progress) {
+        this.progress = progress;
     }
 }

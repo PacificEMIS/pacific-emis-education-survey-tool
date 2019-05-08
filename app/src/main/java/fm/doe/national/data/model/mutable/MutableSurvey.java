@@ -9,6 +9,7 @@ import java.util.List;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSurvey;
+import fm.doe.national.domain.model.Progress;
 import fm.doe.national.utils.CollectionUtils;
 
 public class MutableSurvey extends BaseMutableEntity implements Survey {
@@ -19,6 +20,7 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
     private String schoolName;
     private String schoolId;
     private List<MutableCategory> categories;
+    private Progress progress = new Progress(0, 0);
 
     public MutableSurvey() {
     }
@@ -95,5 +97,13 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
 
     public void setCategories(List<MutableCategory> categories) {
         this.categories = categories;
+    }
+
+    public Progress getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Progress progress) {
+        this.progress = progress;
     }
 }

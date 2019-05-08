@@ -168,10 +168,10 @@ public class RoomDataSource implements DataSource {
 
     @Override
     public Single<List<MutableSurvey>> loadAllSurveys() {
-        return Single.fromCallable(surveyDao::getAll)
-                .flatMap(persistenceSurveys -> Observable.fromIterable(surveyDao.getAll())
-                        .map(MutableSurvey::new)
-                        .toList());
+        return Single.fromCallable(surveyDao::getAllFilled)
+                .flatMapObservable(Observable::fromIterable)
+                .map(MutableSurvey::new)
+                .toList();
     }
 
     @Override
