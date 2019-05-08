@@ -16,14 +16,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.Standard;
+import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.criterias.CriteriasActivity;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardsActivity extends BaseActivity implements StandardsView, BaseAdapter.OnItemClickListener<Standard> {
-    private static final String EXTRA_PASSING_ID = "EXTRA_PASSING_ID";
+public class StandardsActivity extends BaseActivity implements StandardsView, BaseAdapter.OnItemClickListener<MutableStandard> {
+
     private static final String EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID";
 
     private final StandardsListAdapter standardAdapter = new StandardsListAdapter(this);
@@ -40,18 +40,14 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     @InjectPresenter
     StandardsPresenter presenter;
 
-    public static Intent createIntent(Context context, long passingId, long categoryId) {
+    public static Intent createIntent(Context context, long categoryId) {
         return new Intent(context, StandardsActivity.class)
-                .putExtra(EXTRA_PASSING_ID, passingId)
                 .putExtra(EXTRA_CATEGORY_ID, categoryId);
     }
 
     @ProvidePresenter
     StandardsPresenter providePresenter() {
-        Intent intent = getIntent();
-        return new StandardsPresenter(
-                intent.getLongExtra(EXTRA_PASSING_ID, -1),
-                intent.getLongExtra(EXTRA_CATEGORY_ID, -1));
+        return new StandardsPresenter(getIntent().getLongExtra(EXTRA_CATEGORY_ID, -1));
     }
 
     @Override
@@ -85,17 +81,17 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     }
 
     @Override
-    public void navigateToCriteriasScreen(long passingId, long categoryId, long standardId) {
-        startActivity(CriteriasActivity.createIntent(this, passingId, categoryId, standardId));
+    public void navigateToCriteriasScreen(long categoryId, long standardId) {
+        startActivity(CriteriasActivity.createIntent(this, categoryId, standardId));
     }
 
     @Override
-    public void showStandards(List<Standard> standards) {
+    public void showStandards(List<MutableStandard> standards) {
         standardAdapter.setItems(standards);
     }
 
     @Override
-    public void onItemClick(Standard item) {
+    public void onItemClick(MutableStandard item) {
         presenter.onStandardClicked(item);
     }
 }

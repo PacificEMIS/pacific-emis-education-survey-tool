@@ -75,8 +75,8 @@ public class CreateSurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void navigateToCategoryChooser(long passingId) {
-        startActivity(CategoriesActivity.createIntent(this, passingId));
+    public void navigateToCategoryChooser() {
+        startActivity(CategoriesActivity.createIntent(this));
     }
 
     @Override

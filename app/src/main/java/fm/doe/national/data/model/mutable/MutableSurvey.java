@@ -69,7 +69,7 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         return schoolId;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public List<MutableCategory> getCategories() {
         return categories;

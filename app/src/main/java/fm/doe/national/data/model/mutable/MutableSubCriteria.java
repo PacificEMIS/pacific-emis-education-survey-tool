@@ -61,7 +61,7 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
         return hint;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public MutableAnswer getAnswer() {
         return answer;

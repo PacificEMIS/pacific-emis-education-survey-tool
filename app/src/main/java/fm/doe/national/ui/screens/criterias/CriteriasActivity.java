@@ -29,9 +29,8 @@ import java.util.List;
 import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableCriteria;
+import fm.doe.national.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
 import fm.doe.national.utils.Constants;
@@ -43,7 +42,6 @@ public class CriteriasActivity extends BaseActivity implements
         SubcriteriaCallback,
         CommentDialogFragment.OnCommentSubmitListener {
 
-    private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_CATEGORY = "EXTRA_CATEGORY";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private final static String TAG_DIALOG = "TAG_DIALOG";
@@ -101,15 +99,13 @@ public class CriteriasActivity extends BaseActivity implements
     public CriteriasPresenter providePresenter() {
         Intent intent = getIntent();
         return new CriteriasPresenter(
-                intent.getLongExtra(EXTRA_ACCREDITATION, -1),
                 intent.getLongExtra(EXTRA_CATEGORY, -1),
                 intent.getLongExtra(EXTRA_STANDARD, -1));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, long passingId, long categoryId, long standardId) {
+    public static Intent createIntent(@NonNull Context context, long categoryId, long standardId) {
         return new Intent(context, CriteriasActivity.class)
-                .putExtra(EXTRA_ACCREDITATION, passingId)
                 .putExtra(EXTRA_CATEGORY, categoryId)
                 .putExtra(EXTRA_STANDARD, standardId);
     }
@@ -152,7 +148,7 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void setCriterias(@NonNull List<Criteria> criterias) {
+    public void setCriterias(@NonNull List<MutableCriteria> criterias) {
         recyclerAdapter.setItems(criterias);
 
         // Fix for bug #55747 The following category is displayed from the end
@@ -200,43 +196,43 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, AnswerState previousState) {
-        presenter.onSubCriteriaStateChanged(subCriteria, previousState);
+    public void onSubCriteriaStateChanged(@NonNull MutableSubCriteria subCriteria) {
+        presenter.onSubCriteriaStateChanged(subCriteria);
     }
 
     @Override
-    public void onEditCommentClicked(SubCriteria subCriteria) {
+    public void onEditCommentClicked(MutableSubCriteria subCriteria) {
         presenter.onEditCommentClicked(subCriteria);
     }
 
     @Override
-    public void onAddCommentClicked(SubCriteria subCriteria) {
+    public void onAddCommentClicked(MutableSubCriteria subCriteria) {
         presenter.onAddCommentClicked(subCriteria);
     }
 
     @Override
-    public void onRemoveCommentClicked(SubCriteria subCriteria) {
+    public void onRemoveCommentClicked(MutableSubCriteria subCriteria) {
         presenter.onDeleteCommentClicked(subCriteria);
     }
 
     @Override
-    public void onAddPhotoClicked(SubCriteria subCriteria) {
+    public void onAddPhotoClicked(MutableSubCriteria subCriteria) {
         presenter.onAddPhotoClicked(subCriteria);
     }
 
     @Override
-    public void onRemovePhotoClicked(SubCriteria subCriteria, String photoPath) {
+    public void onRemovePhotoClicked(MutableSubCriteria subCriteria, String photoPath) {
         presenter.onDeletePhotoClicked(subCriteria, photoPath);
     }
 
     @Override
-    public void onMorePhotosClick(SubCriteria subCriteria) {
+    public void onMorePhotosClick(MutableSubCriteria subCriteria) {
         presenter.onMorePhotosClick(subCriteria);
     }
 
     @Override
-    public void navigateToPhotos(long passingId, SubCriteria subCriteria) {
-        startActivityForResult(PhotosActivity.createIntent(this, passingId, subCriteria), REQUEST_CHANGES);
+    public void navigateToPhotos(MutableSubCriteria subCriteria) {
+        startActivityForResult(PhotosActivity.createIntent(this, subCriteria), REQUEST_CHANGES);
     }
 
     @Override
@@ -268,12 +264,12 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void notifySubCriteriaChanged(SubCriteria subCriteria) {
+    public void notifySubCriteriaChanged(MutableSubCriteria subCriteria) {
         recyclerAdapter.notify(subCriteria);
     }
 
     @Override
-    public void showCommentEditor(SubCriteria subCriteria) {
+    public void showCommentEditor(MutableSubCriteria subCriteria) {
         CommentDialogFragment dialog = CommentDialogFragment.create(subCriteria);
         dialog.show(getSupportFragmentManager(), TAG_DIALOG);
     }

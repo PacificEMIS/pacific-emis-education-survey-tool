@@ -7,8 +7,8 @@ import java.util.List;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import fm.doe.national.utils.CollectionUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,11 +17,12 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccreditationView> {
 
+    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
     private List<MutableSurvey> surveys = new ArrayList<>();
 
-    private Survey passingToDelete;
+    private MutableSurvey passingToDelete;
 
     @Override
     public void attachView(SchoolAccreditationView view) {
@@ -31,7 +32,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
 
     private void loadRecentPassings() {
 
-        addDisposable(dataSource.loadAllSurveys()
+        addDisposable(interactor.getAllSurveys()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -42,14 +43,15 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
                 }, this::handleError));
     }
 
-    public void onAccreditationClicked(Survey schoolAccreditationPassing) {
-        getViewState().navigateToCategoryChooser(schoolAccreditationPassing.getId());
+    public void onAccreditationClicked(MutableSurvey schoolAccreditationPassing) {
+        interactor.setCurrentSurvey(schoolAccreditationPassing);
+        getViewState().navigateToCategoryChooser();
     }
 
     public void onSearchQueryChanged(String query) {
-        List<Survey> queriedPassings = new ArrayList<>();
+        List<MutableSurvey> queriedPassings = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
-        for (Survey passing : surveys) {
+        for (MutableSurvey passing : surveys) {
             if (passing.getSchoolName().toLowerCase().contains(lowerQuery) ||
                     passing.getSchoolId().toLowerCase().contains(lowerQuery)) {
                 queriedPassings.add(passing);
@@ -58,7 +60,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
         getViewState().setAccreditations(queriedPassings);
     }
 
-    public void onAccreditationLongClicked(Survey item) {
+    public void onAccreditationLongClicked(MutableSurvey item) {
         passingToDelete = item;
         getViewState().showSurveyDeleteConfirmation();
     }

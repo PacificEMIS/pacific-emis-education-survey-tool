@@ -19,7 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.Survey;
+import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.categories.CategoriesActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
@@ -30,8 +30,8 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
         SearchView.OnQueryTextListener,
         View.OnClickListener,
-        BaseAdapter.OnItemClickListener<Survey>,
-        BaseAdapter.OnItemLongClickListener<Survey> {
+        BaseAdapter.OnItemClickListener<MutableSurvey>,
+        BaseAdapter.OnItemLongClickListener<MutableSurvey> {
 
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
@@ -85,12 +85,12 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void navigateToCategoryChooser(long passingId) {
-        startActivity(CategoriesActivity.createIntent(this, passingId));
+    public void navigateToCategoryChooser() {
+        startActivity(CategoriesActivity.createIntent(this));
     }
 
     @Override
-    public void setAccreditations(List<Survey> accreditations) {
+    public void setAccreditations(List<MutableSurvey> accreditations) {
         schoolAccreditationAdapter.setItems(accreditations);
     }
 
@@ -106,7 +106,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void removeSurveyPassing(Survey passing) {
+    public void removeSurveyPassing(MutableSurvey passing) {
         schoolAccreditationAdapter.removeItem(passing);
     }
 
@@ -122,12 +122,12 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void onItemClick(Survey item) {
+    public void onItemClick(MutableSurvey item) {
         presenter.onAccreditationClicked(item);
     }
 
     @Override
-    public void onItemLongClick(Survey item) {
+    public void onItemLongClick(MutableSurvey item) {
         presenter.onAccreditationLongClicked(item);
     }
 

@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.Standard;
+import fm.doe.national.data.model.mutable.MutableStandard;
+import fm.doe.national.domain.model.Progress;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.ViewUtils;
 
-public class StandardsListAdapter extends BaseAdapter<Standard> {
+public class StandardsListAdapter extends BaseAdapter<MutableStandard> {
 
-    public StandardsListAdapter(OnItemClickListener<Standard> clickListener) {
+    public StandardsListAdapter(OnItemClickListener<MutableStandard> clickListener) {
         super(clickListener);
     }
 
@@ -45,7 +46,7 @@ public class StandardsListAdapter extends BaseAdapter<Standard> {
         }
 
         @Override
-        public void onBind(Standard item) {
+        public void onBind(MutableStandard item) {
             Integer icon = ViewUtils.getStandardIconRes(item.getSuffix());
             if (icon != null) {
                 standardIconImageView.setImageResource(icon);
@@ -60,13 +61,12 @@ public class StandardsListAdapter extends BaseAdapter<Standard> {
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             standardNameTextView.setText(spannableString);
 
-            // TODO: fixme
-//            CategoryProgress categoryProgress = item.getCategoryProgress();
-//            ViewUtils.rebindProgress(
-//                    categoryProgress.getTotalQuestionsCount(),
-//                    categoryProgress.getAnsweredQuestionsCount(),
-//                    getString(R.string.criteria_progress),
-//                    progressTextView, progressBar);
+            Progress categoryProgress = item.getProgress();
+            ViewUtils.rebindProgress(
+                    categoryProgress.total,
+                    categoryProgress.completed,
+                    getString(R.string.criteria_progress),
+                    progressTextView, progressBar);
 
             itemView.setOnClickListener(this);
         }

@@ -6,6 +6,7 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.Answer;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -15,14 +16,13 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
 
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
+    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
 
-    private final long passingId;
     private final long subCriteriaId;
 
     private Answer answer;
 
-    public PhotosPresenter(long passingId, long subCriteriaId) {
-        this.passingId = passingId;
+    public PhotosPresenter(long subCriteriaId) {
         this.subCriteriaId = subCriteriaId;
         loadAnswer();
     }
@@ -34,7 +34,7 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
         addDisposable(dataSource.updateAnswer(answer, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((answer) -> cloudUploader.scheduleUploading(passingId), this::handleError));
+                .subscribe((answer) -> cloudUploader.scheduleUploading(interactor.getCurrentSurvey().getId()), this::handleError));
     }
 
     private void loadAnswer() {

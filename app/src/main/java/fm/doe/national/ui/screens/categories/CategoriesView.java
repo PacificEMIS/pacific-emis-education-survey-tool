@@ -7,17 +7,17 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.mutable.MutableCategory;
 import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CategoriesView extends BaseView {
 
-    void showCategories(List<Category> categories);
+    void showCategories(List<MutableCategory> categories);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToStandardsScreen(long passingId, long categoryId);
+    void navigateToStandardsScreen(long categoryId);
 
     void setSurveyDate(Date date);
 

@@ -7,18 +7,18 @@ import java.util.List;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.mutable.MutableCategory;
+import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CategoriesPresenter extends BasePresenter<CategoriesView> {
 
-    private final long passingId;
-
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
-
-    public CategoriesPresenter(long passingId) {
-        this.passingId = passingId;
-    }
+    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
 
     @Override
     public void attachView(CategoriesView view) {
@@ -28,34 +28,26 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
     }
 
     public void onCategoryClicked(Category category) {
-        getViewState().navigateToStandardsScreen(passingId, category.getId());
+        getViewState().navigateToStandardsScreen(category.getId());
     }
 
     private void loadPassing() {
-        // TODO: fixme
-//        addDisposable(dataSource.requestSchoolAccreditationPassing(passingId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> getViewState().showWaiting())
-//                .doFinally(() -> getViewState().hideWaiting())
-//                .subscribe(passing -> {
-//                    CategoriesView view = getViewState();
-//                    view.setSurveyDate(passing.getStartDate());
-//                    view.setSchoolName(passing.getSchool().getName());
-//                }, this::handleError));
+        CategoriesView view = getViewState();
+        MutableSurvey survey = interactor.getCurrentSurvey();
+        view.setSchoolName(survey.getSchoolName());
+        view.setSurveyDate(survey.getDate());
     }
 
     private void loadCategories() {
-        // TODO: fixme
-//        addDisposable(dataSource.requestCategories(passingId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> getViewState().showWaiting())
-//                .doFinally(() -> getViewState().hideWaiting())
-//                .subscribe(this::onCategoriesLoaded, this::handleError));
+        addDisposable(interactor.getCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(this::onCategoriesLoaded, this::handleError));
     }
 
-    private void onCategoriesLoaded(List<Category> categories) {
+    private void onCategoriesLoaded(List<MutableCategory> categories) {
         getViewState().showCategories(categories);
 
         // TODO: fixme

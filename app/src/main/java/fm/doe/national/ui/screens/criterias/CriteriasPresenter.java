@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.util.LongSparseArray;
-
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -11,70 +9,51 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
-import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.files.PicturesRepository;
-import fm.doe.national.data.model.Answer;
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.Standard;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableAnswer;
+import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutablePhoto;
+import fm.doe.national.data.model.mutable.MutableStandard;
+import fm.doe.national.data.model.mutable.MutableSubCriteria;
+import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 @InjectViewState
 public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
     private static final int ANSWER_UPDATE_TIMEOUT = 500;
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
-
-    private final long passingId;
+    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
     private final long categoryId;
+
     private int standardIndex;
     private int nextIndex;
     private int previousIndex;
-    private List<Standard> standards = Collections.emptyList();
+    private List<MutableStandard> standards = Collections.emptyList();
 
     @Nullable
-    private SubCriteria selectedSubCriteria;
-
-    private LongSparseArray<PublishSubject<SubCriteria>> subCriteriaChangeSubjects = new LongSparseArray<>();
+    private MutableSubCriteria selectedSubCriteria;
 
     @Nullable
     private File takenPictureFile;
 
-    public CriteriasPresenter(long passingId, long categoryId, long standardId) {
-        this.passingId = passingId;
+    public CriteriasPresenter(long categoryId, long standardId) {
         this.categoryId = categoryId;
         load(standardId);
     }
 
-    public void onSubCriteriaStateChanged(SubCriteria subCriteria, AnswerState previousState) {
-        // TODO: fixme
-//        Answer answer = subCriteria.getAnswer();
-//
-//        CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
-//        categoryProgress.recalculate(previousState, answer.getState());
-
-        updateProgress();
-        subCriteriaChangeSubjects.get(subCriteria.getId()).onNext(subCriteria);
-    }
-
-    private void updateProgress() {
-        // TODO: fixme
-//        CategoryProgress categoryProgress = standards.get(standardIndex).getCategoryProgress();
-//        getViewState().setProgress(
-//                categoryProgress.getAnsweredQuestionsCount(),
-//                categoryProgress.getTotalQuestionsCount());
+    public void onSubCriteriaStateChanged(MutableSubCriteria subCriteria) {
+        updateAnswer(subCriteria.getId(), subCriteria.getAnswer());
     }
 
     public void onNextPressed() {
@@ -91,7 +70,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         updateUi();
     }
 
-    public void onAddPhotoClicked(SubCriteria subCriteria) {
+    public void onAddPhotoClicked(MutableSubCriteria subCriteria) {
         selectedSubCriteria = subCriteria;
         try {
             takenPictureFile = picturesRepository.createEmptyFile();
@@ -117,46 +96,45 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         selectedSubCriteria = null; // just silently do nothing
     }
 
-    public void onDeletePhotoClicked(SubCriteria subCriteria, String photoPath) {
+    public void onDeletePhotoClicked(MutableSubCriteria subCriteria, String photoPath) {
         subCriteria.getAnswer().getPhotos().remove(photoPath);
         afterAnyPhotoChanges(subCriteria);
     }
 
-    public void onAddCommentClicked(SubCriteria subCriteria) {
+    public void onAddCommentClicked(MutableSubCriteria subCriteria) {
         selectedSubCriteria = subCriteria;
         getViewState().showCommentEditor(subCriteria);
     }
 
-    public void onEditCommentClicked(SubCriteria subCriteria) {
+    public void onEditCommentClicked(MutableSubCriteria subCriteria) {
         selectedSubCriteria = subCriteria;
         getViewState().showCommentEditor(subCriteria);
     }
 
     public void onCommentEdit(String comment) {
         if (selectedSubCriteria == null) return;
-        Answer answer = selectedSubCriteria.getAnswer();
-        // TODO: fixme
-//        answer.setComment(comment);
-        updateAnswer(passingId, selectedSubCriteria.getId(), answer);
+        MutableAnswer answer = selectedSubCriteria.getAnswer();
+        answer.setComment(comment);
+        updateAnswer(selectedSubCriteria.getId(), answer);
         getViewState().notifySubCriteriaChanged(selectedSubCriteria);
         selectedSubCriteria = null;
     }
 
-    public void onDeleteCommentClicked(SubCriteria subCriteria) {
-        // TODO: fixme
-//        subCriteria.getAnswer().setComment(null);
+    public void onDeleteCommentClicked(MutableSubCriteria subCriteria) {
+        // TODO: delete comment???
+        subCriteria.getAnswer().setComment(null);
         getViewState().notifySubCriteriaChanged(subCriteria);
     }
 
-    public void onMorePhotosClick(SubCriteria subCriteria) {
+    public void onMorePhotosClick(MutableSubCriteria subCriteria) {
         selectedSubCriteria = subCriteria;
-        getViewState().navigateToPhotos(passingId, subCriteria);
+        getViewState().navigateToPhotos(subCriteria);
     }
 
     public void onReturnedFromMorePhotos() {
         if (selectedSubCriteria == null) return;
 
-        // TODO: fixme
+        // TODO: fixme wtf is this?
 //        addDisposable(dataSource.requestAnswer(passingId, selectedSubCriteria.getId())
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -167,8 +145,8 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 //                }, this::handleError));
     }
 
-    private void afterAnyPhotoChanges(SubCriteria subCriteria) {
-        updateAnswer(passingId, subCriteria.getId(), subCriteria.getAnswer());
+    private void afterAnyPhotoChanges(MutableSubCriteria subCriteria) {
+        updateAnswer(subCriteria.getId(), subCriteria.getAnswer());
         getViewState().notifySubCriteriaChanged(subCriteria);
     }
 
@@ -185,38 +163,41 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         loadQuestions();
     }
 
+    private long getStandardId() {
+        return standards.get(standardIndex).getId();
+    }
+
     private void loadQuestions() {
-        long standardId = standards.get(standardIndex).getId();
+        long standardId = getStandardId();
 
-        // TODO: fixme
-//        addDisposable(dataSource.requestCriterias(passingId, standardId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> getViewState().showWaiting())
-//                .doFinally(() -> getViewState().hideWaiting())
-//                .subscribe(criterias -> {
-//                    getViewState().setCriterias(criterias);
+        addDisposable(surveyInteractor.getCriterias(categoryId, standardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(criterias -> {
+                    getViewState().setCriterias(criterias);
 //                    initSubCriteriaSubjects(criterias);
-//                    updateProgress();
-//                }, this::handleError));
+                }, this::handleError));
     }
 
-    private void initSubCriteriaSubjects(List<Criteria> criterias) {
-        for (Criteria criteria : criterias) {
-            for (SubCriteria subCriteria : criteria.getSubCriterias()) {
-                PublishSubject<SubCriteria> subject = PublishSubject.create();
-                subCriteriaChangeSubjects.append(subCriteria.getId(), subject);
-
-                addDisposable(subject
-                        .throttleLast(ANSWER_UPDATE_TIMEOUT, TimeUnit.MILLISECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .flatMapSingle(changedSubCriteria ->
-                                dataSource.updateAnswer(changedSubCriteria.getAnswer(), changedSubCriteria.getId()))
-                        .subscribe(answer -> cloudUploader.scheduleUploading(passingId), this::handleError));
-            }
-        }
-    }
+    // TODO: add to new logic
+//    private void initSubCriteriaSubjects(List<MutableCriteria> criterias) {
+//        for (Criteria criteria : criterias) {
+//            for (SubCriteria subCriteria : criteria.getSubCriterias()) {
+//                PublishSubject<SubCriteria> subject = PublishSubject.create();
+//                subCriteriaChangeSubjects.append(subCriteria.getId(), subject);
+//
+//                addDisposable(subject
+//                        .throttleLast(ANSWER_UPDATE_TIMEOUT, TimeUnit.MILLISECONDS)
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribeOn(Schedulers.io())
+//                        .flatMapSingle(changedSubCriteria ->
+//                                dataSource.updateAnswer(changedSubCriteria.getAnswer(), changedSubCriteria.getId()))
+//                        .subscribe(answer -> cloudUploader.scheduleUploading(passingId), this::handleError));
+//            }
+//        }
+//    }
 
     private int getNextIndex() {
         return standardIndex < standards.size() - 1 ? standardIndex + 1 : 0;
@@ -233,40 +214,58 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     private void load(long standardId) {
-        // TODO: fixme
-//        addDisposable(dataSource.requestStandards(passingId, categoryId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> getViewState().showWaiting())
-//                .doFinally(() -> getViewState().hideWaiting())
-//                .doOnSuccess(standards -> this.standards = standards)
-//                .flatMap(standards -> dataSource.requestStandard(passingId, standardId))
-//                .subscribe(standard -> {
-//                    initStandardIndexes(standard);
-//                    updateUi();
-//                }, this::handleError));
-//
-//        addDisposable(dataSource.requestSchoolAccreditationPassing(passingId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> getViewState().showWaiting())
-//                .doFinally(() -> getViewState().hideWaiting())
-//                .doOnSuccess(passing -> {
-//                    CriteriasView view = getViewState();
-//                    view.setSurveyDate(passing.getStartDate());
-//                    view.setSchoolName(passing.getSchool().getName());
-//                })
-//                .flatMap(passing -> dataSource.requestCategories(passingId))
-//                .toObservable()
-//                .flatMapIterable(it -> it)
-//                .filter(category -> category.getId() == categoryId)
-//                .subscribe(category -> getViewState().setCategoryName(category.getName()), this::handleError));
-    }
-
-    private void updateAnswer(long passingId, long subCriteriaId, Answer answer) {
-        addDisposable(dataSource.updateAnswer(answer, subCriteriaId)
+        addDisposable(surveyInteractor.getStandards(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(updatedAnswer -> cloudUploader.scheduleUploading(passingId), this::handleError));
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .doOnSuccess(standards -> this.standards = standards)
+                .flatMapObservable(Observable::fromIterable)
+                .filter(standard -> standard.getId() == standardId)
+                .firstOrError()
+                .subscribe(standard -> {
+                    initStandardIndexes(standard);
+                    updateUi();
+                }, this::handleError));
+
+        MutableSurvey survey = surveyInteractor.getCurrentSurvey();
+        getViewState().setSurveyDate(survey.getDate());
+        getViewState().setSchoolName(survey.getSchoolName());
+
+        addDisposable(surveyInteractor.getCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .flatMapObservable(Observable::fromIterable)
+                .filter(category -> category.getId() == categoryId)
+                .firstOrError()
+                .subscribe(category -> getViewState().setCategoryName(category.getTitle()), this::handleError));
+    }
+
+    private void updateAnswer(long subCriteriaId, MutableAnswer answer) {
+        addDisposable(surveyInteractor.updateAnswer(answer, categoryId, getStandardId(), getCriteriaId(subCriteriaId), subCriteriaId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> cloudUploader.scheduleUploading(surveyInteractor.getCurrentSurvey().getId()),
+                        this::handleError)
+        );
+    }
+
+    private long getCriteriaId(long subCriteriaId) {
+        for (MutableCriteria criteria : standards.get(standardIndex).getCriterias()) {
+            boolean containSubCriteria = false;
+            for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
+                if (subCriteria.getId() == subCriteriaId) {
+                    containSubCriteria = true;
+                    break;
+                }
+            }
+            if (containSubCriteria) {
+                return criteria.getId();
+            }
+        }
+        return -1;
     }
 }

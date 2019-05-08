@@ -1,5 +1,5 @@
-<schoolAccreditation>
-    <type>school_accreditation</type>
+<survey>
+    <type>0</type>
     <version>1</version>
     <category>
         <name>School Evaluation (Principal's interview)</name>
@@ -951,4 +951,4 @@
             </criteria>
         </standard>
     </category>
-</schoolAccreditation>
+</survey>

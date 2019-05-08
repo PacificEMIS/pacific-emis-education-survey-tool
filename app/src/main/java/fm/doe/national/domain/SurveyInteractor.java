@@ -7,6 +7,7 @@ import fm.doe.national.data.model.mutable.MutableCategory;
 import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.data.model.mutable.MutableSurvey;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;
 
@@ -16,6 +17,10 @@ public interface SurveyInteractor {
 
     void setCurrentSurvey(MutableSurvey survey);
 
+    void setCurrentSurvey(MutableSurvey survey, boolean shouldFetchProgress);
+
+    MutableSurvey getCurrentSurvey();
+
     Single<List<MutableCategory>> getCategories();
 
     Single<List<MutableStandard>> getStandards(long categoryId);
@@ -24,7 +29,7 @@ public interface SurveyInteractor {
 
     Single<Object> getSummaryObject();
 
-    void updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
+    Completable updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
 
     PublishSubject<MutableSurvey> getSurveyProgressSubject();
 

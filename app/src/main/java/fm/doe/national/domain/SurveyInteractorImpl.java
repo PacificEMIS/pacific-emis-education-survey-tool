@@ -15,7 +15,6 @@ import fm.doe.national.data.model.mutable.MutableSurvey;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 public class SurveyInteractorImpl implements SurveyInteractor {
@@ -45,7 +44,20 @@ public class SurveyInteractorImpl implements SurveyInteractor {
 
     @Override
     public void setCurrentSurvey(MutableSurvey survey) {
+        setCurrentSurvey(survey, false);
+    }
+
+    @Override
+    public void setCurrentSurvey(MutableSurvey survey, boolean shouldFetchProgress) {
         this.survey = survey;
+        if (shouldFetchProgress) {
+            initProgress(this.survey);
+        }
+    }
+
+    @Override
+    public MutableSurvey getCurrentSurvey() {
+        return survey;
     }
 
     private void initProgress(MutableSurvey survey) {
@@ -108,19 +120,15 @@ public class SurveyInteractorImpl implements SurveyInteractor {
 
     @SuppressLint("CheckResult")
     @Override
-    public void updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
-        dataSource.updateAnswer(answer, subCriteriaId)
+    public Completable updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
+        return dataSource.updateAnswer(answer, subCriteriaId)
                 .flatMapCompletable(updatedAnswer -> Completable.fromAction(() -> notifyProgressChanged(
                         updatedAnswer,
                         categoryId,
                         standardId,
                         criteriaId,
                         subCriteriaId
-                )))
-                .observeOn(Schedulers.computation())
-                .subscribeOn(Schedulers.computation())
-                .doOnError(Throwable::printStackTrace)
-                .subscribe();
+                )));
     }
 
     private void notifyProgressChanged(MutableAnswer answer,

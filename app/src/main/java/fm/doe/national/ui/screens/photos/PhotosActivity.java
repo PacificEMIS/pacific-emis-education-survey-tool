@@ -23,7 +23,6 @@ import fm.doe.national.ui.screens.criterias.FullscreenImageActivity;
 
 public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAdapter.Callback {
 
-    private static final String EXTRA_PASSING = "EXTRA_PASSING";
     private static final String EXTRA_SUBCRITERIA = "EXTRA_SUBCRITERIA";
 
 
@@ -35,20 +34,18 @@ public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAd
     @InjectPresenter
     PhotosPresenter presenter;
 
-    public static Intent createIntent(Context context, long passingId, SubCriteria subCriteria) {
+    public static Intent createIntent(Context context, SubCriteria subCriteria) {
         // TODO: fixme
 //        List<Photo> photos = subCriteria.getAnswer().getPhotos();
 //        String[] photosAsArray = photos.toArray(new String[photos.size()]);
         return new Intent(context, PhotosActivity.class)
-                .putExtra(EXTRA_PASSING, passingId)
                 .putExtra(EXTRA_SUBCRITERIA, subCriteria.getId());
     }
 
     @ProvidePresenter
     PhotosPresenter providePresenter() {
         Intent intent = getIntent();
-        return new PhotosPresenter(intent.getLongExtra(EXTRA_PASSING, -1),
-                intent.getLongExtra(EXTRA_SUBCRITERIA, -1));
+        return new PhotosPresenter(intent.getLongExtra(EXTRA_SUBCRITERIA, -1));
     }
 
     @Override

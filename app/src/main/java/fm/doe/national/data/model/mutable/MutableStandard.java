@@ -1,7 +1,6 @@
 package fm.doe.national.data.model.mutable;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         return suffix;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public List<MutableCriteria> getCriterias() {
         return criterias;

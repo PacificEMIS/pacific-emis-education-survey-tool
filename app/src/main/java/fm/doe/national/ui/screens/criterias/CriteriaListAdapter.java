@@ -22,14 +22,14 @@ import java.util.Set;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableCriteria;
+import fm.doe.national.data.model.mutable.MutableSubCriteria;
+import fm.doe.national.domain.model.Progress;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.utils.CollectionUtils;
 import fm.doe.national.utils.ViewUtils;
 
-public class CriteriaListAdapter extends BaseAdapter<Criteria> {
+public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
 
     @Nullable
     private SubcriteriaCallback callback = null;
@@ -52,8 +52,8 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         viewHolders.put((CriteriaViewHolder) holder, getItem(position).getId());
     }
 
-    public void notify(SubCriteria subCriteria) {
-        for (Criteria criteria : getItems()) {
+    public void notify(MutableSubCriteria subCriteria) {
+        for (MutableCriteria criteria : getItems()) {
             int index = criteria.getSubCriterias().indexOf(subCriteria);
             if (index >= 0) {
                 CriteriaViewHolder viewHolder = CollectionUtils.getKeyByValue(viewHolders, criteria.getId());
@@ -96,8 +96,8 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
         @SuppressWarnings("unchecked")
         @Override
-        public void onBind(Criteria item) {
-            adapter.setItems((List<SubCriteria>) item.getSubCriterias());
+        public void onBind(MutableCriteria item) {
+            adapter.setItems((List<MutableSubCriteria>) item.getSubCriterias());
 
             String criteriaPrefix = getString(R.string.format_criteria, item.getSuffix());
             SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.getTitle());
@@ -107,10 +107,8 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             titleTextView.setText(spannableString);
 
-            // TODO: fixme
-//            rebindProgress(item.getCategoryProgress());
+            rebindProgress(item.getProgress());
 
-            // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             if (expandedCriteriaIds.contains(item.getId())) {
                 subcriteriasRecycler.setVisibility(View.VISIBLE);
                 arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
@@ -130,32 +128,22 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, AnswerState previousState) {
-            // TODO: fixme
-//            CategoryProgress categoryProgress = getItem().getCategoryProgress();
-//            categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
-//
-//            if (categoryProgress.getAnsweredQuestionsCount() == categoryProgress.getTotalQuestionsCount()) {
-//                expandedCriteriaIds.remove(getItem().getId());
-//                notifyItemChanged(getAdapterPosition());
-//            }
-//
-//            rebindProgress(categoryProgress);
+        public void onSubCriteriaAnswerChanged(@NonNull MutableSubCriteria subCriteria) {
+            rebindProgress(getItem().getProgress());
         }
 
         public void notify(int subcriteriaIndex) {
             adapter.notifyItemChanged(subcriteriaIndex);
         }
 
-        // TODO: fixme
-//        private void rebindProgress(CategoryProgress progress) {
-//            ViewUtils.rebindProgress(
-//                    progress.getTotalQuestionsCount(),
-//                    progress.getAnsweredQuestionsCount(),
-//                    getString(R.string.criteria_progress),
-//                    progressTextView,
-//                    progressBar);
-//        }
+        private void rebindProgress(Progress progress) {
+            ViewUtils.rebindProgress(
+                    progress.total,
+                    progress.completed,
+                    getString(R.string.criteria_progress),
+                    progressTextView,
+                    progressBar);
+        }
 
     }
 }

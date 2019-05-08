@@ -4,16 +4,15 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableSubCriteria;
 
 public interface SubcriteriaCallback {
-    void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, AnswerState previousState);
-    void onEditCommentClicked(SubCriteria subCriteria);
-    void onAddCommentClicked(SubCriteria subCriteria);
-    void onRemoveCommentClicked(SubCriteria subCriteria);
-    void onAddPhotoClicked(SubCriteria subCriteria);
-    void onRemovePhotoClicked(SubCriteria subCriteria, String photoPath);
+    void onSubCriteriaStateChanged(@NonNull MutableSubCriteria subCriteria);
+    void onEditCommentClicked(MutableSubCriteria subCriteria);
+    void onAddCommentClicked(MutableSubCriteria subCriteria);
+    void onRemoveCommentClicked(MutableSubCriteria subCriteria);
+    void onAddPhotoClicked(MutableSubCriteria subCriteria);
+    void onRemovePhotoClicked(MutableSubCriteria subCriteria, String photoPath);
     void onPhotoClicked(View anchor, String photoPath);
-    void onMorePhotosClick(SubCriteria subCriteria);
+    void onMorePhotosClick(MutableSubCriteria subCriteria);
 }

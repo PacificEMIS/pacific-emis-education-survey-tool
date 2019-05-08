@@ -44,7 +44,7 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         return suffix;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public List<MutableSubCriteria> getSubCriterias() {
         return subCriteriaList;

@@ -10,6 +10,7 @@ import java.util.List;
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.School;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.utils.CollectionUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -19,6 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
+    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
 
     private Date surveyStartDate = new Date();
     private List<? extends School> schools;
@@ -50,7 +52,10 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(passing -> getViewState().navigateToCategoryChooser(passing.getId()), this::handleError));
+                .subscribe(survey -> {
+                    surveyInteractor.setCurrentSurvey(survey, true);
+                    getViewState().navigateToCategoryChooser();
+                }, this::handleError));
     }
 
 

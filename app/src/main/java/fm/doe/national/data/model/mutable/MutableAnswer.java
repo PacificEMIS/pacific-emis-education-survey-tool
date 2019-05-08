@@ -31,7 +31,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.photos = CollectionUtils.map(relativePersistenceAnswer.photos, MutablePhoto::new);
     }
 
-                         @Override
+    @Override
     public AnswerState getState() {
         return answerState;
     }
