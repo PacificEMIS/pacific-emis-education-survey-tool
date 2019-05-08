@@ -2,7 +2,7 @@ package fm.doe.national.ui.screens.splash;
 
 import android.content.res.AssetManager;
 
-import com.arellomobile.mvp.InjectViewState;
+import com.omegar.mvp.InjectViewState;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

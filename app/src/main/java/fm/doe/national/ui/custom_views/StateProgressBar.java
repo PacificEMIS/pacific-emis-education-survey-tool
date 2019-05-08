@@ -2,7 +2,6 @@ package fm.doe.national.ui.custom_views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -33,7 +32,7 @@ public class StateProgressBar extends ProgressBar {
 
     private void initAttrs(Context context, AttributeSet attributeSet, int defStyleAttr) {
         TypedArray styledAttributes = context.obtainStyledAttributes(attributeSet, R.styleable.StateProgressBar, defStyleAttr, 0);
-        setBackgroundProgressDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_backgroundColor));
+        setBackgroundProgressDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_bgColor));
         setProgressStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_progressColor));
         setSuccessStateDrawable(styledAttributes.getDrawable(R.styleable.StateProgressBar_successColor));
         defaultProgressDrawable = (LayerDrawable) getProgressDrawable();

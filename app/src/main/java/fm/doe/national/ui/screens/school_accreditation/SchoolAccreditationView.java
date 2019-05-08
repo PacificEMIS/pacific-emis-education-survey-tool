@@ -1,8 +1,8 @@
 package fm.doe.national.ui.screens.school_accreditation;
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
+import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 

@@ -145,7 +145,6 @@ public class SurveyInteractorImpl implements SurveyInteractor {
                                            long standardId,
                                            long criteriaId,
                                            long subCriteriaId) {
-
         int delta = 0;
         for (MutableStandard standard : category.getStandards()) {
             if (standard.getId() == standardId) {

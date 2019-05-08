@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.omegar.mvp.presenter.InjectPresenter;
 
 import butterknife.BindView;
 import fm.doe.national.R;

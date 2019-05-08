@@ -1,6 +1,6 @@
 package fm.doe.national.ui.screens.base;
 
-import com.arellomobile.mvp.MvpPresenter;
+import com.omegar.mvp.MvpPresenter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,6 @@ package fm.doe.national.utils;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Date;
 
@@ -34,11 +33,5 @@ public class TextUtil {
     @NonNull
     public static String createSurveyFileName(School school, Date date) {
         return school.getName() + '-' + school.getId() + '-' + DateUtils.format(date) + ".xml";
-    }
-
-    @Nullable
-    public static String fixLineSeparators(@Nullable String brokenString) {
-        if (brokenString == null) return null;
-        return brokenString.replace("\\n", "\n");
     }
 }

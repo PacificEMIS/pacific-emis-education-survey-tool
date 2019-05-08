@@ -3,11 +3,7 @@ package fm.doe.national.utils;
 
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.util.SparseArray;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
+import android.util.SparseIntArray;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,11 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import fm.doe.national.R;
 
 public class ViewUtils {
 
-    private static final SparseArray<Integer> STANDARD_ICONS = new SparseArray<>();
+    private static final SparseIntArray STANDARD_ICONS = new SparseIntArray();
     static {
         STANDARD_ICONS.put(1, R.drawable.ic_standard_leadership);
         STANDARD_ICONS.put(2, R.drawable.ic_standard_teacher);
@@ -28,53 +25,6 @@ public class ViewUtils {
         STANDARD_ICONS.put(5, R.drawable.ic_standard_facility);
         STANDARD_ICONS.put(6, R.drawable.ic_standard_improvement);
         STANDARD_ICONS.put(7, R.drawable.ic_standard_observation);
-    };
-
-
-    public static void animateCollapsing(@NonNull View view) {
-        int initialHeight = view.getMeasuredHeight();
-        Animation animation = new Animation() {
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if (interpolatedTime == 1) {
-                    view.setVisibility(View.GONE);
-                } else {
-                    view.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
-                    view.requestLayout();
-                }
-            }
-        };
-        animation.setDuration(initialHeight / (long) view.getContext().getResources().getDisplayMetrics().density);
-        view.startAnimation(animation);
-    }
-
-    public static void animateExpanding(@NonNull View view) {
-        view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int targetHeight = view.getMeasuredHeight();
-
-        view.getLayoutParams().height = 0;
-        view.setVisibility(View.VISIBLE);
-
-        Animation animation = new Animation() {
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                view.getLayoutParams().height =
-                        (interpolatedTime == 1) ? ViewGroup.LayoutParams.WRAP_CONTENT : (int) (targetHeight * interpolatedTime);
-                view.requestLayout();
-            }
-        };
-        animation.setDuration(targetHeight / (long) view.getContext().getResources().getDisplayMetrics().density);
-        view.startAnimation(animation);
     }
 
     public static void rebindProgress(int total,
@@ -121,13 +71,6 @@ public class ViewUtils {
 
     public static void setImageTo(ImageView imageView, String imagePath) {
         imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-    }
-
-    @Nullable
-    @DrawableRes
-    public static Integer getStandardIconRes(@Nullable Integer id) {
-        if (id == null) return null;
-        return STANDARD_ICONS.get(id);
     }
 
     @Nullable

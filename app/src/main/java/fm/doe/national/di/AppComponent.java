@@ -30,6 +30,7 @@ import fm.doe.national.di.modules.LocalDataSourceModule;
 import fm.doe.national.di.modules.SerializersModule;
 import fm.doe.national.di.modules.SharedPreferencesModule;
 import fm.doe.national.domain.SettingsInteractor;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.utils.LifecycleListener;
 
 @Singleton
@@ -63,4 +64,5 @@ public interface AppComponent {
     PicturesRepository getPicturesRepository();
 
     SettingsInteractor getSettingsInteractor();
+    SurveyInteractor getSurveyInteractor();
 }

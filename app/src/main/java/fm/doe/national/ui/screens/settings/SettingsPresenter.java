@@ -3,8 +3,8 @@ package fm.doe.national.ui.screens.settings;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
-import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
+import com.omegar.mvp.InjectViewState;
 
 import java.io.File;
 import java.io.FileOutputStream;

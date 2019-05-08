@@ -6,10 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.omega_r.libs.omegatypes.Text;
-
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+
+import com.omega_r.libs.omegatypes.Text;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
@@ -48,7 +49,7 @@ public class CloudConnectionCardView extends CardView implements View.OnClickLis
     }
 
     public void setCloudName(Text cloudName) {
-        nameTextView.setText(cloudName.getString(getResources()));
+        nameTextView.setText(cloudName.getString(getContext()));
     }
 
     public void setIconDrawableId(int iconDrawableId) {

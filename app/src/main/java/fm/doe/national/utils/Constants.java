@@ -4,7 +4,6 @@ public class Constants {
     public static final String FILE_MIME_TYPE = "text/xml";
     public static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
     public static final String AUTHORITY_FILE_PROVIDER = "fm.doe.national.fileprovider";
-    public static final String SYMBOL_SLASH = "/";
     public static final String DEFAULT_ROOT_FOLDER = "Root";
     public static final int SIZE_THUMB_PICTURE = 200;
     public static final int SECONDS_TO_LONG_LOADING_INDICATION = 5;

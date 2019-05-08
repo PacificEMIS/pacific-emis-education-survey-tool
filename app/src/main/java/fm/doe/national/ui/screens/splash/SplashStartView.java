@@ -1,11 +1,11 @@
 package fm.doe.national.ui.screens.splash;
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+
+import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
+import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import fm.doe.national.ui.screens.base.BaseView;
-import fm.doe.national.ui.screens.menu.base.MenuView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SplashStartView extends BaseView {

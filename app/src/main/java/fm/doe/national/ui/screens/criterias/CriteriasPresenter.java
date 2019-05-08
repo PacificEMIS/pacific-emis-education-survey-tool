@@ -4,8 +4,8 @@ import android.util.LongSparseArray;
 
 import androidx.annotation.Nullable;
 
-import com.arellomobile.mvp.InjectViewState;
 import com.omega_r.libs.omegatypes.Text;
+import com.omegar.mvp.InjectViewState;
 
 import java.io.File;
 import java.io.IOException;
