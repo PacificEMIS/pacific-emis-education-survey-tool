@@ -30,6 +30,7 @@ import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.model.mutable.MutableCriteria;
+import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
@@ -221,8 +222,8 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onRemovePhotoClicked(MutableSubCriteria subCriteria, String photoPath) {
-        presenter.onDeletePhotoClicked(subCriteria, photoPath);
+    public void onRemovePhotoClicked(MutableSubCriteria subCriteria, MutablePhoto photo) {
+        presenter.onDeletePhotoClicked(subCriteria, photo);
     }
 
     @Override
@@ -254,10 +255,10 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onPhotoClicked(View anchor, String photoPath) {
+    public void onPhotoClicked(View anchor, MutablePhoto photoPath) {
         String transitionName = ViewCompat.getTransitionName(anchor);
 
-        Intent intent = FullscreenImageActivity.createIntent(this, photoPath, transitionName);
+        Intent intent = FullscreenImageActivity.createIntent(this, photoPath.getLocalPath(), transitionName);
         ActivityOptionsCompat optionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this, anchor, transitionName);
         startActivity(intent, optionsCompat.toBundle());

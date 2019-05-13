@@ -6,15 +6,17 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.doe.national.R;
+import fm.doe.national.data.model.mutable.MutablePhoto;
 
 public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback {
 
@@ -53,7 +55,7 @@ public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback 
         countPhotosExtended = maxPhotos - 2; // 2 == spans { addPhoto, morePhotos }
     }
 
-    public void setPhotos(List<String> photos) {
+    public void setPhotos(List<MutablePhoto> photos) {
         if (photos.size() < maxPhotos) {
             adapter.setItems(photos);
             photosRecyclerView.setFootersVisibility(false);
@@ -81,19 +83,19 @@ public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback 
     }
 
     @Override
-    public void onDeletePhotoClick(String photo) {
+    public void onDeletePhotoClick(MutablePhoto photo) {
         if (callback != null) callback.onDeletePhotoClick(photo);
     }
 
     @Override
-    public void onPhotoClick(View v, String photo) {
+    public void onPhotoClick(View v, MutablePhoto photo) {
         if (callback != null) callback.onPhotoClick(v, photo);
     }
 
     public interface Callback {
         void onAddPhotoClick();
         void onMorePhotosClick();
-        void onDeletePhotoClick(String photo);
-        void onPhotoClick(View v, String photo);
+        void onDeletePhotoClick(MutablePhoto photo);
+        void onPhotoClick(View v, MutablePhoto photo);
     }
 }

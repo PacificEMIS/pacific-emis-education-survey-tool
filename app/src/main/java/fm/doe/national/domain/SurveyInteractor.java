@@ -21,13 +21,13 @@ public interface SurveyInteractor {
 
     MutableSurvey getCurrentSurvey();
 
-    Single<List<MutableCategory>> getCategories();
+    Single<List<MutableCategory>> requestCategories();
 
-    Single<List<MutableStandard>> getStandards(long categoryId);
+    Single<List<MutableStandard>> requestStandards(long categoryId);
 
-    Single<List<MutableCriteria>> getCriterias(long categoryId, long standardId);
+    Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId);
 
-    Single<Object> getSummaryObject();
+    Single<Object> requestSummaryObject();
 
     Completable updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
 

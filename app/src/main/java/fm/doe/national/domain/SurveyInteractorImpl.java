@@ -91,13 +91,13 @@ public class SurveyInteractorImpl implements SurveyInteractor {
     }
 
     @Override
-    public Single<List<MutableCategory>> getCategories() {
+    public Single<List<MutableCategory>> requestCategories() {
         return Single.fromCallable(() -> survey.getCategories());
     }
 
     @Override
-    public Single<List<MutableStandard>> getStandards(long categoryId) {
-        return getCategories()
+    public Single<List<MutableStandard>> requestStandards(long categoryId) {
+        return requestCategories()
                 .flatMapObservable(Observable::fromIterable)
                 .filter(cat -> cat.getId() == categoryId)
                 .firstOrError()
@@ -105,8 +105,8 @@ public class SurveyInteractorImpl implements SurveyInteractor {
     }
 
     @Override
-    public Single<List<MutableCriteria>> getCriterias(long categoryId, long standardId) {
-        return getStandards(categoryId)
+    public Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId) {
+        return requestStandards(categoryId)
                 .flatMapObservable(Observable::fromIterable)
                 .filter(it -> it.getId() == standardId)
                 .firstOrError()
@@ -114,7 +114,7 @@ public class SurveyInteractorImpl implements SurveyInteractor {
     }
 
     @Override
-    public Single<Object> getSummaryObject() {
+    public Single<Object> requestSummaryObject() {
         return null;
     }
 
@@ -218,4 +218,5 @@ public class SurveyInteractorImpl implements SurveyInteractor {
     public PublishSubject<MutableCriteria> getCriteriaProgressSubject() {
         return criteriaPublishSubject;
     }
+
 }

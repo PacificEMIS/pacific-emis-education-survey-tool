@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import fm.doe.national.data.persistence.entity.PersistenceSchool;
 import fm.doe.national.data.persistence.entity.PersistenceStandard;
 import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
 import fm.doe.national.data.persistence.entity.PersistenceSurvey;
+import fm.doe.national.utils.CollectionUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -200,7 +202,60 @@ public class RoomDataSource implements DataSource {
             existingAnswer.state = answer.getState();
             answerDao.update(existingAnswer);
             return new MutableAnswer(answerDao.getFilledById(existingAnswer.uid));
-        });
+        })
+                .flatMap(mutableAnswer -> {
+                    List<MutablePhoto> existingPhotos = mutableAnswer.getPhotos();
+                    List<MutablePhoto> expectedPhotos = CollectionUtils.map(answer.getPhotos(), MutablePhoto::new);
+                    // Note: update photo === delete + create
+                    List<MutablePhoto> photosToDelete = new ArrayList<>();
+                    List<MutablePhoto> photosToCreate = new ArrayList<>();
+                    List<MutablePhoto> photosToUpdate = new ArrayList<>();
+
+                    for (MutablePhoto existingPhoto : existingPhotos) {
+                        MutablePhoto updatedPhoto = CollectionUtils.firstWhere(
+                                expectedPhotos,
+                                p -> p.getId() == existingPhoto.getId()
+                        );
+
+                        if (updatedPhoto == null) {
+                            photosToDelete.add(existingPhoto);
+                            continue;
+                        }
+
+                        expectedPhotos.remove(updatedPhoto);
+
+                        if (!existingPhoto.equals(updatedPhoto)) {
+                            photosToUpdate.add(updatedPhoto);
+                        }
+                    }
+
+                    photosToCreate.addAll(expectedPhotos);
+
+                    return Observable.fromIterable(photosToUpdate)
+                            .map(photo -> {
+                                photoDao.update(new PersistencePhoto(photo));
+                                return photo;
+                            })
+                            .toList()
+                            .flatMap(updatedPhotos -> Observable.fromIterable(photosToDelete)
+                                    .map(photo -> {
+                                        photoDao.deleteById(photo.getId());
+                                        return photo;
+                                    })
+                                    .toList()
+                                    .flatMap(deletedPhotos -> Observable.fromIterable(photosToCreate)
+                                            .map(photo -> {
+                                                PersistencePhoto persistencePhoto = new PersistencePhoto(photo);
+                                                persistencePhoto.answerId = answer.getId();
+                                                photoDao.insert(persistencePhoto);
+                                                return photo;
+                                            })
+                                            .toList()
+                                    )
+                            );
+                })
+                .flatMap(photos ->
+                                Single.fromCallable(() -> new MutableAnswer(answerDao.getFilledById(answer.getId()))));
     }
 
     @Override

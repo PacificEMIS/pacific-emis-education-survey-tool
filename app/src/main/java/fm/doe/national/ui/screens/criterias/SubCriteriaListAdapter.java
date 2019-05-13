@@ -19,15 +19,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import fm.doe.national.R;
-import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Photo;
 import fm.doe.national.data.model.mutable.MutableAnswer;
+import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.custom_views.photos_view.PhotoBoxView;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import io.reactivex.Observable;
 
 public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
 
@@ -100,7 +98,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
 
         @Override
         public void onBind(MutableSubCriteria item) {
-            Answer answer = item.getAnswer();
+            MutableAnswer answer = item.getAnswer();
             questionTextView.setText(item.getTitle());
 
             numberingTextView.setText(getString(R.string.format_subcriteria, item.getSuffix()));
@@ -172,12 +170,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
         }
 
         @Override
-        public void onDeletePhotoClick(String photo) {
+        public void onDeletePhotoClick(MutablePhoto photo) {
             if (callback != null) callback.onRemovePhotoClicked(getItem(), photo);
         }
 
         @Override
-        public void onPhotoClick(View v, String photo) {
+        public void onPhotoClick(View v, MutablePhoto photo) {
             if (callback != null) callback.onPhotoClicked(v, photo);
         }
 
@@ -249,18 +247,14 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
             }
         }
 
-        private void updatePhotosVisibility(List<? extends Photo> photos) {
+        private void updatePhotosVisibility(List<MutablePhoto> photos) {
             if (photos.isEmpty()) {
                 photoBoxView.setVisibility(View.GONE);
                 photoButtonView.setVisibility(View.VISIBLE);
             } else {
                 photoBoxView.setVisibility(View.VISIBLE);
                 photoButtonView.setVisibility(View.GONE);
-                List<String> localPaths = Observable.fromIterable(photos)
-                        .map(Photo::getLocalPath)
-                        .toList()
-                        .blockingGet();
-                photoBoxView.setPhotos(localPaths);
+                photoBoxView.setPhotos(photos);
             }
         }
     }

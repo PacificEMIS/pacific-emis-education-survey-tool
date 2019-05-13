@@ -31,8 +31,25 @@ public class CollectionUtils {
         return result;
     }
 
+    @Nullable
+    public static <T> T firstWhere(@Nullable List<T> list, ItemPredicate<T> predicate) {
+        if (list == null) return null;
+
+        for (T item : list) {
+            if (predicate.test(item)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
     public interface ItemMutator<T, E> {
         T mutate(E item);
+    }
+
+    public interface ItemPredicate<T> {
+        boolean test(T item);
     }
 
 }

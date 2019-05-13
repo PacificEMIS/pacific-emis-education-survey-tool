@@ -6,7 +6,6 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.model.mutable.MutableStandard;
-import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.domain.model.Progress;
 import fm.doe.national.ui.screens.base.BasePresenter;
@@ -40,7 +39,7 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .doOnSuccess(survey -> getViewState().setSurveyDate(survey.getDate()))
-                .flatMap(s -> interactor.getCategories())
+                .flatMap(s -> interactor.requestCategories())
                 .flatMapObservable(Observable::fromIterable)
                 .filter(category -> category.getId() == categoryId)
                 .firstOrError()
@@ -48,7 +47,7 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
     }
 
     private void loadStandards() {
-        addDisposable(interactor.getStandards(categoryId)
+        addDisposable(interactor.requestStandards(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> getViewState().showWaiting())

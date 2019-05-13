@@ -4,6 +4,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.data.model.mutable.MutableSubCriteria;
 
 public interface SubcriteriaCallback {
@@ -12,7 +13,7 @@ public interface SubcriteriaCallback {
     void onAddCommentClicked(MutableSubCriteria subCriteria);
     void onRemoveCommentClicked(MutableSubCriteria subCriteria);
     void onAddPhotoClicked(MutableSubCriteria subCriteria);
-    void onRemovePhotoClicked(MutableSubCriteria subCriteria, String photoPath);
-    void onPhotoClicked(View anchor, String photoPath);
+    void onRemovePhotoClicked(MutableSubCriteria subCriteria, MutablePhoto photo);
+    void onPhotoClicked(View anchor, MutablePhoto photo);
     void onMorePhotosClick(MutableSubCriteria subCriteria);
 }

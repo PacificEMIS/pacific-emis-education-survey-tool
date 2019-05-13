@@ -39,7 +39,7 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
     }
 
     private void loadCategories() {
-        addDisposable(interactor.getCategories()
+        addDisposable(interactor.requestCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> getViewState().showWaiting())

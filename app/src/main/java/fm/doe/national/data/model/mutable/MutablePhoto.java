@@ -3,6 +3,8 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
 import fm.doe.national.data.model.Photo;
 
 public class MutablePhoto extends BaseMutableEntity implements Photo {
@@ -40,5 +42,30 @@ public class MutablePhoto extends BaseMutableEntity implements Photo {
 
     public void setRemotePath(@Nullable String remotePath) {
         this.remotePath = remotePath;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MutablePhoto that = (MutablePhoto) o;
+        if (getId() != that.getId()) {
+            return false;
+        }
+        if (localPath == null) {
+            return that.getLocalPath() == null;
+        }
+        if (!localPath.equals(that.getLocalPath())) {
+            return false;
+        }
+        if (remotePath == null) {
+            return that.getRemotePath() == null;
+        }
+        return remotePath.equals(that.getRemotePath());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(localPath, remotePath, getId());
     }
 }

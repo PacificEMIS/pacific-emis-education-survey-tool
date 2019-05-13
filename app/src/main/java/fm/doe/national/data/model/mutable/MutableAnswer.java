@@ -50,6 +50,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.comment = comment;
     }
 
+    @NonNull
     public List<MutablePhoto> getPhotos() {
         return photos;
     }

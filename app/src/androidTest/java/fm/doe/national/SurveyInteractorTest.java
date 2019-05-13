@@ -96,14 +96,14 @@ public class SurveyInteractorTest {
 
         interactor.setCurrentSurvey(survey);
 
-        List<MutableCategory> categories = interactor.getCategories().blockingGet();
+        List<MutableCategory> categories = interactor.requestCategories().blockingGet();
         assertEquals(4, categories.size());
         MutableCategory category = categories.get(3);
         assertEquals("Classroom Observation", category.getTitle());
         assertEquals(5, category.getStandards().size());
         assertEquals(0, category.getProgress().completed);
 
-        List<MutableStandard> standards = interactor.getStandards(category.getId()).blockingGet();
+        List<MutableStandard> standards = interactor.requestStandards(category.getId()).blockingGet();
         assertEquals(5, standards.size());
         MutableStandard standard = standards.get(2);
         assertEquals("CO3", standard.getSuffix());
@@ -111,7 +111,7 @@ public class SurveyInteractorTest {
         assertEquals(0, standard.getProgress().completed);
         assertEquals(20, standard.getProgress().total);
 
-        List<MutableCriteria> criterias = interactor.getCriterias(category.getId(), standard.getId()).blockingGet();
+        List<MutableCriteria> criterias = interactor.requestCriterias(category.getId(), standard.getId()).blockingGet();
         assertEquals(4, criterias.size());
         MutableCriteria criteria = criterias.get(0);
         assertEquals("CO3.1", criteria.getSuffix());
@@ -129,16 +129,16 @@ public class SurveyInteractorTest {
 
         interactor.setCurrentSurvey(survey);
 
-        List<MutableCategory> categories = interactor.getCategories().blockingGet();
+        List<MutableCategory> categories = interactor.requestCategories().blockingGet();
         MutableCategory category = categories.get(3);
         assertEquals(0, category.getProgress().completed);
 
-        List<MutableStandard> standards = interactor.getStandards(category.getId()).blockingGet();
+        List<MutableStandard> standards = interactor.requestStandards(category.getId()).blockingGet();
         MutableStandard standard = standards.get(2);
         assertEquals(0, standard.getProgress().completed);
         assertEquals(20, standard.getProgress().total);
 
-        List<MutableCriteria> criterias = interactor.getCriterias(category.getId(), standard.getId()).blockingGet();
+        List<MutableCriteria> criterias = interactor.requestCriterias(category.getId(), standard.getId()).blockingGet();
         MutableCriteria criteria = criterias.get(0);
         assertEquals(0, criteria.getProgress().completed);
         assertEquals(5, criteria.getProgress().total);

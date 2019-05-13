@@ -30,7 +30,6 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
-    private static final int ANSWER_UPDATE_TIMEOUT = 500;
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
     private final SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
@@ -88,8 +87,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         if (selectedSubCriteria == null || takenPictureFile == null) return;
         MutablePhoto mutablePhoto = new MutablePhoto();
         mutablePhoto.setLocalPath(takenPictureFile.getPath());
-        // TODO: fixme
-//        selectedSubCriteria.getAnswer().getPhotos().add(mutablePhoto);
+        selectedSubCriteria.getAnswer().getPhotos().add(mutablePhoto);
         takenPictureFile = null;
         afterAnyPhotoChanges(selectedSubCriteria);
     }
@@ -100,8 +98,8 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         selectedSubCriteria = null; // just silently do nothing
     }
 
-    public void onDeletePhotoClicked(MutableSubCriteria subCriteria, String photoPath) {
-        subCriteria.getAnswer().getPhotos().remove(photoPath);
+    public void onDeletePhotoClicked(MutableSubCriteria subCriteria, MutablePhoto photo) {
+        subCriteria.getAnswer().getPhotos().remove(photo);
         afterAnyPhotoChanges(subCriteria);
     }
 
@@ -173,7 +171,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     private void loadQuestions() {
         long standardId = getStandardId();
 
-        addDisposable(surveyInteractor.getCriterias(categoryId, standardId)
+        addDisposable(surveyInteractor.requestCriterias(categoryId, standardId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -196,7 +194,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     private void load(long standardId) {
-        addDisposable(surveyInteractor.getStandards(categoryId)
+        addDisposable(surveyInteractor.requestStandards(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -214,7 +212,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         getViewState().setSurveyDate(survey.getDate());
         getViewState().setSchoolName(survey.getSchoolName());
 
-        addDisposable(surveyInteractor.getCategories()
+        addDisposable(surveyInteractor.requestCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())

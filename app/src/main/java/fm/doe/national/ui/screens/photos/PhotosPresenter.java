@@ -6,6 +6,7 @@ import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.Answer;
+import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,7 +28,7 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
         loadAnswer();
     }
 
-    public void onDeletePhotoClick(String photo) {
+    public void onDeletePhotoClick(MutablePhoto photo) {
         // TODO: fixme
 //        answer.getPhotos().remove(photo);
 //        getViewState().showPhotos(answer.getPhotos());
