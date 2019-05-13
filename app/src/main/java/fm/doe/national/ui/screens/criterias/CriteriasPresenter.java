@@ -50,6 +50,10 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     public CriteriasPresenter(long categoryId, long standardId) {
         this.categoryId = categoryId;
         load(standardId);
+        addDisposable(surveyInteractor.getCriteriaProgressSubject()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(criteria -> getViewState().notifyCriteriaChanged(criteria), this::handleError));
     }
 
     public void onSubCriteriaStateChanged(MutableSubCriteria subCriteria) {
@@ -175,29 +179,8 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(criterias -> {
-                    getViewState().setCriterias(criterias);
-//                    initSubCriteriaSubjects(criterias);
-                }, this::handleError));
+                .subscribe(criterias -> getViewState().setCriterias(criterias), this::handleError));
     }
-
-    // TODO: add to new logic
-//    private void initSubCriteriaSubjects(List<MutableCriteria> criterias) {
-//        for (Criteria criteria : criterias) {
-//            for (SubCriteria subCriteria : criteria.getSubCriterias()) {
-//                PublishSubject<SubCriteria> subject = PublishSubject.create();
-//                subCriteriaChangeSubjects.append(subCriteria.getId(), subject);
-//
-//                addDisposable(subject
-//                        .throttleLast(ANSWER_UPDATE_TIMEOUT, TimeUnit.MILLISECONDS)
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeOn(Schedulers.io())
-//                        .flatMapSingle(changedSubCriteria ->
-//                                dataSource.updateAnswer(changedSubCriteria.getAnswer(), changedSubCriteria.getId()))
-//                        .subscribe(answer -> cloudUploader.scheduleUploading(passingId), this::handleError));
-//            }
-//        }
-//    }
 
     private int getNextIndex() {
         return standardIndex < standards.size() - 1 ? standardIndex + 1 : 0;

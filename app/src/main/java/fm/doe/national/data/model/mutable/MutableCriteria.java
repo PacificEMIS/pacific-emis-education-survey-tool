@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCriteria;
@@ -68,5 +69,18 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
 
     public void setProgress(Progress progress) {
         this.progress = progress;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MutableCriteria criteria = (MutableCriteria) o;
+        return getId() == criteria.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

@@ -3,6 +3,8 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSubCriteria;
@@ -85,5 +87,18 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
 
     public void setAnswer(MutableAnswer answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MutableSubCriteria criteria = (MutableSubCriteria) o;
+        return getId() == criteria.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

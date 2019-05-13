@@ -285,4 +285,9 @@ public class CriteriasActivity extends BaseActivity implements
             imageView.setActivated(isHighlighted);
         }
     }
+
+    @Override
+    public void notifyCriteriaChanged(MutableCriteria criteria) {
+        recyclerAdapter.notify(criteria);
+    }
 }

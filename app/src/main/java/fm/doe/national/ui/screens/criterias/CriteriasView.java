@@ -42,6 +42,9 @@ public interface CriteriasView extends BaseView {
     void notifySubCriteriaChanged(MutableSubCriteria subCriteria);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
+    void notifyCriteriaChanged(MutableCriteria criteria);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showCommentEditor(MutableSubCriteria subCriteria);
 
     @StateStrategyType(OneExecutionStateStrategy.class)

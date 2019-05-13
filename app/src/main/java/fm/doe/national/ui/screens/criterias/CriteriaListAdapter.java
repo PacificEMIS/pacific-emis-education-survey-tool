@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
@@ -62,6 +63,13 @@ public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
                     break;
                 }
             }
+        }
+    }
+
+    public void notify(MutableCriteria mutableCriteria) {
+        int index = getItems().indexOf(mutableCriteria);
+        if (index != RecyclerView.NO_POSITION) {
+            notifyItemChanged(index);
         }
     }
 
