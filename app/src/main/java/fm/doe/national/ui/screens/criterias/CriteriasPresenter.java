@@ -125,9 +125,8 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     public void onDeleteCommentClicked(MutableSubCriteria subCriteria) {
-        // TODO: delete comment???
         subCriteria.getAnswer().setComment(null);
-        getViewState().notifySubCriteriaChanged(subCriteria);
+        updateAnswer(subCriteria.getId(), subCriteria.getAnswer());
     }
 
     public void onMorePhotosClick(MutableSubCriteria subCriteria) {
