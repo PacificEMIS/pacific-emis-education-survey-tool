@@ -7,6 +7,7 @@ import fm.doe.national.data.model.mutable.MutableCategory;
 import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;
@@ -27,7 +28,7 @@ public interface SurveyInteractor {
 
     Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId);
 
-    Single<Object> requestSummaryObject();
+    Single<List<SummaryViewData>> requestSummary();
 
     Completable updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
 

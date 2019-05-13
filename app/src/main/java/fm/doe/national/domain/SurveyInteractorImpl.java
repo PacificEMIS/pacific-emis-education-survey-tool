@@ -2,6 +2,7 @@ package fm.doe.national.domain;
 
 import android.annotation.SuppressLint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.data_source.DataSource;
@@ -12,6 +13,7 @@ import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -114,8 +116,34 @@ public class SurveyInteractorImpl implements SurveyInteractor {
     }
 
     @Override
-    public Single<Object> requestSummaryObject() {
-        return null;
+    public Single<List<SummaryViewData>> requestSummary() {
+        return requestCategories()
+                .flatMapObservable(Observable::fromIterable)
+                .flatMap(category -> Observable.fromIterable(category.getStandards())
+                        .map(standard -> {
+                            List<SummaryViewData.Progress> progresses = new ArrayList<>();
+                            for (MutableCriteria criteria : standard.getCriterias()) {
+                                int total = criteria.getSubCriterias().size();
+                                int positive = 0;
+                                int negative = 0;
+                                for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
+                                    switch (subCriteria.getAnswer().getState()) {
+                                        case NOT_ANSWERED:
+                                            // nothing
+                                            break;
+                                        case POSITIVE:
+                                            positive++;
+                                            break;
+                                        case NEGATIVE:
+                                            negative++;
+                                            break;
+                                    }
+                                }
+                                progresses.add(new SummaryViewData.Progress(total, positive, negative));
+                            }
+                            return new SummaryViewData(category, standard, progresses);
+                        })
+                ).toList();
     }
 
     @SuppressLint("CheckResult")
