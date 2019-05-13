@@ -48,6 +48,6 @@ public interface CriteriasView extends BaseView {
     void showCommentEditor(MutableSubCriteria subCriteria);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToPhotos(MutableSubCriteria subCriteria);
+    void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId);
 
 }

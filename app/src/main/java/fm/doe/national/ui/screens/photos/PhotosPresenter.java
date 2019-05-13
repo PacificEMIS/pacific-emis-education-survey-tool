@@ -4,11 +4,11 @@ import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.MicronesiaApplication;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.model.Answer;
+import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -16,38 +16,47 @@ import io.reactivex.schedulers.Schedulers;
 public class PhotosPresenter extends BasePresenter<PhotosView> {
 
     private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
 
+    private final long categoryId;
+    private final long standardId;
+    private final long criteriaId;
     private final long subCriteriaId;
 
-    private Answer answer;
+    private MutableAnswer answer;
 
-    public PhotosPresenter(long subCriteriaId) {
+    public PhotosPresenter(long categoryId, long standardId, long criteriaId, long subCriteriaId) {
+        this.categoryId = categoryId;
+        this.standardId = standardId;
+        this.criteriaId = criteriaId;
         this.subCriteriaId = subCriteriaId;
         loadAnswer();
     }
 
     public void onDeletePhotoClick(MutablePhoto photo) {
-        // TODO: fixme
-//        answer.getPhotos().remove(photo);
-//        getViewState().showPhotos(answer.getPhotos());
-        addDisposable(dataSource.updateAnswer(answer, subCriteriaId)
+        answer.getPhotos().remove(photo);
+        getViewState().showPhotos(answer.getPhotos());
+        addDisposable(interactor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((answer) -> cloudUploader.scheduleUploading(interactor.getCurrentSurvey().getId()), this::handleError));
+                .subscribe(() -> cloudUploader.scheduleUploading(interactor.getCurrentSurvey().getId()), this::handleError));
     }
 
     private void loadAnswer() {
-        // TODO: fixme
-//        addDisposable(dataSource.requestAnswer(passingId, subCriteriaId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(disposable -> getViewState().showWaiting())
-//                .doFinally(getViewState()::hideWaiting)
-//                .subscribe(answerResult -> {
-//                    answer = answerResult;
-//                    getViewState().showPhotos(answer.getPhotos());
-//                }, this::handleError));
+        addDisposable(interactor.requestCriterias(categoryId, standardId)
+                .flatMapObservable(Observable::fromIterable)
+                .filter(criteria -> criteria.getId() == criteriaId)
+                .firstElement()
+                .flatMapObservable(criteria -> Observable.fromIterable(criteria.getSubCriterias()))
+                .filter(subCriteria -> subCriteria.getId() == subCriteriaId)
+                .firstElement()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(getViewState()::hideWaiting)
+                .subscribe(subCriteria -> {
+                    answer = subCriteria.getAnswer();
+                    getViewState().showPhotos(answer.getPhotos());
+                }, this::handleError));
     }
 }

@@ -129,21 +129,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
     public void onMorePhotosClick(MutableSubCriteria subCriteria) {
         selectedSubCriteria = subCriteria;
-        getViewState().navigateToPhotos(subCriteria);
-    }
-
-    public void onReturnedFromMorePhotos() {
-        if (selectedSubCriteria == null) return;
-
-        // TODO: fixme wtf is this?
-//        addDisposable(dataSource.requestAnswer(passingId, selectedSubCriteria.getId())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(answer -> {
-//                    selectedSubCriteria.getAnswer().setPhotos(answer.getPhotos());
-//                    getViewState().notifySubCriteriaChanged(selectedSubCriteria);
-//                    selectedSubCriteria = null;
-//                }, this::handleError));
+        getViewState().navigateToPhotos(categoryId, getStandardId(), getCriteriaId(subCriteria.getId()), subCriteria.getId());
     }
 
     private void afterAnyPhotoChanges(MutableSubCriteria subCriteria) {

@@ -128,7 +128,7 @@ public class CriteriasActivity extends BaseActivity implements
                 }
                 break;
             case REQUEST_CHANGES:
-                presenter.onReturnedFromMorePhotos();
+                // nothing for now
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -232,8 +232,9 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void navigateToPhotos(MutableSubCriteria subCriteria) {
-        startActivityForResult(PhotosActivity.createIntent(this, subCriteria), REQUEST_CHANGES);
+    public void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId) {
+        startActivityForResult(PhotosActivity.createIntent(this, categoryId, standardId, criteriaId, subCriteriaId),
+                REQUEST_CHANGES);
     }
 
     @Override

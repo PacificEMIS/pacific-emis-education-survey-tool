@@ -16,7 +16,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.ui.custom_views.photos_view.PhotosAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
@@ -24,7 +23,10 @@ import fm.doe.national.ui.screens.criterias.FullscreenImageActivity;
 
 public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAdapter.Callback {
 
-    private static final String EXTRA_SUBCRITERIA = "EXTRA_SUBCRITERIA";
+    private static final String EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID";
+    private static final String EXTRA_STANDARD_ID = "EXTRA_STANDARD_ID";
+    private static final String EXTRA_CRITERIA_ID = "EXTRA_CRITERIA_ID";
+    private static final String EXTRA_SUBCRITERIA_ID = "EXTRA_SUBCRITERIA_ID";
 
 
     private final PhotosAdapter adapter = new PhotosAdapter();
@@ -35,18 +37,23 @@ public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAd
     @InjectPresenter
     PhotosPresenter presenter;
 
-    public static Intent createIntent(Context context, SubCriteria subCriteria) {
-        // TODO: fixme
-//        List<Photo> photos = subCriteria.getAnswer().getPhotos();
-//        String[] photosAsArray = photos.toArray(new String[photos.size()]);
+    public static Intent createIntent(Context context, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
         return new Intent(context, PhotosActivity.class)
-                .putExtra(EXTRA_SUBCRITERIA, subCriteria.getId());
+                .putExtra(EXTRA_CATEGORY_ID, categoryId)
+                .putExtra(EXTRA_STANDARD_ID, standardId)
+                .putExtra(EXTRA_CRITERIA_ID, criteriaId)
+                .putExtra(EXTRA_SUBCRITERIA_ID, subCriteriaId);
     }
 
     @ProvidePresenter
     PhotosPresenter providePresenter() {
         Intent intent = getIntent();
-        return new PhotosPresenter(intent.getLongExtra(EXTRA_SUBCRITERIA, -1));
+        return new PhotosPresenter(
+                intent.getLongExtra(EXTRA_CATEGORY_ID, -1),
+                intent.getLongExtra(EXTRA_STANDARD_ID, -1),
+                intent.getLongExtra(EXTRA_CRITERIA_ID, -1),
+                intent.getLongExtra(EXTRA_SUBCRITERIA_ID, -1)
+        );
     }
 
     @Override
