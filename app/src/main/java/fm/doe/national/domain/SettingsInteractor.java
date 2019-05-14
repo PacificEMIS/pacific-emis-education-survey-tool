@@ -26,7 +26,7 @@ public class SettingsInteractor {
 
     public Completable importSchools(CloudType type) {
         return cloudRepository.requestContent(type)
-                .flatMapCompletable(content -> localDataRepository.rewriteSchools(
+                .flatMapCompletable(content -> localDataRepository.rewriteAllSchools(
                         schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
     }
 

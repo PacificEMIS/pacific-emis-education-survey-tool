@@ -38,8 +38,9 @@ public class SurveyInteractorImpl implements SurveyInteractor {
         return dataSource.loadAllSurveys()
                 .flatMapObservable(Observable::fromIterable)
                 .map(survey -> {
-                    initProgress(survey);
-                    return survey;
+                    MutableSurvey mutableSurvey = new MutableSurvey(survey);
+                    initProgress(mutableSurvey);
+                    return mutableSurvey;
                 })
                 .toList();
     }
@@ -151,7 +152,7 @@ public class SurveyInteractorImpl implements SurveyInteractor {
     public Completable updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
         return dataSource.updateAnswer(answer, subCriteriaId)
                 .flatMapCompletable(updatedAnswer -> Completable.fromAction(() -> notifyProgressChanged(
-                        updatedAnswer,
+                        new MutableAnswer(updatedAnswer),
                         categoryId,
                         standardId,
                         criteriaId,

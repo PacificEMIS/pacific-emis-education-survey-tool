@@ -43,7 +43,7 @@ public class SplashStartPresenter extends BasePresenter<SplashStartView> {
                                     .flatMapCompletable(resultList -> {
                                         if (resultList.isEmpty()) {
                                             return dataSource
-                                                    .rewriteSchools(schools)
+                                                    .rewriteAllSchools(schools)
                                                     .andThen(dataSource.rewriteStaticSurvey(schoolAccreditation));
                                         }
                                         return Completable.complete(); // already exists

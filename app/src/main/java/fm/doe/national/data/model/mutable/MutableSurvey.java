@@ -8,7 +8,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSurvey;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomSurvey;
 import fm.doe.national.domain.model.Progress;
 import fm.doe.national.utils.CollectionUtils;
 
@@ -35,9 +35,9 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         this.categories = CollectionUtils.map(other.getCategories(), MutableCategory::new);
     }
 
-    public MutableSurvey(@NonNull RelativePersistenceSurvey relativePersistenceSurvey) {
-        this(relativePersistenceSurvey.survey);
-        categories = CollectionUtils.map(relativePersistenceSurvey.categories, MutableCategory::new);
+    public MutableSurvey(@NonNull RelativeRoomSurvey relativeRoomSurvey) {
+        this(relativeRoomSurvey.survey);
+        categories = CollectionUtils.map(relativeRoomSurvey.categories, MutableCategory::new);
     }
 
     @Override

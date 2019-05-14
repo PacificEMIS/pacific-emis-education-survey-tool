@@ -10,39 +10,39 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.entity.PersistenceAnswer;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceAnswer;
+import fm.doe.national.data.persistence.entity.RoomAnswer;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomAnswer;
 
 @Dao
 public interface AnswerDao {
     @Insert
-    long insert(PersistenceAnswer answer);
+    long insert(RoomAnswer answer);
 
     @Update
-    void update(PersistenceAnswer answer);
+    void update(RoomAnswer answer);
 
     @Delete
-    void delete(PersistenceAnswer answer);
+    void delete(RoomAnswer answer);
 
     @Nullable
-    @Query("SELECT * FROM PersistenceAnswer WHERE uid = :id LIMIT 1")
-    PersistenceAnswer getById(long id);
+    @Query("SELECT * FROM RoomAnswer WHERE uid = :id LIMIT 1")
+    RoomAnswer getById(long id);
 
-    @Query("SELECT * FROM PersistenceAnswer WHERE sub_criteria_id = :subCriteriaId")
-    List<PersistenceAnswer> getAllForSubCriteriaWithId(long subCriteriaId);
+    @Query("SELECT * FROM RoomAnswer WHERE sub_criteria_id = :subCriteriaId")
+    List<RoomAnswer> getAllForSubCriteriaWithId(long subCriteriaId);
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceAnswer WHERE uid = :id LIMIT 1")
-    RelativePersistenceAnswer getFilledById(long id);
+    @Query("SELECT * FROM RoomAnswer WHERE uid = :id LIMIT 1")
+    RelativeRoomAnswer getFilledById(long id);
 
     @Transaction
-    @Query("SELECT * FROM PersistenceAnswer WHERE sub_criteria_id = :subCriteriaId")
-    List<RelativePersistenceAnswer> getAllFilledForSubCriteriaWithId(long subCriteriaId);
+    @Query("SELECT * FROM RoomAnswer WHERE sub_criteria_id = :subCriteriaId")
+    List<RelativeRoomAnswer> getAllFilledForSubCriteriaWithId(long subCriteriaId);
 
-    @Query("DELETE FROM PersistenceAnswer WHERE sub_criteria_id = :subCriteriaId")
+    @Query("DELETE FROM RoomAnswer WHERE sub_criteria_id = :subCriteriaId")
     void deleteAllForSubCriteriaWithId(long subCriteriaId);
 
-    @Query("DELETE FROM PersistenceAnswer WHERE uid = :id")
+    @Query("DELETE FROM RoomAnswer WHERE uid = :id")
     void deleteById(long id);
 }

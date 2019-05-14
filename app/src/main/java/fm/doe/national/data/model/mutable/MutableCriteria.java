@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomCriteria;
 import fm.doe.national.domain.model.Progress;
 import fm.doe.national.utils.CollectionUtils;
 
@@ -28,7 +28,7 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.subCriteriaList = CollectionUtils.map(other.getSubCriterias(), MutableSubCriteria::new);
     }
 
-    public MutableCriteria(@NonNull RelativePersistenceCriteria other) {
+    public MutableCriteria(@NonNull RelativeRoomCriteria other) {
         this(other.criteria);
         this.subCriteriaList = CollectionUtils.map(other.subCriterias, MutableSubCriteria::new);
     }

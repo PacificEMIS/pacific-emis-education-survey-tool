@@ -14,7 +14,7 @@ import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 
 @Entity
-public class PersistenceSurvey implements Survey {
+public class RoomSurvey implements Survey {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -34,11 +34,11 @@ public class PersistenceSurvey implements Survey {
     @ColumnInfo(name = "school_id")
     public String schoolId;
 
-    public PersistenceSurvey(int version,
-                             SurveyType type,
-                             @Nullable String schoolName,
-                             @Nullable String schoolId,
-                             @Nullable Date startDate) {
+    public RoomSurvey(int version,
+                      SurveyType type,
+                      @Nullable String schoolName,
+                      @Nullable String schoolId,
+                      @Nullable Date startDate) {
         this.version = version;
         this.type = type;
         this.schoolName = schoolName;
@@ -46,7 +46,7 @@ public class PersistenceSurvey implements Survey {
         this.startDate = startDate;
     }
 
-    public PersistenceSurvey(@NonNull Survey other) {
+    public RoomSurvey(@NonNull Survey other) {
         this.uid = other.getId();
         this.version = other.getVersion();
         this.type = other.getSurveyType();

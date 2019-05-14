@@ -7,34 +7,30 @@ import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.Photo;
 import fm.doe.national.data.model.School;
 import fm.doe.national.data.model.Survey;
-import fm.doe.national.data.model.mutable.MutableAnswer;
-import fm.doe.national.data.model.mutable.MutablePhoto;
-import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.data.persistence.entity.PersistenceSchool;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface DataSource {
 
-    Single<List<PersistenceSchool>> loadSchools();
+    Single<List<School>> loadSchools();
 
-    Completable rewriteSchools(List<School> schools);
+    Completable rewriteAllSchools(List<School> schools);
 
     Completable rewriteStaticSurvey(Survey survey);
 
-    Single<MutableSurvey> getStaticSurvey();
+    Single<Survey> getStaticSurvey();
 
-    Single<MutableSurvey> loadFullSurvey(long surveyId);
+    Single<Survey> loadFullSurvey(long surveyId);
 
-    Single<List<MutableSurvey>> loadAllSurveys();
+    Single<List<Survey>> loadAllSurveys();
 
-    Single<MutableSurvey> createSurvey(String schoolId, String schoolName, Date date);
+    Single<Survey> createSurvey(String schoolId, String schoolName, Date date);
 
     Completable deleteSurvey(long surveyId);
 
-    Single<MutableAnswer> updateAnswer(Answer answer, long subCriteriaId);
+    Single<Answer> updateAnswer(Answer answer, long subCriteriaId);
 
-    Single<MutablePhoto> createPhoto(Photo photo, long answerId);
+    Single<Photo> createPhoto(Photo photo, long answerId);
 
     Completable deletePhoto(long photoId);
 

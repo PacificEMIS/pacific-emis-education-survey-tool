@@ -99,7 +99,7 @@ public abstract class BaseDrawerActivity extends MenuActivity implements
 
     @Override
     public void navigateToEducationSurveyToolScreen() {
-        //TODO add logic afters Education PersistenceSurvey Tool screen created
+        //TODO add logic afters Education RoomSurvey Tool screen created
     }
 
     @Override

@@ -12,25 +12,25 @@ import fm.doe.national.data.persistence.dao.SchoolDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.PersistenceAnswer;
-import fm.doe.national.data.persistence.entity.PersistenceCategory;
-import fm.doe.national.data.persistence.entity.PersistenceCriteria;
-import fm.doe.national.data.persistence.entity.PersistencePhoto;
-import fm.doe.national.data.persistence.entity.PersistenceSchool;
-import fm.doe.national.data.persistence.entity.PersistenceStandard;
-import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
-import fm.doe.national.data.persistence.entity.PersistenceSurvey;
+import fm.doe.national.data.persistence.entity.RoomAnswer;
+import fm.doe.national.data.persistence.entity.RoomCategory;
+import fm.doe.national.data.persistence.entity.RoomCriteria;
+import fm.doe.national.data.persistence.entity.RoomPhoto;
+import fm.doe.national.data.persistence.entity.RoomSchool;
+import fm.doe.national.data.persistence.entity.RoomStandard;
+import fm.doe.national.data.persistence.entity.RoomSubCriteria;
+import fm.doe.national.data.persistence.entity.RoomSurvey;
 
 @Database(
         entities = {
-                PersistenceSurvey.class,
-                PersistenceCategory.class,
-                PersistenceStandard.class,
-                PersistenceCriteria.class,
-                PersistenceSubCriteria.class,
-                PersistenceAnswer.class,
-                PersistencePhoto.class,
-                PersistenceSchool.class
+                RoomSurvey.class,
+                RoomCategory.class,
+                RoomStandard.class,
+                RoomCriteria.class,
+                RoomSubCriteria.class,
+                RoomAnswer.class,
+                RoomPhoto.class,
+                RoomSchool.class
         },
         version = 1,
         exportSchema = false)

@@ -11,9 +11,9 @@ import androidx.room.PrimaryKey;
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.SubCriteria;
 
-@Entity(foreignKeys = @ForeignKey(entity = PersistenceCriteria.class, parentColumns = "uid", childColumns = "criteria_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = RoomCriteria.class, parentColumns = "uid", childColumns = "criteria_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("criteria_id")})
-public class PersistenceSubCriteria implements SubCriteria {
+public class RoomSubCriteria implements SubCriteria {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -31,13 +31,13 @@ public class PersistenceSubCriteria implements SubCriteria {
     @ColumnInfo(name = "criteria_id")
     public long criteriaId;
 
-    public PersistenceSubCriteria(String title, long criteriaId, String suffix) {
+    public RoomSubCriteria(String title, long criteriaId, String suffix) {
         this.title = title;
         this.criteriaId = criteriaId;
         this.suffix = suffix;
     }
 
-    public PersistenceSubCriteria(@NonNull SubCriteria otherSubCriteria) {
+    public RoomSubCriteria(@NonNull SubCriteria otherSubCriteria) {
         this.uid = otherSubCriteria.getId();
         this.suffix = otherSubCriteria.getSuffix();
         this.title = otherSubCriteria.getTitle();

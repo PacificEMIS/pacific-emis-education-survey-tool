@@ -10,47 +10,47 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.entity.PersistenceSurvey;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSurvey;
+import fm.doe.national.data.persistence.entity.RoomSurvey;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomSurvey;
 
 @Dao
 public interface SurveyDao {
 
     @Insert
-    long insert(PersistenceSurvey survey);
+    long insert(RoomSurvey survey);
 
     @Update
-    void update(PersistenceSurvey survey);
+    void update(RoomSurvey survey);
 
     @Delete
-    void delete(PersistenceSurvey survey);
+    void delete(RoomSurvey survey);
 
-    @Query("SELECT * FROM PersistenceSurvey")
-    List<PersistenceSurvey> getAll();
+    @Query("SELECT * FROM RoomSurvey")
+    List<RoomSurvey> getAll();
 
     @Nullable
-    @Query("SELECT * FROM PersistenceSurvey WHERE uid = :id LIMIT 1")
-    PersistenceSurvey getById(long id);
+    @Query("SELECT * FROM RoomSurvey WHERE uid = :id LIMIT 1")
+    RoomSurvey getById(long id);
 
-    @Query("DELETE FROM PersistenceSurvey")
+    @Query("DELETE FROM RoomSurvey")
     void deleteAll();
 
-    @Query("DELETE FROM PersistenceSurvey WHERE uid = :id")
+    @Query("DELETE FROM RoomSurvey WHERE uid = :id")
     void deleteById(long id);
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceSurvey WHERE uid = :id LIMIT 1")
-    RelativePersistenceSurvey getFilledById(long id);
+    @Query("SELECT * FROM RoomSurvey WHERE uid = :id LIMIT 1")
+    RelativeRoomSurvey getFilledById(long id);
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceSurvey LIMIT 1")
-    RelativePersistenceSurvey getFirstFilled();
+    @Query("SELECT * FROM RoomSurvey LIMIT 1")
+    RelativeRoomSurvey getFirstFilled();
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceSurvey")
-    List<RelativePersistenceSurvey> getAllFilled();
+    @Query("SELECT * FROM RoomSurvey")
+    List<RelativeRoomSurvey> getAllFilled();
 
 }

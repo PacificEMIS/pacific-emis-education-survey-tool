@@ -16,14 +16,14 @@ import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.PersistenceStandard;
+import fm.doe.national.data.persistence.entity.RoomStandard;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class PersistenceStandardTests {
+public class RoomStandardTests {
 
     private StandardDao standardDao;
     private AppDatabase database;
@@ -60,23 +60,23 @@ public class PersistenceStandardTests {
     public void createDeleteTest() {
         standardDao.deleteAllForCategoryWithId(testCategoryId);
 
-        PersistenceStandard testStandard = RoomTestData.getTestStandard(testCategoryId);
+        RoomStandard testStandard = RoomTestData.getTestStandard(testCategoryId);
 
         standardDao.insert(testStandard);
         assertEquals(1, standardDao.getAllForCategoryWithId(testCategoryId).size());
 
-        testStandard.title = "PersistenceStandard 2";
+        testStandard.title = "RoomStandard 2";
         standardDao.insert(testStandard);
 
-        List<PersistenceStandard> standardsInDb = standardDao.getAllForCategoryWithId(testCategoryId);
+        List<RoomStandard> standardsInDb = standardDao.getAllForCategoryWithId(testCategoryId);
         assertEquals(2, standardsInDb.size());
-        assertEquals("PersistenceStandard 2", standardsInDb.get(1).title);
+        assertEquals("RoomStandard 2", standardsInDb.get(1).title);
 
         standardDao.delete(standardsInDb.get(0));
 
         standardsInDb = standardDao.getAllForCategoryWithId(testCategoryId);
         assertEquals(1, standardsInDb.size());
-        assertEquals("PersistenceStandard 2", standardsInDb.get(0).title);
+        assertEquals("RoomStandard 2", standardsInDb.get(0).title);
 
         standardDao.insert(testStandard);
         standardDao.deleteAllForCategoryWithId(testCategoryId);
@@ -90,14 +90,14 @@ public class PersistenceStandardTests {
         standardDao.deleteAllForCategoryWithId(testCategoryId);
 
         standardDao.insert(RoomTestData.getTestStandard(testCategoryId));
-        PersistenceStandard insertedStandard = standardDao.getAllForCategoryWithId(testCategoryId).get(0);
-        assertEquals("PersistenceStandard One", insertedStandard.title);
+        RoomStandard insertedStandard = standardDao.getAllForCategoryWithId(testCategoryId).get(0);
+        assertEquals("RoomStandard One", insertedStandard.title);
 
-        insertedStandard.title = "PersistenceStandard Two";
+        insertedStandard.title = "RoomStandard Two";
         standardDao.update(insertedStandard);
 
         insertedStandard = standardDao.getAllForCategoryWithId(testCategoryId).get(0);
-        assertEquals("PersistenceStandard Two", insertedStandard.title);
+        assertEquals("RoomStandard Two", insertedStandard.title);
     }
 
     @Test
@@ -105,8 +105,8 @@ public class PersistenceStandardTests {
         standardDao.deleteAllForCategoryWithId(testCategoryId);
         standardDao.insert(RoomTestData.getTestStandard(testCategoryId));
 
-        PersistenceStandard insertedStandard = standardDao.getAllForCategoryWithId(testCategoryId).get(0);
-        PersistenceStandard standardById = standardDao.getById(insertedStandard.uid);
+        RoomStandard insertedStandard = standardDao.getAllForCategoryWithId(testCategoryId).get(0);
+        RoomStandard standardById = standardDao.getById(insertedStandard.uid);
 
         assertEquals(insertedStandard.title, standardById.title);
         assertNull(standardDao.getById(123984));
@@ -123,7 +123,7 @@ public class PersistenceStandardTests {
         standardDao.insert(RoomTestData.getTestStandard(testCategoryId));
         standardDao.insert(RoomTestData.getTestStandard(testCategoryId));
 
-        List<PersistenceStandard> insertedStandards = standardDao.getAllForCategoryWithId(testCategoryId);
+        List<RoomStandard> insertedStandards = standardDao.getAllForCategoryWithId(testCategoryId);
         assertEquals(6, insertedStandards.size());
 
         database.getCategoryDao().deleteById(testCategoryId);

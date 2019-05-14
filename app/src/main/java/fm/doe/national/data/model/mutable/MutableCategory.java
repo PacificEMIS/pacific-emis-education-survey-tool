@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import fm.doe.national.data.model.Category;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCategory;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomCategory;
 import fm.doe.national.domain.model.Progress;
 import fm.doe.national.utils.CollectionUtils;
 
@@ -24,7 +24,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
     public MutableCategory() {
     }
 
-    public MutableCategory(@NonNull RelativePersistenceCategory other) {
+    public MutableCategory(@NonNull RelativeRoomCategory other) {
         this(other.category);
         this.standards = CollectionUtils.map(other.standards, MutableStandard::new);
     }

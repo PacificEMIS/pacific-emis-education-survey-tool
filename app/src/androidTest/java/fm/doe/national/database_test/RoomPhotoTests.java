@@ -20,14 +20,14 @@ import fm.doe.national.data.persistence.dao.PhotoDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.PersistencePhoto;
+import fm.doe.national.data.persistence.entity.RoomPhoto;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class PersistencePhotoTests {
+public class RoomPhotoTests {
 
     private PhotoDao photoDao;
     private AppDatabase database;
@@ -81,7 +81,7 @@ public class PersistencePhotoTests {
     public void createDeleteTest() {
         photoDao.deleteAllForAnswerWithId(testAnswerId);
 
-        PersistencePhoto photoEntity = RoomTestData.getTestPhotoEntity(testAnswerId);
+        RoomPhoto photoEntity = RoomTestData.getTestPhotoEntity(testAnswerId);
 
         photoDao.insert(photoEntity);
         assertEquals(1, photoDao.getAllForAnswerWithId(testAnswerId).size());
@@ -89,7 +89,7 @@ public class PersistencePhotoTests {
         photoEntity.remoteUrl = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
         photoDao.insert(photoEntity);
 
-        List<PersistencePhoto> photosInDb = photoDao.getAllForAnswerWithId(testAnswerId);
+        List<RoomPhoto> photosInDb = photoDao.getAllForAnswerWithId(testAnswerId);
         assertEquals(2, photosInDb.size());
         assertEquals("http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9", photosInDb.get(1).remoteUrl);
 
@@ -111,7 +111,7 @@ public class PersistencePhotoTests {
         photoDao.deleteAllForAnswerWithId(testAnswerId);
 
         photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
-        PersistencePhoto photoEntity = photoDao.getAllForAnswerWithId(testAnswerId).get(0);
+        RoomPhoto photoEntity = photoDao.getAllForAnswerWithId(testAnswerId).get(0);
         assertEquals("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", photoEntity.remoteUrl);
 
         photoEntity.remoteUrl = "http://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9";
@@ -126,8 +126,8 @@ public class PersistencePhotoTests {
         photoDao.getAllForAnswerWithId(testAnswerId);
         photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
 
-        PersistencePhoto photoEntity = photoDao.getAllForAnswerWithId(testAnswerId).get(0);
-        PersistencePhoto photoById = photoDao.getById(photoEntity.uid);
+        RoomPhoto photoEntity = photoDao.getAllForAnswerWithId(testAnswerId).get(0);
+        RoomPhoto photoById = photoDao.getById(photoEntity.uid);
 
         assertEquals(photoEntity.remoteUrl, photoById.remoteUrl);
         assertNull(photoDao.getById(123984));
@@ -144,7 +144,7 @@ public class PersistencePhotoTests {
         photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
         photoDao.insert(RoomTestData.getTestPhotoEntity(testAnswerId));
 
-        List<PersistencePhoto> insertedSubCriterias = photoDao.getAllForAnswerWithId(testAnswerId);
+        List<RoomPhoto> insertedSubCriterias = photoDao.getAllForAnswerWithId(testAnswerId);
         assertEquals(6, insertedSubCriterias.size());
 
         database.getCategoryDao().deleteById(testAnswerId);

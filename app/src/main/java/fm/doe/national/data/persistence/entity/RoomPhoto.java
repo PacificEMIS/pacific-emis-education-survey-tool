@@ -9,9 +9,9 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import fm.doe.national.data.model.Photo;
 
-@Entity(foreignKeys = @ForeignKey(entity = PersistenceAnswer.class, parentColumns = "uid", childColumns = "answer_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = RoomAnswer.class, parentColumns = "uid", childColumns = "answer_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("answer_id")})
-public class PersistencePhoto implements Photo {
+public class RoomPhoto implements Photo {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -23,11 +23,11 @@ public class PersistencePhoto implements Photo {
     @ColumnInfo(name = "answer_id")
     public long answerId;
 
-    public PersistencePhoto(long answerId) {
+    public RoomPhoto(long answerId) {
         this.answerId = answerId;
     }
 
-    public PersistencePhoto(@NonNull Photo otherPhoto) {
+    public RoomPhoto(@NonNull Photo otherPhoto) {
         this.uid = otherPhoto.getId();
         this.localUrl = otherPhoto.getLocalPath();
         this.remoteUrl = otherPhoto.getRemotePath();

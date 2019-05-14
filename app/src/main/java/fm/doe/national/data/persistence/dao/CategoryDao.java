@@ -11,40 +11,40 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.entity.PersistenceCategory;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCategory;
+import fm.doe.national.data.persistence.entity.RoomCategory;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomCategory;
 
 @Dao
 public interface CategoryDao {
 
     @Insert
-    long insert(PersistenceCategory category);
+    long insert(RoomCategory category);
 
     @Update
-    void update(PersistenceCategory category);
+    void update(RoomCategory category);
 
     @Delete
-    void delete(PersistenceCategory category);
+    void delete(RoomCategory category);
 
     @Nullable
-    @Query("SELECT * FROM PersistenceCategory WHERE uid = :id LIMIT 1")
-    PersistenceCategory getById(long id);
+    @Query("SELECT * FROM RoomCategory WHERE uid = :id LIMIT 1")
+    RoomCategory getById(long id);
 
-    @Query("SELECT * FROM PersistenceCategory WHERE survey_id = :surveyId")
-    List<PersistenceCategory> getAllForSurveyWithId(long surveyId);
+    @Query("SELECT * FROM RoomCategory WHERE survey_id = :surveyId")
+    List<RoomCategory> getAllForSurveyWithId(long surveyId);
 
-    @Query("DELETE FROM PersistenceCategory WHERE survey_id = :surveyId")
+    @Query("DELETE FROM RoomCategory WHERE survey_id = :surveyId")
     void deleteAllForSurveyWithId(long surveyId);
 
-    @Query("DELETE FROM PersistenceCategory WHERE uid = :id")
+    @Query("DELETE FROM RoomCategory WHERE uid = :id")
     void deleteById(long id);
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceCategory WHERE uid = :id LIMIT 1")
-    RelativePersistenceCategory getFilledById(long id);
+    @Query("SELECT * FROM RoomCategory WHERE uid = :id LIMIT 1")
+    RelativeRoomCategory getFilledById(long id);
 
     @Transaction
-    @Query("SELECT * FROM PersistenceCategory WHERE survey_id = :surveyId")
-    List<RelativePersistenceCategory> getAllFilledForSurveyWithId(long surveyId);
+    @Query("SELECT * FROM RoomCategory WHERE survey_id = :surveyId")
+    List<RelativeRoomCategory> getAllFilledForSurveyWithId(long surveyId);
 }

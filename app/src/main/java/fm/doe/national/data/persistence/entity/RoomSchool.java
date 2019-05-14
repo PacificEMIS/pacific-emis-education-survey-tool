@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import fm.doe.national.data.model.School;
 
 @Entity(indices = {@Index("uid")})
-public class PersistenceSchool implements School {
+public class RoomSchool implements School {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -17,9 +17,14 @@ public class PersistenceSchool implements School {
 
     public String suffix;
 
-    public PersistenceSchool(String name, String suffix) {
+    public RoomSchool(String name, String suffix) {
         this.name = name;
         this.suffix = suffix;
+    }
+
+    public RoomSchool(School other) {
+        this.name = other.getName();
+        this.suffix = other.getSuffix();
     }
 
     @NonNull

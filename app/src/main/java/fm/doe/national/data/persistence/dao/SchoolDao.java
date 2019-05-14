@@ -9,27 +9,27 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.entity.PersistenceSchool;
+import fm.doe.national.data.persistence.entity.RoomSchool;
 
 @Dao
 public interface SchoolDao {
 
     @Insert
-    void insert(PersistenceSchool school);
+    void insert(RoomSchool school);
 
     @Update
-    void update(PersistenceSchool school);
+    void update(RoomSchool school);
 
     @Delete
-    void delete(PersistenceSchool school);
+    void delete(RoomSchool school);
 
-    @Query("SELECT * FROM PersistenceSchool")
-    List<PersistenceSchool> getAll();
+    @Query("SELECT * FROM RoomSchool")
+    List<RoomSchool> getAll();
 
     @Nullable
-    @Query("SELECT * FROM PersistenceSchool WHERE uid = :id LIMIT 1")
-    PersistenceSchool getById(long id);
+    @Query("SELECT * FROM RoomSchool WHERE uid = :id LIMIT 1")
+    RoomSchool getById(long id);
 
-    @Query("DELETE FROM PersistenceSchool")
+    @Query("DELETE FROM RoomSchool")
     void deleteAll();
 }

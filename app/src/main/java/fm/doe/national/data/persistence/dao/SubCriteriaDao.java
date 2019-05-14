@@ -10,39 +10,39 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSubCriteria;
+import fm.doe.national.data.persistence.entity.RoomSubCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomSubCriteria;
 
 @Dao
 public interface SubCriteriaDao {
     @Insert
-    long insert(PersistenceSubCriteria subcriteria);
+    long insert(RoomSubCriteria subcriteria);
 
     @Update
-    void update(PersistenceSubCriteria subcriteria);
+    void update(RoomSubCriteria subcriteria);
 
     @Delete
-    void delete(PersistenceSubCriteria subcriteria);
+    void delete(RoomSubCriteria subcriteria);
 
     @Nullable
-    @Query("SELECT * FROM PersistenceSubCriteria WHERE uid = :id LIMIT 1")
-    PersistenceSubCriteria getById(long id);
+    @Query("SELECT * FROM RoomSubCriteria WHERE uid = :id LIMIT 1")
+    RoomSubCriteria getById(long id);
 
-    @Query("SELECT * FROM PersistenceSubCriteria WHERE criteria_id = :criteriaId")
-    List<PersistenceSubCriteria> getAllForCriteriaWithId(long criteriaId);
+    @Query("SELECT * FROM RoomSubCriteria WHERE criteria_id = :criteriaId")
+    List<RoomSubCriteria> getAllForCriteriaWithId(long criteriaId);
 
-    @Query("DELETE FROM PersistenceSubCriteria WHERE criteria_id = :criteriaId")
+    @Query("DELETE FROM RoomSubCriteria WHERE criteria_id = :criteriaId")
     void deleteAllForCriteriaWithId(long criteriaId);
 
-    @Query("DELETE FROM PersistenceSubCriteria WHERE uid = :id")
+    @Query("DELETE FROM RoomSubCriteria WHERE uid = :id")
     void deleteById(long id);
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceSubCriteria WHERE uid = :id LIMIT 1")
-    RelativePersistenceSubCriteria getFilledById(long id);
+    @Query("SELECT * FROM RoomSubCriteria WHERE uid = :id LIMIT 1")
+    RelativeRoomSubCriteria getFilledById(long id);
 
     @Transaction
-    @Query("SELECT * FROM PersistenceSubCriteria WHERE criteria_id = :criteriaId")
-    List<RelativePersistenceSubCriteria> getAllFilledForCriteriaWithId(long criteriaId);
+    @Query("SELECT * FROM RoomSubCriteria WHERE criteria_id = :criteriaId")
+    List<RelativeRoomSubCriteria> getAllFilledForCriteriaWithId(long criteriaId);
 }

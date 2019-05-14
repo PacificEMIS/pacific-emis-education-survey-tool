@@ -23,14 +23,14 @@ import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.AnswerDao;
 import fm.doe.national.data.persistence.dao.PhotoDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.PersistenceAnswer;
-import fm.doe.national.data.persistence.entity.PersistenceCategory;
-import fm.doe.national.data.persistence.entity.PersistenceCriteria;
-import fm.doe.national.data.persistence.entity.PersistencePhoto;
-import fm.doe.national.data.persistence.entity.PersistenceSchool;
-import fm.doe.national.data.persistence.entity.PersistenceStandard;
-import fm.doe.national.data.persistence.entity.PersistenceSubCriteria;
-import fm.doe.national.data.persistence.entity.PersistenceSurvey;
+import fm.doe.national.data.persistence.entity.RoomAnswer;
+import fm.doe.national.data.persistence.entity.RoomCategory;
+import fm.doe.national.data.persistence.entity.RoomCriteria;
+import fm.doe.national.data.persistence.entity.RoomPhoto;
+import fm.doe.national.data.persistence.entity.RoomSchool;
+import fm.doe.national.data.persistence.entity.RoomStandard;
+import fm.doe.national.data.persistence.entity.RoomSubCriteria;
+import fm.doe.national.data.persistence.entity.RoomSurvey;
 import fm.doe.national.utils.CollectionUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -63,17 +63,18 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<PersistenceSchool>> loadSchools() {
-        return Single.fromCallable(staticDatabase.getSchoolDao()::getAll);
+    public Single<List<School>> loadSchools() {
+        return Single.fromCallable(staticDatabase.getSchoolDao()::getAll)
+                .map(roomSchools -> new ArrayList<>(roomSchools));
     }
 
     @Override
-    public Completable rewriteSchools(List<School> schools) {
+    public Completable rewriteAllSchools(List<School> schools) {
         return Completable.fromAction(() -> {
             staticDatabase.getSchoolDao().deleteAll();
             // WARNING: this might become CCE if another School impl appear, but for now on it is OK
             for (School school : schools) {
-                staticDatabase.getSchoolDao().insert((PersistenceSchool) school);
+                staticDatabase.getSchoolDao().insert((RoomSchool) school);
             }
         });
     }
@@ -87,9 +88,9 @@ public class RoomDataSource implements DataSource {
     }
 
     private long saveSurvey(AppDatabase database, Survey survey, boolean shouldCreateAnswers) {
-        PersistenceSurvey persistenceSurvey = new PersistenceSurvey(survey);
-        persistenceSurvey.uid = 0;
-        long id = database.getSurveyDao().insert(persistenceSurvey);
+        RoomSurvey roomSurvey = new RoomSurvey(survey);
+        roomSurvey.uid = 0;
+        long id = database.getSurveyDao().insert(roomSurvey);
         if (survey.getCategories() != null) {
             saveCategories(database, survey.getCategories(), id, shouldCreateAnswers);
         }
@@ -101,10 +102,10 @@ public class RoomDataSource implements DataSource {
                                 long surveyId,
                                 boolean shouldCreateAnswers) {
         for (Category category : categories) {
-            PersistenceCategory persistenceCategory = new PersistenceCategory(category);
-            persistenceCategory.uid = 0;
-            persistenceCategory.surveyId = surveyId;
-            long id = database.getCategoryDao().insert(persistenceCategory);
+            RoomCategory roomCategory = new RoomCategory(category);
+            roomCategory.uid = 0;
+            roomCategory.surveyId = surveyId;
+            long id = database.getCategoryDao().insert(roomCategory);
             if (category.getStandards() != null) {
                 saveStandards(database, category.getStandards(), id, shouldCreateAnswers);
             }
@@ -116,10 +117,10 @@ public class RoomDataSource implements DataSource {
                                long categoryId,
                                boolean shouldCreateAnswers) {
         for (Standard standard : standards) {
-            PersistenceStandard persistenceStandard = new PersistenceStandard(standard);
-            persistenceStandard.uid = 0;
-            persistenceStandard.categoryId = categoryId;
-            long id = database.getStandardDao().insert(persistenceStandard);
+            RoomStandard roomStandard = new RoomStandard(standard);
+            roomStandard.uid = 0;
+            roomStandard.categoryId = categoryId;
+            long id = database.getStandardDao().insert(roomStandard);
             if (standard.getCriterias() != null) {
                 saveCriterias(database, standard.getCriterias(), id, shouldCreateAnswers);
             }
@@ -131,10 +132,10 @@ public class RoomDataSource implements DataSource {
                                long standardId,
                                boolean shouldCreateAnswers) {
         for (Criteria criteria : criterias) {
-            PersistenceCriteria persistenceCriteria = new PersistenceCriteria(criteria);
-            persistenceCriteria.uid = 0;
-            persistenceCriteria.standardId = standardId;
-            long id = database.getCriteriaDao().insert(persistenceCriteria);
+            RoomCriteria roomCriteria = new RoomCriteria(criteria);
+            roomCriteria.uid = 0;
+            roomCriteria.standardId = standardId;
+            long id = database.getCriteriaDao().insert(roomCriteria);
             if (criteria.getSubCriterias() != null) {
                 saveSubCriterias(database, criteria.getSubCriterias(), id, shouldCreateAnswers);
             }
@@ -146,40 +147,42 @@ public class RoomDataSource implements DataSource {
                                   long criteriaId,
                                   boolean shouldCreateAnswers) {
         for (SubCriteria subCriteria : subCriterias) {
-            PersistenceSubCriteria persistenceSubCriteria = new PersistenceSubCriteria(subCriteria);
-            persistenceSubCriteria.uid = 0;
-            persistenceSubCriteria.criteriaId = criteriaId;
-            long id = database.getSubcriteriaDao().insert(persistenceSubCriteria);
+            RoomSubCriteria roomSubCriteria = new RoomSubCriteria(subCriteria);
+            roomSubCriteria.uid = 0;
+            roomSubCriteria.criteriaId = criteriaId;
+            long id = database.getSubcriteriaDao().insert(roomSubCriteria);
             if (shouldCreateAnswers) {
-                database.getAnswerDao().insert(new PersistenceAnswer(id));
+                database.getAnswerDao().insert(new RoomAnswer(id));
             }
         }
     }
 
     @Override
-    public Single<MutableSurvey> getStaticSurvey() {
+    public Single<Survey> getStaticSurvey() {
         return Single.fromCallable(() -> staticDatabase.getSurveyDao().getFirstFilled())
                 .map(MutableSurvey::new);
     }
 
     @Override
-    public Single<MutableSurvey> loadFullSurvey(long surveyId) {
+    public Single<Survey> loadFullSurvey(long surveyId) {
         return Single.fromCallable(() -> surveyDao.getFilledById(surveyId))
                 .map(MutableSurvey::new);
     }
 
     @Override
-    public Single<List<MutableSurvey>> loadAllSurveys() {
+    public Single<List<Survey>> loadAllSurveys() {
         return Single.fromCallable(surveyDao::getAllFilled)
                 .flatMapObservable(Observable::fromIterable)
                 .map(MutableSurvey::new)
-                .toList();
+                .toList()
+                .map(list -> new ArrayList<>(list));
     }
 
     @Override
-    public Single<MutableSurvey> createSurvey(String schoolId, String schoolName, Date date) {
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date date) {
         return getStaticSurvey()
-                .flatMap(mutableSurvey -> {
+                .flatMap(survey -> {
+                    MutableSurvey mutableSurvey = new MutableSurvey(survey);
                     mutableSurvey.setId(0);
                     mutableSurvey.setSchoolName(schoolName);
                     mutableSurvey.setSchoolId(schoolId);
@@ -195,9 +198,9 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<MutableAnswer> updateAnswer(Answer answer, long subCriteriaId) {
+    public Single<Answer> updateAnswer(Answer answer, long subCriteriaId) {
         return Single.fromCallable(() -> {
-            PersistenceAnswer existingAnswer = answerDao.getAllForSubCriteriaWithId(subCriteriaId).get(0);
+            RoomAnswer existingAnswer = answerDao.getAllForSubCriteriaWithId(subCriteriaId).get(0);
             existingAnswer.comment = answer.getComment();
             existingAnswer.state = answer.getState();
             answerDao.update(existingAnswer);
@@ -233,7 +236,7 @@ public class RoomDataSource implements DataSource {
 
                     return Observable.fromIterable(photosToUpdate)
                             .map(photo -> {
-                                photoDao.update(new PersistencePhoto(photo));
+                                photoDao.update(new RoomPhoto(photo));
                                 return photo;
                             })
                             .toList()
@@ -245,9 +248,9 @@ public class RoomDataSource implements DataSource {
                                     .toList()
                                     .flatMap(deletedPhotos -> Observable.fromIterable(photosToCreate)
                                             .map(photo -> {
-                                                PersistencePhoto persistencePhoto = new PersistencePhoto(photo);
-                                                persistencePhoto.answerId = answer.getId();
-                                                photoDao.insert(persistencePhoto);
+                                                RoomPhoto roomPhoto = new RoomPhoto(photo);
+                                                roomPhoto.answerId = answer.getId();
+                                                photoDao.insert(roomPhoto);
                                                 return photo;
                                             })
                                             .toList()
@@ -259,11 +262,11 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<MutablePhoto> createPhoto(Photo photo, long answerId) {
+    public Single<Photo> createPhoto(Photo photo, long answerId) {
         return Single.fromCallable(() -> {
-            PersistencePhoto persistencePhoto = new PersistencePhoto(photo);
-            persistencePhoto.answerId = answerId;
-            long photoId = photoDao.insert(persistencePhoto);
+            RoomPhoto roomPhoto = new RoomPhoto(photo);
+            roomPhoto.answerId = answerId;
+            long photoId = photoDao.insert(roomPhoto);
             return new MutablePhoto(photoDao.getById(photoId));
         });
     }

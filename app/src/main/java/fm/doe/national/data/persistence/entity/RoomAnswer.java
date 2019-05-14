@@ -14,9 +14,9 @@ import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.Photo;
 
-@Entity(foreignKeys = @ForeignKey(entity = PersistenceSubCriteria.class, parentColumns = "uid", childColumns = "sub_criteria_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = RoomSubCriteria.class, parentColumns = "uid", childColumns = "sub_criteria_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("sub_criteria_id")})
-public class PersistenceAnswer implements Answer {
+public class RoomAnswer implements Answer {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -29,12 +29,12 @@ public class PersistenceAnswer implements Answer {
     @Nullable
     public String comment;
 
-    public PersistenceAnswer(long subCriteriaId) {
+    public RoomAnswer(long subCriteriaId) {
         this.subCriteriaId = subCriteriaId;
         this.state = AnswerState.NOT_ANSWERED;
     }
 
-    public PersistenceAnswer(@NonNull Answer otherAnswer) {
+    public RoomAnswer(@NonNull Answer otherAnswer) {
         this.uid = otherAnswer.getId();
         this.state = otherAnswer.getState();
         this.comment = otherAnswer.getComment();

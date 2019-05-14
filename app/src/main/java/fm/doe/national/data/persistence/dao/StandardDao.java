@@ -10,40 +10,40 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.entity.PersistenceStandard;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceStandard;
+import fm.doe.national.data.persistence.entity.RoomStandard;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
 
 @Dao
 public interface StandardDao {
 
     @Insert
-    long insert(PersistenceStandard category);
+    long insert(RoomStandard category);
 
     @Update
-    void update(PersistenceStandard category);
+    void update(RoomStandard category);
 
     @Delete
-    void delete(PersistenceStandard category);
+    void delete(RoomStandard category);
 
     @Nullable
-    @Query("SELECT * FROM PersistenceStandard WHERE uid = :id LIMIT 1")
-    PersistenceStandard getById(long id);
+    @Query("SELECT * FROM RoomStandard WHERE uid = :id LIMIT 1")
+    RoomStandard getById(long id);
 
-    @Query("SELECT * FROM PersistenceStandard WHERE category_id = :categoryId")
-    List<PersistenceStandard> getAllForCategoryWithId(long categoryId);
+    @Query("SELECT * FROM RoomStandard WHERE category_id = :categoryId")
+    List<RoomStandard> getAllForCategoryWithId(long categoryId);
 
-    @Query("DELETE FROM PersistenceStandard WHERE category_id = :categoryId")
+    @Query("DELETE FROM RoomStandard WHERE category_id = :categoryId")
     void deleteAllForCategoryWithId(long categoryId);
 
-    @Query("DELETE FROM PersistenceStandard WHERE uid = :id")
+    @Query("DELETE FROM RoomStandard WHERE uid = :id")
     void deleteById(long id);
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceStandard WHERE uid = :id LIMIT 1")
-    RelativePersistenceStandard getFilledById(long id);
+    @Query("SELECT * FROM RoomStandard WHERE uid = :id LIMIT 1")
+    RelativeRoomStandard getFilledById(long id);
 
     @Transaction
-    @Query("SELECT * FROM PersistenceStandard WHERE category_id = :categoryId")
-    List<RelativePersistenceStandard> getAllFilledForCategoryWithId(long categoryId);
+    @Query("SELECT * FROM RoomStandard WHERE category_id = :categoryId")
+    List<RelativeRoomStandard> getAllFilledForCategoryWithId(long categoryId);
 }

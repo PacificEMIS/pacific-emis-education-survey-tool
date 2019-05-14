@@ -19,12 +19,12 @@ import fm.doe.national.data.persistence.dao.PhotoDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
 import fm.doe.national.data.persistence.dao.SubCriteriaDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceAnswer;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCategory;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCriteria;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceStandard;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSubCriteria;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceSurvey;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomAnswer;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomCategory;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomSubCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomSurvey;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
@@ -109,12 +109,12 @@ public class RelativeTests {
         database.getSurveyDao().deleteById(testSurveyId);
         fillTable();
 
-        RelativePersistenceAnswer relativePersistenceAnswer = database.getAnswerDao().getFilledById(testAnswerId);
-        assertNotNull(relativePersistenceAnswer.answer);
-        assertEquals(testAnswerId, relativePersistenceAnswer.answer.getId());
-        assertNotNull(relativePersistenceAnswer.photos);
-        assertFalse(relativePersistenceAnswer.photos.isEmpty());
-        assertEquals(relativePersistenceAnswer.photos.get(0).getRemotePath(), database.getPhotoDao().getById(testPhotoId).getRemotePath());
+        RelativeRoomAnswer relativeRoomAnswer = database.getAnswerDao().getFilledById(testAnswerId);
+        assertNotNull(relativeRoomAnswer.answer);
+        assertEquals(testAnswerId, relativeRoomAnswer.answer.getId());
+        assertNotNull(relativeRoomAnswer.photos);
+        assertFalse(relativeRoomAnswer.photos.isEmpty());
+        assertEquals(relativeRoomAnswer.photos.get(0).getRemotePath(), database.getPhotoDao().getById(testPhotoId).getRemotePath());
     }
 
     @Test
@@ -122,11 +122,11 @@ public class RelativeTests {
         database.getSurveyDao().deleteById(testSurveyId);
         fillTable();
 
-        RelativePersistenceSubCriteria relativePersistenceSubCriteria = database.getSubcriteriaDao().getFilledById(testSubCriteriaId);
-        assertNotNull(relativePersistenceSubCriteria.answers);
-        assertFalse(relativePersistenceSubCriteria.answers.isEmpty());
-        assertEquals(testAnswerId, relativePersistenceSubCriteria.answers.get(0).answer.getId());
-        assertEquals(testPhotoId, relativePersistenceSubCriteria.answers.get(0).photos.get(0).getId());
+        RelativeRoomSubCriteria relativeRoomSubCriteria = database.getSubcriteriaDao().getFilledById(testSubCriteriaId);
+        assertNotNull(relativeRoomSubCriteria.answers);
+        assertFalse(relativeRoomSubCriteria.answers.isEmpty());
+        assertEquals(testAnswerId, relativeRoomSubCriteria.answers.get(0).answer.getId());
+        assertEquals(testPhotoId, relativeRoomSubCriteria.answers.get(0).photos.get(0).getId());
     }
 
     @Test
@@ -134,13 +134,13 @@ public class RelativeTests {
         database.getSurveyDao().deleteById(testSurveyId);
         fillTable();
 
-        RelativePersistenceCriteria relativePersistenceCriteria = database.getCriteriaDao().getFilledById(testCriteriaId);
-        assertNotNull(relativePersistenceCriteria.criteria);
-        assertNotNull(relativePersistenceCriteria.subCriterias);
-        assertFalse(relativePersistenceCriteria.subCriterias.isEmpty());
-        assertEquals(testSubCriteriaId, relativePersistenceCriteria.subCriterias.get(0).subCriteria.getId());
-        assertEquals(testAnswerId, relativePersistenceCriteria.subCriterias.get(0).answers.get(0).answer.getId());
-        assertEquals(testPhotoId, relativePersistenceCriteria.subCriterias.get(0).answers.get(0).photos.get(0).getId());
+        RelativeRoomCriteria relativeRoomCriteria = database.getCriteriaDao().getFilledById(testCriteriaId);
+        assertNotNull(relativeRoomCriteria.criteria);
+        assertNotNull(relativeRoomCriteria.subCriterias);
+        assertFalse(relativeRoomCriteria.subCriterias.isEmpty());
+        assertEquals(testSubCriteriaId, relativeRoomCriteria.subCriterias.get(0).subCriteria.getId());
+        assertEquals(testAnswerId, relativeRoomCriteria.subCriterias.get(0).answers.get(0).answer.getId());
+        assertEquals(testPhotoId, relativeRoomCriteria.subCriterias.get(0).answers.get(0).photos.get(0).getId());
     }
 
     @Test
@@ -148,14 +148,14 @@ public class RelativeTests {
         database.getSurveyDao().deleteById(testSurveyId);
         fillTable();
 
-        RelativePersistenceStandard relativePersistenceStandard = database.getStandardDao().getFilledById(testStandardId);
-        assertNotNull(relativePersistenceStandard.standard);
-        assertNotNull(relativePersistenceStandard.criterias);
-        assertFalse(relativePersistenceStandard.criterias.isEmpty());
-        assertEquals(testCriteriaId, relativePersistenceStandard.criterias.get(0).criteria.getId());
-        assertEquals(testSubCriteriaId, relativePersistenceStandard.criterias.get(0).subCriterias.get(0).subCriteria.getId());
-        assertEquals(testAnswerId, relativePersistenceStandard.criterias.get(0).subCriterias.get(0).answers.get(0).answer.getId());
-        assertEquals(testPhotoId, relativePersistenceStandard.criterias.get(0).subCriterias.get(0).answers.get(0).photos.get(0).getId());
+        RelativeRoomStandard relativeRoomStandard = database.getStandardDao().getFilledById(testStandardId);
+        assertNotNull(relativeRoomStandard.standard);
+        assertNotNull(relativeRoomStandard.criterias);
+        assertFalse(relativeRoomStandard.criterias.isEmpty());
+        assertEquals(testCriteriaId, relativeRoomStandard.criterias.get(0).criteria.getId());
+        assertEquals(testSubCriteriaId, relativeRoomStandard.criterias.get(0).subCriterias.get(0).subCriteria.getId());
+        assertEquals(testAnswerId, relativeRoomStandard.criterias.get(0).subCriterias.get(0).answers.get(0).answer.getId());
+        assertEquals(testPhotoId, relativeRoomStandard.criterias.get(0).subCriterias.get(0).answers.get(0).photos.get(0).getId());
     }
 
     @Test
@@ -163,15 +163,15 @@ public class RelativeTests {
         database.getSurveyDao().deleteById(testSurveyId);
         fillTable();
 
-        RelativePersistenceCategory relativePersistenceCategory = database.getCategoryDao().getFilledById(testCategoryId);
-        assertNotNull(relativePersistenceCategory.category);
-        assertNotNull(relativePersistenceCategory.standards);
-        assertFalse(relativePersistenceCategory.standards.isEmpty());
-        assertEquals(testStandardId, relativePersistenceCategory.standards.get(0).standard.getId());
-        assertEquals(testCriteriaId, relativePersistenceCategory.standards.get(0).criterias.get(0).criteria.getId());
-        assertEquals(testSubCriteriaId, relativePersistenceCategory.standards.get(0).criterias.get(0).subCriterias.get(0).subCriteria.getId());
-        assertEquals(testAnswerId, relativePersistenceCategory.standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).answer.getId());
-        assertEquals(testPhotoId, relativePersistenceCategory.standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).photos.get(0).getId());
+        RelativeRoomCategory relativeRoomCategory = database.getCategoryDao().getFilledById(testCategoryId);
+        assertNotNull(relativeRoomCategory.category);
+        assertNotNull(relativeRoomCategory.standards);
+        assertFalse(relativeRoomCategory.standards.isEmpty());
+        assertEquals(testStandardId, relativeRoomCategory.standards.get(0).standard.getId());
+        assertEquals(testCriteriaId, relativeRoomCategory.standards.get(0).criterias.get(0).criteria.getId());
+        assertEquals(testSubCriteriaId, relativeRoomCategory.standards.get(0).criterias.get(0).subCriterias.get(0).subCriteria.getId());
+        assertEquals(testAnswerId, relativeRoomCategory.standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).answer.getId());
+        assertEquals(testPhotoId, relativeRoomCategory.standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).photos.get(0).getId());
     }
 
     @Test
@@ -179,16 +179,16 @@ public class RelativeTests {
         database.getSurveyDao().deleteById(testSurveyId);
         fillTable();
 
-        RelativePersistenceSurvey relativePersistenceSurvey = database.getSurveyDao().getFilledById(testSurveyId);
-        assertNotNull(relativePersistenceSurvey.survey);
-        assertNotNull(relativePersistenceSurvey.categories);
-        assertFalse(relativePersistenceSurvey.categories.isEmpty());
-        assertEquals(testCategoryId, relativePersistenceSurvey.categories.get(0).category.getId());
-        assertEquals(testStandardId, relativePersistenceSurvey.categories.get(0).standards.get(0).standard.getId());
-        assertEquals(testCriteriaId, relativePersistenceSurvey.categories.get(0).standards.get(0).criterias.get(0).criteria.getId());
-        assertEquals(testSubCriteriaId, relativePersistenceSurvey.categories.get(0).standards.get(0).criterias.get(0).subCriterias.get(0).subCriteria.getId());
-        assertEquals(testAnswerId, relativePersistenceSurvey.categories.get(0).standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).answer.getId());
-        assertEquals(testPhotoId, relativePersistenceSurvey.categories.get(0).standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).photos.get(0).getId());
+        RelativeRoomSurvey relativeRoomSurvey = database.getSurveyDao().getFilledById(testSurveyId);
+        assertNotNull(relativeRoomSurvey.survey);
+        assertNotNull(relativeRoomSurvey.categories);
+        assertFalse(relativeRoomSurvey.categories.isEmpty());
+        assertEquals(testCategoryId, relativeRoomSurvey.categories.get(0).category.getId());
+        assertEquals(testStandardId, relativeRoomSurvey.categories.get(0).standards.get(0).standard.getId());
+        assertEquals(testCriteriaId, relativeRoomSurvey.categories.get(0).standards.get(0).criterias.get(0).criteria.getId());
+        assertEquals(testSubCriteriaId, relativeRoomSurvey.categories.get(0).standards.get(0).criterias.get(0).subCriterias.get(0).subCriteria.getId());
+        assertEquals(testAnswerId, relativeRoomSurvey.categories.get(0).standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).answer.getId());
+        assertEquals(testPhotoId, relativeRoomSurvey.categories.get(0).standards.get(0).criterias.get(0).subCriterias.get(0).answers.get(0).photos.get(0).getId());
     }
 
 }

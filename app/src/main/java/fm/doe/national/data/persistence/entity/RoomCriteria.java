@@ -13,9 +13,9 @@ import java.util.List;
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.SubCriteria;
 
-@Entity(foreignKeys = @ForeignKey(entity = PersistenceStandard.class, parentColumns = "uid", childColumns = "standard_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = RoomStandard.class, parentColumns = "uid", childColumns = "standard_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("standard_id")})
-public class PersistenceCriteria implements Criteria {
+public class RoomCriteria implements Criteria {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -26,13 +26,13 @@ public class PersistenceCriteria implements Criteria {
     @ColumnInfo(name = "standard_id")
     public long standardId;
 
-    public PersistenceCriteria(String title, long standardId, String suffix) {
+    public RoomCriteria(String title, long standardId, String suffix) {
         this.title = title;
         this.standardId = standardId;
         this.suffix = suffix;
     }
 
-    public PersistenceCriteria(@NonNull Criteria other) {
+    public RoomCriteria(@NonNull Criteria other) {
         this.uid = other.getId();
         this.title = other.getTitle();
         this.suffix = other.getSuffix();

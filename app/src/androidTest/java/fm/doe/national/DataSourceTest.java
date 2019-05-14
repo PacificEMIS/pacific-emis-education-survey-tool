@@ -30,7 +30,7 @@ import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.data.persistence.entity.PersistenceSchool;
+import fm.doe.national.data.persistence.entity.RoomSchool;
 import fm.doe.national.data.serialization.parsers.CsvSchoolParser;
 import fm.doe.national.data.serialization.parsers.XmlSurveyParser;
 import io.reactivex.Single;
@@ -98,9 +98,9 @@ public class DataSourceTest {
 
     @Test
     public void testCanWriteAndLoadSchools() {
-        TestObserver<List<PersistenceSchool>> testObserver = new TestObserver<>();
+        TestObserver<List<RoomSchool>> testObserver = new TestObserver<>();
         Single.fromCallable(() -> schoolParser.parse(openSchoolsFile()))
-                .flatMapCompletable(schools -> dataSource.rewriteSchools(schools))
+                .flatMapCompletable(schools -> dataSource.rewriteAllSchools(schools))
                 .andThen(dataSource.loadSchools())
                 .subscribe(testObserver);
         testObserver.awaitTerminalEvent();

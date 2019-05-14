@@ -7,7 +7,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceAnswer;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomAnswer;
 import fm.doe.national.utils.CollectionUtils;
 
 public class MutableAnswer extends BaseMutableEntity implements Answer {
@@ -26,9 +26,9 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.photos = CollectionUtils.map(otherAnswer.getPhotos(), MutablePhoto::new);
     }
 
-    public MutableAnswer(@NonNull RelativePersistenceAnswer relativePersistenceAnswer) {
-        this(relativePersistenceAnswer.answer);
-        this.photos = CollectionUtils.map(relativePersistenceAnswer.photos, MutablePhoto::new);
+    public MutableAnswer(@NonNull RelativeRoomAnswer relativeRoomAnswer) {
+        this(relativeRoomAnswer.answer);
+        this.photos = CollectionUtils.map(relativeRoomAnswer.photos, MutablePhoto::new);
     }
 
     @Override

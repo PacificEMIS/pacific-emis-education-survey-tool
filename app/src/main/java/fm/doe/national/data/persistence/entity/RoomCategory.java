@@ -14,9 +14,9 @@ import java.util.List;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Standard;
 
-@Entity(foreignKeys = @ForeignKey(entity = PersistenceSurvey.class, parentColumns = "uid", childColumns = "survey_id", onDelete = ForeignKey.CASCADE),
+@Entity(foreignKeys = @ForeignKey(entity = RoomSurvey.class, parentColumns = "uid", childColumns = "survey_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("survey_id")})
-public class PersistenceCategory implements Category {
+public class RoomCategory implements Category {
 
     @PrimaryKey(autoGenerate = true)
     public long uid;
@@ -26,12 +26,12 @@ public class PersistenceCategory implements Category {
     @ColumnInfo(name = "survey_id")
     public long surveyId;
 
-    public PersistenceCategory(String title, long surveyId) {
+    public RoomCategory(String title, long surveyId) {
         this.title = title;
         this.surveyId = surveyId;
     }
 
-    public PersistenceCategory(@NonNull Category other) {
+    public RoomCategory(@NonNull Category other) {
         this.uid = other.getId();
         this.title = other.getTitle();
     }

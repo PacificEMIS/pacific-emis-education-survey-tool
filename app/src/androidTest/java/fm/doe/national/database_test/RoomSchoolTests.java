@@ -12,13 +12,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
 import java.util.List;
 
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.SchoolDao;
-import fm.doe.national.data.persistence.entity.PersistenceSchool;
-import fm.doe.national.data.persistence.entity.PersistenceSurvey;
+import fm.doe.national.data.persistence.entity.RoomSchool;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +25,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class PersistenceSchoolTests {
+public class RoomSchoolTests {
 
     private SchoolDao schoolDao;
     private AppDatabase database;
@@ -50,10 +48,10 @@ public class PersistenceSchoolTests {
     public void putEntityTest() {
         schoolDao.deleteAll();
 
-        PersistenceSchool school =  RoomTestData.getTestSchool();
+        RoomSchool school =  RoomTestData.getTestSchool();
         schoolDao.insert(school);
 
-        List<PersistenceSchool> allSchools = schoolDao.getAll();
+        List<RoomSchool> allSchools = schoolDao.getAll();
         assertEquals(1, allSchools.size());
         assertEquals(1, allSchools.get(0).getId());
         assertEquals("Test School 1", allSchools.get(0).getName());
@@ -76,11 +74,11 @@ public class PersistenceSchoolTests {
 
     @Test
     public void deleteSurveysTest() {
-        PersistenceSchool school =  RoomTestData.getTestSchool();
+        RoomSchool school =  RoomTestData.getTestSchool();
         schoolDao.insert(school);
         schoolDao.insert(school);
 
-        PersistenceSchool existingSchool = schoolDao.getAll().get(0);
+        RoomSchool existingSchool = schoolDao.getAll().get(0);
         schoolDao.delete(existingSchool);
         assertEquals(1, schoolDao.getAll().size());
 
@@ -95,10 +93,10 @@ public class PersistenceSchoolTests {
         schoolDao.deleteAll();
         schoolDao.insert(RoomTestData.getTestSchool());
 
-        PersistenceSchool existingSchool = schoolDao.getAll().get(0);
+        RoomSchool existingSchool = schoolDao.getAll().get(0);
         assertEquals("Test School 1", existingSchool.getName());
 
-        PersistenceSchool updatedSchool = RoomTestData.getTestSchool();
+        RoomSchool updatedSchool = RoomTestData.getTestSchool();
         updatedSchool.uid = existingSchool.uid;
         updatedSchool.name = "Test School 2";
         updatedSchool.suffix = "SCH002";
@@ -121,8 +119,8 @@ public class PersistenceSchoolTests {
         schoolDao.deleteAll();
         schoolDao.insert(RoomTestData.getTestSchool());
 
-        PersistenceSchool school = schoolDao.getAll().get(0);
-        PersistenceSchool schoolById = schoolDao.getById(school.getId());
+        RoomSchool school = schoolDao.getAll().get(0);
+        RoomSchool schoolById = schoolDao.getById(school.getId());
 
         assertEquals(school.getName(), schoolById.getName());
 

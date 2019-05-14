@@ -10,39 +10,39 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.entity.PersistenceCriteria;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceCriteria;
+import fm.doe.national.data.persistence.entity.RoomCriteria;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomCriteria;
 
 @Dao
 public interface CriteriaDao {
     @Insert
-    long insert(PersistenceCriteria criteria);
+    long insert(RoomCriteria criteria);
 
     @Update
-    void update(PersistenceCriteria criteria);
+    void update(RoomCriteria criteria);
 
     @Delete
-    void delete(PersistenceCriteria criteria);
+    void delete(RoomCriteria criteria);
 
     @Nullable
-    @Query("SELECT * FROM PersistenceCriteria WHERE uid = :id LIMIT 1")
-    PersistenceCriteria getById(long id);
+    @Query("SELECT * FROM RoomCriteria WHERE uid = :id LIMIT 1")
+    RoomCriteria getById(long id);
 
-    @Query("SELECT * FROM PersistenceCriteria WHERE standard_id = :standardId")
-    List<PersistenceCriteria> getAllForStandardWithId(long standardId);
+    @Query("SELECT * FROM RoomCriteria WHERE standard_id = :standardId")
+    List<RoomCriteria> getAllForStandardWithId(long standardId);
 
-    @Query("DELETE FROM PersistenceCriteria WHERE standard_id = :standardId")
+    @Query("DELETE FROM RoomCriteria WHERE standard_id = :standardId")
     void deleteAllForStandardWithId(long standardId);
 
-    @Query("DELETE FROM PersistenceCriteria WHERE uid = :id")
+    @Query("DELETE FROM RoomCriteria WHERE uid = :id")
     void deleteById(long id);
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM PersistenceCriteria WHERE uid = :id LIMIT 1")
-    RelativePersistenceCriteria getFilledById(long id);
+    @Query("SELECT * FROM RoomCriteria WHERE uid = :id LIMIT 1")
+    RelativeRoomCriteria getFilledById(long id);
 
     @Transaction
-    @Query("SELECT * FROM PersistenceCriteria WHERE standard_id = :standardId")
-    List<RelativePersistenceCriteria> getAllFilledForStandardWithId(long standardId);
+    @Query("SELECT * FROM RoomCriteria WHERE standard_id = :standardId")
+    List<RelativeRoomCriteria> getAllFilledForStandardWithId(long standardId);
 }

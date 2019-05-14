@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import fm.doe.national.data.model.Standard;
-import fm.doe.national.data.persistence.entity.relative.RelativePersistenceStandard;
+import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
 import fm.doe.national.domain.model.Progress;
 import fm.doe.national.utils.CollectionUtils;
 
@@ -26,7 +26,7 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         this.criterias = CollectionUtils.map(other.getCriterias(), MutableCriteria::new);
     }
 
-    public MutableStandard(@NonNull RelativePersistenceStandard other) {
+    public MutableStandard(@NonNull RelativeRoomStandard other) {
         this(other.standard);
         this.criterias = CollectionUtils.map(other.criterias, MutableCriteria::new);
     }
