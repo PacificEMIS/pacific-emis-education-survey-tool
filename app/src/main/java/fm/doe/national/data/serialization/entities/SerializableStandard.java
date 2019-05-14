@@ -11,7 +11,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.Standard;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 
 @Root(name = "standard")
 public class SerializableStandard implements Standard {

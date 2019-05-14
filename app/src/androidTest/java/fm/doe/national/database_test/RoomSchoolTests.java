@@ -55,7 +55,7 @@ public class RoomSchoolTests {
         assertEquals(1, allSchools.size());
         assertEquals(1, allSchools.get(0).getId());
         assertEquals("Test School 1", allSchools.get(0).getName());
-        assertEquals("SCH001", allSchools.get(0).getSuffix());
+        assertEquals("SCH001", allSchools.get(0).getIdentifier());
 
         school.name = "Test School 2";
         school.suffix = "SCH002";
@@ -67,9 +67,9 @@ public class RoomSchoolTests {
         assertNotEquals(allSchools.get(0).getId(), allSchools.get(1).getId());
         assertEquals(allSchools.get(1).getId(), 2);
         assertEquals("Test School 1", allSchools.get(0).getName());
-        assertEquals("SCH001", allSchools.get(0).getSuffix());
+        assertEquals("SCH001", allSchools.get(0).getIdentifier());
         assertEquals("Test School 2", allSchools.get(1).getName());
-        assertEquals("SCH002", allSchools.get(1).getSuffix());
+        assertEquals("SCH002", allSchools.get(1).getIdentifier());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class RoomSchoolTests {
 
         updatedSchool = schoolDao.getAll().get(0);
         assertEquals("Test School 2", updatedSchool.getName());
-        assertEquals("SCH002", updatedSchool.getSuffix());
+        assertEquals("SCH002", updatedSchool.getIdentifier());
     }
 
     @Test

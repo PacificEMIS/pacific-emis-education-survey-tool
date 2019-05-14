@@ -15,7 +15,7 @@ import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.menu.MainMenuItem;
 import fm.doe.national.ui.screens.menu.MenuListAdapter;
 import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public abstract class MenuActivity extends BaseActivity implements MenuView {
 

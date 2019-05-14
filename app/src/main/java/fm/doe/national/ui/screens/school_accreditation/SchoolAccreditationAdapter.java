@@ -9,8 +9,8 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.DateUtils;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.DateUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class SchoolAccreditationAdapter extends BaseAdapter<MutableSurvey> {
 

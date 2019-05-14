@@ -10,9 +10,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+
 import butterknife.ButterKnife;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 public abstract class BaseAdapter<T>
         extends OmegaRecyclerView.Adapter<BaseAdapter<T>.ViewHolder> {

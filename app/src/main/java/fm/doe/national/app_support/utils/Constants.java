@@ -1,4 +1,4 @@
-package fm.doe.national.utils;
+package fm.doe.national.app_support.utils;
 
 public class Constants {
     public static final String FILE_MIME_TYPE = "text/xml";

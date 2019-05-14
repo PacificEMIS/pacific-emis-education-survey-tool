@@ -8,7 +8,7 @@ import java.util.List;
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomAnswer;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableAnswer extends BaseMutableEntity implements Answer {
 

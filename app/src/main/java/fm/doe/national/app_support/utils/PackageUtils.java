@@ -1,4 +1,4 @@
-package fm.doe.national.utils;
+package fm.doe.national.app_support.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

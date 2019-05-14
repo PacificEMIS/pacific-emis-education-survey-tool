@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.data_source.RoomDataSource;
+import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Criteria;
@@ -29,8 +30,6 @@ import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutablePhoto;
-import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.data.persistence.entity.RoomSchool;
 import fm.doe.national.data.serialization.parsers.CsvSchoolParser;
 import fm.doe.national.data.serialization.parsers.XmlSurveyParser;
 import io.reactivex.Single;
@@ -98,7 +97,7 @@ public class DataSourceTest {
 
     @Test
     public void testCanWriteAndLoadSchools() {
-        TestObserver<List<RoomSchool>> testObserver = new TestObserver<>();
+        TestObserver<List<School>> testObserver = new TestObserver<>();
         Single.fromCallable(() -> schoolParser.parse(openSchoolsFile()))
                 .flatMapCompletable(schools -> dataSource.rewriteAllSchools(schools))
                 .andThen(dataSource.loadSchools())
@@ -107,12 +106,12 @@ public class DataSourceTest {
         testObserver.assertValue(TestUtil.check(schools -> {
             assertEquals(186, schools.size());
             School firstSchool = schools.get(0);
-            assertEquals("CHK001", firstSchool.getSuffix());
+            assertEquals("CHK001", firstSchool.getIdentifier());
             assertEquals("Akoyikoyi School", firstSchool.getName());
 
 
             School lastSchool = schools.get(185);
-            assertEquals("KSA208", lastSchool.getSuffix());
+            assertEquals("KSA208", lastSchool.getIdentifier());
             assertEquals("Walung Elementary School", lastSchool.getName());
         }));
     }
@@ -173,6 +172,7 @@ public class DataSourceTest {
             Criteria criteria = standard.getCriterias().get(0);
             assertEquals("CO3.1", criteria.getSuffix());
             assertFalse(criteria.getSubCriterias().isEmpty());
+            assertNotNull(criteria.getSubCriterias().get(0).getAnswer());
         }));
     }
 
@@ -211,7 +211,7 @@ public class DataSourceTest {
 
     @Test
     public void testCanLoadMultipleSurveys() {
-        TestObserver<List<MutableSurvey>> testObserver = new TestObserver<>();
+        TestObserver<List<Survey>> testObserver = new TestObserver<>();
         dataSource.clearDynamicData()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
                 .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
@@ -231,7 +231,7 @@ public class DataSourceTest {
 
     @Test
     public void testCanClearDynamicData() {
-        TestObserver<List<MutableSurvey>> testObserver = new TestObserver<>();
+        TestObserver<List<Survey>> testObserver = new TestObserver<>();
 
         Date creationDate = new Date();
         Single.fromCallable(() -> surveyParser.parse(openSurveyFile()))
@@ -246,7 +246,7 @@ public class DataSourceTest {
 
     @Test
     public void testCanDeleteSurvey() {
-        TestObserver<List<MutableSurvey>> testObserver = new TestObserver<>();
+        TestObserver<List<Survey>> testObserver = new TestObserver<>();
         dataSource.clearDynamicData()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
                 .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
@@ -266,7 +266,7 @@ public class DataSourceTest {
 
     @Test
     public void testCanAnswer() {
-        TestObserver<MutableAnswer> testObserver = new TestObserver<>();
+        TestObserver<Answer> testObserver = new TestObserver<>();
         dataSource.clearDynamicData()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
                 .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
@@ -299,7 +299,7 @@ public class DataSourceTest {
 
     @Test
     public void testCanCreateAndDeletePhoto() {
-        TestObserver<MutableSurvey> testObserver = new TestObserver<>();
+        TestObserver<Survey> testObserver = new TestObserver<>();
         dataSource.clearDynamicData()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
                 .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))

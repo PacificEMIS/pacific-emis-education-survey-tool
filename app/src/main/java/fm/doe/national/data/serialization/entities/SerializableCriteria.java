@@ -11,8 +11,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.SubCriteria;
-import fm.doe.national.data.model.mutable.MutableSubCriteria;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 
 @Root(name = "criteria")
 public class SerializableCriteria implements Criteria {

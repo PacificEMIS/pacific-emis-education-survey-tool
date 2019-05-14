@@ -1,4 +1,4 @@
-package fm.doe.national.utils;
+package fm.doe.national.app_support.utils;
 
 
 import android.graphics.BitmapFactory;

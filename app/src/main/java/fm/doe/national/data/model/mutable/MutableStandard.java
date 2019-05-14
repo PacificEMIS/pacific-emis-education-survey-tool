@@ -7,7 +7,7 @@ import java.util.List;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
 import fm.doe.national.domain.model.Progress;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableStandard extends BaseMutableEntity implements Standard {
 

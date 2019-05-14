@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import fm.doe.national.R;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 public class SummaryTextView extends AppCompatTextView {
 

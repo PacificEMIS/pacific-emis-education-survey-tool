@@ -20,7 +20,7 @@ import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.criterias.CriteriasActivity;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class StandardsActivity extends BaseActivity implements StandardsView, BaseAdapter.OnItemClickListener<MutableStandard> {
 

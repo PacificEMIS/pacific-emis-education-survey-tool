@@ -36,6 +36,4 @@ public interface DataSource {
 
     Completable clearDynamicData();
 
-    void closeConnections();
-
 }

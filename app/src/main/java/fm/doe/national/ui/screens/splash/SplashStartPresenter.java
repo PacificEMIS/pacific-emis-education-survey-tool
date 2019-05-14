@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.BuildConfig;
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.School;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;

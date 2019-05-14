@@ -1,13 +1,13 @@
-package fm.doe.national;
+package fm.doe.national.app_support;
 
 
 import androidx.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 
-import fm.doe.national.di.AppComponent;
-import fm.doe.national.di.DaggerAppComponent;
-import fm.doe.national.di.modules.ContextModule;
+import fm.doe.national.app_support.di.AppComponent;
+import fm.doe.national.app_support.di.DaggerAppComponent;
+import fm.doe.national.app_support.di.modules.ContextModule;
 import io.fabric.sdk.android.Fabric;
 
 public class MicronesiaApplication extends MultiDexApplication {

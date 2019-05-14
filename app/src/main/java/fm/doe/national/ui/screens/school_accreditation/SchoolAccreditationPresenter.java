@@ -5,12 +5,12 @@ import com.omegar.mvp.InjectViewState;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 

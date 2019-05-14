@@ -15,7 +15,7 @@ import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.serialization.converters.SurveyTypeConverter;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 
 
 @Root(name = "survey")

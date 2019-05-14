@@ -1,4 +1,4 @@
-package fm.doe.national.di;
+package fm.doe.national.app_support.di;
 
 import android.content.SharedPreferences;
 
@@ -9,6 +9,9 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import fm.doe.national.app_support.di.modules.LocalDataSourceModule;
+import fm.doe.national.app_support.di.modules.SerializersModule;
+import fm.doe.national.app_support.di.modules.SharedPreferencesModule;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.drive.DriveCloudPreferences;
@@ -21,17 +24,14 @@ import fm.doe.national.data.model.School;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.data.serialization.serializers.Serializer;
-import fm.doe.national.di.modules.CloudModule;
-import fm.doe.national.di.modules.ContextModule;
-import fm.doe.national.di.modules.GsonModule;
-import fm.doe.national.di.modules.InteractorsModule;
-import fm.doe.national.di.modules.LifecycleModule;
-import fm.doe.national.di.modules.LocalDataSourceModule;
-import fm.doe.national.di.modules.SerializersModule;
-import fm.doe.national.di.modules.SharedPreferencesModule;
+import fm.doe.national.app_support.di.modules.CloudModule;
+import fm.doe.national.app_support.di.modules.ContextModule;
+import fm.doe.national.app_support.di.modules.GsonModule;
+import fm.doe.national.app_support.di.modules.InteractorsModule;
+import fm.doe.national.app_support.di.modules.LifecycleModule;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.domain.SurveyInteractor;
-import fm.doe.national.utils.LifecycleListener;
+import fm.doe.national.app_support.utils.LifecycleListener;
 
 @Singleton
 @Component(modules = {

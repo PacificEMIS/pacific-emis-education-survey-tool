@@ -1,8 +1,8 @@
 package fm.doe.national.data.persistence;
 
-import java.util.Date;
-
 import androidx.room.TypeConverter;
+
+import java.util.Date;
 
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.SurveyType;
@@ -19,23 +19,22 @@ public class Converters {
     }
 
     @TypeConverter
-    public static SurveyType fromRawSurveyType(int value) {
+    public static SurveyType fromRawSurveyType(String value) {
         return SurveyType.valueOf(value);
     }
 
     @TypeConverter
-    public static int surveyTypeToRaw(SurveyType surveyType) {
-        return surveyType.getValue();
+    public static String surveyTypeToRaw(SurveyType surveyType) {
+        return surveyType.name();
     }
 
-
     @TypeConverter
-    public static AnswerState fromRawAnswerState(int value) {
+    public static AnswerState fromRawAnswerState(String value) {
         return AnswerState.valueOf(value);
     }
 
     @TypeConverter
-    public static int answerStateToRaw(AnswerState surveyType) {
-        return surveyType.getValue();
+    public static String answerStateToRaw(AnswerState surveyType) {
+        return surveyType.name();
     }
 }

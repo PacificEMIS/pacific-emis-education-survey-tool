@@ -7,13 +7,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.School;
 import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -48,7 +48,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     public void onSchoolPicked(School school) {
-        addDisposable(dataSource.createSurvey(school.getSuffix(), school.getName(), surveyStartDate)
+        addDisposable(dataSource.createSurvey(school.getIdentifier(), school.getName(), surveyStartDate)
                 .map(MutableSurvey::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,7 +65,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
         List<School> queriedSchools = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
         for (School school : schools) {
-            if (school.getName().toLowerCase().contains(lowerQuery) || school.getSuffix().toLowerCase().contains(lowerQuery)) {
+            if (school.getName().toLowerCase().contains(lowerQuery) || school.getIdentifier().toLowerCase().contains(lowerQuery)) {
                 queriedSchools.add(school);
             }
         }

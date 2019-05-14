@@ -33,7 +33,7 @@ public class SchoolsListAdapter extends BaseAdapter<School> {
 
         @Override
         public void onBind(School item) {
-            idTextView.setText(item.getSuffix());
+            idTextView.setText(item.getIdentifier());
             nameTextView.setText(item.getName());
         }
     }

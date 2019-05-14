@@ -31,7 +31,7 @@ import fm.doe.national.data.persistence.entity.RoomSchool;
 import fm.doe.national.data.persistence.entity.RoomStandard;
 import fm.doe.national.data.persistence.entity.RoomSubCriteria;
 import fm.doe.national.data.persistence.entity.RoomSurvey;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -56,7 +56,6 @@ public class RoomDataSource implements DataSource {
         photoDao = dynamicDatabase.getPhotoDao();
     }
 
-    @Override
     public void closeConnections() {
         dynamicDatabase.close();
         staticDatabase.close();
@@ -255,10 +254,10 @@ public class RoomDataSource implements DataSource {
                                             })
                                             .toList()
                                     )
-                            );
-                })
-                .flatMap(photos ->
-                                Single.fromCallable(() -> new MutableAnswer(answerDao.getFilledById(answer.getId()))));
+                            )
+                            .flatMap(photos ->
+                                    Single.fromCallable(() -> new MutableAnswer(answerDao.getFilledById(mutableAnswer.getId()))));
+                });
     }
 
     @Override

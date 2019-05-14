@@ -10,7 +10,7 @@ import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomSurvey;
 import fm.doe.national.domain.model.Progress;
-import fm.doe.national.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableSurvey extends BaseMutableEntity implements Survey {
 

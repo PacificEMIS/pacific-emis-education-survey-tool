@@ -8,6 +8,6 @@ public interface School extends IdentifiedObject {
     String getName();
 
     @NonNull
-    String getSuffix();
+    String getIdentifier();
 
 }

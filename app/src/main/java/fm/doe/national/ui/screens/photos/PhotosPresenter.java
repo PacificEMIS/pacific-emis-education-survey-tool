@@ -2,7 +2,7 @@ package fm.doe.national.ui.screens.photos;
 
 import com.omegar.mvp.InjectViewState;
 
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutablePhoto;

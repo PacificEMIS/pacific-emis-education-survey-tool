@@ -1,4 +1,4 @@
-package fm.doe.national.utils;
+package fm.doe.national.app_support.utils;
 
 import android.app.Activity;
 import android.app.Application;
@@ -9,7 +9,7 @@ import java.lang.ref.WeakReference;
 
 
 import androidx.annotation.Nullable;
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 
 public class ActivityLifecycleListener implements LifecycleListener, Application.ActivityLifecycleCallbacks {
 

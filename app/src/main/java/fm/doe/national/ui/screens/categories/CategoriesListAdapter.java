@@ -9,7 +9,7 @@ import fm.doe.national.R;
 import fm.doe.national.data.model.mutable.MutableCategory;
 import fm.doe.national.domain.model.Progress;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class CategoriesListAdapter
         extends BaseAdapter<MutableCategory> {

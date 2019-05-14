@@ -7,11 +7,11 @@ import com.omega_r.libs.omegatypes.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.screens.menu.MainMenuItem;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V> {
 

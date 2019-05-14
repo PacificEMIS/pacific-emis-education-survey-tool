@@ -27,8 +27,8 @@ import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.domain.model.Progress;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.CollectionUtils;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
 

@@ -11,15 +11,15 @@ public class SurveyTypeConverter implements Converter<SurveyType> {
     @Override
     public SurveyType read(InputNode node) throws Exception
     {
-        final int value = Integer.parseInt(node.getValue());
+        final String value = node.getValue();
         return SurveyType.valueOf(value);
     }
 
 
     @Override
-    public void write(OutputNode node, SurveyType value) throws Exception
+    public void write(OutputNode node, SurveyType value)
     {
-        node.setValue(String.valueOf(value.getValue()));
+        node.setValue(value.name());
     }
 
 }

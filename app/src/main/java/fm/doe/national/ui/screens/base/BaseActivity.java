@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.ui.custom_views.ProgressDialogFragment;
-import fm.doe.national.utils.DateUtils;
+import fm.doe.national.app_support.utils.DateUtils;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 

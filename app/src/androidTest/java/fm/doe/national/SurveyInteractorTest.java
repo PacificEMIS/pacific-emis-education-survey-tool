@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fm.doe.national.app_support.utils.DisposeBag;
 import fm.doe.national.data.data_source.RoomDataSource;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.mutable.MutableAnswer;
@@ -43,9 +44,10 @@ public class SurveyInteractorTest {
     private final XmlSurveyParser surveyParser = new XmlSurveyParser();
     private SurveyInteractorImpl interactor;
     private RoomDataSource dataSource;
+    private DisposeBag disposeBag;
 
     @BeforeClass
-    public static void before() {
+    public static void beforeClass() {
         RxAndroidPlugins.reset();
         RxJavaPlugins.reset();
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
@@ -53,20 +55,26 @@ public class SurveyInteractorTest {
     }
 
     @AfterClass
-    public static void after(){
+    public static void afterClass(){
         RxAndroidPlugins.reset();
         RxJavaPlugins.reset();
     }
 
     @Before
-    public void init() {
+    public void before() {
         Context context = ApplicationProvider.getApplicationContext();
         dataSource = new RoomDataSource(context);
         interactor = new SurveyInteractorImpl(dataSource);
+        disposeBag = new DisposeBag();
         Single.fromCallable(() -> surveyParser.parse(openSurveyFile()))
                 .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
                 .andThen(dataSource.clearDynamicData())
                 .blockingAwait();
+    }
+
+    @After
+    public void after() {
+        disposeBag.dispose();
     }
 
     @Nullable
@@ -125,7 +133,8 @@ public class SurveyInteractorTest {
         //region prepare
         MutableSurvey survey = dataSource.createSurvey("CHK001", "canSetCurrentSurveyAndGetValues", new Date())
                 .flatMap(sh -> interactor.getAllSurveys())
-                .blockingGet().get(0);
+                .blockingGet()
+                .get(0);
 
         interactor.setCurrentSurvey(survey);
 
@@ -148,10 +157,10 @@ public class SurveyInteractorTest {
         List<MutableCategory> updatedCategories = new ArrayList<>();
         List<MutableSurvey> updatedSurveys = new ArrayList<>();
 
-        interactor.getCriteriaProgressSubject().subscribe(updatedCriterias::add);
-        interactor.getStandardProgressSubject().subscribe(updatedStandards::add);
-        interactor.getCategoryProgressSubject().subscribe(updatedCategories::add);
-        interactor.getSurveyProgressSubject().subscribe(updatedSurveys::add);
+        disposeBag.add(interactor.getCriteriaProgressSubject().subscribe(updatedCriterias::add));
+        disposeBag.add(interactor.getStandardProgressSubject().subscribe(updatedStandards::add));
+        disposeBag.add(interactor.getCategoryProgressSubject().subscribe(updatedCategories::add));
+        disposeBag.add(interactor.getSurveyProgressSubject().subscribe(updatedSurveys::add));
         //endregion
 
         // region case 1
@@ -164,10 +173,10 @@ public class SurveyInteractorTest {
                 standard.getId(),
                 criteria.getId(),
                 subCriteria.getId()
-        );
+        ).blockingAwait();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
             fail();
         }
@@ -209,7 +218,7 @@ public class SurveyInteractorTest {
                 standard.getId(),
                 criteria.getId(),
                 subCriteria1.getId()
-        );
+        ).blockingAwait();
 
         try {
             Thread.sleep(1000);
@@ -255,7 +264,7 @@ public class SurveyInteractorTest {
                 standard.getId(),
                 criteria.getId(),
                 subCriteria2.getId()
-        );
+        ).blockingAwait();
 
         try {
             Thread.sleep(1000);
@@ -299,7 +308,7 @@ public class SurveyInteractorTest {
                 standard.getId(),
                 criteria.getId(),
                 subCriteria.getId()
-        );
+        ).blockingAwait();
 
         try {
             Thread.sleep(1000);

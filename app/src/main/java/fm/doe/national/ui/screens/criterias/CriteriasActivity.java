@@ -34,9 +34,9 @@ import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
-import fm.doe.national.utils.Constants;
-import fm.doe.national.utils.DateUtils;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.Constants;
+import fm.doe.national.app_support.utils.DateUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class CriteriasActivity extends BaseActivity implements
         CriteriasView,

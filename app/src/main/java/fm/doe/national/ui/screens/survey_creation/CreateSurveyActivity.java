@@ -24,7 +24,7 @@ import fm.doe.national.data.model.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.categories.CategoriesActivity;
-import fm.doe.national.utils.DateUtils;
+import fm.doe.national.app_support.utils.DateUtils;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,

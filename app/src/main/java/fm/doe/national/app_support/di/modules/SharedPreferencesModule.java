@@ -1,4 +1,4 @@
-package fm.doe.national.di.modules;
+package fm.doe.national.app_support.di.modules;
 
 import android.content.Context;
 import android.content.SharedPreferences;

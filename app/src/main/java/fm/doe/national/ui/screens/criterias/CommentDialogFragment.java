@@ -22,7 +22,7 @@ import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseDialogFragment;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 public class CommentDialogFragment extends BaseDialogFragment {
 

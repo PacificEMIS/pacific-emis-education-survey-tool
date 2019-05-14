@@ -1,4 +1,4 @@
-package fm.doe.national.di.modules;
+package fm.doe.national.app_support.di.modules;
 
 import javax.inject.Singleton;
 

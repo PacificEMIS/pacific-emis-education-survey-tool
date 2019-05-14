@@ -19,13 +19,13 @@ import java.io.ByteArrayOutputStream;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
-import fm.doe.national.utils.Constants;
-import fm.doe.national.utils.LifecycleListener;
+import fm.doe.national.app_support.utils.Constants;
+import fm.doe.national.app_support.utils.LifecycleListener;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;

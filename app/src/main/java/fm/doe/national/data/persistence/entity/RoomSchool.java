@@ -24,7 +24,7 @@ public class RoomSchool implements School {
 
     public RoomSchool(School other) {
         this.name = other.getName();
-        this.suffix = other.getSuffix();
+        this.suffix = other.getIdentifier();
     }
 
     @NonNull
@@ -35,7 +35,7 @@ public class RoomSchool implements School {
 
     @NonNull
     @Override
-    public String getSuffix() {
+    public String getIdentifier() {
         return suffix;
     }
 

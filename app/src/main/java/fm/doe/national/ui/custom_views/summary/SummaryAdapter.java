@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements StickyHeaderAdapter<SummaryAdapter.HeaderViewHolder> {
 
