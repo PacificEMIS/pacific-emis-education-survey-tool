@@ -1,6 +1,6 @@
 package fm.doe.national.database_test;
 
-import android.content.Context;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,9 +9,6 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import androidx.room.Room;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.CriteriaDao;
@@ -31,18 +28,15 @@ public class RoomCriteriaTests {
     private long testStandardId = -1;
 
     @Before
-    public void createDb() {
-        Context context = ApplicationProvider.getApplicationContext();
-        database = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
-                .allowMainThreadQueries()
-                .build();
+    public void before() {
+        database = RoomTestData.createAppDatabase();
         criteriaDao = database.getCriteriaDao();
 
         fillTable();
     }
 
     @After
-    public void closeDb() {
+    public void after() {
         database.close();
     }
 

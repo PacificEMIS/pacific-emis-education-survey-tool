@@ -52,7 +52,7 @@ public class DataSourceTest {
     private RoomDataSource dataSource;
 
     @BeforeClass
-    public static void before() {
+    public static void beforeClass() {
         RxAndroidPlugins.reset();
         RxJavaPlugins.reset();
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
@@ -60,19 +60,19 @@ public class DataSourceTest {
     }
 
     @AfterClass
-    public static void after(){
+    public static void afterClass(){
         RxAndroidPlugins.reset();
         RxJavaPlugins.reset();
     }
 
     @Before
-    public void init() {
+    public void before() {
         Context context = ApplicationProvider.getApplicationContext();
         dataSource = new RoomDataSource(context);
     }
 
     @After
-    public void deInit() {
+    public void after() {
         dataSource.closeConnections();
     }
 

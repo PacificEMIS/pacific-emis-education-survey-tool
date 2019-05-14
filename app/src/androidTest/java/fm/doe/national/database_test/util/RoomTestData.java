@@ -1,7 +1,17 @@
 package fm.doe.national.database_test.util;
 
+import android.content.Context;
+
+import androidx.room.Room;
+import androidx.test.core.app.ApplicationProvider;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.SurveyType;
+import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.entity.RoomAnswer;
 import fm.doe.national.data.persistence.entity.RoomCategory;
 import fm.doe.national.data.persistence.entity.RoomCriteria;
@@ -10,10 +20,16 @@ import fm.doe.national.data.persistence.entity.RoomSchool;
 import fm.doe.national.data.persistence.entity.RoomStandard;
 import fm.doe.national.data.persistence.entity.RoomSubCriteria;
 import fm.doe.national.data.persistence.entity.RoomSurvey;
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.SurveyType;
 
 public class RoomTestData {
+
+    @NotNull
+    public static AppDatabase createAppDatabase() {
+        Context context = ApplicationProvider.getApplicationContext();
+        return Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
+                .allowMainThreadQueries()
+                .build();
+    }
 
     public static RoomSurvey getSurveyFor_putSurveyEntityTest() {
         return new RoomSurvey(1, SurveyType.SCHOOL_ACCREDITATION, null, null, new Date(10000));

@@ -16,7 +16,7 @@ public class LocalDataSourceModule {
 
     @Provides
     @Singleton
-    public DataSource provideAccreditationDataSource(Context context) {
+    public DataSource provideDataSource(Context context) {
         return new RoomDataSource(context);
     }
 

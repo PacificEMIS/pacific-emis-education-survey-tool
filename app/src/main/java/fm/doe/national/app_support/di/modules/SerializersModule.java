@@ -21,13 +21,13 @@ import fm.doe.national.data.serialization.serializers.XmlSurveySerializer;
 public class SerializersModule {
     @Provides
     @Singleton
-    public Serializer<Survey> provideSchoolAccreditationSerializer() {
+    public Serializer<Survey> provideSurveySerializer() {
         return new XmlSurveySerializer();
     }
 
     @Provides
     @Singleton
-    public Parser<Survey> provideSchoolAccreditationParser() {
+    public Parser<Survey> provideSurveyParser() {
         return new XmlSurveyParser();
     }
 

@@ -1,10 +1,6 @@
 package fm.doe.national.database_test;
 
 
-import android.content.Context;
-
-import androidx.room.Room;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
@@ -31,16 +27,13 @@ public class RoomSchoolTests {
     private AppDatabase database;
 
     @Before
-    public void createDb() {
-        Context context = ApplicationProvider.getApplicationContext();
-        database = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
-                .allowMainThreadQueries()
-                .build();
+    public void before() {
+        database = RoomTestData.createAppDatabase();
         schoolDao = database.getSchoolDao();
     }
 
     @After
-    public void closeDb() {
+    public void after() {
         database.close();
     }
 

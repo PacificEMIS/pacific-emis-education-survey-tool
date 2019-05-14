@@ -57,10 +57,10 @@ android {
 dependencies {
     def roomVersion = '2.1.0-alpha07'
     def moxyVersion = '1.5.7'
-    def okhttpVersion = '3.12.1'
+    def okhttpVersion = '4.0.0-alpha01'
     def retrofitVersion = '2.5.0'
-    def daggerVersion = '2.16'
-    def butterknifeVersion = '10.0.0'
+    def daggerVersion = '2.22.1'
+    def butterknifeVersion = '10.1.0'
     def workVersion = '2.0.1'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -119,14 +119,14 @@ dependencies {
     }
 
     // FastCsv
-    implementation "de.siegmar:fastcsv:1.0.2"
+    implementation 'de.siegmar:fastcsv:1.0.3'
 
     // Tests
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
 
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
         transitive = true
     }
 

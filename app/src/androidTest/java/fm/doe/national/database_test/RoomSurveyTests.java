@@ -1,6 +1,6 @@
 package fm.doe.national.database_test;
 
-import android.content.Context;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,16 +10,16 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.room.Room;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.SurveyDao;
 import fm.doe.national.data.persistence.entity.RoomSurvey;
-import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.database_test.util.RoomTestData;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class RoomSurveyTests {
@@ -28,16 +28,13 @@ public class RoomSurveyTests {
     private AppDatabase database;
 
     @Before
-    public void createDb() {
-        Context context = ApplicationProvider.getApplicationContext();
-        database = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
-                .allowMainThreadQueries()
-                .build();
+    public void before() {
+        database = RoomTestData.createAppDatabase();
         surveyDao = database.getSurveyDao();
     }
 
     @After
-    public void closeDb() {
+    public void after() {
         database.close();
     }
 

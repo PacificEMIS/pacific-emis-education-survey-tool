@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SplashStartPresenter extends BasePresenter<SplashStartView> {
 
     private final Parser<Survey> schoolAccreditationParser =
-            MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
+            MicronesiaApplication.getAppComponent().getSurveyParser();
     private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     

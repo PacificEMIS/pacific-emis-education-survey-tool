@@ -44,9 +44,9 @@ import fm.doe.national.app_support.utils.LifecycleListener;
         LifecycleModule.class,
         InteractorsModule.class})
 public interface AppComponent {
-    Parser<Survey> getSchoolAccreditationParser();
+    Parser<Survey> getSurveyParser();
     Parser<List<School>> getSchoolsParser();
-    Serializer<Survey> getSchoolAccreditationSerizlizer();
+    Serializer<Survey> getSurveySerizlizer();
     Persister getPersister();
 
     SharedPreferences getSharedPreferences();

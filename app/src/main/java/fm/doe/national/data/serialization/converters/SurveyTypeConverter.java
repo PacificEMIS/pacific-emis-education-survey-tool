@@ -9,16 +9,14 @@ import fm.doe.national.data.model.SurveyType;
 public class SurveyTypeConverter implements Converter<SurveyType> {
 
     @Override
-    public SurveyType read(InputNode node) throws Exception
-    {
+    public SurveyType read(InputNode node) throws Exception {
         final String value = node.getValue();
         return SurveyType.valueOf(value);
     }
 
 
     @Override
-    public void write(OutputNode node, SurveyType value)
-    {
+    public void write(OutputNode node, SurveyType value) {
         node.setValue(value.name());
     }
 

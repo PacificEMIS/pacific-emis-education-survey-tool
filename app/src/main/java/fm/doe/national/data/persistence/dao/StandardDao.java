@@ -17,13 +17,13 @@ import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
 public interface StandardDao {
 
     @Insert
-    long insert(RoomStandard category);
+    long insert(RoomStandard standard);
 
     @Update
-    void update(RoomStandard category);
+    void update(RoomStandard standard);
 
     @Delete
-    void delete(RoomStandard category);
+    void delete(RoomStandard standard);
 
     @Nullable
     @Query("SELECT * FROM RoomStandard WHERE uid = :id LIMIT 1")

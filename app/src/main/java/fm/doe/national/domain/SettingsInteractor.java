@@ -17,7 +17,7 @@ public class SettingsInteractor {
 
     private final CloudRepository cloudRepository = MicronesiaApplication.getAppComponent().getCloudRepository();
     private final DataSource localDataRepository = MicronesiaApplication.getAppComponent().getDataSource();
-    private final Parser<Survey> surveyParser = MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
+    private final Parser<Survey> surveyParser = MicronesiaApplication.getAppComponent().getSurveyParser();
     private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
 
     public Completable auth(CloudType type) {
