@@ -2,12 +2,9 @@ package fm.doe.national.database_test;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.AnswerDao;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.CriteriaDao;
@@ -29,9 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class RelativeTests {
-
-    private AppDatabase database;
+public class RelativeTests extends BaseDatabaseTest {
 
     private long testSurveyId;
     private long testCategoryId;
@@ -40,16 +35,6 @@ public class RelativeTests {
     private long testSubCriteriaId;
     private long testAnswerId;
     private long testPhotoId;
-
-    @Before
-    public void before() {
-        database = RoomTestData.createAppDatabase();
-    }
-
-    @After
-    public void after() {
-        database.close();
-    }
 
     private void fillTable() {
         SurveyDao surveyDao = database.getSurveyDao();

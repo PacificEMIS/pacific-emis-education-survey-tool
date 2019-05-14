@@ -69,13 +69,13 @@ public class RoomDataSource implements DataSource {
 
     @Override
     public Completable rewriteAllSchools(List<School> schools) {
-        return Completable.fromAction(() -> {
-            staticDatabase.getSchoolDao().deleteAll();
-            // WARNING: this might become CCE if another School impl appear, but for now on it is OK
-            for (School school : schools) {
-                staticDatabase.getSchoolDao().insert((RoomSchool) school);
-            }
-        });
+        return Observable.fromIterable(schools)
+                .map(RoomSchool::new)
+                .toList()
+                .flatMapCompletable(roomSchools -> Completable.fromAction(() -> {
+                    staticDatabase.getSchoolDao().deleteAll();
+                    staticDatabase.getSchoolDao().insert(roomSchools);
+                }));
     }
 
     @Override
@@ -233,31 +233,43 @@ public class RoomDataSource implements DataSource {
 
                     photosToCreate.addAll(expectedPhotos);
 
-                    return Observable.fromIterable(photosToUpdate)
-                            .map(photo -> {
-                                photoDao.update(new RoomPhoto(photo));
-                                return photo;
-                            })
-                            .toList()
-                            .flatMap(updatedPhotos -> Observable.fromIterable(photosToDelete)
-                                    .map(photo -> {
-                                        photoDao.deleteById(photo.getId());
-                                        return photo;
-                                    })
-                                    .toList()
-                                    .flatMap(deletedPhotos -> Observable.fromIterable(photosToCreate)
-                                            .map(photo -> {
-                                                RoomPhoto roomPhoto = new RoomPhoto(photo);
-                                                roomPhoto.answerId = answer.getId();
-                                                photoDao.insert(roomPhoto);
-                                                return photo;
-                                            })
-                                            .toList()
-                                    )
-                            )
-                            .flatMap(photos ->
-                                    Single.fromCallable(() -> new MutableAnswer(answerDao.getFilledById(mutableAnswer.getId()))));
+                    return updatePhotos(photosToUpdate)
+                            .andThen(deletePhotos(photosToDelete))
+                            .andThen(createPhotos(photosToCreate, mutableAnswer.getId()))
+                            .andThen(Single.fromCallable(() -> new MutableAnswer(answerDao.getFilledById(mutableAnswer.getId()))));
                 });
+    }
+
+    private Completable updatePhotos(List<MutablePhoto> photos) {
+        return Observable.fromIterable(photos)
+                .map(photo -> {
+                    photoDao.update(new RoomPhoto(photo));
+                    return photo;
+                })
+                .toList()
+                .ignoreElement();
+    }
+
+    private Completable deletePhotos(List<MutablePhoto> photos) {
+        return Observable.fromIterable(photos)
+                .map(photo -> {
+                    photoDao.deleteById(photo.getId());
+                    return photo;
+                })
+                .toList()
+                .ignoreElement();
+    }
+
+    private Completable createPhotos(List<MutablePhoto> photos, long answerId) {
+        return Observable.fromIterable(photos)
+                .map(photo -> {
+                    RoomPhoto roomPhoto = new RoomPhoto(photo);
+                    roomPhoto.answerId = answerId;
+                    photoDao.insert(roomPhoto);
+                    return photo;
+                })
+                .toList()
+                .ignoreElement();
     }
 
     @Override

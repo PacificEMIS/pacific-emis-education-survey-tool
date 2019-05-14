@@ -2,14 +2,12 @@ package fm.doe.national.database_test;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.SurveyDao;
 import fm.doe.national.data.persistence.entity.RoomCategory;
@@ -19,24 +17,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class RoomCategoryTests {
+public class RoomCategoryTests extends BaseDatabaseTest {
 
     private CategoryDao categoryDao;
-    private AppDatabase database;
-
     private long testSurveyId = -1;
 
     @Before
+    @Override
     public void before() {
-        database = RoomTestData.createAppDatabase();
+        super.before();
         categoryDao = database.getCategoryDao();
-
         fillSurveyTable();
-    }
-
-    @After
-    public void after() {
-        database.close();
     }
 
     private void fillSurveyTable() {

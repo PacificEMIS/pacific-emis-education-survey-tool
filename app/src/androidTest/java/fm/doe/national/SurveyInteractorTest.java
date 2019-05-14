@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.app_support.utils.DisposeBag;
 import fm.doe.national.data.data_source.RoomDataSource;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.mutable.MutableAnswer;
@@ -31,6 +30,7 @@ import fm.doe.national.data.serialization.parsers.XmlSurveyParser;
 import fm.doe.national.domain.SurveyInteractorImpl;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
@@ -44,7 +44,7 @@ public class SurveyInteractorTest {
     private final XmlSurveyParser surveyParser = new XmlSurveyParser();
     private SurveyInteractorImpl interactor;
     private RoomDataSource dataSource;
-    private DisposeBag disposeBag;
+    private CompositeDisposable disposeBag;
 
     @BeforeClass
     public static void beforeClass() {
@@ -65,7 +65,7 @@ public class SurveyInteractorTest {
         Context context = ApplicationProvider.getApplicationContext();
         dataSource = new RoomDataSource(context);
         interactor = new SurveyInteractorImpl(dataSource);
-        disposeBag = new DisposeBag();
+        disposeBag = new CompositeDisposable();
         Single.fromCallable(() -> surveyParser.parse(openSurveyFile()))
                 .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
                 .andThen(dataSource.clearDynamicData())

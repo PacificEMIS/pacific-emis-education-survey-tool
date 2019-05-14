@@ -17,6 +17,9 @@ public interface SchoolDao {
     @Insert
     void insert(RoomSchool school);
 
+    @Insert
+    void insert(List<RoomSchool> schools);
+
     @Update
     void update(RoomSchool school);
 

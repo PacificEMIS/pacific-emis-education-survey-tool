@@ -24,7 +24,7 @@ public class UploadWorker extends RxWorker {
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final Serializer<Survey> serializer =
-            MicronesiaApplication.getAppComponent().getSurveySerizlizer();
+            MicronesiaApplication.getAppComponent().getSurveySerializer();
     private final CloudRepository cloudRepository = MicronesiaApplication.getAppComponent().getCloudRepository();
 
     public UploadWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {

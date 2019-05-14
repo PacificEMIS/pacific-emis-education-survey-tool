@@ -2,14 +2,12 @@ package fm.doe.national.database_test;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.CategoryDao;
 import fm.doe.national.data.persistence.dao.CriteriaDao;
 import fm.doe.national.data.persistence.dao.StandardDao;
@@ -22,23 +20,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
-public class RoomSubCriteriaTests {
+public class RoomSubCriteriaTests extends BaseDatabaseTest {
+
     private SubCriteriaDao subCriteriaDao;
-    private AppDatabase database;
 
     private long testCriteriaId = -1;
 
     @Before
+    @Override
     public void before() {
-        database = RoomTestData.createAppDatabase();
+        super.before();
         subCriteriaDao = database.getSubcriteriaDao();
-
         fillTable();
-    }
-
-    @After
-    public void after() {
-        database.close();
     }
 
     private void fillTable() {

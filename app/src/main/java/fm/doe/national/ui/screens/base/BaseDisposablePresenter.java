@@ -2,25 +2,25 @@ package fm.doe.national.ui.screens.base;
 
 import com.omegar.mvp.MvpPresenter;
 
-import fm.doe.national.app_support.utils.DisposeBag;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 class BaseDisposablePresenter<T extends BaseView> extends MvpPresenter<T> {
 
-    private DisposeBag disposeBag = new DisposeBag();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public BaseDisposablePresenter() {
-
+        // nothing
     }
 
     protected void addDisposable(@NonNull Disposable d) {
-        disposeBag.add(d);
+        compositeDisposable.add(d);
     }
 
     @Override
     public void onDestroy() {
-        disposeBag.dispose();
+        compositeDisposable.dispose();
         super.onDestroy();
     }
 

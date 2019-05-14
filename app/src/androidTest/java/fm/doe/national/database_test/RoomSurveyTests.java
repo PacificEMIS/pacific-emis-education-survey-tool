@@ -2,7 +2,6 @@ package fm.doe.national.database_test;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import fm.doe.national.data.model.SurveyType;
-import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.dao.SurveyDao;
 import fm.doe.national.data.persistence.entity.RoomSurvey;
 import fm.doe.national.database_test.util.RoomTestData;
@@ -22,20 +20,15 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class RoomSurveyTests {
+public class RoomSurveyTests extends BaseDatabaseTest {
 
     private SurveyDao surveyDao;
-    private AppDatabase database;
 
     @Before
+    @Override
     public void before() {
-        database = RoomTestData.createAppDatabase();
+        super.before();
         surveyDao = database.getSurveyDao();
-    }
-
-    @After
-    public void after() {
-        database.close();
     }
 
     @Test
