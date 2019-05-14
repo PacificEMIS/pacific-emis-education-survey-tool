@@ -203,9 +203,11 @@ public class SettingsActivity extends BaseActivity implements
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 presenter.onImagePicked(bitmap);
+                return;
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
