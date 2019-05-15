@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.data.data_source.DataSource;
+import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutableCategory;
@@ -149,7 +150,7 @@ public class SurveyInteractorImpl implements SurveyInteractor {
 
     @SuppressLint("CheckResult")
     @Override
-    public Completable updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
+    public Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
         return dataSource.updateAnswer(answer, subCriteriaId)
                 .flatMapCompletable(updatedAnswer -> Completable.fromAction(() -> notifyProgressChanged(
                         new MutableAnswer(updatedAnswer),

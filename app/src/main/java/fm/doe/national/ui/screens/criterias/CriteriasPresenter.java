@@ -7,14 +7,19 @@ import com.omegar.mvp.InjectViewState;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.files.PicturesRepository;
+import fm.doe.national.data.model.Answer;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Photo;
 import fm.doe.national.data.model.Standard;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutablePhoto;
@@ -55,8 +60,10 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .subscribe(criteria -> getViewState().notifyCriteriaChanged(criteria), this::handleError));
     }
 
-    public void onSubCriteriaStateChanged(MutableSubCriteria subCriteria) {
-        updateAnswer(subCriteria.getId(), subCriteria.getAnswer());
+    public void onSubCriteriaStateChanged(SubCriteria subCriteria, AnswerState newState) {
+        MutableSubCriteria mutableSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        mutableSubCriteria.getAnswer().setState(newState);
+        updateAnswer(mutableSubCriteria.getId(), mutableSubCriteria.getAnswer());
     }
 
     public void onNextPressed() {
@@ -73,8 +80,8 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         updateUi();
     }
 
-    public void onAddPhotoClicked(MutableSubCriteria subCriteria) {
-        selectedSubCriteria = subCriteria;
+    public void onAddPhotoClicked(SubCriteria subCriteria) {
+        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
         try {
             takenPictureFile = picturesRepository.createEmptyFile();
             if (takenPictureFile != null) getViewState().takePictureTo(takenPictureFile);
@@ -98,18 +105,18 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         selectedSubCriteria = null; // just silently do nothing
     }
 
-    public void onDeletePhotoClicked(MutableSubCriteria subCriteria, MutablePhoto photo) {
+    public void onDeletePhotoClicked(SubCriteria subCriteria, Photo photo) {
         subCriteria.getAnswer().getPhotos().remove(photo);
         afterAnyPhotoChanges(subCriteria);
     }
 
-    public void onAddCommentClicked(MutableSubCriteria subCriteria) {
-        selectedSubCriteria = subCriteria;
+    public void onAddCommentClicked(SubCriteria subCriteria) {
+        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
         getViewState().showCommentEditor(subCriteria);
     }
 
-    public void onEditCommentClicked(MutableSubCriteria subCriteria) {
-        selectedSubCriteria = subCriteria;
+    public void onEditCommentClicked(SubCriteria subCriteria) {
+        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
         getViewState().showCommentEditor(subCriteria);
     }
 
@@ -122,17 +129,18 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
         selectedSubCriteria = null;
     }
 
-    public void onDeleteCommentClicked(MutableSubCriteria subCriteria) {
-        subCriteria.getAnswer().setComment(null);
+    public void onDeleteCommentClicked(SubCriteria subCriteria) {
+        MutableSubCriteria mutableSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        mutableSubCriteria.getAnswer().setComment(null);
         updateAnswer(subCriteria.getId(), subCriteria.getAnswer());
     }
 
-    public void onMorePhotosClick(MutableSubCriteria subCriteria) {
-        selectedSubCriteria = subCriteria;
+    public void onMorePhotosClick(SubCriteria subCriteria) {
+        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
         getViewState().navigateToPhotos(categoryId, getStandardId(), getCriteriaId(subCriteria.getId()), subCriteria.getId());
     }
 
-    private void afterAnyPhotoChanges(MutableSubCriteria subCriteria) {
+    private void afterAnyPhotoChanges(SubCriteria subCriteria) {
         updateAnswer(subCriteria.getId(), subCriteria.getAnswer());
         getViewState().notifySubCriteriaChanged(subCriteria);
     }
@@ -162,7 +170,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(criterias -> getViewState().setCriterias(criterias), this::handleError));
+                .subscribe(criterias -> getViewState().setCriterias(new ArrayList<>(criterias)), this::handleError));
     }
 
     private int getNextIndex() {
@@ -209,7 +217,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
                 .subscribe(category -> getViewState().setCategoryName(category.getTitle()), this::handleError));
     }
 
-    private void updateAnswer(long subCriteriaId, MutableAnswer answer) {
+    private void updateAnswer(long subCriteriaId, Answer answer) {
         addDisposable(surveyInteractor.updateAnswer(answer, categoryId, getStandardId(), getCriteriaId(subCriteriaId), subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -221,15 +229,10 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
     private long getCriteriaId(long subCriteriaId) {
         for (MutableCriteria criteria : standards.get(standardIndex).getCriterias()) {
-            boolean containSubCriteria = false;
             for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
                 if (subCriteria.getId() == subCriteriaId) {
-                    containSubCriteria = true;
-                    break;
+                    return criteria.getId();
                 }
-            }
-            if (containSubCriteria) {
-                return criteria.getId();
             }
         }
         return -1;

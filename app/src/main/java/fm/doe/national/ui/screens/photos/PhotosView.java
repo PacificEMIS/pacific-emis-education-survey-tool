@@ -5,10 +5,10 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.data.model.mutable.MutablePhoto;
+import fm.doe.national.data.model.Photo;
 import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface PhotosView extends BaseView {
-    void showPhotos(List<MutablePhoto> photos);
+    void showPhotos(List<Photo> photos);
 }

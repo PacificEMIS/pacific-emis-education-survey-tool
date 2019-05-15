@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.serialization.converters.SurveyTypeConverter;
@@ -93,5 +94,11 @@ public class SerializableSurvey implements Survey {
     @Override
     public long getId() {
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public Progress getProgress() {
+        return Progress.createEmptyProgress();
     }
 }

@@ -67,8 +67,8 @@ public class SurveyInteractorTest {
         interactor = new SurveyInteractorImpl(dataSource);
         disposeBag = new CompositeDisposable();
         Single.fromCallable(() -> surveyParser.parse(openSurveyFile()))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
-                .andThen(dataSource.clearDynamicData())
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
+                .andThen(dataSource.deleteCreatedSurveys())
                 .blockingAwait();
     }
 

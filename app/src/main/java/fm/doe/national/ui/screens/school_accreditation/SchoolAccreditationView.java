@@ -6,7 +6,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
@@ -15,11 +15,11 @@ interface SchoolAccreditationView extends BaseDrawerView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToCategoryChooser();
 
-    void setAccreditations(List<MutableSurvey> accreditations);
+    void setAccreditations(List<Survey> accreditations);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showSurveyDeleteConfirmation();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void removeSurveyPassing(MutableSurvey passing);
+    void removeSurveyPassing(Survey passing);
 }

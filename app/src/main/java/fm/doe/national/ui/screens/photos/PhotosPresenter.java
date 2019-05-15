@@ -2,8 +2,11 @@ package fm.doe.national.ui.screens.photos;
 
 import com.omegar.mvp.InjectViewState;
 
+import java.util.ArrayList;
+
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
+import fm.doe.national.data.model.Photo;
 import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutablePhoto;
 import fm.doe.national.domain.SurveyInteractor;
@@ -33,9 +36,10 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
         loadAnswer();
     }
 
-    public void onDeletePhotoClick(MutablePhoto photo) {
-        answer.getPhotos().remove(photo);
-        getViewState().showPhotos(answer.getPhotos());
+    public void onDeletePhotoClick(Photo photo) {
+        MutablePhoto mutablePhoto = MutablePhoto.createOrCastFromOther(photo);
+        answer.getPhotos().remove(mutablePhoto);
+        getViewState().showPhotos(new ArrayList<>(answer.getPhotos()));
         addDisposable(interactor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -56,7 +60,7 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
                 .doFinally(getViewState()::hideWaiting)
                 .subscribe(subCriteria -> {
                     answer = subCriteria.getAnswer();
-                    getViewState().showPhotos(answer.getPhotos());
+                    getViewState().showPhotos(new ArrayList<>(answer.getPhotos()));
                 }, this::handleError));
     }
 }

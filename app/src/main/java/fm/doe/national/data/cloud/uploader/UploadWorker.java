@@ -38,7 +38,7 @@ public class UploadWorker extends RxWorker {
             if (passingId == VALUE_ID_NOT_FOUND) throw new IllegalStateException("passingId == VALUE_ID_NOT_FOUND");
             return passingId;
         })
-                .flatMap(dataSource::loadFullSurvey)
+                .flatMap(dataSource::loadSurvey)
                 .flatMapCompletable(survey -> cloudRepository.uploadContent(serializer.serialize(survey), createFilename(survey)))
                 .andThen(Single.fromCallable(Result::success));
     }

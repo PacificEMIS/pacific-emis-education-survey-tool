@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fm.doe.national.BuildConfig;
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Criteria;
@@ -38,32 +39,32 @@ import io.reactivex.Single;
 
 public class RoomDataSource implements DataSource {
 
-    private static final String DATABASE_NAME = "fm.doe.national.database";
-    private static final String STATIC_DATABASE_NAME = "fm.doe.national.static_database";
+    private static final String DATABASE_NAME = BuildConfig.APPLICATION_ID + ".database";
+    private static final String TEMPLATE_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".template_database";
 
     private final SurveyDao surveyDao;
     private final AnswerDao answerDao;
     private final PhotoDao photoDao;
 
-    private final AppDatabase staticDatabase;
-    private final AppDatabase dynamicDatabase;
+    private final AppDatabase templateDatabase;
+    private final AppDatabase database;
 
     public RoomDataSource(Context applicationContext) {
-        dynamicDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class, DATABASE_NAME).build();
-        staticDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class, STATIC_DATABASE_NAME).build();
-        surveyDao = dynamicDatabase.getSurveyDao();
-        answerDao = dynamicDatabase.getAnswerDao();
-        photoDao = dynamicDatabase.getPhotoDao();
+        database = Room.databaseBuilder(applicationContext, AppDatabase.class, DATABASE_NAME).build();
+        templateDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class, TEMPLATE_DATABASE_NAME).build();
+        surveyDao = database.getSurveyDao();
+        answerDao = database.getAnswerDao();
+        photoDao = database.getPhotoDao();
     }
 
     public void closeConnections() {
-        dynamicDatabase.close();
-        staticDatabase.close();
+        database.close();
+        templateDatabase.close();
     }
 
     @Override
     public Single<List<School>> loadSchools() {
-        return Single.fromCallable(staticDatabase.getSchoolDao()::getAll)
+        return Single.fromCallable(templateDatabase.getSchoolDao()::getAll)
                 .map(roomSchools -> new ArrayList<>(roomSchools));
     }
 
@@ -73,16 +74,16 @@ public class RoomDataSource implements DataSource {
                 .map(RoomSchool::new)
                 .toList()
                 .flatMapCompletable(roomSchools -> Completable.fromAction(() -> {
-                    staticDatabase.getSchoolDao().deleteAll();
-                    staticDatabase.getSchoolDao().insert(roomSchools);
+                    templateDatabase.getSchoolDao().deleteAll();
+                    templateDatabase.getSchoolDao().insert(roomSchools);
                 }));
     }
 
     @Override
-    public Completable rewriteStaticSurvey(Survey survey) {
+    public Completable rewriteTemplateSurvey(Survey survey) {
         return Completable.fromAction(() -> {
-            staticDatabase.getSurveyDao().deleteAll();
-            saveSurvey(staticDatabase, survey, false);
+            templateDatabase.getSurveyDao().deleteAll();
+            saveSurvey(templateDatabase, survey, false);
         });
     }
 
@@ -157,13 +158,13 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Single<Survey> getStaticSurvey() {
-        return Single.fromCallable(() -> staticDatabase.getSurveyDao().getFirstFilled())
+    public Single<Survey> getTemplateSurvey() {
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled())
                 .map(MutableSurvey::new);
     }
 
     @Override
-    public Single<Survey> loadFullSurvey(long surveyId) {
+    public Single<Survey> loadSurvey(long surveyId) {
         return Single.fromCallable(() -> surveyDao.getFilledById(surveyId))
                 .map(MutableSurvey::new);
     }
@@ -179,15 +180,15 @@ public class RoomDataSource implements DataSource {
 
     @Override
     public Single<Survey> createSurvey(String schoolId, String schoolName, Date date) {
-        return getStaticSurvey()
+        return getTemplateSurvey()
                 .flatMap(survey -> {
                     MutableSurvey mutableSurvey = new MutableSurvey(survey);
                     mutableSurvey.setId(0);
                     mutableSurvey.setSchoolName(schoolName);
                     mutableSurvey.setSchoolId(schoolId);
                     mutableSurvey.setDate(date);
-                    long id = saveSurvey(dynamicDatabase, mutableSurvey, true);
-                    return loadFullSurvey(id);
+                    long id = saveSurvey(database, mutableSurvey, true);
+                    return loadSurvey(id);
                 });
     }
 
@@ -288,7 +289,7 @@ public class RoomDataSource implements DataSource {
     }
 
     @Override
-    public Completable clearDynamicData() {
+    public Completable deleteCreatedSurveys() {
         return Completable.fromAction(surveyDao::deleteAll);
     }
 }

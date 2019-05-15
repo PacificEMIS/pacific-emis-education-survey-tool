@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public interface Standard extends IdentifiedObject {
+public interface Standard extends ProgressableObject {
 
     @NonNull
     String getTitle();

@@ -39,35 +39,35 @@ public class RoomSchoolTests extends BaseDatabaseTest {
 
         List<RoomSchool> allSchools = schoolDao.getAll();
         assertEquals(1, allSchools.size());
-        assertEquals(1, allSchools.get(0).getId());
         assertEquals("Test School 1", allSchools.get(0).getName());
-        assertEquals("SCH001", allSchools.get(0).getIdentifier());
+        assertEquals("SCH001", allSchools.get(0).getId());
 
         school.name = "Test School 2";
-        school.suffix = "SCH002";
+        school.id = "SCH002";
 
         schoolDao.insert(school);
 
         allSchools = schoolDao.getAll();
         assertEquals(allSchools.size(), 2);
         assertNotEquals(allSchools.get(0).getId(), allSchools.get(1).getId());
-        assertEquals(allSchools.get(1).getId(), 2);
         assertEquals("Test School 1", allSchools.get(0).getName());
-        assertEquals("SCH001", allSchools.get(0).getIdentifier());
+        assertEquals("SCH001", allSchools.get(0).getId());
         assertEquals("Test School 2", allSchools.get(1).getName());
-        assertEquals("SCH002", allSchools.get(1).getIdentifier());
+        assertEquals("SCH002", allSchools.get(1).getId());
     }
 
     @Test
     public void deleteSurveysTest() {
         RoomSchool school =  RoomTestData.getTestSchool();
         schoolDao.insert(school);
+        school.id = "id2";
         schoolDao.insert(school);
 
         RoomSchool existingSchool = schoolDao.getAll().get(0);
         schoolDao.delete(existingSchool);
         assertEquals(1, schoolDao.getAll().size());
 
+        school.id = "id3";
         schoolDao.insert(school);
         schoolDao.deleteAll();
 
@@ -83,14 +83,12 @@ public class RoomSchoolTests extends BaseDatabaseTest {
         assertEquals("Test School 1", existingSchool.getName());
 
         RoomSchool updatedSchool = RoomTestData.getTestSchool();
-        updatedSchool.uid = existingSchool.uid;
+        updatedSchool.id = existingSchool.id;
         updatedSchool.name = "Test School 2";
-        updatedSchool.suffix = "SCH002";
         schoolDao.update(updatedSchool);
 
         updatedSchool = schoolDao.getAll().get(0);
         assertEquals("Test School 2", updatedSchool.getName());
-        assertEquals("SCH002", updatedSchool.getIdentifier());
     }
 
     @Test
@@ -110,6 +108,6 @@ public class RoomSchoolTests extends BaseDatabaseTest {
 
         assertEquals(school.getName(), schoolById.getName());
 
-        assertNull(schoolDao.getById(78235235));
+        assertNull(schoolDao.getById("t6bgwvefgtwy"));
     }
 }

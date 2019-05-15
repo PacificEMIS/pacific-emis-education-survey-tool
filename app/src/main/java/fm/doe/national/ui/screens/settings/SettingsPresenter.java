@@ -106,6 +106,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             File pictureFile = picturesRepository.createEmptyFile();
             FileOutputStream fos = new FileOutputStream(pictureFile);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmap.recycle();
             String filePath = pictureFile.getPath();
             sharedPreferences.edit().putString(Constants.PREF_KEY_LOGO_PATH, filePath).apply();
             loadLogo();

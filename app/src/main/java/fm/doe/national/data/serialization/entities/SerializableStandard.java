@@ -10,6 +10,7 @@ import org.simpleframework.xml.Root;
 import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.app_support.utils.CollectionUtils;
 
@@ -57,6 +58,12 @@ public class SerializableStandard implements Standard {
     @Override
     public long getId() {
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public Progress getProgress() {
+        return Progress.createEmptyProgress();
     }
 
 }

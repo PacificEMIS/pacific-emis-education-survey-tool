@@ -14,14 +14,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableCategory;
+import fm.doe.national.data.model.Category;
 import fm.doe.national.ui.custom_views.summary.SummaryView;
 import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.standards.StandardsActivity;
 
-public class CategoriesActivity extends BaseActivity implements CategoriesView, BaseAdapter.OnItemClickListener<MutableCategory> {
+public class CategoriesActivity extends BaseActivity implements CategoriesView, BaseAdapter.OnItemClickListener<Category> {
 
     private final CategoriesListAdapter categoriesListAdapter = new CategoriesListAdapter(this);
 
@@ -54,7 +54,7 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     }
 
     @Override
-    public void showCategories(List<MutableCategory> categories) {
+    public void showCategories(List<Category> categories) {
         categoriesListAdapter.setItems(categories);
     }
 
@@ -69,7 +69,7 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     }
 
     @Override
-    public void onItemClick(MutableCategory item) {
+    public void onItemClick(Category item) {
         categoriesPresenter.onCategoryClicked(item);
     }
 

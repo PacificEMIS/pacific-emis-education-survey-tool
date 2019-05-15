@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutablePhoto;
+import fm.doe.national.data.model.Photo;
 
 public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback {
 
@@ -55,7 +55,7 @@ public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback 
         countPhotosExtended = maxPhotos - 2; // 2 == spans { addPhoto, morePhotos }
     }
 
-    public void setPhotos(List<MutablePhoto> photos) {
+    public void setPhotos(List<Photo> photos) {
         if (photos.size() < maxPhotos) {
             adapter.setItems(photos);
             photosRecyclerView.setFootersVisibility(false);
@@ -83,19 +83,19 @@ public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback 
     }
 
     @Override
-    public void onDeletePhotoClick(MutablePhoto photo) {
+    public void onDeletePhotoClick(Photo photo) {
         if (callback != null) callback.onDeletePhotoClick(photo);
     }
 
     @Override
-    public void onPhotoClick(View v, MutablePhoto photo) {
+    public void onPhotoClick(View v, Photo photo) {
         if (callback != null) callback.onPhotoClick(v, photo);
     }
 
     public interface Callback {
         void onAddPhotoClick();
         void onMorePhotosClick();
-        void onDeletePhotoClick(MutablePhoto photo);
-        void onPhotoClick(View v, MutablePhoto photo);
+        void onDeletePhotoClick(Photo photo);
+        void onPhotoClick(View v, Photo photo);
     }
 }

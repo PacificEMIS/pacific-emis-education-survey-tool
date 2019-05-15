@@ -1,8 +1,12 @@
-package fm.doe.national.domain.model;
+package fm.doe.national.data.model;
 
 public class Progress {
     public int total;
     public int completed;
+
+    public static Progress createEmptyProgress() {
+        return new Progress(0, 0);
+    }
 
     public Progress(int total, int completed) {
         this.total = total;

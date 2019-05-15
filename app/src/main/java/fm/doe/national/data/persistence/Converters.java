@@ -9,32 +9,32 @@ import fm.doe.national.data.model.SurveyType;
 
 public class Converters {
     @TypeConverter
-    public static Date fromTimestamp(Long value) {
+    public static Date convertFromTimestampToDate(Long value) {
         return value == null ? null : new Date(value);
     }
 
     @TypeConverter
-    public static Long dateToTimestamp(Date date) {
+    public static Long convertFromDateToTimestamp(Date date) {
         return date == null ? null : date.getTime();
     }
 
     @TypeConverter
-    public static SurveyType fromRawSurveyType(String value) {
+    public static SurveyType convertFromNameToSurveyType(String value) {
         return SurveyType.valueOf(value);
     }
 
     @TypeConverter
-    public static String surveyTypeToRaw(SurveyType surveyType) {
+    public static String convertFromSurveyTypeToName(SurveyType surveyType) {
         return surveyType.name();
     }
 
     @TypeConverter
-    public static AnswerState fromRawAnswerState(String value) {
+    public static AnswerState convertFromNameToAsnwerState(String value) {
         return AnswerState.valueOf(value);
     }
 
     @TypeConverter
-    public static String answerStateToRaw(AnswerState surveyType) {
+    public static String convertFromAnswerStateToName(AnswerState surveyType) {
         return surveyType.name();
     }
 }

@@ -2,7 +2,7 @@ package fm.doe.national.domain;
 
 import java.util.List;
 
-import fm.doe.national.data.model.mutable.MutableAnswer;
+import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.mutable.MutableCategory;
 import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutableStandard;
@@ -30,7 +30,7 @@ public interface SurveyInteractor {
 
     Single<List<SummaryViewData>> requestSummary();
 
-    Completable updateAnswer(MutableAnswer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
+    Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
 
     PublishSubject<MutableSurvey> getSurveyProgressSubject();
 

@@ -15,6 +15,13 @@ public class MutablePhoto extends BaseMutableEntity implements Photo {
     @Nullable
     private String remotePath;
 
+    public static MutablePhoto createOrCastFromOther(@NonNull Photo photo) {
+        if (photo instanceof MutablePhoto) {
+            return (MutablePhoto) photo;
+        }
+        return new MutablePhoto(photo);
+    }
+
     public MutablePhoto() {
     }
 
@@ -46,12 +53,8 @@ public class MutablePhoto extends BaseMutableEntity implements Photo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         MutablePhoto that = (MutablePhoto) o;
-        if (getId() != that.getId()) {
-            return false;
-        }
         if (localPath == null) {
             return that.getLocalPath() == null;
         }

@@ -32,7 +32,7 @@ public class SettingsInteractor {
 
     public Completable importSurvey(CloudType type) {
         return cloudRepository.requestContent(type)
-                .flatMapCompletable(content -> localDataRepository.rewriteStaticSurvey(
+                .flatMapCompletable(content -> localDataRepository.rewriteTemplateSurvey(
                         surveyParser.parse(new ByteArrayInputStream(content.getBytes()))));
     }
 

@@ -12,11 +12,11 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutablePhoto;
-import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.Photo;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class PhotosAdapter extends BaseAdapter<MutablePhoto> {
+public class PhotosAdapter extends BaseAdapter<Photo> {
 
     @Nullable
     private Callback callback = null;
@@ -40,7 +40,7 @@ public class PhotosAdapter extends BaseAdapter<MutablePhoto> {
         }
 
         @Override
-        protected void onBind(MutablePhoto item) {
+        protected void onBind(Photo item) {
             File imgFile = new File(item.getLocalPath());
             if (imgFile.exists()) ViewUtils.setScaledDownImageTo(photoImageView, imgFile.getAbsolutePath());
 
@@ -49,7 +49,7 @@ public class PhotosAdapter extends BaseAdapter<MutablePhoto> {
 
         @OnClick({R.id.imagebutton_delete, R.id.imageview_photo})
         public void onViewClick(View v) {
-            MutablePhoto item = getItem();
+            Photo item = getItem();
             switch (v.getId()) {
                 case R.id.imagebutton_delete:
                     if (callback != null) callback.onDeletePhotoClick(item);
@@ -62,7 +62,7 @@ public class PhotosAdapter extends BaseAdapter<MutablePhoto> {
     }
 
     public interface Callback {
-        void onDeletePhotoClick(MutablePhoto photo);
-        void onPhotoClick(View v, MutablePhoto photo);
+        void onDeletePhotoClick(Photo photo);
+        void onPhotoClick(View v, Photo photo);
     }
 }

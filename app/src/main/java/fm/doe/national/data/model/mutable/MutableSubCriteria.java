@@ -3,8 +3,6 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Objects;
-
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomSubCriteria;
@@ -16,6 +14,13 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
     private String interviewQuestions;
     private String hint;
     private MutableAnswer answer;
+
+    public static MutableSubCriteria createOrCastFromOther(@NonNull SubCriteria subCriteria) {
+        if (subCriteria instanceof MutableSubCriteria) {
+            return (MutableSubCriteria) subCriteria;
+        }
+        return new MutableSubCriteria(subCriteria);
+    }
 
     public MutableSubCriteria() {
     }
@@ -89,16 +94,4 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
         this.answer = answer;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MutableSubCriteria criteria = (MutableSubCriteria) o;
-        return getId() == criteria.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
 }

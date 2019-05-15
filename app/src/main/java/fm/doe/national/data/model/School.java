@@ -2,12 +2,14 @@ package fm.doe.national.data.model;
 
 import androidx.annotation.NonNull;
 
-public interface School extends IdentifiedObject {
+import java.io.Serializable;
+
+public interface School extends Serializable {
 
     @NonNull
     String getName();
 
     @NonNull
-    String getIdentifier();
+    String getId();
 
 }

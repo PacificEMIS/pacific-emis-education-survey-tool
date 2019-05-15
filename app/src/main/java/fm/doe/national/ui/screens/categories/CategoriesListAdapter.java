@@ -6,15 +6,15 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableCategory;
-import fm.doe.national.domain.model.Progress;
-import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.Progress;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class CategoriesListAdapter
-        extends BaseAdapter<MutableCategory> {
+        extends BaseAdapter<Category> {
 
-    public CategoriesListAdapter(OnItemClickListener<MutableCategory> clickListener) {
+    public CategoriesListAdapter(OnItemClickListener<Category> clickListener) {
         super(clickListener);
     }
 
@@ -39,7 +39,7 @@ public class CategoriesListAdapter
         }
 
         @Override
-        public void onBind(MutableCategory item) {
+        public void onBind(Category item) {
             categoryNameTextView.setText(item.getTitle());
 
             Progress progress = item.getProgress();

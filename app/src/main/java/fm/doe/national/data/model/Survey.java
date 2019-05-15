@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import java.util.Date;
 import java.util.List;
 
-public interface Survey extends IdentifiedObject {
+public interface Survey extends ProgressableObject {
 
     int getVersion();
 

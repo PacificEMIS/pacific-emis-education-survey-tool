@@ -16,7 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutablePhoto;
+import fm.doe.national.data.model.Photo;
 import fm.doe.national.ui.custom_views.photos_view.PhotosAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.criterias.FullscreenImageActivity;
@@ -70,17 +70,17 @@ public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAd
     }
 
     @Override
-    public void showPhotos(List<MutablePhoto> photos) {
+    public void showPhotos(List<Photo> photos) {
         adapter.setItems(photos);
     }
 
     @Override
-    public void onDeletePhotoClick(MutablePhoto photo) {
+    public void onDeletePhotoClick(Photo photo) {
         presenter.onDeletePhotoClick(photo);
     }
 
     @Override
-    public void onPhotoClick(View v, MutablePhoto photo) {
+    public void onPhotoClick(View v, Photo photo) {
         String transitionName = ViewCompat.getTransitionName(v);
 
         Intent intent = FullscreenImageActivity.createIntent(this, photo.getLocalPath(), transitionName);

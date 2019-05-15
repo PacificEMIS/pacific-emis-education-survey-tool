@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableStandard;
-import fm.doe.national.domain.model.Progress;
-import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.Progress;
+import fm.doe.national.data.model.Standard;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class StandardsListAdapter extends BaseAdapter<MutableStandard> {
+public class StandardsListAdapter extends BaseAdapter<Standard> {
 
-    public StandardsListAdapter(OnItemClickListener<MutableStandard> clickListener) {
+    public StandardsListAdapter(OnItemClickListener<Standard> clickListener) {
         super(clickListener);
     }
 
@@ -46,7 +46,7 @@ public class StandardsListAdapter extends BaseAdapter<MutableStandard> {
         }
 
         @Override
-        public void onBind(MutableStandard item) {
+        public void onBind(Standard item) {
             Integer icon = ViewUtils.getStandardIconRes(item.getSuffix());
             if (icon != null) {
                 standardIconImageView.setImageResource(icon);

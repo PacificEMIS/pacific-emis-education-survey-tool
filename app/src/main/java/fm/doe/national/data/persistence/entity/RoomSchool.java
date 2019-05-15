@@ -5,26 +5,27 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 import fm.doe.national.data.model.School;
 
-@Entity(indices = {@Index("uid")})
+@Entity(indices = {@Index("id")})
 public class RoomSchool implements School {
 
-    @PrimaryKey(autoGenerate = true)
-    public long uid;
+    @PrimaryKey
+    @NonNull
+    public String id;
 
     public String name;
 
-    public String suffix;
-
-    public RoomSchool(String name, String suffix) {
+    public RoomSchool(String name, String id) {
         this.name = name;
-        this.suffix = suffix;
+        this.id = id;
     }
 
-    public RoomSchool(School other) {
+    public RoomSchool(@NotNull School other) {
         this.name = other.getName();
-        this.suffix = other.getIdentifier();
+        this.id = other.getId();
     }
 
     @NonNull
@@ -35,13 +36,8 @@ public class RoomSchool implements School {
 
     @NonNull
     @Override
-    public String getIdentifier() {
-        return suffix;
-    }
-
-    @Override
-    public long getId() {
-        return uid;
+    public String getId() {
+        return id;
     }
 
 }

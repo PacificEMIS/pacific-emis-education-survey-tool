@@ -106,12 +106,12 @@ public class DataSourceTest {
         testObserver.assertValue(TestUtil.check(schools -> {
             assertEquals(186, schools.size());
             School firstSchool = schools.get(0);
-            assertEquals("CHK001", firstSchool.getIdentifier());
+            assertEquals("CHK001", firstSchool.getId());
             assertEquals("Akoyikoyi School", firstSchool.getName());
 
 
             School lastSchool = schools.get(185);
-            assertEquals("KSA208", lastSchool.getIdentifier());
+            assertEquals("KSA208", lastSchool.getId());
             assertEquals("Walung Elementary School", lastSchool.getName());
         }));
     }
@@ -120,8 +120,8 @@ public class DataSourceTest {
     public void testCanWriteAndLoadBaseSurvey() {
         TestObserver<Survey> testObserver = new TestObserver<>();
         Single.fromCallable(() -> surveyParser.parse(openSurveyFile()))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
-                .andThen(dataSource.getStaticSurvey())
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
+                .andThen(dataSource.getTemplateSurvey())
                 .subscribe(testObserver);
         testObserver.awaitTerminalEvent();
         testObserver.assertValue(TestUtil.check(survey -> {
@@ -148,9 +148,9 @@ public class DataSourceTest {
     public void testCreateNewSurvey() {
         TestObserver<Survey> testObserver = new TestObserver<>();
         Date creationDate = new Date();
-        dataSource.clearDynamicData()
+        dataSource.deleteCreatedSurveys()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
                 .andThen(dataSource.createSurvey("CHK001", "testCreateNewSurvey", creationDate))
                 .subscribe(testObserver);
         testObserver.awaitTerminalEvent();
@@ -181,11 +181,11 @@ public class DataSourceTest {
         TestObserver<Survey> testObserver = new TestObserver<>();
 
         Date creationDate = new Date();
-        dataSource.clearDynamicData()
+        dataSource.deleteCreatedSurveys()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
                 .andThen(dataSource.createSurvey("CHK001", "testCanGetCreatedSurvey", creationDate))
-                .flatMap(survey -> dataSource.loadFullSurvey(survey.getId()))
+                .flatMap(survey -> dataSource.loadSurvey(survey.getId()))
                 .subscribe(testObserver);
         testObserver.awaitTerminalEvent();
         testObserver.assertValue(TestUtil.check(survey -> {
@@ -212,9 +212,9 @@ public class DataSourceTest {
     @Test
     public void testCanLoadMultipleSurveys() {
         TestObserver<List<Survey>> testObserver = new TestObserver<>();
-        dataSource.clearDynamicData()
+        dataSource.deleteCreatedSurveys()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
                 .andThen(dataSource.createSurvey("CHK001", "testCanGetCreatedSurvey", new Date()))
                 .flatMap(s -> dataSource.createSurvey("CHK002", "testCanGetCreatedSurveytestCanGetCreatedSurvey", new Date()))
                 .flatMap(s -> dataSource.createSurvey("CHK003", "testCanGetCreatedSurveytestCanGetCreatedSurveytestCanGetCreatedSurvey", new Date()))
@@ -235,9 +235,9 @@ public class DataSourceTest {
 
         Date creationDate = new Date();
         Single.fromCallable(() -> surveyParser.parse(openSurveyFile()))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
                 .andThen(dataSource.createSurvey("CHK001", "testCanClearDynamicData", creationDate))
-                .flatMapCompletable(s -> dataSource.clearDynamicData())
+                .flatMapCompletable(s -> dataSource.deleteCreatedSurveys())
                 .andThen(dataSource.loadAllSurveys())
                 .subscribe(testObserver);
         testObserver.awaitTerminalEvent();
@@ -247,9 +247,9 @@ public class DataSourceTest {
     @Test
     public void testCanDeleteSurvey() {
         TestObserver<List<Survey>> testObserver = new TestObserver<>();
-        dataSource.clearDynamicData()
+        dataSource.deleteCreatedSurveys()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
                 .andThen(dataSource.createSurvey("CHK001", "testCanGetCreatedSurvey", new Date()))
                 .flatMap(s -> dataSource.createSurvey("CHK002", "testCanGetCreatedSurveytestCanGetCreatedSurvey", new Date()))
                 .flatMap(s -> dataSource.createSurvey("CHK003", "testCanGetCreatedSurveytestCanGetCreatedSurveytestCanGetCreatedSurvey", new Date()))
@@ -267,9 +267,9 @@ public class DataSourceTest {
     @Test
     public void testCanAnswer() {
         TestObserver<Answer> testObserver = new TestObserver<>();
-        dataSource.clearDynamicData()
+        dataSource.deleteCreatedSurveys()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
                 .andThen(dataSource.createSurvey("CHK001", "testCanAnswer", new Date()))
                 .flatMap(survey -> {
                     SubCriteria subCriteria = getTestSubCriteria(survey);
@@ -300,9 +300,9 @@ public class DataSourceTest {
     @Test
     public void testCanCreateAndDeletePhoto() {
         TestObserver<Survey> testObserver = new TestObserver<>();
-        dataSource.clearDynamicData()
+        dataSource.deleteCreatedSurveys()
                 .andThen(Single.fromCallable(() -> surveyParser.parse(openSurveyFile())))
-                .flatMapCompletable(survey -> dataSource.rewriteStaticSurvey(survey))
+                .flatMapCompletable(survey -> dataSource.rewriteTemplateSurvey(survey))
                 .andThen(dataSource.createSurvey("CHK001", "testCanCreatePhoto", new Date()))
                 .flatMap(survey -> {
                     SubCriteria subCriteria = getTestSubCriteria(survey);
@@ -320,7 +320,7 @@ public class DataSourceTest {
                                             photo3.setLocalPath("/local/path3.jpg");
                                             photo3.setRemotePath("https://local/path3.jpg");
                                             return dataSource.createPhoto(photo3, subCriteria.getAnswer().getId())
-                                                    .flatMap(p -> dataSource.loadFullSurvey(survey.getId()));
+                                                    .flatMap(p -> dataSource.loadSurvey(survey.getId()));
                                         });
                             });
                 })
@@ -328,7 +328,7 @@ public class DataSourceTest {
                     SubCriteria subCriteria = getTestSubCriteria(survey);
                     Photo photo = subCriteria.getAnswer().getPhotos().get(0);
                     return dataSource.deletePhoto(photo.getId())
-                            .andThen(dataSource.loadFullSurvey(survey.getId()));
+                            .andThen(dataSource.loadSurvey(survey.getId()));
                 })
                 .subscribe(testObserver);
         testObserver.awaitTerminalEvent();

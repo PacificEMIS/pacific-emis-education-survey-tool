@@ -30,8 +30,8 @@ public interface SchoolDao {
     List<RoomSchool> getAll();
 
     @Nullable
-    @Query("SELECT * FROM RoomSchool WHERE uid = :id LIMIT 1")
-    RoomSchool getById(long id);
+    @Query("SELECT * FROM RoomSchool WHERE id = :id LIMIT 1")
+    RoomSchool getById(String id);
 
     @Query("DELETE FROM RoomSchool")
     void deleteAll();

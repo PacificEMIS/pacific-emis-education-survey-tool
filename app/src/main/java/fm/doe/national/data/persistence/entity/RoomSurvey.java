@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 
@@ -95,4 +96,9 @@ public class RoomSurvey implements Survey {
         return uid;
     }
 
+    @NonNull
+    @Override
+    public Progress getProgress() {
+        return Progress.createEmptyProgress();
+    }
 }

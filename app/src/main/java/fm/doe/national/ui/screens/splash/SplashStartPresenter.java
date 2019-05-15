@@ -44,7 +44,7 @@ public class SplashStartPresenter extends BasePresenter<SplashStartView> {
                                         if (resultList.isEmpty()) {
                                             return dataSource
                                                     .rewriteAllSchools(schools)
-                                                    .andThen(dataSource.rewriteStaticSurvey(schoolAccreditation));
+                                                    .andThen(dataSource.rewriteTemplateSurvey(schoolAccreditation));
                                         }
                                         return Completable.complete(); // already exists
                                     })))

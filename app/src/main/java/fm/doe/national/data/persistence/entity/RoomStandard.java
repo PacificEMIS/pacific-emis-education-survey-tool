@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Standard;
 
 @Entity(foreignKeys = @ForeignKey(entity = RoomCategory.class, parentColumns = "uid", childColumns = "category_id", onDelete = ForeignKey.CASCADE),
@@ -61,4 +62,9 @@ public class RoomStandard implements Standard {
         return uid;
     }
 
+    @NonNull
+    @Override
+    public Progress getProgress() {
+        return Progress.createEmptyProgress();
+    }
 }

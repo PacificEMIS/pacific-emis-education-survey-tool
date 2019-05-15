@@ -29,9 +29,10 @@ import java.util.List;
 import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableCriteria;
-import fm.doe.national.data.model.mutable.MutablePhoto;
-import fm.doe.national.data.model.mutable.MutableSubCriteria;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.Photo;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
 import fm.doe.national.app_support.utils.Constants;
@@ -149,7 +150,7 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void setCriterias(@NonNull List<MutableCriteria> criterias) {
+    public void setCriterias(@NonNull List<Criteria> criterias) {
         recyclerAdapter.setItems(criterias);
 
         // Fix for bug #55747 The following category is displayed from the end
@@ -197,37 +198,37 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSubCriteriaStateChanged(@NonNull MutableSubCriteria subCriteria) {
-        presenter.onSubCriteriaStateChanged(subCriteria);
+    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, AnswerState newState) {
+        presenter.onSubCriteriaStateChanged(subCriteria, newState);
     }
 
     @Override
-    public void onEditCommentClicked(MutableSubCriteria subCriteria) {
+    public void onEditCommentClicked(SubCriteria subCriteria) {
         presenter.onEditCommentClicked(subCriteria);
     }
 
     @Override
-    public void onAddCommentClicked(MutableSubCriteria subCriteria) {
+    public void onAddCommentClicked(SubCriteria subCriteria) {
         presenter.onAddCommentClicked(subCriteria);
     }
 
     @Override
-    public void onRemoveCommentClicked(MutableSubCriteria subCriteria) {
+    public void onRemoveCommentClicked(SubCriteria subCriteria) {
         presenter.onDeleteCommentClicked(subCriteria);
     }
 
     @Override
-    public void onAddPhotoClicked(MutableSubCriteria subCriteria) {
+    public void onAddPhotoClicked(SubCriteria subCriteria) {
         presenter.onAddPhotoClicked(subCriteria);
     }
 
     @Override
-    public void onRemovePhotoClicked(MutableSubCriteria subCriteria, MutablePhoto photo) {
+    public void onRemovePhotoClicked(SubCriteria subCriteria, Photo photo) {
         presenter.onDeletePhotoClicked(subCriteria, photo);
     }
 
     @Override
-    public void onMorePhotosClick(MutableSubCriteria subCriteria) {
+    public void onMorePhotosClick(SubCriteria subCriteria) {
         presenter.onMorePhotosClick(subCriteria);
     }
 
@@ -256,7 +257,7 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onPhotoClicked(View anchor, MutablePhoto photoPath) {
+    public void onPhotoClicked(View anchor, Photo photoPath) {
         String transitionName = ViewCompat.getTransitionName(anchor);
 
         Intent intent = FullscreenImageActivity.createIntent(this, photoPath.getLocalPath(), transitionName);
@@ -266,12 +267,12 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void notifySubCriteriaChanged(MutableSubCriteria subCriteria) {
+    public void notifySubCriteriaChanged(SubCriteria subCriteria) {
         recyclerAdapter.notify(subCriteria);
     }
 
     @Override
-    public void showCommentEditor(MutableSubCriteria subCriteria) {
+    public void showCommentEditor(SubCriteria subCriteria) {
         CommentDialogFragment dialog = CommentDialogFragment.create(subCriteria);
         dialog.show(getSupportFragmentManager(), TAG_DIALOG);
     }
@@ -289,7 +290,7 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void notifyCriteriaChanged(MutableCriteria criteria) {
+    public void notifyCriteriaChanged(Criteria criteria) {
         recyclerAdapter.notify(criteria);
     }
 }

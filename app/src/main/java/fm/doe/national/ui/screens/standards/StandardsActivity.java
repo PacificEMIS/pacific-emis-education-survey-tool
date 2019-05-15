@@ -16,13 +16,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableStandard;
+import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.Standard;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.criterias.CriteriasActivity;
-import fm.doe.national.app_support.utils.ViewUtils;
 
-public class StandardsActivity extends BaseActivity implements StandardsView, BaseAdapter.OnItemClickListener<MutableStandard> {
+public class StandardsActivity extends BaseActivity implements StandardsView, BaseAdapter.OnItemClickListener<Standard> {
 
     private static final String EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID";
 
@@ -86,12 +86,12 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     }
 
     @Override
-    public void showStandards(List<MutableStandard> standards) {
+    public void showStandards(List<Standard> standards) {
         standardAdapter.setItems(standards);
     }
 
     @Override
-    public void onItemClick(MutableStandard item) {
+    public void onItemClick(Standard item) {
         presenter.onStandardClicked(item);
     }
 }

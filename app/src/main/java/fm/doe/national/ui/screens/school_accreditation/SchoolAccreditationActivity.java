@@ -19,7 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.categories.CategoriesActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
@@ -30,8 +30,8 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
         SearchView.OnQueryTextListener,
         View.OnClickListener,
-        BaseAdapter.OnItemClickListener<MutableSurvey>,
-        BaseAdapter.OnItemLongClickListener<MutableSurvey> {
+        BaseAdapter.OnItemClickListener<Survey>,
+        BaseAdapter.OnItemLongClickListener<Survey> {
 
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
@@ -90,7 +90,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void setAccreditations(List<MutableSurvey> accreditations) {
+    public void setAccreditations(List<Survey> accreditations) {
         schoolAccreditationAdapter.setItems(accreditations);
     }
 
@@ -106,7 +106,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void removeSurveyPassing(MutableSurvey passing) {
+    public void removeSurveyPassing(Survey passing) {
         schoolAccreditationAdapter.removeItem(passing);
     }
 
@@ -122,12 +122,12 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void onItemClick(MutableSurvey item) {
+    public void onItemClick(Survey item) {
         presenter.onAccreditationClicked(item);
     }
 
     @Override
-    public void onItemLongClick(MutableSurvey item) {
+    public void onItemLongClick(Survey item) {
         presenter.onAccreditationLongClicked(item);
     }
 

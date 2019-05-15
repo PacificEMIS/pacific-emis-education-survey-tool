@@ -16,11 +16,11 @@ public interface DataSource {
 
     Completable rewriteAllSchools(List<School> schools);
 
-    Completable rewriteStaticSurvey(Survey survey);
+    Completable rewriteTemplateSurvey(Survey survey);
 
-    Single<Survey> getStaticSurvey();
+    Single<Survey> getTemplateSurvey();
 
-    Single<Survey> loadFullSurvey(long surveyId);
+    Single<Survey> loadSurvey(long surveyId);
 
     Single<List<Survey>> loadAllSurveys();
 
@@ -34,6 +34,6 @@ public interface DataSource {
 
     Completable deletePhoto(long photoId);
 
-    Completable clearDynamicData();
+    Completable deleteCreatedSurveys();
 
 }

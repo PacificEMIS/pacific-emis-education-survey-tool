@@ -23,14 +23,15 @@ import java.util.Set;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableCriteria;
-import fm.doe.national.data.model.mutable.MutableSubCriteria;
-import fm.doe.national.domain.model.Progress;
-import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.Progress;
+import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
+public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
     @Nullable
     private SubcriteriaCallback callback = null;
@@ -53,8 +54,8 @@ public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
         viewHolders.put((CriteriaViewHolder) holder, getItem(position).getId());
     }
 
-    public void notify(MutableSubCriteria subCriteria) {
-        for (MutableCriteria criteria : getItems()) {
+    public void notify(SubCriteria subCriteria) {
+        for (Criteria criteria : getItems()) {
             int index = criteria.getSubCriterias().indexOf(subCriteria);
             if (index >= 0) {
                 CriteriaViewHolder viewHolder = CollectionUtils.getKeyByValue(viewHolders, criteria.getId());
@@ -66,7 +67,7 @@ public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
         }
     }
 
-    public void notify(MutableCriteria mutableCriteria) {
+    public void notify(Criteria mutableCriteria) {
         int index = getItems().indexOf(mutableCriteria);
         if (index != RecyclerView.NO_POSITION) {
             notifyItemChanged(index);
@@ -104,8 +105,8 @@ public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
 
         @SuppressWarnings("unchecked")
         @Override
-        public void onBind(MutableCriteria item) {
-            adapter.setItems((List<MutableSubCriteria>) item.getSubCriterias());
+        public void onBind(Criteria item) {
+            adapter.setItems((List<SubCriteria>) item.getSubCriterias());
 
             String criteriaPrefix = getString(R.string.format_criteria, item.getSuffix());
             SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.getTitle());
@@ -136,7 +137,7 @@ public class CriteriaListAdapter extends BaseAdapter<MutableCriteria> {
         }
 
         @Override
-        public void onSubCriteriaAnswerChanged(@NonNull MutableSubCriteria subCriteria) {
+        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, AnswerState answerState) {
             rebindProgress(getItem().getProgress());
         }
 

@@ -4,19 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
+import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomCriteria;
-import fm.doe.national.domain.model.Progress;
-import fm.doe.national.app_support.utils.CollectionUtils;
+import fm.doe.national.data.model.Progress;
 
 public class MutableCriteria extends BaseMutableEntity implements Criteria {
 
     private String title;
     private String suffix;
     private List<MutableSubCriteria> subCriteriaList;
-    private Progress progress = new Progress(0, 0);
+    private Progress progress = Progress.createEmptyProgress();
 
     public MutableCriteria() {
     }
@@ -71,16 +70,4 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.progress = progress;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MutableCriteria criteria = (MutableCriteria) o;
-        return getId() == criteria.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
 }

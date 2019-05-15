@@ -6,7 +6,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
-import fm.doe.national.domain.model.Progress;
+import fm.doe.national.data.model.Progress;
 import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableStandard extends BaseMutableEntity implements Standard {
@@ -14,7 +14,7 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
     private String title;
     private String suffix;
     private List<MutableCriteria> criterias;
-    private Progress progress = new Progress(0, 0);
+    private Progress progress = Progress.createEmptyProgress();
 
     public MutableStandard() {
     }

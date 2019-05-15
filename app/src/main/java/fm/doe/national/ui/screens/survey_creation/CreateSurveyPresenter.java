@@ -48,7 +48,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     public void onSchoolPicked(School school) {
-        addDisposable(dataSource.createSurvey(school.getIdentifier(), school.getName(), surveyStartDate)
+        addDisposable(dataSource.createSurvey(school.getId(), school.getName(), surveyStartDate)
                 .map(MutableSurvey::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,7 +65,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
         List<School> queriedSchools = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
         for (School school : schools) {
-            if (school.getName().toLowerCase().contains(lowerQuery) || school.getIdentifier().toLowerCase().contains(lowerQuery)) {
+            if (school.getName().toLowerCase().contains(lowerQuery) || school.getId().toLowerCase().contains(lowerQuery)) {
                 queriedSchools.add(school);
             }
         }

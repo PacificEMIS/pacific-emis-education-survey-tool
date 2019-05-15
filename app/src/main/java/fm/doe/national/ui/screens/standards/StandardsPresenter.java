@@ -2,12 +2,12 @@ package fm.doe.national.ui.screens.standards;
 
 import com.omegar.mvp.InjectViewState;
 
+import java.util.ArrayList;
+
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.data_source.DataSource;
+import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Standard;
-import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.domain.SurveyInteractor;
-import fm.doe.national.domain.model.Progress;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -18,7 +18,6 @@ import io.reactivex.schedulers.Schedulers;
 public class StandardsPresenter extends BasePresenter<StandardsView> {
 
     private final long categoryId;
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
 
     public StandardsPresenter(long categoryId) {
@@ -48,6 +47,7 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
 
     private void loadStandards() {
         addDisposable(interactor.requestStandards(categoryId)
+                .map(mutableStandards -> new ArrayList<Standard>(mutableStandards))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> getViewState().showWaiting())
@@ -57,7 +57,7 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
                     view.showStandards(standards);
 
                     int completedCount = 0;
-                    for (MutableStandard standard : standards) {
+                    for (Standard standard : standards) {
                         Progress progress = standard.getProgress();
                         if (progress.completed == progress.total) completedCount++;
                     }

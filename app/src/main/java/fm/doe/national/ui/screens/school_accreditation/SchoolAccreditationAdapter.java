@@ -7,16 +7,16 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.app_support.utils.DateUtils;
 import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.Survey;
+import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class SchoolAccreditationAdapter extends BaseAdapter<MutableSurvey> {
+public class SchoolAccreditationAdapter extends BaseAdapter<Survey> {
 
     public SchoolAccreditationAdapter(
-            OnItemClickListener<MutableSurvey> clickListener,
-            OnItemLongClickListener<MutableSurvey> longClickListener) {
+            OnItemClickListener<Survey> clickListener,
+            OnItemLongClickListener<Survey> longClickListener) {
         super(clickListener, longClickListener);
     }
 
@@ -47,7 +47,7 @@ public class SchoolAccreditationAdapter extends BaseAdapter<MutableSurvey> {
         }
 
         @Override
-        public void onBind(MutableSurvey item) {
+        public void onBind(Survey item) {
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
             createdYearTextView.setText(DateUtils.formatMonthYear(item.getDate()));

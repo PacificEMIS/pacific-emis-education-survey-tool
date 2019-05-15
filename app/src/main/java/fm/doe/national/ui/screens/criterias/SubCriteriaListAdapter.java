@@ -19,15 +19,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import fm.doe.national.R;
+import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.mutable.MutableAnswer;
-import fm.doe.national.data.model.mutable.MutablePhoto;
-import fm.doe.national.data.model.mutable.MutableSubCriteria;
+import fm.doe.national.data.model.Photo;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.custom_views.photos_view.PhotoBoxView;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
+public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
     @Nullable
     private SubcriteriaCallback callback = null;
@@ -97,8 +97,8 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
         }
 
         @Override
-        public void onBind(MutableSubCriteria item) {
-            MutableAnswer answer = item.getAnswer();
+        public void onBind(SubCriteria item) {
+            Answer answer = item.getAnswer();
             questionTextView.setText(item.getTitle());
 
             numberingTextView.setText(getString(R.string.format_subcriteria, item.getSuffix()));
@@ -112,7 +112,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
             switchableButton.setStateNotNotifying(convertToUiState(answer.getState()));
 
             updateCommentVisibility(answer.getComment());
-            updatePhotosVisibility(answer.getPhotos());
+            updatePhotosVisibility((List<Photo>) answer.getPhotos());
         }
 
         @OnLongClick(R.id.textview_question)
@@ -130,7 +130,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
         })
         public void onViewClick(View v) {
             if (callback != null) {
-                MutableSubCriteria item = getItem();
+                SubCriteria item = getItem();
                 switch (v.getId()) {
                     case R.id.imageview_comment_button:
                         callback.onAddCommentClicked(item);
@@ -154,9 +154,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
 
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
-            MutableAnswer answer = getItem().getAnswer();
-            answer.setState(convertFromUiState(state));
-            notifyStateChanged();
+            notifyStateChanged(convertFromUiState(state));
         }
 
         @Override
@@ -170,12 +168,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
         }
 
         @Override
-        public void onDeletePhotoClick(MutablePhoto photo) {
+        public void onDeletePhotoClick(Photo photo) {
             if (callback != null) callback.onRemovePhotoClicked(getItem(), photo);
         }
 
         @Override
-        public void onPhotoClick(View v, MutablePhoto photo) {
+        public void onPhotoClick(View v, Photo photo) {
             if (callback != null) callback.onPhotoClicked(v, photo);
         }
 
@@ -203,11 +201,11 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
             return AnswerState.NOT_ANSWERED; // unreachable code
         }
 
-        private void notifyStateChanged() {
-            MutableSubCriteria subCriteria = getItem();
-            if (callback != null) callback.onSubCriteriaStateChanged(subCriteria);
+        private void notifyStateChanged(AnswerState newState) {
+            SubCriteria subCriteria = getItem();
+            if (callback != null) callback.onSubCriteriaStateChanged(subCriteria, newState);
             if (answerStateChangedListener != null)
-                answerStateChangedListener.onSubCriteriaAnswerChanged(subCriteria);
+                answerStateChangedListener.onSubCriteriaAnswerChanged(subCriteria, newState);
         }
 
         private void showHint() {
@@ -247,7 +245,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
             }
         }
 
-        private void updatePhotosVisibility(List<MutablePhoto> photos) {
+        private void updatePhotosVisibility(List<Photo> photos) {
             if (photos.isEmpty()) {
                 photoBoxView.setVisibility(View.GONE);
                 photoButtonView.setVisibility(View.VISIBLE);
@@ -260,6 +258,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<MutableSubCriteria> {
     }
 
     public interface OnAnswerStateChangedListener {
-        void onSubCriteriaAnswerChanged(@NonNull MutableSubCriteria subCriteria);
+        void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, AnswerState newState);
     }
 }

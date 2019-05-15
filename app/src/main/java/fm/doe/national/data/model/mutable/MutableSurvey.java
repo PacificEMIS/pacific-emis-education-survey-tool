@@ -9,7 +9,7 @@ import java.util.List;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomSurvey;
-import fm.doe.national.domain.model.Progress;
+import fm.doe.national.data.model.Progress;
 import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableSurvey extends BaseMutableEntity implements Survey {
@@ -20,7 +20,14 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
     private String schoolName;
     private String schoolId;
     private List<MutableCategory> categories;
-    private Progress progress = new Progress(0, 0);
+    private Progress progress = Progress.createEmptyProgress();
+
+    public static MutableSurvey createOrCastFromOther(@NonNull Survey survey) {
+        if (survey instanceof MutableSurvey) {
+            return (MutableSurvey) survey;
+        }
+        return new MutableSurvey(survey);
+    }
 
     public MutableSurvey() {
     }
