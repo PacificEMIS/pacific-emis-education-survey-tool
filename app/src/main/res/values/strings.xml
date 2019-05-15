@@ -95,4 +95,6 @@
     <string name="transition_tag_splash_title">transition_tag_splash_title</string>
     <string name="transition_tag_splash_logo">transition_tag_splash_logo</string>
 
+    <string name="title_report">School Accreditation Status Report</string>
+
 </resources>

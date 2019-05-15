@@ -19,8 +19,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.screens.splash.SplashStartActivity"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoExitTransitions">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,8 +30,8 @@
         </activity>
         <activity
             android:name=".ui.screens.splash_end.SplashEndActivity"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoEnterTransitions" />
         <activity
             android:name=".ui.screens.criterias.CriteriasActivity"
@@ -81,6 +81,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.screens.report.ReportActivity"
+            android:label="@string/title_report"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

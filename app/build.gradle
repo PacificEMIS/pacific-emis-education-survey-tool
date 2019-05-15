@@ -113,7 +113,7 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    implementation ("org.simpleframework:simple-xml:2.7.1") {
+    implementation("org.simpleframework:simple-xml:2.7.1") {
         exclude group: 'xpp3', module: 'xpp3'
     }
 

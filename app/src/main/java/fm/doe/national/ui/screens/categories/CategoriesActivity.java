@@ -3,7 +3,7 @@ package fm.doe.national.ui.screens.categories;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Button;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,10 +15,10 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.model.Category;
-import fm.doe.national.ui.custom_views.summary.SummaryView;
 import fm.doe.national.ui.custom_views.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.ui.screens.report.ReportActivity;
 import fm.doe.national.ui.screens.standards.StandardsActivity;
 
 public class CategoriesActivity extends BaseActivity implements CategoriesView, BaseAdapter.OnItemClickListener<Category> {
@@ -31,11 +31,8 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     @BindView(R.id.recyclerview_categories)
     RecyclerView categoriesRecyclerView;
 
-    @BindView(R.id.summaryview)
-    SummaryView summaryView;
-
-    @BindView(R.id.progressbar_summary_loading)
-    View summaryLoadingView;
+    @BindView(R.id.button_summary)
+    Button reportButton;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, CategoriesActivity.class);
@@ -45,7 +42,8 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         categoriesRecyclerView.setAdapter(categoriesListAdapter);
-        summaryView.setVisibility(View.GONE);
+//        summaryView.setVisibility(View.GONE);
+        reportButton.setOnClickListener(v -> startActivity(new Intent(this, ReportActivity.class)));
     }
 
     @Override
@@ -80,17 +78,17 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
 
     @Override
     public void setSummaryData(List<SummaryViewData> data) {
-        summaryView.setData(data);
+//        summaryView.setData(data);
     }
 
     @Override
     public void showSummaryLoading() {
-        summaryLoadingView.setVisibility(View.VISIBLE);
+//        summaryLoadingView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideSummaryLoading() {
-        summaryLoadingView.setVisibility(View.GONE);
-        summaryView.setVisibility(View.VISIBLE);
+//        summaryLoadingView.setVisibility(View.GONE);
+//        summaryView.setVisibility(View.VISIBLE);
     }
 }
