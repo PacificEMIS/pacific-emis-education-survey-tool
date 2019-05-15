@@ -1,7 +1,7 @@
 package fm.doe.national.data.cloud;
 
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 

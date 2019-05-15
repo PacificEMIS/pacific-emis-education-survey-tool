@@ -1,16 +1,19 @@
 package fm.doe.national.ui.screens.survey_creation;
 
-import com.arellomobile.mvp.InjectViewState;
+import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.School;
+import fm.doe.national.data.model.School;
+import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.app_support.utils.CollectionUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -18,9 +21,10 @@ import io.reactivex.schedulers.Schedulers;
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
+    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
 
     private Date surveyStartDate = new Date();
-    private List<School> schools;
+    private List<? extends School> schools;
 
     public CreateSurveyPresenter() {
         loadDate();
@@ -32,24 +36,28 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadSchools() {
-        addDisposable(dataSource.requestSchools()
+        addDisposable(dataSource.loadSchools()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(schools -> {
                     this.schools = schools;
-                    getViewState().setSchools(schools);
+                    getViewState().setSchools(CollectionUtils.map(this.schools, item -> item));
                 }, this::handleError));
     }
 
     public void onSchoolPicked(School school) {
-        addDisposable(dataSource.createNewSchoolAccreditationPassing(surveyStartDate, school)
+        addDisposable(dataSource.createSurvey(school.getId(), school.getName(), surveyStartDate)
+                .map(MutableSurvey::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(passing -> getViewState().navigateToCategoryChooser(passing.getId()), this::handleError));
+                .subscribe(survey -> {
+                    surveyInteractor.setCurrentSurvey(survey, true);
+                    getViewState().navigateToCategoryChooser();
+                }, this::handleError));
     }
 
 

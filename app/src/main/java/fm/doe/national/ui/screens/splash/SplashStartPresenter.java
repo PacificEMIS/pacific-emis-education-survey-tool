@@ -2,19 +2,19 @@ package fm.doe.national.ui.screens.splash;
 
 import android.content.res.AssetManager;
 
-import com.arellomobile.mvp.InjectViewState;
+import com.omegar.mvp.InjectViewState;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.BuildConfig;
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.serializable.LinkedSchoolAccreditation;
-import fm.doe.national.data.parsers.Parser;
+import fm.doe.national.data.model.School;
+import fm.doe.national.data.model.Survey;
+import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,8 +23,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SplashStartPresenter extends BasePresenter<SplashStartView> {
 
-    private final Parser<LinkedSchoolAccreditation> schoolAccreditationParser =
-            MicronesiaApplication.getAppComponent().getSchoolAccreditationParser();
+    private final Parser<Survey> schoolAccreditationParser =
+            MicronesiaApplication.getAppComponent().getSurveyParser();
     private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
     
@@ -39,12 +39,12 @@ public class SplashStartPresenter extends BasePresenter<SplashStartView> {
         addDisposable(Single.fromCallable(() -> schoolAccreditationParser.parse(assetManager.open(BuildConfig.SURVEYS_FILE_NAME)))
                 .flatMapCompletable(schoolAccreditation -> Single.fromCallable(() ->
                     schoolsParser.parse(assetManager.open(BuildConfig.SCHOOLS_FILE_NAME)))
-                        .flatMapCompletable(schools -> dataSource.requestSchools()
+                        .flatMapCompletable(schools -> dataSource.loadSchools()
                                     .flatMapCompletable(resultList -> {
                                         if (resultList.isEmpty()) {
                                             return dataSource
-                                                    .updateSchools(schools)
-                                                    .andThen(dataSource.createSchoolAccreditation(schoolAccreditation));
+                                                    .rewriteAllSchools(schools)
+                                                    .andThen(dataSource.rewriteTemplateSurvey(schoolAccreditation));
                                         }
                                         return Completable.complete(); // already exists
                                     })))

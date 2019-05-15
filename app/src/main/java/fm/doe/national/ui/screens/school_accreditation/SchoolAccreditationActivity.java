@@ -4,21 +4,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.omegar.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.categories.CategoriesActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
@@ -29,8 +30,8 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
         SchoolAccreditationView,
         SearchView.OnQueryTextListener,
         View.OnClickListener,
-        BaseAdapter.OnItemClickListener<SchoolAccreditationPassing>,
-        BaseAdapter.OnItemLongClickListener<SchoolAccreditationPassing> {
+        BaseAdapter.OnItemClickListener<Survey>,
+        BaseAdapter.OnItemLongClickListener<Survey> {
 
     @InjectPresenter
     SchoolAccreditationPresenter presenter;
@@ -84,12 +85,12 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void navigateToCategoryChooser(long passingId) {
-        startActivity(CategoriesActivity.createIntent(this, passingId));
+    public void navigateToCategoryChooser() {
+        startActivity(CategoriesActivity.createIntent(this));
     }
 
     @Override
-    public void setAccreditations(List<SchoolAccreditationPassing> accreditations) {
+    public void setAccreditations(List<Survey> accreditations) {
         schoolAccreditationAdapter.setItems(accreditations);
     }
 
@@ -105,7 +106,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void removeSurveyPassing(SchoolAccreditationPassing passing) {
+    public void removeSurveyPassing(Survey passing) {
         schoolAccreditationAdapter.removeItem(passing);
     }
 
@@ -121,12 +122,12 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void onItemClick(SchoolAccreditationPassing item) {
+    public void onItemClick(Survey item) {
         presenter.onAccreditationClicked(item);
     }
 
     @Override
-    public void onItemLongClick(SchoolAccreditationPassing item) {
+    public void onItemLongClick(Survey item) {
         presenter.onAccreditationLongClicked(item);
     }
 

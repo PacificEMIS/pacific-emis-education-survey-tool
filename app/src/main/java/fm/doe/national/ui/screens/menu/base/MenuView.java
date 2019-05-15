@@ -1,9 +1,8 @@
 package fm.doe.national.ui.screens.menu.base;
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.omega_r.libs.omegatypes.Text;
+import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
+import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 

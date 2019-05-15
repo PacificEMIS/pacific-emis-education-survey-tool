@@ -1,24 +1,26 @@
 package fm.doe.national.ui.screens.standards;
 
-import com.arellomobile.mvp.InjectViewState;
+import com.omegar.mvp.InjectViewState;
 
-import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.Standard;
+import java.util.ArrayList;
+
+import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.data.model.Progress;
+import fm.doe.national.data.model.Standard;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class StandardsPresenter extends BasePresenter<StandardsView> {
 
-    private final long passingId;
     private final long categoryId;
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
+    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
 
-    public StandardsPresenter(long passingId, long categoryId) {
-        this.passingId = passingId;
+    public StandardsPresenter(long categoryId) {
         this.categoryId = categoryId;
         loadPassing();
     }
@@ -30,24 +32,25 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
     }
 
     private void loadPassing() {
-        addDisposable(dataSource.requestSchoolAccreditationPassing(passingId)
+        addDisposable(Single.fromCallable(interactor::getCurrentSurvey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .doOnSuccess(passing -> getViewState().setSurveyDate(passing.getStartDate()))
-                .flatMap(passing -> dataSource.requestCategories(passingId))
-                .toObservable()
-                .flatMapIterable(it -> it)
+                .doOnSuccess(survey -> getViewState().setSurveyDate(survey.getDate()))
+                .flatMap(s -> interactor.requestCategories())
+                .flatMapObservable(Observable::fromIterable)
                 .filter(category -> category.getId() == categoryId)
-                .subscribe(category -> getViewState().setCategoryName(category.getName()), this::handleError));
+                .firstOrError()
+                .subscribe(category -> getViewState().setCategoryName(category.getTitle()), this::handleError));
     }
 
     private void loadStandards() {
-        addDisposable(dataSource.requestStandards(passingId, categoryId)
+        addDisposable(interactor.requestStandards(categoryId)
+                .map(mutableStandards -> new ArrayList<Standard>(mutableStandards))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doOnSubscribe(d -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(standards -> {
                     StandardsView view = getViewState();
@@ -55,14 +58,14 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
 
                     int completedCount = 0;
                     for (Standard standard : standards) {
-                        CategoryProgress progress = standard.getCategoryProgress();
-                        if (progress.getAnsweredQuestionsCount() == progress.getTotalQuestionsCount()) completedCount++;
+                        Progress progress = standard.getProgress();
+                        if (progress.getCompleted() == progress.getTotal()) completedCount++;
                     }
                     view.setGlobalProgress(completedCount, standards.size());
                 }, this::handleError));
     }
 
     public void onStandardClicked(Standard standard) {
-        getViewState().navigateToCriteriasScreen(passingId, categoryId, standard.getId());
+        getViewState().navigateToCriteriasScreen(categoryId, standard.getId());
     }
 }

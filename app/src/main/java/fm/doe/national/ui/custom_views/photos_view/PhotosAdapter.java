@@ -1,20 +1,22 @@
 package fm.doe.national.ui.custom_views.photos_view;
 
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
+import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.Photo;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.ViewUtils;
 
-public class PhotosAdapter extends BaseAdapter<String> {
+public class PhotosAdapter extends BaseAdapter<Photo> {
 
     @Nullable
     private Callback callback = null;
@@ -38,16 +40,16 @@ public class PhotosAdapter extends BaseAdapter<String> {
         }
 
         @Override
-        protected void onBind(String item) {
-            File imgFile = new File(item);
+        protected void onBind(Photo item) {
+            File imgFile = new File(item.getLocalPath());
             if (imgFile.exists()) ViewUtils.setScaledDownImageTo(photoImageView, imgFile.getAbsolutePath());
 
-            ViewCompat.setTransitionName(photoImageView, item); // using photo path as unique transition name
+            ViewCompat.setTransitionName(photoImageView, item.getLocalPath()); // using photo path as unique transition name
         }
 
         @OnClick({R.id.imagebutton_delete, R.id.imageview_photo})
         public void onViewClick(View v) {
-            String item = getItem();
+            Photo item = getItem();
             switch (v.getId()) {
                 case R.id.imagebutton_delete:
                     if (callback != null) callback.onDeletePhotoClick(item);
@@ -60,7 +62,7 @@ public class PhotosAdapter extends BaseAdapter<String> {
     }
 
     public interface Callback {
-        void onDeletePhotoClick(String photo);
-        void onPhotoClick(View v, String photo);
+        void onDeletePhotoClick(Photo photo);
+        void onPhotoClick(View v, Photo photo);
     }
 }

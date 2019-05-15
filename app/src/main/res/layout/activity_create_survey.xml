@@ -73,7 +73,7 @@
         android:layout_marginTop="16dp"
         tools:listitem="@layout/item_school"
         app:dividerPadding="24dp"
-        app:showDivider="middle"/>
+        app:dividerShow="middle"/>
 
 
 </LinearLayout>

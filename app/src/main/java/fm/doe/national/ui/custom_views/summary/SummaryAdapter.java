@@ -8,14 +8,13 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.sticky_header.StickyHeaderAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements StickyHeaderAdapter<SummaryAdapter.HeaderViewHolder> {
 
@@ -53,8 +52,8 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
 
         @Override
         protected void onBind(SummaryViewData item) {
-            String criteriaPrefix = getString(R.string.format_criteria, item.standard.getIndex());
-            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.standard.getName());
+            String criteriaPrefix = getString(R.string.format_criteria, item.standard.getSuffix());
+            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.standard.getTitle());
             spannableString.setSpan(
                     new TypefaceSpan(getString(R.string.font_medium)),
                     0, criteriaPrefix.length(),
@@ -100,7 +99,7 @@ public class SummaryAdapter extends BaseAdapter<SummaryViewData> implements Stic
 
         @Override
         protected void onBind(SummaryViewData item) {
-            headerTextView.setText(item.category.getName());
+            headerTextView.setText(item.category.getTitle());
         }
     }
 }

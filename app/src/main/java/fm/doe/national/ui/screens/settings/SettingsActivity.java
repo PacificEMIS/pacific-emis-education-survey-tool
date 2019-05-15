@@ -2,20 +2,20 @@ package fm.doe.national.ui.screens.settings;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegatypes.Text;
+import com.omegar.mvp.presenter.InjectPresenter;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,8 +27,8 @@ import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.utils.PackageUtils;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.PackageUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class SettingsActivity extends BaseActivity implements
         SettingsView,
@@ -203,9 +203,11 @@ public class SettingsActivity extends BaseActivity implements
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 presenter.onImagePicked(bitmap);
+                return;
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
@@ -11,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,13 +23,13 @@ import java.util.Set;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.CategoryProgress;
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.app_support.utils.CollectionUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.Progress;
+import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.CollectionUtils;
-import fm.doe.national.utils.ViewUtils;
 
 public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
@@ -66,6 +67,13 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
     }
 
+    public void notify(Criteria mutableCriteria) {
+        int index = getItems().indexOf(mutableCriteria);
+        if (index != RecyclerView.NO_POSITION) {
+            notifyItemChanged(index);
+        }
+    }
+
     protected class CriteriaViewHolder extends ViewHolder implements SubCriteriaListAdapter.OnAnswerStateChangedListener {
 
         @BindView(R.id.textview_criteria_title)
@@ -100,17 +108,16 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         public void onBind(Criteria item) {
             adapter.setItems((List<SubCriteria>) item.getSubCriterias());
 
-            String criteriaPrefix = getString(R.string.format_criteria, item.getIndex());
-            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.getName());
+            String criteriaPrefix = getString(R.string.format_criteria, item.getSuffix());
+            SpannableString spannableString = new SpannableString(criteriaPrefix + " " + item.getTitle());
             spannableString.setSpan(
                     new TypefaceSpan(getString(R.string.font_medium)),
                     0, criteriaPrefix.length(),
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             titleTextView.setText(spannableString);
 
-            rebindProgress(item.getCategoryProgress());
+            rebindProgress(item.getProgress());
 
-            // TODO: use AnimatedVectorDrawable to animate arrows sometime later
             if (expandedCriteriaIds.contains(item.getId())) {
                 subcriteriasRecycler.setVisibility(View.VISIBLE);
                 arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
@@ -130,26 +137,17 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         @Override
-        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
-            CategoryProgress categoryProgress = getItem().getCategoryProgress();
-            categoryProgress.recalculate(previousState, subCriteria.getAnswer().getState());
-
-            if (categoryProgress.getAnsweredQuestionsCount() == categoryProgress.getTotalQuestionsCount()) {
-                expandedCriteriaIds.remove(getItem().getId());
-                notifyItemChanged(getAdapterPosition());
-            }
-
-            rebindProgress(categoryProgress);
+        public void onSubCriteriaAnswerChanged(@NonNull SubCriteria subCriteria, AnswerState answerState) {
+            rebindProgress(getItem().getProgress());
         }
 
         public void notify(int subcriteriaIndex) {
             adapter.notifyItemChanged(subcriteriaIndex);
         }
 
-        private void rebindProgress(CategoryProgress progress) {
+        private void rebindProgress(Progress progress) {
             ViewUtils.rebindProgress(
-                    progress.getTotalQuestionsCount(),
-                    progress.getAnsweredQuestionsCount(),
+                    progress,
                     getString(R.string.criteria_progress),
                     progressTextView,
                     progressBar);

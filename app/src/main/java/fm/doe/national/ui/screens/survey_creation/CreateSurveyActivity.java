@@ -4,16 +4,15 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.omegar.mvp.presenter.InjectPresenter;
 
 import java.util.Date;
 import java.util.List;
@@ -21,11 +20,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.School;
+import fm.doe.national.data.model.School;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.categories.CategoriesActivity;
-import fm.doe.national.utils.DateUtils;
+import fm.doe.national.app_support.utils.DateUtils;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,
@@ -76,8 +75,8 @@ public class CreateSurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void navigateToCategoryChooser(long passingId) {
-        startActivity(CategoriesActivity.createIntent(this, passingId));
+    public void navigateToCategoryChooser() {
+        startActivity(CategoriesActivity.createIntent(this));
     }
 
     @Override

@@ -1,8 +1,5 @@
 package fm.doe.national.ui.screens.base;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,8 +8,11 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import butterknife.ButterKnife;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 public abstract class BaseAdapter<T>
         extends OmegaRecyclerView.Adapter<BaseAdapter<T>.ViewHolder> {
@@ -146,10 +146,6 @@ public abstract class BaseAdapter<T>
         public boolean onLongClick(View v) {
             onLongItemClick(item);
             return true;
-        }
-
-        protected String getString(@StringRes int resId, Object... vararg) {
-            return getResources().getString(resId, vararg);
         }
     }
 

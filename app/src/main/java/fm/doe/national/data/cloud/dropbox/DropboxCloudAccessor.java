@@ -2,8 +2,6 @@ package fm.doe.national.data.cloud.dropbox;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
@@ -19,13 +17,15 @@ import com.dropbox.core.v2.files.WriteMode;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import fm.doe.national.MicronesiaApplication;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
-import fm.doe.national.utils.Constants;
-import fm.doe.national.utils.LifecycleListener;
+import fm.doe.national.app_support.utils.Constants;
+import fm.doe.national.app_support.utils.LifecycleListener;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;

@@ -6,20 +6,21 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.omega_r.libs.omegatypes.Text;
+import com.omegar.mvp.presenter.InjectPresenter;
+import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.io.File;
 import java.util.Date;
@@ -28,21 +29,22 @@ import java.util.List;
 import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.Answer;
-import fm.doe.national.data.data_source.models.Criteria;
-import fm.doe.national.data.data_source.models.SubCriteria;
+import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Criteria;
+import fm.doe.national.data.model.Photo;
+import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableProgress;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
-import fm.doe.national.utils.Constants;
-import fm.doe.national.utils.DateUtils;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.Constants;
+import fm.doe.national.app_support.utils.DateUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class CriteriasActivity extends BaseActivity implements
         CriteriasView,
         SubcriteriaCallback,
         CommentDialogFragment.OnCommentSubmitListener {
 
-    private static final String EXTRA_ACCREDITATION = "EXTRA_ACCREDITATION";
     private static final String EXTRA_CATEGORY = "EXTRA_CATEGORY";
     private static final String EXTRA_STANDARD = "EXTRA_STANDARD";
     private final static String TAG_DIALOG = "TAG_DIALOG";
@@ -100,15 +102,13 @@ public class CriteriasActivity extends BaseActivity implements
     public CriteriasPresenter providePresenter() {
         Intent intent = getIntent();
         return new CriteriasPresenter(
-                intent.getLongExtra(EXTRA_ACCREDITATION, -1),
                 intent.getLongExtra(EXTRA_CATEGORY, -1),
                 intent.getLongExtra(EXTRA_STANDARD, -1));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, long passingId, long categoryId, long standardId) {
+    public static Intent createIntent(@NonNull Context context, long categoryId, long standardId) {
         return new Intent(context, CriteriasActivity.class)
-                .putExtra(EXTRA_ACCREDITATION, passingId)
                 .putExtra(EXTRA_CATEGORY, categoryId)
                 .putExtra(EXTRA_STANDARD, standardId);
     }
@@ -130,7 +130,7 @@ public class CriteriasActivity extends BaseActivity implements
                 }
                 break;
             case REQUEST_CHANGES:
-                presenter.onReturnedFromMorePhotos();
+                // nothing for now
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -168,7 +168,11 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void setProgress(int answered, int total) {
-        ViewUtils.rebindProgress(total, answered, getString(R.string.criteria_progress), progressTextView, progressBar);
+        ViewUtils.rebindProgress(
+                new MutableProgress(total, answered),
+                getString(R.string.criteria_progress),
+                progressTextView,
+                progressBar);
     }
 
     @Override
@@ -199,8 +203,8 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, Answer.State previousState) {
-        presenter.onSubCriteriaStateChanged(subCriteria, previousState);
+    public void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, AnswerState newState) {
+        presenter.onSubCriteriaStateChanged(subCriteria, newState);
     }
 
     @Override
@@ -224,8 +228,8 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onRemovePhotoClicked(SubCriteria subCriteria, String photoPath) {
-        presenter.onDeletePhotoClicked(subCriteria, photoPath);
+    public void onRemovePhotoClicked(SubCriteria subCriteria, Photo photo) {
+        presenter.onDeletePhotoClicked(subCriteria, photo);
     }
 
     @Override
@@ -234,8 +238,9 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void navigateToPhotos(long passingId, SubCriteria subCriteria) {
-        startActivityForResult(PhotosActivity.createIntent(this, passingId, subCriteria), REQUEST_CHANGES);
+    public void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId) {
+        startActivityForResult(PhotosActivity.createIntent(this, categoryId, standardId, criteriaId, subCriteriaId),
+                REQUEST_CHANGES);
     }
 
     @Override
@@ -257,10 +262,10 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     @Override
-    public void onPhotoClicked(View anchor, String photoPath) {
+    public void onPhotoClicked(View anchor, Photo photoPath) {
         String transitionName = ViewCompat.getTransitionName(anchor);
 
-        Intent intent = FullscreenImageActivity.createIntent(this, photoPath, transitionName);
+        Intent intent = FullscreenImageActivity.createIntent(this, photoPath.getLocalPath(), transitionName);
         ActivityOptionsCompat optionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this, anchor, transitionName);
         startActivity(intent, optionsCompat.toBundle());
@@ -287,5 +292,10 @@ public class CriteriasActivity extends BaseActivity implements
             imageView.setImageResource(resourceIndex);
             imageView.setActivated(isHighlighted);
         }
+    }
+
+    @Override
+    public void notifyCriteriaChanged(Criteria criteria) {
+        recyclerAdapter.notify(criteria);
     }
 }

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="@string/header_school_accreditation" />
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,13 +27,13 @@
             android:layout_height="wrap_content"
             android:theme="@style/BaseThemeRecyclerView"
             app:layoutManager="LinearLayoutManager"
-            app:showDivider="middle"
+            app:dividerShow="middle"
             app:alphaDivider="0.25"
             app:dividerPaddingStart="24dp"
             app:dividerPaddingEnd="24dp"
             tools:listitem="@layout/item_survey" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_new_accreditation"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -45,6 +45,6 @@
             app:srcCompat="@drawable/ic_plus"
             android:scaleType="center"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

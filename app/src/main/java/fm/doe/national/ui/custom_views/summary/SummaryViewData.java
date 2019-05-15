@@ -2,8 +2,8 @@ package fm.doe.national.ui.custom_views.summary;
 
 import java.util.List;
 
-import fm.doe.national.data.data_source.models.Category;
-import fm.doe.national.data.data_source.models.Standard;
+import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.Standard;
 
 public class SummaryViewData {
 

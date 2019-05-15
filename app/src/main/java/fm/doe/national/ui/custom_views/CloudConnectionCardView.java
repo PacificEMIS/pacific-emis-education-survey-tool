@@ -1,12 +1,13 @@
 package fm.doe.national.ui.custom_views;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.omega_r.libs.omegatypes.Text;
 
@@ -48,7 +49,7 @@ public class CloudConnectionCardView extends CardView implements View.OnClickLis
     }
 
     public void setCloudName(Text cloudName) {
-        nameTextView.setText(cloudName.getString(getResources()));
+        nameTextView.setText(cloudName.getString(getContext()));
     }
 
     public void setIconDrawableId(int iconDrawableId) {

@@ -1,17 +1,17 @@
 package fm.doe.national.ui.screens.cloud;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.arellomobile.mvp.InjectViewState;
+import com.omegar.mvp.InjectViewState;
 
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.data.cloud.exceptions.AuthenticationException;
 import fm.doe.national.data.cloud.exceptions.PickerDeclinedException;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.utils.Constants;
+import fm.doe.national.app_support.utils.Constants;
 
 @InjectViewState
 public class DropboxPresenter extends BasePresenter<DropboxView> {

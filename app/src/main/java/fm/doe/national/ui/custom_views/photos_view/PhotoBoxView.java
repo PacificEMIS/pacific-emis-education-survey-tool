@@ -1,11 +1,12 @@
 package fm.doe.national.ui.custom_views.photos_view;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
@@ -15,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.doe.national.R;
+import fm.doe.national.data.model.Photo;
 
 public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback {
 
@@ -53,7 +55,7 @@ public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback 
         countPhotosExtended = maxPhotos - 2; // 2 == spans { addPhoto, morePhotos }
     }
 
-    public void setPhotos(List<String> photos) {
+    public void setPhotos(List<Photo> photos) {
         if (photos.size() < maxPhotos) {
             adapter.setItems(photos);
             photosRecyclerView.setFootersVisibility(false);
@@ -81,19 +83,19 @@ public class PhotoBoxView extends FrameLayout implements PhotosAdapter.Callback 
     }
 
     @Override
-    public void onDeletePhotoClick(String photo) {
+    public void onDeletePhotoClick(Photo photo) {
         if (callback != null) callback.onDeletePhotoClick(photo);
     }
 
     @Override
-    public void onPhotoClick(View v, String photo) {
+    public void onPhotoClick(View v, Photo photo) {
         if (callback != null) callback.onPhotoClick(v, photo);
     }
 
     public interface Callback {
         void onAddPhotoClick();
         void onMorePhotosClick();
-        void onDeletePhotoClick(String photo);
-        void onPhotoClick(View v, String photo);
+        void onDeletePhotoClick(Photo photo);
+        void onPhotoClick(View v, Photo photo);
     }
 }

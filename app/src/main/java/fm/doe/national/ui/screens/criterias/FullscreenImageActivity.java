@@ -3,7 +3,7 @@ package fm.doe.national.ui.screens.criterias;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,8 +11,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.utils.Constants;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.app_support.utils.Constants;
+import fm.doe.national.app_support.utils.ViewUtils;
 
 public class FullscreenImageActivity extends BaseActivity {
     private static final String EXTRA_PATH = "EXTRA_PATH";

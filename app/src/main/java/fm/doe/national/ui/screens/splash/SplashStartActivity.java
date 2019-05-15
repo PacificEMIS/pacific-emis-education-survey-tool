@@ -1,17 +1,18 @@
 package fm.doe.national.ui.screens.splash;
 
 import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
+
+import com.omegar.mvp.presenter.InjectPresenter;
+import com.omegar.mvp.presenter.ProvidePresenter;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -45,6 +46,7 @@ public class SplashStartActivity extends BaseActivity implements SplashStartView
         return R.layout.activity_splash_start;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void navigateToSplashEnd() {
         String transitionNameText = ViewCompat.getTransitionName(titleTextView);

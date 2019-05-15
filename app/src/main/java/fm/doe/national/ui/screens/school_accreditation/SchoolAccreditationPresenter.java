@@ -1,13 +1,16 @@
 package fm.doe.national.ui.screens.school_accreditation;
 
-import com.arellomobile.mvp.InjectViewState;
+import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.MicronesiaApplication;
+import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.data.model.Survey;
+import fm.doe.national.data.model.mutable.MutableSurvey;
+import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -15,11 +18,12 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccreditationView> {
 
+    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
 
-    private List<SchoolAccreditationPassing> passings = new ArrayList<>();
+    private List<MutableSurvey> surveys = new ArrayList<>();
 
-    private SchoolAccreditationPassing passingToDelete;
+    private Survey passingToDelete;
 
     @Override
     public void attachView(SchoolAccreditationView view) {
@@ -28,44 +32,44 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     }
 
     private void loadRecentPassings() {
-        addDisposable(dataSource.requestSchoolAccreditationPassings()
+
+        addDisposable(interactor.getAllSurveys()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(passings -> {
-                    this.passings = passings;
-                    getViewState().setAccreditations(passings);
+                .subscribe(surveys -> {
+                    this.surveys = surveys;
+                    getViewState().setAccreditations(CollectionUtils.map(this.surveys, item -> item));
                 }, this::handleError));
     }
 
-    public void onAccreditationClicked(SchoolAccreditationPassing schoolAccreditationPassing) {
-        getViewState().navigateToCategoryChooser(schoolAccreditationPassing.getId());
+    public void onAccreditationClicked(Survey survey) {
+        interactor.setCurrentSurvey(MutableSurvey.toMutable(survey));
+        getViewState().navigateToCategoryChooser();
     }
 
     public void onSearchQueryChanged(String query) {
-        List<SchoolAccreditationPassing> queriedPassings = new ArrayList<>();
+        List<Survey> queriedPassings = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
-        for (SchoolAccreditationPassing passing : passings) {
-            if (passing.getSchool().getName().toLowerCase().contains(lowerQuery) ||
-                    passing.getSchool().getId().toLowerCase().contains(lowerQuery)) {
+        for (Survey passing : surveys) {
+            if (passing.getSchoolName().toLowerCase().contains(lowerQuery) ||
+                    passing.getSchoolId().toLowerCase().contains(lowerQuery)) {
                 queriedPassings.add(passing);
             }
         }
         getViewState().setAccreditations(queriedPassings);
     }
 
-    public void onAccreditationLongClicked(SchoolAccreditationPassing item) {
+    public void onAccreditationLongClicked(Survey item) {
         passingToDelete = item;
         getViewState().showSurveyDeleteConfirmation();
     }
 
     public void onSurveyDeletionConfirmed() {
-        addDisposable(dataSource.removeSchoolAccreditationPassing(passingToDelete.getId())
+        addDisposable(dataSource.deleteSurvey(passingToDelete.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {
-                    getViewState().removeSurveyPassing(passingToDelete);
-                }, this::handleError));
+                .subscribe(() -> getViewState().removeSurveyPassing(passingToDelete), this::handleError));
     }
 }

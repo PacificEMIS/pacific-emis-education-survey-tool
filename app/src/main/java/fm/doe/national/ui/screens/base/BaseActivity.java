@@ -3,22 +3,23 @@ package fm.doe.national.ui.screens.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
+
 import com.omega_r.libs.omegatypes.Text;
+import com.omegar.mvp.MvpAppCompatActivity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.ui.custom_views.ProgressDialogFragment;
-import fm.doe.national.utils.DateUtils;
+import fm.doe.national.app_support.utils.DateUtils;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
@@ -96,7 +97,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
 
     @Override
     public void showToast(Text text) {
-        Toast.makeText(this, text.getString(getResources()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, text.getString(this), Toast.LENGTH_SHORT).show();
     }
 
     protected void hideKeyboard() {
@@ -112,8 +113,8 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     @Override
     public void showMessage(Text title, Text message) {
         new AlertDialog.Builder(this)
-                .setTitle(title.getString(getResources()))
-                .setMessage(message.getString(getResources()))
+                .setTitle(title.getString(this))
+                .setMessage(message.getString(this))
                 .setPositiveButton(android.R.string.ok, null)
                 .create()
                 .show();

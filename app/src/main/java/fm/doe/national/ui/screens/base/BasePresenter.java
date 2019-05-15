@@ -9,7 +9,7 @@ import fm.doe.national.data.cloud.exceptions.FileExportException;
 import fm.doe.national.data.cloud.exceptions.FileImportException;
 import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.data.cloud.exceptions.PickerDeclinedException;
-import fm.doe.national.data.parsers.Parser;
+import fm.doe.national.data.serialization.parsers.Parser;
 import io.reactivex.exceptions.OnErrorNotImplementedException;
 
 public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T> {

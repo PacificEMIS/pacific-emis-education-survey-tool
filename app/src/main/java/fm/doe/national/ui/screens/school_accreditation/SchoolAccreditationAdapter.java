@@ -7,17 +7,16 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.data.data_source.models.SchoolAccreditationPassing;
+import fm.doe.national.app_support.utils.DateUtils;
+import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.data.model.Survey;
 import fm.doe.national.ui.screens.base.BaseAdapter;
-import fm.doe.national.utils.DateUtils;
-import fm.doe.national.utils.ViewUtils;
 
-public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationPassing> {
+public class SchoolAccreditationAdapter extends BaseAdapter<Survey> {
 
     public SchoolAccreditationAdapter(
-            OnItemClickListener<SchoolAccreditationPassing> clickListener,
-            OnItemLongClickListener<SchoolAccreditationPassing> longClickListener) {
+            OnItemClickListener<Survey> clickListener,
+            OnItemLongClickListener<Survey> longClickListener) {
         super(clickListener, longClickListener);
     }
 
@@ -48,16 +47,13 @@ public class SchoolAccreditationAdapter extends BaseAdapter<SchoolAccreditationP
         }
 
         @Override
-        public void onBind(SchoolAccreditationPassing item) {
-            School school = item.getSchool();
-            schoolIdTextView.setText(school.getId());
-            nameSchoolTextView.setText(school.getName());
-            createdYearTextView.setText(DateUtils.formatMonthYear(item.getStartDate()));
-
+        public void onBind(Survey item) {
+            schoolIdTextView.setText(item.getSchoolId());
+            nameSchoolTextView.setText(item.getSchoolName());
+            createdYearTextView.setText(DateUtils.formatMonthYear(item.getDate()));
 
             ViewUtils.rebindProgress(
-                    item.getSchoolAccreditation().getCategoryProgress().getTotalQuestionsCount(),
-                    item.getSchoolAccreditation().getCategoryProgress().getAnsweredQuestionsCount(),
+                    item.getProgress(),
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
         }

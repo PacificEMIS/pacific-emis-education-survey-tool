@@ -2,7 +2,7 @@
 <resources>
     
     <declare-styleable name="StateProgressBar">
-        <attr name="backgroundColor" format="reference"/>
+        <attr name="bgColor" format="reference"/>
         <attr name="progressColor" format="reference"/>
         <attr name="successColor" format="reference"/>
     </declare-styleable>
