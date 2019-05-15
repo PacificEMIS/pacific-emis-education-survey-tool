@@ -33,6 +33,7 @@ import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.Photo;
 import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.data.model.mutable.MutableProgress;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
 import fm.doe.national.app_support.utils.Constants;
@@ -167,7 +168,11 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void setProgress(int answered, int total) {
-        ViewUtils.rebindProgress(total, answered, getString(R.string.criteria_progress), progressTextView, progressBar);
+        ViewUtils.rebindProgress(
+                new MutableProgress(total, answered),
+                getString(R.string.criteria_progress),
+                progressTextView,
+                progressBar);
     }
 
     @Override

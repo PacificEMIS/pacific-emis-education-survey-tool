@@ -59,7 +59,7 @@ public class StandardsPresenter extends BasePresenter<StandardsView> {
                     int completedCount = 0;
                     for (Standard standard : standards) {
                         Progress progress = standard.getProgress();
-                        if (progress.completed == progress.total) completedCount++;
+                        if (progress.getCompleted() == progress.getTotal()) completedCount++;
                     }
                     view.setGlobalProgress(completedCount, standards.size());
                 }, this::handleError));

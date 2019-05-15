@@ -6,11 +6,10 @@ import androidx.annotation.Nullable;
 import java.util.Date;
 import java.util.List;
 
+import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomSurvey;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableSurvey extends BaseMutableEntity implements Survey {
 
@@ -20,9 +19,9 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
     private String schoolName;
     private String schoolId;
     private List<MutableCategory> categories;
-    private Progress progress = Progress.createEmptyProgress();
+    private MutableProgress progress = MutableProgress.createEmptyProgress();
 
-    public static MutableSurvey createOrCastFromOther(@NonNull Survey survey) {
+    public static MutableSurvey toMutable(@NonNull Survey survey) {
         if (survey instanceof MutableSurvey) {
             return (MutableSurvey) survey;
         }
@@ -106,11 +105,11 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         this.categories = categories;
     }
 
-    public Progress getProgress() {
+    public MutableProgress getProgress() {
         return progress;
     }
 
-    public void setProgress(Progress progress) {
+    public void setProgress(MutableProgress progress) {
         this.progress = progress;
     }
 }

@@ -15,7 +15,7 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
     private String hint;
     private MutableAnswer answer;
 
-    public static MutableSubCriteria createOrCastFromOther(@NonNull SubCriteria subCriteria) {
+    public static MutableSubCriteria toMutable(@NonNull SubCriteria subCriteria) {
         if (subCriteria instanceof MutableSubCriteria) {
             return (MutableSubCriteria) subCriteria;
         }

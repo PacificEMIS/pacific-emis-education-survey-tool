@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import fm.doe.national.R;
+import fm.doe.national.data.model.Progress;
 
 public class ViewUtils {
 
@@ -27,11 +28,12 @@ public class ViewUtils {
         STANDARD_ICONS.put(7, R.drawable.ic_standard_observation);
     }
 
-    public static void rebindProgress(int total,
-                                      int done,
+    public static void rebindProgress(Progress progressData,
                                       @NonNull String progtessStringPattern,
                                       @Nullable TextView textView,
                                       @Nullable ProgressBar progressBar) {
+        int done = progressData.getCompleted();
+        int total = progressData.getTotal();
         int progress = (int) ((float) done / total * 100);
 
         if (textView != null) {

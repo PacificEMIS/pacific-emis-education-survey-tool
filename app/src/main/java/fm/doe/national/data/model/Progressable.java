@@ -2,7 +2,7 @@ package fm.doe.national.data.model;
 
 import androidx.annotation.NonNull;
 
-public interface ProgressableObject extends IdentifiedObject {
+public interface Progressable {
 
     @NonNull
     Progress getProgress();

@@ -37,7 +37,7 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
     }
 
     public void onDeletePhotoClick(Photo photo) {
-        MutablePhoto mutablePhoto = MutablePhoto.createOrCastFromOther(photo);
+        MutablePhoto mutablePhoto = MutablePhoto.toMutable(photo);
         answer.getPhotos().remove(mutablePhoto);
         getViewState().showPhotos(new ArrayList<>(answer.getPhotos()));
         addDisposable(interactor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)

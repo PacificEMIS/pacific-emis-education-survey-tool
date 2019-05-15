@@ -62,6 +62,6 @@ public class SerializableCriteria implements Criteria {
     @NonNull
     @Override
     public Progress getProgress() {
-        return Progress.createEmptyProgress();
+        throw new IllegalStateException();
     }
 }

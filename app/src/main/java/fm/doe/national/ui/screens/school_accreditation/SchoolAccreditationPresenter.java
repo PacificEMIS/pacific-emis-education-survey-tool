@@ -45,7 +45,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     }
 
     public void onAccreditationClicked(Survey survey) {
-        interactor.setCurrentSurvey(MutableSurvey.createOrCastFromOther(survey));
+        interactor.setCurrentSurvey(MutableSurvey.toMutable(survey));
         getViewState().navigateToCategoryChooser();
     }
 

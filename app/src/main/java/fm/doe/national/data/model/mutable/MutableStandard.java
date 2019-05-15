@@ -4,17 +4,16 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableStandard extends BaseMutableEntity implements Standard {
 
     private String title;
     private String suffix;
     private List<MutableCriteria> criterias;
-    private Progress progress = Progress.createEmptyProgress();
+    private MutableProgress progress = MutableProgress.createEmptyProgress();
 
     public MutableStandard() {
     }
@@ -61,11 +60,11 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         this.criterias = criterias;
     }
 
-    public Progress getProgress() {
+    public MutableProgress getProgress() {
         return progress;
     }
 
-    public void setProgress(Progress progress) {
+    public void setProgress(MutableProgress progress) {
         this.progress = progress;
     }
 }

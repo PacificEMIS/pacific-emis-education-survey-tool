@@ -12,7 +12,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
@@ -61,10 +60,8 @@ public class StandardsListAdapter extends BaseAdapter<Standard> {
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             standardNameTextView.setText(spannableString);
 
-            Progress categoryProgress = item.getProgress();
             ViewUtils.rebindProgress(
-                    categoryProgress.total,
-                    categoryProgress.completed,
+                    item.getProgress(),
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
 

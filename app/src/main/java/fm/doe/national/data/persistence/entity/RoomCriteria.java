@@ -65,7 +65,7 @@ public class RoomCriteria implements Criteria {
     @NonNull
     @Override
     public Progress getProgress() {
-        return Progress.createEmptyProgress();
+        throw new IllegalStateException();
     }
 }
 

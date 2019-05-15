@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public interface Category extends ProgressableObject {
+public interface Category extends Progressable, IdentifiedObject {
 
     @NonNull
     String getTitle();

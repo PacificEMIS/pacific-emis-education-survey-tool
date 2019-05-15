@@ -53,8 +53,7 @@ public class SchoolAccreditationAdapter extends BaseAdapter<Survey> {
             createdYearTextView.setText(DateUtils.formatMonthYear(item.getDate()));
 
             ViewUtils.rebindProgress(
-                    item.getProgress().total,
-                    item.getProgress().completed,
+                    item.getProgress(),
                     getString(R.string.criteria_progress),
                     progressTextView, progressBar);
         }

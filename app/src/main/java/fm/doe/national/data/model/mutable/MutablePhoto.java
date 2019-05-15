@@ -15,7 +15,7 @@ public class MutablePhoto extends BaseMutableEntity implements Photo {
     @Nullable
     private String remotePath;
 
-    public static MutablePhoto createOrCastFromOther(@NonNull Photo photo) {
+    public static MutablePhoto toMutable(@NonNull Photo photo) {
         if (photo instanceof MutablePhoto) {
             return (MutablePhoto) photo;
         }

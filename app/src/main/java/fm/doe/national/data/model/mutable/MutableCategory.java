@@ -4,16 +4,15 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomCategory;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableCategory extends BaseMutableEntity implements Category {
 
     private String title;
     private List<MutableStandard> standards;
-    private Progress progress = Progress.createEmptyProgress();
+    private MutableProgress progress = MutableProgress.createEmptyProgress();
 
     public MutableCategory(@NonNull Category other) {
         this.id = other.getId();
@@ -49,11 +48,11 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         this.standards = standards;
     }
 
-    public Progress getProgress() {
+    public MutableProgress getProgress() {
         return progress;
     }
 
-    public void setProgress(Progress progress) {
+    public void setProgress(MutableProgress progress) {
         this.progress = progress;
     }
 }

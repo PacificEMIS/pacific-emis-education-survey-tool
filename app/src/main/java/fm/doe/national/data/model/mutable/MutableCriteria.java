@@ -8,14 +8,13 @@ import java.util.List;
 import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomCriteria;
-import fm.doe.national.data.model.Progress;
 
 public class MutableCriteria extends BaseMutableEntity implements Criteria {
 
     private String title;
     private String suffix;
     private List<MutableSubCriteria> subCriteriaList;
-    private Progress progress = Progress.createEmptyProgress();
+    private MutableProgress progress = MutableProgress.createEmptyProgress();
 
     public MutableCriteria() {
     }
@@ -62,11 +61,11 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.subCriteriaList = subCriterias;
     }
 
-    public Progress getProgress() {
+    public MutableProgress getProgress() {
         return progress;
     }
 
-    public void setProgress(Progress progress) {
+    public void setProgress(MutableProgress progress) {
         this.progress = progress;
     }
 

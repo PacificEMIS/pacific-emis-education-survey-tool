@@ -61,7 +61,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     public void onSubCriteriaStateChanged(SubCriteria subCriteria, AnswerState newState) {
-        MutableSubCriteria mutableSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        MutableSubCriteria mutableSubCriteria = MutableSubCriteria.toMutable(subCriteria);
         mutableSubCriteria.getAnswer().setState(newState);
         updateAnswer(mutableSubCriteria.getId(), mutableSubCriteria.getAnswer());
     }
@@ -81,7 +81,7 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     public void onAddPhotoClicked(SubCriteria subCriteria) {
-        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        selectedSubCriteria = MutableSubCriteria.toMutable(subCriteria);
         try {
             takenPictureFile = picturesRepository.createEmptyFile();
             if (takenPictureFile != null) getViewState().takePictureTo(takenPictureFile);
@@ -111,12 +111,12 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     public void onAddCommentClicked(SubCriteria subCriteria) {
-        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        selectedSubCriteria = MutableSubCriteria.toMutable(subCriteria);
         getViewState().showCommentEditor(subCriteria);
     }
 
     public void onEditCommentClicked(SubCriteria subCriteria) {
-        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        selectedSubCriteria = MutableSubCriteria.toMutable(subCriteria);
         getViewState().showCommentEditor(subCriteria);
     }
 
@@ -130,13 +130,13 @@ public class CriteriasPresenter extends BasePresenter<CriteriasView> {
     }
 
     public void onDeleteCommentClicked(SubCriteria subCriteria) {
-        MutableSubCriteria mutableSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        MutableSubCriteria mutableSubCriteria = MutableSubCriteria.toMutable(subCriteria);
         mutableSubCriteria.getAnswer().setComment(null);
         updateAnswer(subCriteria.getId(), subCriteria.getAnswer());
     }
 
     public void onMorePhotosClick(SubCriteria subCriteria) {
-        selectedSubCriteria = MutableSubCriteria.createOrCastFromOther(subCriteria);
+        selectedSubCriteria = MutableSubCriteria.toMutable(subCriteria);
         getViewState().navigateToPhotos(categoryId, getStandardId(), getCriteriaId(subCriteria.getId()), subCriteria.getId());
     }
 

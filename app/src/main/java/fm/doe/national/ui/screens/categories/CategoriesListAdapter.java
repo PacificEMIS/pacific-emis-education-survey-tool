@@ -44,8 +44,7 @@ public class CategoriesListAdapter
 
             Progress progress = item.getProgress();
             ViewUtils.rebindProgress(
-                    progress.total,
-                    progress.completed,
+                    item.getProgress(),
                     getString(R.string.criteria_progress),
                     progressTextView,
                     progressBar

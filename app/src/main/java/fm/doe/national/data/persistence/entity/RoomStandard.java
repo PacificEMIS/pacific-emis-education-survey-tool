@@ -65,6 +65,6 @@ public class RoomStandard implements Standard {
     @NonNull
     @Override
     public Progress getProgress() {
-        return Progress.createEmptyProgress();
+        throw new IllegalStateException();
     }
 }

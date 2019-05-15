@@ -147,8 +147,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
         private void rebindProgress(Progress progress) {
             ViewUtils.rebindProgress(
-                    progress.total,
-                    progress.completed,
+                    progress,
                     getString(R.string.criteria_progress),
                     progressTextView,
                     progressBar);

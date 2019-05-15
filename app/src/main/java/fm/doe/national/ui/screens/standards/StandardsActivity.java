@@ -18,6 +18,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
 import fm.doe.national.data.model.Standard;
+import fm.doe.national.data.model.mutable.MutableProgress;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.criterias.CriteriasActivity;
@@ -64,8 +65,7 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
     @Override
     public void setGlobalProgress(int completed, int total) {
         ViewUtils.rebindProgress(
-                total,
-                completed,
+                new MutableProgress(total, completed),
                 getString(R.string.criteria_progress),
                 progressTextView, progressBar);
     }
