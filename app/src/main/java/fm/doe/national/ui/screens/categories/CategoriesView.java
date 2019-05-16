@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.data.model.Category;
-import fm.doe.national.ui.screens.report.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
@@ -23,9 +22,4 @@ public interface CategoriesView extends BaseView {
 
     void setSchoolName(String schoolName);
 
-    void setSummaryData(List<SummaryViewData> data);
-
-    void showSummaryLoading();
-
-    void hideSummaryLoading();
 }

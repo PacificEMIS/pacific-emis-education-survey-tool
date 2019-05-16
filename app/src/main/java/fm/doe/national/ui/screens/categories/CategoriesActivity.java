@@ -15,7 +15,6 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.data.model.Category;
-import fm.doe.national.ui.screens.report.summary.SummaryViewData;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.report.ReportActivity;
@@ -42,7 +41,7 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         categoriesRecyclerView.setAdapter(categoriesListAdapter);
-//        summaryView.setVisibility(View.GONE);
+        // temp navigation
         reportButton.setOnClickListener(v -> startActivity(new Intent(this, ReportActivity.class)));
     }
 
@@ -76,19 +75,4 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
         startActivity(StandardsActivity.createIntent(this, categoryId));
     }
 
-    @Override
-    public void setSummaryData(List<SummaryViewData> data) {
-//        summaryView.setData(data);
-    }
-
-    @Override
-    public void showSummaryLoading() {
-//        summaryLoadingView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideSummaryLoading() {
-//        summaryLoadingView.setVisibility(View.GONE);
-//        summaryView.setVisibility(View.VISIBLE);
-    }
 }
