@@ -7,5 +7,5 @@ import fm.doe.national.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface ReportView extends BaseView {
-
+    // nothing
 }

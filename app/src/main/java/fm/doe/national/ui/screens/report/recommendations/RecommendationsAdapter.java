@@ -26,7 +26,7 @@ public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
         @BindView(R.id.textview_content)
         TextView contentTextView;
 
-        private final int marginStep = (int) getResources().getDimension(R.dimen.magrin_start_recommendation);
+        private final int marginStep = (int) getResources().getDimension(R.dimen.margin_start_recommendation);
 
         public ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_recommendation);

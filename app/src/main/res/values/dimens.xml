@@ -16,5 +16,5 @@
     <dimen name="textsize_splash_title_start">48sp</dimen>
     <dimen name="textsize_splash_title_end">36sp</dimen>
 
-    <dimen name="magrin_start_recommendation">8dp</dimen>
+    <dimen name="margin_start_recommendation">8dp</dimen>
 </resources>

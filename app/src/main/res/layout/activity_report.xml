@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,46 +16,8 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </androidx.viewpager.widget.ViewPager>
-
-    <!--<com.omega_r.libs.omegarecyclerview.OmegaRecyclerView-->
-        <!--android:id="@+id/recyclerview_recommendations"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="40dp"-->
-        <!--android:nestedScrollingEnabled="false"-->
-        <!--tools:listitem="@layout/item_recommendation" >-->
-
-        <!--<fm.doe.national.ui.screens.report.summary.SummaryFragmentment-->
-            <!--android:id="@+id/summaryview"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_section="footer"/>-->
-
-    <!--</com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>-->
-
-    <!--<androidx.core.widget.NestedScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-
-
-            <!--<com.omega_r.libs.omegarecyclerview.OmegaRecyclerView-->
-                <!--android:id="@+id/recyclerview_recommendations"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="40dp"-->
-                <!--android:nestedScrollingEnabled="false"-->
-                <!--tools:listitem="@layout/item_recommendation" />-->
-
-        <!--</LinearLayout>-->
-
-    <!--</androidx.core.widget.NestedScrollView>-->
 
 </LinearLayout>
