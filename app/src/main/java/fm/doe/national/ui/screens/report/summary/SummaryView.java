@@ -1,45 +1,19 @@
 package fm.doe.national.ui.screens.report.summary;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import androidx.annotation.NonNull;
+
+import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import fm.doe.national.R;
+import fm.doe.national.ui.screens.base.BaseView;
 
-public class SummaryView extends LinearLayout {
+@StateStrategyType(AddToEndSingleStrategy.class)
+public interface SummaryView extends BaseView {
 
-    private final SummaryStandardAdapter adapter = new SummaryStandardAdapter();
+    void setLoadingVisibility(boolean visible);
 
-    @BindView(R.id.recyclerview_summary)
-    RecyclerView summaryRecyclerView;
+    void setSummaryData(@NonNull List<SummaryViewData> data);
 
-    public SummaryView(Context context) {
-        this(context, null);
-    }
-
-    public SummaryView(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, 0);
-    }
-
-    public SummaryView(Context context, AttributeSet attributeSet, int defStyle) {
-        super(context, attributeSet, defStyle);
-        inflate(context, R.layout.view_summary, this);
-        ButterKnife.bind(this);
-        initViews();
-    }
-
-    private void initViews() {
-        summaryRecyclerView.setAdapter(adapter);
-        summaryRecyclerView.setNestedScrollingEnabled(true);
-        summaryRecyclerView.setHasFixedSize(true);
-    }
-
-    public void setData(List<SummaryViewData> data) {
-        adapter.setItems(data);
-    }
 }
