@@ -38,6 +38,8 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
     class ItemViewHolder extends ViewHolder {
 
+        private final TypefaceSpan typefaceSpan = new TypefaceSpan(getString(R.string.font_medium));
+
         @BindView(R.id.textview_standard_name)
         TextView nameTextView;
 
@@ -58,10 +60,7 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
         protected void onBind(SummaryViewData item) {
             String standardPrefix = getString(R.string.format_standard, item.getStandard().getSuffix());
             SpannableString spannableString = new SpannableString(standardPrefix + " " + item.getStandard().getTitle());
-            spannableString.setSpan(
-                    new TypefaceSpan(getString(R.string.font_medium)),
-                    0, standardPrefix.length(),
-                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            spannableString.setSpan(typefaceSpan, 0, standardPrefix.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             nameTextView.setText(spannableString);
 
             totalTextView.setText(String.valueOf(item.getTotalByStandard()));

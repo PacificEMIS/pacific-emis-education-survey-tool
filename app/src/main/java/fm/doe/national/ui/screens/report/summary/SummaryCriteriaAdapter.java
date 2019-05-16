@@ -16,12 +16,16 @@ import fm.doe.national.R;
 
 public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.CriteriaSummaryViewData> {
 
+    private static final String MARK_ANSWERED = "1";
+    private static final String MARK_NOT_ANSWERED = "0";
+
     @Override
     protected ItemViewHolder provideViewHolder(ViewGroup parent) {
         return new ItemViewHolder(parent);
     }
 
     class ItemViewHolder extends ViewHolder {
+
 
         @BindView(R.id.textview_criteria_title)
         TextView titleTextView;
@@ -43,16 +47,16 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
             totalTextView.setText(String.valueOf(item.getTotal()));
 
             for (int i = 0; i < cellTextViews.size(); i++) {
-                cellTextViews.get(i).setText(safeGetAnswerState(i));
+                cellTextViews.get(i).setText(isAnsweredAt(i) ? MARK_ANSWERED : MARK_NOT_ANSWERED);
             }
         }
 
         @NotNull
-        private String safeGetAnswerState(int index) {
+        private boolean isAnsweredAt(int index) {
             if (index < getItem().getAnswerStates().length) {
-                return getItem().getAnswerStates()[index] ? "1" : "0";
+                return getItem().getAnswerStates()[index];
             } else {
-                return "0";
+                return false;
             }
         }
 
