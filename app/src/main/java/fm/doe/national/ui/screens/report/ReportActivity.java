@@ -26,12 +26,7 @@ public class ReportActivity extends BaseActivity implements ReportView {
     }
 
     @Override
-    public void showSummaryLoading() {
-        // nothing
-    }
-
-    @Override
-    public void hideSummaryLoading() {
+    public void setSummaryLoadingVisibility(boolean visible) {
         // nothing
     }
 

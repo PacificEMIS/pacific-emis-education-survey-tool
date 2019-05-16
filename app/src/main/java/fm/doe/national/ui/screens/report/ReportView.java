@@ -13,9 +13,7 @@ import fm.doe.national.ui.screens.report.summary.SummaryViewData;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface ReportView extends BaseView {
 
-    void showSummaryLoading();
-
-    void hideSummaryLoading();
+    void setSummaryLoadingVisibility(boolean visible);
 
     void setSummaryData(@NonNull List<SummaryViewData> data);
 
