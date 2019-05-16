@@ -1,4 +1,4 @@
-package fm.doe.national.ui.custom_views.summary;
+package fm.doe.national.ui.screens.report.summary;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,7 +13,7 @@ import fm.doe.national.R;
 
 public class SummaryView extends LinearLayout {
 
-    private final SummaryAdapter adapter = new SummaryAdapter();
+    private final SummaryStandardAdapter adapter = new SummaryStandardAdapter();
 
     @BindView(R.id.recyclerview_summary)
     RecyclerView summaryRecyclerView;

@@ -2,26 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@color/delimeter_grey"
-    android:orientation="horizontal"
-    android:paddingBottom="1dp">
+    style="@style/SummaryRow">
 
     <View style="@style/HeaderNameSummaryCell"/>
 
-    <TextView
-        style="@style/HeaderItemSummaryCell"
-        android:text="@string/first_criteria"/>
+    <View style="@style/HeaderItemSummaryCell"/>
 
     <TextView
         style="@style/HeaderItemSummaryCell"
-        android:text="@string/second_criteria"/>
+        android:text="@string/first_subcriteria"/>
 
     <TextView
         style="@style/HeaderItemSummaryCell"
-        android:text="@string/third_criteria"/>
+        android:text="@string/second_subcriteria"/>
 
     <TextView
         style="@style/HeaderItemSummaryCell"
-        android:text="@string/forth_criteria"/>
+        android:text="@string/third_subcriteria"/>
+
+    <TextView
+        style="@style/HeaderItemSummaryCell"
+        android:text="@string/forth_subcriteria"/>
+
+    <TextView
+        style="@style/HeaderItemSummaryCell"
+        android:text="@string/title_total"/>
+
+    <TextView
+        style="@style/HeaderItemSummaryCell"
+        android:text="@string/title_total_by_standards"/>
 
 </LinearLayout>

@@ -105,7 +105,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // OmegaLibs
-    implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.3@aar'
+    implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.5@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.2.0'
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
 
@@ -113,7 +113,7 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    implementation ("org.simpleframework:simple-xml:2.7.1") {
+    implementation("org.simpleframework:simple-xml:2.7.1") {
         exclude group: 'xpp3', module: 'xpp3'
     }
 

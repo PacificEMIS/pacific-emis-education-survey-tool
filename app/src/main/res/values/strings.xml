@@ -73,6 +73,12 @@
     <string name="second_criteria">C2</string>
     <string name="third_criteria">C3</string>
     <string name="forth_criteria">C4</string>
+    <string name="first_subcriteria">SC1</string>
+    <string name="second_subcriteria">SC2</string>
+    <string name="third_subcriteria">SC3</string>
+    <string name="forth_subcriteria">SC4</string>
+    <string name="title_total">Total</string>
+    <string name="title_total_by_standards">Total by Standards</string>
     <string name="summary">Summary</string>
     <string name="more_photos_pattern">+%1$d</string>
     <string name="label_attached_photos">Attached photos</string>
@@ -94,5 +100,7 @@
     <string name="transition_tag_fullscreen_image">transition_tag_fullscreen_image</string>
     <string name="transition_tag_splash_title">transition_tag_splash_title</string>
     <string name="transition_tag_splash_logo">transition_tag_splash_logo</string>
+
+    <string name="title_report">School Accreditation Status Report</string>
 
 </resources>
