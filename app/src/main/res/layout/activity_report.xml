@@ -9,9 +9,30 @@
 
     <include layout="@layout/include_toolbar" />
 
-    <fm.doe.national.ui.screens.report.summary.SummaryView
-        android:id="@+id/summaryview"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <fm.doe.national.ui.screens.report.summary.SummaryView
+                android:id="@+id/summaryview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+                android:id="@+id/recyclerview_recommendations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_recommendation" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

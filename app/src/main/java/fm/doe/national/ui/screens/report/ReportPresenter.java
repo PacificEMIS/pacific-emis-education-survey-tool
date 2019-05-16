@@ -15,15 +15,25 @@ public class ReportPresenter extends BasePresenter<ReportView> {
 
     ReportPresenter() {
         loadSummary();
+        loadRecommendations();
     }
 
     private void loadSummary() {
         addDisposable(interactor.requestSummary()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showSummaryLoading())
-                .doFinally(getViewState()::hideSummaryLoading)
+                .doOnSubscribe(disposable -> getViewState().setSummaryLoadingVisibility(true))
+                .doFinally(() -> getViewState().setSummaryLoadingVisibility(false))
                 .subscribe(getViewState()::setSummaryData, this::handleError));
+    }
+
+    private void loadRecommendations() {
+        addDisposable(interactor.requestRecommendations()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().setRecommendationsLoadingVisibility(true))
+                .doFinally(() -> getViewState().setRecommendationsLoadingVisibility(false))
+                .subscribe(getViewState()::setRecommendations, this::handleError));
     }
 
 }
