@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.report.recommendations;
+package fm.doe.national.data.model.recommendations;
 
 public abstract class Recommendation<T> {
     private String content;

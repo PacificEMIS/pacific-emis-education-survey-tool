@@ -9,6 +9,7 @@ import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
+import fm.doe.national.data.model.recommendations.Recommendation;
 
 public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
 
@@ -38,6 +39,7 @@ public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
 
             ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) marginerView.getLayoutParams();
             marginParams.setMargins(marginStep * item.getLevel(), 0, 0, 0);
+            marginerView.requestLayout();
         }
 
     }

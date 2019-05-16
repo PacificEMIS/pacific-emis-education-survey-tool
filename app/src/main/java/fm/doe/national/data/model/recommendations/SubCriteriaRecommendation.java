@@ -1,10 +1,12 @@
-package fm.doe.national.ui.screens.report.recommendations;
+package fm.doe.national.data.model.recommendations;
 
 import fm.doe.national.data.model.SubCriteria;
 
 public class SubCriteriaRecommendation extends Recommendation<SubCriteria> {
 
+    private static final int LEVEL = 3;
+
     public SubCriteriaRecommendation(SubCriteria object) {
-        super(object, object.getSuffix() + " " + object.getTitle(), 3);
+        super(object, object.getSuffix() + " " + object.getTitle(), LEVEL);
     }
 }
