@@ -4,17 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="@color/delimeter_grey"
-    android:orientation="horizontal">
+    style="@style/SummaryRow"
+    android:weightSum="0">
 
     <TextView
         android:id="@+id/textview_header_name"
         style="@style/StickyNameSummaryCell"
         tools:text="Principal's interview"/>
-
-    <View style="@style/StickyItemSummaryCell"/>
-    <View style="@style/StickyItemSummaryCell"/>
-    <View style="@style/StickyItemSummaryCell"/>
-    <View style="@style/StickyItemSummaryCell"/>
 
 </LinearLayout>

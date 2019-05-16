@@ -1,4 +1,4 @@
-package fm.doe.national.ui.custom_views.summary;
+package fm.doe.national.ui.screens.report.summary;
 
 import android.content.Context;
 import android.util.AttributeSet;

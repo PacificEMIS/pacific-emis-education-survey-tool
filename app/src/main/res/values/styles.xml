@@ -183,6 +183,14 @@
     </style>
 
     <!-- region SummaryCells -->
+
+    <style name="SummaryRow">
+        <item name="android:weightSum">100</item>
+        <item name="android:background">@color/delimeter_grey</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">1dp</item>
+    </style>
+
     <style name="SummaryCell">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>

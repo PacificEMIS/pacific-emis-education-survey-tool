@@ -9,7 +9,7 @@
 
     <include layout="@layout/include_toolbar" />
 
-    <fm.doe.national.ui.custom_views.summary.SummaryView
+    <fm.doe.national.ui.screens.report.summary.SummaryView
         android:id="@+id/summaryview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

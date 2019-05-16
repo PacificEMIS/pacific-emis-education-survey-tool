@@ -7,7 +7,7 @@ import fm.doe.national.data.model.mutable.MutableCategory;
 import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.ui.custom_views.summary.SummaryViewData;
+import fm.doe.national.ui.screens.report.summary.SummaryViewData;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;

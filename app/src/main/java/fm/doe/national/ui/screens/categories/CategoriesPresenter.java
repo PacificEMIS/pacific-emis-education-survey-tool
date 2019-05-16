@@ -3,7 +3,6 @@ package fm.doe.national.ui.screens.categories;
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.model.Category;
@@ -43,17 +42,6 @@ public class CategoriesPresenter extends BasePresenter<CategoriesView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(this::onCategoriesLoaded, this::handleError));
-    }
-
-    private void onCategoriesLoaded(List<Category> categories) {
-        getViewState().showCategories(categories);
-
-        addDisposable(interactor.requestSummary()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showSummaryLoading())
-                .doFinally(getViewState()::hideSummaryLoading)
-                .subscribe(getViewState()::setSummaryData, this::handleError));
+                .subscribe(getViewState()::showCategories, this::handleError));
     }
 }

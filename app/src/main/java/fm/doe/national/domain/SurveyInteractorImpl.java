@@ -8,13 +8,14 @@ import java.util.List;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.mutable.MutableAnswer;
 import fm.doe.national.data.model.mutable.MutableCategory;
 import fm.doe.national.data.model.mutable.MutableCriteria;
 import fm.doe.national.data.model.mutable.MutableStandard;
 import fm.doe.national.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.ui.custom_views.summary.SummaryViewData;
+import fm.doe.national.ui.screens.report.summary.SummaryViewData;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -123,27 +124,32 @@ public class SurveyInteractorImpl implements SurveyInteractor {
                 .flatMapObservable(Observable::fromIterable)
                 .flatMap(category -> Observable.fromIterable(category.getStandards())
                         .map(standard -> {
-                            List<SummaryViewData.Progress> progresses = new ArrayList<>();
-                            for (MutableCriteria criteria : standard.getCriterias()) {
-                                int total = criteria.getSubCriterias().size();
-                                int positive = 0;
-                                int negative = 0;
-                                for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
-                                    switch (subCriteria.getAnswer().getState()) {
-                                        case NOT_ANSWERED:
-                                            // nothing
-                                            break;
+                            List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
+                            int totalByStandard = 0;
+                            for (Criteria criteria : standard.getCriterias()) {
+                                int totalByCriteria = 0;
+                                boolean[] positivesArray = new boolean[criteria.getSubCriterias().size()];
+                                for (int i = 0; i < criteria.getSubCriterias().size(); i++) {
+                                    switch (criteria.getSubCriterias().get(i).getAnswer().getState()) {
                                         case POSITIVE:
-                                            positive++;
+                                            totalByCriteria++;
+                                            totalByStandard++;
+                                            positivesArray[i] = true;
                                             break;
-                                        case NEGATIVE:
-                                            negative++;
+                                        default:
+                                            positivesArray[i] = false;
                                             break;
                                     }
                                 }
-                                progresses.add(new SummaryViewData.Progress(total, positive, negative));
+                                criteriaSummaryViewDataList.add(
+                                        new SummaryViewData.CriteriaSummaryViewData(
+                                                criteria.getSuffix(),
+                                                positivesArray,
+                                                totalByCriteria
+                                        )
+                                );
                             }
-                            return new SummaryViewData(category, standard, progresses);
+                            return new SummaryViewData(category, standard, totalByStandard, criteriaSummaryViewDataList);
                         })
                 ).toList();
     }
