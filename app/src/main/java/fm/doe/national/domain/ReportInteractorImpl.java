@@ -76,38 +76,28 @@ public class ReportInteractorImpl implements ReportInteractor {
             List<AccreditationForm.Builder> formBuilders = new ArrayList<>();
 
             for (Category category : survey.getCategories()) {
-                AccreditationForm.Builder formBuilder = new AccreditationForm.Builder();
-                formBuilder.setName(category.getEvaluationForm().getName());
-                formBuilder.setMultiplier(calculateFormMultiplier(category.getEvaluationForm())); // TODO: this one is temp
-                int existingPosition = formBuilders.indexOf(formBuilder);
-                if (existingPosition == NO_POSITION) {
+                AccreditationForm.Builder formBuilder = CollectionUtils.firstWhere(
+                        formBuilders,
+                        it -> it.getName() == category.getEvaluationForm().getName()
+                );
+
+                if (formBuilder == null) {
+                    formBuilder = new AccreditationForm.Builder()
+                            .setName(category.getEvaluationForm().getName())
+                            .setMultiplier(calculateFormMultiplier(category.getEvaluationForm())); // TODO: this one is temp
                     formBuilders.add(formBuilder);
-                } else {
-                    formBuilder = formBuilders.get(existingPosition);
                 }
 
                 for (Standard standard : category.getStandards()) {
                     List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
                     int totalByStandard = 0;
+
                     for (Criteria criteria : standard.getCriterias()) {
-                        int totalByCriteria = 0;
-                        boolean[] positivesArray = new boolean[criteria.getSubCriterias().size()];
-                        for (int i = 0; i < criteria.getSubCriterias().size(); i++) {
-                            switch (criteria.getSubCriterias().get(i).getAnswer().getState()) {
-                                case POSITIVE:
-                                    totalByCriteria++;
-                                    totalByStandard++;
-                                    positivesArray[i] = true;
-                                    break;
-                                default:
-                                    positivesArray[i] = false;
-                                    break;
-                            }
-                        }
-                        criteriaSummaryViewDataList.add(
-                                new SummaryViewData.CriteriaSummaryViewData(criteria.getSuffix(), positivesArray, totalByCriteria)
-                        );
+                        SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
+                        totalByStandard += data.getTotal();
+                        criteriaSummaryViewDataList.add(data);
                     }
+
                     formBuilder.addObtainedScore(totalByStandard);
                     summaryViewDataList.add(new SummaryViewData(category, standard, totalByStandard, criteriaSummaryViewDataList));
                 }
@@ -116,6 +106,25 @@ public class ReportInteractorImpl implements ReportInteractor {
             summarySubject.onNext(summaryViewDataList);
             levelSubject.onNext(new SchoolAccreditationLevel(CollectionUtils.map(formBuilders, AccreditationForm.Builder::build)));
         });
+    }
+
+    private SummaryViewData.CriteriaSummaryViewData createCriteriaSummaryViewData(Criteria criteria) {
+        int totalByCriteria = 0;
+        boolean[] positivesArray = new boolean[criteria.getSubCriterias().size()];
+
+        for (int i = 0; i < criteria.getSubCriterias().size(); i++) {
+            switch (criteria.getSubCriterias().get(i).getAnswer().getState()) {
+                case POSITIVE:
+                    totalByCriteria++;
+                    positivesArray[i] = true;
+                    break;
+                default:
+                    positivesArray[i] = false;
+                    break;
+            }
+        }
+
+        return new SummaryViewData.CriteriaSummaryViewData(criteria.getSuffix(), positivesArray, totalByCriteria);
     }
 
     private float calculateFormMultiplier(EvaluationForm evaluationForm) {

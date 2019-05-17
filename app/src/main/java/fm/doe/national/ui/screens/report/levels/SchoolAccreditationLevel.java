@@ -1,5 +1,8 @@
 package fm.doe.national.ui.screens.report.levels;
 
+import androidx.annotation.NonNull;
+
+import java.util.Collections;
 import java.util.List;
 
 import fm.doe.national.app_support.utils.CollectionUtils;
@@ -7,7 +10,7 @@ import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class SchoolAccreditationLevel {
 
-    private List<AccreditationForm> forms;
+    private List<AccreditationForm> forms = Collections.emptyList();
     private ReportLevel reportLevel;
     private float totalScore;
     private int totalObtainedScore;
@@ -19,7 +22,7 @@ public class SchoolAccreditationLevel {
     private SchoolAccreditationLevel() {
     }
 
-    public SchoolAccreditationLevel(List<AccreditationForm> forms) {
+    public SchoolAccreditationLevel(@NonNull List<AccreditationForm> forms) {
         this.forms = forms;
         calculateTotalObtainedScore();
         calculateTotalScore();
@@ -48,10 +51,6 @@ public class SchoolAccreditationLevel {
 
     private void calculateReportLevel(float score) {
         this.reportLevel = ReportLevel.estimateLevel(score);
-    }
-
-    public boolean isEmpty() {
-        return forms == null;
     }
 
     public List<AccreditationForm> getForms() {

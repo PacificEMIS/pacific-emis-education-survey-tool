@@ -2,8 +2,6 @@ package fm.doe.national.ui.screens.report.levels;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import java.util.Objects;
-
 public class AccreditationForm {
 
     private final Text name;
@@ -49,6 +47,10 @@ public class AccreditationForm {
             return this;
         }
 
+        public Text getName() {
+            return name;
+        }
+
         public Builder addObtainedScore(int obtainedScore) {
             this.obtainedScore += obtainedScore;
             return this;
@@ -57,19 +59,6 @@ public class AccreditationForm {
         public Builder setMultiplier(float multiplier) {
             this.multiplier = multiplier;
             return this;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Builder builder = (Builder) o;
-            return name.equals(builder.name);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name);
         }
     }
 }
