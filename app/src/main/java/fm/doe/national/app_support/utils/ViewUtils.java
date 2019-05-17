@@ -4,6 +4,7 @@ package fm.doe.national.app_support.utils;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.SparseIntArray;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
 
 import fm.doe.national.R;
 import fm.doe.national.data.model.Progress;
@@ -85,6 +88,20 @@ public class ViewUtils {
         } catch (NumberFormatException ex) {
             return null;
         }
+    }
+
+    public static <T> void forEachChild(@NotNull ViewGroup viewGroup, Class<T> ofClass, Action<T> action) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            try {
+                action.perform(ofClass.cast(viewGroup.getChildAt(i)));
+            } catch (ClassCastException cce) {
+                // nothing
+            }
+        }
+    }
+
+    public interface Action<T> {
+        void perform(T object);
     }
 
 }

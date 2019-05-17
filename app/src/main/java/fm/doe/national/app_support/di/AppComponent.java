@@ -29,6 +29,7 @@ import fm.doe.national.app_support.di.modules.ContextModule;
 import fm.doe.national.app_support.di.modules.GsonModule;
 import fm.doe.national.app_support.di.modules.InteractorsModule;
 import fm.doe.national.app_support.di.modules.LifecycleModule;
+import fm.doe.national.domain.ReportInteractor;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.app_support.utils.LifecycleListener;
@@ -65,4 +66,5 @@ public interface AppComponent {
 
     SettingsInteractor getSettingsInteractor();
     SurveyInteractor getSurveyInteractor();
+    ReportInteractor getReportInteractor();
 }

@@ -5,6 +5,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.data.data_source.DataSource;
+import fm.doe.national.domain.ReportInteractor;
+import fm.doe.national.domain.ReportInteractorImpl;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.domain.SurveyInteractorImpl;
@@ -20,5 +22,11 @@ public class InteractorsModule {
     @Singleton
     public SurveyInteractor provideSurveyInteractor(DataSource dataSource) {
         return new SurveyInteractorImpl(dataSource);
+    }
+
+    @Provides
+    @Singleton
+    public ReportInteractor provideReportInteractor() {
+        return new ReportInteractorImpl();
     }
 }

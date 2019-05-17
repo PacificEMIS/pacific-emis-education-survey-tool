@@ -5,6 +5,7 @@ import androidx.room.TypeConverter;
 import java.util.Date;
 
 import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.EvaluationForm;
 import fm.doe.national.data.model.SurveyType;
 
 public class Converters {
@@ -35,6 +36,16 @@ public class Converters {
 
     @TypeConverter
     public static String convertFromAnswerStateToName(AnswerState surveyType) {
+        return surveyType.name();
+    }
+
+    @TypeConverter
+    public static EvaluationForm convertFromNameToEvaluationForm(String value) {
+        return EvaluationForm.valueOf(value);
+    }
+
+    @TypeConverter
+    public static String convertFromEvaluationFormToName(EvaluationForm surveyType) {
         return surveyType.name();
     }
 }

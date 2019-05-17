@@ -10,6 +10,7 @@ import com.omegar.mvp.presenter.InjectPresenter;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.ui.screens.report.levels.LevelsFragment;
 import fm.doe.national.ui.screens.report.recommendations.RecommendationsFragment;
 import fm.doe.national.ui.screens.report.summary.SummaryFragment;
 
@@ -30,7 +31,12 @@ public class ReportActivity extends BaseActivity implements ReportView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tabsPagerAdapter = new ReportTabsPagerAdapter(this, new SummaryFragment(), new RecommendationsFragment());
+        tabsPagerAdapter = new ReportTabsPagerAdapter(
+                this,
+                new SummaryFragment(),
+                new RecommendationsFragment(),
+                new LevelsFragment()
+        );
         viewPager.setAdapter(tabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

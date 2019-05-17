@@ -2,6 +2,7 @@
     <type>SCHOOL_ACCREDITATION</type>
     <version>1</version>
     <category>
+        <type>SCHOOL_EVALUATION</type>
         <name>School Evaluation (Principal's interview)</name>
         <standard>
             <id>SE1</id>
@@ -324,6 +325,7 @@
         </standard>
     </category>
     <category>
+        <type>SCHOOL_EVALUATION</type>
         <name>School Evaluation (School Checklist)</name>
         <standard>
             <id>SE5</id>
@@ -431,6 +433,7 @@
         </standard>
     </category>
     <category>
+        <type>SCHOOL_EVALUATION</type>
         <name>School Evaluation (Data Checklist)</name>
         <standard>
             <id>SE3</id>
@@ -641,6 +644,7 @@
         </standard>
     </category>
     <category>
+        <type>CLASSROOM_OBSERVATION</type>
         <name>Classroom Observation</name>
         <standard>
             <id>CO1</id>

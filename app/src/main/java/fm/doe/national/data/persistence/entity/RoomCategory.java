@@ -12,6 +12,7 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.EvaluationForm;
 import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Standard;
 
@@ -27,6 +28,9 @@ public class RoomCategory implements Category {
     @ColumnInfo(name = "survey_id")
     public long surveyId;
 
+    @ColumnInfo(name = "evaluation_form")
+    public EvaluationForm evaluationForm;
+
     public RoomCategory(String title, long surveyId) {
         this.title = title;
         this.surveyId = surveyId;
@@ -35,6 +39,7 @@ public class RoomCategory implements Category {
     public RoomCategory(@NonNull Category other) {
         this.uid = other.getId();
         this.title = other.getTitle();
+        this.evaluationForm = other.getEvaluationForm();
     }
 
     @NonNull
@@ -58,5 +63,10 @@ public class RoomCategory implements Category {
     @Override
     public Progress getProgress() {
         throw new IllegalStateException();
+    }
+
+    @Override
+    public EvaluationForm getEvaluationForm() {
+        return evaluationForm;
     }
 }
