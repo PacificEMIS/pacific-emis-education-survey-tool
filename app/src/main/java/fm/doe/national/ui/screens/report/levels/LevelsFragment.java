@@ -97,7 +97,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         levelTextView.setBackgroundColor(ContextCompat.getColor(getContext(), reportLevel.getColorRes()));
 
         String determinationPrefix = getString(R.string.title_determination_of_overall_level);
-        SpannableString spannableString = new SpannableString(determinationPrefix + " " + reportLevel.getDetermination().getString(getContext()));
+        SpannableString spannableString = new SpannableString(determinationPrefix + " " + reportLevel.getMeaning().getString(getContext()));
         spannableString.setSpan(
                 new TypefaceSpan(getString(R.string.font_medium)),
                 0, determinationPrefix.length(),

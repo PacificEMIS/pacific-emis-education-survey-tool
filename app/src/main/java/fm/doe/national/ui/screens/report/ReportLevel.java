@@ -6,32 +6,33 @@ import androidx.annotation.NonNull;
 import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.R;
+import fm.doe.national.app_support.utils.IntRange;
 
 public enum ReportLevel {
 
     LEVEL_1(
-            50,
+            new IntRange(0, 50),
             Text.from(R.string.report_level_1),
             Text.from(R.string.report_level_1_determination),
             Text.from(R.string.report_level_1_determination_source),
             R.color.red
     ),
     LEVEL_2(
-            75,
+            new IntRange(51, 75),
             Text.from(R.string.report_level_2),
             Text.from(R.string.report_level_2_determination),
             Text.from(R.string.report_level_2_determination_source),
             R.color.yellow
     ),
     LEVEL_3(
-            90,
+            new IntRange(76, 90),
             Text.from(R.string.report_level_3),
             Text.from(R.string.report_level_3_determination),
             Text.from(R.string.report_level_3_determination_source),
             R.color.light_mint
     ),
     LEVEL_4(
-            100,
+            new IntRange(91, 100),
             Text.from(R.string.report_level_4),
             Text.from(R.string.report_level_4_determination),
             Text.from(R.string.report_level_4_determination_source),
@@ -39,24 +40,25 @@ public enum ReportLevel {
 
     private static final float MAX_LEVEL = 100.0f;
 
-    private int max;
+    private IntRange range;
     private Text name;
-    private Text determination;
-    private Text determinationSource;
+    private Text meaning;
+    private Text awards;
 
     @ColorRes
     private int colorRes;
 
-    ReportLevel(int max, Text name, Text determination, Text determinationSource, int colorRes) {
-        this.max = max;
+    ReportLevel(IntRange range, Text name, Text meaning, Text determinationSource, int colorRes) {
+        this.range = range;
         this.name = name;
-        this.determination = determination;
-        this.determinationSource = determinationSource;
+        this.meaning = meaning;
+        this.awards = determinationSource;
         this.colorRes = colorRes;
     }
 
-    public int getMax() {
-        return max;
+    @NonNull
+    public IntRange getRange() {
+        return range;
     }
 
     @NonNull
@@ -70,13 +72,13 @@ public enum ReportLevel {
     }
 
     @NonNull
-    public Text getDetermination() {
-        return determination;
+    public Text getMeaning() {
+        return meaning;
     }
 
     @NonNull
-    public Text getDeterminationSource() {
-        return determinationSource;
+    public Text getAwards() {
+        return awards;
     }
 
     public static ReportLevel estimateLevel(int actual, int required) {
@@ -85,7 +87,7 @@ public enum ReportLevel {
 
     public static ReportLevel estimateLevel(float level) {
         for (ReportLevel value : ReportLevel.values()) {
-            if (level <= value.getMax()) {
+            if (value.getRange().containsValue(level)) {
                 return value;
             }
         }
