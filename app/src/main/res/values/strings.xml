@@ -104,4 +104,28 @@
     <string name="title_report">School Accreditation Status Report</string>
     <string name="label_recommendations">Recommendations</string>
 
+
+    <string name="title_school_accreditation_level">School Accreditation Level</string>
+    <string name="label_total_score">Total Score</string>
+    <string name="report_level_1">Level 1</string>
+    <string name="report_level_1_determination">Not meeting the standards</string>
+    <string name="report_level_1_determination_source">(Special measure)</string>
+    <string name="report_level_2">Level 2</string>
+    <string name="report_level_2_determination">Meeting minimum standards</string>
+    <string name="report_level_2_determination_source">(National Certificate of Accreditation)</string>
+    <string name="report_level_3">Level 3</string>
+    <string name="report_level_3_determination">Meeting the benchmark</string>
+    <string name="report_level_3_determination_source">(National Certificate of Accreditation)</string>
+    <string name="report_level_4">Level 4</string>
+    <string name="report_level_4_determination">Exceeding the benchmark</string>
+    <string name="report_level_4_determination_source">(National Certificate of Accreditation)</string>
+    <string name="title_evaluation_forms">Evaluation Forms</string>
+    <string name="title_obtained_score">Obtained Score</string>
+    <string name="title_multiplier">Multiplier</string>
+    <string name="title_final_score">Final Score</string>
+    <string name="title_determination_of_overall_level">Determination of Overall Level:</string>
+
+    <string name="evaluation_form_school_evaluation">School Evaluation</string>
+    <string name="evaluation_form_classroom_observation">Classroom Observation</string>
+
 </resources>

@@ -44,12 +44,28 @@ public class CollectionUtils {
         return null;
     }
 
+    @Nullable
+    public static <T> T reduce(@NonNull List<T> list, Reducer<T> reducer) {
+        if (list.isEmpty()) {
+            return null;
+        }
+        T result = list.get(0);
+        for (int i = 1; i < list.size(); i++) {
+            result = reducer.reduce(result, list.get(i));
+        }
+        return result;
+    }
+
     public interface ItemMutator<T, E> {
         T mutate(E item);
     }
 
     public interface ItemPredicate<T> {
         boolean test(T item);
+    }
+
+    public interface Reducer<T> {
+        T reduce(T leftValue, T rightValue);
     }
 
 }
