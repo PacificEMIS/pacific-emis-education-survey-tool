@@ -21,7 +21,8 @@ import com.omegar.mvp.presenter.InjectPresenter;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.ui.screens.report.BaseReportFragment;
+import fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView;
+import fm.doe.national.ui.screens.report.base.BaseReportFragment;
 import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class LevelsFragment extends BaseReportFragment implements LevelsView {
@@ -34,6 +35,9 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
     @BindView(R.id.textview_level)
     TextView levelTextView;
+
+    @BindView(R.id.summaryheaderview)
+    SummaryHeaderView summaryHeaderView;
 
     private final EvalutaionFormsAdapter adapter = new EvalutaionFormsAdapter();
 
@@ -103,5 +107,10 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
                 0, determinationPrefix.length(),
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         determinationTextView.setText(spannableString);
+    }
+
+    @Override
+    public void setHeaderItem(SummaryHeaderView.Item item) {
+        summaryHeaderView.setItem(item);
     }
 }

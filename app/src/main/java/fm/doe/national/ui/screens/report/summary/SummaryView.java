@@ -7,10 +7,10 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.ui.screens.report.base.BaseReportView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface SummaryView extends BaseView {
+public interface SummaryView extends BaseReportView {
 
     void setLoadingVisibility(boolean visible);
 

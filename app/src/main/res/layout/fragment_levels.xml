@@ -13,15 +13,20 @@
         tools:itemCount="2"
         tools:listitem="@layout/item_school_accreditation_level">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/layout_titles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_section="header">
 
+            <fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView
+                android:id="@+id/summaryheaderview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <include layout="@layout/item_school_accreditation_level" />
 
-        </FrameLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/layout_total_scores"

@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.report;
+package fm.doe.national.ui.screens.report.base;
 
 import com.omega_r.libs.omegatypes.Text;
 

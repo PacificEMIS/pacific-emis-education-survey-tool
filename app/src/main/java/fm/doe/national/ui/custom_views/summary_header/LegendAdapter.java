@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.report;
+package fm.doe.national.ui.custom_views.summary_header;
 
 import android.graphics.PorterDuff;
 import android.view.ViewGroup;
@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.IntRange;
+import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class LegendAdapter extends BaseListAdapter<ReportLevel> {
 

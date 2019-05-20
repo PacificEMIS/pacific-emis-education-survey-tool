@@ -3,10 +3,10 @@ package fm.doe.national.ui.screens.report.levels;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.ui.screens.report.base.BaseReportView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface LevelsView extends BaseView {
+public interface LevelsView extends BaseReportView {
 
     void setLoadingVisible(boolean visible);
 
