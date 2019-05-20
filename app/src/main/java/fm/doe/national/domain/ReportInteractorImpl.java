@@ -9,7 +9,6 @@ import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.EvaluationForm;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.data.model.Survey;
@@ -100,13 +99,12 @@ public class ReportInteractorImpl implements ReportInteractor {
             for (Category category : survey.getCategories()) {
                 AccreditationForm.Builder formBuilder = CollectionUtils.firstWhere(
                         formBuilders,
-                        it -> it.getName() == category.getEvaluationForm().getName()
+                        it -> it.getForm() == category.getEvaluationForm()
                 );
 
                 if (formBuilder == null) {
                     formBuilder = new AccreditationForm.Builder()
-                            .setName(category.getEvaluationForm().getName())
-                            .setMultiplier(calculateFormMultiplier(category.getEvaluationForm())); // TODO: this one is temp
+                            .setForm(category.getEvaluationForm());
                     formBuilders.add(formBuilder);
                 }
 
@@ -130,6 +128,7 @@ public class ReportInteractorImpl implements ReportInteractor {
                             totalQuestions,
                             criteriaSummaryViewDataList
                     ));
+                    formBuilder.addQuestionsCount(totalQuestions);
                 }
             }
 
@@ -155,17 +154,6 @@ public class ReportInteractorImpl implements ReportInteractor {
         }
 
         return new SummaryViewData.CriteriaSummaryViewData(criteria.getSuffix(), positivesArray, totalByCriteria);
-    }
-
-    private float calculateFormMultiplier(EvaluationForm evaluationForm) {
-        // TODO: this is temp logic so change it when client answers
-        switch (evaluationForm) {
-            case CLASSROOM_OBSERVATION:
-                return 0.1667f;
-            case SCHOOL_EVALUATION:
-                return 0.9375f;
-        }
-        return 0f;
     }
 
     private void requestRecommendationsReport(Survey survey) {

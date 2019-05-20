@@ -2,6 +2,9 @@ package fm.doe.national.ui.screens.report.levels;
 
 import com.omega_r.libs.omegatypes.Text;
 
+import fm.doe.national.BuildConfig;
+import fm.doe.national.data.model.EvaluationForm;
+
 public class AccreditationForm {
 
     private final Text name;
@@ -34,21 +37,21 @@ public class AccreditationForm {
 
     public static class Builder {
 
-        private Text name = Text.empty();
         private int obtainedScore = 0;
-        private float multiplier = 0f;
+        private int questionsCount = 0;
+        private EvaluationForm form;
 
         public AccreditationForm build() {
-            return new AccreditationForm(name, obtainedScore, multiplier, obtainedScore * multiplier);
-        }
-
-        public Builder setName(Text name) {
-            this.name = name;
-            return this;
-        }
-
-        public Text getName() {
-            return name;
+            float multiplier = 0.0f;
+            switch (form) {
+                case CLASSROOM_OBSERVATION:
+                    multiplier = BuildConfig.CLASSROOM_OBSERVATION_LEVEL_MULTIPLIER / questionsCount;
+                    break;
+                case SCHOOL_EVALUATION:
+                    multiplier = BuildConfig.SCHOOL_EVALUATION_LEVEL_MULTIPLIER / questionsCount;
+                    break;
+            }
+            return new AccreditationForm(form.getName(), obtainedScore, multiplier, obtainedScore * multiplier);
         }
 
         public Builder addObtainedScore(int obtainedScore) {
@@ -56,9 +59,19 @@ public class AccreditationForm {
             return this;
         }
 
-        public Builder setMultiplier(float multiplier) {
-            this.multiplier = multiplier;
+        public Builder addQuestionsCount(int count) {
+            this.questionsCount += count;
             return this;
         }
+
+        public Builder setForm(EvaluationForm form) {
+            this.form = form;
+            return this;
+        }
+
+        public EvaluationForm getForm() {
+            return form;
+        }
+
     }
 }
