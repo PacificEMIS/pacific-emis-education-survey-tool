@@ -27,7 +27,7 @@
         app:dividerPadding="24dp"
         app:layoutManager="LinearLayoutManager"
         app:dividerShow="middle"
-        app:alphaDivider="0.25" />
+        app:dividerAlpha="0.25" />
 
     <View
         android:layout_width="match_parent"

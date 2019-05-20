@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:orientation="horizontal"
-    android:weightSum="@integer/weight_summary_rates">
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/textview_criteria_title"
@@ -29,6 +28,11 @@
 
     <fm.doe.national.ui.screens.report.summary.SummaryTextView
         android:id="@+id/textview_cell_4"
+        style="@style/CriteriaSummaryCell"
+        tools:text="1" />
+
+    <fm.doe.national.ui.screens.report.summary.SummaryTextView
+        android:id="@+id/textview_cell_5"
         style="@style/CriteriaSummaryCell"
         tools:text="1" />
 

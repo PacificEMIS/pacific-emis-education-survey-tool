@@ -35,7 +35,7 @@
                 android:theme="@style/BaseThemeRecyclerView"
                 app:layoutManager="LinearLayoutManager"
                 app:dividerShow="middle"
-                app:alphaDivider="0.25"
+                app:dividerAlpha="0.25"
                 app:dividerPadding="24dp"/>
 
             <View

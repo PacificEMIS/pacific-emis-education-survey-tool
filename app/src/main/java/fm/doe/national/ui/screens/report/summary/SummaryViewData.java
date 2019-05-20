@@ -12,11 +12,19 @@ public class SummaryViewData {
     private int totalByStandard;
     private List<CriteriaSummaryViewData> criteriaSummaryViewDataList;
 
+    public static SummaryViewData categoryOnly(Category category) {
+        return new SummaryViewData(category, null, 0, null);
+    }
+
     public SummaryViewData(Category category, Standard standard, int totalByStandard, List<CriteriaSummaryViewData> criteriaSummaryViewDataList) {
         this.category = category;
         this.standard = standard;
         this.totalByStandard = totalByStandard;
         this.criteriaSummaryViewDataList = criteriaSummaryViewDataList;
+    }
+
+    public boolean isCategoryOnly() {
+        return standard == null;
     }
 
     public Category getCategory() {

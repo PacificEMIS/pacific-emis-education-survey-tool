@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SummaryRow"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    style="@style/SummaryRow">
+    android:weightSum="100">
 
-    <View style="@style/HeaderNameSummaryCell"/>
+    <View style="@style/HeaderNameSummaryCell" />
 
-    <View style="@style/HeaderItemSummaryCell"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="@integer/weight_summary_rates"
+        android:orientation="horizontal">
+
+        <View style="@style/HeaderItemSummaryCell" />
+
+        <TextView
+            style="@style/HeaderItemSummaryCell"
+            android:text="@string/first_subcriteria" />
+
+        <TextView
+            style="@style/HeaderItemSummaryCell"
+            android:text="@string/second_subcriteria" />
+
+        <TextView
+            style="@style/HeaderItemSummaryCell"
+            android:text="@string/third_subcriteria" />
+
+        <TextView
+            style="@style/HeaderItemSummaryCell"
+            android:text="@string/forth_subcriteria" />
+
+        <TextView
+            android:id="@+id/textview_subcriteria_5"
+            style="@style/HeaderItemSummaryCell"
+            android:text="@string/fifth_subcriteria" />
+
+        <TextView
+            style="@style/HeaderItemSummaryCell"
+            android:text="@string/title_total" />
+
+    </LinearLayout>
 
     <TextView
         style="@style/HeaderItemSummaryCell"
-        android:text="@string/first_subcriteria"/>
-
-    <TextView
-        style="@style/HeaderItemSummaryCell"
-        android:text="@string/second_subcriteria"/>
-
-    <TextView
-        style="@style/HeaderItemSummaryCell"
-        android:text="@string/third_subcriteria"/>
-
-    <TextView
-        style="@style/HeaderItemSummaryCell"
-        android:text="@string/forth_subcriteria"/>
-
-    <TextView
-        style="@style/HeaderItemSummaryCell"
-        android:text="@string/title_total"/>
-
-    <TextView
-        style="@style/HeaderItemSummaryCell"
-        android:text="@string/title_total_by_standards"/>
+        android:text="@string/title_total_by_standards" />
 
 </LinearLayout>

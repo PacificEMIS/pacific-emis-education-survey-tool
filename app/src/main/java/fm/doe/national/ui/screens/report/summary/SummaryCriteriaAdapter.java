@@ -1,11 +1,10 @@
 package fm.doe.national.ui.screens.report.summary;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
         @BindView(R.id.textview_total)
         TextView totalTextView;
 
-        @BindViews({R.id.textview_cell_1, R.id.textview_cell_2, R.id.textview_cell_3, R.id.textview_cell_4})
+        @BindViews({R.id.textview_cell_1, R.id.textview_cell_2, R.id.textview_cell_3, R.id.textview_cell_4, R.id.textview_cell_5})
         List<SummaryTextView> cellTextViews;
 
         ItemViewHolder(ViewGroup parent) {
@@ -49,9 +48,11 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
             for (int i = 0; i < cellTextViews.size(); i++) {
                 cellTextViews.get(i).setText(isAnsweredAt(i) ? MARK_ANSWERED : MARK_NOT_ANSWERED);
             }
+
+            int cellsCount = cellTextViews.size();
+            cellTextViews.get(cellsCount - 1).setVisibility(item.getAnswerStates().length < cellsCount ? View.GONE : View.VISIBLE);
         }
 
-        @NotNull
         private boolean isAnsweredAt(int index) {
             if (index < getItem().getAnswerStates().length) {
                 return getItem().getAnswerStates()[index];
