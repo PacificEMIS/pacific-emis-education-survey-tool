@@ -4,6 +4,7 @@ import java.util.List;
 
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Standard;
+import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class SummaryViewData {
 
@@ -11,16 +12,24 @@ public class SummaryViewData {
     private Standard standard;
     private int totalByStandard;
     private List<CriteriaSummaryViewData> criteriaSummaryViewDataList;
+    private ReportLevel level;
 
     public static SummaryViewData categoryOnly(Category category) {
-        return new SummaryViewData(category, null, 0, null);
+        return new SummaryViewData(category, null, 0, 0, null);
     }
 
-    public SummaryViewData(Category category, Standard standard, int totalByStandard, List<CriteriaSummaryViewData> criteriaSummaryViewDataList) {
+    public SummaryViewData(Category category,
+                           Standard standard,
+                           int totalByStandard,
+                           int questionsCount,
+                           List<CriteriaSummaryViewData> criteriaSummaryViewDataList) {
         this.category = category;
         this.standard = standard;
         this.totalByStandard = totalByStandard;
         this.criteriaSummaryViewDataList = criteriaSummaryViewDataList;
+        if (questionsCount > 0) {
+            this.level = ReportLevel.estimateLevel(totalByStandard, questionsCount);
+        }
     }
 
     public boolean isCategoryOnly() {
@@ -41,6 +50,10 @@ public class SummaryViewData {
 
     public List<CriteriaSummaryViewData> getCriteriaSummaryViewDataList() {
         return criteriaSummaryViewDataList;
+    }
+
+    public ReportLevel getLevel() {
+        return level;
     }
 
     public static class CriteriaSummaryViewData {

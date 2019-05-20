@@ -113,15 +113,23 @@ public class ReportInteractorImpl implements ReportInteractor {
                 for (Standard standard : category.getStandards()) {
                     List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
                     int totalByStandard = 0;
+                    int totalQuestions = 0;
 
                     for (Criteria criteria : standard.getCriterias()) {
                         SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
                         totalByStandard += data.getTotal();
+                        totalQuestions += data.getAnswerStates().length;
                         criteriaSummaryViewDataList.add(data);
                     }
 
                     formBuilder.addObtainedScore(totalByStandard);
-                    summaryViewDataList.add(new SummaryViewData(category, standard, totalByStandard, criteriaSummaryViewDataList));
+                    summaryViewDataList.add(new SummaryViewData(
+                            category,
+                            standard,
+                            totalByStandard,
+                            totalQuestions,
+                            criteriaSummaryViewDataList
+                    ));
                 }
             }
 

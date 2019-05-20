@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
@@ -111,6 +112,7 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
             nameTextView.setText(spannableString);
 
             totalTextView.setText(String.valueOf(item.getTotalByStandard()));
+            totalTextView.setBackgroundColor(ContextCompat.getColor(getContext(), item.getLevel().getColorRes()));
 
             adapter.setItems(item.getCriteriaSummaryViewDataList());
         }
