@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.school_accreditation;
+package fm.doe.national.ui.screens.all_surveys;
 
 import com.omegar.mvp.InjectViewState;
 
@@ -15,7 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccreditationView> {
+public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
@@ -25,7 +25,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
     private Survey passingToDelete;
 
     @Override
-    public void attachView(SchoolAccreditationView view) {
+    public void attachView(AllSurveysView view) {
         super.attachView(view);
         loadRecentPassings();
     }

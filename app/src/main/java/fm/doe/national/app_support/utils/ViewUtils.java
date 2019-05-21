@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +32,6 @@ public class ViewUtils {
     }
 
     public static void rebindProgress(Progress progressData,
-                                      @NonNull String progtessStringPattern,
                                       @Nullable TextView textView,
                                       @Nullable ProgressBar progressBar) {
         int done = progressData.getCompleted();
@@ -42,7 +40,7 @@ public class ViewUtils {
 
         if (textView != null) {
             textView.setActivated(progress == 100);
-            textView.setText(String.format(progtessStringPattern, done, total));
+            textView.setText(textView.getContext().getString(R.string.criteria_progress, done, total));
         }
 
         if (progressBar != null) {

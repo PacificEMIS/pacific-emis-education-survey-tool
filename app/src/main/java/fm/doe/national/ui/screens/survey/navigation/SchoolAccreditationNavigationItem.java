@@ -1,0 +1,62 @@
+package fm.doe.national.ui.screens.survey.navigation;
+
+import androidx.annotation.NonNull;
+
+import com.omega_r.libs.omegatypes.Text;
+
+import org.jetbrains.annotations.NotNull;
+
+import fm.doe.national.R;
+import fm.doe.national.data.model.Category;
+import fm.doe.national.data.model.Progress;
+import fm.doe.national.data.model.Standard;
+import fm.doe.national.ui.screens.base.BaseFragment;
+
+public class SchoolAccreditationNavigationItem implements ProgressableNavigationItem {
+
+    private final Category category;
+    private final Standard standard;
+    private final Text namePrefix;
+    private final Text name;
+    private final Text criteriaName;
+
+    public SchoolAccreditationNavigationItem(Category criteria, Standard standard) {
+        this.category = criteria;
+        this.standard = standard;
+        this.namePrefix =  Text.from(R.string.format_standard, standard.getSuffix());
+        this.name =  Text.from(standard.getTitle());
+        this.criteriaName = Text.from(criteria.getTitle());
+    }
+
+    @Override
+    public Text getNamePrefix() {
+        return namePrefix;
+    }
+
+    @NonNull
+    @Override
+    public Progress getProgress() {
+        return standard.getProgress();
+    }
+
+    @NotNull
+    @Override
+    public BaseFragment buildFragment() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Text getName() {
+        return name;
+    }
+
+    @Override
+    public long getHeaderId() {
+        return category.getId();
+    }
+
+    @Override
+    public Text getHeader() {
+        return criteriaName;
+    }
+}

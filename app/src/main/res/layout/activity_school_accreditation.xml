@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".ui.screens.school_accreditation.SchoolAccreditationActivity">
+    tools:context=".ui.screens.all_surveys.AllSurveysActivity">
 
     <include layout="@layout/include_appbar" />
 
@@ -41,7 +41,7 @@
             android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             app:backgroundTint="@color/colorPrimary"
-            app:layout_behavior="fm.doe.national.ui.screens.school_accreditation.FloatingActionButtonBehavior"
+            app:layout_behavior="fm.doe.national.ui.screens.all_surveys.FloatingActionButtonBehavior"
             app:srcCompat="@drawable/ic_plus"
             android:scaleType="center"/>
 

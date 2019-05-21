@@ -8,7 +8,6 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
 import fm.doe.national.data.model.Category;
-import fm.doe.national.data.model.Progress;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class CategoriesListAdapter
@@ -41,15 +40,7 @@ public class CategoriesListAdapter
         @Override
         public void onBind(Category item) {
             categoryNameTextView.setText(item.getTitle());
-
-            Progress progress = item.getProgress();
-            ViewUtils.rebindProgress(
-                    item.getProgress(),
-                    getString(R.string.criteria_progress),
-                    progressTextView,
-                    progressBar
-            );
-
+            ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
             itemView.setOnClickListener(this);
         }
     }

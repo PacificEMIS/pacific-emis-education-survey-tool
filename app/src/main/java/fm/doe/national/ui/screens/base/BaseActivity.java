@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,8 +28,8 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.ui.custom_views.ProgressDialogFragment;
 import fm.doe.national.app_support.utils.DateUtils;
+import fm.doe.national.ui.custom_views.ProgressDialogFragment;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
@@ -187,6 +188,11 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         dialog.setCancelable(false);
         dialog.show(getSupportFragmentManager(), TAG_PROGRESS_DIALOG);
         return dialog;
+    }
+
+    protected void replaceFragment(@IdRes int containerId, BaseFragment fragment) {
+        if (getFragmentManager() == null) return;
+        getSupportFragmentManager().beginTransaction().replace(containerId, fragment).commit();
     }
 
     protected enum ToolbarDisplaying {

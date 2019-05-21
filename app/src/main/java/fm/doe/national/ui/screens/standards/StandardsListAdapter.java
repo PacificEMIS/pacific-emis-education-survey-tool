@@ -60,10 +60,7 @@ public class StandardsListAdapter extends BaseAdapter<Standard> {
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             standardNameTextView.setText(spannableString);
 
-            ViewUtils.rebindProgress(
-                    item.getProgress(),
-                    getString(R.string.criteria_progress),
-                    progressTextView, progressBar);
+            ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
 
             itemView.setOnClickListener(this);
         }

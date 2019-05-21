@@ -120,10 +120,10 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
 
             if (expandedCriteriaIds.contains(item.getId())) {
                 subcriteriasRecycler.setVisibility(View.VISIBLE);
-                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_less_24dp);
+                arrowImageView.setImageResource(R.drawable.ic_expand_less_24dp);
             } else {
                 subcriteriasRecycler.setVisibility(View.GONE);
-                arrowImageView.setImageResource(R.drawable.ic_criteria_expand_more_24dp);
+                arrowImageView.setImageResource(R.drawable.ic_expand_more_24dp);
             }
 
             header.setOnClickListener((View v) -> {
@@ -146,11 +146,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         }
 
         private void rebindProgress(Progress progress) {
-            ViewUtils.rebindProgress(
-                    progress,
-                    getString(R.string.criteria_progress),
-                    progressTextView,
-                    progressBar);
+            ViewUtils.rebindProgress(progress, progressTextView, progressBar);
         }
 
     }

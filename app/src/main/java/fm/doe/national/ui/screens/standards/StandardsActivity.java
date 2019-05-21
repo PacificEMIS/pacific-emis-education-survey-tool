@@ -64,10 +64,7 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
 
     @Override
     public void setGlobalProgress(int completed, int total) {
-        ViewUtils.rebindProgress(
-                new MutableProgress(total, completed),
-                getString(R.string.criteria_progress),
-                progressTextView, progressBar);
+        ViewUtils.rebindProgress(new MutableProgress(total, completed), progressTextView, progressBar);
     }
 
     @Override

@@ -103,8 +103,8 @@
     <string name="transition_tag_splash_logo">transition_tag_splash_logo</string>
 
     <string name="title_report">School Accreditation Status Report</string>
+    <string name="title_report_short">Report</string>
     <string name="label_recommendations">Recommendations</string>
-
 
     <string name="title_school_accreditation_level">School Accreditation Level</string>
     <string name="label_total_score">Total Score</string>
