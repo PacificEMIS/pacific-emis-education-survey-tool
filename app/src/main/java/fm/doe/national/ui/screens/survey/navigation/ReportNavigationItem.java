@@ -12,7 +12,7 @@ public class ReportNavigationItem implements NavigationItem {
 
     @Override
     public BaseFragment buildFragment() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

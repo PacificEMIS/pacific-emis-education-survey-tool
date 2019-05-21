@@ -86,7 +86,8 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
 
     @Override
     public void navigateToCategoryChooser() {
-//        startActivity(new Intent(this, SurveyActivity.class)); this is future navigation
+        // TODO: this is future navigation
+//        startActivity(new Intent(this, SurveyActivity.class));
         startActivity(CategoriesActivity.createIntent(this));
     }
 

@@ -39,7 +39,7 @@ public class SchoolAccreditationNavigationItem implements ProgressableNavigation
 
     @Override
     public BaseFragment buildFragment() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
