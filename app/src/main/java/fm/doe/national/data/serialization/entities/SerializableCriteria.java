@@ -8,11 +8,11 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.SubCriteria;
-import fm.doe.national.app_support.utils.CollectionUtils;
 
 @Root(name = "criteria")
 public class SerializableCriteria implements Criteria {
@@ -33,7 +33,9 @@ public class SerializableCriteria implements Criteria {
     public SerializableCriteria(@NonNull Criteria other) {
         this.name = other.getTitle();
         this.index = other.getSuffix();
-        this.subCriterias = CollectionUtils.map(other.getSubCriterias(), SerializableSubCriteria::new);
+        if (other.getSubCriterias() != null) {
+            this.subCriterias = other.getSubCriterias().stream().map(SerializableSubCriteria::new).collect(Collectors.toList());
+        }
     }
 
     @NonNull

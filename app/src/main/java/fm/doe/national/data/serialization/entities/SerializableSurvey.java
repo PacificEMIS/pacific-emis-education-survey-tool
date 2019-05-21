@@ -10,13 +10,13 @@ import org.simpleframework.xml.convert.Convert;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.serialization.converters.SurveyTypeConverter;
-import fm.doe.national.app_support.utils.CollectionUtils;
 
 
 @Root(name = "survey")
@@ -53,7 +53,9 @@ public class SerializableSurvey implements Survey {
         this.date = other.getDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
-        this.categories = CollectionUtils.map(other.getCategories(), SerializableCategory::new);
+        if (other.getCategories() != null) {
+            this.categories = other.getCategories().stream().map(SerializableCategory::new).collect(Collectors.toList());
+        }
     }
 
     @Override

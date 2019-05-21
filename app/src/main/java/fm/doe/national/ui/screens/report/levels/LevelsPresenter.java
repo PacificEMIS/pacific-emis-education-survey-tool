@@ -10,7 +10,6 @@ import io.reactivex.schedulers.Schedulers;
 public class LevelsPresenter extends BaseReportPresenter<LevelsView> {
 
     LevelsPresenter() {
-        super();
         loadSchoolAccreditationLevel();
     }
 

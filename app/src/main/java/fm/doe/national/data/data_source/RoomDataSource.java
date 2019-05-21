@@ -7,6 +7,8 @@ import androidx.room.Room;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.data.model.Answer;
@@ -32,7 +34,6 @@ import fm.doe.national.data.persistence.entity.RoomSchool;
 import fm.doe.national.data.persistence.entity.RoomStandard;
 import fm.doe.national.data.persistence.entity.RoomSubCriteria;
 import fm.doe.national.data.persistence.entity.RoomSurvey;
-import fm.doe.national.app_support.utils.CollectionUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -208,27 +209,27 @@ public class RoomDataSource implements DataSource {
         })
                 .flatMap(mutableAnswer -> {
                     List<MutablePhoto> existingPhotos = mutableAnswer.getPhotos();
-                    List<MutablePhoto> expectedPhotos = CollectionUtils.map(answer.getPhotos(), MutablePhoto::new);
+                    List<MutablePhoto> expectedPhotos = answer.getPhotos() == null ? new ArrayList<>() : answer.getPhotos().stream()
+                            .map(MutablePhoto::new).collect(Collectors.toList());
                     // Note: update photo === delete + create
                     List<MutablePhoto> photosToDelete = new ArrayList<>();
                     List<MutablePhoto> photosToCreate = new ArrayList<>();
                     List<MutablePhoto> photosToUpdate = new ArrayList<>();
 
                     for (MutablePhoto existingPhoto : existingPhotos) {
-                        MutablePhoto updatedPhoto = CollectionUtils.firstWhere(
-                                expectedPhotos,
-                                p -> p.getId() == existingPhoto.getId()
-                        );
+                        Optional<MutablePhoto> updatedPhoto = expectedPhotos.stream()
+                                .filter(p -> p.getId() == existingPhoto.getId())
+                                .findFirst();
 
-                        if (updatedPhoto == null) {
+                        if (!updatedPhoto.isPresent()) {
                             photosToDelete.add(existingPhoto);
                             continue;
                         }
 
-                        expectedPhotos.remove(updatedPhoto);
+                        expectedPhotos.remove(updatedPhoto.get());
 
-                        if (!existingPhoto.equals(updatedPhoto)) {
-                            photosToUpdate.add(updatedPhoto);
+                        if (!existingPhoto.equals(updatedPhoto.get())) {
+                            photosToUpdate.add(updatedPhoto.get());
                         }
                     }
 

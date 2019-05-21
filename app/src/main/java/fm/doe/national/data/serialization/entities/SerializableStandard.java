@@ -7,12 +7,13 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.model.Progress;
 import fm.doe.national.data.model.Standard;
-import fm.doe.national.app_support.utils.CollectionUtils;
 
 @Root(name = "standard")
 public class SerializableStandard implements Standard {
@@ -20,9 +21,9 @@ public class SerializableStandard implements Standard {
     @Element
     String name;
 
-    @Nullable
+    @NonNull
     @ElementList(inline = true, required = false)
-    List<SerializableCriteria> criterias;
+    List<SerializableCriteria> criterias = Collections.emptyList();
 
     @Nullable
     @Element(name = "id", required = false)
@@ -34,7 +35,9 @@ public class SerializableStandard implements Standard {
     public SerializableStandard(@NonNull Standard other) {
         this.name = other.getTitle();
         this.index = other.getSuffix();
-        this.criterias = CollectionUtils.map(other.getCriterias(), SerializableCriteria::new);
+        if (other.getCriterias() != null) {
+            this.criterias = other.getCriterias().stream().map(SerializableCriteria::new).collect(Collectors.toList());
+        }
     }
 
     @NonNull

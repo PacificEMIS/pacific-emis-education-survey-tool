@@ -48,10 +48,11 @@
             android:orientation="horizontal"
             app:layout_section="footer">
 
-            <TextView
+            <com.omega_r.libs.views.OmegaTextView
                 android:id="@+id/textview_determination"
                 style="@style/SchoolAccreditationTableCell.Name.Large"
-                android:text="@string/title_determination_of_overall_level" />
+                app:startText="@string/title_determination_of_overall_level"
+                app:startTextFont="@string/font_medium"/>
 
             <TextView
                 android:id="@+id/textview_level"

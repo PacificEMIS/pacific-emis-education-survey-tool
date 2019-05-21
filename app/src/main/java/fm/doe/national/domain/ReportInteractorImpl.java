@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Criteria;
@@ -77,17 +77,15 @@ public class ReportInteractorImpl implements ReportInteractor {
     }
 
     private void requestHeader(Survey survey) {
-        Schedulers.computation().scheduleDirect(() -> {
-            headerSubject.onNext(
-                    new SummaryHeaderView.Item(
-                            survey.getSchoolId(),
-                            survey.getSchoolName(),
-                            survey.getDate(),
-                            null, // TODO: not implemented
-                            Arrays.asList(ReportLevel.values())
-                            )
-            );
-        });
+        Schedulers.computation().scheduleDirect(() -> headerSubject.onNext(
+                new SummaryHeaderView.Item(
+                        survey.getSchoolId(),
+                        survey.getSchoolName(),
+                        survey.getDate(),
+                        null, // TODO: not implemented
+                        Arrays.asList(ReportLevel.values())
+                        )
+        ));
     }
 
     private void requestSummaryAndLevelReports(Survey survey) {
@@ -97,16 +95,15 @@ public class ReportInteractorImpl implements ReportInteractor {
             List<AccreditationForm.Builder> formBuilders = new ArrayList<>();
 
             for (Category category : survey.getCategories()) {
-                AccreditationForm.Builder formBuilder = CollectionUtils.firstWhere(
-                        formBuilders,
-                        it -> it.getForm() == category.getEvaluationForm()
-                );
-
-                if (formBuilder == null) {
-                    formBuilder = new AccreditationForm.Builder()
-                            .setForm(category.getEvaluationForm());
-                    formBuilders.add(formBuilder);
-                }
+                AccreditationForm.Builder formBuilder = formBuilders.stream()
+                        .filter(it -> it.getForm() == category.getEvaluationForm())
+                        .findFirst()
+                        .orElseGet(() -> {
+                            AccreditationForm.Builder builder = new AccreditationForm.Builder()
+                                    .setForm(category.getEvaluationForm());
+                            formBuilders.add(builder);
+                            return builder;
+                        });
 
                 for (Standard standard : category.getStandards()) {
                     List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
@@ -133,7 +130,9 @@ public class ReportInteractorImpl implements ReportInteractor {
             }
 
             summarySubject.onNext(summaryViewDataList);
-            levelSubject.onNext(new SchoolAccreditationLevel(CollectionUtils.map(formBuilders, AccreditationForm.Builder::build)));
+            levelSubject.onNext(new SchoolAccreditationLevel(formBuilders.stream()
+                    .map(AccreditationForm.Builder::build).collect(Collectors.toList()))
+            );
         });
     }
 

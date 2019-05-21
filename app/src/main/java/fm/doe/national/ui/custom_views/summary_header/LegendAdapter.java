@@ -1,21 +1,31 @@
 package fm.doe.national.ui.custom_views.summary_header;
 
-import android.graphics.PorterDuff;
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.app_support.utils.IntRange;
 import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class LegendAdapter extends BaseListAdapter<ReportLevel> {
+
+    private static final Map<ReportLevel, ColorStateList> COLOR_STATE_LIST_MAP = new HashMap<>();
+
+    public LegendAdapter(Context context) {
+        for (ReportLevel value : ReportLevel.values()) {
+            COLOR_STATE_LIST_MAP.put(value, ColorStateList.valueOf( ContextCompat.getColor(context, value.getColorRes())));
+        }
+    }
 
     @Override
     protected ViewHolder provideViewHolder(ViewGroup parent) {
@@ -24,14 +34,11 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
 
     class ItemViewHolder extends ViewHolder {
 
-        @BindView(R.id.imageview_icon)
-        ImageView iconImageView;
-
         @BindView(R.id.textview_name)
         TextView nameTextView;
 
         @BindView(R.id.textview_description)
-        TextView desctiptionTextView;
+        TextView descriptionTextView;
 
         public ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_level_legend);
@@ -40,28 +47,27 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
 
         @Override
         protected void onBind(ReportLevel item) {
-            iconImageView.setColorFilter(ContextCompat.getColor(getContext(), item.getColorRes()), PorterDuff.Mode.SRC_IN);
+            nameTextView.setCompoundDrawableTintList(COLOR_STATE_LIST_MAP.get(item));
             nameTextView.setText(buildLevelName(item));
-            desctiptionTextView.setText(buildLevelDescription(item));
+            descriptionTextView.setText(buildLevelDescription(item));
         }
 
         private String buildLevelName(ReportLevel item) {
             StringBuilder stringBuilder = new StringBuilder()
                     .append(item.getName().getString(getContext()))
                     .append(" (");
-            IntRange range = item.getRange();
 
-            if (range.getEnd() < 100) {
+            if (item.getMaxValue() < 100) {
                 stringBuilder
-                        .append(range.getStart())
+                        .append(item.getMinValue())
                         .append("-")
-                        .append(range.getEnd())
+                        .append(item.getMaxValue())
                         .append("%");
             } else {
                 stringBuilder
                         .append(getString(R.string.above))
                         .append(" ")
-                        .append(range.getStart() - 1)
+                        .append(item.getMinValue() - 1)
                         .append("%");
             }
 

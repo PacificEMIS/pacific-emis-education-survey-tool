@@ -124,15 +124,15 @@
     <string name="title_obtained_score">Obtained Score</string>
     <string name="title_multiplier">Multiplier</string>
     <string name="title_final_score">Final Score</string>
-    <string name="title_determination_of_overall_level">Determination of Overall Level:</string>
+    <string name="title_determination_of_overall_level">Determination of Overall Level: </string>
 
     <string name="evaluation_form_school_evaluation">School Evaluation</string>
     <string name="evaluation_form_classroom_observation">Classroom Observation</string>
 
-    <string name="label_school_code">School Code:</string>
-    <string name="label_date_of_accreditation">Date of Accreditation Visit:</string>
-    <string name="label_school_name">School Name:</string>
-    <string name="label_principal_name">Name of School Principal:</string>
+    <string name="label_school_code">School Code: </string>
+    <string name="label_date_of_accreditation">Date of Accreditation Visit: </string>
+    <string name="label_school_name">School Name: </string>
+    <string name="label_principal_name">Name of School Principal: </string>
     <string name="label_level_legend">Level Legend</string>
     <string name="above">Above</string>
 

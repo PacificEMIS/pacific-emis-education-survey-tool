@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "fm.doe.national"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
@@ -110,6 +110,7 @@ dependencies {
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.6@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.2.0'
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
+    implementation 'com.github.Omega-R:OmegaViews:1.0.0'
 
     // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"

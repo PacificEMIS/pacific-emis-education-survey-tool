@@ -19,12 +19,12 @@ import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class SummaryHeaderView extends LinearLayout {
 
-    private final LegendAdapter legendAdapter = new LegendAdapter();
+    private final LegendAdapter legendAdapter = new LegendAdapter(getContext());
 
     @BindView(R.id.textview_school_code)
     TextView schoolIdTextView;
 
-    @BindView(R.id.textview_visit_date_code)
+    @BindView(R.id.textview_visit_date)
     TextView visitDateTextView;
 
     @BindView(R.id.textview_school_name)

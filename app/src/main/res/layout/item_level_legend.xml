@@ -5,30 +5,18 @@
     android:layout_height="50dp"
     android:orientation="horizontal">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/textview_name"
+        style="@style/ReportTextAppearance.Level"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/imageview_icon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/ellipse" />
-
-        <TextView
-            android:id="@+id/textview_name"
-            style="@style/ReportTextAppearance.Level"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
-            tools:text="Level 4 (Above 90%)" />
-
-    </LinearLayout>
+        android:layout_marginStart="16dp"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ellipse"
+        android:drawablePadding="16dp"
+        tools:text="Level 4 (Above 90%)" />
 
     <TextView
         android:id="@+id/textview_description"

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Date;
 
 import fm.doe.national.data.model.AnswerState;
+import fm.doe.national.data.model.EvaluationForm;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.persistence.AppDatabase;
 import fm.doe.national.data.persistence.entity.RoomAnswer;
@@ -40,7 +41,7 @@ public class RoomTestData {
     }
 
     public static RoomCategory getCategoryFor_createDeleteTest(long surveyId) {
-        return new RoomCategory("RoomCategory One", surveyId);
+        return new RoomCategory("RoomCategory One", surveyId, EvaluationForm.SCHOOL_EVALUATION);
     }
 
     public static RoomStandard getTestStandard(long categoryId) {

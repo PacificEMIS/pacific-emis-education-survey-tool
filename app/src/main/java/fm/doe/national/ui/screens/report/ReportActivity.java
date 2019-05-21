@@ -30,7 +30,7 @@ public class ReportActivity extends BaseActivity implements ReportView {
             new SummaryFragment(),
             new RecommendationsFragment(),
             new LevelsFragment()
-    );;
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

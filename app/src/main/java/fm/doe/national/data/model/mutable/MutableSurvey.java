@@ -5,8 +5,8 @@ import androidx.annotation.Nullable;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.SurveyType;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomSurvey;
@@ -38,12 +38,14 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         this.date = other.getDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
-        this.categories = CollectionUtils.map(other.getCategories(), MutableCategory::new);
+        if (other.getCategories() != null) {
+            this.categories = other.getCategories().stream().map(MutableCategory::new).collect(Collectors.toList());
+        }
     }
 
     public MutableSurvey(@NonNull RelativeRoomSurvey relativeRoomSurvey) {
         this(relativeRoomSurvey.survey);
-        categories = CollectionUtils.map(relativeRoomSurvey.categories, MutableCategory::new);
+        categories = relativeRoomSurvey.categories.stream().map(MutableCategory::new).collect(Collectors.toList());
     }
 
     @Override
@@ -105,6 +107,7 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         this.categories = categories;
     }
 
+    @NonNull
     public MutableProgress getProgress() {
         return progress;
     }

@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Criteria;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomCriteria;
 
@@ -23,12 +23,14 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.id = other.getId();
         this.title = other.getTitle();
         this.suffix = other.getSuffix();
-        this.subCriteriaList = CollectionUtils.map(other.getSubCriterias(), MutableSubCriteria::new);
+        if (other.getSubCriterias() != null) {
+            this.subCriteriaList = other.getSubCriterias().stream().map(MutableSubCriteria::new).collect(Collectors.toList());
+        }
     }
 
     public MutableCriteria(@NonNull RelativeRoomCriteria other) {
         this(other.criteria);
-        this.subCriteriaList = CollectionUtils.map(other.subCriterias, MutableSubCriteria::new);
+        this.subCriteriaList = other.subCriterias.stream().map(MutableSubCriteria::new).collect(Collectors.toList());
     }
 
     @NonNull
@@ -61,6 +63,7 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.subCriteriaList = subCriterias;
     }
 
+    @NonNull
     public MutableProgress getProgress() {
         return progress;
     }

@@ -3,8 +3,8 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomStandard;
 
@@ -22,12 +22,14 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         this.id = other.getId();
         this.title = other.getTitle();
         this.suffix = other.getSuffix();
-        this.criterias = CollectionUtils.map(other.getCriterias(), MutableCriteria::new);
+        if (other.getCriterias() != null) {
+            this.criterias = other.getCriterias().stream().map(MutableCriteria::new).collect(Collectors.toList());
+        }
     }
 
     public MutableStandard(@NonNull RelativeRoomStandard other) {
         this(other.standard);
-        this.criterias = CollectionUtils.map(other.criterias, MutableCriteria::new);
+        this.criterias = other.criterias.stream().map(MutableCriteria::new).collect(Collectors.toList());
     }
 
     @NonNull
@@ -60,6 +62,7 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         this.criterias = criterias;
     }
 
+    @NonNull
     public MutableProgress getProgress() {
         return progress;
     }

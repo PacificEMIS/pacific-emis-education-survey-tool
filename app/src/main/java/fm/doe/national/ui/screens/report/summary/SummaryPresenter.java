@@ -10,7 +10,6 @@ import io.reactivex.schedulers.Schedulers;
 public class SummaryPresenter extends BaseReportPresenter<SummaryView> {
 
     public SummaryPresenter() {
-        super();
         loadSummary();
     }
 

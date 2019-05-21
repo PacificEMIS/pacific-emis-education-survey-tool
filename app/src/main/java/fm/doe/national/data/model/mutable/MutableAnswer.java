@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.data.model.Answer;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomAnswer;
-import fm.doe.national.app_support.utils.CollectionUtils;
 
 public class MutableAnswer extends BaseMutableEntity implements Answer {
 
@@ -23,12 +23,14 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.id = otherAnswer.getId();
         this.answerState = otherAnswer.getState();
         this.comment = otherAnswer.getComment();
-        this.photos = CollectionUtils.map(otherAnswer.getPhotos(), MutablePhoto::new);
+        if (otherAnswer.getPhotos() != null) {
+            this.photos = otherAnswer.getPhotos().stream().map(MutablePhoto::new).collect(Collectors.toList());
+        }
     }
 
     public MutableAnswer(@NonNull RelativeRoomAnswer relativeRoomAnswer) {
         this(relativeRoomAnswer.answer);
-        this.photos = CollectionUtils.map(relativeRoomAnswer.photos, MutablePhoto::new);
+        this.photos = relativeRoomAnswer.photos.stream().map(MutablePhoto::new).collect(Collectors.toList());
     }
 
     @Override
