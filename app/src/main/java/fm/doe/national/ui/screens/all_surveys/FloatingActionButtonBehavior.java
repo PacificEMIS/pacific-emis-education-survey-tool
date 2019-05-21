@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.school_accreditation;
+package fm.doe.national.ui.screens.all_surveys;
 
 import android.content.Context;
 

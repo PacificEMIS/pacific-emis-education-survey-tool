@@ -21,9 +21,9 @@ public class SerializableStandard implements Standard {
     @Element
     String name;
 
-    @NonNull
+    @Nullable
     @ElementList(inline = true, required = false)
-    List<SerializableCriteria> criterias = Collections.emptyList();
+    List<SerializableCriteria> criterias;
 
     @Nullable
     @Element(name = "id", required = false)
@@ -55,7 +55,7 @@ public class SerializableStandard implements Standard {
     @NonNull
     @Override
     public List<? extends Criteria> getCriterias() {
-        return criterias;
+        return criterias == null ? Collections.emptyList() : criterias;
     }
 
     @Override

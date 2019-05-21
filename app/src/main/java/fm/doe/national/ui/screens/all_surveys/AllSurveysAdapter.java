@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.school_accreditation;
+package fm.doe.national.ui.screens.all_surveys;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +12,9 @@ import fm.doe.national.app_support.utils.ViewUtils;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
-public class SchoolAccreditationAdapter extends BaseAdapter<Survey> {
+public class AllSurveysAdapter extends BaseAdapter<Survey> {
 
-    public SchoolAccreditationAdapter(
+    public AllSurveysAdapter(
             OnItemClickListener<Survey> clickListener,
             OnItemLongClickListener<Survey> longClickListener) {
         super(clickListener, longClickListener);
@@ -52,10 +52,7 @@ public class SchoolAccreditationAdapter extends BaseAdapter<Survey> {
             nameSchoolTextView.setText(item.getSchoolName());
             createdYearTextView.setText(DateUtils.formatMonthYear(item.getDate()));
 
-            ViewUtils.rebindProgress(
-                    item.getProgress(),
-                    getString(R.string.criteria_progress),
-                    progressTextView, progressBar);
+            ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
         }
     }
 }

@@ -38,4 +38,5 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView {
     public void hideWaiting() {
         ((BaseActivity)getActivity()).hideWaiting();
     }
+
 }

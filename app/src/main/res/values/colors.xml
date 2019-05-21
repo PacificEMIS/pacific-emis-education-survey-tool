@@ -15,7 +15,6 @@
     <color name="dark_grey">#373435</color>
     <color name="yellow">#ffde03</color>
     <color name="soft_grey">#757575</color>
-    <color name="grey_600">#847f78</color>
     <color name="color_criteria_progress_bg">#f2f3f8</color>
     <color name="dark_mint">#50be75</color>
     <color name="light_mint">#61EB61</color>
@@ -32,5 +31,7 @@
     <color name="drawer_delimeter">#40ffffff</color>
     <color name="light_blue_300">#4dbaff</color>
     <color name="blue_700">#1c86ca</color>
+    <color name="grey_200">#EFEFEF</color>
+    <color name="grey_600">#7B7B7B</color>
 
 </resources>

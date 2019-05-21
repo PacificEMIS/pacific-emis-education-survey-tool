@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.school_accreditation;
+package fm.doe.national.ui.screens.all_surveys;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,15 +26,15 @@ import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
-public class SchoolAccreditationActivity extends BaseDrawerActivity implements
-        SchoolAccreditationView,
+public class AllSurveysActivity extends BaseDrawerActivity implements
+        AllSurveysView,
         SearchView.OnQueryTextListener,
         View.OnClickListener,
         BaseAdapter.OnItemClickListener<Survey>,
         BaseAdapter.OnItemLongClickListener<Survey> {
 
     @InjectPresenter
-    SchoolAccreditationPresenter presenter;
+    AllSurveysPresenter presenter;
 
     @BindView(R.id.recyclerview_categories)
     RecyclerView recyclerView;
@@ -42,11 +42,11 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
     @BindView(R.id.fab_new_accreditation)
     FloatingActionButton newAccreditationFab;
 
-    private final SchoolAccreditationAdapter schoolAccreditationAdapter = new SchoolAccreditationAdapter(this, this);
+    private final AllSurveysAdapter allSurveysAdapter = new AllSurveysAdapter(this, this);
     private final DeleteConfirmationListener deleteConfirmationListener = new DeleteConfirmationListener();
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, SchoolAccreditationActivity.class);
+        return new Intent(context, AllSurveysActivity.class);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     private void initViews() {
         setTitle(R.string.label_school_accreditation);
-        recyclerView.setAdapter(schoolAccreditationAdapter);
+        recyclerView.setAdapter(allSurveysAdapter);
         newAccreditationFab.setOnClickListener(this);
     }
 
@@ -86,12 +86,13 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     public void navigateToCategoryChooser() {
+//        startActivity(new Intent(this, SurveyActivity.class)); this is future navigation
         startActivity(CategoriesActivity.createIntent(this));
     }
 
     @Override
     public void setAccreditations(List<Survey> accreditations) {
-        schoolAccreditationAdapter.setItems(accreditations);
+        allSurveysAdapter.setItems(accreditations);
     }
 
     @Override
@@ -107,7 +108,7 @@ public class SchoolAccreditationActivity extends BaseDrawerActivity implements
 
     @Override
     public void removeSurveyPassing(Survey passing) {
-        schoolAccreditationAdapter.removeItem(passing);
+        allSurveysAdapter.removeItem(passing);
     }
 
     @Override

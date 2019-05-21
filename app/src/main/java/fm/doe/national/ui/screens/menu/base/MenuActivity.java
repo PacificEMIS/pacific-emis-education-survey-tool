@@ -14,7 +14,7 @@ import fm.doe.national.R;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.menu.MainMenuItem;
 import fm.doe.national.ui.screens.menu.MenuListAdapter;
-import fm.doe.national.ui.screens.school_accreditation.SchoolAccreditationActivity;
+import fm.doe.national.ui.screens.all_surveys.AllSurveysActivity;
 import fm.doe.national.app_support.utils.ViewUtils;
 
 public abstract class MenuActivity extends BaseActivity implements MenuView {
@@ -44,7 +44,7 @@ public abstract class MenuActivity extends BaseActivity implements MenuView {
 
     @Override
     public void navigateToSchoolAccreditationScreen() {
-        Intent intent = SchoolAccreditationActivity.createIntent(this);
+        Intent intent = AllSurveysActivity.createIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

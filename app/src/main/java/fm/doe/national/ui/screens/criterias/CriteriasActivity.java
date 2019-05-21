@@ -168,11 +168,7 @@ public class CriteriasActivity extends BaseActivity implements
 
     @Override
     public void setProgress(int answered, int total) {
-        ViewUtils.rebindProgress(
-                new MutableProgress(total, answered),
-                getString(R.string.criteria_progress),
-                progressTextView,
-                progressBar);
+        ViewUtils.rebindProgress(new MutableProgress(total, answered), progressTextView, progressBar);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.school_accreditation;
+package fm.doe.national.ui.screens.all_surveys;
 
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
@@ -10,7 +10,7 @@ import fm.doe.national.data.model.Survey;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-interface SchoolAccreditationView extends BaseDrawerView {
+interface AllSurveysView extends BaseDrawerView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToCategoryChooser();

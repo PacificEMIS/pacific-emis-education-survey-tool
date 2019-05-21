@@ -38,7 +38,7 @@
             android:label="@string/label_create_survey"
             android:noHistory="true" />
         <activity
-            android:name=".ui.screens.school_accreditation.SchoolAccreditationActivity"
+            android:name=".ui.screens.all_surveys.AllSurveysActivity"
             android:label="@string/label_school_accreditation" />
         <activity android:name=".ui.screens.cloud.DriveActivity" />
         <activity android:name=".ui.screens.cloud.DropboxActivity" />
@@ -66,6 +66,7 @@
         <activity
             android:name=".ui.screens.report.ReportActivity"
             android:label="@string/title_report" />
+        <activity android:name=".ui.screens.survey.SurveyActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
