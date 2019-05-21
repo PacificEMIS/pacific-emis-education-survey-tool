@@ -5,8 +5,6 @@ import android.content.res.ColorStateList;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
 import java.util.HashMap;
@@ -19,11 +17,11 @@ import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class LegendAdapter extends BaseListAdapter<ReportLevel> {
 
-    private static final Map<ReportLevel, ColorStateList> COLOR_STATE_LIST_MAP = new HashMap<>();
+    private static final Map<ReportLevel, ColorStateList> sColorStateListMap = new HashMap<>();
 
     public LegendAdapter(Context context) {
         for (ReportLevel value : ReportLevel.values()) {
-            COLOR_STATE_LIST_MAP.put(value, ColorStateList.valueOf( ContextCompat.getColor(context, value.getColorRes())));
+            sColorStateListMap.put(value, ColorStateList.valueOf(context.getColor(value.getColorRes())));
         }
     }
 
@@ -47,7 +45,7 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
 
         @Override
         protected void onBind(ReportLevel item) {
-            nameTextView.setCompoundDrawableTintList(COLOR_STATE_LIST_MAP.get(item));
+            nameTextView.setCompoundDrawableTintList(sColorStateListMap.get(item));
             nameTextView.setText(buildLevelName(item));
             descriptionTextView.setText(buildLevelDescription(item));
         }
