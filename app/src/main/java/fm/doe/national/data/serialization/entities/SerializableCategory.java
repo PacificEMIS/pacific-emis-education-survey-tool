@@ -9,8 +9,8 @@ import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.EvaluationForm;
 import fm.doe.national.data.model.Progress;
@@ -32,8 +32,10 @@ public class SerializableCategory implements Category {
 
     public SerializableCategory(@NonNull Category other) {
         this.name = other.getTitle();
-        this.standards = CollectionUtils.map(other.getStandards(), SerializableStandard::new);
         this.evaluationForm = other.getEvaluationForm();
+        if (other.getStandards() != null) {
+            this.standards = other.getStandards().stream().map(SerializableStandard::new).collect(Collectors.toList());
+        }
     }
 
     public SerializableCategory() {

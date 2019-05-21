@@ -10,6 +10,14 @@ public class IntRange {
         this.end = end;
     }
 
+    public int getStart() {
+        return start;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
     public boolean containsValue(int value) {
         return containsValue((float) value);
     }

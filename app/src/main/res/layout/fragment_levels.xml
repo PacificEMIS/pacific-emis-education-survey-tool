@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.report.levels.LevelsFragment">
+    tools:context=".ui.screens.report.levels.LevelsFragment"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp">
 
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview"
@@ -13,15 +15,21 @@
         tools:itemCount="2"
         tools:listitem="@layout/item_school_accreditation_level">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/layout_titles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_section="header">
+
+            <fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView
+                android:id="@+id/summaryheaderview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <include layout="@layout/item_school_accreditation_level" />
 
-        </FrameLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/layout_total_scores"
@@ -40,10 +48,11 @@
             android:orientation="horizontal"
             app:layout_section="footer">
 
-            <TextView
+            <com.omega_r.libs.views.OmegaTextView
                 android:id="@+id/textview_determination"
                 style="@style/SchoolAccreditationTableCell.Name.Large"
-                android:text="@string/title_determination_of_overall_level" />
+                app:startText="@string/title_determination_of_overall_level"
+                app:startTextFont="@string/font_medium"/>
 
             <TextView
                 android:id="@+id/textview_level"

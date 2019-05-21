@@ -4,6 +4,7 @@ package fm.doe.national.app_support.utils;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.SparseIntArray;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -98,6 +99,12 @@ public class ViewUtils {
                 // nothing
             }
         }
+    }
+
+    public static void updateMargins(View view, int left, int top, int right, int bottom) {
+        ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        marginParams.setMargins(left, top, right, bottom);
+        view.requestLayout();
     }
 
     public interface Action<T> {

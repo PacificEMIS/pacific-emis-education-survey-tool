@@ -13,7 +13,6 @@ import fm.doe.national.data.model.School;
 import fm.doe.national.data.model.mutable.MutableSurvey;
 import fm.doe.national.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.app_support.utils.CollectionUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,7 +42,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(schools -> {
                     this.schools = schools;
-                    getViewState().setSchools(CollectionUtils.map(this.schools, item -> item));
+                    getViewState().setSchools(new ArrayList<>(this.schools));
                 }, this::handleError));
     }
 

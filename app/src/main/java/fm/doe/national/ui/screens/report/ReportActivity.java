@@ -25,18 +25,17 @@ public class ReportActivity extends BaseActivity implements ReportView {
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
-    private ReportTabsPagerAdapter tabsPagerAdapter;
+    private final ReportTabsPagerAdapter tabsPagerAdapter = new ReportTabsPagerAdapter(
+            this,
+            new SummaryFragment(),
+            new RecommendationsFragment(),
+            new LevelsFragment()
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tabsPagerAdapter = new ReportTabsPagerAdapter(
-                this,
-                new SummaryFragment(),
-                new RecommendationsFragment(),
-                new LevelsFragment()
-        );
         viewPager.setAdapter(tabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

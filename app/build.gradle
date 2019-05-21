@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "fm.doe.national"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
@@ -15,6 +15,8 @@ android {
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"survey.xml\""
         buildConfigField "String", "SCHOOLS_FILE_NAME", "\"schools.csv\""
+        buildConfigField "float", "SCHOOL_EVALUATION_LEVEL_MULTIPLIER", "90.0f"
+        buildConfigField "float", "CLASSROOM_OBSERVATION_LEVEL_MULTIPLIER", "10.0f"
 
         def DROPBOX_API_KEY = "byvebr4n2uyqzj2"
         buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
@@ -105,9 +107,10 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // OmegaLibs
-    implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.5@aar'
+    implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.6@aar'
     implementation 'com.github.Omega-R:OmegaTypes:0.2.0'
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
+    implementation 'com.github.Omega-R:OmegaViews:1.0.0'
 
     // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"

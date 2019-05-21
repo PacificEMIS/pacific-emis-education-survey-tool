@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.criterias;
 
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -112,7 +111,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
             switchableButton.setStateNotNotifying(convertToUiState(answer.getState()));
 
             updateCommentVisibility(answer.getComment());
-            updatePhotosVisibility((List<Photo>) answer.getPhotos());
+            updatePhotosVisibility(new ArrayList<>(answer.getPhotos()));
         }
 
         @OnLongClick(R.id.textview_question)
@@ -215,12 +214,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
                     itemView.getMeasuredWidth(),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setOutsideTouchable(true);
-
-            // fix - on devices with Android ver. < 6.0 it's impossible to close popup window
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                popupWindow.setFocusable(true);
-                popupWindow.setBackgroundDrawable(new ColorDrawable());
-            }
 
             // need to measure view before it rendered
             // showAsDropDown cannot draw popup above anchor in ViewHolder

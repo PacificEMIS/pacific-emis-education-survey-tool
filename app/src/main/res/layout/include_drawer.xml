@@ -37,7 +37,7 @@
         app:layoutManager="LinearLayoutManager"
         app:dividerShow="end|middle"
         app:dividerPadding="20dp"
-        app:alphaDivider="0.25"
+        app:dividerAlpha="0.25"
         android:dividerHeight="1dp"
         tools:listitem="@layout/item_menuitem" />
 

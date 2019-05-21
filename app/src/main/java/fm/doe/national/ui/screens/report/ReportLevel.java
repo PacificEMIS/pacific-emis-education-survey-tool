@@ -38,25 +38,41 @@ public enum ReportLevel {
             R.color.dark_mint);
 
     private static final float MAX_LEVEL = 100.0f;
+    private static final int MIN_LEVEL = 0;
+    private static final int VALUE_UNKNOWN = Integer.MAX_VALUE;
 
-    private int max;
+    private int maxValue;
+    private int minValue = VALUE_UNKNOWN;
     private Text name;
-    private Text determination;
-    private Text determinationSource;
+    private Text meaning;
+    private Text awards;
 
     @ColorRes
     private int colorRes;
 
-    ReportLevel(int max, Text name, Text determination, Text determinationSource, int colorRes) {
-        this.max = max;
+    ReportLevel(int maxValue, Text name, Text meaning, Text determinationSource, int colorRes) {
+        this.maxValue = maxValue;
         this.name = name;
-        this.determination = determination;
-        this.determinationSource = determinationSource;
+        this.meaning = meaning;
+        this.awards = determinationSource;
         this.colorRes = colorRes;
     }
 
-    public int getMax() {
-        return max;
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public int getMinValue() {
+        if (minValue == VALUE_UNKNOWN) {
+            ReportLevel previousLevel = null;
+            for (ReportLevel level : ReportLevel.values()) {
+                if (level == this) {
+                    minValue = previousLevel == null ? MIN_LEVEL : (previousLevel.maxValue + 1);
+                }
+                previousLevel = level;
+            }
+        }
+        return minValue;
     }
 
     @NonNull
@@ -70,13 +86,13 @@ public enum ReportLevel {
     }
 
     @NonNull
-    public Text getDetermination() {
-        return determination;
+    public Text getMeaning() {
+        return meaning;
     }
 
     @NonNull
-    public Text getDeterminationSource() {
-        return determinationSource;
+    public Text getAwards() {
+        return awards;
     }
 
     public static ReportLevel estimateLevel(int actual, int required) {
@@ -85,7 +101,7 @@ public enum ReportLevel {
 
     public static ReportLevel estimateLevel(float level) {
         for (ReportLevel value : ReportLevel.values()) {
-            if (level <= value.getMax()) {
+            if (level <= value.getMaxValue()) {
                 return value;
             }
         }

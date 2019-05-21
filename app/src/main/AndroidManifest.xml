@@ -20,7 +20,6 @@
         <activity
             android:name=".ui.screens.splash.SplashStartActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoExitTransitions">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,43 +30,26 @@
         <activity
             android:name=".ui.screens.splash_end.SplashEndActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoEnterTransitions" />
-        <activity
-            android:name=".ui.screens.criterias.CriteriasActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.screens.categories.CategoriesActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.screens.criterias.CriteriasActivity" />
+        <activity android:name=".ui.screens.categories.CategoriesActivity" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
             android:label="@string/label_create_survey"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:noHistory="true" />
         <activity
             android:name=".ui.screens.school_accreditation.SchoolAccreditationActivity"
-            android:label="@string/label_school_accreditation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.screens.cloud.DriveActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.screens.cloud.DropboxActivity"
-            android:screenOrientation="portrait" />
+            android:label="@string/label_school_accreditation" />
+        <activity android:name=".ui.screens.cloud.DriveActivity" />
+        <activity android:name=".ui.screens.cloud.DropboxActivity" />
         <activity
             android:name=".ui.screens.settings.SettingsActivity"
-            android:label="@string/label_settings"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.screens.standards.StandardsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.screens.criterias.FullscreenImageActivity"
-            android:screenOrientation="portrait" />
+            android:label="@string/label_settings" />
+        <activity android:name=".ui.screens.standards.StandardsActivity" />
+        <activity android:name=".ui.screens.criterias.FullscreenImageActivity" />
         <activity
             android:name=".ui.screens.photos.PhotosActivity"
-            android:label="@string/label_attached_photos"
-            android:screenOrientation="portrait" />
+            android:label="@string/label_attached_photos" />
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
@@ -83,8 +65,7 @@
         </activity>
         <activity
             android:name=".ui.screens.report.ReportActivity"
-            android:label="@string/title_report"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_report" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

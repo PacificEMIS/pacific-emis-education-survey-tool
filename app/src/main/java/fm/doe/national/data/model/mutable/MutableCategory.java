@@ -3,8 +3,8 @@ package fm.doe.national.data.model.mutable;
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.EvaluationForm;
 import fm.doe.national.data.persistence.entity.relative.RelativeRoomCategory;
@@ -19,8 +19,10 @@ public class MutableCategory extends BaseMutableEntity implements Category {
     public MutableCategory(@NonNull Category other) {
         this.id = other.getId();
         this.title = other.getTitle();
-        this.standards = CollectionUtils.map(other.getStandards(), MutableStandard::new);
         this.evaluationForm = other.getEvaluationForm();
+        if (other.getStandards() != null) {
+            this.standards = other.getStandards().stream().map(MutableStandard::new).collect(Collectors.toList());
+        }
     }
 
     public MutableCategory() {
@@ -28,7 +30,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
 
     public MutableCategory(@NonNull RelativeRoomCategory other) {
         this(other.category);
-        this.standards = CollectionUtils.map(other.standards, MutableStandard::new);
+        this.standards = other.standards.stream().map(MutableStandard::new).collect(Collectors.toList());
     }
 
     @NonNull
@@ -51,6 +53,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         this.standards = standards;
     }
 
+    @NonNull
     public MutableProgress getProgress() {
         return progress;
     }

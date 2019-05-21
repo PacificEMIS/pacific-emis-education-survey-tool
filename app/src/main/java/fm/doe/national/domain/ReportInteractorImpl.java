@@ -1,14 +1,14 @@
 package fm.doe.national.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.model.AnswerState;
 import fm.doe.national.data.model.Category;
 import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.EvaluationForm;
 import fm.doe.national.data.model.Standard;
 import fm.doe.national.data.model.SubCriteria;
 import fm.doe.national.data.model.Survey;
@@ -17,6 +17,8 @@ import fm.doe.national.data.model.recommendations.CriteriaRecommendation;
 import fm.doe.national.data.model.recommendations.Recommendation;
 import fm.doe.national.data.model.recommendations.StandardRecommendation;
 import fm.doe.national.data.model.recommendations.SubCriteriaRecommendation;
+import fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView;
+import fm.doe.national.ui.screens.report.ReportLevel;
 import fm.doe.national.ui.screens.report.levels.AccreditationForm;
 import fm.doe.national.ui.screens.report.levels.SchoolAccreditationLevel;
 import fm.doe.national.ui.screens.report.summary.SummaryViewData;
@@ -26,16 +28,19 @@ import io.reactivex.subjects.Subject;
 
 public class ReportInteractorImpl implements ReportInteractor {
 
-    private static final int NO_POSITION = -1;
     private static final List<Recommendation> EMPTY_RECOMMENDATIONS = Collections.emptyList();
     private static final List<SummaryViewData> EMPTY_SUMMARY = Collections.emptyList();
     private static final SchoolAccreditationLevel EMPTY_LEVELS = SchoolAccreditationLevel.empty();
+    private static final SummaryHeaderView.Item EMPTY_HEADER = SummaryHeaderView.Item.empty();
 
     private final BehaviorSubject<List<Recommendation>> recommendationsSubject =
             BehaviorSubject.createDefault(EMPTY_RECOMMENDATIONS);
 
     private final BehaviorSubject<SchoolAccreditationLevel> levelSubject =
             BehaviorSubject.createDefault(EMPTY_LEVELS);
+
+    private final BehaviorSubject<SummaryHeaderView.Item> headerSubject =
+            BehaviorSubject.createDefault(EMPTY_HEADER);
 
     private final BehaviorSubject<List<SummaryViewData>> summarySubject =
             BehaviorSubject.createDefault(EMPTY_SUMMARY);
@@ -59,6 +64,7 @@ public class ReportInteractorImpl implements ReportInteractor {
     @Override
     public void requestReports(Survey survey) {
         clearSubjectsHistory();
+        requestHeader(survey);
         requestSummaryAndLevelReports(survey);
         requestRecommendationsReport(survey);
     }
@@ -67,6 +73,19 @@ public class ReportInteractorImpl implements ReportInteractor {
         recommendationsSubject.onNext(EMPTY_RECOMMENDATIONS);
         levelSubject.onNext(EMPTY_LEVELS);
         summarySubject.onNext(EMPTY_SUMMARY);
+        headerSubject.onNext(EMPTY_HEADER);
+    }
+
+    private void requestHeader(Survey survey) {
+        Schedulers.computation().scheduleDirect(() -> headerSubject.onNext(
+                new SummaryHeaderView.Item(
+                        survey.getSchoolId(),
+                        survey.getSchoolName(),
+                        survey.getDate(),
+                        null, // TODO: not implemented
+                        Arrays.asList(ReportLevel.values())
+                        )
+        ));
     }
 
     private void requestSummaryAndLevelReports(Survey survey) {
@@ -76,35 +95,44 @@ public class ReportInteractorImpl implements ReportInteractor {
             List<AccreditationForm.Builder> formBuilders = new ArrayList<>();
 
             for (Category category : survey.getCategories()) {
-                AccreditationForm.Builder formBuilder = CollectionUtils.firstWhere(
-                        formBuilders,
-                        it -> it.getName() == category.getEvaluationForm().getName()
-                );
-
-                if (formBuilder == null) {
-                    formBuilder = new AccreditationForm.Builder()
-                            .setName(category.getEvaluationForm().getName())
-                            .setMultiplier(calculateFormMultiplier(category.getEvaluationForm())); // TODO: this one is temp
-                    formBuilders.add(formBuilder);
-                }
+                AccreditationForm.Builder formBuilder = formBuilders.stream()
+                        .filter(it -> it.getForm() == category.getEvaluationForm())
+                        .findFirst()
+                        .orElseGet(() -> {
+                            AccreditationForm.Builder builder = new AccreditationForm.Builder()
+                                    .setForm(category.getEvaluationForm());
+                            formBuilders.add(builder);
+                            return builder;
+                        });
 
                 for (Standard standard : category.getStandards()) {
                     List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
                     int totalByStandard = 0;
+                    int totalQuestions = 0;
 
                     for (Criteria criteria : standard.getCriterias()) {
                         SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
                         totalByStandard += data.getTotal();
+                        totalQuestions += data.getAnswerStates().length;
                         criteriaSummaryViewDataList.add(data);
                     }
 
                     formBuilder.addObtainedScore(totalByStandard);
-                    summaryViewDataList.add(new SummaryViewData(category, standard, totalByStandard, criteriaSummaryViewDataList));
+                    summaryViewDataList.add(new SummaryViewData(
+                            category,
+                            standard,
+                            totalByStandard,
+                            totalQuestions,
+                            criteriaSummaryViewDataList
+                    ));
+                    formBuilder.addQuestionsCount(totalQuestions);
                 }
             }
 
             summarySubject.onNext(summaryViewDataList);
-            levelSubject.onNext(new SchoolAccreditationLevel(CollectionUtils.map(formBuilders, AccreditationForm.Builder::build)));
+            levelSubject.onNext(new SchoolAccreditationLevel(formBuilders.stream()
+                    .map(AccreditationForm.Builder::build).collect(Collectors.toList()))
+            );
         });
     }
 
@@ -125,17 +153,6 @@ public class ReportInteractorImpl implements ReportInteractor {
         }
 
         return new SummaryViewData.CriteriaSummaryViewData(criteria.getSuffix(), positivesArray, totalByCriteria);
-    }
-
-    private float calculateFormMultiplier(EvaluationForm evaluationForm) {
-        // TODO: this is temp logic so change it when client answers
-        switch (evaluationForm) {
-            case CLASSROOM_OBSERVATION:
-                return 0.1667f;
-            case SCHOOL_EVALUATION:
-                return 0.9375f;
-        }
-        return 0f;
     }
 
     private void requestRecommendationsReport(Survey survey) {
@@ -189,5 +206,10 @@ public class ReportInteractorImpl implements ReportInteractor {
             }
         }
         return recommendations;
+    }
+
+    @Override
+    public Subject<SummaryHeaderView.Item> getHeaderItemSubject() {
+        return headerSubject;
     }
 }

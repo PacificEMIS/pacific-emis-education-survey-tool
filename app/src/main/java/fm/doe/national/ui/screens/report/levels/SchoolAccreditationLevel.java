@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import java.util.Collections;
 import java.util.List;
 
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class SchoolAccreditationLevel {
@@ -30,23 +29,17 @@ public class SchoolAccreditationLevel {
     }
 
     private void calculateTotalObtainedScore() {
-        Integer score = CollectionUtils.reduce(
-                CollectionUtils.map(forms, AccreditationForm::getObtainedScore),
-                (leftValue, rightValue) -> leftValue + rightValue
-        );
-        if (score != null) {
-            totalObtainedScore = score;
-        }
+        forms.parallelStream()
+                .map(AccreditationForm::getObtainedScore)
+                .reduce((leftValue, rightValue) -> leftValue + rightValue)
+                .ifPresent(value -> totalObtainedScore = value);
     }
 
     private void calculateTotalScore() {
-        Float score = CollectionUtils.reduce(
-                CollectionUtils.map(forms, AccreditationForm::getFinalScore),
-                (leftValue, rightValue) -> leftValue + rightValue
-        );
-        if (score != null) {
-            totalScore = score;
-        }
+        forms.parallelStream()
+                .map(AccreditationForm::getFinalScore)
+                .reduce((leftValue, rightValue) -> leftValue + rightValue)
+                .ifPresent(value -> totalScore = value);
     }
 
     private void calculateReportLevel(float score) {

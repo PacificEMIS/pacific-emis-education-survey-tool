@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.model.mutable.MutableSurvey;
@@ -40,7 +39,7 @@ public class SchoolAccreditationPresenter extends BaseDrawerPresenter<SchoolAccr
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(surveys -> {
                     this.surveys = surveys;
-                    getViewState().setAccreditations(CollectionUtils.map(this.surveys, item -> item));
+                    getViewState().setAccreditations(new ArrayList<>(this.surveys));
                 }, this::handleError));
     }
 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:padding="48dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingEnd="24dp">
+
+            <com.omega_r.libs.views.OmegaTextView
+                android:id="@+id/textview_school_code"
+                style="@style/ReportTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:startText="@string/label_school_code"
+                app:startTextFont="@string/font_medium"
+                tools:text="CHK001" />
+
+            <com.omega_r.libs.views.OmegaTextView
+                android:id="@+id/textview_visit_date"
+                style="@style/ReportTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:startText="@string/label_date_of_accreditation"
+                app:startTextFont="@string/font_medium"
+                tools:text="CHK001" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.omega_r.libs.views.OmegaTextView
+                android:id="@+id/textview_school_name"
+                style="@style/ReportTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:startText="@string/label_school_name"
+                app:startTextFont="@string/font_medium"
+                tools:text="CHK001" />
+
+            <com.omega_r.libs.views.OmegaTextView
+                android:id="@+id/textview_principal_name"
+                style="@style/ReportTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:startText="@string/label_principal_name"
+                app:startTextFont="@string/font_medium"
+                tools:text="CHK001" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/ReportTextAppearance.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/label_level_legend" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview_levels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="48dp"
+        android:overScrollMode="never"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_level_legend" />
+
+</LinearLayout>

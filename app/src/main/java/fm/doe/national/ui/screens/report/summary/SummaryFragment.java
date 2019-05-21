@@ -16,7 +16,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.report.BaseReportFragment;
+import fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView;
+import fm.doe.national.ui.screens.report.base.BaseReportFragment;
 
 public class SummaryFragment extends BaseReportFragment implements SummaryView {
 
@@ -27,6 +28,9 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
 
     @BindView(R.id.recyclerview_summary)
     RecyclerView summaryRecyclerView;
+
+    @BindView(R.id.summaryheaderview)
+    SummaryHeaderView summaryHeaderView;
 
     @Nullable
     @Override
@@ -55,5 +59,10 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
     @Override
     public Text getTabName() {
         return Text.from(R.string.summary);
+    }
+
+    @Override
+    public void setHeaderItem(SummaryHeaderView.Item item) {
+        summaryHeaderView.setItem(item);
     }
 }

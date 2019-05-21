@@ -31,9 +31,10 @@ public class RoomCategory implements Category {
     @ColumnInfo(name = "evaluation_form")
     public EvaluationForm evaluationForm;
 
-    public RoomCategory(String title, long surveyId) {
+    public RoomCategory(String title, long surveyId, EvaluationForm evaluationForm) {
         this.title = title;
         this.surveyId = surveyId;
+        this.evaluationForm = evaluationForm;
     }
 
     public RoomCategory(@NonNull Category other) {

@@ -64,7 +64,7 @@
         android:dividerHeight="1dp"
         android:theme="@style/ThemeRecyclerViewSplashMenu"
         android:visibility="visible"
-        app:alphaDivider="0.25"
+        app:dividerAlpha="0.25"
         app:dividerPadding="24dp"
         app:layoutManager="LinearLayoutManager"
         app:dividerShow="end|middle"

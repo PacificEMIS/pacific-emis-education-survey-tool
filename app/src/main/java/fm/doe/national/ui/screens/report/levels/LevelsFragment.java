@@ -2,9 +2,6 @@ package fm.doe.national.ui.screens.report.levels;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +13,15 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegatypes.Text;
+import com.omega_r.libs.views.OmegaTextView;
 import com.omegar.mvp.presenter.InjectPresenter;
 
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.ui.screens.report.BaseReportFragment;
+import fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView;
 import fm.doe.national.ui.screens.report.ReportLevel;
+import fm.doe.national.ui.screens.report.base.BaseReportFragment;
 
 public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
@@ -30,10 +29,13 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     RecyclerView recyclerView;
 
     @BindView(R.id.textview_determination)
-    TextView determinationTextView;
+    OmegaTextView determinationTextView;
 
     @BindView(R.id.textview_level)
     TextView levelTextView;
+
+    @BindView(R.id.summaryheaderview)
+    SummaryHeaderView summaryHeaderView;
 
     private final EvalutaionFormsAdapter adapter = new EvalutaionFormsAdapter();
 
@@ -45,7 +47,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     LevelsPresenter presenter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_levels, container, false);
     }
@@ -96,12 +98,11 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         reportLevel.getName().applyTo(levelTextView, null);
         levelTextView.setBackgroundColor(ContextCompat.getColor(getContext(), reportLevel.getColorRes()));
 
-        String determinationPrefix = getString(R.string.title_determination_of_overall_level);
-        SpannableString spannableString = new SpannableString(determinationPrefix + " " + reportLevel.getDetermination().getString(getContext()));
-        spannableString.setSpan(
-                new TypefaceSpan(getString(R.string.font_medium)),
-                0, determinationPrefix.length(),
-                Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        determinationTextView.setText(spannableString);
+        reportLevel.getMeaning().applyTo(determinationTextView, null);
+    }
+
+    @Override
+    public void setHeaderItem(SummaryHeaderView.Item item) {
+        summaryHeaderView.setItem(item);
     }
 }
