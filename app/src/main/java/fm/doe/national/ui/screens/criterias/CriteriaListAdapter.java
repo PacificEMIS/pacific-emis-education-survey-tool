@@ -25,10 +25,10 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.CollectionUtils;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.core.data.model.AnswerState;
+import fm.doe.national.core.data.model.Criteria;
+import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class CriteriaListAdapter extends BaseAdapter<Criteria> {

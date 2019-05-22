@@ -9,7 +9,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.DateUtils;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.Survey;
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class AllSurveysAdapter extends BaseAdapter<Survey> {

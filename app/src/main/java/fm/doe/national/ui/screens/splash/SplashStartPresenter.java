@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.model.School;
-import fm.doe.national.data.model.Survey;
+import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.model.School;
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import fm.doe.national.app_support.utils.Constants;

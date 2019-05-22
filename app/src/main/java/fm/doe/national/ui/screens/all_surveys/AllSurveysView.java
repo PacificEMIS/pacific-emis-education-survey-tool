@@ -6,7 +6,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.data.model.Survey;
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)

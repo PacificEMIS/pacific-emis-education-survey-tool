@@ -4,8 +4,6 @@ import org.simpleframework.xml.core.Persister;
 
 import java.util.List;
 
-import javax.inject.Singleton;
-
 import dagger.Component;
 import fm.doe.national.app_support.di.modules.CloudModule;
 import fm.doe.national.app_support.di.modules.ContextModule;
@@ -17,24 +15,26 @@ import fm.doe.national.app_support.di.modules.PreferencesModule;
 import fm.doe.national.app_support.di.modules.SerializersModule;
 import fm.doe.national.app_support.di.modules.SharedPreferencesModule;
 import fm.doe.national.app_support.utils.LifecycleListener;
+import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.model.School;
+import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.di.CoreComponent;
+import fm.doe.national.core.di.FeatureScope;
+import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.drive.DriveCloudPreferences;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudPreferences;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
-import fm.doe.national.data.data_source.DataSource;
 import fm.doe.national.data.files.PicturesRepository;
-import fm.doe.national.data.model.School;
-import fm.doe.national.data.model.Survey;
 import fm.doe.national.data.preferences.GlobalPreferences;
 import fm.doe.national.data.serialization.parsers.Parser;
 import fm.doe.national.data.serialization.serializers.Serializer;
 import fm.doe.national.domain.ReportInteractor;
 import fm.doe.national.domain.SettingsInteractor;
-import fm.doe.national.domain.SurveyInteractor;
 
-@Singleton
+@FeatureScope
 @Component(modules = {
         ContextModule.class,
         LocalDataSourceModule.class,
@@ -45,6 +45,8 @@ import fm.doe.national.domain.SurveyInteractor;
         LifecycleModule.class,
         InteractorsModule.class,
         PreferencesModule.class
+}, dependencies = {
+        CoreComponent.class
 })
 public interface AppComponent {
     Parser<Survey> getSurveyParser();

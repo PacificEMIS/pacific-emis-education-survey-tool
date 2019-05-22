@@ -10,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.recommendations.Recommendation;
+import fm.doe.national.core.data.model.recommendations.Recommendation;
 
 public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
 

@@ -4,7 +4,7 @@ import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.domain.ReportInteractor;
-import fm.doe.national.domain.SurveyInteractor;
+import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 
 @InjectViewState

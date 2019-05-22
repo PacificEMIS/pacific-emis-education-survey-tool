@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Versions.compileSdk
+
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = Versions.java
+        targetCompatibility = '1.8'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
+    testImplementation "junit:junit:${Deps.junit}"
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
+
+    // Omega
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
+
+    // RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
+
+    // Room
+    implementation "androidx.room:room-runtime:${Deps.room}"
+    annotationProcessor "androidx.room:room-compiler:${Deps.room}"
+    implementation "androidx.room:room-rxjava2:${Deps.room}"
+}

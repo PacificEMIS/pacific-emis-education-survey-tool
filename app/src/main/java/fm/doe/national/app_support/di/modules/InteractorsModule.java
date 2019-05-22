@@ -1,15 +1,11 @@
 package fm.doe.national.app_support.di.modules;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.data.data_source.DataSource;
+import fm.doe.national.core.di.FeatureScope;
 import fm.doe.national.domain.ReportInteractor;
 import fm.doe.national.domain.ReportInteractorImpl;
 import fm.doe.national.domain.SettingsInteractor;
-import fm.doe.national.domain.SurveyInteractor;
-import fm.doe.national.domain.SurveyInteractorImpl;
 
 @Module
 public class InteractorsModule {
@@ -19,13 +15,7 @@ public class InteractorsModule {
     }
 
     @Provides
-    @Singleton
-    public SurveyInteractor provideSurveyInteractor(DataSource dataSource) {
-        return new SurveyInteractorImpl(dataSource);
-    }
-
-    @Provides
-    @Singleton
+    @FeatureScope
     public ReportInteractor provideReportInteractor() {
         return new ReportInteractorImpl();
     }

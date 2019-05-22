@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.model.Survey;
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.data.serialization.entities.SerializableSurvey;
 
 public class XmlSurveySerializer implements Serializer<Survey> {

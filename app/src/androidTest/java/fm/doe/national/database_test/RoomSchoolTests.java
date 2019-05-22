@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.dao.SchoolDao;
-import fm.doe.national.data.persistence.entity.RoomSchool;
+import fm.doe.national.core.data.persistence.dao.SchoolDao;
+import fm.doe.national.core.data.persistence.entity.RoomSchool;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;

@@ -4,7 +4,7 @@ import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
-import fm.doe.national.data.model.SurveyType;
+import fm.doe.national.core.data.model.SurveyType;
 
 public class SurveyTypeConverter implements Converter<SurveyType> {
 

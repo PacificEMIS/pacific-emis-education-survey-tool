@@ -2,10 +2,9 @@ package fm.doe.national.app_support.di.modules;
 
 import android.content.SharedPreferences;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+import fm.doe.national.core.di.FeatureScope;
 import fm.doe.national.data.preferences.GlobalPreferences;
 import fm.doe.national.data.preferences.GlobalPreferencesImpl;
 
@@ -13,7 +12,7 @@ import fm.doe.national.data.preferences.GlobalPreferencesImpl;
 public class PreferencesModule {
 
     @Provides
-    @Singleton
+    @FeatureScope
     public GlobalPreferences provideGlobalPreferences(SharedPreferences sp) {
         return new GlobalPreferencesImpl(sp);
     }

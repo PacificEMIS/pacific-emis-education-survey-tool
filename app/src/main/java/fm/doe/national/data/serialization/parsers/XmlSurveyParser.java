@@ -7,7 +7,7 @@ import java.io.Reader;
 import java.io.StringReader;
 
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.model.Survey;
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.data.serialization.entities.SerializableSurvey;
 import fm.doe.national.app_support.utils.StreamUtils;
 

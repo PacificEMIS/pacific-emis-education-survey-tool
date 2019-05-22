@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-import fm.doe.national.data.model.Photo;
+import fm.doe.national.core.data.model.Photo;
 
 @Root(name = "photo")
 public class SerializablePhoto implements Photo {

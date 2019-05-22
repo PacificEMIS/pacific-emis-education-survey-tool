@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.Progress;
+import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.survey.navigation.NavigationItem;

@@ -4,7 +4,7 @@ import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
-import fm.doe.national.data.model.EvaluationForm;
+import fm.doe.national.core.data.model.EvaluationForm;
 
 public class EvaluationFormConverter implements Converter<EvaluationForm> {
 

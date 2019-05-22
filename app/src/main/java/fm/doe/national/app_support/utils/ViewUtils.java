@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import fm.doe.national.R;
-import fm.doe.national.data.model.Progress;
+import fm.doe.national.core.data.model.Progress;
 
 public class ViewUtils {
 

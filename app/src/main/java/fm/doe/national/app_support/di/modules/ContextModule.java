@@ -2,10 +2,9 @@ package fm.doe.national.app_support.di.modules;
 
 import android.content.Context;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+import fm.doe.national.core.di.FeatureScope;
 
 @Module
 public class ContextModule {
@@ -17,7 +16,7 @@ public class ContextModule {
     }
 
     @Provides
-    @Singleton
+    @FeatureScope
     public Context provideContext() {
         return context;
     }

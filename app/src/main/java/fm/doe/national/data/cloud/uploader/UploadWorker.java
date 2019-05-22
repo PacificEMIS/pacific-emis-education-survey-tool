@@ -8,9 +8,9 @@ import androidx.work.WorkerParameters;
 
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudRepository;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.model.Survey;
-import fm.doe.national.data.persistence.entity.RoomSchool;
+import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.persistence.entity.RoomSchool;
 import fm.doe.national.data.serialization.serializers.Serializer;
 import fm.doe.national.app_support.utils.TextUtil;
 import io.reactivex.Scheduler;

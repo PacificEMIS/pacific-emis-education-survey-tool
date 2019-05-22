@@ -7,9 +7,9 @@ import com.omega_r.libs.omegatypes.Text;
 import org.jetbrains.annotations.NotNull;
 
 import fm.doe.national.R;
-import fm.doe.national.data.model.Category;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.data.model.Standard;
+import fm.doe.national.core.data.model.Category;
+import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.data.model.Standard;
 import fm.doe.national.ui.screens.base.BaseFragment;
 
 public class SchoolAccreditationNavigationItem implements ProgressableNavigationItem {

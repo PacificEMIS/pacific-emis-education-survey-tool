@@ -2,8 +2,8 @@ package fm.doe.national.ui.screens.report.summary;
 
 import java.util.List;
 
-import fm.doe.national.data.model.Category;
-import fm.doe.national.data.model.Standard;
+import fm.doe.national.core.data.model.Category;
+import fm.doe.national.core.data.model.Standard;
 import fm.doe.national.ui.screens.report.ReportLevel;
 
 public class SummaryViewData {

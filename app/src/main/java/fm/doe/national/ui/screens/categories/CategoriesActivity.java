@@ -14,7 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.Category;
+import fm.doe.national.core.data.model.Category;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.report.ReportActivity;

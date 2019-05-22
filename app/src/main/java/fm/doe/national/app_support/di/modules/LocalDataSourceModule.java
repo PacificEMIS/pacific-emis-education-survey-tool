@@ -2,12 +2,9 @@ package fm.doe.national.app_support.di.modules;
 
 import android.content.Context;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.RoomDataSource;
+import fm.doe.national.core.di.FeatureScope;
 import fm.doe.national.data.files.FilePicturesRepository;
 import fm.doe.national.data.files.PicturesRepository;
 
@@ -15,13 +12,7 @@ import fm.doe.national.data.files.PicturesRepository;
 public class LocalDataSourceModule {
 
     @Provides
-    @Singleton
-    public DataSource provideDataSource(Context context) {
-        return new RoomDataSource(context);
-    }
-
-    @Provides
-    @Singleton
+    @FeatureScope
     public PicturesRepository providePicturesRepository(Context context) {
         return new FilePicturesRepository(context);
     }

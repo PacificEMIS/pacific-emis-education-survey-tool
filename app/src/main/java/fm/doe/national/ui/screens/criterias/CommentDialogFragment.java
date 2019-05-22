@@ -20,7 +20,7 @@ import java.io.Serializable;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.ui.screens.base.BaseDialogFragment;
 import fm.doe.national.app_support.utils.Constants;
 

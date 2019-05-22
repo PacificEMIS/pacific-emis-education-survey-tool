@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.Photo;
+import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.ui.screens.base.BaseAdapter;
 
 public class PhotosAdapter extends BaseAdapter<Photo> {

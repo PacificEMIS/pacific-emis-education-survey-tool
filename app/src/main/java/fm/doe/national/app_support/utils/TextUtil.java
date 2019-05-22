@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Date;
 
-import fm.doe.national.data.model.School;
+import fm.doe.national.core.data.model.School;
 
 public class TextUtil {
     private static final int ALPHABET_SIZE = 24;

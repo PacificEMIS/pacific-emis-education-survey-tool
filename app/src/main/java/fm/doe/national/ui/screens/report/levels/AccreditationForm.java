@@ -3,7 +3,7 @@ package fm.doe.national.ui.screens.report.levels;
 import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.BuildConfig;
-import fm.doe.national.data.model.EvaluationForm;
+import fm.doe.national.core.data.model.EvaluationForm;
 
 public class AccreditationForm {
 

@@ -8,9 +8,9 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-import fm.doe.national.data.model.Answer;
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Photo;
+import fm.doe.national.core.data.model.Answer;
+import fm.doe.national.core.data.model.AnswerState;
+import fm.doe.national.core.data.model.Photo;
 
 @Root(name = "answer")
 public class SerializableAnswer implements Answer {

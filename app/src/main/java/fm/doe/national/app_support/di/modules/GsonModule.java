@@ -2,16 +2,15 @@ package fm.doe.national.app_support.di.modules;
 
 import com.google.gson.Gson;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+import fm.doe.national.core.di.FeatureScope;
 
 @Module
 public class GsonModule {
 
     @Provides
-    @Singleton
+    @FeatureScope
     public Gson provideGson() {
         return new Gson();
     }

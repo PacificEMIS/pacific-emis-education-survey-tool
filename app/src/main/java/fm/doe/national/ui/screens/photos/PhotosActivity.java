@@ -16,7 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.Photo;
+import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.ui.custom_views.photos_view.PhotosAdapter;
 import fm.doe.national.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.criterias.FullscreenImageActivity;

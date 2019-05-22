@@ -12,10 +12,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.data.model.Category;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.data.model.Survey;
-import fm.doe.national.data.model.SurveyType;
+import fm.doe.national.core.data.model.Category;
+import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyType;
 import fm.doe.national.data.serialization.converters.SurveyTypeConverter;
 
 

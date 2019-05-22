@@ -10,9 +10,9 @@ import org.simpleframework.xml.Root;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.core.data.model.Criteria;
+import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.data.model.SubCriteria;
 
 @Root(name = "criteria")
 public class SerializableCriteria implements Criteria {

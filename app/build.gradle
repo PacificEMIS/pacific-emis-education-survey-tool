@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion Versions.compileSdk
     defaultConfig {
         applicationId "fm.doe.national"
-        minSdkVersion 24
-        targetSdkVersion 28
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
+        targetSdkVersion Versions.targetSdk
+        minSdkVersion Versions.minSdk
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -49,25 +49,21 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility Versions.java
+        targetCompatibility Versions.java
     }
-    buildToolsVersion '28.0.3'
+    buildToolsVersion Versions.buildTools
 
 }
 
 dependencies {
-    def roomVersion = '2.1.0-beta01'
-    def moxyVersion = '1.5.7'
     def okhttpVersion = '4.0.0-alpha01'
     def retrofitVersion = '2.5.0'
-    def daggerVersion = '2.22.1'
-    def butterknifeVersion = '10.1.0'
     def workVersion = '2.0.1'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
+    implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation 'com.google.android.material:material:1.1.0-alpha06'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -81,18 +77,14 @@ dependencies {
     implementation "androidx.work:work-runtime:$workVersion"
     implementation "androidx.work:work-rxjava2:$workVersion"
 
-    // Room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.room:room-rxjava2:$roomVersion"
 
     // Moxy
-    implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:$moxyVersion"
-    annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:$moxyVersion"
+    implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
+    annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
 
     // RxJava2
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.5'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
 
     // Retrofit
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
@@ -102,19 +94,19 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
     // Dagger
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
 
     // OmegaLibs
     implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.6@aar'
-    implementation 'com.github.Omega-R:OmegaTypes:0.2.0'
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
     implementation 'com.github.Omega-R:OmegaViews:1.0.0'
 
     // Butterknife
-    implementation "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+    implementation "com.jakewharton:butterknife:${Deps.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${Deps.butterknife}"
 
     implementation("org.simpleframework:simple-xml:2.7.1") {
         exclude group: 'xpp3', module: 'xpp3'
@@ -124,9 +116,9 @@ dependencies {
     implementation 'de.siegmar:fastcsv:1.0.3'
 
     // Tests
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    testImplementation "junit:junit:${Deps.junit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
+    androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
         transitive = true
@@ -137,4 +129,6 @@ dependencies {
 
     // Dropbox
     implementation "com.dropbox.core:dropbox-core-sdk:3.0.11"
+    implementation project(path: ':core')
+
 }

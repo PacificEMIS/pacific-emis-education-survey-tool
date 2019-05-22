@@ -11,10 +11,10 @@ import org.simpleframework.xml.convert.Convert;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.data.model.Category;
-import fm.doe.national.data.model.EvaluationForm;
-import fm.doe.national.data.model.Progress;
-import fm.doe.national.data.model.Standard;
+import fm.doe.national.core.data.model.Category;
+import fm.doe.national.core.data.model.EvaluationForm;
+import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.data.model.Standard;
 import fm.doe.national.data.serialization.converters.EvaluationFormConverter;
 
 @Root(name = "category")

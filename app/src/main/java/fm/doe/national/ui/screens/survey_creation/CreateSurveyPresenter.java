@@ -8,10 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.model.School;
-import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.domain.SurveyInteractor;
+import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.model.School;
+import fm.doe.national.core.data.model.mutable.MutableSurvey;
+import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
