@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import fm.doe.national.app_support.MicronesiaApplication;
+
 import fm.doe.national.data.cloud.CloudPreferences;
 
 public class DropboxCloudPreferences implements CloudPreferences {
@@ -13,7 +13,11 @@ public class DropboxCloudPreferences implements CloudPreferences {
     private static final String PREFS_KEY_DROPBOX_FOLDER_PATH = "PREFS_KEY_DROPBOX_FOLDER_PATH";
     private static final String PREFS_KEY_TOKEN = "PREFS_KEY_TOKEN";
 
-    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+    private final SharedPreferences sharedPreferences;
+
+    public DropboxCloudPreferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
 
     @Nullable
     @Override

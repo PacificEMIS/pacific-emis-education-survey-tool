@@ -22,7 +22,9 @@
         <item name="android:windowExitTransition" tools:targetApi="l">@transition/window_fade</item>
     </style>
 
-    <style name="AppTheme" parent="BaseAppTheme" />
+    <style name="AppTheme" parent="BaseAppTheme" >
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
 
     <style name="AppTheme.NoEnterTransitions">
         <item name="android:windowEnterTransition" tools:targetApi="l">@null</item>

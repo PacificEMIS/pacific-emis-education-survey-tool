@@ -2,7 +2,6 @@ package fm.doe.national.app_support.utils;
 
 public class Constants {
     public static final String FILE_MIME_TYPE = "text/xml";
-    public static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
     public static final String AUTHORITY_FILE_PROVIDER = "fm.doe.national.fileprovider";
     public static final String DEFAULT_ROOT_FOLDER = "Root";
     public static final int SIZE_THUMB_PICTURE = 200;
@@ -19,7 +18,6 @@ public class Constants {
         public static final String WRONG_INTENT = "Activity started with wrong intent";
         public static final String NOT_AUTHORIZED = "User not authorized";
         public static final String WRONG_FRAGMENT_ARGS = "Fragment should be created with static create() method";
-        public static final String WRONT_SUMMARY_INPUT_PARAMETER = "Progresses must be less than 4";
         public static final String NEGATIVE_ANSWERS_COUNT = "Answers count cannot be lower than zero";
     }
 }

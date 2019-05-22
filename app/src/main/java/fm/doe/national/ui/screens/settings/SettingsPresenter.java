@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.settings;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -11,14 +10,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.data.files.PicturesRepository;
+import fm.doe.national.data.preferences.GlobalPreferences;
+import fm.doe.national.data.preferences.entities.AppContext;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.app_support.utils.Constants;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -27,12 +27,13 @@ import io.reactivex.schedulers.Schedulers;
 public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final SettingsInteractor interactor = MicronesiaApplication.getAppComponent().getSettingsInteractor();
-    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+    private final GlobalPreferences globalPreferences = MicronesiaApplication.getAppComponent().getGlobalPreferences();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
 
     public SettingsPresenter() {
         loadLogo();
         updateUi();
+        getViewState().setAppContext(globalPreferences.getAppContext());
     }
 
     public void onConnectToDropboxClick() {
@@ -108,7 +109,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             bitmap.recycle();
             String filePath = pictureFile.getPath();
-            sharedPreferences.edit().putString(Constants.PREF_KEY_LOGO_PATH, filePath).apply();
+            globalPreferences.setLogoPath(filePath);
             loadLogo();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -117,10 +118,23 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void loadLogo() {
-        String logoPath = sharedPreferences.getString(Constants.PREF_KEY_LOGO_PATH, null);
+        String logoPath = globalPreferences.getLogoPath();
         if (logoPath != null) {
             getViewState().setLogo(logoPath);
             getViewState().setLogoName(new File(logoPath).getName());
+        }
+    }
+
+    // TODO: this is temporary method, will be implemented in total redesign feature
+    public void onAppContextEntered(String value) {
+        try {
+            AppContext appContext = AppContext.createFromValue(Integer.parseInt(value));
+            if (appContext != null) {
+                globalPreferences.setAppContext(appContext);
+                getViewState().showToast(Text.from(R.string.toast_set_app_context_success));
+            }
+        } catch (NumberFormatException nfe) {
+            // do nothing
         }
     }
 }

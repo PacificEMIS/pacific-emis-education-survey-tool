@@ -135,5 +135,7 @@
     <string name="label_principal_name">Name of School Principal: </string>
     <string name="label_level_legend">Level Legend</string>
     <string name="above">Above</string>
+    <string name="toast_set_app_context_success">App context changed</string>
+    <string name="title_app_context">Application Context (0-FCM, 1-RMI)</string>
 
 </resources>
