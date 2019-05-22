@@ -7,10 +7,12 @@ import javax.inject.Singleton;
 import dagger.Component;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.interactors.SurveyInteractor;
+import fm.doe.national.core.preferences.GlobalPreferences;
 
 @Singleton
 @Component(modules = {
-        CoreModule.class
+        CoreModule.class,
+        PreferencesModule.class
 })
 public interface CoreComponent {
 
@@ -19,5 +21,7 @@ public interface CoreComponent {
     SurveyInteractor getSurveyInteractor();
 
     SharedPreferences getSharedPreferences();
+
+    GlobalPreferences getGlobalPreferences();
 
 }

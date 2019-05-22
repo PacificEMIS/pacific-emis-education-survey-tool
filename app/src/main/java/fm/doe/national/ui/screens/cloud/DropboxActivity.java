@@ -20,8 +20,8 @@ import butterknife.BindView;
 import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BaseAdapter;
 
 public class DropboxActivity extends BaseActivity implements
         DropboxView,

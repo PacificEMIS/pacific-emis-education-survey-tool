@@ -17,11 +17,9 @@ import fm.doe.national.core.data.model.recommendations.CriteriaRecommendation;
 import fm.doe.national.core.data.model.recommendations.Recommendation;
 import fm.doe.national.core.data.model.recommendations.StandardRecommendation;
 import fm.doe.national.core.data.model.recommendations.SubCriteriaRecommendation;
-import fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView;
-import fm.doe.national.ui.screens.report.ReportLevel;
-import fm.doe.national.ui.screens.report.levels.AccreditationForm;
-import fm.doe.national.ui.screens.report.levels.SchoolAccreditationLevel;
-import fm.doe.national.ui.screens.report.summary.SummaryViewData;
+import fm.doe.national.core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.core.data.model.ReportLevel;
+import fm.doe.national.core.data.model.SummaryViewData;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
@@ -118,13 +116,13 @@ public class ReportInteractorImpl implements ReportInteractor {
                     }
 
                     formBuilder.addObtainedScore(totalByStandard);
-                    summaryViewDataList.add(new SummaryViewData(
-                            category,
-                            standard,
-                            totalByStandard,
-                            totalQuestions,
-                            criteriaSummaryViewDataList
-                    ));
+//                    summaryViewDataList.add(new SummaryViewData(
+//                            category,
+//                            standard,
+//                            totalByStandard,
+//                            totalQuestions,
+//                            criteriaSummaryViewDataList
+//                    ));
                     formBuilder.addQuestionsCount(totalQuestions);
                 }
             }

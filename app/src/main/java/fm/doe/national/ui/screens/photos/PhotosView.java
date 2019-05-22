@@ -6,7 +6,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Photo;
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface PhotosView extends BaseView {

@@ -4,8 +4,8 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.app_support.utils.ActivityLifecycleListener;
-import fm.doe.national.app_support.utils.LifecycleListener;
+import fm.doe.national.core.utils.ActivityLifecycleListener;
+import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.core.di.FeatureScope;
 
 @Module

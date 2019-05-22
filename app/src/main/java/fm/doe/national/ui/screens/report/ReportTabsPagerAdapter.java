@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import java.util.Arrays;
 import java.util.List;
 
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.report.base.BaseReportFragment;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.report.base.BaseReportFragment;
 
 public class ReportTabsPagerAdapter extends FragmentStatePagerAdapter {
 

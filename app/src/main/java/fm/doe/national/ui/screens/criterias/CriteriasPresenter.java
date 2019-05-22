@@ -27,7 +27,7 @@ import fm.doe.national.core.data.model.mutable.MutableStandard;
 import fm.doe.national.core.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.core.data.model.mutable.MutableSurvey;
 import fm.doe.national.core.interactors.SurveyInteractor;
-import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

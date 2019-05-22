@@ -8,8 +8,8 @@ import java.util.List;
 
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
-import fm.doe.national.data.preferences.entities.AppContext;
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.core.preferences.entities.AppContext;
+import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SettingsView extends BaseView {

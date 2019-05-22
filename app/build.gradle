@@ -15,8 +15,6 @@ android {
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FILE_NAME", "\"survey.xml\""
         buildConfigField "String", "SCHOOLS_FILE_NAME", "\"schools.csv\""
-        buildConfigField "float", "SCHOOL_EVALUATION_LEVEL_MULTIPLIER", "90.0f"
-        buildConfigField "float", "CLASSROOM_OBSERVATION_LEVEL_MULTIPLIER", "10.0f"
 
         def DROPBOX_API_KEY = "byvebr4n2uyqzj2"
         buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
@@ -64,7 +62,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
-    implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation "com.google.android.material:material:${Deps.material}"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -76,7 +74,6 @@ dependencies {
     // WorkManager
     implementation "androidx.work:work-runtime:$workVersion"
     implementation "androidx.work:work-rxjava2:$workVersion"
-
 
     // Moxy
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
@@ -99,7 +96,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
 
     // OmegaLibs
-    implementation 'com.github.Omega-R:OmegaRecyclerView:1.9.6@aar'
+    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
     implementation 'com.github.Omega-R:OmegaViews:1.0.0'
@@ -128,7 +125,9 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
     // Dropbox
-    implementation "com.dropbox.core:dropbox-core-sdk:3.0.11"
+    implementation "com.dropbox.core:dropbox-core-sdk:${Deps.dropbox}"
+
     implementation project(path: ':core')
+    implementation project(path: ':fcm_report')
 
 }

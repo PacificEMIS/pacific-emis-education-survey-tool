@@ -14,8 +14,8 @@ import com.omega_r.libs.views.OmegaTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.utils.ViewUtils;
+import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.survey.navigation.NavigationItem;
 import fm.doe.national.ui.screens.survey.navigation.ProgressableNavigationItem;
 

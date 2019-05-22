@@ -7,8 +7,8 @@ import java.util.List;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.preferences.GlobalPreferences;
-import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.screens.menu.MainMenuItem;
 
 abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V> {

@@ -34,11 +34,11 @@ import fm.doe.national.core.data.model.Criteria;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
-import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.photos.PhotosActivity;
-import fm.doe.national.app_support.utils.Constants;
-import fm.doe.national.app_support.utils.DateUtils;
-import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.core.utils.Constants;
+import fm.doe.national.core.utils.DateUtils;
+import fm.doe.national.core.utils.ViewUtils;
 
 public class CriteriasActivity extends BaseActivity implements
         CriteriasView,

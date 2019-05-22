@@ -24,7 +24,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.ui.custom_views.SwitchableButton;
 import fm.doe.national.ui.custom_views.photos_view.PhotoBoxView;
-import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.ui.screens.base.BaseAdapter;
 
 public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 

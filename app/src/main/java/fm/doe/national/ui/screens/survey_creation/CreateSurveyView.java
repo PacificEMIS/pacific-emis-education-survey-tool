@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.core.data.model.School;
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CreateSurveyView extends BaseView {

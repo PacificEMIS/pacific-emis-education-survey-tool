@@ -10,7 +10,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Progress;
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.ui.screens.survey.navigation.NavigationItem;
 
 @StateStrategyType(AddToEndSingleStrategy.class)

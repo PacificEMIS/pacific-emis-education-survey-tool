@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.app_support.utils.Constants;
-import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.utils.Constants;
+import fm.doe.national.core.utils.ViewUtils;
 
 public class FullscreenImageActivity extends BaseActivity {
     private static final String EXTRA_PATH = "EXTRA_PATH";

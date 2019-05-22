@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.ui.screens.base.BaseFragment;
+import fm.doe.national.core.ui.screens.base.BaseFragment;
 
 public interface NavigationItem {
 

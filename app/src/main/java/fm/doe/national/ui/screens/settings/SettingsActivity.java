@@ -25,13 +25,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.app_support.utils.PackageUtils;
-import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.core.utils.PackageUtils;
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
-import fm.doe.national.data.preferences.entities.AppContext;
+import fm.doe.national.core.preferences.entities.AppContext;
 import fm.doe.national.ui.custom_views.CloudConnectionCardView;
-import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements
         SettingsView,

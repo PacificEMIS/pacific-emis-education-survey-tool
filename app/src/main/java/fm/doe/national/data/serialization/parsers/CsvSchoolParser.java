@@ -9,6 +9,7 @@ import java.util.List;
 import de.siegmar.fastcsv.reader.CsvParser;
 import de.siegmar.fastcsv.reader.CsvReader;
 import de.siegmar.fastcsv.reader.CsvRow;
+import fm.doe.national.core.data.exceptions.ParseException;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.persistence.entity.RoomSchool;
 

@@ -9,7 +9,7 @@ import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fm.doe.national.R;
-import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.core.data.model.recommendations.Recommendation;
 
 public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {

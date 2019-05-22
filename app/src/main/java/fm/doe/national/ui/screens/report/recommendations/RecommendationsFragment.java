@@ -16,7 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.report.base.BaseReportFragment;
+import fm.doe.national.core.ui.screens.report.base.BaseReportFragment;
 import fm.doe.national.core.data.model.recommendations.Recommendation;
 
 public class RecommendationsFragment extends BaseReportFragment implements RecommendationsView {

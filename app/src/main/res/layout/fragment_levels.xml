@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.report.levels.LevelsFragment"
+    tools:context=".fcm_report.ui.levels.LevelsFragment"
     android:layout_marginStart="24dp"
     android:layout_marginEnd="24dp">
 
@@ -22,7 +22,7 @@
             android:orientation="vertical"
             app:layout_section="header">
 
-            <fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView
+            <fm.doe.national.core.ui.summary_header.SummaryHeaderView
                 android:id="@+id/summaryheaderview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

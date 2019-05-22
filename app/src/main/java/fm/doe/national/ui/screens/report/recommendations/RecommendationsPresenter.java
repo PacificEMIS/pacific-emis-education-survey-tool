@@ -4,7 +4,7 @@ import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.domain.ReportInteractor;
-import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 

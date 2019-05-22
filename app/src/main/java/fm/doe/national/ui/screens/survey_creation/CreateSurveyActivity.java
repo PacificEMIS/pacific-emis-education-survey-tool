@@ -21,10 +21,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.School;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.categories.CategoriesActivity;
-import fm.doe.national.app_support.utils.DateUtils;
+import fm.doe.national.core.utils.DateUtils;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,

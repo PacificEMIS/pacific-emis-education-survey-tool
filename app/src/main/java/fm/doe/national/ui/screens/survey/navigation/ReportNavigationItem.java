@@ -5,7 +5,7 @@ import com.omega_r.libs.omegatypes.Text;
 import org.jetbrains.annotations.NotNull;
 
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseFragment;
+import fm.doe.national.core.ui.screens.base.BaseFragment;
 
 public class ReportNavigationItem implements NavigationItem {
 

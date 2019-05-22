@@ -10,7 +10,7 @@ import fm.doe.national.R;
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Standard;
-import fm.doe.national.ui.screens.base.BaseFragment;
+import fm.doe.national.core.ui.screens.base.BaseFragment;
 
 public class SchoolAccreditationNavigationItem implements ProgressableNavigationItem {
 

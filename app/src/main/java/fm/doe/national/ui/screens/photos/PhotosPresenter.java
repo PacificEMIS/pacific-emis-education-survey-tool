@@ -10,7 +10,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutableAnswer;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.interactors.SurveyInteractor;
-import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

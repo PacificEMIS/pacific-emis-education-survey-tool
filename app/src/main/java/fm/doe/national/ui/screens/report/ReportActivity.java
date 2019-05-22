@@ -9,10 +9,10 @@ import com.omegar.mvp.presenter.InjectPresenter;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.report.levels.LevelsFragment;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.fcm_report.ui.levels.LevelsFragment;
 import fm.doe.national.ui.screens.report.recommendations.RecommendationsFragment;
-import fm.doe.national.ui.screens.report.summary.SummaryFragment;
+import fm.doe.national.core.ui.screens.report.summary.SummaryFragment;
 
 public class ReportActivity extends BaseActivity implements ReportView {
 
