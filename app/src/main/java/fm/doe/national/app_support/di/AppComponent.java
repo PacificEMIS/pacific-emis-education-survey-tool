@@ -7,13 +7,11 @@ import java.util.List;
 import dagger.Component;
 import fm.doe.national.app_support.di.modules.CloudModule;
 import fm.doe.national.app_support.di.modules.ContextModule;
-import fm.doe.national.app_support.di.modules.GsonModule;
 import fm.doe.national.app_support.di.modules.InteractorsModule;
 import fm.doe.national.app_support.di.modules.LifecycleModule;
 import fm.doe.national.app_support.di.modules.LocalDataSourceModule;
 import fm.doe.national.app_support.di.modules.PreferencesModule;
 import fm.doe.national.app_support.di.modules.SerializersModule;
-import fm.doe.national.app_support.di.modules.SharedPreferencesModule;
 import fm.doe.national.app_support.utils.LifecycleListener;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.School;
@@ -38,9 +36,7 @@ import fm.doe.national.domain.SettingsInteractor;
 @Component(modules = {
         ContextModule.class,
         LocalDataSourceModule.class,
-        GsonModule.class,
         CloudModule.class,
-        SharedPreferencesModule.class,
         SerializersModule.class,
         LifecycleModule.class,
         InteractorsModule.class,

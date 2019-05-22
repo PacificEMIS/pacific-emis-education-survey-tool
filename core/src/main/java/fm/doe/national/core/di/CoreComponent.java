@@ -1,5 +1,7 @@
 package fm.doe.national.core.di;
 
+import android.content.SharedPreferences;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -15,5 +17,7 @@ public interface CoreComponent {
     DataSource getDataSource();
 
     SurveyInteractor getSurveyInteractor();
+
+    SharedPreferences getSharedPreferences();
 
 }

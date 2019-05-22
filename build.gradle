@@ -28,8 +28,9 @@ ext {
             minSdk      : 24,
             targetSdk   : 28,
             compileSdk  : 28,
-            buildTools: "28.0.3",
-            java: '1.8.0']
+            buildTools  : "28.0.3",
+            java        : '1.8.0'
+    ]
     Deps = [
             dagger      : '2.22.1',
             butterknife : '10.1.0',
@@ -37,5 +38,10 @@ ext {
             appcompat   : '1.1.0-alpha05',
             junit       : 4.12,
             androidJUnit: '1.1.1-beta01',
-            espresso    : '3.1.1', omegaTypes: '0.2.0', rxJava: '2.2.5', rxAndroid: '2.1.0', room: '2.1.0-beta01']
+            espresso    : '3.1.1',
+            omegaTypes  : '0.2.0',
+            rxJava      : '2.2.5',
+            rxAndroid   : '2.1.0',
+            room        : '2.1.0-beta01'
+    ]
 }

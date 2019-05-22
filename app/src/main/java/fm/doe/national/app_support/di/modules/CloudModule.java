@@ -16,7 +16,9 @@ import fm.doe.national.data.cloud.CloudTypeKey;
 import fm.doe.national.data.cloud.EmptyCloudAccessor;
 import fm.doe.national.data.cloud.MultipleCloudsRepository;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
+import fm.doe.national.data.cloud.drive.DriveCloudPreferences;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
+import fm.doe.national.data.cloud.dropbox.DropboxCloudPreferences;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
 import fm.doe.national.data.cloud.uploader.WorkerCloudUploader;
 
@@ -69,4 +71,18 @@ public class CloudModule {
     public CloudUploader provideCloudUploader() {
         return new WorkerCloudUploader();
     }
+
+
+    @Provides
+    @FeatureScope
+    public DropboxCloudPreferences provideDropboxCloudPreferences(SharedPreferences sp) {
+        return new DropboxCloudPreferences(sp);
+    }
+
+    @Provides
+    @FeatureScope
+    public DriveCloudPreferences provideDriveCloudPreferences(SharedPreferences sp) {
+        return new DriveCloudPreferences(sp);
+    }
+
 }
