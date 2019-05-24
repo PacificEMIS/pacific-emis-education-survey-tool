@@ -19,6 +19,7 @@ import io.fabric.sdk.android.Fabric;
 
 @RegisterMoxyReflectorPackages({
         "fm.doe.national.fcm_report",
+        "fm.doe.national.rmi_report",
         "fm.doe.national.report_core",
         "fm.doe.national.report"
 })

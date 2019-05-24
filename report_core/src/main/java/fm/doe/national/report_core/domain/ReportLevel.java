@@ -77,6 +77,7 @@ public enum ReportLevel implements Level {
         return minValue;
     }
 
+    @Override
     @NonNull
     public Text getName() {
         return name;

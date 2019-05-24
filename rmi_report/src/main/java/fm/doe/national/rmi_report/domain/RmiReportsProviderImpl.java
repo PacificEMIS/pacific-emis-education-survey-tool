@@ -8,6 +8,7 @@ import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.model.ReportPage;
 import fm.doe.national.report_core.ui.recommendations.RecommendationsFragment;
 import fm.doe.national.report_core.ui.summary.SummaryFragment;
+import fm.doe.national.rmi_report.ui.LevelsFragment;
 
 public class RmiReportsProviderImpl implements RmiReportsProvider {
 
@@ -17,7 +18,7 @@ public class RmiReportsProviderImpl implements RmiReportsProvider {
 
     public RmiReportsProviderImpl(ReportInteractor reportInteractor) {
         interactor = reportInteractor;
-//        pages.add(new ReportPage(LevelsFragment.class, interactor));
+        pages.add(new ReportPage(LevelsFragment.class, interactor));
         pages.add(new ReportPage(SummaryFragment.class, interactor));
         pages.add(new ReportPage(RecommendationsFragment.class, interactor));
     }
