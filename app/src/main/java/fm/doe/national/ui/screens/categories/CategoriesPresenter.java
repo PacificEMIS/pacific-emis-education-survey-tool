@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class CategoriesPresenter extends BasePresenter<CategoriesView> {
 
-    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
+    private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
 
     @Override
     public void attachView(CategoriesView view) {

@@ -17,8 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
 
-    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
+    private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
+    private final DataSource dataSource = MicronesiaApplication.getInjection().getCoreComponent().getDataSource();
 
     private List<MutableSurvey> surveys = new ArrayList<>();
 

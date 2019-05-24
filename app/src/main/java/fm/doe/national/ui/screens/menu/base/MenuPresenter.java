@@ -18,7 +18,7 @@ abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V>
     private static final int ITEM_MONITORING_AND_EVALUATION = R.string.title_monitoring_and_evaluation;
     private static final int ITEM_HYGIENE = R.string.title_water_sanitation_and_hygiene;
 
-    private final GlobalPreferences globalPreferences = MicronesiaApplication.getAppComponent().getGlobalPreferences();
+    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
 
     public MenuPresenter() {
         setupSelector();

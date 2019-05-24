@@ -12,13 +12,13 @@ import java.util.List;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.cloud.CloudAccountData;
-import fm.doe.national.data.cloud.CloudType;
-import fm.doe.national.data.files.PicturesRepository;
+import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppContext;
-import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.data.cloud.CloudAccountData;
+import fm.doe.national.data.cloud.CloudType;
+import fm.doe.national.domain.SettingsInteractor;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -26,9 +26,9 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SettingsPresenter extends BasePresenter<SettingsView> {
 
-    private final SettingsInteractor interactor = MicronesiaApplication.getAppComponent().getSettingsInteractor();
-    private final GlobalPreferences globalPreferences = MicronesiaApplication.getAppComponent().getGlobalPreferences();
-    private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
+    private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
+    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
+    private final PicturesRepository picturesRepository = MicronesiaApplication.getInjection().getCoreComponent().getPicturesRepository();
 
     public SettingsPresenter() {
         loadLogo();

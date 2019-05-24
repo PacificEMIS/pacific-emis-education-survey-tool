@@ -14,25 +14,6 @@
     <string name="error_picker">Picker action failed</string>
     <string name="error_any">Some error occurred</string>
     <string name="error_parse">Failed to parse file</string>
-    <string name="report_level_1">Level 1</string>
-    <string name="report_level_1_determination">Not meeting the standards</string>
-    <string name="report_level_1_determination_source">Special measure</string>
-    <string name="report_level_2">Level 2</string>
-    <string name="report_level_2_determination">Meeting minimum standards</string>
-    <string name="report_level_2_determination_source">National Certificate of Accreditation</string>
-    <string name="report_level_3">Level 3</string>
-    <string name="report_level_3_determination">Meeting the benchmark</string>
-    <string name="report_level_3_determination_source">National Special Certificate of Achievement</string>
-    <string name="report_level_4">Level 4</string>
-    <string name="report_level_4_determination">Exceeding the benchmark</string>
-    <string name="report_level_4_determination_source">National Special Certificate of Achievement</string>
-    <string name="label_school_code">School Code: </string>
-    <string name="label_date_of_accreditation">Date of Accreditation Visit: </string>
-    <string name="label_school_name">School Name: </string>
-    <string name="label_principal_name">Name of School Principal: </string>
-    <string name="label_level_legend">Level Legend</string>
-    <string name="above">Above</string>
-    <string name="summary">Summary</string>
     <string name="format_standard">Standard %1$s:</string>
     <string name="label_school_accreditation">School Accreditation</string>
     <string name="label_settings">Settings %1$s(%2$d)</string>
@@ -123,14 +104,6 @@
     <string name="title_report">School Accreditation Status Report</string>
     <string name="title_report_short">Report</string>
     <string name="label_recommendations">Recommendations</string>
-
-    <string name="title_school_accreditation_level">School Accreditation Level</string>
-    <string name="label_total_score">Total Score</string>
-    <string name="title_evaluation_forms">Evaluation Forms</string>
-    <string name="title_obtained_score">Obtained Score</string>
-    <string name="title_multiplier">Multiplier</string>
-    <string name="title_final_score">Final Score</string>
-    <string name="title_determination_of_overall_level">Determination of Overall Level: </string>
 
     <string name="toast_set_app_context_success">App context changed</string>
     <string name="title_app_context">Application Context (0-FCM, 1-RMI)</string>

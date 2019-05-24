@@ -8,7 +8,8 @@ import java.util.Map;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoMap;
-import fm.doe.national.core.di.FeatureScope;
+import fm.doe.national.app_support.di.AppScope;
+import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.CloudType;
@@ -28,23 +29,27 @@ public class CloudModule {
     @Provides
     @IntoMap()
     @CloudTypeKey(CloudType.DRIVE)
-    @FeatureScope
-    public CloudAccessor provideDriveCloudAccessorForSet(Context context) {
-        return new DriveCloudAccessor(context);
+    @AppScope
+    public CloudAccessor provideDriveCloudAccessorForSet(Context context,
+                                                         DriveCloudPreferences cloudPreferences,
+                                                         LifecycleListener lifecycleListener) {
+        return new DriveCloudAccessor(context, cloudPreferences, lifecycleListener);
     }
 
     @Provides
     @IntoMap
     @CloudTypeKey(CloudType.DROPBOX)
-    @FeatureScope
-    public CloudAccessor provideDropboxCloudAccessorForSet(Context context) {
-        return new DropboxCloudAccessor(context);
+    @AppScope
+    public CloudAccessor provideDropboxCloudAccessorForSet(Context context,
+                                                           DropboxCloudPreferences cloudPreferences,
+                                                           LifecycleListener lifecycleListener) {
+        return new DropboxCloudAccessor(context, cloudPreferences, lifecycleListener);
     }
 
     @Provides
     @IntoMap
     @CloudTypeKey(CloudType.EMPTY)
-    @FeatureScope
+    @AppScope
     public CloudAccessor provideEmptyCloudAccessorForSet() {
         return new EmptyCloudAccessor();
     }
@@ -61,26 +66,26 @@ public class CloudModule {
     }
 
     @Provides
-    @FeatureScope
+    @AppScope
     public CloudRepository provideCloudRepository(Map<CloudType, CloudAccessor> accessors, SharedPreferences sharedPreferences) {
         return new MultipleCloudsRepository(accessors, sharedPreferences);
     }
 
     @Provides
-    @FeatureScope
+    @AppScope
     public CloudUploader provideCloudUploader() {
         return new WorkerCloudUploader();
     }
 
 
     @Provides
-    @FeatureScope
+    @AppScope
     public DropboxCloudPreferences provideDropboxCloudPreferences(SharedPreferences sp) {
         return new DropboxCloudPreferences(sp);
     }
 
     @Provides
-    @FeatureScope
+    @AppScope
     public DriveCloudPreferences provideDriveCloudPreferences(SharedPreferences sp) {
         return new DriveCloudPreferences(sp);
     }

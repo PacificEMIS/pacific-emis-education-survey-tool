@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SurveyPresenter extends BasePresenter<SurveyView> {
 
-    private SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
+    private SurveyInteractor surveyInteractor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
 
     public SurveyPresenter() {
         getViewState().setSchoolName(surveyInteractor.getCurrentSurvey().getSchoolName());

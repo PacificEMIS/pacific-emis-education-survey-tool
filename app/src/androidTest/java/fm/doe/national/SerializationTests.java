@@ -16,9 +16,9 @@ import fm.doe.national.core.data.model.mutable.MutableCategory;
 import fm.doe.national.core.data.model.mutable.MutableCriteria;
 import fm.doe.national.core.data.model.mutable.MutableStandard;
 import fm.doe.national.core.data.model.mutable.MutableSurvey;
-import fm.doe.national.data.serialization.entities.SerializableSurvey;
-import fm.doe.national.data.serialization.parsers.Parser;
-import fm.doe.national.data.serialization.parsers.XmlSurveyParser;
+import fm.doe.national.core.data.serialization.entities.SerializableSurvey;
+import fm.doe.national.core.data.serialization.parsers.Parser;
+import fm.doe.national.core.data.serialization.parsers.XmlSurveyParser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

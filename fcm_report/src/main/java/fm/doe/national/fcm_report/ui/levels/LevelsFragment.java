@@ -15,36 +15,40 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.omega_r.libs.omegatypes.Text;
 import com.omega_r.libs.views.OmegaTextView;
 import com.omegar.mvp.presenter.InjectPresenter;
+import com.omegar.mvp.presenter.ProvidePresenter;
 
-import butterknife.BindView;
-import fm.doe.national.R;
 import fm.doe.national.core.utils.ViewUtils;
-import fm.doe.national.ui.custom_views.summary_header.SummaryHeaderView;
-import fm.doe.national.core.data.model.ReportLevel;
-import fm.doe.national.ui.screens.report.base.BaseReportFragment;
+import fm.doe.national.fcm_report.di.ComponentInjector;
+import fm.doe.national.fcm_report.R;
+import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
+import fm.doe.national.report_core.domain.ReportInteractor;
+import fm.doe.national.report_core.domain.ReportLevel;
+import fm.doe.national.report_core.ui.base.BaseReportFragment;
+import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
 
 public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
+    @InjectPresenter
+    LevelsPresenter presenter;
 
-    @BindView(R.id.textview_determination)
-    OmegaTextView determinationTextView;
-
-    @BindView(R.id.textview_level)
-    TextView levelTextView;
-
-    @BindView(R.id.summaryheaderview)
-    SummaryHeaderView summaryHeaderView;
+    private RecyclerView recyclerView;
+    private OmegaTextView determinationTextView;
+    private TextView levelTextView;
+    private SummaryHeaderView summaryHeaderView;
 
     private final EvalutaionFormsAdapter adapter = new EvalutaionFormsAdapter();
 
     private TextView totalObtainedScoreTextView;
     private TextView totalFinalScoreTextView;
 
+    @ProvidePresenter
+    LevelsPresenter providePresenter() {
+        return new LevelsPresenter(ComponentInjector.getComponent(getActivity().getApplication()));
+    }
 
-    @InjectPresenter
-    LevelsPresenter presenter;
+    public LevelsFragment(ReportInteractor interactor) {
+        // used in reflection
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -55,6 +59,8 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews(view);
+
         recyclerView.setAdapter(adapter);
 
         ViewUtils.forEachChild(
@@ -75,6 +81,13 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
         totalObtainedScoreTextView = totalsViewGroup.findViewById(R.id.textview_obtained_score);
         totalFinalScoreTextView = totalsViewGroup.findViewById(R.id.textview_final_score);
+    }
+
+    private void bindViews(View view) {
+        recyclerView = view.findViewById(R.id.recyclerview);
+        determinationTextView = view.findViewById(R.id.textview_determination);
+        levelTextView = view.findViewById(R.id.textview_level);
+        summaryHeaderView = view.findViewById(R.id.summaryheaderview);
     }
 
     @Override

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    style="@style/Summary.Row"
+    android:weightSum="0">
+
+    <TextView
+        android:id="@+id/textview_header_name"
+        style="@style/Summary.Cell.Name.Sticky"
+        tools:text="Principal's interview"/>
+
+</LinearLayout>

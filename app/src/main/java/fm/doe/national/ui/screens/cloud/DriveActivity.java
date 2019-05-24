@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -15,15 +17,14 @@ import com.google.android.gms.drive.OpenFileActivityOptions;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.SearchableField;
 
-import androidx.annotation.NonNull;
-import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
-import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
+import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.exceptions.FileImportException;
 import fm.doe.national.core.data.exceptions.PickException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.utils.Constants;
+import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 
 public class DriveActivity extends BaseActivity {
 
@@ -38,7 +39,7 @@ public class DriveActivity extends BaseActivity {
 
     private static final String EXTRA_ACTION = "EXTRA_ACTION";
 
-    private final DriveCloudAccessor driveCloudAccessor = MicronesiaApplication.getAppComponent().getDriveCloudAccessor();
+    private final DriveCloudAccessor driveCloudAccessor = MicronesiaApplication.getInjection().getAppComponent().getDriveCloudAccessor();
 
     @NonNull
     public static Intent createIntent(@NonNull Context context, int action) {

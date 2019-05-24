@@ -5,9 +5,8 @@ import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import fm.doe.national.R;
+import fm.doe.national.fcm_report.R;
+import fm.doe.national.fcm_report.data.model.AccreditationForm;
 
 public class EvalutaionFormsAdapter extends BaseListAdapter<AccreditationForm> {
 
@@ -18,21 +17,21 @@ public class EvalutaionFormsAdapter extends BaseListAdapter<AccreditationForm> {
 
     class ItemViewHolder extends ViewHolder {
 
-        @BindView(R.id.textview_name)
-        TextView nameTextView;
-
-        @BindView(R.id.textview_obtained_score)
-        TextView obtainedScoreTextView;
-
-        @BindView(R.id.textview_multiplier)
-        TextView multiplierTextView;
-
-        @BindView(R.id.textview_final_score)
-        TextView finalScoreTextView;
+        private TextView nameTextView;
+        private TextView obtainedScoreTextView;
+        private TextView multiplierTextView;
+        private TextView finalScoreTextView;
 
         public ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_school_accreditation_level);
-            ButterKnife.bind(this, itemView);
+            bindViews();
+        }
+
+        private void bindViews() {
+            nameTextView = findViewById(R.id.textview_name);
+            obtainedScoreTextView = findViewById(R.id.textview_obtained_score);
+            multiplierTextView = findViewById(R.id.textview_multiplier);
+            finalScoreTextView = findViewById(R.id.textview_final_score);
         }
 
         @Override

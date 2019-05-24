@@ -26,7 +26,7 @@ import fm.doe.national.core.data.model.mutable.MutableCriteria;
 import fm.doe.national.core.data.model.mutable.MutableStandard;
 import fm.doe.national.core.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.core.data.model.mutable.MutableSurvey;
-import fm.doe.national.data.serialization.parsers.XmlSurveyParser;
+import fm.doe.national.core.data.serialization.parsers.XmlSurveyParser;
 import fm.doe.national.core.interactors.SurveyInteractorImpl;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;

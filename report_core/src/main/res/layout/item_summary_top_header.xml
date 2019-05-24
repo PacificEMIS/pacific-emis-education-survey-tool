@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Summary.Row"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:weightSum="100">
+
+    <View style="@style/Summary.Cell.Name.Header" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="@integer/weight_summary_rates"
+        android:orientation="horizontal">
+
+        <View style="@style/Summary.Cell.Item.Header" />
+
+        <TextView
+            style="@style/Summary.Cell.Item.Header"
+            android:text="@string/first_subcriteria" />
+
+        <TextView
+            style="@style/Summary.Cell.Item.Header"
+            android:text="@string/second_subcriteria" />
+
+        <TextView
+            style="@style/Summary.Cell.Item.Header"
+            android:text="@string/third_subcriteria" />
+
+        <TextView
+            style="@style/Summary.Cell.Item.Header"
+            android:text="@string/forth_subcriteria" />
+
+        <TextView
+            android:id="@+id/textview_subcriteria_5"
+            style="@style/Summary.Cell.Item.Header"
+            android:text="@string/fifth_subcriteria" />
+
+        <TextView
+            style="@style/Summary.Cell.Item.Header"
+            android:text="@string/title_total" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/Summary.Cell.Item.Header"
+        android:text="@string/title_total_by_standards" />
+
+</LinearLayout>

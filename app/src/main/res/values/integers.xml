@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="weight_summary_item">9</integer>
-    <integer name="weight_summary_name">37</integer>
-    <integer name="weight_summary_rates">54</integer>
     <integer name="count_spans_photos_preview">6</integer>
     <integer name="count_spans_photos">4</integer>
 </resources>

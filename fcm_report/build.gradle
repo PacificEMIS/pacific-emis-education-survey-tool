@@ -15,6 +15,11 @@ android {
         buildConfigField "float", "SCHOOL_EVALUATION_LEVEL_MULTIPLIER", "90.0f"
         buildConfigField "float", "CLASSROOM_OBSERVATION_LEVEL_MULTIPLIER", "10.0f"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moxyReflectorPackage : 'fm.doe.national.fcm_report' ]
+            }
+        }
     }
 
     buildTypes {
@@ -33,12 +38,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(path: ':core')
+    implementation project(path: ':report_core')
+
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
+    implementation "com.google.android.material:material:${Deps.material}"
     testImplementation "junit:junit:${Deps.junit}"
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
-
-    implementation project(path: ':core')
 
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"
@@ -48,8 +55,13 @@ dependencies {
     // Omega
     implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
+    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
 
     // RxJava2
     implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
     implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
+
+    // Moxy
+    implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
+    annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
 }

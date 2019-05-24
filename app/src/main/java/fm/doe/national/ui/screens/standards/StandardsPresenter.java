@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 public class StandardsPresenter extends BasePresenter<StandardsView> {
 
     private final long categoryId;
-    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
+    private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
 
     public StandardsPresenter(long categoryId) {
         this.categoryId = categoryId;

@@ -3,22 +3,31 @@ package fm.doe.national.domain;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.cloud.CloudAccountData;
-import fm.doe.national.data.cloud.CloudRepository;
-import fm.doe.national.data.cloud.CloudType;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.data.serialization.parsers.Parser;
+import fm.doe.national.core.data.serialization.parsers.Parser;
+import fm.doe.national.data.cloud.CloudAccountData;
+import fm.doe.national.data.cloud.CloudRepository;
+import fm.doe.national.data.cloud.CloudType;
 import io.reactivex.Completable;
 
 public class SettingsInteractor {
 
-    private final CloudRepository cloudRepository = MicronesiaApplication.getAppComponent().getCloudRepository();
-    private final DataSource localDataRepository = MicronesiaApplication.getAppComponent().getDataSource();
-    private final Parser<Survey> surveyParser = MicronesiaApplication.getAppComponent().getSurveyParser();
-    private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
+    private final CloudRepository cloudRepository;
+    private final DataSource localDataRepository;
+    private final Parser<Survey> surveyParser;
+    private final Parser<List<School>> schoolsParser;
+
+    public SettingsInteractor(CloudRepository cloudRepository,
+                              DataSource localDataRepository,
+                              Parser<Survey> surveyParser,
+                              Parser<List<School>> schoolsParser) {
+        this.cloudRepository = cloudRepository;
+        this.localDataRepository = localDataRepository;
+        this.surveyParser = surveyParser;
+        this.schoolsParser = schoolsParser;
+    }
 
     public Completable auth(CloudType type) {
         return cloudRepository.auth(type);

@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.Collections;
 import java.util.List;
 
-import fm.doe.national.core.data.model.ReportLevel;
+import fm.doe.national.report_core.domain.ReportLevel;
 
 public class SchoolAccreditationLevel {
 
@@ -26,6 +26,10 @@ public class SchoolAccreditationLevel {
         calculateTotalObtainedScore();
         calculateTotalScore();
         calculateReportLevel(this.totalScore);
+    }
+
+    public boolean isEmpty() {
+        return reportLevel == null;
     }
 
     private void calculateTotalObtainedScore() {

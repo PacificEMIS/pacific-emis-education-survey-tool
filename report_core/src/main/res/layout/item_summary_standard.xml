@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Summary.Row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textview_standard_name"
+        style="@style/Summary.Cell.Name.Header"
+        android:maxLines="10"
+        tools:text="Standard SE4: National Curriculum Standards, Bechmarks and Student Learning Outcomes" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
+        style="@style/Summary.Cell.Item.Header"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="@integer/weight_summary_rates"
+        tools:listitem="@layout/item_summary_criteria" />
+
+    <TextView
+        android:id="@+id/textview_total"
+        style="@style/Summary.Cell.Item.Header"
+        tools:text="16" />
+
+</LinearLayout>

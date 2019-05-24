@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import org.jetbrains.annotations.NotNull;
-
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
@@ -39,7 +37,7 @@ public class SchoolAccreditationNavigationItem implements ProgressableNavigation
         return standard.getProgress();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public BaseFragment buildFragment() {
         throw new UnsupportedOperationException();

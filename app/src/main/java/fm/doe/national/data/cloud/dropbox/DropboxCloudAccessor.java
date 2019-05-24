@@ -3,6 +3,9 @@ package fm.doe.national.data.cloud.dropbox;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.android.Auth;
@@ -17,15 +20,12 @@ import com.dropbox.core.v2.files.WriteMode;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
+import fm.doe.national.core.utils.Constants;
+import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
 import fm.doe.national.ui.screens.cloud.DropboxActivity;
-import fm.doe.national.core.utils.Constants;
-import fm.doe.national.core.utils.LifecycleListener;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -36,8 +36,8 @@ public class DropboxCloudAccessor implements CloudAccessor {
 
     public static final String DROPBOX_ROOT_FOLDER = "~";
     private final Context context;
-    private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDropboxCloudPreferences();
-    private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
+    private final CloudPreferences cloudPreferences;
+    private final LifecycleListener lifecycleListener;
 
     private CompletableSubject authCompletable;
     private SingleSubject<String> importSingle;
@@ -45,11 +45,13 @@ public class DropboxCloudAccessor implements CloudAccessor {
     private DbxClientV2 dropboxClient;
 
     @Nullable
-    private String exportFolder = cloudPreferences.getExportFolder();
+    private String exportFolder;
 
-
-    public DropboxCloudAccessor(Context context) {
+    public DropboxCloudAccessor(Context context, CloudPreferences cloudPreferences, LifecycleListener lifecycleListener) {
         this.context = context;
+        this.cloudPreferences = cloudPreferences;
+        this.lifecycleListener = lifecycleListener;
+        exportFolder = cloudPreferences.getExportFolder();
         if (hasAuthToken()) initDropbox(false);
     }
 

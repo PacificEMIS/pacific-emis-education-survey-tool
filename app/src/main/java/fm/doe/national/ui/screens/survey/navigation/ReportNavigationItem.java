@@ -1,8 +1,8 @@
 package fm.doe.national.ui.screens.survey.navigation;
 
-import com.omega_r.libs.omegatypes.Text;
+import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
+import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
@@ -12,7 +12,7 @@ public class ReportNavigationItem implements NavigationItem {
     private static final Text HEADER = Text.from(R.string.title_report_short);
     private static final Text NAME = Text.from(R.string.title_report);
 
-    @NotNull
+    @NonNull
     @Override
     public BaseFragment buildFragment() {
         throw new UnsupportedOperationException();

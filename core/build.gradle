@@ -12,6 +12,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moxyReflectorPackage : 'fm.doe.national.core' ]
+            }
+        }
     }
 
     buildTypes {
@@ -61,4 +66,18 @@ dependencies {
     // Dropbox
     implementation "com.dropbox.core:dropbox-core-sdk:${Deps.dropbox}"
 
+    // Butterknife
+    implementation "com.jakewharton:butterknife:${Deps.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${Deps.butterknife}"
+
+    // Dropbox
+    implementation "com.dropbox.core:dropbox-core-sdk:${Deps.dropbox}"
+
+    // FastCsv
+    implementation 'de.siegmar:fastcsv:1.0.3'
+
+    // SimpleXML
+    implementation("org.simpleframework:simple-xml:2.7.1") {
+        exclude group: 'xpp3', module: 'xpp3'
+    }
 }

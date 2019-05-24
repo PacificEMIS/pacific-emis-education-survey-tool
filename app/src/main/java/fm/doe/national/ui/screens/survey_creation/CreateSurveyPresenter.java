@@ -19,8 +19,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
-    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
+    private final DataSource dataSource = MicronesiaApplication.getInjection().getCoreComponent().getDataSource();
+    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
 
     private Date surveyStartDate = new Date();
     private List<? extends School> schools;
