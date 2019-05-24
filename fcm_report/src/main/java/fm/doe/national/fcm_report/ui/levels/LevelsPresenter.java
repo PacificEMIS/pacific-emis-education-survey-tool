@@ -23,12 +23,10 @@ public class LevelsPresenter extends BaseReportPresenter<LevelsView> {
         addDisposable(interactor.getLevelSubject()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(data -> {
+                .subscribe(data -> {
                     if (!data.isEmpty()) {
                         getViewState().setData(data);
                     }
-                })
-                .doOnError(this::handleError)
-                .subscribe());
+                }, this::handleError));
     }
 }

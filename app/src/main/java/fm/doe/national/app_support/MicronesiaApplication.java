@@ -13,6 +13,8 @@ import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportComponentProvider;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportComponentProvider;
+import fm.doe.national.rmi_report.di.RmiReportComponent;
+import fm.doe.national.rmi_report.di.RmiReportComponentProvider;
 import io.fabric.sdk.android.Fabric;
 
 @RegisterMoxyReflectorPackages({
@@ -23,6 +25,7 @@ import io.fabric.sdk.android.Fabric;
 public class MicronesiaApplication extends MultiDexApplication implements
         CoreComponentProvider,
         FcmReportComponentProvider,
+        RmiReportComponentProvider,
         ReportComponentProvider {
 
     private static final Injection injection = new Injection();
@@ -51,5 +54,10 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public ReportComponent provideReportComponent() {
         return injection.getReportComponent();
+    }
+
+    @Override
+    public RmiReportComponent provideRmiReportComponent() {
+        return injection.getRmiReportComponent();
     }
 }

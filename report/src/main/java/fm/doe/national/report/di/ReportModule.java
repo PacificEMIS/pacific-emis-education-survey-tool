@@ -6,14 +6,17 @@ import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportsProvider;
+import fm.doe.national.rmi_report.di.RmiReportComponent;
 
 @Module
 public class ReportModule {
 
     private final FcmReportComponent fcmReportComponent;
+    private final RmiReportComponent rmiReportComponent;
 
-    public ReportModule(FcmReportComponent fcmReportComponent) {
+    public ReportModule(FcmReportComponent fcmReportComponent, RmiReportComponent rmiReportComponent) {
         this.fcmReportComponent = fcmReportComponent;
+        this.rmiReportComponent = rmiReportComponent;
     }
 
     @Provides
@@ -22,7 +25,7 @@ public class ReportModule {
             case FCM:
                 return fcmReportComponent.getFcmReportsProvider();
             case RMI:
-                return fcmReportComponent.getFcmReportsProvider(); // TODO: not implemented
+                return rmiReportComponent.getRmiReportsProvider();
         }
         throw new IllegalStateException();
     }
@@ -33,7 +36,7 @@ public class ReportModule {
             case FCM:
                 return fcmReportComponent.getFcmReportInteractor();
             case RMI:
-                return fcmReportComponent.getFcmReportInteractor(); // TODO: not implemented
+                return rmiReportComponent.getRmiReportInteractor();
         }
         throw new IllegalStateException();
     }

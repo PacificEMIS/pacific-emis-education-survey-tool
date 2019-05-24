@@ -3,6 +3,7 @@ package fm.doe.national.report_core.ui.summary_header;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -56,10 +57,15 @@ public class SummaryHeaderView extends LinearLayout {
         schoolNameTextView.setText(item.getSchoolName());
         principalNameTextView.setText(item.getPrincipalName());
         visitDateTextView.setText(DateUtils.format(item.getDate()));
-        try {
-            legendAdapter.setItems(item.getLevels().stream().map(level -> (ReportLevel) level).collect(Collectors.toList()));
-        } catch (ClassCastException cce) {
-            // do nothing
+        if (item.getLevels() == null || item.getLevels().isEmpty()) {
+            legendRecyclerView.setVisibility(View.GONE);
+        } else {
+            legendRecyclerView.setVisibility(View.VISIBLE);
+            try {
+                legendAdapter.setItems(item.getLevels().stream().map(level -> (ReportLevel) level).collect(Collectors.toList()));
+            } catch (ClassCastException cce) {
+                // do nothing
+            }
         }
     }
 

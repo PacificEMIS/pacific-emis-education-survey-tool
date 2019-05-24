@@ -10,12 +10,15 @@ import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.report.di.DaggerReportComponent;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportModule;
+import fm.doe.national.rmi_report.di.DaggerRmiReportComponent;
+import fm.doe.national.rmi_report.di.RmiReportComponent;
 
 public class Injection {
 
     private CoreComponent coreComponent;
     private AppComponent appComponent;
     private FcmReportComponent fcmReportComponent;
+    private RmiReportComponent rmiReportComponent;
     private ReportComponent reportComponent;
 
     public void createDependencyGraph(Context applicationContext) {
@@ -27,9 +30,10 @@ public class Injection {
                 .coreComponent(coreComponent)
                 .build();
         fcmReportComponent = DaggerFcmReportComponent.builder().build();
+        rmiReportComponent = DaggerRmiReportComponent.builder().build();
         reportComponent = DaggerReportComponent.builder()
                 .coreComponent(coreComponent)
-                .reportModule(new ReportModule(fcmReportComponent))
+                .reportModule(new ReportModule(fcmReportComponent, rmiReportComponent))
                 .build();
     }
 
@@ -39,6 +43,10 @@ public class Injection {
 
     public FcmReportComponent getFcmReportComponent() {
         return fcmReportComponent;
+    }
+
+    public RmiReportComponent getRmiReportComponent() {
+        return rmiReportComponent;
     }
 
     public AppComponent getAppComponent() {
