@@ -6,13 +6,13 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.report_core.model.ReportPage;
-import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 
 @StateStrategyType(OneExecutionStateStrategy.class)
 public interface ReportView extends BaseView {
 
     void setReportPages(List<ReportPage> pages);
 
-    void setHeaderItem(SummaryHeaderView.Item item);
+    void setHeaderItem(LevelLegendView.Item item);
 
 }

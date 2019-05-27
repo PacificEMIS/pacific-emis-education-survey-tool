@@ -10,17 +10,16 @@
         style="@style/Text.Title1.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/label_level_legend" />
 
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview_levels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="48dp"
         android:overScrollMode="never"
+        app:itemSpace="8dp"
         tools:itemCount="4"
         tools:listitem="@layout/item_level_legend" />
 

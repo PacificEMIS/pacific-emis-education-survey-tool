@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_summary_standard">
 
-        <fm.doe.national.report_core.ui.summary_header.SummaryHeaderView
+        <fm.doe.national.report_core.ui.level_legend.LevelLegendView
             android:id="@+id/summaryheaderview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

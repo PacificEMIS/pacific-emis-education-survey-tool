@@ -16,14 +16,14 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
-import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import fm.doe.national.rmi_report.R;
 import fm.doe.national.rmi_report.di.ComponentInjector;
 import fm.doe.national.rmi_report.model.SchoolAccreditationTallyLevel;
 
 public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
-    private SummaryHeaderView summaryHeaderView;
+    private LevelLegendView levelLegendView;
     private TextView level1TextView;
     private TextView level2TextView;
     private TextView level3TextView;
@@ -56,7 +56,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     }
 
     private void bindViews(View view) {
-        summaryHeaderView = view.findViewById(R.id.summaryheaderview);
+        levelLegendView = view.findViewById(R.id.summaryheaderview);
         level1TextView = view.findViewById(R.id.textview_tally_level_1);
         level2TextView = view.findViewById(R.id.textview_tally_level_2);
         level3TextView = view.findViewById(R.id.textview_tally_level_3);
@@ -82,7 +82,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     }
 
     @Override
-    public void setHeaderItem(SummaryHeaderView.Item item) {
-        summaryHeaderView.setItem(item);
+    public void setHeaderItem(LevelLegendView.Item item) {
+        levelLegendView.setItem(item);
     }
 }

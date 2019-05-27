@@ -5,7 +5,7 @@ import java.util.List;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
-import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.subjects.Subject;
 
 
@@ -17,6 +17,6 @@ public interface ReportInteractor {
 
     Subject<List<SummaryViewData>> getSummarySubject();
 
-    Subject<SummaryHeaderView.Item> getHeaderItemSubject();
+    Subject<LevelLegendView.Item> getHeaderItemSubject();
 
 }

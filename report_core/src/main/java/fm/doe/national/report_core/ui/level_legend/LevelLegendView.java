@@ -1,4 +1,4 @@
-package fm.doe.national.report_core.ui.summary_header;
+package fm.doe.national.report_core.ui.level_legend;
 
 
 import android.content.Context;
@@ -17,22 +17,22 @@ import fm.doe.national.report_core.R;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;
 
-public class SummaryHeaderView extends LinearLayout {
+public class LevelLegendView extends LinearLayout {
 
     private final LegendAdapter legendAdapter = new LegendAdapter(getContext());
     private RecyclerView legendRecyclerView;
 
-    public SummaryHeaderView(Context context) {
+    public LevelLegendView(Context context) {
         this(context, null, 0);
     }
 
-    public SummaryHeaderView(Context context, @Nullable AttributeSet attrs) {
+    public LevelLegendView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SummaryHeaderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LevelLegendView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.view_summary_header, this);
+        inflate(context, R.layout.view_level_legend, this);
         bindViews();
         legendRecyclerView.setAdapter(legendAdapter);
     }

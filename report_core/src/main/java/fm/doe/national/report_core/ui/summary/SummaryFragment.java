@@ -19,7 +19,7 @@ import fm.doe.national.report_core.R;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
-import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 
 public class SummaryFragment extends BaseReportFragment implements SummaryView {
 
@@ -30,7 +30,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
     SummaryPresenter presenter;
 
     private RecyclerView summaryRecyclerView;
-    private SummaryHeaderView summaryHeaderView;
+    private LevelLegendView levelLegendView;
 
     public SummaryFragment(ReportInteractor interactor) {
         this.interactor = interactor;
@@ -58,7 +58,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
 
     private void bindViews(View view) {
         summaryRecyclerView = view.findViewById(R.id.recyclerview_summary);
-        summaryHeaderView = view.findViewById(R.id.summaryheaderview);
+        levelLegendView = view.findViewById(R.id.summaryheaderview);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
     }
 
     @Override
-    public void setHeaderItem(SummaryHeaderView.Item item) {
-        summaryHeaderView.setItem(item);
+    public void setHeaderItem(LevelLegendView.Item item) {
+        levelLegendView.setItem(item);
     }
 }

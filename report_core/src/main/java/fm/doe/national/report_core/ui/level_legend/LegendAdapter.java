@@ -1,4 +1,4 @@
-package fm.doe.national.report_core.ui.summary_header;
+package fm.doe.national.report_core.ui.level_legend;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

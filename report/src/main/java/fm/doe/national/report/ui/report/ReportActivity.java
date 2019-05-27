@@ -17,7 +17,7 @@ import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.report.R;
 import fm.doe.national.report.di.ComponentInjector;
 import fm.doe.national.report_core.model.ReportPage;
-import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 
 public class ReportActivity extends BaseActivity implements ReportView {
 
@@ -69,7 +69,7 @@ public class ReportActivity extends BaseActivity implements ReportView {
         tabsPagerAdapter.setFragments(pages.stream().map(ReportPage::buildFragment).collect(Collectors.toList()));
     }
 
-    public void setHeaderItem(SummaryHeaderView.Item item) {
+    public void setHeaderItem(LevelLegendView.Item item) {
         schoolIdTextView.setText(item.getSchoolId());
         schoolNameTextView.setText(item.getSchoolName());
         principalNameTextView.setText(item.getPrincipalName());
