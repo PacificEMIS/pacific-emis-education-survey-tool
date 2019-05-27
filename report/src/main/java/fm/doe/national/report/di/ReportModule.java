@@ -21,7 +21,7 @@ public class ReportModule {
 
     @Provides
     public ReportsProvider provideReportsProvider(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getAppContext()) {
+        switch (globalPreferences.getAppRegion()) {
             case FCM:
                 return fcmReportComponent.getFcmReportsProvider();
             case RMI:
@@ -32,7 +32,7 @@ public class ReportModule {
 
     @Provides
     public ReportInteractor provideReportInteractor(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getAppContext()) {
+        switch (globalPreferences.getAppRegion()) {
             case FCM:
                 return fcmReportComponent.getFcmReportInteractor();
             case RMI:

@@ -8,9 +8,9 @@ import fm.doe.national.core.preferences.entities.AppRegion;
 public interface GlobalPreferences {
 
     @NonNull
-    AppRegion getAppContext();
+    AppRegion getAppRegion();
 
-    void setAppContext(AppRegion appRegion);
+    void setAppRegion(AppRegion appRegion);
 
     @Nullable
     String getLogoPath();

@@ -33,7 +33,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     public SettingsPresenter() {
         loadLogo();
         updateUi();
-        getViewState().setAppContext(globalPreferences.getAppContext());
+        getViewState().setAppContext(globalPreferences.getAppRegion());
     }
 
     public void onConnectToDropboxClick() {
@@ -130,7 +130,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         try {
             AppRegion appRegion = AppRegion.createFromValue(Integer.parseInt(value));
             if (appRegion != null) {
-                globalPreferences.setAppContext(appRegion);
+                globalPreferences.setAppRegion(appRegion);
                 getViewState().showToast(Text.from(R.string.toast_set_app_context_success));
             }
         } catch (NumberFormatException nfe) {

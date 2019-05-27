@@ -9,8 +9,8 @@ import fm.doe.national.core.preferences.entities.AppRegion;
 
 public class GlobalPreferencesImpl implements GlobalPreferences {
 
-    private static final String PREF_KEY_APP_CONTEXT = "PREF_KEY_APP_CONTEXT";
-    private static final AppRegion DEFAULT_APP_CONTEXT = AppRegion.FCM;
+    private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
+    private static final AppRegion DEFAULT_APP_REGION = AppRegion.FCM;
     private static final int NULL_APP_CONTEXT_VALUE = -1;
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
 
@@ -22,20 +22,20 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @NonNull
     @Override
-    public AppRegion getAppContext() {
+    public AppRegion getAppRegion() {
         AppRegion savedAppRegion = getSavedAppContext();
-        return savedAppRegion != null ? savedAppRegion : DEFAULT_APP_CONTEXT;
+        return savedAppRegion != null ? savedAppRegion : DEFAULT_APP_REGION;
     }
 
     @Nullable
     private AppRegion getSavedAppContext() {
-        return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_CONTEXT, NULL_APP_CONTEXT_VALUE));
+        return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_REGION, NULL_APP_CONTEXT_VALUE));
     }
 
 
     @Override
-    public void setAppContext(AppRegion appRegion) {
-        sharedPreferences.edit().putInt(PREF_KEY_APP_CONTEXT, appRegion.getValue()).apply();
+    public void setAppRegion(AppRegion appRegion) {
+        sharedPreferences.edit().putInt(PREF_KEY_APP_REGION, appRegion.getValue()).apply();
     }
 
     @Nullable
