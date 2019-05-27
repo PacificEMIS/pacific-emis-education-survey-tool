@@ -22,15 +22,14 @@ public class SchoolAccreditationTallyLevel {
         return new SchoolAccreditationTallyLevel();
     }
 
-    public SchoolAccreditationTallyLevel(int countOfOnes,
-                                         int countOfTwos,
-                                         int countOfThrees,
-                                         int countOfFours,
-                                         int tallyScore) {
-        this.countOfOnes = countOfOnes;
-        this.countOfTwos = countOfTwos;
-        this.countOfThrees = countOfThrees;
-        this.countOfFours = countOfFours;
+    public SchoolAccreditationTallyLevel(int[] counts, int tallyScore) {
+        if (counts.length != 4) {
+            throw new IllegalStateException();
+        }
+        this.countOfOnes = counts[0];
+        this.countOfTwos = counts[1];
+        this.countOfThrees = counts[2];
+        this.countOfFours = counts[3];
         this.tallyScore = tallyScore;
         this.level = calculateLevel();
     }

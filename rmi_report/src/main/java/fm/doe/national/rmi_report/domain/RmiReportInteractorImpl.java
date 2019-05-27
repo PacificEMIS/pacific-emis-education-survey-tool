@@ -44,40 +44,20 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
 
     private void requestLevelReport(Survey survey) {
         Schedulers.computation().scheduleDirect(() -> {
-            int countOfOnes = 0;
-            int countOfTwos = 0;
-            int countOfThrees = 0;
-            int countOfFourth = 0;
+            int[] counts = new int[4];
             int tallyScore = 0;
             for (Category category : survey.getCategories()) {
                 for (Standard standard : category.getStandards()) {
                     for (Criteria criteria : standard.getCriterias()) {
                         int criteriaSum = getPositiveAnswersCount(criteria);
-                        switch (criteriaSum) {
-                            case 1:
-                                countOfOnes++;
-                                break;
-                            case 2:
-                                countOfTwos++;
-                                break;
-                            case 3:
-                                countOfThrees++;
-                            case 4:
-                                countOfFourth++;
+                        if (criteriaSum > 0) {
+                            counts[criteriaSum - 1]++;
+                            tallyScore += criteriaSum;
                         }
-                        tallyScore += criteriaSum;
                     }
                 }
             }
-            levelSubject.onNext(
-                    new SchoolAccreditationTallyLevel(
-                            countOfOnes,
-                            countOfTwos,
-                            countOfThrees,
-                            countOfFourth,
-                            tallyScore
-                    )
-            );
+            levelSubject.onNext(new SchoolAccreditationTallyLevel(counts, tallyScore));
         });
     }
 
