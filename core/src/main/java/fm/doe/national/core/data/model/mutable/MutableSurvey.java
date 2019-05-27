@@ -9,11 +9,13 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.SurveyType;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 public class MutableSurvey extends BaseMutableEntity implements Survey {
 
     private int version;
     private SurveyType surveyType;
+    private AppRegion appRegion;
     private Date date;
     private String schoolName;
     private String schoolId;
@@ -37,6 +39,7 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
         this.date = other.getDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
+        this.appRegion = other.getAppRegion();
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(MutableCategory::new).collect(Collectors.toList());
         }
@@ -108,5 +111,15 @@ public class MutableSurvey extends BaseMutableEntity implements Survey {
 
     public void setProgress(MutableProgress progress) {
         this.progress = progress;
+    }
+
+    @NonNull
+    @Override
+    public AppRegion getAppRegion() {
+        return appRegion;
+    }
+
+    public void setAppRegion(AppRegion appRegion) {
+        this.appRegion = appRegion;
     }
 }

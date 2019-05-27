@@ -13,8 +13,8 @@ android {
         multiDexEnabled true
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
-        buildConfigField "String", "SURVEYS_FILE_NAME", "\"survey.xml\""
-        buildConfigField "String", "SCHOOLS_FILE_NAME", "\"schools.csv\""
+        buildConfigField "String", "SURVEYS_FILE_NAME", "\"survey-rmi.xml\""
+        buildConfigField "String", "SCHOOLS_FILE_NAME", "\"schools-rmi.csv\""
 
         def DROPBOX_API_KEY = "byvebr4n2uyqzj2"
         buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
