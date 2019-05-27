@@ -7,6 +7,7 @@ import fm.doe.national.report_core.model.Level;
 
 public class SchoolAccreditationTallyLevel {
 
+    public static final int MAX_CRITERIA_SUM = 4;
     private static final int MAX_ONES_COUNT = 4;
 
     private int countOfOnes;
@@ -23,7 +24,7 @@ public class SchoolAccreditationTallyLevel {
     }
 
     public SchoolAccreditationTallyLevel(int[] counts, int tallyScore) {
-        if (counts.length != 4) {
+        if (counts.length != MAX_CRITERIA_SUM) {
             throw new IllegalStateException();
         }
         this.countOfOnes = counts[0];
