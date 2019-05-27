@@ -11,14 +11,12 @@ public enum AppContext implements Serializable {
 
     @Nullable
     public static AppContext createFromValue(int value) {
-        switch (value) {
-            case 0:
-                return AppContext.FCM;
-            case 1:
-                return AppContext.RMI;
-            default:
-                return null;
+        for (AppContext appContext : AppContext.values()) {
+            if (value == appContext.getValue()) {
+                return appContext;
+            }
         }
+        return null;
     }
 
     AppContext(int value) {
