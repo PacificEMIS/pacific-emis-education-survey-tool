@@ -5,12 +5,12 @@ import com.omegar.mvp.InjectViewState;
 import java.util.ArrayList;
 
 import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.data.model.Photo;
+import fm.doe.national.core.data.model.mutable.MutableAnswer;
+import fm.doe.national.core.data.model.mutable.MutablePhoto;
+import fm.doe.national.core.interactors.SurveyInteractor;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
-import fm.doe.national.data.model.Photo;
-import fm.doe.national.data.model.mutable.MutableAnswer;
-import fm.doe.national.data.model.mutable.MutablePhoto;
-import fm.doe.national.domain.SurveyInteractor;
-import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -18,8 +18,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class PhotosPresenter extends BasePresenter<PhotosView> {
 
-    private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
-    private final SurveyInteractor interactor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
+    private final CloudUploader cloudUploader = MicronesiaApplication.getInjection().getAppComponent().getCloudUploader();
+    private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
 
     private final long categoryId;
     private final long standardId;

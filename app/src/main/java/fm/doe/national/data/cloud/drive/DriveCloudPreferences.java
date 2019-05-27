@@ -4,14 +4,18 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import fm.doe.national.app_support.MicronesiaApplication;
+
 import fm.doe.national.data.cloud.CloudPreferences;
 
 public class DriveCloudPreferences implements CloudPreferences {
     private static final String PREFS_KEY_DRIVE_FOLDER = "PREFS_KEY_DRIVE_FOLDER";
     private static final String PREFS_KEY_DRIVE_FOLDER_PATH = "PREFS_KEY_DRIVE_FOLDER_PATH";
 
-    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+    private final SharedPreferences sharedPreferences;
+
+    public DriveCloudPreferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
 
     @Nullable
     @Override

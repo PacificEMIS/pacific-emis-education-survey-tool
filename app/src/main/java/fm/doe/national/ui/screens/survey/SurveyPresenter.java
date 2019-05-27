@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.domain.SurveyInteractor;
-import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.core.interactors.SurveyInteractor;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.screens.survey.navigation.NavigationItem;
 import fm.doe.national.ui.screens.survey.navigation.ProgressableNavigationItem;
 import fm.doe.national.ui.screens.survey.navigation.ReportNavigationItem;
@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SurveyPresenter extends BasePresenter<SurveyView> {
 
-    private SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
+    private SurveyInteractor surveyInteractor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
 
     public SurveyPresenter() {
         getViewState().setSchoolName(surveyInteractor.getCurrentSurvey().getSchoolName());

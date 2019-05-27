@@ -1,17 +1,15 @@
 package fm.doe.national.ui.screens.menu.base;
 
-import android.content.SharedPreferences;
-
 import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.screens.menu.MainMenuItem;
-import fm.doe.national.app_support.utils.Constants;
 
 abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V> {
 
@@ -20,7 +18,7 @@ abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V>
     private static final int ITEM_MONITORING_AND_EVALUATION = R.string.title_monitoring_and_evaluation;
     private static final int ITEM_HYGIENE = R.string.title_water_sanitation_and_hygiene;
 
-    private final SharedPreferences sharedPreferences = MicronesiaApplication.getAppComponent().getSharedPreferences();
+    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
 
     public MenuPresenter() {
         setupSelector();
@@ -36,7 +34,7 @@ abstract public class MenuPresenter<V extends MenuView> extends BasePresenter<V>
     }
 
     private void loadLogo() {
-        String logoPath = sharedPreferences.getString(Constants.PREF_KEY_LOGO_PATH, null);
+        String logoPath = globalPreferences.getLogoPath();
         if (logoPath != null) {
             getViewState().setLogo(logoPath);
         }

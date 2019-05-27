@@ -7,8 +7,8 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.data.model.Category;
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.core.data.model.Category;
+import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CategoriesView extends BaseView {

@@ -4,9 +4,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Photo;
-import fm.doe.national.data.model.SubCriteria;
+import fm.doe.national.core.data.model.AnswerState;
+import fm.doe.national.core.data.model.Photo;
+import fm.doe.national.core.data.model.SubCriteria;
 
 public interface SubcriteriaCallback {
     void onSubCriteriaStateChanged(@NonNull SubCriteria subCriteria, AnswerState newState);

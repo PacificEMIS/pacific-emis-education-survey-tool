@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/LevelTable.Background"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/textview_name"
+        style="@style/LevelTable.Cell.Name"
+        android:text="@string/title_evaluation_forms" />
+
+    <TextView
+        android:id="@+id/textview_obtained_score"
+        style="@style/LevelTable.Cell.Item"
+        android:text="@string/title_obtained_score" />
+
+    <TextView
+        android:id="@+id/textview_multiplier"
+        style="@style/LevelTable.Cell.Item"
+        android:text="@string/title_multiplier" />
+
+    <TextView
+        android:id="@+id/textview_final_score"
+        style="@style/LevelTable.Cell.Item"
+        android:text="@string/title_final_score" />
+
+</LinearLayout>

@@ -8,14 +8,14 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.dao.AnswerDao;
-import fm.doe.national.data.persistence.dao.CategoryDao;
-import fm.doe.national.data.persistence.dao.CriteriaDao;
-import fm.doe.national.data.persistence.dao.PhotoDao;
-import fm.doe.national.data.persistence.dao.StandardDao;
-import fm.doe.national.data.persistence.dao.SubCriteriaDao;
-import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.RoomPhoto;
+import fm.doe.national.core.data.persistence.dao.AnswerDao;
+import fm.doe.national.core.data.persistence.dao.CategoryDao;
+import fm.doe.national.core.data.persistence.dao.CriteriaDao;
+import fm.doe.national.core.data.persistence.dao.PhotoDao;
+import fm.doe.national.core.data.persistence.dao.StandardDao;
+import fm.doe.national.core.data.persistence.dao.SubCriteriaDao;
+import fm.doe.national.core.data.persistence.dao.SurveyDao;
+import fm.doe.national.core.data.persistence.entity.RoomPhoto;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;

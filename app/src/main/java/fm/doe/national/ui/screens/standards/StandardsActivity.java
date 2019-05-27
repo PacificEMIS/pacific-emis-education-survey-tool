@@ -16,11 +16,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.Standard;
-import fm.doe.national.data.model.mutable.MutableProgress;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.utils.ViewUtils;
+import fm.doe.national.core.data.model.Standard;
+import fm.doe.national.core.data.model.mutable.MutableProgress;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.criterias.CriteriasActivity;
 
 public class StandardsActivity extends BaseActivity implements StandardsView, BaseAdapter.OnItemClickListener<Standard> {

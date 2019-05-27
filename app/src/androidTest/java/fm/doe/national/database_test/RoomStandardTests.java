@@ -8,10 +8,10 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import fm.doe.national.data.persistence.dao.CategoryDao;
-import fm.doe.national.data.persistence.dao.StandardDao;
-import fm.doe.national.data.persistence.dao.SurveyDao;
-import fm.doe.national.data.persistence.entity.RoomStandard;
+import fm.doe.national.core.data.persistence.dao.CategoryDao;
+import fm.doe.national.core.data.persistence.dao.StandardDao;
+import fm.doe.national.core.data.persistence.dao.SurveyDao;
+import fm.doe.national.core.data.persistence.entity.RoomStandard;
 import fm.doe.national.database_test.util.RoomTestData;
 
 import static org.junit.Assert.assertEquals;

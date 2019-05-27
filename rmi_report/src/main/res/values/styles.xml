@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="RmiTable">
+        <item name="android:background">@color/grey_300</item>
+    </style>
+
+    <style name="Text.Rmi">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">20dp</item>
+    </style>
+
+    <style name="Text.Rmi.Header">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="Text.Rmi.Item">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Text.Rmi.Item.Level">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

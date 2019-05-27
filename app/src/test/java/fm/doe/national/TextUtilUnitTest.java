@@ -2,7 +2,7 @@ package fm.doe.national;
 
 import org.junit.Test;
 
-import fm.doe.national.app_support.utils.TextUtil;
+import fm.doe.national.core.utils.TextUtil;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/blue_400</color>
+    <color name="colorPrimaryDark">@color/blue_500</color>
+    <color name="colorAccent">@color/white</color>
+    <color name="gray">#d3d3d3</color>
+    <color name="red">#ff0000</color>
+    <color name="blue">#4169E1</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="cool_grey">#b2b9bc</color>
+    <color name="charcoal_grey">#303040</color>
+    <color name="dark_grey">#373435</color>
+    <color name="yellow">#ffde03</color>
+    <color name="soft_grey">#757575</color>
+    <color name="color_criteria_progress_bg">#f2f3f8</color>
+    <color name="dark_mint">#50be75</color>
+    <color name="light_mint">#61EB61</color>
+    <color name="peacock_blue">#006e9e</color>
+    <color name="pinkish_grey">#c4c4c4</color>
+    <color name="greyed_blue">#8db3c4</color>
+    <color name="hint">#fffae0</color>
+    <color name="comment_stroke">#51191919</color>
+    <color name="delimeter_grey">#e0e0e0</color>
+    <color name="pink">#FFD2DB</color>
+    <color name="blue_400">#32a1e7</color>
+    <color name="blue_500">#2e9ae0</color>
+    <color name="dark_white">#e1ffffff</color>
+    <color name="drawer_delimeter">#40ffffff</color>
+    <color name="light_blue_300">#4dbaff</color>
+    <color name="blue_700">#1c86ca</color>
+    <color name="grey_200">#EFEFEF</color>
+    <color name="grey_600">#7B7B7B</color>
+</resources>

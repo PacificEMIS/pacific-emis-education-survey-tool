@@ -11,11 +11,11 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.menu.MainMenuItem;
 import fm.doe.national.ui.screens.menu.MenuListAdapter;
 import fm.doe.national.ui.screens.all_surveys.AllSurveysActivity;
-import fm.doe.national.app_support.utils.ViewUtils;
+import fm.doe.national.core.utils.ViewUtils;
 
 public abstract class MenuActivity extends BaseActivity implements MenuView {
 

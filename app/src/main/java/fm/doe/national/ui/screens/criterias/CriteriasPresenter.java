@@ -13,21 +13,21 @@ import java.util.List;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.data.model.Answer;
+import fm.doe.national.core.data.model.AnswerState;
+import fm.doe.national.core.data.model.Photo;
+import fm.doe.national.core.data.model.Standard;
+import fm.doe.national.core.data.model.SubCriteria;
+import fm.doe.national.core.data.model.mutable.MutableAnswer;
+import fm.doe.national.core.data.model.mutable.MutableCriteria;
+import fm.doe.national.core.data.model.mutable.MutablePhoto;
+import fm.doe.national.core.data.model.mutable.MutableStandard;
+import fm.doe.national.core.data.model.mutable.MutableSubCriteria;
+import fm.doe.national.core.data.model.mutable.MutableSurvey;
+import fm.doe.national.core.interactors.SurveyInteractor;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.data.cloud.uploader.CloudUploader;
-import fm.doe.national.data.files.PicturesRepository;
-import fm.doe.national.data.model.Answer;
-import fm.doe.national.data.model.AnswerState;
-import fm.doe.national.data.model.Photo;
-import fm.doe.national.data.model.Standard;
-import fm.doe.national.data.model.SubCriteria;
-import fm.doe.national.data.model.mutable.MutableAnswer;
-import fm.doe.national.data.model.mutable.MutableCriteria;
-import fm.doe.national.data.model.mutable.MutablePhoto;
-import fm.doe.national.data.model.mutable.MutableStandard;
-import fm.doe.national.data.model.mutable.MutableSubCriteria;
-import fm.doe.national.data.model.mutable.MutableSurvey;
-import fm.doe.national.domain.SurveyInteractor;
-import fm.doe.national.ui.screens.base.BasePresenter;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -35,9 +35,9 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class CriteriasPresenter extends BasePresenter<CriteriasView> {
 
-    private final CloudUploader cloudUploader = MicronesiaApplication.getAppComponent().getCloudUploader();
-    private final PicturesRepository picturesRepository = MicronesiaApplication.getAppComponent().getPicturesRepository();
-    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getAppComponent().getSurveyInteractor();
+    private final CloudUploader cloudUploader = MicronesiaApplication.getInjection().getAppComponent().getCloudUploader();
+    private final PicturesRepository picturesRepository = MicronesiaApplication.getInjection().getCoreComponent().getPicturesRepository();
+    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
     private final long categoryId;
 
     private int standardIndex;

@@ -9,12 +9,12 @@ import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.model.School;
-import fm.doe.national.data.model.Survey;
-import fm.doe.national.data.serialization.parsers.Parser;
-import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.app_support.utils.Constants;
+import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.model.School;
+import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.serialization.parsers.Parser;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,10 +23,9 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SplashStartPresenter extends BasePresenter<SplashStartView> {
 
-    private final Parser<Survey> schoolAccreditationParser =
-            MicronesiaApplication.getAppComponent().getSurveyParser();
-    private final Parser<List<School>> schoolsParser = MicronesiaApplication.getAppComponent().getSchoolsParser();
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
+    private final Parser<Survey> schoolAccreditationParser = MicronesiaApplication.getInjection().getCoreComponent().getSurveyParser();
+    private final Parser<List<School>> schoolsParser = MicronesiaApplication.getInjection().getCoreComponent().getSchoolsParser();
+    private final DataSource dataSource = MicronesiaApplication.getInjection().getCoreComponent().getDataSource();
     
     private boolean isFinishedLoading;
 

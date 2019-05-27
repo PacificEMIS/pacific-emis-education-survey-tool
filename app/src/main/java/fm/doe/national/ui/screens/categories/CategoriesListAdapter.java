@@ -6,9 +6,9 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.app_support.utils.ViewUtils;
-import fm.doe.national.data.model.Category;
-import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.utils.ViewUtils;
+import fm.doe.national.core.data.model.Category;
+import fm.doe.national.core.ui.screens.base.BaseAdapter;
 
 public class CategoriesListAdapter
         extends BaseAdapter<Category> {

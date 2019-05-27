@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.model.School;
-import fm.doe.national.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.data.model.School;
+import fm.doe.national.core.ui.screens.base.BaseAdapter;
 
 public class SchoolsListAdapter extends BaseAdapter<School> {
 

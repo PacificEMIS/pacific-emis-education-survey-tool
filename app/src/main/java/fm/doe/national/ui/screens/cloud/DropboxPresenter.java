@@ -6,18 +6,18 @@ import androidx.annotation.Nullable;
 import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.data.exceptions.AuthenticationException;
+import fm.doe.national.core.data.exceptions.PickerDeclinedException;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.Constants;
 import fm.doe.national.data.cloud.dropbox.BrowsingTreeObject;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
-import fm.doe.national.data.cloud.exceptions.AuthenticationException;
-import fm.doe.national.data.cloud.exceptions.PickerDeclinedException;
-import fm.doe.national.ui.screens.base.BasePresenter;
-import fm.doe.national.app_support.utils.Constants;
 
 @InjectViewState
 public class DropboxPresenter extends BasePresenter<DropboxView> {
 
     private DropboxView.Action currentAction;
-    private final DropboxCloudAccessor cloudAccessor = MicronesiaApplication.getAppComponent().getDropboxCloudAccessor();
+    private final DropboxCloudAccessor cloudAccessor = MicronesiaApplication.getInjection().getAppComponent().getDropboxCloudAccessor();
 
     public DropboxPresenter(DropboxView.Action action, @Nullable DropboxView.PickerType pickerType, @Nullable BrowsingTreeObject browsingRoot) {
         currentAction = action;

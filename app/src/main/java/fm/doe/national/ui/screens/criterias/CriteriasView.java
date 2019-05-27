@@ -12,9 +12,9 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.data.model.Criteria;
-import fm.doe.national.data.model.SubCriteria;
-import fm.doe.national.ui.screens.base.BaseView;
+import fm.doe.national.core.data.model.Criteria;
+import fm.doe.national.core.data.model.SubCriteria;
+import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface CriteriasView extends BaseView {

@@ -1,32 +1,25 @@
 package fm.doe.national.app_support.di.modules;
 
-import javax.inject.Singleton;
+import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.domain.ReportInteractor;
-import fm.doe.national.domain.ReportInteractorImpl;
+import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.model.School;
+import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.serialization.parsers.Parser;
+import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.domain.SettingsInteractor;
-import fm.doe.national.domain.SurveyInteractor;
-import fm.doe.national.domain.SurveyInteractorImpl;
 
 @Module
 public class InteractorsModule {
-    @Provides
-    public SettingsInteractor provideSettingsInteractor() {
-        return new SettingsInteractor();
-    }
 
     @Provides
-    @Singleton
-    public SurveyInteractor provideSurveyInteractor(DataSource dataSource) {
-        return new SurveyInteractorImpl(dataSource);
+    public SettingsInteractor provideSettingsInteractor(CloudRepository cloudRepository,
+                                                        DataSource localDataRepository,
+                                                        Parser<Survey> surveyParser,
+                                                        Parser<List<School>> schoolsParser) {
+        return new SettingsInteractor(cloudRepository, localDataRepository, surveyParser, schoolsParser);
     }
 
-    @Provides
-    @Singleton
-    public ReportInteractor provideReportInteractor() {
-        return new ReportInteractorImpl();
-    }
 }

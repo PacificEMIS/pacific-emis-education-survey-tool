@@ -16,7 +16,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.splash_end.SplashEndActivity;
 
 

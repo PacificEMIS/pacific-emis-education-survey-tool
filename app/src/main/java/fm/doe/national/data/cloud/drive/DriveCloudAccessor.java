@@ -3,6 +3,9 @@ package fm.doe.national.data.cloud.drive;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.drive.Drive;
@@ -29,19 +32,16 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.data.exceptions.AuthenticationException;
+import fm.doe.national.core.data.exceptions.FileExportException;
+import fm.doe.national.core.data.exceptions.FileImportException;
+import fm.doe.national.core.data.exceptions.PickException;
+import fm.doe.national.core.utils.Constants;
+import fm.doe.national.core.utils.LifecycleListener;
+import fm.doe.national.core.utils.StreamUtils;
 import fm.doe.national.data.cloud.CloudAccessor;
 import fm.doe.national.data.cloud.CloudPreferences;
-import fm.doe.national.data.cloud.exceptions.AuthenticationException;
-import fm.doe.national.data.cloud.exceptions.FileExportException;
-import fm.doe.national.data.cloud.exceptions.FileImportException;
-import fm.doe.national.data.cloud.exceptions.PickException;
 import fm.doe.national.ui.screens.cloud.DriveActivity;
-import fm.doe.national.app_support.utils.Constants;
-import fm.doe.national.app_support.utils.LifecycleListener;
-import fm.doe.national.app_support.utils.StreamUtils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -52,8 +52,8 @@ import io.reactivex.subjects.SingleSubject;
 public class DriveCloudAccessor implements CloudAccessor {
 
     private final String DRIVE_ROOT_FOLDER = "root";
-    private final CloudPreferences cloudPreferences = MicronesiaApplication.getAppComponent().getDriveCloudPreferences();
-    private final LifecycleListener lifecycleListener = MicronesiaApplication.getAppComponent().getLifecycleListener();
+    private final CloudPreferences cloudPreferences;
+    private final LifecycleListener lifecycleListener;
     private final Context context;
 
     @Nullable
@@ -69,8 +69,10 @@ public class DriveCloudAccessor implements CloudAccessor {
     @Nullable
     private DriveResourceClient driveResourceClient;
 
-    public DriveCloudAccessor(Context context) {
+    public DriveCloudAccessor(Context context, CloudPreferences cloudPreferences, LifecycleListener lifecycleListener) {
         this.context = context;
+        this.cloudPreferences = cloudPreferences;
+        this.lifecycleListener = lifecycleListener;
         initDriveClients();
     }
 

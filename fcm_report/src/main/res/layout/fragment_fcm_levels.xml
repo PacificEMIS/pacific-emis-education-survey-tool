@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp">
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_school_accreditation_level">
+
+        <LinearLayout
+            android:id="@+id/layout_titles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_section="header">
+
+            <fm.doe.national.report_core.ui.summary_header.SummaryHeaderView
+                android:id="@+id/summaryheaderview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <include layout="@layout/item_school_accreditation_level" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_total_scores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_section="footer">
+
+            <include layout="@layout/item_school_accreditation_level" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            style="@style/LevelTable.Background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/levels_table_cell_height"
+            android:orientation="horizontal"
+            app:layout_section="footer">
+
+            <com.omega_r.libs.views.OmegaTextView
+                android:id="@+id/textview_determination"
+                style="@style/LevelTable.Cell.Name.Large"
+                app:startText="@string/title_determination_of_overall_level"
+                app:startTextFont="@string/font_medium"/>
+
+            <TextView
+                android:id="@+id/textview_level"
+                style="@style/LevelTable.Cell.Item"
+                tools:text="Level 2" />
+
+        </LinearLayout>
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+</FrameLayout>
