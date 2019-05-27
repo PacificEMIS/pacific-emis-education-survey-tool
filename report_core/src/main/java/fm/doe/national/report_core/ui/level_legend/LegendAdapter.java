@@ -75,7 +75,9 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
         }
 
         private String buildLevelDescription(ReportLevel item) {
-            return item.getMeaning().getString(getContext()) + " (" + item.getAwards().getString(getContext()) + ")";
+            return item.getMeaning().getString(getContext());
+            // This one is not needed (but maybe will need it later)
+            // + " (" + item.getAwards().getString(getContext()) + ")";
         }
     }
 }
