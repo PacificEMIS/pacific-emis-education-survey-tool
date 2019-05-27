@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Text.Report"/>
-
-    <style name="Text.Report.Title">
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="Text.Report.Level">
-        <item name="android:textColor">@color/dark_grey</item>
-    </style>
 
     <style name="Summary"/>
 

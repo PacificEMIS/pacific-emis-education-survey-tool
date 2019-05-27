@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.report_core.R;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;
@@ -22,11 +20,6 @@ import fm.doe.national.report_core.model.Level;
 public class SummaryHeaderView extends LinearLayout {
 
     private final LegendAdapter legendAdapter = new LegendAdapter(getContext());
-
-    private TextView schoolIdTextView;
-    private TextView visitDateTextView;
-    private TextView schoolNameTextView;
-    private TextView principalNameTextView;
     private RecyclerView legendRecyclerView;
 
     public SummaryHeaderView(Context context) {
@@ -45,18 +38,10 @@ public class SummaryHeaderView extends LinearLayout {
     }
 
     private void bindViews() {
-        schoolIdTextView = findViewById(R.id.textview_school_code);
-        visitDateTextView = findViewById(R.id.textview_visit_date);
-        schoolNameTextView = findViewById(R.id.textview_school_name);
-        principalNameTextView = findViewById(R.id.textview_principal_name);
         legendRecyclerView = findViewById(R.id.recyclerview_levels);
     }
 
     public void setItem(Item item) {
-        schoolIdTextView.setText(item.getSchoolId());
-        schoolNameTextView.setText(item.getSchoolName());
-        principalNameTextView.setText(item.getPrincipalName());
-        visitDateTextView.setText(DateUtils.format(item.getDate()));
         if (item.getLevels() == null || item.getLevels().isEmpty()) {
             legendRecyclerView.setVisibility(View.GONE);
         } else {

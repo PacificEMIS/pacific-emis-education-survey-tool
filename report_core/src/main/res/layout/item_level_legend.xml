@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/textview_name"
-        style="@style/Text.Report.Level"
+        style="@style/Text.Body3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/textview_description"
-        style="@style/Text.Report"
+        style="@style/Text.Body3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"

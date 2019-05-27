@@ -31,4 +31,8 @@
     <color name="blue_700">#1c86ca</color>
     <color name="grey_200">#EFEFEF</color>
     <color name="grey_600">#7B7B7B</color>
+    <color name="blue_grey_900">#132826</color>
+    <color name="blue_grey_400">#899393</color>
+    <color name="green_a700">#0DD35C</color>
+    <color name="transparent">#00000000</color>
 </resources>
