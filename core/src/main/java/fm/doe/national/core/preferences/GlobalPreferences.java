@@ -3,14 +3,14 @@ package fm.doe.national.core.preferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import fm.doe.national.core.preferences.entities.AppContext;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 public interface GlobalPreferences {
 
     @NonNull
-    AppContext getAppContext();
+    AppRegion getAppContext();
 
-    void setAppContext(AppContext appContext);
+    void setAppContext(AppRegion appRegion);
 
     @Nullable
     String getLogoPath();

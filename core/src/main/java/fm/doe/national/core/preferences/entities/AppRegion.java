@@ -4,22 +4,22 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-public enum AppContext implements Serializable {
+public enum AppRegion implements Serializable {
     FCM(0), RMI(1);
 
     private int value;
 
     @Nullable
-    public static AppContext createFromValue(int value) {
-        for (AppContext appContext : AppContext.values()) {
-            if (value == appContext.getValue()) {
-                return appContext;
+    public static AppRegion createFromValue(int value) {
+        for (AppRegion appRegion : AppRegion.values()) {
+            if (value == appRegion.getValue()) {
+                return appRegion;
             }
         }
         return null;
     }
 
-    AppContext(int value) {
+    AppRegion(int value) {
         this.value = value;
     }
 

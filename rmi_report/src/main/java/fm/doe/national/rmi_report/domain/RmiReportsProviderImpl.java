@@ -1,6 +1,6 @@
 package fm.doe.national.rmi_report.domain;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
@@ -12,15 +12,17 @@ import fm.doe.national.rmi_report.ui.LevelsFragment;
 
 public class RmiReportsProviderImpl implements RmiReportsProvider {
 
-    private final List<ReportPage> pages= new ArrayList<>();
+    private final List<ReportPage> pages;
 
     private final ReportInteractor interactor;
 
     public RmiReportsProviderImpl(ReportInteractor reportInteractor) {
         interactor = reportInteractor;
-        pages.add(new ReportPage(LevelsFragment.class, interactor));
-        pages.add(new ReportPage(SummaryFragment.class, interactor));
-        pages.add(new ReportPage(RecommendationsFragment.class, interactor));
+        pages = Arrays.asList(
+                new ReportPage(LevelsFragment.class, interactor),
+                new ReportPage(SummaryFragment.class, interactor),
+                new ReportPage(RecommendationsFragment.class, interactor)
+        );
     }
 
     @Override

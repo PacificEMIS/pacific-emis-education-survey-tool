@@ -1,5 +1,6 @@
 package fm.doe.national.rmi_report.domain;
 
+import fm.doe.national.core.data.model.AnswerState;
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Criteria;
 import fm.doe.national.core.data.model.Standard;
@@ -51,13 +52,7 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
             for (Category category : survey.getCategories()) {
                 for (Standard standard : category.getStandards()) {
                     for (Criteria criteria : standard.getCriterias()) {
-                        int criteriaSum = 0;
-                        for (SubCriteria subCriteria : criteria.getSubCriterias()) {
-                            switch (subCriteria.getAnswer().getState()) {
-                                case POSITIVE:
-                                    criteriaSum++;
-                            }
-                        }
+                        int criteriaSum = getPositiveAnswersCount(criteria);
                         switch (criteriaSum) {
                             case 1:
                                 countOfOnes++;
@@ -84,5 +79,15 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
                     )
             );
         });
+    }
+
+    private int getPositiveAnswersCount(Criteria criteria) {
+        int criteriaSum = 0;
+        for (SubCriteria subCriteria : criteria.getSubCriterias()) {
+            if (subCriteria.getAnswer().getState() == AnswerState.POSITIVE) {
+                criteriaSum++;
+            }
+        }
+        return criteriaSum;
     }
 }

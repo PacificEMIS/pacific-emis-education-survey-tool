@@ -16,6 +16,13 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
 
     private static final String MARK_ANSWERED = "1";
     private static final String MARK_NOT_ANSWERED = "0";
+    private static final int[] cellIds = new int[] {
+            R.id.textview_cell_1,
+            R.id.textview_cell_2,
+            R.id.textview_cell_3,
+            R.id.textview_cell_4,
+            R.id.textview_cell_5
+    };
 
     @Override
     protected ItemViewHolder provideViewHolder(ViewGroup parent) {
@@ -35,12 +42,10 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
 
         private void bindViews() {
             titleTextView = findViewById(R.id.textview_criteria_title);
-            totalTextView = findViewById(R.id.textview_total);;
-            cellTextViews.add(findViewById(R.id.textview_cell_1));
-            cellTextViews.add(findViewById(R.id.textview_cell_2));
-            cellTextViews.add(findViewById(R.id.textview_cell_3));
-            cellTextViews.add(findViewById(R.id.textview_cell_4));
-            cellTextViews.add(findViewById(R.id.textview_cell_5));
+            totalTextView = findViewById(R.id.textview_total);
+            for (int cellId : cellIds) {
+                cellTextViews.add(findViewById(cellId));
+            }
         }
 
         @Override

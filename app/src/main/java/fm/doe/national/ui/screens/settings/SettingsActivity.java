@@ -25,11 +25,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.PackageUtils;
 import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
-import fm.doe.national.core.preferences.entities.AppContext;
 import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 
@@ -227,7 +227,7 @@ public class SettingsActivity extends BaseActivity implements
     }
 
     @Override
-    public void setAppContext(AppContext appContext) {
-        appContextEditText.setText(String.valueOf(appContext.getValue()));
+    public void setAppContext(AppRegion appRegion) {
+        appContextEditText.setText(String.valueOf(appRegion.getValue()));
     }
 }

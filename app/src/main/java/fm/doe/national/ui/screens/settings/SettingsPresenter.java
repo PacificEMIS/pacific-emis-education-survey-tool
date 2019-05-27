@@ -14,7 +14,7 @@ import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.core.preferences.entities.AppContext;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.data.cloud.CloudAccountData;
 import fm.doe.national.data.cloud.CloudType;
@@ -128,9 +128,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     // TODO: this is temporary method, will be implemented in total redesign feature
     public void onAppContextEntered(String value) {
         try {
-            AppContext appContext = AppContext.createFromValue(Integer.parseInt(value));
-            if (appContext != null) {
-                globalPreferences.setAppContext(appContext);
+            AppRegion appRegion = AppRegion.createFromValue(Integer.parseInt(value));
+            if (appRegion != null) {
+                globalPreferences.setAppContext(appRegion);
                 getViewState().showToast(Text.from(R.string.toast_set_app_context_success));
             }
         } catch (NumberFormatException nfe) {

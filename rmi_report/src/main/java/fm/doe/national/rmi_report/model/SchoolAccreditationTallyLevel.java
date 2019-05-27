@@ -7,6 +7,8 @@ import fm.doe.national.report_core.model.Level;
 
 public class SchoolAccreditationTallyLevel {
 
+    private static final int MAX_ONES_COUNT = 4;
+
     private int countOfOnes;
     private int countOfTwos;
     private int countOfThrees;
@@ -17,7 +19,7 @@ public class SchoolAccreditationTallyLevel {
     private Level level;
 
     public static SchoolAccreditationTallyLevel empty() {
-        return new SchoolAccreditationTallyLevel(0, 0, 0, 0, 0);
+        return new SchoolAccreditationTallyLevel();
     }
 
     public SchoolAccreditationTallyLevel(int countOfOnes,
@@ -33,6 +35,10 @@ public class SchoolAccreditationTallyLevel {
         this.level = calculateLevel();
     }
 
+    private SchoolAccreditationTallyLevel() {
+        // nothing
+    }
+
     public boolean isEmpty() {
         return level == null;
     }
@@ -44,15 +50,15 @@ public class SchoolAccreditationTallyLevel {
             return null;
         }
         
-        if (countOfFours >= countOfThrees && countOfFours >= countOfTwos && countOfOnes < 4) {
+        if (countOfFours >= countOfThrees && countOfFours >= countOfTwos && countOfOnes < MAX_ONES_COUNT) {
             return ReportLevel.LEVEL_4;
         }
         
-        if (countOfThrees > countOfFours && countOfThrees >= countOfTwos && countOfOnes < 4) {
+        if (countOfThrees > countOfFours && countOfThrees >= countOfTwos && countOfOnes < MAX_ONES_COUNT) {
             return ReportLevel.LEVEL_3;
         }
         
-        if (countOfTwos > countOfThrees && countOfTwos > countOfFours && countOfOnes < 4) {
+        if (countOfTwos > countOfThrees && countOfTwos > countOfFours && countOfOnes < MAX_ONES_COUNT) {
             return ReportLevel.LEVEL_2;
         }
 

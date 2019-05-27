@@ -5,12 +5,12 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import fm.doe.national.core.preferences.entities.AppContext;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 public class GlobalPreferencesImpl implements GlobalPreferences {
 
     private static final String PREF_KEY_APP_CONTEXT = "PREF_KEY_APP_CONTEXT";
-    private static final AppContext DEFAULT_APP_CONTEXT = AppContext.FCM;
+    private static final AppRegion DEFAULT_APP_CONTEXT = AppRegion.FCM;
     private static final int NULL_APP_CONTEXT_VALUE = -1;
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
 
@@ -22,20 +22,20 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @NonNull
     @Override
-    public AppContext getAppContext() {
-        AppContext savedAppContext = getSavedAppContext();
-        return savedAppContext != null ? savedAppContext : DEFAULT_APP_CONTEXT;
+    public AppRegion getAppContext() {
+        AppRegion savedAppRegion = getSavedAppContext();
+        return savedAppRegion != null ? savedAppRegion : DEFAULT_APP_CONTEXT;
     }
 
     @Nullable
-    private AppContext getSavedAppContext() {
-        return AppContext.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_CONTEXT, NULL_APP_CONTEXT_VALUE));
+    private AppRegion getSavedAppContext() {
+        return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_CONTEXT, NULL_APP_CONTEXT_VALUE));
     }
 
 
     @Override
-    public void setAppContext(AppContext appContext) {
-        sharedPreferences.edit().putInt(PREF_KEY_APP_CONTEXT, appContext.getValue()).apply();
+    public void setAppContext(AppRegion appRegion) {
+        sharedPreferences.edit().putInt(PREF_KEY_APP_CONTEXT, appRegion.getValue()).apply();
     }
 
     @Nullable
