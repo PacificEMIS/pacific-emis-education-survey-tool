@@ -10,6 +10,7 @@ import fm.doe.national.core.data.data_source.RoomDataSource;
 import fm.doe.national.core.di.CoreScope;
 import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.interactors.SurveyInteractorImpl;
+import fm.doe.national.core.preferences.GlobalPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -19,8 +20,8 @@ public class CoreModule {
 
     @Provides
     @CoreScope
-    public DataSource provideDataSource(Context context) {
-        return new RoomDataSource(context);
+    public DataSource provideDataSource(Context context, GlobalPreferences globalPreferences) {
+        return new RoomDataSource(context, globalPreferences);
     }
 
     @Provides

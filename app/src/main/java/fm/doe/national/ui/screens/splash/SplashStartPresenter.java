@@ -7,7 +7,6 @@ import com.omegar.mvp.InjectViewState;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import fm.doe.national.BuildConfig;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.School;
@@ -35,9 +34,9 @@ public class SplashStartPresenter extends BasePresenter<SplashStartView> {
     }
 
     private void loadAssets(AssetManager assetManager) {
-        addDisposable(Single.fromCallable(() -> schoolAccreditationParser.parse(assetManager.open(BuildConfig.SURVEYS_FILE_NAME)))
+        addDisposable(Single.fromCallable(() -> schoolAccreditationParser.parse(assetManager.open(dataSource.getSurveyTemplateFileName())))
                 .flatMapCompletable(schoolAccreditation -> Single.fromCallable(() ->
-                    schoolsParser.parse(assetManager.open(BuildConfig.SCHOOLS_FILE_NAME)))
+                    schoolsParser.parse(assetManager.open(dataSource.getSchoolsFileName())))
                         .flatMapCompletable(schools -> dataSource.loadSchools()
                                     .flatMapCompletable(resultList -> {
                                         if (resultList.isEmpty()) {

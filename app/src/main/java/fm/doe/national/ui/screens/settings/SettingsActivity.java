@@ -101,7 +101,7 @@ public class SettingsActivity extends BaseActivity implements
         // TODO: this is temporary, will be implemented in total redesign feature
         appContextEditText.setOnEditorActionListener((tv, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                presenter.onAppContextEntered(appContextEditText.getText().toString());
+                presenter.onAppContextEntered(appContextEditText.getText().toString(), getAssets());
                 return true;
             }
             return false;

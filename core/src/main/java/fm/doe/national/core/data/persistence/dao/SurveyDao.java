@@ -12,6 +12,7 @@ import java.util.List;
 
 import fm.doe.national.core.data.persistence.entity.RoomSurvey;
 import fm.doe.national.core.data.persistence.entity.relative.RelativeRoomSurvey;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 @Dao
 public interface SurveyDao {
@@ -25,8 +26,8 @@ public interface SurveyDao {
     @Delete
     void delete(RoomSurvey survey);
 
-    @Query("SELECT * FROM RoomSurvey")
-    List<RoomSurvey> getAll();
+    @Query("SELECT * FROM RoomSurvey WHERE region = :region")
+    List<RoomSurvey> getAll(AppRegion region);
 
     @Nullable
     @Query("SELECT * FROM RoomSurvey WHERE uid = :id LIMIT 1")
@@ -50,7 +51,7 @@ public interface SurveyDao {
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM RoomSurvey")
-    List<RelativeRoomSurvey> getAllFilled();
+    @Query("SELECT * FROM RoomSurvey WHERE region = :region")
+    List<RelativeRoomSurvey> getAllFilled(AppRegion region);
 
 }

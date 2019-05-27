@@ -34,6 +34,7 @@ import fm.doe.national.core.data.persistence.entity.RoomStandard;
 import fm.doe.national.core.data.persistence.entity.RoomSubCriteria;
 import fm.doe.national.core.data.persistence.entity.RoomSurvey;
 import fm.doe.national.core.data.persistence.entity.relative.RelativeRoomSurvey;
+import fm.doe.national.core.preferences.GlobalPreferences;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -50,7 +51,10 @@ public class RoomDataSource implements DataSource {
     private final AppDatabase templateDatabase;
     private final AppDatabase database;
 
-    public RoomDataSource(Context applicationContext) {
+    private final GlobalPreferences globalPreferences;
+
+    public RoomDataSource(Context applicationContext, GlobalPreferences globalPreferences) {
+        this.globalPreferences = globalPreferences;
         database = Room.databaseBuilder(applicationContext, AppDatabase.class, DATABASE_NAME).build();
         templateDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class, TEMPLATE_DATABASE_NAME).build();
         surveyDao = database.getSurveyDao();
@@ -172,7 +176,7 @@ public class RoomDataSource implements DataSource {
 
     @Override
     public Single<List<Survey>> loadAllSurveys() {
-        return Single.fromCallable(surveyDao::getAllFilled)
+        return Single.fromCallable(() -> surveyDao.getAllFilled(globalPreferences.getAppRegion()))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
                 .toList()
@@ -292,5 +296,27 @@ public class RoomDataSource implements DataSource {
     @Override
     public Completable deleteCreatedSurveys() {
         return Completable.fromAction(surveyDao::deleteAll);
+    }
+
+    @Override
+    public String getSurveyTemplateFileName() {
+        switch (globalPreferences.getAppRegion()) {
+            case FCM:
+                return BuildConfig.SURVEYS_FCM_FILE_NAME;
+            case RMI:
+                return BuildConfig.SURVEYS_RMI_FILE_NAME;
+        }
+        throw new IllegalStateException();
+    }
+
+    @Override
+    public String getSchoolsFileName() {
+        switch (globalPreferences.getAppRegion()) {
+            case FCM:
+                return BuildConfig.SCHOOLS_FCM_FILE_NAME;
+            case RMI:
+                return BuildConfig.SCHOOLS_RMI_FILE_NAME;
+        }
+        throw new IllegalStateException();
     }
 }
