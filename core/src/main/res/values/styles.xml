@@ -76,6 +76,13 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="Text.Title1.Small">
+        <item name="android:fontFamily">@font/noto_sans_bold</item>
+        <item name="android:textColor">@color/blue_grey_900</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="Text.Title1.Large">
         <item name="android:textSize">18sp</item>
         <item name="android:letterSpacing">0.04</item>
@@ -93,6 +100,12 @@
         <item name="android:textColor">@color/blue_grey_400</item>
         <item name="android:textSize">14sp</item>
         <item name="android:letterSpacing">0.04</item>
+    </style>
+
+    <style name="Text.Small1">
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+        <item name="android:textColor">@color/blue_grey_900</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

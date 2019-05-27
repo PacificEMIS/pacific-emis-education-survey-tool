@@ -33,7 +33,7 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
 
         TextView titleTextView;
         TextView totalTextView;
-        List<SummaryTextView> cellTextViews = new ArrayList<>();
+        List<TextView> cellTextViews = new ArrayList<>();
 
         ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary_criteria);
