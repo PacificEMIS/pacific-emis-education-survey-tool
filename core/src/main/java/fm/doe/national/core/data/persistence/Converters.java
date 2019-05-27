@@ -7,6 +7,7 @@ import java.util.Date;
 import fm.doe.national.core.data.model.AnswerState;
 import fm.doe.national.core.data.model.EvaluationForm;
 import fm.doe.national.core.data.model.SurveyType;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 public class Converters {
     @TypeConverter
@@ -47,5 +48,15 @@ public class Converters {
     @TypeConverter
     public static String convertFromEvaluationFormToName(EvaluationForm surveyType) {
         return surveyType.name();
+    }
+
+    @TypeConverter
+    public static AppRegion convertFromNameToAppRegion(String value) {
+        return AppRegion.valueOf(value);
+    }
+
+    @TypeConverter
+    public static String convertFromAppRegionToName(AppRegion appRegion) {
+        return appRegion.name();
     }
 }

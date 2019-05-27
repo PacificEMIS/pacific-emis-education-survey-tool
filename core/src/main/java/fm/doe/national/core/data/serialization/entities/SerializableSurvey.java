@@ -16,7 +16,9 @@ import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.SurveyType;
+import fm.doe.national.core.data.serialization.converters.AppRegionConverter;
 import fm.doe.national.core.data.serialization.converters.SurveyTypeConverter;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 
 @Root(name = "survey")
@@ -25,6 +27,10 @@ public class SerializableSurvey implements Survey {
     @Element
     @Convert(SurveyTypeConverter.class)
     SurveyType type;
+
+    @Element
+    @Convert(AppRegionConverter.class)
+    AppRegion region;
 
     @Element
     int version;
@@ -50,6 +56,7 @@ public class SerializableSurvey implements Survey {
     public SerializableSurvey(@NonNull Survey other) {
         this.version = other.getVersion();
         this.type = other.getSurveyType();
+        this.region = other.getAppRegion();
         this.date = other.getDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
@@ -102,5 +109,11 @@ public class SerializableSurvey implements Survey {
     @Override
     public Progress getProgress() {
         throw new IllegalStateException();
+    }
+
+    @NonNull
+    @Override
+    public AppRegion getAppRegion() {
+        return region;
     }
 }

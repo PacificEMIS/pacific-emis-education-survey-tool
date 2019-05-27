@@ -1,5 +1,6 @@
 <survey>
     <type>SCHOOL_ACCREDITATION</type>
+    <region>FCM</region>
     <version>1</version>
     <category>
         <type>SCHOOL_EVALUATION</type>

@@ -36,4 +36,8 @@ public interface DataSource {
 
     Completable deleteCreatedSurveys();
 
+    String getSurveyTemplateFileName();
+
+    String getSchoolsFileName();
+
 }

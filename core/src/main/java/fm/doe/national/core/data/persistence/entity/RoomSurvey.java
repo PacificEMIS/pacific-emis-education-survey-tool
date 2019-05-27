@@ -13,6 +13,7 @@ import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.SurveyType;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 @Entity
 public class RoomSurvey implements Survey {
@@ -35,8 +36,12 @@ public class RoomSurvey implements Survey {
     @ColumnInfo(name = "school_id")
     public String schoolId;
 
+    @ColumnInfo(name = "region")
+    public AppRegion appRegion;
+
     public RoomSurvey(int version,
                       SurveyType type,
+                      AppRegion appRegion,
                       @Nullable String schoolName,
                       @Nullable String schoolId,
                       @Nullable Date startDate) {
@@ -45,6 +50,7 @@ public class RoomSurvey implements Survey {
         this.schoolName = schoolName;
         this.schoolId = schoolId;
         this.startDate = startDate;
+        this.appRegion = appRegion;
     }
 
     public RoomSurvey(@NonNull Survey other) {
@@ -54,6 +60,7 @@ public class RoomSurvey implements Survey {
         this.startDate = other.getDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
+        this.appRegion = other.getAppRegion();
     }
 
     @Override
@@ -100,5 +107,11 @@ public class RoomSurvey implements Survey {
     @Override
     public Progress getProgress() {
         throw new IllegalStateException();
+    }
+
+    @NonNull
+    @Override
+    public AppRegion getAppRegion() {
+        return appRegion;
     }
 }
