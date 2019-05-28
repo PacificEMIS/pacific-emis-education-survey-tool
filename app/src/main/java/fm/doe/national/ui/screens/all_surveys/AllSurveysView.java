@@ -15,11 +15,11 @@ interface AllSurveysView extends BaseDrawerView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToCategoryChooser();
 
-    void setAccreditations(List<Survey> accreditations);
+    void setSurveys(List<Survey> accreditations);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showSurveyDeleteConfirmation();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void removeSurveyPassing(Survey passing);
+    void removeSurvey(Survey passing);
 }

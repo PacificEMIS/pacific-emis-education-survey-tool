@@ -1,10 +1,12 @@
 package fm.doe.national.ui.screens.all_surveys;
 
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
@@ -22,16 +24,15 @@ public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
 
     private List<MutableSurvey> surveys = new ArrayList<>();
 
-    private Survey passingToDelete;
+    private Survey surveyToDelete;
 
     @Override
     public void attachView(AllSurveysView view) {
         super.attachView(view);
-        loadRecentPassings();
+        loadRecentSurveys();
     }
 
-    private void loadRecentPassings() {
-
+    private void loadRecentSurveys() {
         addDisposable(interactor.getAllSurveys()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -39,11 +40,11 @@ public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(surveys -> {
                     this.surveys = surveys;
-                    getViewState().setAccreditations(new ArrayList<>(this.surveys));
+                    getViewState().setSurveys(new ArrayList<>(this.surveys));
                 }, this::handleError));
     }
 
-    public void onAccreditationClicked(Survey survey) {
+    public void onSurveyPressed(Survey survey) {
         interactor.setCurrentSurvey(MutableSurvey.toMutable(survey));
         getViewState().navigateToCategoryChooser();
     }
@@ -57,18 +58,28 @@ public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
                 queriedPassings.add(passing);
             }
         }
-        getViewState().setAccreditations(queriedPassings);
+        getViewState().setSurveys(queriedPassings);
     }
 
-    public void onAccreditationLongClicked(Survey item) {
-        passingToDelete = item;
+    public void onSurveyMergePressed(Survey survey) {
+        // TODO: not implemented
+        getViewState().showToast(Text.from(R.string.coming_soon));
+    }
+
+    public void onSurveyExportToExcelPressed(Survey survey) {
+        // TODO: not implemented
+        getViewState().showToast(Text.from(R.string.coming_soon));
+    }
+
+    public void onSurveyRemovePressed(Survey survey) {
+        surveyToDelete = survey;
         getViewState().showSurveyDeleteConfirmation();
     }
 
     public void onSurveyDeletionConfirmed() {
-        addDisposable(dataSource.deleteSurvey(passingToDelete.getId())
+        addDisposable(dataSource.deleteSurvey(surveyToDelete.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().removeSurveyPassing(passingToDelete), this::handleError));
+                .subscribe(() -> getViewState().removeSurvey(surveyToDelete), this::handleError));
     }
 }

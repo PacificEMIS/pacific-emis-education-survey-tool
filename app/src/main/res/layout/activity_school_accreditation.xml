@@ -25,12 +25,6 @@
             android:id="@+id/recyclerview_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/BaseThemeRecyclerView"
-            app:layoutManager="LinearLayoutManager"
-            app:dividerShow="middle"
-            app:dividerAlpha="0.25"
-            app:dividerPaddingStart="24dp"
-            app:dividerPaddingEnd="24dp"
             tools:listitem="@layout/item_survey" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

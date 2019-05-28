@@ -1,23 +1,27 @@
 package fm.doe.national.ui.screens.all_surveys;
 
-import android.view.View;
+import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.core.utils.DateUtils;
-import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.utils.DateUtils;
+import fm.doe.national.core.utils.ViewUtils;
 
 public class AllSurveysAdapter extends BaseAdapter<Survey> {
 
-    public AllSurveysAdapter(
-            OnItemClickListener<Survey> clickListener,
-            OnItemLongClickListener<Survey> longClickListener) {
-        super(clickListener, longClickListener);
+    private MenuItemClickListener menuItemClickListener;
+
+    public AllSurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
+        super(clickListener);
+        this.menuItemClickListener = menuItemClickListener;
     }
 
     @Override
@@ -25,7 +29,7 @@ public class AllSurveysAdapter extends BaseAdapter<Survey> {
         return new SchoolAccreditationViewHolder(parent);
     }
 
-    protected class SchoolAccreditationViewHolder extends ViewHolder implements View.OnLongClickListener {
+    protected class SchoolAccreditationViewHolder extends ViewHolder implements PopupMenu.OnMenuItemClickListener {
 
         @BindView(R.id.textview_id_school)
         TextView schoolIdTextView;
@@ -36,11 +40,14 @@ public class AllSurveysAdapter extends BaseAdapter<Survey> {
         @BindView(R.id.textview_progress)
         TextView progressTextView;
 
-        @BindView(R.id.textview_created_year)
-        TextView createdYearTextView;
+        @BindView(R.id.textview_creation_date)
+        TextView creationDateTextView;
 
         @BindView(R.id.progressbar)
         ProgressBar progressBar;
+
+        @BindView(R.id.button_more)
+        ImageButton moreButton;
 
         SchoolAccreditationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_survey);
@@ -50,9 +57,26 @@ public class AllSurveysAdapter extends BaseAdapter<Survey> {
         public void onBind(Survey item) {
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
-            createdYearTextView.setText(DateUtils.formatMonthYear(item.getDate()));
+            creationDateTextView.setText(DateUtils.formatUiText(item.getDate()));
 
             ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
         }
+
+        @OnClick(R.id.button_more)
+        void onMoreButtonClick() {
+            PopupMenu popupMenu = new PopupMenu(getContext(), moreButton);
+            popupMenu.inflate(R.menu.menu_survey);
+            popupMenu.setOnMenuItemClickListener(this);
+            popupMenu.show();
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            return menuItemClickListener.onMenuItemClick(item, getItem());
+        }
+    }
+
+    public interface MenuItemClickListener {
+        boolean onMenuItemClick(MenuItem menuItem, Survey survey);
     }
 }

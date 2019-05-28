@@ -4,66 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackground">
+    android:foreground="?selectableItemBackground"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/textview_id_school"
-        style="@style/GreyedListText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="86dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@+id/textview_name_school"
+        android:layout_marginStart="56dp"
+        android:textAppearance="@style/Text.Body2"
+        android:textColor="@color/blue_grey_700"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="005068" />
+        tools:text="CHK001" />
+
+    <TextView
+        android:id="@+id/textview_creation_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_id_school"
+        android:layout_alignStart="@+id/textview_id_school"
+        android:layout_alignEnd="@+id/textview_id_school"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/noto_sans_bold"
+        android:gravity="center"
+        android:textColor="@color/blue_grey_900"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textview_id_school"
+        app:layout_constraintStart_toStartOf="@+id/textview_id_school"
+        app:layout_constraintTop_toBottomOf="@+id/textview_id_school"
+        tools:text="Apr 12 2019" />
 
     <TextView
         android:id="@+id/textview_name_school"
-        style="@style/ListText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintStart_toEndOf="@+id/textview_id_school"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textview_id_school"
-        tools:text="Ban Sam Kong School" />
-
-    <TextView
-        android:id="@+id/textview_created_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/cool_grey"
-        android:textSize="16sp"
+        android:layout_marginStart="168dp"
+        android:layout_marginEnd="40dp"
+        android:textAppearance="@style/Text.Body1"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/progressbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_name_school"
-        tools:text="2018" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Amwachang Elementary School" />
 
     <fm.doe.national.ui.custom_views.StateProgressBar
         android:id="@+id/progressbar"
         style="@style/HorizontalProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="2dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_progress"
-        app:layout_constraintEnd_toStartOf="@+id/textview_progress"
-        app:layout_constraintTop_toTopOf="@+id/textview_progress" />
+        android:layout_width="96dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="112dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_more"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_more_vert_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textview_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_created_year"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textview_created_year"
-        style="@style/ProgressText"
-        tools:text="24/53" />
+        android:gravity="center_vertical|end"
+        android:textAppearance="@style/Text.Body2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_more"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="999/999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

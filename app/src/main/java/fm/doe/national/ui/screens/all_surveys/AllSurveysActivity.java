@@ -31,7 +31,7 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
         SearchView.OnQueryTextListener,
         View.OnClickListener,
         BaseAdapter.OnItemClickListener<Survey>,
-        BaseAdapter.OnItemLongClickListener<Survey> {
+        AllSurveysAdapter.MenuItemClickListener {
 
     @InjectPresenter
     AllSurveysPresenter presenter;
@@ -92,7 +92,7 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void setAccreditations(List<Survey> accreditations) {
+    public void setSurveys(List<Survey> accreditations) {
         allSurveysAdapter.setItems(accreditations);
     }
 
@@ -108,7 +108,7 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void removeSurveyPassing(Survey passing) {
+    public void removeSurvey(Survey passing) {
         allSurveysAdapter.removeItem(passing);
     }
 
@@ -125,12 +125,24 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
 
     @Override
     public void onItemClick(Survey item) {
-        presenter.onAccreditationClicked(item);
+        presenter.onSurveyPressed(item);
     }
 
     @Override
-    public void onItemLongClick(Survey item) {
-        presenter.onAccreditationLongClicked(item);
+    public boolean onMenuItemClick(MenuItem menuItem, Survey survey) {
+        switch (menuItem.getItemId()) {
+            case R.id.action_merge:
+                presenter.onSurveyMergePressed(survey);
+                return true;
+            case R.id.action_export_to_excel:
+                presenter.onSurveyExportToExcelPressed(survey);
+                return true;
+            case R.id.action_remove:
+                presenter.onSurveyRemovePressed(survey);
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
