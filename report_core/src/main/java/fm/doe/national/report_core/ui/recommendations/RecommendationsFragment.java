@@ -31,7 +31,7 @@ public class RecommendationsFragment extends BaseReportFragment implements
     RecommendationsPresenter presenter;
 
     private RecyclerView recommendationsRecyclerView;
-
+    private View progressView;
     private RecommendationsAdapter recommendationsAdapter = new RecommendationsAdapter();
 
     public RecommendationsFragment(ReportInteractor interactor) {
@@ -61,6 +61,7 @@ public class RecommendationsFragment extends BaseReportFragment implements
 
     private void bindViews(View view) {
         recommendationsRecyclerView = view.findViewById(R.id.recyclerview_recommendations);
+        progressView = view.findViewById(R.id.progressbar);
     }
 
     @Override
@@ -71,6 +72,9 @@ public class RecommendationsFragment extends BaseReportFragment implements
     @Override
     public void setRecommendations(List<Recommendation> recommendations) {
         recommendationsAdapter.setItems(recommendations);
+
+        recommendationsRecyclerView.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override

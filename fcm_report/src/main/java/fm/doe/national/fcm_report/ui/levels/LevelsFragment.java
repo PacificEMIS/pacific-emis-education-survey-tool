@@ -31,6 +31,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     private RecyclerView recyclerView;
     private TextView levelTextView;
     private LevelLegendView levelLegendView;
+    private View progressView;
 
     private final EvalutaionFormsAdapter adapter = new EvalutaionFormsAdapter();
 
@@ -68,6 +69,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         totalObtainedScoreTextView = totalsViewGroup.findViewById(R.id.textview_obtained_score);
         totalFinalScoreTextView = totalsViewGroup.findViewById(R.id.textview_final_score);
         totalScoreTitleTextView = totalsViewGroup.findViewById(R.id.textview_name);
+        progressView = view.findViewById(R.id.progressbar);
     }
 
     @Override
@@ -96,6 +98,9 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
                 fm.doe.national.report_core.R.drawable.bg_level,
                 reportLevel.getColorRes()
         );
+
+        recyclerView.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override

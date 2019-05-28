@@ -30,6 +30,8 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     private TextView level4TextView;
     private TextView scoreTextView;
     private TextView levelTextView;
+    private View tableView;
+    private View progressView;
 
     @InjectPresenter
     LevelsPresenter presenter;
@@ -62,6 +64,8 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         level4TextView = view.findViewById(R.id.textview_tally_level_4);
         scoreTextView = view.findViewById(R.id.textview_tally_score);
         levelTextView = view.findViewById(R.id.textview_tally_level);
+        tableView = view.findViewById(R.id.layout_table);
+        progressView = view.findViewById(R.id.progressbar);
     }
 
     @Override
@@ -82,6 +86,9 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
                 fm.doe.national.report_core.R.drawable.bg_level,
                 data.getLevel().getColorRes()
         );
+
+        tableView.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override
