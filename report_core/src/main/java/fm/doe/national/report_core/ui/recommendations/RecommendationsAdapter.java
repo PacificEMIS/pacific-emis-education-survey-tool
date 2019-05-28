@@ -9,12 +9,12 @@ import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
-import fm.doe.national.core.data.model.Category;
-import fm.doe.national.core.data.model.Criteria;
-import fm.doe.national.core.data.model.Standard;
-import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.report_core.R;
+import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
+import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
+import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
+import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
 
 public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
 
@@ -25,21 +25,21 @@ public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
 
     @Override
     public int getItemViewType(int position) {
-        Object object = getItem(position).getObject();
+        Recommendation recommendation = getItem(position);
 
-        if (object instanceof Category) {
+        if (recommendation instanceof CategoryRecommendation) {
             return VIEW_TYPE_CATEGORY;
         }
 
-        if (object instanceof Standard) {
+        if (recommendation instanceof StandardRecommendation) {
             return VIEW_TYPE_STANDARD;
         }
 
-        if (object instanceof Criteria) {
+        if (recommendation instanceof CriteriaRecommendation) {
             return VIEW_TYPE_CRITERIA;
         }
 
-        if (object instanceof SubCriteria) {
+        if (recommendation instanceof SubCriteriaRecommendation) {
             return VIEW_TYPE_SUB_CRITERIA;
         }
 
@@ -82,7 +82,7 @@ public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
         @Override
         public void onClick(View v) {
             // Only sub-criteria is clickable
-            if (getItem().getObject() instanceof SubCriteria) {
+            if (getItem() instanceof SubCriteriaRecommendation) {
                 super.onClick(v);
             }
         }
