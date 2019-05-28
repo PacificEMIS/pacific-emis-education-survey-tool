@@ -14,7 +14,7 @@
 
     <style name="LevelTable.Cell">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/levels_table_cell_height</item>
+        <item name="android:layout_height">@dimen/report_table_cell_height</item>
         <item name="android:background">@color/white</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">24dp</item>

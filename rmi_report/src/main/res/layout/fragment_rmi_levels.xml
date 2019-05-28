@@ -7,48 +7,43 @@
     android:layout_marginStart="40dp"
     android:layout_marginEnd="40dp">
 
-    <fm.doe.national.report_core.ui.level_legend.LevelLegendView
-        android:id="@+id/levellegendview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="@style/Text.Title1.Large"
         android:text="@string/title_rmi_report"/>
     
     <LinearLayout
         style="@style/RmiTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/bg_summary_sticky_header">
 
         <TextView
-            style="@style/Text.Rmi.Header"
+            style="@style/RmiTable.Cell.Header"
             android:text="@string/title_tally_level_1"/>
 
         <TextView
-            style="@style/Text.Rmi.Header"
+            style="@style/RmiTable.Cell.Header"
             android:text="@string/title_tally_level_2"/>
 
         <TextView
-            style="@style/Text.Rmi.Header"
+            style="@style/RmiTable.Cell.Header"
             android:text="@string/title_tally_level_3"/>
 
         <TextView
-            style="@style/Text.Rmi.Header"
+            style="@style/RmiTable.Cell.Header"
             android:text="@string/title_tally_level_4"/>
 
         <TextView
-            style="@style/Text.Rmi.Header"
+            style="@style/RmiTable.Cell.Header"
             android:text="@string/title_tally_score"/>
 
         <TextView
-            style="@style/Text.Rmi.Header"
+            style="@style/RmiTable.Cell.Header.Level"
             android:text="@string/title_tally_level"/>
 
     </LinearLayout>
@@ -61,33 +56,46 @@
 
         <TextView
             android:id="@+id/textview_tally_level_1"
-            style="@style/Text.Rmi.Item"
+            style="@style/RmiTable.Cell.Value"
             tools:text="4" />
 
         <TextView
             android:id="@+id/textview_tally_level_2"
-            style="@style/Text.Rmi.Item"
+            style="@style/RmiTable.Cell.Value"
             tools:text="4"/>
 
         <TextView
             android:id="@+id/textview_tally_level_3"
-            style="@style/Text.Rmi.Item"
+            style="@style/RmiTable.Cell.Value"
             tools:text="4"/>
 
         <TextView
             android:id="@+id/textview_tally_level_4"
-            style="@style/Text.Rmi.Item"
+            style="@style/RmiTable.Cell.Value"
             tools:text="4"/>
 
         <TextView
             android:id="@+id/textview_tally_score"
-            style="@style/Text.Rmi.Item"
+            style="@style/RmiTable.Cell.Value"
             tools:text="93"/>
 
-        <TextView
-            android:id="@+id/textview_tally_level"
-            style="@style/Text.Rmi.Item"
-            tools:text="Level 2"/>
+        <FrameLayout
+            style="@style/RmiTable.Cell.Value.Level"
+            android:paddingStart="0dp">
+
+            <TextView
+                android:id="@+id/textview_tally_level"
+                android:layout_width="74dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:gravity="center"
+                android:textAppearance="@style/Text.Title1"
+                android:textSize="12sp"
+                tools:background="@color/level_1"
+                tools:text="Level 2" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
