@@ -21,7 +21,7 @@
             android:orientation="vertical"
             app:layout_section="header">
 
-            <fm.doe.national.report_core.ui.summary_header.SummaryHeaderView
+            <fm.doe.national.report_core.ui.level_legend.LevelLegendView
                 android:id="@+id/summaryheaderview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

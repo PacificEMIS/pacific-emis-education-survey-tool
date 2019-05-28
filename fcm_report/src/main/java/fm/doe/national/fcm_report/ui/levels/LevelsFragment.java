@@ -24,7 +24,7 @@ import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
-import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 
 public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
@@ -34,7 +34,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     private RecyclerView recyclerView;
     private OmegaTextView determinationTextView;
     private TextView levelTextView;
-    private SummaryHeaderView summaryHeaderView;
+    private LevelLegendView levelLegendView;
 
     private final EvalutaionFormsAdapter adapter = new EvalutaionFormsAdapter();
 
@@ -87,7 +87,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         recyclerView = view.findViewById(R.id.recyclerview);
         determinationTextView = view.findViewById(R.id.textview_determination);
         levelTextView = view.findViewById(R.id.textview_level);
-        summaryHeaderView = view.findViewById(R.id.summaryheaderview);
+        levelLegendView = view.findViewById(R.id.levellegendview);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     }
 
     @Override
-    public void setHeaderItem(SummaryHeaderView.Item item) {
-        summaryHeaderView.setItem(item);
+    public void setHeaderItem(LevelLegendView.Item item) {
+        levelLegendView.setItem(item);
     }
 }

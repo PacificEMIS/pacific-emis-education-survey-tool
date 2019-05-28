@@ -2,6 +2,7 @@ package fm.doe.national.report_core.ui.summary;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
@@ -31,9 +32,13 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
 
     class ItemViewHolder extends ViewHolder {
 
-        TextView titleTextView;
-        TextView totalTextView;
-        List<SummaryTextView> cellTextViews = new ArrayList<>();
+        private final int subCriteriaTotalWeightShort = getResources().getInteger(R.integer.weight_summary_criteria_total_small);
+        private final int subCriteriaTotalWeightLong = getResources().getInteger(R.integer.weight_summary_criteria_total);
+
+        private TextView titleTextView;
+        private TextView totalTextView;
+        private View totalView;
+        private List<TextView> cellTextViews = new ArrayList<>();
 
         ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary_criteria);
@@ -43,6 +48,7 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
         private void bindViews() {
             titleTextView = findViewById(R.id.textview_criteria_title);
             totalTextView = findViewById(R.id.textview_total);
+            totalView = findViewById(R.id.layout_subcriteria_total);
             for (int cellId : cellIds) {
                 cellTextViews.add(findViewById(cellId));
             }
@@ -58,7 +64,16 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
             }
 
             int cellsCount = cellTextViews.size();
-            cellTextViews.get(cellsCount - 1).setVisibility(item.getAnswerStates().length < cellsCount ? View.GONE : View.VISIBLE);
+            updateLayout(item.getAnswerStates().length == cellsCount, cellsCount);
+        }
+
+        private void updateLayout(boolean useLongLayout, int cellsCount) {
+            cellTextViews.get(cellsCount - 1).setVisibility(useLongLayout ? View.VISIBLE : View.GONE);
+
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) totalView.getLayoutParams();
+            lp.weight = useLongLayout ? subCriteriaTotalWeightShort : subCriteriaTotalWeightLong;
+            totalView.setLayoutParams(lp);
+            totalView.requestLayout();
         }
 
         private boolean isAnsweredAt(int index) {

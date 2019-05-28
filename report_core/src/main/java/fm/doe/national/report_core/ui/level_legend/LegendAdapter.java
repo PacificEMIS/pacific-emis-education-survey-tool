@@ -1,4 +1,4 @@
-package fm.doe.national.report_core.ui.summary_header;
+package fm.doe.national.report_core.ui.level_legend;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -75,7 +75,9 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
         }
 
         private String buildLevelDescription(ReportLevel item) {
-            return item.getMeaning().getString(getContext()) + " (" + item.getAwards().getString(getContext()) + ")";
+            return item.getMeaning().getString(getContext());
+            // This one is not needed (but maybe will need it later)
+            // + " (" + item.getAwards().getString(getContext()) + ")";
         }
     }
 }

@@ -1,5 +1,4 @@
 <resources>
-    <string name="title_school_accreditation_level">School Accreditation Level</string>
     <string name="label_total_score">Total Score</string>
     <string name="title_evaluation_forms">Evaluation Forms</string>
     <string name="title_obtained_score">Obtained Score</string>

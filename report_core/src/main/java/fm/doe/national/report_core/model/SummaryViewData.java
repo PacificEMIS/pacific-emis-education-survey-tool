@@ -7,14 +7,22 @@ import fm.doe.national.core.data.model.Standard;
 
 public class SummaryViewData {
 
+    private static final int ANSWER_COUNT_FOR_LONG_LAYOUT_TYPE = 5;
+
     private Category category;
     private Standard standard;
     private int totalByStandard;
     private List<CriteriaSummaryViewData> criteriaSummaryViewDataList;
     private Level level;
+    private LayoutType layoutType;
 
-    public static SummaryViewData categoryOnly(Category category) {
-        return new SummaryViewData(category, null, 0, null, null);
+    public static SummaryViewData categoryOnly(Category category, LayoutType layoutType) {
+        return new SummaryViewData(category, layoutType);
+    }
+
+    private SummaryViewData(Category category, LayoutType layoutType) {
+        this.category = category;
+        this.layoutType = layoutType;
     }
 
     public SummaryViewData(Category category,
@@ -27,6 +35,12 @@ public class SummaryViewData {
         this.totalByStandard = totalByStandard;
         this.criteriaSummaryViewDataList = criteriaSummaryViewDataList;
         this.level = level;
+        LayoutType layoutType = LayoutType.SHORT;
+        if (this.criteriaSummaryViewDataList.size() > 0 &&
+                this.criteriaSummaryViewDataList.get(0).getAnswerStates().length == ANSWER_COUNT_FOR_LONG_LAYOUT_TYPE) {
+            layoutType = LayoutType.LONG;
+        }
+        this.layoutType = layoutType;
     }
 
     public boolean isCategoryOnly() {
@@ -53,6 +67,10 @@ public class SummaryViewData {
         return level;
     }
 
+    public LayoutType getLayoutType() {
+        return layoutType;
+    }
+
     public static class CriteriaSummaryViewData {
         private String criteriaTitle;
         private boolean[] answerStates;
@@ -75,5 +93,9 @@ public class SummaryViewData {
         public int getTotal() {
             return total;
         }
+    }
+
+    public enum LayoutType {
+        LONG, SHORT
     }
 }

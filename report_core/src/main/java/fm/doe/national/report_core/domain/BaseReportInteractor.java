@@ -17,7 +17,7 @@ import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
 import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
-import fm.doe.national.report_core.ui.summary_header.SummaryHeaderView;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
@@ -26,7 +26,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
 
     private static final List<Recommendation> EMPTY_RECOMMENDATIONS = Collections.emptyList();
     private static final List<SummaryViewData> EMPTY_SUMMARY = Collections.emptyList();
-    private static final SummaryHeaderView.Item EMPTY_HEADER = SummaryHeaderView.Item.empty();
+    private static final LevelLegendView.Item EMPTY_HEADER = LevelLegendView.Item.empty();
 
     private final BehaviorSubject<List<Recommendation>> recommendationsSubject =
             BehaviorSubject.createDefault(EMPTY_RECOMMENDATIONS);
@@ -34,7 +34,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     private final BehaviorSubject<List<SummaryViewData>> summarySubject =
             BehaviorSubject.createDefault(EMPTY_SUMMARY);
 
-    protected final BehaviorSubject<SummaryHeaderView.Item> headerSubject =
+    protected final BehaviorSubject<LevelLegendView.Item> headerSubject =
             BehaviorSubject.createDefault(EMPTY_HEADER);
 
     protected abstract Level createLevel(int completed, int total);
@@ -166,7 +166,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
 
     protected void requestHeader(Survey survey) {
         Schedulers.computation().scheduleDirect(() -> headerSubject.onNext(
-                new SummaryHeaderView.Item(
+                new LevelLegendView.Item(
                         survey.getSchoolId(),
                         survey.getSchoolName(),
                         survey.getDate(),
@@ -177,7 +177,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     }
 
     @Override
-    public Subject<SummaryHeaderView.Item> getHeaderItemSubject() {
+    public Subject<LevelLegendView.Item> getHeaderItemSubject() {
         return headerSubject;
     }
 }

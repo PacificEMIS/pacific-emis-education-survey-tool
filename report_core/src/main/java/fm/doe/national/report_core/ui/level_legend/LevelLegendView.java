@@ -1,11 +1,10 @@
-package fm.doe.national.report_core.ui.summary_header;
+package fm.doe.national.report_core.ui.level_legend;
 
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,49 +13,35 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.report_core.R;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;
 
-public class SummaryHeaderView extends LinearLayout {
+public class LevelLegendView extends LinearLayout {
 
     private final LegendAdapter legendAdapter = new LegendAdapter(getContext());
-
-    private TextView schoolIdTextView;
-    private TextView visitDateTextView;
-    private TextView schoolNameTextView;
-    private TextView principalNameTextView;
     private RecyclerView legendRecyclerView;
 
-    public SummaryHeaderView(Context context) {
+    public LevelLegendView(Context context) {
         this(context, null, 0);
     }
 
-    public SummaryHeaderView(Context context, @Nullable AttributeSet attrs) {
+    public LevelLegendView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SummaryHeaderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LevelLegendView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.view_summary_header, this);
+        inflate(context, R.layout.view_level_legend, this);
         bindViews();
         legendRecyclerView.setAdapter(legendAdapter);
     }
 
     private void bindViews() {
-        schoolIdTextView = findViewById(R.id.textview_school_code);
-        visitDateTextView = findViewById(R.id.textview_visit_date);
-        schoolNameTextView = findViewById(R.id.textview_school_name);
-        principalNameTextView = findViewById(R.id.textview_principal_name);
         legendRecyclerView = findViewById(R.id.recyclerview_levels);
     }
 
     public void setItem(Item item) {
-        schoolIdTextView.setText(item.getSchoolId());
-        schoolNameTextView.setText(item.getSchoolName());
-        principalNameTextView.setText(item.getPrincipalName());
-        visitDateTextView.setText(DateUtils.format(item.getDate()));
         if (item.getLevels() == null || item.getLevels().isEmpty()) {
             legendRecyclerView.setVisibility(View.GONE);
         } else {

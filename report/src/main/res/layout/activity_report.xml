@@ -4,21 +4,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".report.ui.report.ReportActivity">
+    tools:context=".ui.report.ReportActivity">
 
     <include layout="@layout/include_appbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="20dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_school_code"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_school_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="CHK001" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_date_of_accreditation"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_visit_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="06.05.2019" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_school_name"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_school_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="Parem Elementary School Chuuk" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_principal_name"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_principal_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="Parem Elementary School Chuuk" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="scrollable" />
+            android:layout_height="40dp"
+            android:background="@drawable/bg_pager"
+            app:tabBackground="@drawable/bg_page_button"
+            app:tabGravity="fill"
+            app:tabIndicator="@null"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/Text.Title1.Tab" />
 
     </androidx.viewpager.widget.ViewPager>
 
