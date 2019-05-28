@@ -22,4 +22,10 @@
     <string name="title_sub_criteria">Sub-Criteria</string>
     <string name="title_total">Total</string>
     <string name="title_standard">Standard</string>
+    <string name="label_recommendations_text_1">1) School Improvement Plan, Self-Study, and</string>
+    <string name="label_recommendations_text_2">2) Specific areas to improve suggested below:</string>
+    <string name="format_recommendation_category">Category \u2014 %1$s</string>
+    <string name="format_recommendation_standard">Standard %1$s \u2014 %2$s</string>
+    <string name="format_recommendation_criteria">Category %1$s \u2014 %2$s</string>
+    <string name="format_recommendation_sub_criteria">Sub-criteria %1$s \u2014 %2$s</string>
 </resources>

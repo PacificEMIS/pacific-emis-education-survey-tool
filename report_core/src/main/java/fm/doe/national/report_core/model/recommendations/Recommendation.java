@@ -1,22 +1,18 @@
 package fm.doe.national.report_core.model.recommendations;
 
-public abstract class Recommendation<T> {
-    private String content;
-    private T object;
-    private int level;
+import com.omega_r.libs.omegatypes.Text;
 
-    public Recommendation(T object, String content, int level) {
+public abstract class Recommendation<T> {
+    private Text content;
+    private T object;
+
+    public Recommendation(T object, Text content) {
         this.object = object;
         this.content = content;
-        this.level = level;
     }
 
-    public String getContent() {
+    public Text getContent() {
         return content;
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public T getObject() {

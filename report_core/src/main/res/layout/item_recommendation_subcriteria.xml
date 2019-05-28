@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Recommendation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="66dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:textAppearance="@style/Text.Body3"
+    tools:text="Criteria 2 - Criteria text here" />

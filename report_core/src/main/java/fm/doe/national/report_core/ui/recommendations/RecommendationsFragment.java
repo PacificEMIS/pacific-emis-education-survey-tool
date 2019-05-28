@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
@@ -20,7 +21,9 @@ import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
 
-public class RecommendationsFragment extends BaseReportFragment implements RecommendationsView {
+public class RecommendationsFragment extends BaseReportFragment implements
+        RecommendationsView,
+        BaseListAdapter.OnItemClickListener<Recommendation> {
 
     private final ReportInteractor interactor;
 
@@ -52,6 +55,7 @@ public class RecommendationsFragment extends BaseReportFragment implements Recom
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
+        recommendationsAdapter.setClickListener(this);
         recommendationsRecyclerView.setAdapter(recommendationsAdapter);
     }
 
@@ -72,5 +76,10 @@ public class RecommendationsFragment extends BaseReportFragment implements Recom
     @Override
     public Text getTabName() {
         return Text.from(R.string.label_recommendations);
+    }
+
+    @Override
+    public void onItemClick(Recommendation item) {
+        presenter.onRecommendationPressed(item);
     }
 }

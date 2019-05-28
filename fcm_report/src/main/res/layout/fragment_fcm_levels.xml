@@ -22,7 +22,7 @@
             app:layout_section="header">
 
             <fm.doe.national.report_core.ui.level_legend.LevelLegendView
-                android:id="@+id/summaryheaderview"
+                android:id="@+id/levellegendview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
