@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="weight_accreditation_level_sum">688</integer>
+    <integer name="weight_accreditation_level_name">286</integer>
+    <integer name="weight_accreditation_level_score">134</integer>
+</resources>

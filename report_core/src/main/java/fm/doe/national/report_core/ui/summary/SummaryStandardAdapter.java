@@ -1,14 +1,11 @@
 package fm.doe.national.report_core.ui.summary;
 
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
@@ -18,6 +15,7 @@ import java.util.List;
 
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.report_core.R;
 import fm.doe.national.report_core.model.SummaryViewData;
 
@@ -118,16 +116,7 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
             totalTextView.setText(String.valueOf(item.getTotalByStandard()));
 
-            Drawable backgroundDrawable = ContextCompat.getDrawable(getContext(), R.drawable.bg_level);
-
-            if (backgroundDrawable != null) {
-                backgroundDrawable = DrawableCompat.wrap(backgroundDrawable);
-                DrawableCompat.setTint(
-                        backgroundDrawable.mutate(),
-                        ContextCompat.getColor(getContext(), item.getLevel().getColorRes())
-                );
-                totalTextView.setBackground(backgroundDrawable);
-            }
+            ViewUtils.setTintedBackgroundDrawable(totalTextView, R.drawable.bg_level, item.getLevel().getColorRes());
 
             adapter.setItems(item.getCriteriaSummaryViewDataList());
 

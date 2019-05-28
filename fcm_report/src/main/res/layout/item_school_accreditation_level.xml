@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/LevelTable.Background"
@@ -8,21 +9,21 @@
     <TextView
         android:id="@+id/textview_name"
         style="@style/LevelTable.Cell.Name"
-        android:text="@string/title_evaluation_forms" />
+        tools:text="School Evaluation" />
 
     <TextView
         android:id="@+id/textview_obtained_score"
-        style="@style/LevelTable.Cell.Item"
-        android:text="@string/title_obtained_score" />
+        style="@style/LevelTable.Cell.Score"
+        tools:text="72" />
 
     <TextView
         android:id="@+id/textview_multiplier"
-        style="@style/LevelTable.Cell.Item"
-        android:text="@string/title_multiplier" />
+        style="@style/LevelTable.Cell.Score"
+        tools:text="0.9375" />
 
     <TextView
         android:id="@+id/textview_final_score"
-        style="@style/LevelTable.Cell.Item"
-        android:text="@string/title_final_score" />
+        style="@style/LevelTable.Cell.Score"
+        tools:text="67.5" />
 
 </LinearLayout>
