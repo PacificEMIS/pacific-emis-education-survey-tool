@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="weight_rmi_report_sum">687</integer>
+    <integer name="weight_rmi_report_tally">115</integer>
+    <integer name="weight_rmi_report_level">112</integer>
+</resources>

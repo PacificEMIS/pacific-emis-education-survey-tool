@@ -1,6 +1,5 @@
 package fm.doe.national.fcm_report.ui.levels;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +8,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.views.OmegaTextView;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
 import fm.doe.national.core.utils.ViewUtils;
-import fm.doe.national.fcm_report.di.ComponentInjector;
 import fm.doe.national.fcm_report.R;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
+import fm.doe.national.fcm_report.di.ComponentInjector;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
@@ -32,14 +29,15 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     LevelsPresenter presenter;
 
     private RecyclerView recyclerView;
-    private OmegaTextView determinationTextView;
     private TextView levelTextView;
     private LevelLegendView levelLegendView;
+    private View progressView;
 
     private final EvalutaionFormsAdapter adapter = new EvalutaionFormsAdapter();
 
     private TextView totalObtainedScoreTextView;
     private TextView totalFinalScoreTextView;
+    private TextView totalScoreTitleTextView;
 
     @ProvidePresenter
     LevelsPresenter providePresenter() {
@@ -60,34 +58,18 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
-
         recyclerView.setAdapter(adapter);
-
-        ViewUtils.forEachChild(
-                view.findViewById(R.id.layout_titles),
-                TextView.class,
-                textView -> {
-                    textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey_600));
-                    textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
-                }
-        );
-
-        ViewGroup totalsViewGroup = view.findViewById(R.id.layout_total_scores);
-        ViewUtils.forEachChild(
-                totalsViewGroup,
-                TextView.class,
-                textView -> textView.setTypeface(textView.getTypeface(), Typeface.BOLD)
-        );
-
-        totalObtainedScoreTextView = totalsViewGroup.findViewById(R.id.textview_obtained_score);
-        totalFinalScoreTextView = totalsViewGroup.findViewById(R.id.textview_final_score);
     }
 
     private void bindViews(View view) {
         recyclerView = view.findViewById(R.id.recyclerview);
-        determinationTextView = view.findViewById(R.id.textview_determination);
         levelTextView = view.findViewById(R.id.textview_level);
         levelLegendView = view.findViewById(R.id.levellegendview);
+        ViewGroup totalsViewGroup = view.findViewById(R.id.layout_total_scores);
+        totalObtainedScoreTextView = totalsViewGroup.findViewById(R.id.textview_obtained_score);
+        totalFinalScoreTextView = totalsViewGroup.findViewById(R.id.textview_final_score);
+        totalScoreTitleTextView = totalsViewGroup.findViewById(R.id.textview_name);
+        progressView = view.findViewById(R.id.progressbar);
     }
 
     @Override
@@ -106,12 +88,19 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
         totalFinalScoreTextView.setText(String.valueOf(data.getTotalScore()));
         totalObtainedScoreTextView.setText(String.valueOf(data.getTotalObtainedScore()));
+        totalScoreTitleTextView.setText(R.string.label_total_score);
 
         ReportLevel reportLevel = data.getReportLevel();
         reportLevel.getName().applyTo(levelTextView, null);
-        levelTextView.setBackgroundColor(ContextCompat.getColor(getContext(), reportLevel.getColorRes()));
 
-        reportLevel.getMeaning().applyTo(determinationTextView, null);
+        ViewUtils.setTintedBackgroundDrawable(
+                levelTextView,
+                fm.doe.national.report_core.R.drawable.bg_level,
+                reportLevel.getColorRes()
+        );
+
+        recyclerView.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override

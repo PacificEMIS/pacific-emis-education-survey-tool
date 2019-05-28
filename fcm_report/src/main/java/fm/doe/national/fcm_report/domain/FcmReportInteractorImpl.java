@@ -2,7 +2,6 @@ package fm.doe.national.fcm_report.domain;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ import fm.doe.national.report_core.domain.BaseReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;
 import fm.doe.national.report_core.model.SummaryViewData;
-import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
@@ -88,16 +86,4 @@ public class FcmReportInteractorImpl extends BaseReportInteractor implements Fcm
         return levelSubject;
     }
 
-    @Override
-    protected void requestHeader(Survey survey) {
-        Schedulers.computation().scheduleDirect(() -> headerSubject.onNext(
-                new LevelLegendView.Item(
-                        survey.getSchoolId(),
-                        survey.getSchoolName(),
-                        survey.getDate(),
-                        null, // TODO: not implemented
-                        Arrays.asList(ReportLevel.values())
-                )
-        ));
-    }
 }

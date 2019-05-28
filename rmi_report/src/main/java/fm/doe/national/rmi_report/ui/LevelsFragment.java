@@ -14,6 +14,7 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
@@ -23,13 +24,14 @@ import fm.doe.national.rmi_report.model.SchoolAccreditationTallyLevel;
 
 public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
-    private LevelLegendView levelLegendView;
     private TextView level1TextView;
     private TextView level2TextView;
     private TextView level3TextView;
     private TextView level4TextView;
     private TextView scoreTextView;
     private TextView levelTextView;
+    private View tableView;
+    private View progressView;
 
     @InjectPresenter
     LevelsPresenter presenter;
@@ -56,13 +58,14 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     }
 
     private void bindViews(View view) {
-        levelLegendView = view.findViewById(R.id.levellegendview);
         level1TextView = view.findViewById(R.id.textview_tally_level_1);
         level2TextView = view.findViewById(R.id.textview_tally_level_2);
         level3TextView = view.findViewById(R.id.textview_tally_level_3);
         level4TextView = view.findViewById(R.id.textview_tally_level_4);
         scoreTextView = view.findViewById(R.id.textview_tally_score);
         levelTextView = view.findViewById(R.id.textview_tally_level);
+        tableView = view.findViewById(R.id.layout_table);
+        progressView = view.findViewById(R.id.progressbar);
     }
 
     @Override
@@ -78,11 +81,18 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         level4TextView.setText(String.valueOf(data.getCountOfFours()));
         scoreTextView.setText(String.valueOf(data.getTallyScore()));
         levelTextView.setText(String.valueOf(data.getLevel().getName().getString(getContext())));
-        levelTextView.setBackgroundColor(getContext().getColor(data.getLevel().getColorRes()));
+        ViewUtils.setTintedBackgroundDrawable(
+                levelTextView,
+                fm.doe.national.report_core.R.drawable.bg_level,
+                data.getLevel().getColorRes()
+        );
+
+        tableView.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override
     public void setHeaderItem(LevelLegendView.Item item) {
-        levelLegendView.setItem(item);
+        // nothing
     }
 }

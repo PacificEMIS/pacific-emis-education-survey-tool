@@ -31,6 +31,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
 
     private RecyclerView summaryRecyclerView;
     private LevelLegendView levelLegendView;
+    private View progressView;
 
     public SummaryFragment(ReportInteractor interactor) {
         this.interactor = interactor;
@@ -59,6 +60,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
     private void bindViews(View view) {
         summaryRecyclerView = view.findViewById(R.id.recyclerview_summary);
         levelLegendView = view.findViewById(R.id.levellegendview);
+        progressView = view.findViewById(R.id.progressbar);
     }
 
     @Override
@@ -69,6 +71,8 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
     @Override
     public void setSummaryData(@NonNull List<SummaryViewData> data) {
         adapter.setItems(data);
+        summaryRecyclerView.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override
