@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.report.ReportActivity">
+    tools:context=".ui.report.ReportActivity"
+    android:background="@color/white">
 
     <include layout="@layout/include_appbar" />
 

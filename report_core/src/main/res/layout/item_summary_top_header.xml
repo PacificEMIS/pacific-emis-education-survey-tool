@@ -1,85 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Summary.Row"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="@integer/weight_summary_header_empty_space" />
-
-    <TextView
-        style="Summary.HeaderSubCriteriaValue"
-        android:text="@string/first_subcriteria" />
-
-    <TextView
-        style="Summary.HeaderSubCriteriaValue"
-        android:text="@string/second_subcriteria" />
-
-    <TextView
-        style="Summary.HeaderSubCriteriaValue"
-        android:text="@string/third_subcriteria" />
-
-    <TextView
-        style="Summary.HeaderSubCriteriaValue"
-        android:text="@string/forth_subcriteria" />
-
-    <TextView
-        android:id="@+id/textview_subcriteria_5"
-        style="Summary.HeaderSubCriteriaValue"
-        android:text="@string/fifth_subcriteria" />
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:background="@color/white">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:layout_weight="@integer/weight_summary_criteria_total"
-        android:orientation="vertical">
+        style="@style/Summary.Row"
+        android:background="@drawable/bg_summary_sticky_header">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="@integer/weight_summary_header_empty_space" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/title_sub_criteria"
-            android:textAllCaps="false"
-            android:textAppearance="@style/Text.Title1.Small" />
+            style="@style/Summary.HeaderSubCriteriaValue"
+            android:text="@string/first_subcriteria" />
 
         <TextView
-            android:layout_width="wrap_content"
+            style="@style/Summary.HeaderSubCriteriaValue"
+            android:text="@string/second_subcriteria" />
+
+        <TextView
+            style="@style/Summary.HeaderSubCriteriaValue"
+            android:text="@string/third_subcriteria" />
+
+        <TextView
+            style="@style/Summary.HeaderSubCriteriaValue"
+            android:text="@string/forth_subcriteria" />
+
+        <TextView
+            android:id="@+id/textview_subcriteria_5"
+            style="@style/Summary.HeaderSubCriteriaValue"
+            android:visibility="gone"
+            android:text="@string/fifth_subcriteria" />
+
+        <LinearLayout
+            android:id="@+id/layout_subcriteria_total"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/title_total"
-            android:textAppearance="@style/Text.Title1.Small"
-            android:textColor="@color/grey_600" />
+            android:layout_gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:layout_weight="@integer/weight_summary_criteria_total"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/title_sub_criteria"
+                android:textAllCaps="false"
+                android:textAppearance="@style/Text.Title1.Small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/title_total"
+                android:textAppearance="@style/Text.Title1.Small"
+                android:textColor="@color/grey_600" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:layout_weight="@integer/weight_summary_standard_total"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/title_standard"
+                android:textAllCaps="false"
+                android:textAppearance="@style/Text.Title1.Small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/title_total"
+                android:textAppearance="@style/Text.Title1.Small"
+                android:textColor="@color/grey_600" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:layout_weight="@integer/weight_summary_standard_total"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/title_standard"
-            android:textAllCaps="false"
-            android:textAppearance="@style/Text.Title1.Small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/title_total"
-            android:textAppearance="@style/Text.Title1.Small"
-            android:textColor="@color/grey_600" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

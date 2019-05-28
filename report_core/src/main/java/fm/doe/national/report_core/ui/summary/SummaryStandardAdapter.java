@@ -1,10 +1,8 @@
 package fm.doe.national.report_core.ui.summary;
 
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,11 +56,14 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
     public void setItems(@NonNull List<SummaryViewData> items) {
         List<SummaryViewData> expandedItems = new ArrayList<>();
         Category currentCategory = null;
+        SummaryViewData currentCategoryViewData = null;
 
         for (SummaryViewData item : items) {
-            if (item.getCategory() != currentCategory) {
-                expandedItems.add(SummaryViewData.categoryOnly(item.getCategory()));
-                currentCategory = item.getCategory();
+            Category category = item.getCategory();
+            if (category != currentCategory) {
+                currentCategory = category;
+                currentCategoryViewData = SummaryViewData.categoryOnly(currentCategory, item.getLayoutType());
+                expandedItems.add(currentCategoryViewData);
             }
             expandedItems.add(item);
         }
@@ -86,11 +87,10 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
     class ItemViewHolder extends ViewHolder {
 
-        private final TypefaceSpan typefaceSpan = new TypefaceSpan(getString(R.string.font_medium));
-
-        TextView nameTextView;
-        RecyclerView recyclerView;
-        TextView totalTextView;
+        private TextView nameTextView;
+        private TextView titleTextView;
+        private RecyclerView recyclerView;
+        private TextView totalTextView;
 
         SummaryCriteriaAdapter adapter = new SummaryCriteriaAdapter();
 
@@ -101,6 +101,7 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
         }
 
         private void bindViews() {
+            titleTextView = findViewById(R.id.textview_standard_title);
             nameTextView = findViewById(R.id.textview_standard_name);
             recyclerView = findViewById(R.id.recyclerview);
             totalTextView = findViewById(R.id.textview_total);
@@ -109,9 +110,8 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
         @Override
         protected void onBind(SummaryViewData item) {
             String standardPrefix = getString(R.string.format_standard, item.getStandard().getSuffix());
-            SpannableString spannableString = new SpannableString(standardPrefix + " " + item.getStandard().getTitle());
-            spannableString.setSpan(typefaceSpan, 0, standardPrefix.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            nameTextView.setText(spannableString);
+            titleTextView.setText(standardPrefix);
+            nameTextView.setText(item.getStandard().getTitle());
 
             totalTextView.setText(String.valueOf(item.getTotalByStandard()));
             totalTextView.setBackgroundColor(ContextCompat.getColor(getContext(), item.getLevel().getColorRes()));
@@ -122,7 +122,11 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
     class StickyViewHolder extends ViewHolder {
 
-        View fifthSubCriteriaRowView;
+        private final int subCriteriaTotalWeightShort = getResources().getInteger(R.integer.weight_summary_criteria_total_small);
+        private final int subCriteriaTotalWeightLong = getResources().getInteger(R.integer.weight_summary_criteria_total);
+
+        private View fifthSubCriteriaRowView;
+        private View subCriteriaTotalView;
 
         StickyViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary_top_header);
@@ -131,24 +135,27 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
         private void bindViews() {
             fifthSubCriteriaRowView = findViewById(R.id.textview_subcriteria_5);
+            subCriteriaTotalView = findViewById(R.id.layout_subcriteria_total);
         }
 
         @Override
         protected void onBind(SummaryViewData item) {
-            switch (item.getCategory().getEvaluationForm()) {
-                case CLASSROOM_OBSERVATION:
-                    fifthSubCriteriaRowView.setVisibility(View.VISIBLE);
-                    break;
-                case SCHOOL_EVALUATION:
-                    fifthSubCriteriaRowView.setVisibility(View.GONE);
-                    break;
-            }
+            updateLayout(item.getLayoutType() == SummaryViewData.LayoutType.LONG);
+        }
+
+        private void updateLayout(boolean useLongLayout) {
+            fifthSubCriteriaRowView.setVisibility(useLongLayout ? View.VISIBLE : View.GONE);
+
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) subCriteriaTotalView.getLayoutParams();
+            lp.weight = useLongLayout ? subCriteriaTotalWeightShort : subCriteriaTotalWeightLong;
+            subCriteriaTotalView.setLayoutParams(lp);
+            subCriteriaTotalView.requestLayout();
         }
     }
 
     class HeaderViewHolder extends ViewHolder {
 
-        TextView headerTextView;
+        private TextView headerTextView;
 
         HeaderViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_summary_sticky_header);

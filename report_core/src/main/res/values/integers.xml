@@ -10,6 +10,6 @@
     <integer name="weight_summary_standard_name">270</integer>
     <integer name="weight_summary_standard_total">86</integer>
 
-    <integer name="weight_summary_header_empty_space">331</integer>
+    <integer name="weight_summary_header_empty_space">332</integer>
 
 </resources>
