@@ -58,7 +58,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
 
     private void bindViews(View view) {
         summaryRecyclerView = view.findViewById(R.id.recyclerview_summary);
-        levelLegendView = view.findViewById(R.id.summaryheaderview);
+        levelLegendView = view.findViewById(R.id.levellegendview);
     }
 
     @Override

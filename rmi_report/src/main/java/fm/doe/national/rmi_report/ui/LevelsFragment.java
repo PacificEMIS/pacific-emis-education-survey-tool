@@ -56,7 +56,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     }
 
     private void bindViews(View view) {
-        levelLegendView = view.findViewById(R.id.summaryheaderview);
+        levelLegendView = view.findViewById(R.id.levellegendview);
         level1TextView = view.findViewById(R.id.textview_tally_level_1);
         level2TextView = view.findViewById(R.id.textview_tally_level_2);
         level3TextView = view.findViewById(R.id.textview_tally_level_3);

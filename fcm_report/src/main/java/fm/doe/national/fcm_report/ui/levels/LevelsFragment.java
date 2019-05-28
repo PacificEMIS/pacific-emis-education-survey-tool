@@ -87,7 +87,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         recyclerView = view.findViewById(R.id.recyclerview);
         determinationTextView = view.findViewById(R.id.textview_determination);
         levelTextView = view.findViewById(R.id.textview_level);
-        levelLegendView = view.findViewById(R.id.summaryheaderview);
+        levelLegendView = view.findViewById(R.id.levellegendview);
     }
 
     @Override
