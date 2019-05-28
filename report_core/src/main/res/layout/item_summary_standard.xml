@@ -1,66 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Summary.Row"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <FrameLayout
-        style="@style/Summary.Cell.StandardName">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textview_standard_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/Text.Title1"
-                android:textSize="14sp"
-                tools:text="Standard SE4:" />
-
-            <TextView
-                android:id="@+id/textview_standard_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textAppearance="@style/Text.Small1"
-                android:textSize="14sp"
-                tools:text="National Curriculum Standards, Bechmarks and Student Learning Outcomes" />
-
-        </LinearLayout>
-
-    </FrameLayout>
-
-    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="0dp"
+    <LinearLayout
+        style="@style/Summary.Row"
         android:layout_height="wrap_content"
-        android:layout_weight="@integer/weight_summary_criteria_sum"
-        tools:itemCount="4"
-        tools:listitem="@layout/item_summary_criteria" />
+        android:background="@color/white">
 
-    <FrameLayout style="@style/Summary.Cell.StandardTotal">
+        <FrameLayout
+            style="@style/Summary.Cell.StandardName"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/textview_total"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:gravity="center"
-            android:textAppearance="@style/Text.Title1"
-            android:textSize="12sp"
-            tools:background="@color/level_1"
-            tools:text="16" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
-    </FrameLayout>
+                <TextView
+                    android:id="@+id/textview_standard_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/Text.Title1"
+                    android:textSize="14sp"
+                    tools:text="Standard SE4:" />
 
+                <TextView
+                    android:id="@+id/textview_standard_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textAppearance="@style/Text.Small1"
+                    android:textSize="14sp"
+                    tools:text="National Curriculum Standards, Bechmarks and Student Learning Outcomes" />
 
-</LinearLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="@integer/weight_summary_criteria_sum"
+            app:divider="@color/delimeter_grey"
+            app:dividerHeight="1dp"
+            app:dividerShow="middle"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_summary_criteria" />
+
+        <FrameLayout style="@style/Summary.Cell.StandardTotal">
+
+            <TextView
+                android:id="@+id/textview_total"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:gravity="center"
+                android:textAppearance="@style/Text.Title1"
+                android:textSize="12sp"
+                tools:background="@color/level_1"
+                tools:text="16" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_delimeter"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/delimeter_grey"
+        android:layout_gravity="bottom"/>
+
+</FrameLayout>

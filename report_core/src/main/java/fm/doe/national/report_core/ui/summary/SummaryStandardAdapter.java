@@ -1,5 +1,7 @@
 package fm.doe.national.report_core.ui.summary;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -91,6 +93,7 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
         private TextView titleTextView;
         private RecyclerView recyclerView;
         private TextView totalTextView;
+        private View delimeterView;
 
         SummaryCriteriaAdapter adapter = new SummaryCriteriaAdapter();
 
@@ -105,18 +108,51 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
             nameTextView = findViewById(R.id.textview_standard_name);
             recyclerView = findViewById(R.id.recyclerview);
             totalTextView = findViewById(R.id.textview_total);
+            delimeterView = findViewById(R.id.view_delimeter);
         }
 
         @Override
         protected void onBind(SummaryViewData item) {
-            String standardPrefix = getString(R.string.format_standard, item.getStandard().getSuffix());
-            titleTextView.setText(standardPrefix);
+            titleTextView.setText(getString(R.string.format_standard, item.getStandard().getSuffix()));
             nameTextView.setText(item.getStandard().getTitle());
 
             totalTextView.setText(String.valueOf(item.getTotalByStandard()));
-            totalTextView.setBackgroundColor(ContextCompat.getColor(getContext(), item.getLevel().getColorRes()));
+
+            Drawable backgroundDrawable = ContextCompat.getDrawable(getContext(), R.drawable.bg_level);
+
+            if (backgroundDrawable != null) {
+
+                backgroundDrawable.setColorFilter(
+                        ContextCompat.getColor(getContext(), item.getLevel().getColorRes()),
+                        PorterDuff.Mode.SRC_IN
+                );
+                totalTextView.setBackground(backgroundDrawable);
+            }
 
             adapter.setItems(item.getCriteriaSummaryViewDataList());
+
+            delimeterView.setVisibility(shouldHideBottomDelimeter() ? View.GONE : View.VISIBLE);
+        }
+
+        private boolean shouldHideBottomDelimeter() {
+            int position = getAdapterPosition();
+            long currentGroupId = getStickyId(position);
+
+            if (position == RecyclerView.NO_POSITION) {
+                return false;
+            }
+
+            if (position >= getItemCount() - 1) {
+                return false;
+            }
+
+            long nextItemGroupId = getStickyId(position + 1);
+
+            if (nextItemGroupId != currentGroupId) {
+                return false;
+            }
+
+            return SummaryStandardAdapter.this.getItem(position + 1).isCategoryOnly();
         }
     }
 

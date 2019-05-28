@@ -9,19 +9,20 @@
         <item name="android:weightSum">@integer/weight_summary_row</item>
         <item name="android:background">@color/delimeter_grey</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:paddingBottom">1dp</item>
     </style>
 
     <style name="Summary.Cell">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_margin">0.5dp</item>
+        <item name="android:layout_marginStart">0.5dp</item>
+        <item name="android:layout_marginEnd">0.5dp</item>
         <item name="android:background">@color/white</item>
     </style>
 
     <style name="Summary.Cell.CriteriaName">
         <item name="android:layout_weight">@integer/weight_summary_criteria_name</item>
         <item name="android:textAppearance">@style/Text.Body3</item>
+        <item name="android:layout_marginStart">1dp</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -33,15 +34,18 @@
     </style>
 
     <style name="Summary.Cell.CriteriaTotal">
+        <item name="android:layout_marginEnd">1dp</item>
         <item name="android:layout_weight">@integer/weight_summary_criteria_total</item>
     </style>
 
     <style name="Summary.Cell.StandardName">
         <item name="android:layout_weight">@integer/weight_summary_standard_name</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="Summary.Cell.StandardTotal">
         <item name="android:layout_weight">@integer/weight_summary_standard_total</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="Summary.HeaderSubCriteriaValue">

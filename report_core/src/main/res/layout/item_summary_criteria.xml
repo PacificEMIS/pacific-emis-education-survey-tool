@@ -35,7 +35,9 @@
         android:visibility="gone"
         tools:text="1" />
 
-    <FrameLayout style="@style/Summary.Cell.CriteriaTotal">
+    <FrameLayout
+        android:id="@+id/layout_subcriteria_total"
+        style="@style/Summary.Cell.CriteriaTotal">
 
         <TextView
             android:id="@+id/textview_total"
