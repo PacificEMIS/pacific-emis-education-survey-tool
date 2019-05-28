@@ -1,6 +1,7 @@
 package fm.doe.national.report_core.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -171,7 +172,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                         survey.getSchoolName(),
                         survey.getDate(),
                         null, // TODO: not implemented
-                        null // not needed
+                        Arrays.asList(ReportLevel.values())
                 )
         ));
     }

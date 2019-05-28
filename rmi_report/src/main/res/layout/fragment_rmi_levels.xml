@@ -56,7 +56,7 @@
 
         <TextView
             android:id="@+id/textview_tally_level_1"
-            style="@style/RmiTable.Cell.Value"
+            style="@style/RmiTable.Cell.Value.First"
             tools:text="4" />
 
         <TextView

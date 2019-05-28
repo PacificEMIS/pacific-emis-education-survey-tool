@@ -32,9 +32,12 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="RmiTable.Cell.Value.First">
+        <item name="android:layout_marginStart">0dp</item>
+    </style>
+
     <style name="RmiTable.Cell.Value.Level">
         <item name="android:layout_weight">@integer/weight_rmi_report_level</item>
-        <item name="android:layout_marginStart">0dp</item>
     </style>
 
 </resources>
