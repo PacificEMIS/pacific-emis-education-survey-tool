@@ -1,18 +1,21 @@
 package fm.doe.national.core.utils;
 
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.SparseIntArray;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import fm.doe.national.core.R;
 import fm.doe.national.core.data.model.Progress;
@@ -88,24 +91,18 @@ public class ViewUtils {
         }
     }
 
-    public static <T> void forEachChild(@NonNull ViewGroup viewGroup, Class<T> ofClass, Action<T> action) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            try {
-                action.perform(ofClass.cast(viewGroup.getChildAt(i)));
-            } catch (ClassCastException cce) {
-                // nothing
-            }
+    public static void setTintedBackgroundDrawable(View targetView, @DrawableRes int drawableRes, @ColorRes int colorRes) {
+        Context context = targetView.getContext();
+        Drawable backgroundDrawable = ContextCompat.getDrawable(context, drawableRes);
+
+        if (backgroundDrawable != null) {
+            backgroundDrawable = DrawableCompat.wrap(backgroundDrawable);
+            DrawableCompat.setTint(
+                    backgroundDrawable.mutate(),
+                    ContextCompat.getColor(context, colorRes)
+            );
+            targetView.setBackground(backgroundDrawable);
         }
-    }
-
-    public static void updateMargins(View view, int left, int top, int right, int bottom) {
-        ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        marginParams.setMargins(left, top, right, bottom);
-        view.requestLayout();
-    }
-
-    public interface Action<T> {
-        void perform(T object);
     }
 
 }
