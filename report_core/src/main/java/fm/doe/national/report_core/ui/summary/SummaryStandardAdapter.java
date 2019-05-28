@@ -1,6 +1,5 @@
 package fm.doe.national.report_core.ui.summary;
 
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
@@ -121,10 +121,10 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
             Drawable backgroundDrawable = ContextCompat.getDrawable(getContext(), R.drawable.bg_level);
 
             if (backgroundDrawable != null) {
-
-                backgroundDrawable.setColorFilter(
-                        ContextCompat.getColor(getContext(), item.getLevel().getColorRes()),
-                        PorterDuff.Mode.SRC_IN
+                backgroundDrawable = DrawableCompat.wrap(backgroundDrawable);
+                DrawableCompat.setTint(
+                        backgroundDrawable.mutate(),
+                        ContextCompat.getColor(getContext(), item.getLevel().getColorRes())
                 );
                 totalTextView.setBackground(backgroundDrawable);
             }

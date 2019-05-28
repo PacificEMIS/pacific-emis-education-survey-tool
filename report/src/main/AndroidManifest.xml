@@ -5,7 +5,6 @@
         <activity
             android:name=".ui.report.ReportActivity"
             android:label="@string/title_report"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
