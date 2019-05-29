@@ -20,6 +20,13 @@
         <item name="android:windowActivityTransitions" tools:targetApi="l">true</item>
         <item name="android:windowEnterTransition" tools:targetApi="l">@transition/window_fade</item>
         <item name="android:windowExitTransition" tools:targetApi="l">@transition/window_fade</item>
+
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/Text.PopupMenu</item>
+        <item name="android:listPreferredItemHeightSmall">48dp</item>
+        <item name="android:listPreferredItemHeightLarge">48dp</item>
+
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme" >
@@ -102,6 +109,19 @@
         <item name="android:fontFamily">@font/noto_sans_regular</item>
         <item name="android:textColor">@color/blue_grey_900</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/bg_popup</item>
+        <item name="android:dropDownHorizontalOffset">-16dp</item>
+        <item name="android:dropDownVerticalOffset">20dp</item>
+    </style>
+
+    <style name="Text.PopupMenu">
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+        <item name="android:textColor">@color/blue_grey_900</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

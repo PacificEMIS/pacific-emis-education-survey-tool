@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.all_surveys;
 
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -64,7 +65,7 @@ public class AllSurveysAdapter extends BaseAdapter<Survey> {
 
         @OnClick(R.id.button_more)
         void onMoreButtonClick() {
-            PopupMenu popupMenu = new PopupMenu(getContext(), moreButton);
+            PopupMenu popupMenu = new PopupMenu(getContext(), moreButton, Gravity.END);
             popupMenu.inflate(R.menu.menu_survey);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
