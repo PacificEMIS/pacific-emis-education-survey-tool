@@ -21,6 +21,7 @@ import fm.doe.national.ui.custom_views.photos_view.PhotosAdapter;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.criterias.FullscreenImageActivity;
 
+@Deprecated
 public class PhotosActivity extends BaseActivity implements PhotosView, PhotosAdapter.Callback {
 
     private static final String EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID";

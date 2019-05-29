@@ -1,16 +1,7 @@
 package fm.doe.national.core.utils;
 
 
-import android.content.Context;
-import android.graphics.Typeface;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.omega_r.libs.omegatypes.Text;
 
 import java.util.Date;
 
@@ -44,24 +35,4 @@ public class TextUtil {
         return school.getName() + '-' + school.getId() + '-' + DateUtils.format(date) + ".xml";
     }
 
-    public static SpannableString createSpannableString(Context context,
-                                                        Text textToSpan,
-                                                        Text delimeterText,
-                                                        Text simpleText,
-                                                        @Nullable Typeface spanTypeface) {
-        String stringToSpan = textToSpan.getString(context);
-        String delimeter = delimeterText.getString(context);
-        String simpleString = simpleText.getString(context);
-        SpannableString spannableString = new SpannableString(stringToSpan + delimeter + simpleString);
-
-        if (spanTypeface != null) {
-            spannableString.setSpan(
-                    new StyleSpan(spanTypeface.getStyle()),
-                    0,
-                    stringToSpan.length(),
-                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        }
-
-        return spannableString;
-    }
 }

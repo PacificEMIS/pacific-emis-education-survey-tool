@@ -1,7 +1,6 @@
 package fm.doe.national.core.ui.screens.survey;
 
 import android.annotation.SuppressLint;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,10 +8,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegatypes.Text;
+import com.omega_r.libs.views.OmegaTextView;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
@@ -24,7 +23,6 @@ import fm.doe.national.core.di.ComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
-import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.core.utils.ViewUtils;
 
 public class SurveyActivity extends BaseActivity implements
@@ -42,8 +40,7 @@ public class SurveyActivity extends BaseActivity implements
 
     private final NavigationItemsAdapter navigationItemsAdapter = new NavigationItemsAdapter(this);
 
-    private Typeface navigationPrefixTypeface;
-    private TextView navigationTitleTextView;
+    private OmegaTextView navigationTitleTextView;
     private ProgressBar progressBar;
     private TextView progressTextView;
     private ImageView arrowImageView;
@@ -59,7 +56,6 @@ public class SurveyActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        navigationPrefixTypeface = ResourcesCompat.getFont(this, R.font.noto_sans_bold);
         bindViews();
         recyclerView.setAdapter(navigationItemsAdapter);
         navigatorHeaderView.setOnClickListener(this);
@@ -82,18 +78,8 @@ public class SurveyActivity extends BaseActivity implements
     @SuppressLint("SetTextI18n")
     @Override
     public void setNavigationTitle(@Nullable Text prefix, Text name, @Nullable Progress progress) {
-
-        if (prefix == null) {
-            name.applyTo(navigationTitleTextView, null);
-        } else {
-            navigationTitleTextView.setText(TextUtil.createSpannableString(
-                    this,
-                    prefix,
-                    Text.from(" "),
-                    name,
-                    navigationPrefixTypeface
-            ));
-        }
+        navigationTitleTextView.setStartText(prefix);
+        navigationTitleTextView.setText(name);
 
         if (progress != null) {
             progressTextView.setVisibility(View.VISIBLE);

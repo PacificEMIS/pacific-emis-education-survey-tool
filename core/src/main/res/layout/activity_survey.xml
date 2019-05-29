@@ -6,80 +6,91 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_appbar"
-        layout="@layout/include_appbar" />
-
-    <RelativeLayout
-        android:id="@+id/layout_navigator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:layout_below="@+id/layout_appbar">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageview_expanding_arrow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_expand_more_24dp"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/textview_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/noto_sans_semi_bold"
-            android:textAppearance="@style/Text.Body2"
-            tools:text="7/16" />
-
-        <fm.doe.national.core.ui.views.StateProgressBar
-            android:id="@+id/progressbar"
-            style="@style/HorizontalProgressBar"
-            android:layout_width="96dp"
-            android:layout_height="18dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="18dp"
-            android:layout_toStartOf="@+id/textview_progress"
-            tools:progress="100" />
-
-        <TextView
-            android:id="@+id/omagetextview_current_title"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="18dp"
-            android:layout_toStartOf="@+id/progressbar"
-            android:layout_toEndOf="@+id/imageview_expanding_arrow"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:letterSpacing="0"
-            android:maxLines="1"
-            android:textAppearance="@style/Text.Body2"
-            tools:startText="Standard SE1:"
-            tools:text="Standard SE1: Leadership"/>
+            android:layout_height="@dimen/toolbar_height"
+            app:layout_scrollFlags="scroll|enterAlways" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_navigator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height">
+
+            <ImageView
+                android:id="@+id/imageview_expanding_arrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_expand_more_24dp"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textview_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="56dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/noto_sans_semi_bold"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="7/16" />
+
+            <fm.doe.national.core.ui.views.StateProgressBar
+                android:id="@+id/progressbar"
+                style="@style/HorizontalProgressBar"
+                android:layout_width="96dp"
+                android:layout_height="18dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="112dp"
+                tools:progress="100" />
+
+            <com.omega_r.libs.views.OmegaTextView
+                android:id="@+id/omagetextview_current_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="18dp"
+                android:layout_toStartOf="@+id/progressbar"
+                android:layout_toEndOf="@+id/imageview_expanding_arrow"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:letterSpacing="0"
+                android:maxLines="1"
+                android:textAppearance="@style/Text.Body2"
+                app:startDelimiter=" "
+                app:startTextFontFamily="@font/noto_sans_bold"
+                tools:startText="Standard SE1:"
+                tools:text="Leadership" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/layout_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_navigator"/>
+        android:layout_below="@+id/layout_appbar" />
 
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/layout_appbar"
         android:background="@color/white"
-        android:layout_below="@+id/layout_navigator"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

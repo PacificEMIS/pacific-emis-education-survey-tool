@@ -20,6 +20,7 @@ import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.report.ui.report.ReportActivity;
 import fm.doe.national.ui.screens.standards.StandardsActivity;
 
+@Deprecated
 public class CategoriesActivity extends BaseActivity implements CategoriesView, BaseAdapter.OnItemClickListener<Category> {
 
     private final CategoriesListAdapter categoriesListAdapter = new CategoriesListAdapter(this);
@@ -57,7 +58,7 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
 
     @Override
     public void setSurveyDate(Date date) {
-        setToolbarDate(date);
+        // deprecated
     }
 
     @Override

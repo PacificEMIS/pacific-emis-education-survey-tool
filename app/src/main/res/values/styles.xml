@@ -147,7 +147,7 @@
 
     <style name="Text.Navigation">
         <item name="android:textSize">16sp</item>
-        <item name="startTextFont">@string/font_medium</item>
+        <item name="startTextFontFamily">@string/font_medium</item>
     </style>
 
     <style name="Text.Navigation.Group">

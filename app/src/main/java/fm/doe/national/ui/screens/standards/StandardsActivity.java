@@ -23,6 +23,7 @@ import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.ui.screens.criterias.CriteriasActivity;
 
+@Deprecated
 public class StandardsActivity extends BaseActivity implements StandardsView, BaseAdapter.OnItemClickListener<Standard> {
 
     private static final String EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID";
@@ -69,7 +70,7 @@ public class StandardsActivity extends BaseActivity implements StandardsView, Ba
 
     @Override
     public void setSurveyDate(Date date) {
-        setToolbarDate(date);
+        // deprecated
     }
 
     @Override

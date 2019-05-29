@@ -40,6 +40,7 @@ import fm.doe.national.core.utils.Constants;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.ViewUtils;
 
+@Deprecated
 public class CriteriasActivity extends BaseActivity implements
         CriteriasView,
         SubcriteriaCallback,
@@ -137,7 +138,7 @@ public class CriteriasActivity extends BaseActivity implements
     }
 
     private void initViews() {
-        setToolbarMode(ToolbarDisplaying.PRIMARY);
+        // deprecated
 
         recyclerAdapter.setCallback(this);
 

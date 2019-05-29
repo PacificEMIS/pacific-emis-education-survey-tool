@@ -46,7 +46,7 @@ ext {
             omegaRecycler   : '1.9.6',
             material        : '1.1.0-alpha06',
             dropbox         : '3.1.0',
-            omegaViews      : '1.0.1',
+            omegaViews      : '1.0.2',
             constraintLayout: '2.0.0-beta1'
     ]
 }
