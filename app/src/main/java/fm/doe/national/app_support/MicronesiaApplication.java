@@ -18,6 +18,7 @@ import fm.doe.national.rmi_report.di.RmiReportComponentProvider;
 import io.fabric.sdk.android.Fabric;
 
 @RegisterMoxyReflectorPackages({
+        "fm.doe.national.core",
         "fm.doe.national.fcm_report",
         "fm.doe.national.rmi_report",
         "fm.doe.national.report_core",

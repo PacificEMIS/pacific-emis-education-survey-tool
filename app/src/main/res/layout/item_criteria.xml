@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Criteria 1.1: The principal has very high expectations for students and teachers. " />
 
-            <fm.doe.national.ui.custom_views.StateProgressBar
+            <fm.doe.national.core.ui.views.StateProgressBar
                 android:id="@+id/progressbar"
                 android:layout_width="0dp"
                 android:layout_height="4dp"

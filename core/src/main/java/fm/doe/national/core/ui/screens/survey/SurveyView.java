@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.survey;
+package fm.doe.national.core.ui.screens.survey;
 
 import androidx.annotation.Nullable;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.ui.screens.base.BaseView;
-import fm.doe.national.ui.screens.survey.navigation.NavigationItem;
+import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SurveyView extends BaseView {

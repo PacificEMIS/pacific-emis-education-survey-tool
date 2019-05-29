@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.survey.navigation;
+package fm.doe.national.core.ui.screens.survey.navigation;
 
 import com.omega_r.libs.omegatypes.Text;
 

@@ -21,7 +21,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.screens.categories.CategoriesActivity;
+import fm.doe.national.core.ui.screens.survey.SurveyActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
@@ -85,10 +85,8 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
     }
 
     @Override
-    public void navigateToCategoryChooser() {
-        // TODO: this is future navigation
-//        startActivity(new Intent(this, SurveyActivity.class));
-        startActivity(CategoriesActivity.createIntent(this));
+    public void navigateToSurvey() {
+        startActivity(new Intent(this, SurveyActivity.class));
     }
 
     @Override

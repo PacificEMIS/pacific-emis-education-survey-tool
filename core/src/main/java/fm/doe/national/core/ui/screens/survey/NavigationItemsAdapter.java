@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.survey;
+package fm.doe.national.core.ui.screens.survey;
 
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -11,13 +11,11 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
 import com.omega_r.libs.views.OmegaTextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import fm.doe.national.R;
-import fm.doe.national.core.utils.ViewUtils;
+import fm.doe.national.core.R;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.screens.survey.navigation.NavigationItem;
-import fm.doe.national.ui.screens.survey.navigation.ProgressableNavigationItem;
+import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
+import fm.doe.national.core.ui.screens.survey.navigation.ProgressableNavigationItem;
+import fm.doe.national.core.utils.ViewUtils;
 
 public class NavigationItemsAdapter extends BaseAdapter<NavigationItem>
         implements StickyAdapter<NavigationItemsAdapter.HeaderViewHolder> {
@@ -69,17 +67,19 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem>
 
     class ProgressableViewHolder extends ViewHolder {
 
-        @BindView(R.id.textview_progress)
-        TextView progressTextView;
-
-        @BindView(R.id.progressbar)
-        ProgressBar progressBar;
-
-        @BindView(R.id.omegatextview_title)
-        OmegaTextView titleOmegaTextView;
+        private TextView progressTextView;
+        private ProgressBar progressBar;
+        private OmegaTextView titleOmegaTextView;
 
         ProgressableViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_navigation_with_progress);
+            bindViews();
+        }
+
+        private void bindViews() {
+            progressTextView = findViewById(R.id.textview_progress);
+            progressBar = findViewById(R.id.progressbar);
+            titleOmegaTextView = findViewById(R.id.omegatextview_title);
         }
 
         @Override
@@ -93,11 +93,15 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem>
 
     class SingleLineViewHolder extends ViewHolder {
 
-        @BindView(R.id.textview_title)
-        TextView titleTextView;
+        private TextView titleTextView;
 
         SingleLineViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_navigation_without_progress);
+            bindViews();
+        }
+
+        private void bindViews() {
+            titleTextView = findViewById(R.id.textview_title);
         }
 
         @Override
@@ -108,12 +112,15 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem>
 
     class HeaderViewHolder extends OmegaRecyclerView.ViewHolder {
 
-        @BindView(R.id.textview_title)
-        TextView titleTextView;
+        private TextView titleTextView;
 
         HeaderViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_navigation_header);
-            ButterKnife.bind(this, itemView);
+            bindViews();
+        }
+
+        private void bindViews() {
+            titleTextView = findViewById(R.id.textview_title);
         }
 
         void bind(NavigationItem item) {

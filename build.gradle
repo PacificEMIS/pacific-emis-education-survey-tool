@@ -36,9 +36,9 @@ ext {
             butterknife     : '10.1.0',
             moxy            : '1.5.7',
             appcompat       : '1.1.0-alpha05',
-            junit           : 4.12,
+            junit           : '4.13-beta-3',
             androidJUnit    : '1.1.1-beta01',
-            espresso        : '3.1.1',
+            espresso        : '3.2.0-beta01',
             omegaTypes      : '0.2.0',
             rxJava          : '2.2.5',
             rxAndroid       : '2.1.0',
@@ -46,7 +46,7 @@ ext {
             omegaRecycler   : '1.9.6',
             material        : '1.1.0-alpha06',
             dropbox         : '3.1.0',
-            omegaViews      : '1.0.0',
+            omegaViews      : '1.0.1',
             constraintLayout: '2.0.0-beta1'
     ]
 }

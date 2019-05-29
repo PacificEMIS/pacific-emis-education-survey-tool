@@ -46,7 +46,7 @@ public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
 
     public void onSurveyPressed(Survey survey) {
         interactor.setCurrentSurvey(MutableSurvey.toMutable(survey));
-        getViewState().navigateToCategoryChooser();
+        getViewState().navigateToSurvey();
     }
 
     public void onSearchQueryChanged(String query) {

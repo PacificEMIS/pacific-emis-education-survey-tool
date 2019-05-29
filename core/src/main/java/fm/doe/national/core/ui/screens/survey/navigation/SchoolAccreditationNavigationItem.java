@@ -1,10 +1,10 @@
-package fm.doe.national.ui.screens.survey.navigation;
+package fm.doe.national.core.ui.screens.survey.navigation;
 
 import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.R;
+import fm.doe.national.core.R;
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Standard;
@@ -40,7 +40,7 @@ public class SchoolAccreditationNavigationItem implements ProgressableNavigation
     @NonNull
     @Override
     public BaseFragment buildFragment() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override

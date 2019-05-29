@@ -1,4 +1,4 @@
-package fm.doe.national.ui.custom_views;
+package fm.doe.national.core.ui.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ProgressBar;
 
-import fm.doe.national.R;
+import fm.doe.national.core.R;
 
 public class StateProgressBar extends ProgressBar {
 

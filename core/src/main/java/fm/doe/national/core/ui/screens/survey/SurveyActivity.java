@@ -1,6 +1,7 @@
-package fm.doe.national.ui.screens.survey;
+package fm.doe.national.core.ui.screens.survey;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,45 +9,46 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.views.OmegaTextView;
 import com.omegar.mvp.presenter.InjectPresenter;
+import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import fm.doe.national.R;
-import fm.doe.national.core.utils.ViewUtils;
+import fm.doe.national.core.R;
 import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.di.ComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.screens.survey.navigation.NavigationItem;
+import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
+import fm.doe.national.core.utils.TextUtil;
+import fm.doe.national.core.utils.ViewUtils;
 
-public class SurveyActivity extends BaseActivity implements SurveyView, BaseAdapter.OnItemClickListener<NavigationItem> {
-
-    @BindView(R.id.omagetextview_current_title)
-    OmegaTextView navigationTitleOmegaTextView;
-
-    @BindView(R.id.progressbar)
-    ProgressBar progressBar;
-
-    @BindView(R.id.textview_progress)
-    TextView progressTextView;
-
-    @BindView(R.id.imageview_expanding_arrow)
-    ImageView arrowImageView;
-
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
+public class SurveyActivity extends BaseActivity implements
+        SurveyView,
+        BaseAdapter.OnItemClickListener<NavigationItem>,
+        View.OnClickListener {
 
     @InjectPresenter
     SurveyPresenter presenter;
 
+    @ProvidePresenter
+    SurveyPresenter providePresenter() {
+        return new SurveyPresenter(ComponentInjector.getComponent(getApplication()));
+    }
+
     private final NavigationItemsAdapter navigationItemsAdapter = new NavigationItemsAdapter(this);
 
+    private Typeface navigationPrefixTypeface;
+    private TextView navigationTitleTextView;
+    private ProgressBar progressBar;
+    private TextView progressTextView;
+    private ImageView arrowImageView;
+    private RecyclerView recyclerView;
+    private View navigatorHeaderView;
     private boolean isNavigatorOpened;
 
     @Override
@@ -57,7 +59,19 @@ public class SurveyActivity extends BaseActivity implements SurveyView, BaseAdap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        navigationPrefixTypeface = ResourcesCompat.getFont(this, R.font.noto_sans_bold);
+        bindViews();
         recyclerView.setAdapter(navigationItemsAdapter);
+        navigatorHeaderView.setOnClickListener(this);
+    }
+
+    private void bindViews() {
+        navigationTitleTextView = findViewById(R.id.omagetextview_current_title);
+        progressBar = findViewById(R.id.progressbar);
+        progressTextView = findViewById(R.id.textview_progress);
+        arrowImageView = findViewById(R.id.imageview_expanding_arrow);
+        recyclerView = findViewById(R.id.recyclerview);
+        navigatorHeaderView = findViewById(R.id.layout_navigator);
     }
 
     @Override
@@ -68,8 +82,19 @@ public class SurveyActivity extends BaseActivity implements SurveyView, BaseAdap
     @SuppressLint("SetTextI18n")
     @Override
     public void setNavigationTitle(@Nullable Text prefix, Text name, @Nullable Progress progress) {
-        navigationTitleOmegaTextView.setStartText(prefix);
-        navigationTitleOmegaTextView.setText(name);
+
+        if (prefix == null) {
+            name.applyTo(navigationTitleTextView, null);
+        } else {
+            navigationTitleTextView.setText(TextUtil.createSpannableString(
+                    this,
+                    prefix,
+                    Text.from(" "),
+                    name,
+                    navigationPrefixTypeface
+            ));
+        }
+
         if (progress != null) {
             progressTextView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
@@ -96,9 +121,11 @@ public class SurveyActivity extends BaseActivity implements SurveyView, BaseAdap
         toggleNavigator();
     }
 
-    @OnClick(R.id.layout_navigator)
-    void onNavigatioPressed() {
-        toggleNavigator();
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.layout_navigator) {
+            toggleNavigator();
+        }
     }
 
     private void toggleNavigator() {

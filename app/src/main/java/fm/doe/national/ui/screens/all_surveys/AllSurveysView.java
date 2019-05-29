@@ -13,7 +13,7 @@ import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
 interface AllSurveysView extends BaseDrawerView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToCategoryChooser();
+    void navigateToSurvey();
 
     void setSurveys(List<Survey> accreditations);
 

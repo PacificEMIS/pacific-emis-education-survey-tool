@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <include
         android:id="@+id/layout_appbar"
@@ -12,15 +13,14 @@
     <RelativeLayout
         android:id="@+id/layout_navigator"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/layout_appbar"
-        android:background="@color/grey_200">
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_below="@+id/layout_appbar">
 
         <ImageView
             android:id="@+id/imageview_expanding_arrow"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_margin="16dp"
             android:src="@drawable/ic_expand_more_24dp"
@@ -30,35 +30,41 @@
             android:id="@+id/textview_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/imageview_expanding_arrow"
-            android:textAppearance="@style/Text.Navigation.Header"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/noto_sans_semi_bold"
+            android:textAppearance="@style/Text.Body2"
             tools:text="7/16" />
 
-        <fm.doe.national.ui.custom_views.StateProgressBar
+        <fm.doe.national.core.ui.views.StateProgressBar
             android:id="@+id/progressbar"
             style="@style/HorizontalProgressBar"
-            android:layout_width="@dimen/width_progress_bar"
-            android:layout_height="4dp"
+            android:layout_width="96dp"
+            android:layout_height="18dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
             android:layout_toStartOf="@+id/textview_progress"
-            tools:progress="45" />
+            tools:progress="100" />
 
-        <com.omega_r.libs.views.OmegaTextView
+        <TextView
             android:id="@+id/omagetextview_current_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="40dp"
             android:layout_marginEnd="18dp"
             android:layout_toStartOf="@+id/progressbar"
+            android:layout_toEndOf="@+id/imageview_expanding_arrow"
             android:ellipsize="end"
             android:gravity="center_vertical"
+            android:letterSpacing="0"
             android:maxLines="1"
-            android:textAppearance="@style/Text.Navigation.Header"
-            tools:text="Standard SE1: Leadership" />
+            android:textAppearance="@style/Text.Body2"
+            tools:startText="Standard SE1:"
+            tools:text="Standard SE1: Leadership"/>
 
     </RelativeLayout>
 
@@ -72,7 +78,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_200"
+        android:background="@color/white"
         android:layout_below="@+id/layout_navigator"
         android:visibility="gone"/>
 

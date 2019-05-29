@@ -61,9 +61,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
 
     private void bindToolbarViews() {
         toolbar = findViewById(R.id.toolbar);
-        yearTextView = findViewById(R.id.textview_toolbar_year);
-        titleTextView = findViewById(R.id.textview_toolbar_title);
-        clockIconImageView = findViewById(R.id.imageview_toolbar_clock);
     }
 
     @LayoutRes
