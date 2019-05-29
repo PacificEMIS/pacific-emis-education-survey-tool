@@ -17,7 +17,6 @@ import fm.doe.national.R;
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.report.ui.report.ReportActivity;
 import fm.doe.national.ui.screens.standards.StandardsActivity;
 
 @Deprecated
@@ -42,8 +41,6 @@ public class CategoriesActivity extends BaseActivity implements CategoriesView, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         categoriesRecyclerView.setAdapter(categoriesListAdapter);
-        // temp navigation
-        reportButton.setOnClickListener(v -> startActivity(new Intent(this, ReportActivity.class)));
     }
 
     @Override
