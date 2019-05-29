@@ -1,17 +1,17 @@
-package fm.doe.national.core.ui.screens.survey;
+package fm.doe.national.accreditation.ui.survey;
 
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.doe.national.accreditation.ui.survey.navigation.ProgressableNavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.ReportNavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.SchoolAccreditationNavigationItem;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.core.ui.screens.survey.navigation.ProgressableNavigationItem;
-import fm.doe.national.core.ui.screens.survey.navigation.ReportNavigationItem;
-import fm.doe.national.core.ui.screens.survey.navigation.SchoolAccreditationNavigationItem;
-import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

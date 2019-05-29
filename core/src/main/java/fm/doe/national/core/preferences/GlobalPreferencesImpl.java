@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import fm.doe.national.core.preferences.entities.AccreditationType;
 import fm.doe.national.core.preferences.entities.AppRegion;
 
 public class GlobalPreferencesImpl implements GlobalPreferences {
@@ -12,6 +13,12 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
     private static final AppRegion DEFAULT_APP_REGION = AppRegion.FCM;
     private static final int NULL_APP_CONTEXT_VALUE = -1;
+
+
+    private static final String PREF_KEY_ACCREDITATION_TYPE = "PREF_KEY_ACCREDITATION_TYPE";
+    private static final AccreditationType DEFAULT_ACCREDITATION_TYPE = AccreditationType.SCHOOL;
+    private static final int NULL_ACCREDITATION_TYPE_VALUE = -1;
+
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
 
     private final SharedPreferences sharedPreferences;
@@ -32,7 +39,6 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
         return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_REGION, NULL_APP_CONTEXT_VALUE));
     }
 
-
     @Override
     public void setAppRegion(AppRegion appRegion) {
         sharedPreferences.edit().putInt(PREF_KEY_APP_REGION, appRegion.getValue()).apply();
@@ -52,5 +58,22 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     @Override
     public boolean isFirstLaunch() {
         return getSavedAppContext() == null;
+    }
+
+    @NonNull
+    @Override
+    public AccreditationType getAccreditationType() {
+        AccreditationType savedAccreditationType = getSavedAccreditationType();
+        return savedAccreditationType != null ? savedAccreditationType : DEFAULT_ACCREDITATION_TYPE;
+    }
+
+    @Override
+    public void setAccreditationType(AccreditationType accreditationType) {
+        sharedPreferences.edit().putInt(PREF_KEY_ACCREDITATION_TYPE, accreditationType.getValue()).apply();
+    }
+
+    @Nullable
+    private AccreditationType getSavedAccreditationType() {
+        return AccreditationType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NULL_ACCREDITATION_TYPE_VALUE));
     }
 }

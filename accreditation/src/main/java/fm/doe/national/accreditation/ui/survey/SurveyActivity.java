@@ -1,4 +1,4 @@
-package fm.doe.national.core.ui.screens.survey;
+package fm.doe.national.accreditation.ui.survey;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -17,12 +17,12 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
-import fm.doe.national.core.R;
+import fm.doe.national.accreditation.R;
+import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.di.ComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
 import fm.doe.national.core.utils.ViewUtils;
 
 public class SurveyActivity extends BaseActivity implements

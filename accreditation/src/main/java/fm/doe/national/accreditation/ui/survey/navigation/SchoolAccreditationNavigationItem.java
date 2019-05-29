@@ -1,4 +1,4 @@
-package fm.doe.national.core.ui.screens.survey.navigation;
+package fm.doe.national.accreditation.ui.survey.navigation;
 
 import androidx.annotation.NonNull;
 
@@ -21,8 +21,8 @@ public class SchoolAccreditationNavigationItem implements ProgressableNavigation
     public SchoolAccreditationNavigationItem(Category criteria, Standard standard) {
         this.category = criteria;
         this.standard = standard;
-        this.namePrefix =  Text.from(R.string.format_standard, standard.getSuffix());
-        this.name =  Text.from(standard.getTitle());
+        this.namePrefix = Text.from(R.string.format_standard, standard.getSuffix());
+        this.name = Text.from(standard.getTitle());
         this.criteriaName = Text.from(criteria.getTitle());
     }
 

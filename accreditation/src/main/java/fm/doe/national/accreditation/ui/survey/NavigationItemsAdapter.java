@@ -1,4 +1,4 @@
-package fm.doe.national.core.ui.screens.survey;
+package fm.doe.national.accreditation.ui.survey;
 
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -11,10 +11,10 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
 import com.omega_r.libs.views.OmegaTextView;
 
-import fm.doe.national.core.R;
+import fm.doe.national.accreditation.R;
+import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.ProgressableNavigationItem;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
-import fm.doe.national.core.ui.screens.survey.navigation.ProgressableNavigationItem;
 import fm.doe.national.core.utils.ViewUtils;
 
 public class NavigationItemsAdapter extends BaseAdapter<NavigationItem>

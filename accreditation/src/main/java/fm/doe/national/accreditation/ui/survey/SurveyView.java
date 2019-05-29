@@ -1,4 +1,4 @@
-package fm.doe.national.core.ui.screens.survey;
+package fm.doe.national.accreditation.ui.survey;
 
 import androidx.annotation.Nullable;
 
@@ -9,9 +9,9 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
+import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.ui.screens.base.BaseView;
-import fm.doe.national.core.ui.screens.survey.navigation.NavigationItem;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SurveyView extends BaseView {
