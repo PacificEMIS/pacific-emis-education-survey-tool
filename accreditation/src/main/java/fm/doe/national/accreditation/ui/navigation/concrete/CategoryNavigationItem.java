@@ -1,8 +1,8 @@
-package fm.doe.national.accreditation.ui.survey.navigation.concrete;
+package fm.doe.national.accreditation.ui.navigation.concrete;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
+import fm.doe.national.accreditation.ui.navigation.NavigationItem;
 import fm.doe.national.core.data.model.Category;
 
 public class CategoryNavigationItem extends NavigationItem {

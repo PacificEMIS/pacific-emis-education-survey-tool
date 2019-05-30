@@ -1,4 +1,4 @@
-package fm.doe.national.accreditation.ui.survey.navigation;
+package fm.doe.national.accreditation.ui.navigation;
 
 import com.omega_r.libs.omegatypes.Text;
 

@@ -9,8 +9,8 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.accreditation.ui.survey.navigation.BuildableNavigationItem;
-import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
+import fm.doe.national.accreditation.ui.navigation.BuildableNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.NavigationItem;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.ui.screens.base.BaseView;
 

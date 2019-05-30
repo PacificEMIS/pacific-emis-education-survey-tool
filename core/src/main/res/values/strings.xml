@@ -32,7 +32,7 @@
     <string name="header_choose_standard">Choose standard</string>
     <string name="action_search">Search</string>
     <string name="write_school">Enter the school</string>
-    <string name="criteria_hint">For detailed information, make a long touch on interested item</string>
+    <string name="label_question_hint">For detailed information, make a long touch on interested item</string>
     <string name="action_settings">Settings</string>
     <string name="title_warning">Warning</string>
     <string name="warn_unable_to_update_answer">Unable to update answer</string>

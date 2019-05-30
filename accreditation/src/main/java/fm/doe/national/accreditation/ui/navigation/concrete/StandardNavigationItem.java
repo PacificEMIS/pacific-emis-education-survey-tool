@@ -1,12 +1,12 @@
-package fm.doe.national.accreditation.ui.survey.navigation.concrete;
+package fm.doe.national.accreditation.ui.navigation.concrete;
 
 import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.accreditation.ui.survey.navigation.ProgressablePrefixedBuildableNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.ProgressablePrefixedBuildableNavigationItem;
+import fm.doe.national.accreditation.ui.questions.QuestionsFragment;
 import fm.doe.national.core.R;
-import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Standard;
@@ -32,7 +32,7 @@ public class StandardNavigationItem extends ProgressablePrefixedBuildableNavigat
     @NonNull
     @Override
     public BaseFragment buildFragment() {
-        throw new NotImplementedException();
+        return QuestionsFragment.create(category.getId(), standard.getId());
     }
 
 }

@@ -20,9 +20,9 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.ui.survey.navigation.BuildableNavigationItem;
-import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
-import fm.doe.national.accreditation.ui.survey.navigation.NavigationItemsAdapter;
+import fm.doe.national.accreditation.ui.navigation.BuildableNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.NavigationItem;
+import fm.doe.national.accreditation.ui.navigation.NavigationItemsAdapter;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.di.ComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;

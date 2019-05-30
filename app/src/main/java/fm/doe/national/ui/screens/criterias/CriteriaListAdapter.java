@@ -97,7 +97,7 @@ public class CriteriaListAdapter extends BaseAdapter<Criteria> {
         private final SubCriteriaListAdapter adapter = new SubCriteriaListAdapter();
 
         CriteriaViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_criteria);
+            super(parent, R.layout.item_question_header);
             adapter.setCallback(callback);
             adapter.setAnswerStateChangedListener(this);
             subcriteriasRecycler.setAdapter(adapter);

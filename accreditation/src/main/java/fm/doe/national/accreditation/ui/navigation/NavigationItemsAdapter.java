@@ -1,4 +1,4 @@
-package fm.doe.national.accreditation.ui.survey.navigation;
+package fm.doe.national.accreditation.ui.navigation;
 
 import android.view.View;
 import android.view.ViewGroup;
