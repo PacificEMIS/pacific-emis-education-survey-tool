@@ -22,9 +22,8 @@ import fm.doe.national.core.data.model.Answer;
 import fm.doe.national.core.data.model.AnswerState;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.SubCriteria;
-import fm.doe.national.ui.custom_views.SwitchableButton;
-import fm.doe.national.ui.custom_views.photos_view.PhotoBoxView;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
+import fm.doe.national.ui.custom_views.SwitchableButton;
 
 public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
 
@@ -48,8 +47,7 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
     }
 
     class SubCriteriaViewHolder extends ViewHolder implements
-            SwitchableButton.StateChangedListener,
-            PhotoBoxView.Callback {
+            SwitchableButton.StateChangedListener {
 
         private final View popupView;
         private final TextView hintView;
@@ -84,15 +82,12 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @BindView(R.id.textview_comment)
         TextView commentTextView;
 
-        @BindView(R.id.photoboxview)
-        PhotoBoxView photoBoxView;
 
         SubCriteriaViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_sub_criteria);
             switchableButton.setListener(this);
             popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, parent, false);
             hintView = popupView.findViewById(R.id.textview_hint);
-            photoBoxView.setCallback(this);
         }
 
         @Override
@@ -154,26 +149,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         @Override
         public void onStateChanged(SwitchableButton view, SwitchableButton.State state) {
             notifyStateChanged(convertFromUiState(state));
-        }
-
-        @Override
-        public void onAddPhotoClick() {
-            if (callback != null) callback.onAddPhotoClicked(getItem());
-        }
-
-        @Override
-        public void onMorePhotosClick() {
-            if (callback != null) callback.onMorePhotosClick(getItem());
-        }
-
-        @Override
-        public void onDeletePhotoClick(Photo photo) {
-            if (callback != null) callback.onRemovePhotoClicked(getItem(), photo);
-        }
-
-        @Override
-        public void onPhotoClick(View v, Photo photo) {
-            if (callback != null) callback.onPhotoClicked(v, photo);
         }
 
         private SwitchableButton.State convertToUiState(AnswerState state) {
@@ -239,14 +214,6 @@ public class SubCriteriaListAdapter extends BaseAdapter<SubCriteria> {
         }
 
         private void updatePhotosVisibility(List<Photo> photos) {
-            if (photos.isEmpty()) {
-                photoBoxView.setVisibility(View.GONE);
-                photoButtonView.setVisibility(View.VISIBLE);
-            } else {
-                photoBoxView.setVisibility(View.VISIBLE);
-                photoButtonView.setVisibility(View.GONE);
-                photoBoxView.setPhotos(photos);
-            }
         }
     }
 

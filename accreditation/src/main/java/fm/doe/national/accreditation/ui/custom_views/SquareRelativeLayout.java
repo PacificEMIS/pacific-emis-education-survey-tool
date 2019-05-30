@@ -1,4 +1,4 @@
-package fm.doe.national.ui.custom_views;
+package fm.doe.national.accreditation.ui.custom_views;
 
 import android.content.Context;
 import android.util.AttributeSet;

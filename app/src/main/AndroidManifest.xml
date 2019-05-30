@@ -62,10 +62,10 @@
             android:name=".ui.screens.standards.StandardsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.criterias.FullscreenImageActivity"
+            android:name=".accreditation.ui.photos.FullscreenImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.photos.PhotosActivity"
+            android:name=".accreditation.ui.photos.PhotosActivity"
             android:label="@string/label_attached_photos"
             android:screenOrientation="portrait" />
         <activity

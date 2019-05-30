@@ -16,6 +16,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
+import fm.doe.national.accreditation.ui.photos.PhotosActivity;
 import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.di.ComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
@@ -112,6 +113,6 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId) {
-
+        startActivity(PhotosActivity.createIntent(getContext(), categoryId, standardId, criteriaId, subCriteriaId));
     }
 }

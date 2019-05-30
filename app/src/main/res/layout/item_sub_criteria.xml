@@ -112,7 +112,7 @@
 
     </RelativeLayout>
 
-    <fm.doe.national.ui.custom_views.photos_view.PhotoBoxView
+    <fm.doe.national.accreditation.ui.custom_views.photos_view.PhotoBoxView
         android:id="@+id/photoboxview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

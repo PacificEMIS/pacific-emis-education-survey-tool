@@ -1,4 +1,4 @@
-package fm.doe.national.ui.custom_views.photos_view;
+package fm.doe.national.accreditation.ui.photos;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +9,10 @@ import androidx.core.view.ViewCompat;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import fm.doe.national.R;
-import fm.doe.national.core.utils.ViewUtils;
+import fm.doe.national.accreditation.R;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.utils.ViewUtils;
 
 public class PhotosAdapter extends BaseAdapter<Photo> {
 
@@ -32,11 +30,13 @@ public class PhotosAdapter extends BaseAdapter<Photo> {
 
     class PhotoViewHolder extends ViewHolder {
 
-        @BindView(R.id.imageview_photo)
         ImageView photoImageView;
 
         PhotoViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_photo);
+            photoImageView = findViewById(R.id.imageview_photo);
+            findViewById(R.id.imagebutton_delete).setOnClickListener(this);
+            findViewById(R.id.imageview_photo).setOnClickListener(this);
         }
 
         @Override
@@ -47,16 +47,14 @@ public class PhotosAdapter extends BaseAdapter<Photo> {
             ViewCompat.setTransitionName(photoImageView, item.getLocalPath()); // using photo path as unique transition name
         }
 
-        @OnClick({R.id.imagebutton_delete, R.id.imageview_photo})
-        public void onViewClick(View v) {
-            Photo item = getItem();
-            switch (v.getId()) {
-                case R.id.imagebutton_delete:
-                    if (callback != null) callback.onDeletePhotoClick(item);
-                    break;
-                case R.id.imageview_photo:
-                    if (callback != null) callback.onPhotoClick(v, item);
-                    break;
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.imagebutton_delete) {
+                if (callback != null) callback.onDeletePhotoClick(getItem());
+            } else if (v.getId() == R.id.imageview_photo) {
+                if (callback != null) callback.onPhotoClick(v, getItem());
+            } else {
+                super.onClick(v);
             }
         }
     }
