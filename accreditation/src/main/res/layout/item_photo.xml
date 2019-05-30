@@ -20,8 +20,8 @@
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="8dp"
         app:srcCompat="@drawable/ic_close_outlined"
         tools:ignore="ContentDescription" />
 

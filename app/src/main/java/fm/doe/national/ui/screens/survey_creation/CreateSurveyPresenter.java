@@ -55,7 +55,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(survey -> {
                     surveyInteractor.setCurrentSurvey(survey, true);
-                    getViewState().navigateToCategoryChooser();
+                    getViewState().navigateToSurvey();
                 }, this::handleError));
     }
 
