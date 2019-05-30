@@ -1,9 +1,12 @@
 package fm.doe.national.accreditation.ui.questions;
 
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +58,9 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
 
     class QuestionViewHolder extends ViewHolder implements BinaryAnswerSelectorView.StateChangedListener {
 
+        private final View popupView;
+        private final TextView hintView;
+
         private TextView prefixTextView;
         private TextView titleTextView;
         private TextView questionTextView;
@@ -64,10 +70,13 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
 
         QuestionViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_question);
+            popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, parent, false);
+            hintView = popupView.findViewById(R.id.textview_hint);
             bindViews();
             photosButton.setOnClickListener(this);
             commentButton.setOnClickListener(this);
             binaryAnswerSelectorView.setListener(this);
+            titleTextView.setOnLongClickListener(this);
         }
 
         private void bindViews() {
@@ -86,6 +95,39 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
             titleTextView.setText(subCriteria.getTitle());
             questionTextView.setText(subCriteria.getInterviewQuestions());
             binaryAnswerSelectorView.setStateNotNotifying(convertToUiState(subCriteria.getAnswer().getState()));
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (v.getId() == R.id.textview_title) {
+                String hint = getItem().getSubCriteria().getHint();
+                if (!TextUtils.isEmpty(hint)) showHint(hint);
+                return true;
+            } else {
+                return super.onLongClick(v);
+            }
+        }
+
+        private void showHint(String hint) {
+            hintView.setText(hint);
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    itemView.getMeasuredWidth(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setClippingEnabled(false);
+
+            // need to measure view before it rendered
+            // showAsDropDown cannot draw popup above anchor in ViewHolder
+            // so just offset it manually
+            popupView.measure(View.MeasureSpec.makeMeasureSpec(titleTextView.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+            popupWindow.showAsDropDown(titleTextView,
+                    0,
+                    -titleTextView.getMeasuredHeight() - popupView.getMeasuredHeight(),
+                    Gravity.TOP);
         }
 
         @Override
