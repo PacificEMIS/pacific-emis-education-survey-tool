@@ -29,7 +29,7 @@ public class ReportFragment extends BaseFragment implements ReportView {
     @InjectPresenter
     ReportPresenter presenter;
 
-    private final ReportTabsPagerAdapter tabsPagerAdapter = new ReportTabsPagerAdapter(this);
+    private ReportTabsPagerAdapter tabsPagerAdapter;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -69,6 +69,7 @@ public class ReportFragment extends BaseFragment implements ReportView {
     }
 
     private void setupTabs() {
+        tabsPagerAdapter = new ReportTabsPagerAdapter(this);
         viewPager.setAdapter(tabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

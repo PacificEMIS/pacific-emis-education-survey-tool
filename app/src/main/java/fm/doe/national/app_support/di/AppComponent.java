@@ -3,7 +3,9 @@ package fm.doe.national.app_support.di;
 import dagger.Component;
 import fm.doe.national.app_support.di.modules.CloudModule;
 import fm.doe.national.app_support.di.modules.InteractorsModule;
+import fm.doe.national.app_support.di.modules.SurveyModule;
 import fm.doe.national.core.di.CoreComponent;
+import fm.doe.national.core.ui.providers.SurveyProvider;
 import fm.doe.national.data.cloud.CloudRepository;
 import fm.doe.national.data.cloud.drive.DriveCloudAccessor;
 import fm.doe.national.data.cloud.dropbox.DropboxCloudAccessor;
@@ -13,7 +15,8 @@ import fm.doe.national.domain.SettingsInteractor;
 @AppScope
 @Component(modules = {
         CloudModule.class,
-        InteractorsModule.class
+        InteractorsModule.class,
+        SurveyModule.class
 }, dependencies = {
         CoreComponent.class
 })
@@ -28,5 +31,7 @@ public interface AppComponent {
     CloudUploader getCloudUploader();
 
     SettingsInteractor getSettingsInteractor();
+
+    SurveyProvider getSurveyProvider();
 
 }

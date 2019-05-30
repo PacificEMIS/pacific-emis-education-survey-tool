@@ -3,7 +3,7 @@ package fm.doe.national.core.preferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import fm.doe.national.core.preferences.entities.AccreditationType;
+import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.preferences.entities.AppRegion;
 
 public interface GlobalPreferences {
@@ -14,9 +14,9 @@ public interface GlobalPreferences {
     void setAppRegion(AppRegion appRegion);
 
     @NonNull
-    AccreditationType getAccreditationType();
+    SurveyType getSurveyType();
 
-    void setAccreditationType(AccreditationType accreditationType);
+    void setSurveyType(SurveyType surveyType);
 
     @Nullable
     String getLogoPath();

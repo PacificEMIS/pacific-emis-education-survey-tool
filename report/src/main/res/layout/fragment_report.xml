@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".ui.report.ReportActivity">
-
-    <include layout="@layout/include_appbar" />
+    tools:theme="@style/AppTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,14 +101,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_pager"
-            app:tabBackground="@drawable/bg_page_button"
-            app:tabGravity="fill"
-            app:tabIndicator="@null"
-            app:tabMaxWidth="0dp"
-            app:tabMode="fixed"
-            app:tabTextAppearance="@style/Text.Title1.Tab" />
+            android:layout_height="40dp" />
 
     </androidx.viewpager.widget.ViewPager>
 

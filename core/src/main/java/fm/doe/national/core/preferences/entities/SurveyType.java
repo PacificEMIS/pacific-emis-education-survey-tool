@@ -4,14 +4,14 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-public enum AccreditationType implements Serializable {
-    SCHOOL(0), WASH(1);
+public enum SurveyType implements Serializable {
+    ACCREDITATION(0), WASH(1);
 
     private int value;
 
     @Nullable
-    public static AccreditationType createFromValue(int value) {
-        for (AccreditationType type : AccreditationType.values()) {
+    public static SurveyType createFromValue(int value) {
+        for (SurveyType type : SurveyType.values()) {
             if (value == type.getValue()) {
                 return type;
             }
@@ -19,7 +19,7 @@ public enum AccreditationType implements Serializable {
         return null;
     }
 
-    AccreditationType(int value) {
+    SurveyType(int value) {
         this.value = value;
     }
 

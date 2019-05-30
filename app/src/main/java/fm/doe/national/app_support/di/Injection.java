@@ -2,6 +2,9 @@ package fm.doe.national.app_support.di;
 
 import android.content.Context;
 
+import fm.doe.national.accreditation.di.AccreditationComponent;
+import fm.doe.national.accreditation.di.DaggerAccreditationComponent;
+import fm.doe.national.app_support.di.modules.SurveyModule;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.DaggerCoreComponent;
 import fm.doe.national.core.di.modules.ContextModule;
@@ -20,14 +23,19 @@ public class Injection {
     private FcmReportComponent fcmReportComponent;
     private RmiReportComponent rmiReportComponent;
     private ReportComponent reportComponent;
+    private AccreditationComponent accreditationComponent;
 
     public void createDependencyGraph(Context applicationContext) {
         coreComponent = DaggerCoreComponent
                 .builder()
                 .contextModule(new ContextModule(applicationContext))
                 .build();
+        accreditationComponent = DaggerAccreditationComponent.builder()
+                .coreComponent(coreComponent)
+                .build();
         appComponent = DaggerAppComponent.builder()
                 .coreComponent(coreComponent)
+                .surveyModule(new SurveyModule(accreditationComponent))
                 .build();
         fcmReportComponent = DaggerFcmReportComponent.builder().build();
         rmiReportComponent = DaggerRmiReportComponent.builder().build();
@@ -55,5 +63,9 @@ public class Injection {
 
     public ReportComponent getReportComponent() {
         return reportComponent;
+    }
+
+    public AccreditationComponent getAccreditationComponent() {
+        return accreditationComponent;
     }
 }

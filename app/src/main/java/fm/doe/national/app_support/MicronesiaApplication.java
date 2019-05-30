@@ -6,6 +6,8 @@ import androidx.multidex.MultiDexApplication;
 import com.crashlytics.android.Crashlytics;
 import com.omegar.mvp.RegisterMoxyReflectorPackages;
 
+import fm.doe.national.accreditation.di.AccreditationComponent;
+import fm.doe.national.accreditation.di.AccreditationComponentProvider;
 import fm.doe.national.app_support.di.Injection;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.CoreComponentProvider;
@@ -28,7 +30,8 @@ public class MicronesiaApplication extends MultiDexApplication implements
         CoreComponentProvider,
         FcmReportComponentProvider,
         RmiReportComponentProvider,
-        ReportComponentProvider {
+        ReportComponentProvider,
+        AccreditationComponentProvider {
 
     private static final Injection injection = new Injection();
 
@@ -61,5 +64,10 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public RmiReportComponent provideRmiReportComponent() {
         return injection.getRmiReportComponent();
+    }
+
+    @Override
+    public AccreditationComponent provideAccreditationComponent() {
+        return injection.getAccreditationComponent();
     }
 }

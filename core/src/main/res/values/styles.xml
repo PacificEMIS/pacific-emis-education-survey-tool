@@ -25,6 +25,8 @@
         <item name="android:textAppearanceSmallPopupMenu">@style/Text.PopupMenu</item>
         <item name="android:listPreferredItemHeightSmall">48dp</item>
         <item name="android:listPreferredItemHeightLarge">48dp</item>
+
+        <item name="tabStyle">@style/TabStyle</item>
     </style>
 
     <style name="AppTheme.NoEnterTransitions">
@@ -123,6 +125,24 @@
         <item name="android:indeterminateOnly">false</item>
         <item name="progressColor">@color/yellow</item>
         <item name="successColor">@color/dark_mint</item>
+    </style>
+
+    <style name="TabStyle" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="android:background">@drawable/bg_tab_layout</item>
+        <item name="tabBackground">@drawable/bg_page_button</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabIndicator">@null</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabTextAppearance">@style/Text.Title1.Tab</item>
+        <item name="tabTextColor">@color/blue_grey_900</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+
+    <style name="Text.Title1.Tab">
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
     </style>
 
 </resources>

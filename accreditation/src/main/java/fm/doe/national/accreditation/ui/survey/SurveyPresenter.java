@@ -48,6 +48,6 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
         } else {
             getViewState().setNavigationTitle(null, item.getName(), null);
         }
-//        getViewState().showNavigationItem(item);
+        getViewState().showNavigationItem(item);
     }
 }

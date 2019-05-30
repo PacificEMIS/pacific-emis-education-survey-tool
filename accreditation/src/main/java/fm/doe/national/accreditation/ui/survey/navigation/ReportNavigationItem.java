@@ -6,6 +6,7 @@ import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.core.R;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
+import fm.doe.national.report.ui.report.ReportFragment;
 
 public class ReportNavigationItem implements NavigationItem {
 
@@ -15,7 +16,7 @@ public class ReportNavigationItem implements NavigationItem {
     @NonNull
     @Override
     public BaseFragment buildFragment() {
-        throw new UnsupportedOperationException();
+        return new ReportFragment();
     }
 
     @Override

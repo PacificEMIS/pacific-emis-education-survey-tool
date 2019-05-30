@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import fm.doe.national.core.preferences.entities.AccreditationType;
+import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.preferences.entities.AppRegion;
 
 public class GlobalPreferencesImpl implements GlobalPreferences {
@@ -16,7 +16,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
 
     private static final String PREF_KEY_ACCREDITATION_TYPE = "PREF_KEY_ACCREDITATION_TYPE";
-    private static final AccreditationType DEFAULT_ACCREDITATION_TYPE = AccreditationType.SCHOOL;
+    private static final SurveyType DEFAULT_ACCREDITATION_TYPE = SurveyType.ACCREDITATION;
     private static final int NULL_ACCREDITATION_TYPE_VALUE = -1;
 
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
@@ -62,18 +62,18 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @NonNull
     @Override
-    public AccreditationType getAccreditationType() {
-        AccreditationType savedAccreditationType = getSavedAccreditationType();
-        return savedAccreditationType != null ? savedAccreditationType : DEFAULT_ACCREDITATION_TYPE;
+    public SurveyType getSurveyType() {
+        SurveyType savedSurveyType = getSavedAccreditationType();
+        return savedSurveyType != null ? savedSurveyType : DEFAULT_ACCREDITATION_TYPE;
     }
 
     @Override
-    public void setAccreditationType(AccreditationType accreditationType) {
-        sharedPreferences.edit().putInt(PREF_KEY_ACCREDITATION_TYPE, accreditationType.getValue()).apply();
+    public void setSurveyType(SurveyType surveyType) {
+        sharedPreferences.edit().putInt(PREF_KEY_ACCREDITATION_TYPE, surveyType.getValue()).apply();
     }
 
     @Nullable
-    private AccreditationType getSavedAccreditationType() {
-        return AccreditationType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NULL_ACCREDITATION_TYPE_VALUE));
+    private SurveyType getSavedAccreditationType() {
+        return SurveyType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NULL_ACCREDITATION_TYPE_VALUE));
     }
 }
