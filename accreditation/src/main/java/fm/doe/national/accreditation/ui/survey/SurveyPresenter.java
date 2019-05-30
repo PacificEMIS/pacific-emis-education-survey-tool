@@ -5,9 +5,11 @@ import com.omegar.mvp.InjectViewState;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.accreditation.ui.survey.navigation.ProgressableNavigationItem;
-import fm.doe.national.accreditation.ui.survey.navigation.ReportNavigationItem;
-import fm.doe.national.accreditation.ui.survey.navigation.SchoolAccreditationNavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.BuildableNavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.ProgressablePrefixedBuildableNavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.concrete.CategoryNavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.concrete.ReportNavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.concrete.StandardNavigationItem;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
@@ -21,7 +23,7 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
 
     private final SurveyInteractor surveyInteractor;
 
-    public SurveyPresenter(CoreComponent coreComponent) {
+    SurveyPresenter(CoreComponent coreComponent) {
         surveyInteractor = coreComponent.getSurveyInteractor();
 
         getViewState().setSchoolName(surveyInteractor.getCurrentSurvey().getSchoolName());
@@ -29,9 +31,12 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
                 surveyInteractor.requestCategories()
                         .flatMap(categories -> Single.fromCallable(() -> {
                             List<NavigationItem> navigationItems = new ArrayList<>();
-                            categories.forEach(category -> category.getStandards().forEach(standard -> {
-                                navigationItems.add(new SchoolAccreditationNavigationItem(category, standard));
-                            }));
+                            categories.forEach(category -> {
+                                navigationItems.add(new CategoryNavigationItem(category));
+                                category.getStandards().forEach(standard ->
+                                        navigationItems.add(new StandardNavigationItem(category, standard))
+                                );
+                            });
                             navigationItems.add(new ReportNavigationItem());
                             return navigationItems;
                         }))
@@ -41,12 +46,16 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
         );
     }
 
-    public void onNavigationItemPressed(NavigationItem item) {
-        if (item instanceof ProgressableNavigationItem) {
-            ProgressableNavigationItem navigationItem = (ProgressableNavigationItem) item;
-            getViewState().setNavigationTitle(navigationItem.getNamePrefix(), navigationItem.getName(), navigationItem.getProgress());
+    void onNavigationItemPressed(BuildableNavigationItem item) {
+        if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
+            ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
+            getViewState().setNavigationTitle(
+                    navigationItem.getTitlePrefix(),
+                    navigationItem.getTitle(),
+                    navigationItem.getProgress()
+            );
         } else {
-            getViewState().setNavigationTitle(null, item.getName(), null);
+            getViewState().setNavigationTitle(null, item.getTitle(), null);
         }
         getViewState().showNavigationItem(item);
     }

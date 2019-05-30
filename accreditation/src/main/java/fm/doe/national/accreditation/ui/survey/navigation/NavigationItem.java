@@ -1,20 +1,16 @@
 package fm.doe.national.accreditation.ui.survey.navigation;
 
-import androidx.annotation.NonNull;
-
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.core.ui.screens.base.BaseFragment;
+public abstract class NavigationItem {
 
-public interface NavigationItem {
+    private Text title;
 
-    @NonNull
-    BaseFragment buildFragment();
+    public NavigationItem(Text title) {
+        this.title = title;
+    }
 
-    Text getName();
-
-    long getHeaderId();
-
-    Text getHeader();
-
+    public Text getTitle() {
+        return title;
+    }
 }

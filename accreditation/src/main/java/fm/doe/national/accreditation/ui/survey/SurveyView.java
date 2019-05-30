@@ -9,6 +9,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
+import fm.doe.national.accreditation.ui.survey.navigation.BuildableNavigationItem;
 import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.ui.screens.base.BaseView;
@@ -23,5 +24,6 @@ public interface SurveyView extends BaseView {
     void setNavigationItems(List<NavigationItem> items);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showNavigationItem(NavigationItem item);
+    void showNavigationItem(BuildableNavigationItem item);
+
 }

@@ -1,5 +1,7 @@
 package fm.doe.national.accreditation.ui.survey;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +20,9 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
+import fm.doe.national.accreditation.ui.survey.navigation.BuildableNavigationItem;
 import fm.doe.national.accreditation.ui.survey.navigation.NavigationItem;
+import fm.doe.national.accreditation.ui.survey.navigation.NavigationItemsAdapter;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.di.ComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
@@ -29,6 +33,8 @@ public class SurveyActivity extends BaseActivity implements
         SurveyView,
         BaseAdapter.OnItemClickListener<NavigationItem>,
         View.OnClickListener {
+
+    private static final long NAVIGATOR_ANIMATION_DURATION = 500L;
 
     @InjectPresenter
     SurveyPresenter presenter;
@@ -78,8 +84,9 @@ public class SurveyActivity extends BaseActivity implements
     @SuppressLint("SetTextI18n")
     @Override
     public void setNavigationTitle(@Nullable Text prefix, Text name, @Nullable Progress progress) {
-        navigationTitleTextView.setStartText(prefix);
         navigationTitleTextView.setText(name);
+        navigationTitleTextView.setStartText(prefix);
+        navigationTitleTextView.setStartSpaceText(Text.from(prefix == null ? "" : " "));
 
         if (progress != null) {
             progressTextView.setVisibility(View.VISIBLE);
@@ -89,6 +96,8 @@ public class SurveyActivity extends BaseActivity implements
             progressTextView.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.INVISIBLE);
         }
+
+        closeNavigator();
     }
 
     @Override
@@ -97,14 +106,13 @@ public class SurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void showNavigationItem(NavigationItem item) {
+    public void showNavigationItem(BuildableNavigationItem item) {
         replaceFragment(R.id.layout_fragment_container, item.buildFragment());
     }
 
     @Override
     public void onItemClick(NavigationItem item) {
-        presenter.onNavigationItemPressed(item);
-        toggleNavigator();
+        presenter.onNavigationItemPressed((BuildableNavigationItem)item);
     }
 
     @Override
@@ -119,12 +127,32 @@ public class SurveyActivity extends BaseActivity implements
         onNavigatorStateChanged();
     }
 
+    private void closeNavigator() {
+        if (isNavigatorOpened) {
+            toggleNavigator();
+        }
+    }
+
     private void onNavigatorStateChanged() {
         if (isNavigatorOpened) {
             recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.animate()
+                    .translationY(0)
+                    .setDuration(NAVIGATOR_ANIMATION_DURATION)
+                    .setListener(null)
+                    .start();
             arrowImageView.setImageResource(R.drawable.ic_expand_less_24dp);
         } else {
-            recyclerView.setVisibility(View.GONE);
+            recyclerView.animate()
+                    .translationY(-recyclerView.getHeight())
+                    .setDuration(NAVIGATOR_ANIMATION_DURATION)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            recyclerView.setVisibility(View.GONE);
+                        }
+                    })
+                    .start();
             arrowImageView.setImageResource(R.drawable.ic_expand_more_24dp);
         }
     }

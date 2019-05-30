@@ -3,6 +3,7 @@ package fm.doe.national.app_support.di.modules;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation.di.AccreditationComponent;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.providers.SurveyProvider;
 
@@ -22,8 +23,8 @@ public class SurveyModule {
                 return accreditationComponent.getAccreditationSurveyProvider();
             case WASH:
                 // TODO: not implemented
-                throw new UnsupportedOperationException();
+                throw new NotImplementedException();
         }
-        throw new UnsupportedOperationException();
+        throw new IllegalStateException();
     }
 }
