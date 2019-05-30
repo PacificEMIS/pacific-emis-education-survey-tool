@@ -43,6 +43,8 @@ public class BinaryAnswerSelectorView extends LinearLayout implements View.OnCli
         super(context, attrs, defStyleAttr, defStyleRes);
         inflate(context, R.layout.view_binary_answer_selector, this);
         bindViews();
+        positiveView.setOnClickListener(this);
+        negativeView.setOnClickListener(this);
     }
 
     private void bindViews() {
@@ -99,7 +101,9 @@ public class BinaryAnswerSelectorView extends LinearLayout implements View.OnCli
 
     private void becomePositive() {
         positiveRadioButton.setChecked(true);
+        positiveRadioButton.setActivated(true);
         negativeRadioButton.setChecked(false);
+        negativeRadioButton.setActivated(true);
 
         positiveView.setBackground(positiveDrawable);
         negativeView.setBackground(null);
@@ -107,7 +111,9 @@ public class BinaryAnswerSelectorView extends LinearLayout implements View.OnCli
 
     private void becomeNegative() {
         positiveRadioButton.setChecked(false);
+        positiveRadioButton.setActivated(false);
         negativeRadioButton.setChecked(true);
+        negativeRadioButton.setActivated(false);
 
         positiveView.setBackground(null);
         negativeView.setBackground(negativeDrawable);

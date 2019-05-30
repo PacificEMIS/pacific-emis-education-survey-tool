@@ -11,16 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_binary_answer_positive"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radiobutton_positive"
+            style="@style/BinaryAnswerRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_margin="8dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,18 +36,20 @@
         android:id="@+id/layout_negative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_binary_answer_positive"
-        android:gravity="center_vertical"
         android:layout_marginTop="4dp"
+        android:background="@drawable/bg_binary_answer_positive"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radiobutton_negative"
+            style="@style/BinaryAnswerRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_margin="8dp" />
 
         <TextView
             android:layout_width="match_parent"
