@@ -156,4 +156,10 @@ public class SurveyActivity extends BaseActivity implements
             arrowImageView.setImageResource(R.drawable.ic_expand_more_24dp);
         }
     }
+
+    @Override
+    public void updateStandardProgress(long standardId, Progress progress) {
+        ViewUtils.rebindProgress(progress, progressTextView, progressBar);
+        navigationItemsAdapter.notifyProgressChanged(standardId, progress);
+    }
 }

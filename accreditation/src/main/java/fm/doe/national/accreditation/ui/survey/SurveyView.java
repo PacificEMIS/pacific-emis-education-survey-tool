@@ -19,6 +19,8 @@ public interface SurveyView extends BaseView {
 
     void setSchoolName(String schoolName);
 
+    void updateStandardProgress(long standardId, Progress progress);
+
     void setNavigationTitle(@Nullable Text prefix, Text name, @Nullable Progress progress);
 
     void setNavigationItems(List<NavigationItem> items);

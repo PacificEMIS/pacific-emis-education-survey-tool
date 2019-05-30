@@ -27,6 +27,25 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
         surveyInteractor = coreComponent.getSurveyInteractor();
 
         getViewState().setSchoolName(surveyInteractor.getCurrentSurvey().getSchoolName());
+        loadNavigationItems();
+        subscribeOnEditingEvents();
+    }
+
+    private void subscribeOnEditingEvents() {
+        addDisposable(
+                surveyInteractor.getStandardProgressSubject()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(updatedStandard ->
+                                        getViewState().updateStandardProgress(
+                                                updatedStandard.getId(),
+                                                updatedStandard.getProgress()
+                                        ),
+                                this::handleError)
+        );
+    }
+
+    private void loadNavigationItems() {
         addDisposable(
                 surveyInteractor.requestCategories()
                         .flatMap(categories -> Single.fromCallable(() -> {

@@ -1,11 +1,17 @@
 package fm.doe.national.accreditation.ui.questions;
 
+import androidx.annotation.Nullable;
+
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.Answer;
+import fm.doe.national.core.data.model.SubCriteria;
+import fm.doe.national.core.data.model.mutable.MutableAnswer;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
@@ -17,8 +23,12 @@ import io.reactivex.schedulers.Schedulers;
 public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private final SurveyInteractor surveyInteractor;
+//    private final CloudUploader cloudUploader = MicronesiaApplication.getInjection().getAppComponent().getCloudUploader();
     private final long standardId;
     private final long categoryId;
+
+    @Nullable
+    private Question selectedQuestion;
 
     QuestionsPresenter(CoreComponent coreComponent, long categoryId, long standardId) {
         this.surveyInteractor = coreComponent.getSurveyInteractor();
@@ -37,7 +47,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                                         questions.addAll(
                                                 criteria.getSubCriterias()
                                                         .stream()
-                                                        .map(Question::new)
+                                                        .map(subCriteria -> new Question(criteria, subCriteria))
                                                         .collect(Collectors.toList())
                                         );
                                     }
@@ -51,14 +61,44 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     }
 
     void onCommentPressed(Question question) {
-        getViewState().showCommentEditor(question.getSubCriteria().getAnswer().getComment());
+        selectedQuestion = question;
+        getViewState().showCommentEditor(selectedQuestion.getSubCriteria());
     }
 
-    void onPhotosPressed() {
-        getViewState().showPhotos();
+    void onPhotosPressed(Question question) {
+        selectedQuestion = question;
+        getViewState().navigateToPhotos(
+                categoryId,
+                standardId,
+                selectedQuestion.getCriteria().getId(),
+                selectedQuestion.getSubCriteria().getId()
+        );
     }
 
     void onAnswerChanged(Question updatedQuestion) {
+        SubCriteria subCriteria = Objects.requireNonNull(updatedQuestion.getSubCriteria());
+        update(subCriteria.getId(), updatedQuestion.getCriteria().getId(), subCriteria.getAnswer());
+    }
 
+    void onCommentEdit(String comment) {
+        if (selectedQuestion == null) return;
+        MutableAnswer answer = (MutableAnswer) selectedQuestion.getSubCriteria().getAnswer();
+        answer.setComment(comment);
+        update(
+                selectedQuestion.getSubCriteria().getId(),
+                selectedQuestion.getCriteria().getId(),
+                selectedQuestion.getSubCriteria().getAnswer()
+        );
+        selectedQuestion = null;
+    }
+
+    private void update(long subCriteriaId, long criteriaId, Answer answer) {
+        addDisposable(surveyInteractor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> {}/*cloudUploader.scheduleUploading(surveyInteractor.getCurrentSurvey().getId())*/,
+                        this::handleError)
+        );
     }
 }

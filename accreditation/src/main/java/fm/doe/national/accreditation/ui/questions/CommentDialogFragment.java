@@ -1,6 +1,5 @@
-package fm.doe.national.ui.screens.criterias;
+package fm.doe.national.accreditation.ui.questions;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,28 +17,20 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import fm.doe.national.R;
+import fm.doe.national.accreditation.R;
 import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.ui.screens.base.BaseDialogFragment;
 import fm.doe.national.core.utils.Constants;
 
-public class CommentDialogFragment extends BaseDialogFragment {
+public class CommentDialogFragment extends BaseDialogFragment implements View.OnClickListener {
 
     private static final String ARG_DATA = "ARG_DATA";
 
-    @BindView(R.id.textview_subcriteria_name)
-    TextView nameTextView;
-
-    @BindView(R.id.textview_interview_question)
-    TextView interviewTextView;
-
-    @BindView(R.id.textview_hint)
-    TextView hintTextView;
-
-    @BindView(R.id.edittext_comment)
-    EditText commentEditText;
+    private TextView nameTextView;
+    private TextView interviewTextView;
+    private TextView hintTextView;
+    private EditText commentEditText;
+    private Button submitButton;
 
     @Nullable
     private OnCommentSubmitListener listener;
@@ -77,14 +69,8 @@ public class CommentDialogFragment extends BaseDialogFragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnCommentSubmitListener) {
-            listener = (OnCommentSubmitListener) context;
-        } else {
-            throw new RuntimeException("Parent should implement OnCommentSubmitListener");
-        }
+    public void setListener(@Nullable OnCommentSubmitListener listener) {
+        this.listener = listener;
     }
 
     @Nullable
@@ -96,8 +82,18 @@ public class CommentDialogFragment extends BaseDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews(view);
         view.setOnClickListener(v -> dismiss());
         parseArgs();
+        submitButton.setOnClickListener(this);
+    }
+
+    private void bindViews(View view) {
+        nameTextView = view.findViewById(R.id.textview_subcriteria_name);
+        interviewTextView = view.findViewById(R.id.textview_interview_question);
+        hintTextView = view.findViewById(R.id.textview_hint);
+        commentEditText = view.findViewById(R.id.edittext_comment);
+        submitButton = view.findViewById(R.id.button_submit);
     }
 
     private void parseArgs() {
@@ -112,10 +108,12 @@ public class CommentDialogFragment extends BaseDialogFragment {
         commentEditText.setText(data.comment);
     }
 
-    @OnClick(R.id.button_submit)
-    public void onSubmitClick(View v) {
-        if (listener != null) listener.onCommentSubmit(commentEditText.getText().toString());
-        dismiss();
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button_submit) {
+            if (listener != null) listener.onCommentSubmit(commentEditText.getText().toString());
+            dismiss();
+        }
     }
 
     public interface OnCommentSubmitListener {

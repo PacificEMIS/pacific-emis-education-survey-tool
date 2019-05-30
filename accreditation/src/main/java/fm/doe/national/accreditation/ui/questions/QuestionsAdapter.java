@@ -35,7 +35,7 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getCriteria() == null ? VIEW_TYPE_SUB_CRITERIA : VIEW_TYPE_CRITERIA;
+        return getItem(position).isCriteriaOnly() ? VIEW_TYPE_CRITERIA : VIEW_TYPE_SUB_CRITERIA;
     }
 
     @NonNull

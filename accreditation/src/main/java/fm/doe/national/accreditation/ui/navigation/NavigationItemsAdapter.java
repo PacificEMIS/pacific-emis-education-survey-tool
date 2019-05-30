@@ -9,7 +9,10 @@ import androidx.annotation.NonNull;
 
 import com.omega_r.libs.views.OmegaTextView;
 
+import java.util.List;
+
 import fm.doe.national.accreditation.R;
+import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.ViewUtils;
 
@@ -20,6 +23,21 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
 
     public NavigationItemsAdapter(OnItemClickListener<NavigationItem> clickListener) {
         super(clickListener);
+    }
+
+    public void notifyProgressChanged(long itemId, Progress progress) {
+        List<NavigationItem> items = getItems();
+        for (int i = 0; i < items.size(); i++) {
+            NavigationItem item = items.get(i);
+            if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
+                ProgressablePrefixedBuildableNavigationItem castedItem = (ProgressablePrefixedBuildableNavigationItem) item;
+                if (castedItem.getId() == itemId) {
+                    castedItem.setProgress(progress);
+                    notifyItemChanged(i);
+                    return;
+                }
+            }
+        }
     }
 
     @Override

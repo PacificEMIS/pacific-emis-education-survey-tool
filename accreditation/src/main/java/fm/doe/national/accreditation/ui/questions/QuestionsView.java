@@ -1,10 +1,12 @@
 package fm.doe.national.accreditation.ui.questions;
 
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
+import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
@@ -12,7 +14,9 @@ public interface QuestionsView extends BaseView {
 
     void setQuestions(List<Question> questions);
 
-    void showCommentEditor(String comment);
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showCommentEditor(SubCriteria subCriteria);
 
-    void showPhotos();
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId);
 }

@@ -29,6 +29,7 @@ import java.util.List;
 import butterknife.BindInt;
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.accreditation.ui.questions.CommentDialogFragment;
 import fm.doe.national.core.data.model.AnswerState;
 import fm.doe.national.core.data.model.Criteria;
 import fm.doe.national.core.data.model.Photo;
