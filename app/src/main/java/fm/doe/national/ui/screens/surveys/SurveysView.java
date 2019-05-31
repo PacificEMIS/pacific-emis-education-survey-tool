@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.all_surveys;
+package fm.doe.national.ui.screens.surveys;
 
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
@@ -10,7 +10,7 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-interface AllSurveysView extends BaseDrawerView {
+interface SurveysView extends BaseDrawerView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSurvey();

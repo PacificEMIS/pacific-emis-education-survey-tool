@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.all_surveys;
+package fm.doe.national.ui.screens.surveys;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,15 +26,15 @@ import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
-public class AllSurveysActivity extends BaseDrawerActivity implements
-        AllSurveysView,
+public class SurveysActivity extends BaseDrawerActivity implements
+        SurveysView,
         SearchView.OnQueryTextListener,
         View.OnClickListener,
         BaseAdapter.OnItemClickListener<Survey>,
-        AllSurveysAdapter.MenuItemClickListener {
+        SurveysAdapter.MenuItemClickListener {
 
     @InjectPresenter
-    AllSurveysPresenter presenter;
+    SurveysPresenter presenter;
 
     @BindView(R.id.recyclerview_categories)
     RecyclerView recyclerView;
@@ -42,11 +42,11 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
     @BindView(R.id.fab_new_accreditation)
     FloatingActionButton newAccreditationFab;
 
-    private final AllSurveysAdapter allSurveysAdapter = new AllSurveysAdapter(this, this);
+    private final SurveysAdapter surveysAdapter = new SurveysAdapter(this, this);
     private final DeleteConfirmationListener deleteConfirmationListener = new DeleteConfirmationListener();
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, AllSurveysActivity.class);
+        return new Intent(context, SurveysActivity.class);
     }
 
     @Override
@@ -62,13 +62,13 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
 
     private void initViews() {
         setTitle(R.string.label_school_accreditation);
-        recyclerView.setAdapter(allSurveysAdapter);
+        recyclerView.setAdapter(surveysAdapter);
         newAccreditationFab.setOnClickListener(this);
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_school_accreditation;
+        return R.layout.activity_surveys;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
 
     @Override
     public void setSurveys(List<Survey> accreditations) {
-        allSurveysAdapter.setItems(accreditations);
+        surveysAdapter.setItems(accreditations);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class AllSurveysActivity extends BaseDrawerActivity implements
 
     @Override
     public void removeSurvey(Survey passing) {
-        allSurveysAdapter.removeItem(passing);
+        surveysAdapter.removeItem(passing);
     }
 
     @Override

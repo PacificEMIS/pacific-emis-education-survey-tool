@@ -4,7 +4,7 @@
     <style name="LevelTable" />
 
     <style name="LevelTable.Background">
-        <item name="android:background">@color/delimeter_grey</item>
+        <item name="android:background">@color/grey_300</item>
         <item name="android:weightSum">@integer/weight_accreditation_level_sum</item>
     </style>
 

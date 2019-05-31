@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="@integer/weight_summary_criteria_sum"
-            app:divider="@color/delimeter_grey"
+            app:divider="@color/grey_300"
             app:dividerHeight="1dp"
             app:dividerShow="middle"
             tools:itemCount="4"
@@ -81,7 +81,7 @@
         android:id="@+id/view_delimeter"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/delimeter_grey"
+        android:background="@color/grey_300"
         android:layout_gravity="bottom"/>
 
 </FrameLayout>

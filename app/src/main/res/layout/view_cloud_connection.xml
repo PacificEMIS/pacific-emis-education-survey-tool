@@ -17,7 +17,7 @@
             android:layout_marginEnd="18dp"
             android:layout_marginStart="16dp"
             android:maxLines="2"
-            android:textColor="@color/charcoal_grey"
+            android:textColor="@color/blue_grey_700"
             android:textSize="22sp"
             android:gravity="start|center_vertical"
             app:layout_constraintBottom_toBottomOf="@+id/imageview_icon"

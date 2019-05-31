@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:textSize="20sp"
-        android:textColor="@color/charcoal_grey"
+        android:textColor="@color/blue_grey_700"
         android:text="@string/account_drive"
         app:layout_constraintStart_toEndOf="@+id/imageview_cloud_icon"
         app:layout_constraintTop_toTopOf="@+id/imageview_cloud_icon"
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
-        android:textColor="@color/charcoal_grey"
+        android:textColor="@color/blue_grey_700"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageview_cloud_icon"
         app:layout_constraintStart_toEndOf="@+id/imageview_cloud_icon"
@@ -97,7 +97,7 @@
                 tools:text="MyDrive/MyFolder"
                 android:layout_gravity="center_vertical|end"
                 android:fontFamily="@string/font_light"
-                android:textColor="@color/dark_mint"
+                android:textColor="@color/green_400"
                 android:textSize="16sp"/>
 
             <TextView

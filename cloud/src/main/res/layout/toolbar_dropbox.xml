@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textColor="@color/color_criteria_progress_bg"
+            android:textColor="@color/indigo_50"
             android:textSize="12sp"
             tools:text="a/b/c/d" />
     </LinearLayout>

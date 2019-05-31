@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".ui.screens.all_surveys.AllSurveysActivity">
+    tools:context=".ui.screens.surveys.SurveysActivity">
 
     <include layout="@layout/include_appbar" />
 

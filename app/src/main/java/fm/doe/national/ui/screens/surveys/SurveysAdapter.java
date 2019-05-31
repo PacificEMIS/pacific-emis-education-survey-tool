@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.all_surveys;
+package fm.doe.national.ui.screens.surveys;
 
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -16,11 +16,11 @@ import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.ViewUtils;
 
-public class AllSurveysAdapter extends BaseAdapter<Survey> {
+public class SurveysAdapter extends BaseAdapter<Survey> {
 
     private MenuItemClickListener menuItemClickListener;
 
-    public AllSurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
+    public SurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
         super(clickListener);
         this.menuItemClickListener = menuItemClickListener;
     }

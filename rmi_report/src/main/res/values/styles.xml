@@ -2,7 +2,7 @@
 <resources>
 
     <style name="RmiTable">
-        <item name="android:background">@color/delimeter_grey</item>
+        <item name="android:background">@color/grey_300</item>
         <item name="android:weightSum">@integer/weight_rmi_report_sum</item>
     </style>
 

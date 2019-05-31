@@ -1,4 +1,4 @@
-package fm.doe.national.ui.screens.all_surveys;
+package fm.doe.national.ui.screens.surveys;
 
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
@@ -17,7 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
+public class SurveysPresenter extends BaseDrawerPresenter<SurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getInjection().getCoreComponent().getDataSource();
@@ -27,7 +27,7 @@ public class AllSurveysPresenter extends BaseDrawerPresenter<AllSurveysView> {
     private Survey surveyToDelete;
 
     @Override
-    public void attachView(AllSurveysView view) {
+    public void attachView(SurveysView view) {
         super.attachView(view);
         loadRecentSurveys();
     }
