@@ -63,6 +63,11 @@
         <item name="android:letterSpacing">0.05</item>
     </style>
 
+    <style name="Text.Body2.Progress">
+        <item name="android:fontFamily">@font/noto_sans_semi_bold</item>
+        <item name="android:textColor">@color/progress_text</item>
+    </style>
+
     <style name="Text.Body3">
         <item name="android:fontFamily">@font/noto_sans_regular</item>
         <item name="android:textColor">@color/black</item>
@@ -130,7 +135,7 @@
         <item name="android:progressDrawable">@drawable/progress_bar_hor_states_selector</item>
         <item name="android:indeterminateOnly">false</item>
         <item name="progressColor">@color/yellow_a700</item>
-        <item name="successColor">@color/green_400</item>
+        <item name="successColor">@color/green_a700</item>
     </style>
 
     <style name="TabStyle" parent="Widget.MaterialComponents.TabLayout.Colored">

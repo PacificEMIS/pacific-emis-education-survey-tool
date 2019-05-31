@@ -15,8 +15,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="56dp"
-        android:fontFamily="@font/noto_sans_semi_bold"
-        android:textAppearance="@style/Text.Body2"
+        android:textAppearance="@style/Text.Body2.Progress"
         tools:text="7/16" />
 
     <fm.doe.national.core.ui.views.StateProgressBar
