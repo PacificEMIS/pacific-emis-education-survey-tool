@@ -7,7 +7,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/report_table_cell_height</item>
         <item name="android:weightSum">@integer/weight_summary_row</item>
-        <item name="android:background">@color/delimeter_grey</item>
+        <item name="android:background">@color/grey_300</item>
         <item name="android:orientation">horizontal</item>
     </style>
 

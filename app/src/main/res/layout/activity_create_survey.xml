@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:textSize="18sp"
-                android:textColor="@color/cool_grey"
+                android:textColor="@color/blue_grey_200"
                 tools:text="2018" />
 
             <ImageView

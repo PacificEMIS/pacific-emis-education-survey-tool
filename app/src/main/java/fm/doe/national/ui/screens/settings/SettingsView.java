@@ -6,8 +6,8 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.data.cloud.CloudAccountData;
-import fm.doe.national.data.cloud.CloudType;
+import fm.doe.national.cloud.model.CloudAccountData;
+import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseView;
 

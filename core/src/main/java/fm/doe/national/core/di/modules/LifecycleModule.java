@@ -12,7 +12,7 @@ import fm.doe.national.core.utils.LifecycleListener;
 public class LifecycleModule {
     @Provides
     @CoreScope
-    public LifecycleListener provideLifecycleListener(Context context) {
+    LifecycleListener provideLifecycleListener(Context context) {
         return new ActivityLifecycleListener(context);
     }
 }

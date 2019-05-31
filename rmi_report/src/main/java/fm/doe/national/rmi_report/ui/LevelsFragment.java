@@ -19,7 +19,7 @@ import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import fm.doe.national.rmi_report.R;
-import fm.doe.national.rmi_report.di.ComponentInjector;
+import fm.doe.national.rmi_report.di.RmiReportComponentInjector;
 import fm.doe.national.rmi_report.model.SchoolAccreditationTallyLevel;
 
 public class LevelsFragment extends BaseReportFragment implements LevelsView {
@@ -42,7 +42,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
     @ProvidePresenter
     LevelsPresenter providePresenter() {
-        return new LevelsPresenter(ComponentInjector.getComponent(getActivity().getApplication()));
+        return new LevelsPresenter(RmiReportComponentInjector.getComponent(getActivity().getApplication()));
     }
 
     @Override

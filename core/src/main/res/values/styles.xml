@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
 
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
@@ -15,15 +14,19 @@
 
         <item name="alertDialogTheme">@style/AlertDialog</item>
 
-        <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
+        <item name="actionButtonStyle">@style/ActionButton</item>
 
         <item name="android:windowActivityTransitions" tools:targetApi="l">true</item>
         <item name="android:windowEnterTransition" tools:targetApi="l">@transition/window_fade</item>
         <item name="android:windowExitTransition" tools:targetApi="l">@transition/window_fade</item>
-    </style>
 
-    <style name="AppTheme" parent="BaseAppTheme" >
-        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/Text.PopupMenu</item>
+        <item name="android:listPreferredItemHeightSmall">48dp</item>
+        <item name="android:listPreferredItemHeightLarge">48dp</item>
+
+        <item name="tabStyle">@style/TabStyle</item>
     </style>
 
     <style name="AppTheme.NoEnterTransitions">
@@ -34,17 +37,17 @@
         <item name="android:windowExitTransition" tools:targetApi="l">@null</item>
     </style>
 
-    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme.Widget.ActionButton" parent="@style/Widget.AppCompat.ActionButton">
+    <style name="ActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="Text" parent="TextAppearance.AppCompat"/>
+    <style name="Text"/>
 
     <style name="Text.Body1">
         <item name="android:fontFamily">@font/noto_sans_medium</item>
@@ -58,6 +61,11 @@
         <item name="android:textColor">@color/blue_grey_900</item>
         <item name="android:textSize">16sp</item>
         <item name="android:letterSpacing">0.05</item>
+    </style>
+
+    <style name="Text.Body2.Progress">
+        <item name="android:fontFamily">@font/noto_sans_semi_bold</item>
+        <item name="android:textColor">@color/progress_text</item>
     </style>
 
     <style name="Text.Body3">
@@ -102,6 +110,50 @@
         <item name="android:fontFamily">@font/noto_sans_regular</item>
         <item name="android:textColor">@color/blue_grey_900</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Small2">
+        <item name="android:fontFamily">@font/noto_sans_italic</item>
+        <item name="android:textColor">@color/blue_grey_700</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/bg_popup</item>
+        <item name="android:dropDownHorizontalOffset">-16dp</item>
+        <item name="android:dropDownVerticalOffset">20dp</item>
+    </style>
+
+    <style name="Text.PopupMenu">
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+        <item name="android:textColor">@color/blue_grey_900</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="HorizontalProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_bar_hor_states_selector</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="progressColor">@color/yellow_a700</item>
+        <item name="successColor">@color/green_a700</item>
+    </style>
+
+    <style name="TabStyle" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="android:background">@drawable/bg_tab_layout</item>
+        <item name="tabBackground">@drawable/bg_page_button</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabIndicator">@null</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabTextAppearance">@style/Text.Title1.Tab</item>
+        <item name="tabTextColor">@color/blue_grey_900</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+
+    <style name="Text.Title1.Tab">
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
     </style>
 
 </resources>

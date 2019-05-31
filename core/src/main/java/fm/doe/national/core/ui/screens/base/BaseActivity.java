@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.IdRes;
@@ -23,25 +21,14 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.MvpAppCompatActivity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import butterknife.ButterKnife;
 import fm.doe.national.core.R;
 import fm.doe.national.core.ui.views.ProgressDialogFragment;
-import fm.doe.national.core.utils.DateUtils;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     private static final String TAG_PROGRESS_DIALOG = "TAG_PROGRESS_DIALOG";
-
-    @Nullable
-    protected ImageView clockIconImageView;
-
-    @Nullable
-    protected TextView titleTextView;
-
-    @Nullable
-    protected TextView yearTextView;
 
     @Nullable
     protected Toolbar toolbar;
@@ -61,9 +48,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
 
     private void bindToolbarViews() {
         toolbar = findViewById(R.id.toolbar);
-        yearTextView = findViewById(R.id.textview_toolbar_year);
-        titleTextView = findViewById(R.id.textview_toolbar_title);
-        clockIconImageView = findViewById(R.id.imageview_toolbar_clock);
     }
 
     @LayoutRes
@@ -154,37 +138,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         progressDialogsCount--;
     }
 
-    protected void setToolbarMode(ToolbarDisplaying mode) {
-        if (titleTextView == null) return;
-        switch (mode) {
-            case PRIMARY:
-                titleTextView.setActivated(false);
-                break;
-            case SECONDARY:
-                titleTextView.setActivated(true);
-                break;
-        }
-    }
-
-    public void setToolbarDate(Date date) {
-        if (clockIconImageView == null || yearTextView == null) return;
-        yearTextView.setText(DateUtils.formatMonthYear(date));
-        clockIconImageView.setVisibility(View.VISIBLE);
-        yearTextView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void setTitle(int resId) {
-        if (titleTextView == null) return;
-        titleTextView.setText(resId);
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        if (titleTextView == null) return;
-        titleTextView.setText(title);
-    }
-
     @NonNull
     private ProgressDialogFragment createProgressDialog(Text text) {
         ProgressDialogFragment dialog = ProgressDialogFragment.create();
@@ -196,6 +149,20 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     protected void replaceFragment(@IdRes int containerId, BaseFragment fragment) {
         if (getFragmentManager() == null) return;
         getSupportFragmentManager().beginTransaction().replace(containerId, fragment).commit();
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+    }
+
+    @Override
+    public void setTitle(int title) {
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
     }
 
     protected enum ToolbarDisplaying {

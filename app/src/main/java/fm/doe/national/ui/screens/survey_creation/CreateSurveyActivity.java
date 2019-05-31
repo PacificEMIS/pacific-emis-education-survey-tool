@@ -20,10 +20,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
+import fm.doe.national.accreditation.ui.survey.SurveyActivity;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.ui.screens.categories.CategoriesActivity;
 import fm.doe.national.core.utils.DateUtils;
 
 public class CreateSurveyActivity extends BaseActivity implements
@@ -32,7 +32,6 @@ public class CreateSurveyActivity extends BaseActivity implements
         SearchView.OnQueryTextListener, DatePickerDialog.OnDateSetListener {
 
     private final SchoolsListAdapter adapter = new SchoolsListAdapter(this);
-    private final static String TAG_DIALOG = "TAG_DIALOG";
 
     @BindView(R.id.textview_year)
     TextView yearTextView;
@@ -75,8 +74,8 @@ public class CreateSurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void navigateToCategoryChooser() {
-        startActivity(CategoriesActivity.createIntent(this));
+    public void navigateToSurvey() {
+        startActivity(new Intent(this, SurveyActivity.class));
     }
 
     @Override

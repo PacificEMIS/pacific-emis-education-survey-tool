@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fm.doe.national.cloud" >
+    <application>
+        <activity
+            android:name=".ui.cloud.drive.DriveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.cloud.dropbox.DropboxActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.dropbox.core.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <data android:scheme="db-${dropbox_api_key}" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -18,7 +18,7 @@ public interface CreateSurveyView extends BaseView {
     void setStartDate(Date date);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToCategoryChooser();
+    void navigateToSurvey();
 
     void showDatePicker(int currentYear, int currentMonth, int currentDay);
 }

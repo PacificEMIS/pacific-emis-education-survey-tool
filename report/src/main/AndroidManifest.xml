@@ -1,10 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fm.doe.national.report">
-
-    <application>
-        <activity
-            android:name=".ui.report.ReportActivity"
-            android:label="@string/title_report"
-            android:screenOrientation="portrait" />
-    </application>
 </manifest>

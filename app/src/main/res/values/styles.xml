@@ -1,13 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/charcoal_grey</item>
+        <item name="android:textColor">@color/blue_grey_700</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="BaseThemeRecyclerView" parent="AppTheme">
-        <item name="android:divider">@color/pinkish_grey</item>
+        <item name="android:divider">@color/grey_400</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
 
@@ -50,12 +50,12 @@
 
     <style name="ListText" parent="TextAppearance.AppCompat">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/charcoal_grey</item>
+        <item name="android:textColor">@color/blue_grey_700</item>
         <item name="android:fontFamily">@string/font_light</item>
     </style>
 
     <style name="GreyedListText" parent="ListText">
-        <item name="android:textColor">@color/greyed_blue</item>
+        <item name="android:textColor">@color/blue_grey_300</item>
     </style>
 
     <style name="ClickableListText" parent="ListText">
@@ -66,31 +66,9 @@
         <item name="android:paddingBottom">16dp</item>
     </style>
 
-    <style name="ProgressText" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/color_progress_text</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textAlignment">center</item>
-    </style>
-
-    <style name="LargeProgressText" parent="ProgressText">
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="HorizontalProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_bar_hor_states_selector</item>
-        <item name="android:indeterminateOnly">false</item>
-        <item name="progressColor">@color/yellow</item>
-        <item name="successColor">@color/dark_mint</item>
-    </style>
-
-    <style name="IndeterminateProgressBar" parent="Widget.AppCompat.ProgressBar">
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:indeterminateOnly">true</item>
-    </style>
-
     <style name="Subtitle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/charcoal_grey</item>
+        <item name="android:textColor">@color/blue_grey_700</item>
         <item name="android:paddingStart">24dp</item>
         <item name="android:paddingTop">24dp</item>
         <item name="android:paddingBottom">24dp</item>
@@ -123,14 +101,8 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginStart">24dp</item>
         <item name="android:layout_marginEnd">24dp</item>
-        <item name="android:background">@color/soft_grey</item>
+        <item name="android:background">@color/grey_600</item>
         <item name="android:alpha">0.25</item>
-    </style>
-
-    <style name="KeyboardDialog" parent="AppTheme">
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
     <style name="Selectable" parent="AppTheme">
@@ -139,36 +111,6 @@
 
     <style name="SelectableBorderless" parent="Selectable">
         <item name="android:background">?selectableItemBackgroundBorderless</item>
-    </style>
-
-    <!-- region Photos -->
-    <style name="DeleteButton" parent="SelectableBorderless">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:layout_alignParentEnd">true</item>
-        <item name="android:layout_alignParentTop">true</item>
-    </style>
-    <!-- endregion -->
-
-    <style name="Text.Navigation">
-        <item name="android:textSize">16sp</item>
-        <item name="startTextFont">@string/font_medium</item>
-    </style>
-
-    <style name="Text.Navigation.Group">
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:lineSpacingExtra">5sp</item>
-        <item name="android:fontFamily">@string/font_medium</item>
-    </style>
-
-    <style name="Text.Navigation.Header"/>
-
-    <style name="Text.Navigation.Header.Bold">
-        <item name="android:fontFamily">@string/font_black</item>
     </style>
 
 </resources>
