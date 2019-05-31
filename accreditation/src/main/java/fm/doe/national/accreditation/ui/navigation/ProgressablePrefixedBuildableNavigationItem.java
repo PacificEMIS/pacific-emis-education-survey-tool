@@ -7,12 +7,10 @@ import fm.doe.national.core.data.model.Progress;
 public abstract class ProgressablePrefixedBuildableNavigationItem extends BuildableNavigationItem {
 
     private Text titlePrefix;
-    private long id;
 
     public ProgressablePrefixedBuildableNavigationItem(long id, Text title, Text titlePrefix) {
-        super(title);
+        super(title, id);
         this.titlePrefix = titlePrefix;
-        this.id = id;
     }
 
     public abstract Progress getProgress();
@@ -23,7 +21,4 @@ public abstract class ProgressablePrefixedBuildableNavigationItem extends Builda
         return titlePrefix;
     }
 
-    public long getId() {
-        return id;
-    }
 }

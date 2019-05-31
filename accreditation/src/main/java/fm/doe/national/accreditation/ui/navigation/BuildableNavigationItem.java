@@ -8,8 +8,8 @@ import fm.doe.national.core.ui.screens.base.BaseFragment;
 
 public abstract class BuildableNavigationItem extends NavigationItem {
 
-    public BuildableNavigationItem(Text title) {
-        super(title);
+    public BuildableNavigationItem(Text title, long id) {
+        super(title, id);
     }
 
     @NonNull

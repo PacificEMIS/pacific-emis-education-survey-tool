@@ -8,7 +8,7 @@ import fm.doe.national.core.data.model.Category;
 public class CategoryNavigationItem extends NavigationItem {
 
     public CategoryNavigationItem(Category category) {
-        super(Text.from(category.getTitle()));
+        super(Text.from(category.getTitle()), NavigationItem.NO_ID);
     }
 
 }

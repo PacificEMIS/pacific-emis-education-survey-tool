@@ -21,8 +21,27 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
     private static final int VIEW_TYPE_SECTION = 0;
     private static final int VIEW_TYPE_QUESTION_GROUP = 1;
 
+    private int selectedItemPosition = 0;
+
     public NavigationItemsAdapter(OnItemClickListener<NavigationItem> clickListener) {
         super(clickListener);
+    }
+
+    public void setSelectedItem(long itemId) {
+        List<NavigationItem> items = getItems();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId() == itemId) {
+                selectItemAtPosition(i);
+                return;
+            }
+        }
+    }
+
+    private void selectItemAtPosition(int position) {
+        int previouslySelectedPosition = selectedItemPosition;
+        selectedItemPosition = position;
+        notifyItemChanged(position);
+        notifyItemChanged(previouslySelectedPosition);
     }
 
     public void notifyProgressChanged(long itemId, Progress progress) {
@@ -74,6 +93,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         private TextView progressTextView;
         private ProgressBar progressBar;
         private OmegaTextView titleOmegaTextView;
+        private View backgroundView;
 
         QuestionGroupViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_navigation_group);
@@ -84,6 +104,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
             progressTextView = findViewById(R.id.textview_progress);
             progressBar = findViewById(R.id.progressbar);
             titleOmegaTextView = findViewById(R.id.omegatextview_title);
+            backgroundView = findViewById(R.id.view_background);
         }
 
         @Override
@@ -92,6 +113,11 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
             ViewUtils.rebindProgress(navigationItem.getProgress(), progressTextView, progressBar);
             titleOmegaTextView.setStartText(navigationItem.getTitlePrefix());
             titleOmegaTextView.setText(navigationItem.getTitle());
+            backgroundView.setEnabled(!isSelected());
+        }
+
+        private boolean isSelected() {
+            return getAdapterPosition() == selectedItemPosition;
         }
     }
 
@@ -111,6 +137,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         @Override
         protected void onBind(NavigationItem item) {
             item.getTitle().applyTo(titleTextView, null);
+            itemView.setEnabled(!isSelected());
         }
 
         @Override
@@ -118,6 +145,10 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
             if (getItem() instanceof BuildableNavigationItem) {
                 super.onClick(v);
             }
+        }
+
+        private boolean isSelected() {
+            return getItem() instanceof BuildableNavigationItem && getAdapterPosition() == selectedItemPosition;
         }
     }
 }

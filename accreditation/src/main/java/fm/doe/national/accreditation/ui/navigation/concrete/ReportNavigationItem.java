@@ -11,8 +11,10 @@ import fm.doe.national.report.ui.report.ReportFragment;
 
 public class ReportNavigationItem extends BuildableNavigationItem {
 
+    private static final long ITEM_ID = -2;
+
     public ReportNavigationItem() {
-        super(Text.from(R.string.title_report_short));
+        super(Text.from(R.string.title_report_short), ITEM_ID);
     }
 
     @NonNull

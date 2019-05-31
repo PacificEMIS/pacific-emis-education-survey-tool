@@ -112,6 +112,7 @@ public class SurveyActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(NavigationItem item) {
+        navigationItemsAdapter.setSelectedItem(item.getId());
         presenter.onNavigationItemPressed((BuildableNavigationItem)item);
     }
 

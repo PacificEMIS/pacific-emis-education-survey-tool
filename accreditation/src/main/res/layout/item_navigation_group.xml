@@ -8,6 +8,16 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
+    <View
+        android:id="@+id/view_background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/omegatextview_title"
+        android:layout_alignBottom="@id/omegatextview_title"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/bg_navigation_item" />
+
     <TextView
         android:id="@+id/textview_progress"
         android:layout_width="wrap_content"
@@ -36,12 +46,12 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="14dp"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="14dp"
         android:layout_toStartOf="@+id/progressbar"
         android:gravity="center_vertical"
         android:letterSpacing="0"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
         android:textAppearance="@style/Text.Body2"
         app:startDelimiter=" "
         app:startTextFontFamily="@font/noto_sans_bold"
