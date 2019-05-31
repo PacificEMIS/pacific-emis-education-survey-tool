@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import fm.doe.national.R;
-import fm.doe.national.data.cloud.CloudAccountData;
+import fm.doe.national.cloud.model.CloudAccountData;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 
 public class SettingsAdapter extends BaseAdapter<CloudAccountData> {

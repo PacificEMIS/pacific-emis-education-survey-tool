@@ -12,10 +12,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
-        def DROPBOX_API_KEY = "byvebr4n2uyqzj2"
-        buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
-        manifestPlaceholders = [dropbox_api_key: DROPBOX_API_KEY]
-
         ext.betaDistributionGroupAliases = "testaccounts"
     }
     signingConfigs {
@@ -51,8 +47,6 @@ android {
 }
 
 dependencies {
-    def workVersion = '2.0.1'
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(path: ':core')
@@ -61,6 +55,7 @@ dependencies {
     implementation project(path: ':fcm_report')
     implementation project(path: ':rmi_report')
     implementation project(path: ':accreditation')
+    implementation project(path: ':cloud')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
@@ -102,19 +97,5 @@ dependencies {
 
     // CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-
-    // Dropbox
-    implementation "com.dropbox.core:dropbox-core-sdk:${Deps.dropbox}"
-
-    // WorkManager
-    implementation "androidx.work:work-runtime:$workVersion"
-    implementation "androidx.work:work-rxjava2:$workVersion"
-
-    // Google Play Services + Drive
-    implementation 'com.google.android.gms:play-services-drive:16.1.0'
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
-
-    // OkHttp
-    implementation 'com.squareup.okhttp3:okhttp:4.0.0-alpha02'
 
 }

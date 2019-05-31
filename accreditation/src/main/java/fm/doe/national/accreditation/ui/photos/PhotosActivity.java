@@ -24,7 +24,7 @@ import java.util.List;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.core.data.model.Photo;
-import fm.doe.national.core.di.ComponentInjector;
+import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.utils.Constants;
 
@@ -59,7 +59,7 @@ public class PhotosActivity extends BaseActivity implements
     PhotosPresenter providePresenter() {
         Intent intent = getIntent();
         return new PhotosPresenter(
-                ComponentInjector.getComponent(getApplication()),
+                CoreComponentInjector.getComponent(getApplication()),
                 intent.getLongExtra(EXTRA_CATEGORY_ID, -1),
                 intent.getLongExtra(EXTRA_STANDARD_ID, -1),
                 intent.getLongExtra(EXTRA_CRITERIA_ID, -1),

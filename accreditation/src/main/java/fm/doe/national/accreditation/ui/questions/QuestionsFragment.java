@@ -18,7 +18,7 @@ import java.util.List;
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.photos.PhotosActivity;
 import fm.doe.national.core.data.model.SubCriteria;
-import fm.doe.national.core.di.ComponentInjector;
+import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 
 public class QuestionsFragment extends BaseFragment implements
@@ -39,7 +39,7 @@ public class QuestionsFragment extends BaseFragment implements
     @ProvidePresenter
     QuestionsPresenter providePresenter() {
         return new QuestionsPresenter(
-                ComponentInjector.getComponent(getActivity().getApplication()),
+                CoreComponentInjector.getComponent(getActivity().getApplication()),
                 getArguments().getLong(ARG_CATEGORY_ID),
                 getArguments().getLong(ARG_STANDARD_ID)
         );

@@ -28,8 +28,8 @@ import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.PackageUtils;
 import fm.doe.national.core.utils.ViewUtils;
-import fm.doe.national.data.cloud.CloudAccountData;
-import fm.doe.national.data.cloud.CloudType;
+import fm.doe.national.cloud.model.CloudAccountData;
+import fm.doe.national.core.data.model.CloudType;
 import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 

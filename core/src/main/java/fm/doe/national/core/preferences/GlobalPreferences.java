@@ -3,6 +3,7 @@ package fm.doe.national.core.preferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import fm.doe.national.core.data.model.CloudType;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.preferences.entities.AppRegion;
 
@@ -17,6 +18,11 @@ public interface GlobalPreferences {
     SurveyType getSurveyType();
 
     void setSurveyType(SurveyType surveyType);
+
+    @NonNull
+    CloudType getCloudType();
+
+    void setCloudType(CloudType cloudType);
 
     @Nullable
     String getLogoPath();

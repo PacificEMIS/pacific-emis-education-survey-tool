@@ -9,6 +9,8 @@ import com.omegar.mvp.RegisterMoxyReflectorPackages;
 import fm.doe.national.accreditation.di.AccreditationComponent;
 import fm.doe.national.accreditation.di.AccreditationComponentProvider;
 import fm.doe.national.app_support.di.Injection;
+import fm.doe.national.cloud.di.CloudComponent;
+import fm.doe.national.cloud.di.CloudComponentProvider;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.CoreComponentProvider;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
@@ -24,14 +26,16 @@ import io.fabric.sdk.android.Fabric;
         "fm.doe.national.rmi_report",
         "fm.doe.national.report_core",
         "fm.doe.national.report",
-        "fm.doe.national.accreditation"
+        "fm.doe.national.accreditation",
+        "fm.doe.national.cloud",
 })
 public class MicronesiaApplication extends MultiDexApplication implements
         CoreComponentProvider,
         FcmReportComponentProvider,
         RmiReportComponentProvider,
         ReportComponentProvider,
-        AccreditationComponentProvider {
+        AccreditationComponentProvider,
+        CloudComponentProvider {
 
     private static final Injection injection = new Injection();
 
@@ -69,5 +73,10 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public AccreditationComponent provideAccreditationComponent() {
         return injection.getAccreditationComponent();
+    }
+
+    @Override
+    public CloudComponent provideCloudComponent() {
+        return injection.getCloudComponent();
     }
 }

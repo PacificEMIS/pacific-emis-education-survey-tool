@@ -1,0 +1,83 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def DROPBOX_API_KEY = "byvebr4n2uyqzj2"
+        buildConfigField "String", "DROPBOX_API_KEY", "\"" + DROPBOX_API_KEY + "\""
+        manifestPlaceholders = [dropbox_api_key: DROPBOX_API_KEY]
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moxyReflectorPackage: 'fm.doe.national.cloud']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
+    }
+
+}
+
+dependencies {
+    def workVersion = '2.0.1'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':core')
+
+    implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
+    implementation "com.google.android.material:material:${Deps.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
+    testImplementation "junit:junit:${Deps.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
+
+    // Omega
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
+    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
+
+    // RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
+
+    // Moxy
+    implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
+    annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
+
+    // Dropbox
+    implementation "com.dropbox.core:dropbox-core-sdk:${Deps.dropbox}"
+
+    // WorkManager
+    implementation "androidx.work:work-runtime:$workVersion"
+    implementation "androidx.work:work-rxjava2:$workVersion"
+
+    // Google Play Services + Drive
+    implementation 'com.google.android.gms:play-services-drive:16.1.0'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+
+    // OkHttp
+    implementation 'com.squareup.okhttp3:okhttp:4.0.0-alpha02'
+
+}

@@ -40,7 +40,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
     implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation "junit:junit:${Deps.junit}"
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"

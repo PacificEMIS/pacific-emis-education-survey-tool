@@ -4,7 +4,10 @@ import android.content.Context;
 
 import fm.doe.national.accreditation.di.AccreditationComponent;
 import fm.doe.national.accreditation.di.DaggerAccreditationComponent;
+import fm.doe.national.app_support.di.modules.InteractorsModule;
 import fm.doe.national.app_support.di.modules.SurveyModule;
+import fm.doe.national.cloud.di.CloudComponent;
+import fm.doe.national.cloud.di.DaggerCloudComponent;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.DaggerCoreComponent;
 import fm.doe.national.core.di.modules.ContextModule;
@@ -24,6 +27,7 @@ public class Injection {
     private RmiReportComponent rmiReportComponent;
     private ReportComponent reportComponent;
     private AccreditationComponent accreditationComponent;
+    private CloudComponent cloudComponent;
 
     public void createDependencyGraph(Context applicationContext) {
         coreComponent = DaggerCoreComponent
@@ -33,9 +37,13 @@ public class Injection {
         accreditationComponent = DaggerAccreditationComponent.builder()
                 .coreComponent(coreComponent)
                 .build();
+        cloudComponent = DaggerCloudComponent.builder()
+                .coreComponent(coreComponent)
+                .build();
         appComponent = DaggerAppComponent.builder()
                 .coreComponent(coreComponent)
                 .surveyModule(new SurveyModule(accreditationComponent))
+                .interactorsModule(new InteractorsModule(cloudComponent))
                 .build();
         fcmReportComponent = DaggerFcmReportComponent.builder().build();
         rmiReportComponent = DaggerRmiReportComponent.builder().build();
@@ -67,5 +75,9 @@ public class Injection {
 
     public AccreditationComponent getAccreditationComponent() {
         return accreditationComponent;
+    }
+
+    public CloudComponent getCloudComponent() {
+        return cloudComponent;
     }
 }

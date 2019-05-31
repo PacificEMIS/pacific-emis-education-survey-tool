@@ -24,7 +24,7 @@ import fm.doe.national.accreditation.ui.navigation.BuildableNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.NavigationItem;
 import fm.doe.national.accreditation.ui.navigation.NavigationItemsAdapter;
 import fm.doe.national.core.data.model.Progress;
-import fm.doe.national.core.di.ComponentInjector;
+import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.ViewUtils;
@@ -41,7 +41,7 @@ public class SurveyActivity extends BaseActivity implements
 
     @ProvidePresenter
     SurveyPresenter providePresenter() {
-        return new SurveyPresenter(ComponentInjector.getComponent(getApplication()));
+        return new SurveyPresenter(CoreComponentInjector.getComponent(getApplication()));
     }
 
     private final NavigationItemsAdapter navigationItemsAdapter = new NavigationItemsAdapter(this);
