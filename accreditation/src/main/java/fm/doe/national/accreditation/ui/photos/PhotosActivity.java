@@ -1,5 +1,6 @@
 package fm.doe.national.accreditation.ui.photos;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
+import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
@@ -58,8 +60,10 @@ public class PhotosActivity extends BaseActivity implements
     @ProvidePresenter
     PhotosPresenter providePresenter() {
         Intent intent = getIntent();
+        Application application = getApplication();
         return new PhotosPresenter(
-                CoreComponentInjector.getComponent(getApplication()),
+                CoreComponentInjector.getComponent(application),
+                CloudComponentInjector.getComponent(application),
                 intent.getLongExtra(EXTRA_CATEGORY_ID, -1),
                 intent.getLongExtra(EXTRA_STANDARD_ID, -1),
                 intent.getLongExtra(EXTRA_CRITERIA_ID, -1),

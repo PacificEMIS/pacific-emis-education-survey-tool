@@ -22,7 +22,7 @@ import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.cloud.model.CloudAccountData;
-import fm.doe.national.core.data.model.CloudType;
+import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.domain.SettingsInteractor;
 import io.reactivex.Observable;
 import io.reactivex.Single;

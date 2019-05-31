@@ -7,7 +7,7 @@ android {
         minSdkVersion Versions.minSdk
         targetSdkVersion Versions.targetSdk
         versionCode 1
-        versionName "1.0"
+        versionName Versions.appVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -36,6 +36,7 @@ dependencies {
 
     implementation project(path: ':core')
     implementation project(path: ':report')
+    implementation project(path: ':cloud')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"

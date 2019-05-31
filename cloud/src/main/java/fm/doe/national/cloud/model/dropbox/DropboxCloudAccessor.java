@@ -24,7 +24,7 @@ import fm.doe.national.cloud.R;
 import fm.doe.national.cloud.model.CloudAccessor;
 import fm.doe.national.cloud.model.CloudPreferences;
 import fm.doe.national.cloud.ui.cloud.dropbox.DropboxActivity;
-import fm.doe.national.core.data.model.CloudType;
+import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.utils.Constants;
 import fm.doe.national.core.utils.LifecycleListener;
 import io.reactivex.Completable;

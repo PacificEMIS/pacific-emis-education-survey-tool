@@ -3,7 +3,6 @@ package fm.doe.national.cloud.model;
 
 import androidx.annotation.NonNull;
 
-import fm.doe.national.core.data.model.CloudType;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 

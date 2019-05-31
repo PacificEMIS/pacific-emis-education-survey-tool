@@ -18,7 +18,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import fm.doe.national.cloud.BuildConfig;
 import fm.doe.national.cloud.R;
-import fm.doe.national.cloud.di.ComponentInjector;
+import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.cloud.model.dropbox.BrowsingTreeObject;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
@@ -103,7 +103,7 @@ public class DropboxActivity extends BaseActivity implements
     public DropboxPresenter providePresenter() {
         Intent intent = getIntent();
         return new DropboxPresenter(
-                ComponentInjector.getComponent(getApplication()),
+                CloudComponentInjector.getComponent(getApplication()),
                 getActionFrom(intent),
                 getPickerTypeFrom(intent),
                 getSerializableExtra(EXTRA_BROWSING_ROOT)

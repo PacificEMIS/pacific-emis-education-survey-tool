@@ -1,4 +1,4 @@
-package fm.doe.national.core.data.model;
+package fm.doe.national.cloud.model;
 
 import androidx.annotation.Nullable;
 

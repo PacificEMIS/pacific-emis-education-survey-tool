@@ -18,7 +18,7 @@ import fm.doe.national.cloud.model.dropbox.DropboxCloudAccessor;
 import fm.doe.national.cloud.model.dropbox.DropboxCloudPreferences;
 import fm.doe.national.cloud.model.uploader.CloudUploader;
 import fm.doe.national.cloud.model.uploader.WorkerCloudUploader;
-import fm.doe.national.core.data.model.CloudType;
+import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.utils.LifecycleListener;
 
 @Module

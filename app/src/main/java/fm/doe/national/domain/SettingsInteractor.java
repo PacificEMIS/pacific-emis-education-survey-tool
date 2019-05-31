@@ -9,7 +9,7 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.parsers.Parser;
 import fm.doe.national.cloud.model.CloudAccountData;
 import fm.doe.national.cloud.model.CloudRepository;
-import fm.doe.national.core.data.model.CloudType;
+import fm.doe.national.cloud.model.CloudType;
 import io.reactivex.Completable;
 
 public class SettingsInteractor {

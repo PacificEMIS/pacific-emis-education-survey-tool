@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.report.R;
-import fm.doe.national.report.di.ComponentInjector;
+import fm.doe.national.report.di.ReportComponentInjector;
 import fm.doe.national.report_core.model.ReportPage;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 
@@ -40,7 +40,7 @@ public class ReportFragment extends BaseFragment implements ReportView {
 
     @ProvidePresenter
     ReportPresenter providePresenter() {
-        return new ReportPresenter(ComponentInjector.getComponent(getActivity().getApplication()));
+        return new ReportPresenter(ReportComponentInjector.getComponent(getActivity().getApplication()));
     }
 
     @Nullable

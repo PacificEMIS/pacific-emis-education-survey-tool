@@ -1,6 +1,7 @@
 package fm.doe.national.accreditation.ui.questions;
 
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.photos.PhotosActivity;
+import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
@@ -38,10 +40,13 @@ public class QuestionsFragment extends BaseFragment implements
 
     @ProvidePresenter
     QuestionsPresenter providePresenter() {
+        Application application = getActivity().getApplication();
+        Bundle args = getArguments();
         return new QuestionsPresenter(
-                CoreComponentInjector.getComponent(getActivity().getApplication()),
-                getArguments().getLong(ARG_CATEGORY_ID),
-                getArguments().getLong(ARG_STANDARD_ID)
+                CoreComponentInjector.getComponent(application),
+                CloudComponentInjector.getComponent(application),
+                args.getLong(ARG_CATEGORY_ID),
+                args.getLong(ARG_STANDARD_ID)
         );
     }
 

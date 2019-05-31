@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.RxWorker;
 import androidx.work.WorkerParameters;
 
-import fm.doe.national.cloud.di.ComponentInjector;
+import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.persistence.entity.RoomSchool;
@@ -32,7 +32,7 @@ public class UploadWorker extends RxWorker {
         CoreComponent coreComponent = CoreComponentInjector.getComponent(context);
         dataSource = coreComponent.getDataSource();
         serializer = coreComponent.getSurveySerializer();
-        cloudRepository = ComponentInjector.getComponent(context).getCloudRepository();
+        cloudRepository = CloudComponentInjector.getComponent(context).getCloudRepository();
     }
 
     @Override

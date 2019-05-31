@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import fm.doe.national.core.data.model.CloudType;
 import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.data.exceptions.FileExportException;
 import fm.doe.national.core.data.exceptions.FileImportException;

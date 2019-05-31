@@ -5,9 +5,8 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import fm.doe.national.core.data.model.CloudType;
-import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.SurveyType;
 
 public class GlobalPreferencesImpl implements GlobalPreferences {
 
@@ -18,10 +17,6 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final String PREF_KEY_ACCREDITATION_TYPE = "PREF_KEY_ACCREDITATION_TYPE";
     private static final SurveyType DEFAULT_ACCREDITATION_TYPE = SurveyType.ACCREDITATION;
     private static final int NULL_ACCREDITATION_TYPE_VALUE = -1;
-
-    private static final String PREF_KEY_CLOUD_TYPE = "PREF_KEY_CLOUD_TYPE";
-    private static final CloudType DEFAULT_CLOUD_TYPE = CloudType.EMPTY;
-    private static final int NULL_CLOUD_TYPE_VALUE = -1;
 
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
 
@@ -81,20 +76,4 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
         return SurveyType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NULL_ACCREDITATION_TYPE_VALUE));
     }
 
-    @NonNull
-    @Override
-    public CloudType getCloudType() {
-        CloudType savedType = getSavedCloudType();
-        return savedType != null ? savedType : DEFAULT_CLOUD_TYPE;
-    }
-
-    @Nullable
-    private CloudType getSavedCloudType() {
-        return CloudType.createFromValue(sharedPreferences.getInt(PREF_KEY_CLOUD_TYPE, NULL_CLOUD_TYPE_VALUE));
-    }
-
-    @Override
-    public void setCloudType(CloudType cloudType) {
-        sharedPreferences.edit().putInt(PREF_KEY_CLOUD_TYPE, cloudType.getValue()).apply();
-    }
 }

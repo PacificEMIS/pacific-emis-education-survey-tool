@@ -1,6 +1,6 @@
 package fm.doe.national.fcm_report.di;
 
-public class ComponentInjector {
+public class FcmReportComponentInjector {
 
     public static FcmReportComponent getComponent(Object injectionSource) {
         if (injectionSource instanceof FcmReportComponentProvider) {

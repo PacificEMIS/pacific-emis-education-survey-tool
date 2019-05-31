@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import dagger.MapKey;
-import fm.doe.national.core.data.model.CloudType;
+import fm.doe.national.cloud.model.CloudType;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

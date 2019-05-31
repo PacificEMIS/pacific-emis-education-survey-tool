@@ -8,7 +8,7 @@ android {
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         targetSdkVersion Versions.targetSdk
         minSdkVersion Versions.minSdk
-        versionName "1.0"
+        versionName Versions.appVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 

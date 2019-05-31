@@ -1,7 +1,5 @@
 package fm.doe.national.cloud.model;
 
-import fm.doe.national.core.data.model.CloudType;
-
 public class CloudAccountData {
     private final CloudType type;
     private final String email;

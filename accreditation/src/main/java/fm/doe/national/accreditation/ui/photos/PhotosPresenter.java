@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import fm.doe.national.accreditation.R;
+import fm.doe.national.cloud.di.CloudComponent;
+import fm.doe.national.cloud.model.uploader.CloudUploader;
 import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutableAnswer;
@@ -24,7 +26,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class PhotosPresenter extends BasePresenter<PhotosView> {
 
-    //    private final CloudUploader cloudUploader = MicronesiaApplication.getInjection().getAppComponent().getCloudUploader();
+    private final CloudUploader cloudUploader;
     private final SurveyInteractor interactor;
     private final PicturesRepository picturesRepository;
 
@@ -39,12 +41,14 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
     private File takenPictureFile;
 
     PhotosPresenter(CoreComponent coreComponent,
-                           long categoryId,
-                           long standardId,
-                           long criteriaId,
-                           long subCriteriaId) {
+                    CloudComponent cloudComponent,
+                    long categoryId,
+                    long standardId,
+                    long criteriaId,
+                    long subCriteriaId) {
         interactor = coreComponent.getSurveyInteractor();
         picturesRepository = coreComponent.getPicturesRepository();
+        cloudUploader = cloudComponent.getCloudUploader();
         this.categoryId = categoryId;
         this.standardId = standardId;
         this.criteriaId = criteriaId;
@@ -63,8 +67,7 @@ public class PhotosPresenter extends BasePresenter<PhotosView> {
         addDisposable(interactor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {
-                }/*cloudUploader.scheduleUploading(interactor.getCurrentSurvey().getId())*/, this::handleError));
+                .subscribe(() -> cloudUploader.scheduleUploading(interactor.getCurrentSurvey().getId()), this::handleError));
     }
 
     private void loadAnswer() {

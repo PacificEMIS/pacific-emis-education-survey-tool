@@ -18,7 +18,7 @@ import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.SearchableField;
 
 import fm.doe.national.cloud.R;
-import fm.doe.national.cloud.di.ComponentInjector;
+import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.cloud.model.drive.DriveCloudAccessor;
 import fm.doe.national.core.data.exceptions.FileImportException;
 import fm.doe.national.core.data.exceptions.PickException;
@@ -54,7 +54,7 @@ public class DriveActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        driveCloudAccessor = ComponentInjector.getComponent(getApplication()).getDriveCloudAccessor();
+        driveCloudAccessor = CloudComponentInjector.getComponent(getApplication()).getDriveCloudAccessor();
         parseIntent(getIntent());
     }
 
