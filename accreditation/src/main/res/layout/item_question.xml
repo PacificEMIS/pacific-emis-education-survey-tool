@@ -39,7 +39,7 @@
         tools:text="@tools:sample/lorem/random" />
 
     <fm.doe.national.accreditation.ui.custom_views.BinaryAnswerSelectorView
-        android:id="@+id/binary_answer_selector_view"
+        android:id="@+id/binaryanswerselectorview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -59,8 +59,7 @@
             android:id="@+id/imagebutton_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="5dp"
             android:src="@drawable/ic_wallpaper"
             tools:ignore="ContentDescription" />
@@ -69,8 +68,7 @@
             android:id="@+id/imagebutton_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="5dp"
             android:src="@drawable/ic_comment"
             tools:ignore="ContentDescription" />

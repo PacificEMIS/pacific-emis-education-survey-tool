@@ -36,14 +36,6 @@ public class SurveyActivity extends BaseActivity implements
 
     private static final long NAVIGATOR_ANIMATION_DURATION = 500L;
 
-    @InjectPresenter
-    SurveyPresenter presenter;
-
-    @ProvidePresenter
-    SurveyPresenter providePresenter() {
-        return new SurveyPresenter(CoreComponentInjector.getComponent(getApplication()));
-    }
-
     private final NavigationItemsAdapter navigationItemsAdapter = new NavigationItemsAdapter(this);
 
     private OmegaTextView navigationTitleTextView;
@@ -54,9 +46,12 @@ public class SurveyActivity extends BaseActivity implements
     private View navigatorHeaderView;
     private boolean isNavigatorOpened;
 
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_survey;
+    @InjectPresenter
+    SurveyPresenter presenter;
+
+    @ProvidePresenter
+    SurveyPresenter providePresenter() {
+        return new SurveyPresenter(CoreComponentInjector.getComponent(getApplication()));
     }
 
     @Override
@@ -77,6 +72,11 @@ public class SurveyActivity extends BaseActivity implements
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_survey;
+    }
+
+    @Override
     public void setSchoolName(String schoolName) {
         setTitle(schoolName);
     }
@@ -86,7 +86,7 @@ public class SurveyActivity extends BaseActivity implements
     public void setNavigationTitle(@Nullable Text prefix, Text name, @Nullable Progress progress) {
         navigationTitleTextView.setText(name);
         navigationTitleTextView.setStartText(prefix);
-        navigationTitleTextView.setStartSpaceText(Text.from(prefix == null ? "" : " "));
+        navigationTitleTextView.setStartSpaceText(prefix == null ? null : Text.from(" "));
 
         if (progress != null) {
             progressTextView.setVisibility(View.VISIBLE);

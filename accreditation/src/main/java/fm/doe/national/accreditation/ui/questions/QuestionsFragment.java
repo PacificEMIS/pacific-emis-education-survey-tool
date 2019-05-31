@@ -30,7 +30,7 @@ public class QuestionsFragment extends BaseFragment implements
 
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
     private static final String ARG_STANDARD_ID = "ARG_STANDARD_ID";
-    private final static String TAG_DIALOG = "TAG_DIALOG";
+    private static final String TAG_DIALOG = "TAG_DIALOG";
 
     private RecyclerView recyclerView;
     private final QuestionsAdapter questionsAdapter = new QuestionsAdapter(this);

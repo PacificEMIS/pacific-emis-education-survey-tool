@@ -12,11 +12,11 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
     private static final AppRegion DEFAULT_APP_REGION = AppRegion.FCM;
-    private static final int NULL_APP_CONTEXT_VALUE = -1;
+    private static final int NO_APP_CONTEXT_VALUE = -1;
 
     private static final String PREF_KEY_ACCREDITATION_TYPE = "PREF_KEY_ACCREDITATION_TYPE";
     private static final SurveyType DEFAULT_ACCREDITATION_TYPE = SurveyType.ACCREDITATION;
-    private static final int NULL_ACCREDITATION_TYPE_VALUE = -1;
+    private static final int NO_ACCREDITATION_TYPE_VALUE = -1;
 
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
 
@@ -35,7 +35,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @Nullable
     private AppRegion getSavedAppContext() {
-        return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_REGION, NULL_APP_CONTEXT_VALUE));
+        return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_REGION, NO_APP_CONTEXT_VALUE));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @Nullable
     private SurveyType getSavedAccreditationType() {
-        return SurveyType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NULL_ACCREDITATION_TYPE_VALUE));
+        return SurveyType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NO_ACCREDITATION_TYPE_VALUE));
     }
 
 }

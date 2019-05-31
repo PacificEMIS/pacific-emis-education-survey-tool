@@ -83,7 +83,7 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
             prefixTextView = findViewById(R.id.textview_prefix);
             titleTextView = findViewById(R.id.textview_title);
             questionTextView = findViewById(R.id.textview_question);
-            binaryAnswerSelectorView = findViewById(R.id.binary_answer_selector_view);
+            binaryAnswerSelectorView = findViewById(R.id.binaryanswerselectorview);
             photosButton = findViewById(R.id.imagebutton_photo);
             commentButton = findViewById(R.id.imagebutton_comment);
         }
@@ -178,7 +178,7 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
         private OmegaTextView titleOmegaTextView;
 
         HeaderViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_question_header, parent, false));
+            super(parent, R.layout.item_question_header);
             titleOmegaTextView = (OmegaTextView) itemView;
         }
 

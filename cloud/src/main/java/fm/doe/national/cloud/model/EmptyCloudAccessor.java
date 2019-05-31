@@ -10,7 +10,7 @@ public class EmptyCloudAccessor implements CloudAccessor {
 
     @Override
     public Single<String> importContentFromCloud() {
-        return Single.fromCallable(() -> "");
+        return Single.just("");
     }
 
     @Override

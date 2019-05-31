@@ -17,7 +17,7 @@
         <RelativeLayout
             android:id="@+id/layout_navigator"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height">
+            android:layout_height="?actionBarSize">
 
             <ImageView
                 android:id="@+id/imageview_expanding_arrow"

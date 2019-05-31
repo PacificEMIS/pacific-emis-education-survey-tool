@@ -32,7 +32,6 @@ public class CreateSurveyActivity extends BaseActivity implements
         SearchView.OnQueryTextListener, DatePickerDialog.OnDateSetListener {
 
     private final SchoolsListAdapter adapter = new SchoolsListAdapter(this);
-    private final static String TAG_DIALOG = "TAG_DIALOG";
 
     @BindView(R.id.textview_year)
     TextView yearTextView;
