@@ -64,7 +64,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
     public int getItemViewType(int position) {
         NavigationItem item = getItem(position);
 
-        if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
+        if (item instanceof BuildableNavigationItem) {
             return VIEW_TYPE_QUESTION_GROUP;
         }
 
@@ -110,11 +110,19 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
 
         @Override
         protected void onBind(NavigationItem item) {
-            ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
-            ViewUtils.rebindProgress(navigationItem.getProgress(), progressTextView, progressBar);
-            titleOmegaTextView.setStartText(navigationItem.getTitlePrefix());
-            titleOmegaTextView.setText(navigationItem.getTitle());
+            titleOmegaTextView.setText(item.getTitle());
             backgroundView.setEnabled(!isSelected());
+            if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
+                ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
+                titleOmegaTextView.setStartText(navigationItem.getTitlePrefix());
+                progressTextView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+                ViewUtils.rebindProgress(navigationItem.getProgress(), progressTextView, progressBar);
+            } else {
+                titleOmegaTextView.setStartText(null);
+                progressTextView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+            }
         }
 
         private boolean isSelected() {
@@ -136,20 +144,13 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         }
 
         @Override
-        protected void onBind(NavigationItem item) {
-            item.getTitle().applyTo(titleTextView, null);
-            itemView.setEnabled(!isSelected());
+        public void onClick(View v) {
+            // nothing - do not handle clicks on HeaderViewHolder
         }
 
         @Override
-        public void onClick(View v) {
-            if (getItem() instanceof BuildableNavigationItem) {
-                super.onClick(v);
-            }
-        }
-
-        private boolean isSelected() {
-            return getItem() instanceof BuildableNavigationItem && getAdapterPosition() == selectedItemPosition;
+        protected void onBind(NavigationItem item) {
+            item.getTitle().applyTo(titleTextView, null);
         }
     }
 }

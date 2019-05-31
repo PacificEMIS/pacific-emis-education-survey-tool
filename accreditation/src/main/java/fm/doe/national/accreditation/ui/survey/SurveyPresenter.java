@@ -11,6 +11,7 @@ import fm.doe.national.accreditation.ui.navigation.NavigationItem;
 import fm.doe.national.accreditation.ui.navigation.ProgressablePrefixedBuildableNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.CategoryNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.concrete.ReportTitleNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.StandardNavigationItem;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.interactors.SurveyInteractor;
@@ -57,6 +58,7 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
                                         navigationItems.add(new StandardNavigationItem(category, standard))
                                 );
                             });
+                            navigationItems.add(new ReportTitleNavigationItem());
                             navigationItems.add(new ReportNavigationItem());
                             return navigationItems;
                         }))

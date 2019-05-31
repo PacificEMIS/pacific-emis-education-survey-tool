@@ -17,7 +17,7 @@
     <string name="label_school_name">School Name: </string>
     <string name="label_principal_name">Name of School Principal: </string>
     <string name="label_level_legend">Level Legend</string>
-    <string name="title_school_accreditation_level">School Accreditation Level</string>
+    <string name="title_school_accreditation_level">Level</string>
     <string name="summary">Summary</string>
     <string name="title_sub_criteria">Sub-Criteria</string>
     <string name="title_total">Total</string>

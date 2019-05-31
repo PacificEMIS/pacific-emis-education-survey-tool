@@ -1,7 +1,6 @@
 package fm.doe.national.accreditation.ui.custom_views;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,9 +11,6 @@ import androidx.annotation.Nullable;
 import fm.doe.national.accreditation.R;
 
 public class BinaryAnswerSelectorView extends LinearLayout implements View.OnClickListener {
-
-    private final Drawable positiveDrawable = getResources().getDrawable(R.drawable.bg_binary_answer_positive, null);
-    private final Drawable negativeDrawable = getResources().getDrawable(R.drawable.bg_binary_answer_negative, null);
 
     private RadioButton positiveRadioButton;
     private RadioButton negativeRadioButton;
@@ -101,30 +97,26 @@ public class BinaryAnswerSelectorView extends LinearLayout implements View.OnCli
 
     private void becomePositive() {
         positiveRadioButton.setChecked(true);
-        positiveRadioButton.setActivated(true);
         negativeRadioButton.setChecked(false);
-        negativeRadioButton.setActivated(true);
 
-        positiveView.setBackground(positiveDrawable);
-        negativeView.setBackground(null);
+        positiveView.setActivated(true);
+        negativeView.setActivated(false);
     }
 
     private void becomeNegative() {
         positiveRadioButton.setChecked(false);
-        positiveRadioButton.setActivated(false);
         negativeRadioButton.setChecked(true);
-        negativeRadioButton.setActivated(false);
 
-        positiveView.setBackground(null);
-        negativeView.setBackground(negativeDrawable);
+        positiveView.setActivated(false);
+        negativeView.setActivated(true);
     }
 
     private void becomeNeutral() {
         positiveRadioButton.setChecked(false);
         negativeRadioButton.setChecked(false);
 
-        positiveView.setBackground(null);
-        negativeView.setBackground(null);
+        positiveView.setActivated(false);
+        negativeView.setActivated(false);
     }
 
     public enum State {

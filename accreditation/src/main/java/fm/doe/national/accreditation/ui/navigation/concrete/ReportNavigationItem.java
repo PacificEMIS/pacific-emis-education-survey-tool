@@ -14,7 +14,7 @@ public class ReportNavigationItem extends BuildableNavigationItem {
     private static final long ITEM_ID = -2;
 
     public ReportNavigationItem() {
-        super(Text.from(R.string.title_report_short), ITEM_ID);
+        super(Text.from(R.string.title_report), ITEM_ID);
     }
 
     @NonNull
