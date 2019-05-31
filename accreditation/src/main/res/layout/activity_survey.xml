@@ -17,7 +17,7 @@
         <RelativeLayout
             android:id="@+id/layout_navigator"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize">
+            android:layout_height="?android:actionBarSize">
 
             <ImageView
                 android:id="@+id/imageview_expanding_arrow"
@@ -74,11 +74,26 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/layout_fragment_container"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_appbar" />
+        android:layout_below="@+id/layout_appbar">
+
+        <FrameLayout
+            android:id="@+id/layout_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <fm.doe.national.accreditation.ui.custom_views.bottom_nav.BottomNavigatorView
+            android:id="@+id/bottomnavigatorview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:nextText="@string/button_next"
+            app:prevText="@string/button_prev" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview"

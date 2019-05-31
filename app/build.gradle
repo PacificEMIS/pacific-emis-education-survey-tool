@@ -43,7 +43,6 @@ android {
         targetCompatibility Versions.java
     }
     buildToolsVersion Versions.buildTools
-
 }
 
 dependencies {

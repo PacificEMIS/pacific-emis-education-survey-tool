@@ -1,2 +1,5 @@
 <resources>
+    <string name="label_complete_hint">To complete the survey you need to answer all questions</string>
+    <string name="button_prev">Prev</string>
+    <string name="button_next">Next</string>
 </resources>

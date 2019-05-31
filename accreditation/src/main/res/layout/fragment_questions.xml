@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:itemSpace="24dp"
-        tools:itemCount="4"
+        tools:itemCount="1"
         tools:listitem="@layout/item_question">
 
         <TextView
