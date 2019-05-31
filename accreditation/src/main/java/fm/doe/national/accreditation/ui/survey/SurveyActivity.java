@@ -107,12 +107,12 @@ public class SurveyActivity extends BaseActivity implements
 
     @Override
     public void showNavigationItem(BuildableNavigationItem item) {
+        navigationItemsAdapter.setSelectedItem(item.getId());
         replaceFragment(R.id.layout_fragment_container, item.buildFragment());
     }
 
     @Override
     public void onItemClick(NavigationItem item) {
-        navigationItemsAdapter.setSelectedItem(item.getId());
         presenter.onNavigationItemPressed((BuildableNavigationItem)item);
     }
 

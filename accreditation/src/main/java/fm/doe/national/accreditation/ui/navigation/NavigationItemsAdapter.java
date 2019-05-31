@@ -6,6 +6,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.views.OmegaTextView;
 
@@ -21,7 +22,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
     private static final int VIEW_TYPE_SECTION = 0;
     private static final int VIEW_TYPE_QUESTION_GROUP = 1;
 
-    private int selectedItemPosition = 0;
+    private int selectedItemPosition = RecyclerView.NO_POSITION;
 
     public NavigationItemsAdapter(OnItemClickListener<NavigationItem> clickListener) {
         super(clickListener);
