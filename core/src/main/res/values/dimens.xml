@@ -2,4 +2,5 @@
 <resources>
     <dimen name="toolbar_height">64dp</dimen>
     <dimen name="progress_bar_size">64dp</dimen>
+    <dimen name="toolbar_title_inset">80dp</dimen>
 </resources>

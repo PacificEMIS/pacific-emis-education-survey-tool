@@ -27,7 +27,7 @@
     <string name="title_education_survey_tool">Education\nsurvey tool</string>
     <string name="navigation_drawer_open" translatable="false">DRAWER_OPEN</string>
     <string name="navigation_drawer_close" translatable="false">DRAWER_CLOSE</string>
-    <string name="header_school_accreditation">Recent Surveys</string>
+    <string name="title_recent_surveys">Recent Surveys</string>
     <string name="header_choose_category">Choose category</string>
     <string name="header_choose_standard">Choose standard</string>
     <string name="action_search">Search</string>

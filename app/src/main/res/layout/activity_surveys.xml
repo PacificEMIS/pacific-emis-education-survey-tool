@@ -5,17 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".ui.screens.surveys.SurveysActivity">
 
-    <include layout="@layout/include_appbar" />
-
-    <TextView
-        style="@style/Subtitle"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/header_school_accreditation" />
+        android:orientation="vertical">
+
+        <include layout="@layout/include_toolbar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/toolbar_title_inset"
+                android:text="@string/title_recent_surveys"
+                android:textAppearance="@style/Text.Title1" />
+
+            <ImageButton
+                android:id="@+id/imagebutton_load"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_download"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@+id/imagebutton_load"
+                android:text="@string/label_load_survey"
+                android:textAppearance="@style/Text.Body2"
+                tools:ignore="RelativeOverlap" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -32,12 +70,11 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="end|bottom"
-            android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
-            app:backgroundTint="@color/colorPrimary"
-            app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior"
-            app:srcCompat="@drawable/ic_plus"
-            android:scaleType="center"/>
+            android:layout_marginBottom="24dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_plus"
+            app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
