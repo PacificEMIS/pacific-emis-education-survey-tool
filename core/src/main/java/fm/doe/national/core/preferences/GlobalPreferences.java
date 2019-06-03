@@ -11,6 +11,8 @@ public interface GlobalPreferences {
     @NonNull
     AppRegion getAppRegion();
 
+    boolean isAppRegionSaved();
+
     void setAppRegion(AppRegion appRegion);
 
     @NonNull
@@ -23,13 +25,12 @@ public interface GlobalPreferences {
 
     void setLogoPath(@Nullable String path);
 
-    boolean isFirstLaunch();
+    String getMasterPassword();
 
-    // TODO: will be implemented later
-    // String getMasterPassword();
-    //
-    // void setMasterPassword();
-    //
-    // String getFactoryPassword();
+    boolean isMasterPasswordSaved();
+
+    void setMasterPassword(String password);
+
+    String getFactoryPassword();
 
 }

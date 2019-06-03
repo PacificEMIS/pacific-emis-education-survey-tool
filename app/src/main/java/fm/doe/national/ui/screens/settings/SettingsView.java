@@ -8,7 +8,6 @@ import java.util.List;
 
 import fm.doe.national.cloud.model.CloudAccountData;
 import fm.doe.national.cloud.model.CloudType;
-import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
@@ -23,6 +22,4 @@ public interface SettingsView extends BaseView {
     void setLogo(String path);
 
     void setLogoName(String logoName);
-
-    void setAppContext(AppRegion appRegion);
 }

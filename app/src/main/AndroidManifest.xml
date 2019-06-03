@@ -20,10 +20,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.screens.splash.SplashStartActivity"
+            android:name=".ui.screens.splash.SplashActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoExitTransitions">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,10 +30,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.screens.splash_end.SplashEndActivity"
+            android:name=".ui.screens.region.ChooseRegionActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoEnterTransitions" />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.screens.authentication.AuthenticationActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
             android:label="@string/label_create_survey"
@@ -52,7 +53,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />
-
     </application>
 
 </manifest>

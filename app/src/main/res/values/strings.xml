@@ -5,4 +5,5 @@
     <string name="title_remove">Remove</string>
     <string name="label_load_survey">Load partially saved survey</string>
     <string name="label_choose">Choose</string>
+    <string name="title_choose_context">Choose context</string>
 </resources>
