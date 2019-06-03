@@ -20,11 +20,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.accreditation.ui.survey.SurveyActivity;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.DateUtils;
+import fm.doe.national.survey.ui.SurveyActivity;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,

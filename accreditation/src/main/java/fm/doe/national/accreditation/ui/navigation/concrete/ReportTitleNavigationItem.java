@@ -3,7 +3,7 @@ package fm.doe.national.accreditation.ui.navigation.concrete;
 import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.ui.navigation.NavigationItem;
+import fm.doe.national.survey_core.navigation.NavigationItem;
 
 public class ReportTitleNavigationItem extends NavigationItem {
 

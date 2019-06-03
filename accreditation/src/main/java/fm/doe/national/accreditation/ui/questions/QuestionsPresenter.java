@@ -11,10 +11,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.di.AccreditationComponent;
-import fm.doe.national.accreditation.ui.navigation.BuildableNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
-import fm.doe.national.accreditation.ui.navigation.survey_navigator.SurveyNavigator;
 import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.cloud.model.uploader.CloudUploader;
 import fm.doe.national.core.data.model.Answer;
@@ -24,6 +21,9 @@ import fm.doe.national.core.data.model.mutable.MutableAnswer;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.survey_core.di.SurveyCoreComponent;
+import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
+import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -42,12 +42,12 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     QuestionsPresenter(CoreComponent coreComponent,
                        CloudComponent cloudComponent,
-                       AccreditationComponent accreditationComponent,
+                       SurveyCoreComponent surveyCoreComponent,
                        long categoryId,
                        long standardId) {
         this.surveyInteractor = coreComponent.getSurveyInteractor();
         this.cloudUploader = cloudComponent.getCloudUploader();
-        this.navigator = accreditationComponent.getSurveyNavigator();
+        this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.standardId = standardId;
         this.categoryId = categoryId;
         loadQuestions();

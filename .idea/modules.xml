@@ -11,6 +11,8 @@
       <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" />
       <module fileurl="file://$PROJECT_DIR$/report_core/report_core.iml" filepath="$PROJECT_DIR$/report_core/report_core.iml" />
       <module fileurl="file://$PROJECT_DIR$/rmi_report/rmi_report.iml" filepath="$PROJECT_DIR$/rmi_report/rmi_report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/survey/survey.iml" filepath="$PROJECT_DIR$/survey/survey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/survey_core/survey_core.iml" filepath="$PROJECT_DIR$/survey_core/survey_core.iml" />
     </modules>
   </component>
 </project>

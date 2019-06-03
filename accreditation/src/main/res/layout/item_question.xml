@@ -38,7 +38,7 @@
         android:textSize="16sp"
         tools:text="@tools:sample/lorem/random" />
 
-    <fm.doe.national.accreditation.ui.custom_views.BinaryAnswerSelectorView
+    <fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView
         android:id="@+id/binaryanswerselectorview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
