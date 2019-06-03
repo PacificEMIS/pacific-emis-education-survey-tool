@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:itemSpace="24dp"
-        tools:itemCount="4"
+        tools:itemCount="1"
         tools:listitem="@layout/item_question">
 
         <TextView
@@ -24,6 +24,16 @@
             android:gravity="center_vertical"
             android:text="@string/label_question_hint"
             android:textAppearance="@style/Text.Small2" />
+
+        <fm.doe.national.survey_core.ui.custom_views.bottom_nav.BottomNavigatorView
+            android:id="@+id/bottomnavigatorview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:nextText="@string/button_next"
+            app:prevText="@string/button_prev"
+            app:hintText="@string/label_complete_hint"
+            app:layout_section="footer"/>
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 

@@ -20,6 +20,7 @@ import fm.doe.national.report_core.R;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
+import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 
 public class RecommendationsFragment extends BaseReportFragment implements
         RecommendationsView,
@@ -40,7 +41,7 @@ public class RecommendationsFragment extends BaseReportFragment implements
 
     @ProvidePresenter
     public RecommendationsPresenter providePresenter() {
-        return new RecommendationsPresenter(interactor);
+        return new RecommendationsPresenter(interactor, SurveyCoreComponentInjector.getComponent(getActivity().getApplication()));
     }
 
     @Nullable

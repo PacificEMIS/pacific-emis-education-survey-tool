@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <fm.doe.national.accreditation.ui.custom_views.SquareRelativeLayout
+            <fm.doe.national.survey_core.ui.custom_views.SquareRelativeLayout
                 android:id="@+id/layout_icon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                     android:transitionName="@string/transition_tag_splash_logo"
                     tools:ignore="ContentDescription" />
 
-            </fm.doe.national.accreditation.ui.custom_views.SquareRelativeLayout>
+            </fm.doe.national.survey_core.ui.custom_views.SquareRelativeLayout>
 
             <Space
                 android:layout_width="0dp"

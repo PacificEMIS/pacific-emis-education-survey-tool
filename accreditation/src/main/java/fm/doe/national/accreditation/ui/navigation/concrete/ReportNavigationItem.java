@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.accreditation.ui.navigation.BuildableNavigationItem;
 import fm.doe.national.core.R;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.report.ui.report.ReportFragment;
+import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 
 public class ReportNavigationItem extends BuildableNavigationItem {
 

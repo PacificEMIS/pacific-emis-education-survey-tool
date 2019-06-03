@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="34dp"
+    android:background="?android:attr/selectableItemBackground"
     android:textAppearance="@style/Text.Title2"
     android:textSize="14sp"
     tools:text="Standard 2 - Standard text here" />

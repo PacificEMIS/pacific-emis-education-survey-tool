@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BottomNavigatorView">
+        <attr name="prevText" format="string" />
+        <attr name="nextText" format="string" />
+        <attr name="hintText" format="string" />
+    </declare-styleable>
+
+</resources>

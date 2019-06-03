@@ -16,11 +16,11 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omega_r.libs.views.OmegaTextView;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.ui.custom_views.BinaryAnswerSelectorView;
 import fm.doe.national.core.data.model.AnswerState;
 import fm.doe.national.core.data.model.Criteria;
 import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.data.model.mutable.MutableAnswer;
+import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
 
 public class QuestionsAdapter extends BaseListAdapter<Question> {
 

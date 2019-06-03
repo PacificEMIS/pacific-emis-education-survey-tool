@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fm.doe.national.survey_core" >
+
+    <application>
+        <activity
+            android:name=".ui.photos.FullscreenImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.photos.PhotosActivity"
+            android:label="@string/label_attached_photos"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

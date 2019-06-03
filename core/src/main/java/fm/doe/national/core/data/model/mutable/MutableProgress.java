@@ -30,4 +30,8 @@ public class MutableProgress implements Progress {
         return completed;
     }
 
+    @Override
+    public boolean isFinished() {
+        return total == completed;
+    }
 }
