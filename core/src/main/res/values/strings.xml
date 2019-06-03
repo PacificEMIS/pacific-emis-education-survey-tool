@@ -107,4 +107,9 @@
 
     <string name="toast_set_app_context_success">App context changed</string>
     <string name="title_app_context">Application Context (0-FCM, 1-RMI)</string>
+
+    <string name="label_complete_hint">To complete the survey you need to answer all questions.</string>
+    <string name="button_prev">Prev</string>
+    <string name="button_next">Next</string>
+    <string name="button_complete">Complete</string>
 </resources>

@@ -24,7 +24,7 @@ import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
-import fm.doe.national.survey_core.ui.custom_views.bottom_nav.BottomNavigatorView;
+import fm.doe.national.core.ui.views.BottomNavigatorView;
 
 public class QuestionsFragment extends BaseFragment implements
         QuestionsView,

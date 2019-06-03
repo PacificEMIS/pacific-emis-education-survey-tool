@@ -1,5 +1,7 @@
 package fm.doe.national.ui.screens.survey_creation;
 
+import androidx.annotation.Nullable;
+
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
@@ -25,9 +27,13 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     private Date surveyStartDate = new Date();
     private List<? extends School> schools;
 
-    public CreateSurveyPresenter() {
+    @Nullable
+    private School selectedSchool;
+
+    CreateSurveyPresenter() {
         loadDate();
         loadSchools();
+        updateContinueAvailability();
     }
 
     private void loadDate() {
@@ -46,8 +52,17 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 }, this::handleError));
     }
 
-    public void onSchoolPicked(School school) {
-        addDisposable(dataSource.createSurvey(school.getId(), school.getName(), surveyStartDate)
+    void onSchoolPicked(School school) {
+        selectedSchool = school;
+        updateContinueAvailability();
+    }
+
+    private void updateContinueAvailability() {
+        getViewState().setContinueEnabled(selectedSchool != null);
+    }
+
+    void onContinuePressed() {
+        addDisposable(dataSource.createSurvey(selectedSchool.getId(), selectedSchool.getName(), surveyStartDate)
                 .map(MutableSurvey::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,8 +74,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 }, this::handleError));
     }
 
-
-    public void onSearchQueryChanged(String query) {
+    void onSearchQueryChanged(String query) {
         List<School> queriedSchools = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
         for (School school : schools) {
@@ -71,7 +85,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
         getViewState().setSchools(queriedSchools);
     }
 
-    public void onEditButtonClick() {
+    void onEditButtonClick() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -80,7 +94,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
         getViewState().showDatePicker(year, month, day);
     }
 
-    public void onDatePicked(int year, int month, int dayOfMonth) {
+    void onDatePicked(int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
         Date surveyStartDate = calendar.getTime();

@@ -21,4 +21,6 @@ public interface CreateSurveyView extends BaseView {
     void navigateToSurvey();
 
     void showDatePicker(int currentYear, int currentMonth, int currentDay);
+
+    void setContinueEnabled(boolean isEnabled);
 }

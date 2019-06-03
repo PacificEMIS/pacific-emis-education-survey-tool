@@ -4,4 +4,5 @@
     <string name="title_export_to_excel">Export Survey Data to Excel</string>
     <string name="title_remove">Remove</string>
     <string name="label_load_survey">Load partially saved survey</string>
+    <string name="label_choose">Choose</string>
 </resources>

@@ -19,7 +19,6 @@
 
         <RadioButton
             android:id="@+id/radiobutton_positive"
-            style="@style/BinaryAnswerRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -47,7 +46,6 @@
 
         <RadioButton
             android:id="@+id/radiobutton_negative"
-            style="@style/BinaryAnswerRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
