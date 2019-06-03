@@ -1,22 +1,25 @@
 package fm.doe.national.report_core.ui.recommendations;
 
-import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.report_core.R;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
+import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
+import fm.doe.national.survey_core.di.SurveyCoreComponent;
+import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class RecommendationsPresenter extends BasePresenter<RecommendationsView> {
 
-    private ReportInteractor interactor;
+    private final ReportInteractor interactor;
+    private final SurveyNavigator surveyNavigator;
 
-    public RecommendationsPresenter(ReportInteractor interactor) {
+    public RecommendationsPresenter(ReportInteractor interactor, SurveyCoreComponent surveyCoreComponent) {
         this.interactor = interactor;
+        this.surveyNavigator = surveyCoreComponent.getSurveyNavigator();
         loadRecommendations();
     }
 
@@ -30,8 +33,11 @@ public class RecommendationsPresenter extends BasePresenter<RecommendationsView>
     }
 
     public void onRecommendationPressed(Recommendation recommendation) {
-        // TODO: not implemented (planned in feature "new navigation")
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        if (!(recommendation instanceof StandardRecommendation)) {
+            throw new IllegalStateException();
+        }
+
+        surveyNavigator.select(((StandardRecommendation) recommendation).getObject());
     }
 
 }

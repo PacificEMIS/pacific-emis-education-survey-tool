@@ -81,8 +81,8 @@ public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
 
         @Override
         public void onClick(View v) {
-            // Only sub-criteria is clickable
-            if (getItem() instanceof SubCriteriaRecommendation) {
+            // Only standards are clickable
+            if (getItem() instanceof StandardRecommendation) {
                 super.onClick(v);
             }
         }

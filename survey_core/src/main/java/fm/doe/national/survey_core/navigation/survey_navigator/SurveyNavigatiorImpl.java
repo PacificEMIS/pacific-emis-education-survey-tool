@@ -1,8 +1,12 @@
 package fm.doe.national.survey_core.navigation.survey_navigator;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.Standard;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
+import fm.doe.national.survey_core.navigation.NavigationItem;
 import fm.doe.national.survey_core.navigation.ProgressablePrefixedBuildableNavigationItem;
 import fm.doe.national.survey_core.ui.survey.SurveyView;
 
@@ -11,6 +15,8 @@ public class SurveyNavigatiorImpl implements SurveyNavigator {
 
     private WeakReference<SurveyView> viewWeakReference;
     private BuildableNavigationItem currentItem;
+
+    private List<BuildableNavigationItem> items;
 
     @Override
     public void select(BuildableNavigationItem item) {
@@ -72,5 +78,25 @@ public class SurveyNavigatiorImpl implements SurveyNavigator {
     @Override
     public BuildableNavigationItem getCurrentItem() {
         return currentItem;
+    }
+
+    @Override
+    public void select(Standard standard) {
+        if (items == null) {
+            return;
+        }
+
+        items.parallelStream()
+                .filter(item -> item.getId() == standard.getId())
+                .findFirst()
+                .ifPresent(this::select);
+    }
+
+    @Override
+    public void setNavigation(List<NavigationItem> items) {
+        this.items = items.stream()
+                .filter(item -> item instanceof BuildableNavigationItem)
+                .map(item -> (BuildableNavigationItem) item)
+                .collect(Collectors.toList());
     }
 }

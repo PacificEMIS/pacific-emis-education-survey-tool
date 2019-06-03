@@ -42,6 +42,7 @@ public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> {
+                    surveyNavigator.setNavigation(items);
                     getViewState().setNavigationItems(items);
                     selectFirstNavigationItem(items);
                 }, this::handleError));
