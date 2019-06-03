@@ -6,4 +6,6 @@ public interface Progress {
 
     int getCompleted();
 
+    boolean isFinished();
+
 }

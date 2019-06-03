@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.accreditation.di.AccreditationComponent;
 import fm.doe.national.accreditation.ui.navigation.BuildableNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.NavigationItem;
 import fm.doe.national.accreditation.ui.navigation.ProgressablePrefixedBuildableNavigationItem;
@@ -13,6 +14,9 @@ import fm.doe.national.accreditation.ui.navigation.concrete.CategoryNavigationIt
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportTitleNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.StandardNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.survey_navigator.SurveyNavigator;
+import fm.doe.national.core.data.model.mutable.MutableCategory;
+import fm.doe.national.core.data.model.mutable.MutableStandard;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
@@ -24,9 +28,13 @@ import io.reactivex.schedulers.Schedulers;
 public class SurveyPresenter extends BasePresenter<SurveyView> {
 
     private final SurveyInteractor surveyInteractor;
+    private final SurveyNavigator surveyNavigator;
 
-    SurveyPresenter(CoreComponent coreComponent) {
+    SurveyPresenter(CoreComponent coreComponent, AccreditationComponent accreditationComponent) {
         surveyInteractor = coreComponent.getSurveyInteractor();
+        surveyNavigator = accreditationComponent.getSurveyNavigator();
+
+        surveyNavigator.setViewState(getViewState());
 
         getViewState().setSchoolName(surveyInteractor.getCurrentSurvey().getSchoolName());
         loadNavigationItems();
@@ -52,14 +60,31 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
                 surveyInteractor.requestCategories()
                         .flatMap(categories -> Single.fromCallable(() -> {
                             List<NavigationItem> navigationItems = new ArrayList<>();
-                            categories.forEach(category -> {
+                            BuildableNavigationItem prevBuildableNavigationItem = null;
+
+                            for (MutableCategory category : categories) {
                                 navigationItems.add(new CategoryNavigationItem(category));
-                                category.getStandards().forEach(standard ->
-                                        navigationItems.add(new StandardNavigationItem(category, standard))
-                                );
-                            });
+
+                                for (MutableStandard standard : category.getStandards()) {
+                                    StandardNavigationItem standardItem = new StandardNavigationItem(category, standard);
+                                    standardItem.setPreviousItem(prevBuildableNavigationItem);
+
+                                    if (prevBuildableNavigationItem != null) {
+                                        prevBuildableNavigationItem.setNextItem(standardItem);
+                                    }
+
+                                    prevBuildableNavigationItem = standardItem;
+                                    navigationItems.add(standardItem);
+                                }
+                            }
                             navigationItems.add(new ReportTitleNavigationItem());
-                            navigationItems.add(new ReportNavigationItem());
+                            ReportNavigationItem reportNavigationItem = new ReportNavigationItem();
+
+                            if (prevBuildableNavigationItem != null) {
+                                prevBuildableNavigationItem.setNextItem(reportNavigationItem);
+                            }
+
+                            navigationItems.add(reportNavigationItem);
                             return navigationItems;
                         }))
                         .subscribeOn(Schedulers.io())
@@ -74,7 +99,7 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
     private void selectFirstNavigationItem(List<NavigationItem> items) {
         List<ProgressablePrefixedBuildableNavigationItem> progressableItems = items.parallelStream()
                 .filter(item -> item instanceof ProgressablePrefixedBuildableNavigationItem)
-                .map(item -> (ProgressablePrefixedBuildableNavigationItem)item)
+                .map(item -> (ProgressablePrefixedBuildableNavigationItem) item)
                 .collect(Collectors.toList());
 
         if (progressableItems.isEmpty()) {
@@ -86,20 +111,10 @@ public class SurveyPresenter extends BasePresenter<SurveyView> {
                 .findFirst()
                 .orElse(progressableItems.get(0));
 
-        onNavigationItemPressed(itemToSelect);
+        surveyNavigator.select(itemToSelect);
     }
 
     void onNavigationItemPressed(BuildableNavigationItem item) {
-        if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
-            ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
-            getViewState().setNavigationTitle(
-                    navigationItem.getTitlePrefix(),
-                    navigationItem.getTitle(),
-                    navigationItem.getProgress()
-            );
-        } else {
-            getViewState().setNavigationTitle(null, item.getTitle(), null);
-        }
-        getViewState().showNavigationItem(item);
+        surveyNavigator.select(item);
     }
 }

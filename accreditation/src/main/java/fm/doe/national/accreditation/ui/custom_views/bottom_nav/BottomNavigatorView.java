@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,8 +14,8 @@ import fm.doe.national.accreditation.R;
 public class BottomNavigatorView extends RelativeLayout implements View.OnClickListener {
 
     private TextView hintTextView;
-    private Button prevButton;
-    private Button nextButton;
+    private TextView prevButton;
+    private TextView nextButton;
 
     @Nullable
     private Listener listener;
@@ -58,16 +57,36 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
         updateView(prevButton, text);
     }
 
+    public void setPrevButtonVisible(boolean isVisible) {
+        prevButton.setVisibility(isVisible ? VISIBLE : GONE);
+    }
+
+    public void setNextButtonVisible(boolean isVisible) {
+        nextButton.setVisibility(isVisible ? VISIBLE : GONE);
+    }
+
+    public void setHintTextVisible(boolean isVisible) {
+        hintTextView.setVisibility(isVisible ? VISIBLE : INVISIBLE);
+    }
+
+    public void setPrevButtonEnabled(boolean isEnabled) {
+        prevButton.setEnabled(isEnabled);
+    }
+
+    public void setNextButtonEnabled(boolean isEnabled) {
+        nextButton.setEnabled(isEnabled);
+    }
+
     public void setNextText(@Nullable String text) {
         updateView(nextButton, text);
     }
 
     public void setHintText(@Nullable String text) {
-        updateView(hintTextView, text, View.INVISIBLE);
+        updateView(hintTextView, text, INVISIBLE);
     }
 
     private void updateView(TextView view, @Nullable String text) {
-        updateView(view, text, View.GONE);
+        updateView(view, text, GONE);
     }
 
     private void updateView(TextView view, @Nullable String text, int disappearVisibility) {
@@ -96,7 +115,6 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
             listener.onNextPressed();
         }
     }
-
 
     public interface Listener {
         void onPrevPressed();

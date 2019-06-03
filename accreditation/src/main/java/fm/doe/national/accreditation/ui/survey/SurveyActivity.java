@@ -3,6 +3,7 @@ package fm.doe.national.accreditation.ui.survey;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -21,8 +21,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.ui.custom_views.bottom_nav.BottomNavigatorView;
-import fm.doe.national.accreditation.ui.custom_views.bottom_nav.BottomNavigatorViewBehavior;
+import fm.doe.national.accreditation.di.AccreditationComponentInjector;
 import fm.doe.national.accreditation.ui.navigation.BuildableNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.NavigationItem;
 import fm.doe.national.accreditation.ui.navigation.NavigationItemsAdapter;
@@ -47,7 +46,6 @@ public class SurveyActivity extends BaseActivity implements
     private ImageView arrowImageView;
     private RecyclerView recyclerView;
     private View navigatorHeaderView;
-    private BottomNavigatorView bottomNavigatorView;
     private boolean isNavigatorOpened;
 
     @InjectPresenter
@@ -55,7 +53,11 @@ public class SurveyActivity extends BaseActivity implements
 
     @ProvidePresenter
     SurveyPresenter providePresenter() {
-        return new SurveyPresenter(CoreComponentInjector.getComponent(getApplication()));
+        Application application = getApplication();
+        return new SurveyPresenter(
+                CoreComponentInjector.getComponent(application),
+                AccreditationComponentInjector.getComponent(application)
+        );
     }
 
     @Override
@@ -64,9 +66,6 @@ public class SurveyActivity extends BaseActivity implements
         bindViews();
         recyclerView.setAdapter(navigationItemsAdapter);
         navigatorHeaderView.setOnClickListener(this);
-
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigatorView.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavigatorViewBehavior());
     }
 
     private void bindViews() {
@@ -76,7 +75,6 @@ public class SurveyActivity extends BaseActivity implements
         arrowImageView = findViewById(R.id.imageview_expanding_arrow);
         recyclerView = findViewById(R.id.recyclerview);
         navigatorHeaderView = findViewById(R.id.layout_navigator);
-        bottomNavigatorView = findViewById(R.id.bottomnavigatorview);
     }
 
     @Override

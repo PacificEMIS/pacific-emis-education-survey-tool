@@ -1,6 +1,6 @@
 package fm.doe.national.accreditation.di;
 
-public class ComponentInjector {
+public class AccreditationComponentInjector {
     public static AccreditationComponent getComponent(Object injectionSource) {
         if (injectionSource instanceof AccreditationComponentProvider) {
             return ((AccreditationComponentProvider) injectionSource).provideAccreditationComponent();

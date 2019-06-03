@@ -11,12 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
+import fm.doe.national.accreditation.di.AccreditationComponentInjector;
+import fm.doe.national.accreditation.ui.custom_views.bottom_nav.BottomNavigatorView;
 import fm.doe.national.accreditation.ui.photos.PhotosActivity;
 import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.model.SubCriteria;
@@ -26,13 +29,15 @@ import fm.doe.national.core.ui.screens.base.BaseFragment;
 public class QuestionsFragment extends BaseFragment implements
         QuestionsView,
         QuestionsAdapter.QuestionsListener,
-        CommentDialogFragment.OnCommentSubmitListener {
+        CommentDialogFragment.OnCommentSubmitListener,
+        BottomNavigatorView.Listener {
 
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
     private static final String ARG_STANDARD_ID = "ARG_STANDARD_ID";
     private static final String TAG_DIALOG = "TAG_DIALOG";
 
     private RecyclerView recyclerView;
+    private BottomNavigatorView bottomNavigatorView;
     private final QuestionsAdapter questionsAdapter = new QuestionsAdapter(this);
 
     @InjectPresenter
@@ -45,6 +50,7 @@ public class QuestionsFragment extends BaseFragment implements
         return new QuestionsPresenter(
                 CoreComponentInjector.getComponent(application),
                 CloudComponentInjector.getComponent(application),
+                AccreditationComponentInjector.getComponent(application),
                 args.getLong(ARG_CATEGORY_ID),
                 args.getLong(ARG_STANDARD_ID)
         );
@@ -78,10 +84,12 @@ public class QuestionsFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         recyclerView.setAdapter(questionsAdapter);
+        bottomNavigatorView.setListener(this);
     }
 
     private void bindViews(@NonNull View view) {
         recyclerView = view.findViewById(R.id.recyclerview);
+        bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
     }
 
     @Override
@@ -119,5 +127,35 @@ public class QuestionsFragment extends BaseFragment implements
     @Override
     public void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId) {
         startActivity(PhotosActivity.createIntent(getContext(), categoryId, standardId, criteriaId, subCriteriaId));
+    }
+
+    @Override
+    public void onPrevPressed() {
+        presenter.onPrevPressed();
+    }
+
+    @Override
+    public void onNextPressed() {
+        presenter.onNextPressed();
+    }
+
+    @Override
+    public void setPrevButtonVisible(boolean isVisible) {
+        bottomNavigatorView.setPrevButtonVisible(isVisible);
+    }
+
+    @Override
+    public void setNextButtonEnabled(boolean isEnabled) {
+        bottomNavigatorView.setNextButtonEnabled(isEnabled);
+    }
+
+    @Override
+    public void setNextButtonText(Text text) {
+        bottomNavigatorView.setNextText(text.getString(getContext()));
+    }
+
+    @Override
+    public void setHintTextVisible(boolean isVisible) {
+        bottomNavigatorView.setHintTextVisible(isVisible);
     }
 }

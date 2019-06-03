@@ -25,6 +25,16 @@
             android:text="@string/label_question_hint"
             android:textAppearance="@style/Text.Small2" />
 
+        <fm.doe.national.accreditation.ui.custom_views.bottom_nav.BottomNavigatorView
+            android:id="@+id/bottomnavigatorview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:nextText="@string/button_next"
+            app:prevText="@string/button_prev"
+            app:hintText="@string/label_complete_hint"
+            app:layout_section="footer"/>
+
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 
 </FrameLayout>

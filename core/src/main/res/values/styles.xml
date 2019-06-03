@@ -47,7 +47,7 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="Text"/>
+    <style name="Text" />
 
     <style name="Text.Body1">
         <item name="android:fontFamily">@font/noto_sans_medium</item>
@@ -80,7 +80,7 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="Text.Title1.Button">
+    <style name="Text.Title1.NavigationButton">
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
     </style>
@@ -161,22 +161,26 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="Button">
+    <style name="NavigationButton">
         <item name="android:layout_width">160dp</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:layout_marginStart">40dp</item>
         <item name="android:layout_marginEnd">40dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">32dp</item>
-        <item name="android:textAppearance">@style/Text.Title1.Button</item>
+        <item name="android:textAppearance">@style/Text.Title1.NavigationButton</item>
+        <item name="android:gravity">center</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
-    <style name="Button.Left">
+    <style name="NavigationButton.Left">
         <item name="android:paddingStart">16dp</item>
         <item name="android:background">@drawable/bg_btn_prev</item>
     </style>
 
-    <style name="Button.Right">
+    <style name="NavigationButton.Right">
         <item name="android:paddingEnd">16dp</item>
         <item name="android:background">@drawable/bg_btn_next</item>
     </style>
