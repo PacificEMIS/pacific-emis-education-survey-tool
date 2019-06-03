@@ -21,16 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbarlayout" />
 
-    <TextView
-        android:id="@+id/textview_title2"
-        style="@style/Subtitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/title_app_context"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageview_logo" />
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_logo"
         android:layout_width="40dp"
@@ -78,7 +68,7 @@
         app:itemSpace="24dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_title2">
+        app:layout_constraintTop_toBottomOf="@+id/textview_title">
 
         <TextView
             android:id="@+id/textview_title_accounts"

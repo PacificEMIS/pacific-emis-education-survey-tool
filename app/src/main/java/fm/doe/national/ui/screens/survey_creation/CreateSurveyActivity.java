@@ -23,13 +23,14 @@ import fm.doe.national.R;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.survey.ui.SurveyActivity;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,
         BaseAdapter.OnItemClickListener<School>,
-        SearchView.OnQueryTextListener, DatePickerDialog.OnDateSetListener {
+        SearchView.OnQueryTextListener, DatePickerDialog.OnDateSetListener, BottomNavigatorView.Listener {
 
     private final SchoolsListAdapter adapter = new SchoolsListAdapter(this);
 
@@ -38,6 +39,9 @@ public class CreateSurveyActivity extends BaseActivity implements
 
     @BindView(R.id.recyclerview_schools)
     RecyclerView schoolsRecycler;
+
+    @BindView(R.id.bottomnavigatorview)
+    BottomNavigatorView bottomNavigatorView;
 
     @InjectPresenter
     CreateSurveyPresenter presenter;
@@ -56,6 +60,7 @@ public class CreateSurveyActivity extends BaseActivity implements
         setTitle(R.string.label_create_survey);
 
         schoolsRecycler.setAdapter(adapter);
+        bottomNavigatorView.setListener(this);
     }
 
     @Override
@@ -123,5 +128,20 @@ public class CreateSurveyActivity extends BaseActivity implements
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         presenter.onDatePicked(year, month, dayOfMonth);
+    }
+
+    @Override
+    public void setContinueEnabled(boolean isEnabled) {
+        bottomNavigatorView.setNextButtonEnabled(isEnabled);
+    }
+
+    @Override
+    public void onPrevPressed() {
+        // nothing
+    }
+
+    @Override
+    public void onNextPressed() {
+        presenter.onContinuePressed();
     }
 }

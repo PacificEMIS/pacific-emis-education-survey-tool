@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,13 +23,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.core.preferences.entities.AppRegion;
-import fm.doe.national.core.utils.PackageUtils;
-import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.cloud.model.CloudAccountData;
 import fm.doe.national.cloud.model.CloudType;
-import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.utils.PackageUtils;
+import fm.doe.national.core.utils.ViewUtils;
+import fm.doe.national.ui.custom_views.CloudConnectionCardView;
 
 public class SettingsActivity extends BaseActivity implements
         SettingsView,
@@ -69,9 +66,6 @@ public class SettingsActivity extends BaseActivity implements
     @BindView(R.id.layout_connections)
     ConstraintLayout layoutConnections;
 
-    @BindView(R.id.edittext_app_context)
-    EditText appContextEditText;
-
     public static Intent createIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
     }
@@ -97,15 +91,6 @@ public class SettingsActivity extends BaseActivity implements
         driveView.setCloudName(Text.from(R.string.integration_drive));
         driveView.setIconDrawableId(R.drawable.ic_google_drive);
         driveView.setListener(this);
-
-        // TODO: this is temporary, will be implemented in total redesign feature
-        appContextEditText.setOnEditorActionListener((tv, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                presenter.onAppContextEntered(appContextEditText.getText().toString(), getAssets());
-                return true;
-            }
-            return false;
-        });
     }
 
     @Override
@@ -224,10 +209,5 @@ public class SettingsActivity extends BaseActivity implements
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void setAppContext(AppRegion appRegion) {
-        appContextEditText.setText(String.valueOf(appRegion.getValue()));
     }
 }

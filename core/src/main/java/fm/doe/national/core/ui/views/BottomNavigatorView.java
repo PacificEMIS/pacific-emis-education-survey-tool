@@ -1,4 +1,4 @@
-package fm.doe.national.survey_core.ui.custom_views.bottom_nav;
+package fm.doe.national.core.ui.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import fm.doe.national.survey_core.R;
-
+import fm.doe.national.core.R;
 
 public class BottomNavigatorView extends RelativeLayout implements View.OnClickListener {
 

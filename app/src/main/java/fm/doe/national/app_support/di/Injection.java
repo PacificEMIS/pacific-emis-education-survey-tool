@@ -48,7 +48,7 @@ public class Injection {
                 .build();
         appComponent = DaggerAppComponent.builder()
                 .coreComponent(coreComponent)
-                .interactorsModule(new InteractorsModule(cloudComponent))
+                .interactorsModule(new InteractorsModule(cloudComponent, applicationContext.getAssets()))
                 .build();
         fcmReportComponent = DaggerFcmReportComponent.builder().build();
         rmiReportComponent = DaggerRmiReportComponent.builder().build();

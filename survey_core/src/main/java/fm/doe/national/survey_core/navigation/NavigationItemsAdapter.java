@@ -111,7 +111,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         @Override
         protected void onBind(NavigationItem item) {
             titleOmegaTextView.setText(item.getTitle());
-            backgroundView.setEnabled(!isSelected());
+            backgroundView.setActivated(isSelected());
             if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
                 ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
                 titleOmegaTextView.setStartText(navigationItem.getTitlePrefix());

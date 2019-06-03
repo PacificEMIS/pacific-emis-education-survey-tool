@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screens.region.ChooseRegionActivity">
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="48dp"
+        tools:listitem="@layout/item_region">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/title_choose_context"
+            android:textAppearance="@style/Text.Title2"
+            app:layout_section="header" />
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+    <fm.doe.national.core.ui.views.BottomNavigatorView
+        android:id="@+id/bottomnavigatorview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:nextText="@string/button_next" />
+
+</FrameLayout>

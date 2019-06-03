@@ -1,6 +1,5 @@
 package fm.doe.national.ui.screens.settings;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -13,19 +12,13 @@ import java.util.List;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.core.data.data_source.DataSource;
-import fm.doe.national.core.data.files.PicturesRepository;
-import fm.doe.national.core.data.model.School;
-import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.data.serialization.parsers.Parser;
-import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.core.preferences.entities.AppRegion;
-import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.cloud.model.CloudAccountData;
 import fm.doe.national.cloud.model.CloudType;
+import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -35,14 +28,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getInjection().getCoreComponent().getPicturesRepository();
-    private final DataSource dataSource = MicronesiaApplication.getInjection().getCoreComponent().getDataSource();
-    private final Parser<Survey> surveyParser = MicronesiaApplication.getInjection().getCoreComponent().getSurveyParser();
-    private final Parser<List<School>> schoolsParser = MicronesiaApplication.getInjection().getCoreComponent().getSchoolsParser();
 
     public SettingsPresenter() {
         loadLogo();
         updateUi();
-        getViewState().setAppContext(globalPreferences.getAppRegion());
     }
 
     public void onConnectToDropboxClick() {
@@ -131,30 +120,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         if (logoPath != null) {
             getViewState().setLogo(logoPath);
             getViewState().setLogoName(new File(logoPath).getName());
-        }
-    }
-
-    // TODO: this is temporary method, will be implemented in total redesign feature
-    public void onAppContextEntered(String value, AssetManager assetManager) {
-        try {
-            AppRegion appRegion = AppRegion.createFromValue(Integer.parseInt(value));
-            if (appRegion != null) {
-                globalPreferences.setAppRegion(appRegion);
-                addDisposable(
-                        Single.fromCallable(() -> surveyParser.parse(assetManager.open(dataSource.getSurveyTemplateFileName())))
-                                .flatMapCompletable(dataSource::rewriteTemplateSurvey)
-                                .andThen(Single.fromCallable(() -> schoolsParser.parse(assetManager.open(dataSource.getSchoolsFileName()))))
-                                .flatMapCompletable(dataSource::rewriteAllSchools)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .doOnSubscribe(d -> getViewState().showWaiting())
-                                .subscribe(() -> {
-                                    getViewState().hideWaiting();
-                                    getViewState().showToast(Text.from(R.string.toast_set_app_context_success));
-                                }, this::handleError));
-            }
-        } catch (NumberFormatException nfe) {
-            // do nothing
         }
     }
 }

@@ -29,12 +29,17 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     @NonNull
     @Override
     public AppRegion getAppRegion() {
-        AppRegion savedAppRegion = getSavedAppContext();
+        AppRegion savedAppRegion = getSavedAppRegion();
         return savedAppRegion != null ? savedAppRegion : DEFAULT_APP_REGION;
     }
 
+    @Override
+    public boolean isAppRegionSaved() {
+        return getSavedAppRegion() != null;
+    }
+
     @Nullable
-    private AppRegion getSavedAppContext() {
+    private AppRegion getSavedAppRegion() {
         return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_REGION, NO_APP_CONTEXT_VALUE));
     }
 
@@ -54,11 +59,6 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
         sharedPreferences.edit().putString(PREF_KEY_LOGO_PATH, path).apply();
     }
 
-    @Override
-    public boolean isFirstLaunch() {
-        return getSavedAppContext() == null;
-    }
-
     @NonNull
     @Override
     public SurveyType getSurveyType() {
@@ -76,4 +76,26 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
         return SurveyType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NO_ACCREDITATION_TYPE_VALUE));
     }
 
+    @Override
+    public String getMasterPassword() {
+        // TODO: not implemented
+        return null;
+    }
+
+    @Override
+    public boolean isMasterPasswordSaved() {
+        // TODO: not implemented
+        return true;
+    }
+
+    @Override
+    public void setMasterPassword(String password) {
+        // TODO: not implemented
+    }
+
+    @Override
+    public String getFactoryPassword() {
+        // TODO: not implemented
+        return null;
+    }
 }
