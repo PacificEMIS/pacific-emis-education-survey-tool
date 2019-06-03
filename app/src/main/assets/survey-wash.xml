@@ -1,0 +1,336 @@
+<survey>
+    <type>WASH</type>
+    <region>FCM</region>
+    <version>1</version>
+    <group>
+        <id>BS</id>
+        <name>Basic Survey Data</name>
+        <subgroup>
+            <id>BS.I</id>
+            <name>Inspector</name>
+            <question>
+                <id>BS.I.1</id>
+                <name>Name of the Person filling the form</name>
+                <flags>INPUT</flags>
+            </question>
+            <question>
+                <id>BS.I.2</id>
+                <name>Position of the person filling the form</name>
+                <flags>INPUT</flags>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>BS.S</id>
+            <name>School</name>
+            <question>
+                <id>BS.S.1</id>
+                <name>What is the name of the School Head?</name>
+                <flags>INPUT</flags>
+            </question>
+            <question>
+                <id>BS.S.3</id>
+                <name>What is the Head Teacher's Mobile Number</name>
+                <flags>INPUT|PHONE</flags>
+            </question>
+            <question>
+                <id>BS.S.4</id>
+                <name>Take photo of the water source</name>
+                <flags>PHOTO</flags>
+            </question>
+            <question>
+                <name>Take Geolocation</name>
+                <flags>GEO</flags>
+            </question>
+        </subgroup>
+    </group>
+    <group>
+        <id>CW</id>
+        <name>Core WASH Data</name>
+        <subgroup>
+            <id>CW.W</id>
+            <name>Water</name>
+            <question>
+                <id>CW.W.1</id>
+                <name>What is the source of water for the school?</name>
+                <flags>VAR|BINARY</flags>
+                <varinat>
+                    <name>Piped water supply</name>
+                    <option>Currently Available</option>
+                    <option>Used for Drinking</option>
+                </varinat>
+                <varinat>
+                    <name>Protected well/spring</name>
+                    <option>Currently Available</option>
+                    <option>Used for Drinking</option>
+                </varinat>
+                <varinat>
+                    <name>Unprotected well/spring</name>
+                    <option>Currently Available</option>
+                    <option>Used for Drinking</option>
+                </varinat>
+                <varinat>
+                    <name>Rainwater</name>
+                    <option>Currently Available</option>
+                    <option>Used for Drinking</option>
+                </varinat>
+                <varinat>
+                    <name>Bottled water</name>
+                    <option>Currently Available</option>
+                    <option>Used for Drinking</option>
+                </varinat>
+                <varinat>
+                    <name>Tanker/Truck or cart</name>
+                    <option>Currently Available</option>
+                    <option>Used for Drinking</option>
+                </varinat>
+                <varinat>
+                    <name>Surfaced water (Lake, River, Stream)</name>
+                    <option>Currently Available</option>
+                    <option>Used for Drinking</option>
+                </varinat>
+                <varinat>
+                    <name>No water source</name>
+                </varinat>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>CW.S</id>
+            <name>Sanitation</name>
+            <question>
+                <id>SW.S.1</id>
+                <name>What type of student toilets/latrines are at the school? (check one - the most common)</name>
+                <flags>CHOOSE|SINGLE</flags>
+                <item>Flush / Pour-flush toilets</item>
+                <item>Pit latrines with slab</item>
+                <item>Composing toilets</item>
+                <item>Pit latrines without slab</item>
+                <item>Hanging latrines</item>
+                <item>Bucket latrines</item>
+                <item>No toilets or latrines</item>
+            </question>
+            <question>
+                <id>SW.S.2</id>
+                <name>How many toilets/latrines are at the school?</name>
+                <flags>VAR|INPUT|NUMERIC</flags>
+                <varinat>
+                    <name>Total Number</name>
+                    <option>Girls’ only toilets</option>
+                    <option>Boys’ only toilets</option>
+                    <option>Common use only toilets</option>
+                </varinat>
+                <varinat>
+                    <name>Number that are usable (accessible, functional, private)</name>
+                    <option>Girls’ only toilets</option>
+                    <option>Boys’ only toilets</option>
+                    <option>Common use only toilets</option>
+                </varinat>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>CW.H</id>
+            <name>Hygiene</name>
+            <question>
+                <id>CW.H.1</id>
+                <name>Are there handwashing facilities at the school?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>CW.H.2</id>
+                <name>Are both soap and water currently available at the handwashing facilities?</name>
+                <flags>CHOOSE|SINGLE</flags>
+                <item>Yes, water and soap</item>
+                <item>Water only</item>
+                <item>Soap only</item>
+                <item>Neither water or soap</item>
+            </question>
+        </subgroup>
+    </group>
+    <group>
+        <id>SW</id>
+        <name>Supplemental WASH Data</name>
+        <subgroup>
+            <id>SW.W</id>
+            <name>Water</name>
+            <question>
+                <id>SW.W.1</id>
+                <name>What is the main water source of Drinking water for the school?</name>
+                <flags>CHOOSE|SINGLE</flags>
+                <item>Piped water into school buildings (reticulated - treated)</item>
+                <item>Piped water into school buildings (reticulated - untreated)</item>
+                <item>Piped to school compound/yard. Plot outside (reticulated - untreated)</item>
+                <item>Public tap or standpipe (reticulated - treated)</item>
+                <item>Public tap or standpipe (reticulated - untreated)</item>
+                <item>Covered well (protected)</item>
+                <item>Uncovered well (unprotected)</item>
+                <item>Rainwater Harvester collection (Tank)</item>
+                <item>Cart with small tank/drum</item>
+                <item>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</item>
+                <item>Bottled water</item>
+                <item>No water available at the school</item>
+            </question>
+            <question>
+                <id>SW.W.2</id>
+                <name>What purpose is the main water source of water used for?</name>
+                <flags>CHOOSE|MULTIPLE</flags>
+                <item>Drinking</item>
+                <item>Hand washing</item>
+                <item>Bathing</item>
+                <item>Cleaning</item>
+                <item>Cooking</item>
+                <item>Flushing toilets</item>
+            </question>
+            <question>
+                <id>SW.W.3</id>
+                <name>Is the main water source located on school premises?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.W.1</id>
+                    <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Uncovered well (unprotected)</relationAnswer>
+                    <relationAnswer>Rainwater Harvesting collection (Tank)</relationAnswer>
+                    <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.W.4</id>
+                <name>How many taps or water points are there?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.W.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.W.4.1</id>
+                <name>When was the main water source originally completed?</name>
+                <flags>CHOOSE|RELATED|SINGLE</flags>
+                <relation>
+                    <id>SW.W.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>&lt;2 years</item>
+                <item>2-5 years</item>
+                <item>5-10 years</item>
+                <item>10-20 years</item>
+                <item>&rt;20 years</item>
+            </question>
+            <question>
+                <id>SW.W.4.2</id>
+                <name>In what year was the main water supply completed?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.W.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.W.4.3</id>
+                <name>Has the main water source have any major rehabilitation?</name>
+                <flags>TERNARY|RELATED</flags>
+                <relation>
+                    <id>SW.W.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.W.4.5</id>
+                <name>When was the last time the main water source have major rehabilitation?</name>
+                <flags>CHOOSE|RELATED|SINGLE</flags>
+                <relation>
+                    <id>SW.W.4.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>&lt;2 years</item>
+                <item>2-5 years</item>
+                <item>5-10 years</item>
+                <item>10-20 years</item>
+                <item>&rt;20 years</item>
+                <item>Never</item>
+            </question>
+            <question>
+                <id>SW.W.4.6</id>
+                <name>Is the main water source shared with others?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.1</id>
+                    <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Piped water into school building (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Piped to school compound/yard.plot outside (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Uncovered well (unprotected)</relationAnswer>
+                    <relationAnswer>Rainwater Harvesting collection (Tank)</relationAnswer>
+                    <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
+                </relation>
+                <item>Own independent water supply</item>
+                <item>Part of the village/community water supply</item>
+            </question>
+            <question>
+                <id>SW.W.4.7</id>
+                <name>Can water be accessed by all students without teacher assistance?</name>
+                <flags>TERNARY|RELATED</flags>
+                <relation>
+                    <id>SW.W.1</id>
+                    <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Piped water into school building (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Piped to school compound/yard.plot outside (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Uncovered well (unprotected)</relationAnswer>
+                    <relationAnswer>Rainwater Harvesting collection (Tank)</relationAnswer>
+                    <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.W.4.8</id>
+                <name>Does the water source provide a continuous supply of water?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.1</id>
+                    <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Piped water into school building (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Piped to school compound/yard.plot outside (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Uncovered well (unprotected)</relationAnswer>
+                    <relationAnswer>Rainwater Harvesting collection (Tank)</relationAnswer>
+                    <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
+                </relation>
+                <item>Water is available all the time, every day</item>
+                <item>Water is available most days</item>
+                <item>Water isn't available at certain times of the day</item>
+                <item>Water is rarely available or only some days</item>
+            </question>
+            <question>
+                <id>SW.W.4.9</id>
+                <name>If rarely available, what is the reason?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.8</id>
+                    <relationAnswer>Water isn't available at certain times of the day or year</relationAnswer>
+                    <relationAnswer>Water is rarely available or only some days</relationAnswer>
+                </relation>
+                <item>Water supply source not available (source dries up, not enough water for everyone)</item>
+                <item>Leakage from taps and pipes</item>
+                <item>Not properly constructed (design, workmanship, incomplete project)</item>
+                <item>System damaged (weather accident, vandalism, theft)</item>
+                <item>Unclear responsibilities ofr operation and maintenance</item>
+            </question>
+            <question>
+                <id>SW.W.4.10</id>
+                <name>Does it provide enough water for the needs of the school, including water for drinking, hand washing, and food preparation?</name>
+                <flags>TERNARY|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.8</id>
+                    <relationAnswer>Water isn't available at certain times of the day or year</relationAnswer>
+                    <relationAnswer>Water is rarely available or only some days</relationAnswer>
+                </relation>
+            </question>
+        </subgroup>
+    </group>
+</survey>
