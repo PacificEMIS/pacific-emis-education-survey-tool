@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import fm.doe.national.core.data.model.SurveyType;
 import fm.doe.national.core.data.persistence.dao.SurveyDao;
 import fm.doe.national.core.data.persistence.entity.RoomSurvey;
 import fm.doe.national.database_test.util.RoomTestData;

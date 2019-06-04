@@ -18,13 +18,14 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.survey_core.ui.photos.PhotosActivity;
+import fm.doe.national.accreditation.ui.photos.PhotosActivity;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
+import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
 import fm.doe.national.cloud.di.CloudComponentInjector;
-import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
-import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
+import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 
 public class QuestionsFragment extends BaseFragment implements
         QuestionsView,
@@ -51,6 +52,7 @@ public class QuestionsFragment extends BaseFragment implements
                 CoreComponentInjector.getComponent(application),
                 CloudComponentInjector.getComponent(application),
                 SurveyCoreComponentInjector.getComponent(application),
+                AccreditationCoreComponentInjector.getComponent(application),
                 args.getLong(ARG_CATEGORY_ID),
                 args.getLong(ARG_STANDARD_ID)
         );

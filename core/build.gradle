@@ -9,12 +9,6 @@ android {
         versionCode 1
         versionName Versions.appVersion
 
-        buildConfigField "int", "DATA_BASE_VERSION", "1"
-        buildConfigField "String", "SURVEYS_FCM_FILE_NAME", "\"survey.xml\""
-        buildConfigField "String", "SCHOOLS_FCM_FILE_NAME", "\"schools.csv\""
-        buildConfigField "String", "SURVEYS_RMI_FILE_NAME", "\"survey-rmi.xml\""
-        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools-rmi.csv\""
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -76,9 +70,6 @@ dependencies {
     // Butterknife
     implementation "com.jakewharton:butterknife:${Deps.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${Deps.butterknife}"
-
-    // Dropbox
-    implementation "com.dropbox.core:dropbox-core-sdk:${Deps.dropbox}"
 
     // FastCsv
     implementation 'de.siegmar:fastcsv:1.0.3'

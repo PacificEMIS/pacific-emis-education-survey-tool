@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.data.model.Category;
-import fm.doe.national.core.data.model.Criteria;
-import fm.doe.national.core.data.model.Standard;
-import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.Category;
+import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.fcm_report.data.model.AccreditationForm;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.report_core.domain.BaseReportInteractor;
@@ -27,12 +27,12 @@ public class FcmReportInteractorImpl extends BaseReportInteractor implements Fcm
             BehaviorSubject.createDefault(EMPTY_LEVELS);
 
     @Override
-    public void requestReports(Survey survey) {
+    public void requestReports(AccreditationSurvey survey) {
         super.requestReports(survey);
         requestLevelReport(survey);
     }
 
-    private void requestLevelReport(Survey survey) {
+    private void requestLevelReport(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
             List<AccreditationForm.Builder> formBuilders = new ArrayList<>();
 

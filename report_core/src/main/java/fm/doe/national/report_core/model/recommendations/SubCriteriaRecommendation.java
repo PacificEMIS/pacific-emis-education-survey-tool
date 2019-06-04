@@ -2,7 +2,7 @@ package fm.doe.national.report_core.model.recommendations;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.core.data.model.SubCriteria;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.report_core.R;
 
 public class SubCriteriaRecommendation extends Recommendation<SubCriteria> {

@@ -2,8 +2,9 @@ package fm.doe.national.report_core.model;
 
 import java.util.List;
 
-import fm.doe.national.core.data.model.Category;
-import fm.doe.national.core.data.model.Standard;
+import fm.doe.national.accreditation_core.data.model.Category;
+import fm.doe.national.accreditation_core.data.model.Standard;
+
 
 public class SummaryViewData {
 

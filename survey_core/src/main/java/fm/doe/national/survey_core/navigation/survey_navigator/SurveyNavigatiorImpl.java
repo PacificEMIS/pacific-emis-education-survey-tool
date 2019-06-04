@@ -4,7 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.data.model.Standard;
+import fm.doe.national.core.data.model.IdentifiedObject;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;
 import fm.doe.national.survey_core.navigation.ProgressablePrefixedBuildableNavigationItem;
@@ -81,13 +81,13 @@ public class SurveyNavigatiorImpl implements SurveyNavigator {
     }
 
     @Override
-    public void select(Standard standard) {
+    public void select(IdentifiedObject identifiedObject) {
         if (items == null) {
             return;
         }
 
         items.parallelStream()
-                .filter(item -> item.getId() == standard.getId())
+                .filter(item -> item.getId() == identifiedObject.getId())
                 .findFirst()
                 .ifPresent(this::select);
     }

@@ -19,11 +19,11 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import fm.doe.national.accreditationSurvey.R;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.ViewUtils;
-import fm.doe.national.survey.R;
 import fm.doe.national.survey.di.SurveyComponentInjector;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;

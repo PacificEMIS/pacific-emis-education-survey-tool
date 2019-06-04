@@ -3,10 +3,10 @@
 
     <application>
         <activity
-            android:name=".ui.photos.FullscreenImageActivity"
+            android:name="fm.doe.national.accreditation.ui.photos.FullscreenImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.photos.PhotosActivity"
+            android:name="fm.doe.national.accreditation.ui.photos.PhotosActivity"
             android:label="@string/label_attached_photos"
             android:screenOrientation="portrait" />
     </application>

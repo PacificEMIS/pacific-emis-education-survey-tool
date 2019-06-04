@@ -27,7 +27,6 @@ import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.Standard;
 import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.data.model.SurveyType;
 import fm.doe.national.core.data.model.mutable.MutableAnswer;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.data.serialization.parsers.CsvSchoolParser;

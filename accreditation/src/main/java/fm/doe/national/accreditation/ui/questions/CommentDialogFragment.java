@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.core.data.model.SubCriteria;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.core.ui.screens.base.BaseDialogFragment;
 import fm.doe.national.core.utils.Constants;
 

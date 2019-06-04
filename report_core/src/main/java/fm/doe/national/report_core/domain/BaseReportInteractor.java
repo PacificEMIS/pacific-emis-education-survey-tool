@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import fm.doe.national.core.data.model.AnswerState;
-import fm.doe.national.core.data.model.Category;
-import fm.doe.national.core.data.model.Criteria;
-import fm.doe.national.core.data.model.Standard;
-import fm.doe.national.core.data.model.SubCriteria;
-import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.AnswerState;
+import fm.doe.national.accreditation_core.data.model.Category;
+import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.report_core.model.Level;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
@@ -51,7 +51,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     }
 
     @Override
-    public void requestReports(Survey survey) {
+    public void requestReports(AccreditationSurvey survey) {
         clearSubjectsHistory();
         requestSummary(survey);
         requestRecommendationsReport(survey);
@@ -64,7 +64,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         headerSubject.onNext(EMPTY_HEADER);
     }
 
-    private void requestSummary(Survey survey) {
+    private void requestSummary(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
             List<SummaryViewData> summaryViewDataList = new ArrayList<>();
             for (Category category : survey.getCategories()) {
@@ -112,7 +112,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         return new SummaryViewData.CriteriaSummaryViewData(criteria.getSuffix(), positivesArray, totalByCriteria);
     }
 
-    private void requestRecommendationsReport(Survey survey) {
+    private void requestRecommendationsReport(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
             List<Recommendation> recommendations = generateCategoryRecommendations(survey.getCategories());
             recommendationsSubject.onNext(recommendations);
@@ -165,7 +165,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         return recommendations;
     }
 
-    protected void requestHeader(Survey survey) {
+    protected void requestHeader(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> headerSubject.onNext(
                 new LevelLegendView.Item(
                         survey.getSchoolId(),

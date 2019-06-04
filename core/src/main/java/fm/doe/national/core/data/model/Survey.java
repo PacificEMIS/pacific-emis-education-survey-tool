@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Date;
-import java.util.List;
 
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.SurveyType;
 
 public interface Survey extends Progressable, IdentifiedObject {
 
@@ -26,8 +26,5 @@ public interface Survey extends Progressable, IdentifiedObject {
 
     @NonNull
     AppRegion getAppRegion();
-
-    @Nullable
-    List<? extends Category> getCategories();
 
 }

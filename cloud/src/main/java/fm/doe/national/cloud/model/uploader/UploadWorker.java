@@ -7,14 +7,14 @@ import androidx.work.RxWorker;
 import androidx.work.WorkerParameters;
 
 import fm.doe.national.cloud.di.CloudComponentInjector;
+import fm.doe.national.cloud.model.CloudRepository;
+import fm.doe.national.cloud.utils.TextUtil;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.data.persistence.entity.RoomSchool;
-import fm.doe.national.core.data.serialization.serializers.Serializer;
-import fm.doe.national.core.di.CoreComponentInjector;
-import fm.doe.national.core.di.CoreComponent;
-import fm.doe.national.core.utils.TextUtil;
-import fm.doe.national.cloud.model.CloudRepository;
+import fm.doe.national.core.data.model.mutable.MutableSchool;
+import fm.doe.national.core.data.serialization.SurveySerializer;
+import fm.doe.national.data_source_injector.di.DataSourceComponent;
+import fm.doe.national.data_source_injector.di.DataSourceComponentInjector;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -24,14 +24,14 @@ public class UploadWorker extends RxWorker {
     private static final long VALUE_ID_NOT_FOUND = -1;
 
     private DataSource dataSource;
-    private Serializer<Survey> serializer;
+    private SurveySerializer surveySerializer;
     private CloudRepository cloudRepository;
 
     public UploadWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        CoreComponent coreComponent = CoreComponentInjector.getComponent(context);
-        dataSource = coreComponent.getDataSource();
-        serializer = coreComponent.getSurveySerializer();
+        DataSourceComponent dataSourceComponent = DataSourceComponentInjector.getComponent(context);
+        dataSource = dataSourceComponent.getDataSource();
+        surveySerializer = dataSourceComponent.getSurveySerializer();
         cloudRepository = CloudComponentInjector.getComponent(context).getCloudRepository();
     }
 
@@ -43,7 +43,7 @@ public class UploadWorker extends RxWorker {
             return passingId;
         })
                 .flatMap(dataSource::loadSurvey)
-                .flatMapCompletable(survey -> cloudRepository.uploadContent(serializer.serialize(survey), createFilename(survey)))
+                .flatMapCompletable(survey -> cloudRepository.uploadContent(surveySerializer.serialize(survey), createFilename(survey)))
                 .andThen(Single.fromCallable(Result::success));
     }
 
@@ -54,6 +54,6 @@ public class UploadWorker extends RxWorker {
 
     @NonNull
     private String createFilename(Survey survey) {
-        return TextUtil.createSurveyFileName(new RoomSchool(survey.getSchoolName(), survey.getSchoolId()), survey.getDate());
+        return TextUtil.createSurveyFileName(new MutableSchool(survey.getSchoolName(), survey.getSchoolId()), survey.getDate());
     }
 }

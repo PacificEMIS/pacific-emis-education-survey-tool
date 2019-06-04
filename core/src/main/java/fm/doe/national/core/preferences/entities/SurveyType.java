@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 public enum SurveyType implements Serializable {
-    ACCREDITATION(0), WASH(1);
+    SCHOOL_ACCREDITATION(0), WASH(1);
 
     private int value;
 
