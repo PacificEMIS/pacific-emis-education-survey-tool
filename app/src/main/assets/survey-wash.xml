@@ -331,6 +331,1158 @@
                     <relationAnswer>Water is rarely available or only some days</relationAnswer>
                 </relation>
             </question>
+            <question>
+                <id>SW.W.4.11</id>
+                <name>What do children do when drinking water is not available at the school?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.10</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Bring water from home</item>
+                <item>Buy boiled water</item>
+                <item>Don't drink water</item>
+                <item>Drink from unsafe source</item>
+            </question>
+            <question>
+                <id>SW.W.4.12</id>
+                <name>Do you treat water for drinking?</name>
+                <flags>TERNARY|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.10</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.W.4.13</id>
+                <name>In what ways do you treat water for drinking?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.12</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Boiling</item>
+                <item>Use of filter</item>
+                <item>Let stand and settle down</item>
+                <item>Chlorinated (chlorine, bleach)</item>
+                <item>SODIS</item>
+            </question>
+            <question>
+                <id>SW.W.4.14</id>
+                <name>What is the reason/s for not treating water?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.12</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Water quality is OK</item>
+                <item>No storage capacity for drinking water</item>
+                <item>Don't know where to assembly/buy chlorination tablets/solution</item>
+                <item>No money to buy chlorine tablets/solution</item>
+                <item>Don't like the taste of chlorine</item>
+            </question>
+            <question>
+                <id>SW.W.4.15</id>
+                <name>Does the school have an alternate or backup drinking water source that students use when water is not available?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.12</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Yes, alternative source available at the school</item>
+                <item>No, student must bring water from home</item>
+            </question>
+            <question>
+                <id>SW.W.4.16</id>
+                <name>If yes, what is the alternate drinking water source?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.15</id>
+                    <relationAnswer>Yes, alternative source available at the school</relationAnswer>
+                </relation>
+                <item>Piped water into school building (reticulated - treated)</item>
+                <item>Piped water into school building (reticulated - untreated)</item>
+                <item>Piped to school compound/yard. Plot outside (reticulated - untreated)</item>
+                <item>Public tap or standpipe (reticulated - treated)</item>
+                <item>Public tap or standpipe (reticulated - untreated)</item>
+                <item>Covered well (protected)</item>
+                <item>Uncovered well (unprotected)</item>
+                <item>Rainwater Harvester collection (Tank)</item>
+                <item>Cart with small tank/drum</item>
+                <item>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</item>
+                <item>Bottled water</item>
+                <item>No water available at the school</item>
+            </question>
+            <question>
+                <id>SW.W.4.17</id>
+                <name>Is the alternate or back up water source located in the school ground?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.16</id>
+                    <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Piped water into school building (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Piped to school compound/yard. Plot outside (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Rainwater Harvester collection (Tank)</relationAnswer>
+                    <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.W.4.18</id>
+                <name>How many times has the water supply had major rehabilitation?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.W.4.16</id>
+                    <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Piped water into school building (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Piped to school compound/yard. Plot outside (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
+                    <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
+                    <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Rainwater Harvester collection (Tank)</relationAnswer>
+                    <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
+                </relation>
+                <item>1</item>
+                <item>2</item>
+                <item>3</item>
+                <item>4</item>
+                <item>5</item>
+                <item>&rt;5</item>
+            </question>
+            <question>
+                <id>SW.W.4.19</id>
+                <name>Take photo of school (Front - whole compound with the school sign)</name>
+                <flags>PHOTO</flags>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>SW.S</id>
+            <name>Sanitation</name>
+            <question>
+                <id>SW.S.1</id>
+                <name>Are there toilets/latrines at the school?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>SW.S.2</id>
+                <name>Do all functional toilets have lighting (includes natural light or alternative sources)?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>SW.S.2.1</id>
+                <name>Do all functional toilets have adequate ventilation?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>SW.S.2.2</id>
+                <name>What kind of toilet facilities are used at the school?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Flush / Pour-flush toilets</item>
+                <item>Pit latrines with slab</item>
+                <item>Composing toilets</item>
+                <item>Pit latrines without slab</item>
+                <item>Hanging latrines</item>
+                <item>Bucket latrines</item>
+                <item>No toilets or latrines</item>
+            </question>
+            <question>
+                <id>SW.S.2.3</id>
+                <name>What materials are the toilets (pan and Slab) made from?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.2</id>
+                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
+                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Composing toilets</relationAnswer>
+                    <relationAnswer>Pit latrines without slab</relationAnswer>
+                    <relationAnswer>Hanging latrines</relationAnswer>
+                    <relationAnswer>Bucket latrines</relationAnswer>
+                </relation>
+                <item>Concrete</item>
+                <item>Timber</item>
+                <item>Traditional materials</item>
+            </question>
+            <question>
+                <id>SW.S.2.4</id>
+                <name>What materials is the toilet structures made from?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.2</id>
+                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
+                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Composing toilets</relationAnswer>
+                    <relationAnswer>Pit latrines without slab</relationAnswer>
+                    <relationAnswer>Hanging latrines</relationAnswer>
+                    <relationAnswer>Bucket latrines</relationAnswer>
+                </relation>
+                <item>Concrete</item>
+                <item>Timber</item>
+                <item>Traditional materials</item>
+            </question>
+            <question>
+                <id>SW.S.2.5</id>
+                <name>Are the toilet facilities share with others?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>No, own school toilets</item>
+                <item>Yes, toilets are shared with another school</item>
+            </question>
+            <question>
+                <id>SW.S.2.6</id>
+                <name>Are the toilet facilities accessible to children with disabilities?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>All</item>
+                <item>Some</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.S.2.7</id>
+                <name>Please take a photo of the facility that is accessible to children with disabilities.</name>
+                <flags>PHOTO|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.6</id>
+                    <relationAnswer>All</relationAnswer>
+                    <relationAnswer>Some</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.8</id>
+                <name>Are there separate toilets for boys and girls</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Yes, girls and boys have separate toilets</item>
+                <item>Some toilets are separate, some are shared by boys and girls</item>
+                <item>No, girls and boys share the same toilets</item>
+            </question>
+            <question>
+                <id>SW.S.2.9</id>
+                <name>What is the total number of toilets for students</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.10</id>
+                <name>How many toilet exclusively for the girls?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.11</id>
+                <name>Are girls individual toilet compartments lockable from the inside?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+                <item>All</item>
+                <item>Some</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.S.2.12</id>
+                <name>How many toilets exclusively for girls are not functioning on the day of the visit?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.13</id>
+                <name>Does the school have cleansing material available for personal hygiene?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.14</id>
+                <name>Does the school provide pads for girls/disposable or reusable for free or safe?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+                <item>Yes, disposable</item>
+                <item>Yes, reusable</item>
+                <item>No</item>
+            </question>
+            <question>
+                <id>SW.S.2.15</id>
+                <name>What do female students use to clean for personal hygiene?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.13</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Water</item>
+                <item>Water and soap</item>
+                <item>Tissue, toilet paper brought from home</item>
+                <item>Tissue, toilet paper available at school</item>
+                <item>Leaves or organic material</item>
+                <item>Nothing</item>
+                <item>Don't know</item>
+            </question>
+            <question>
+                <id>SW.S.2.16</id>
+                <name>Would it be useful that the school can provide sanitary pads?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.14</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.17</id>
+                <name>Can you tell if girls are expected to come to school when menstruating?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.14</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.18</id>
+                <name>Do girls individual toilet include a container or plastic bag for disposing of napkins and/or disposable pads?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+                <item>All (containers)</item>
+                <item>All (plastic bags)</item>
+                <item>Some (containers)</item>
+                <item>Some (plastic bags)</item>
+                <item>Some (containers and plastic bags)</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.S.2.19</id>
+                <name>Describe the container for napkin disposal?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.18</id>
+                    <relationAnswer>All (containers)</relationAnswer>
+                    <relationAnswer>Some (containers)</relationAnswer>
+                    <relationAnswer>Some (containers and plastic bags)</relationAnswer>
+                </relation>
+                <item>Has a lid</item>
+                <item>Is easily washable</item>
+                <item>Is disposable/made from organic materials such as leaves</item>
+                <item>Has a handle for carrying</item>
+                <item>Open container</item>
+            </question>
+            <question>
+                <id>SW.S.2.20</id>
+                <name>Does the school have a room for changing and washing pads for girls?</name>
+                <flags>TERNARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.21</id>
+                <name>What can your school do to make it easier for girls to be in school during menstruation?</name>
+                <flags>INPUT|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.17</id>
+                    <relationAnswer>Yes</relationAnswer>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.22</id>
+                <name>How many toilets exclusively are for the boys?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.23</id>
+                <name>How many toilets exclusively for boys are not functioning on the day of the visit?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.8</id>
+                    <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
+                    <relationAnswer>Some toilets are separate, some are shared by boys and girls</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.24</id>
+                <name>What do children do when toilets are not functioning?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Open defecate inside the school compound</item>
+                <item>Open defecate outside the school grounds</item>
+                <item>Go home and use toilet</item>
+                <item>Use school toilets anyway</item>
+                <item>Don't know</item>
+            </question>
+            <question>
+                <id>SW.S.2.25</id>
+                <name>Do teachers have their own toilet facilities separate from students?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.26</id>
+                <name>Are these teacher toilets separate for male and females?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.25</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Yes, teacher toilets are separate for males and females</item>
+                <item>Some, toilets are shared and some are separate</item>
+                <item>No, teacher toilets are not separate and are shared</item>
+            </question>
+            <question>
+                <id>SW.S.2.27</id>
+                <name>How many toilets exclusively for female staff?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.26</id>
+                    <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
+                    <relationAnswer>Some, toilets are shared and some are separate</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.28</id>
+                <name>How many of the exclusive female teacher toilets are functioning on the day of the visit?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.26</id>
+                    <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
+                    <relationAnswer>Some, toilets are shared and some are separate</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.29</id>
+                <name>How many toilets exclusively for male staff?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.26</id>
+                    <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
+                    <relationAnswer>Some, toilets are shared and some are separate</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.30</id>
+                <name>How many of the exclusive male teacher toilets are functioning on the day of the visit?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.26</id>
+                    <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
+                    <relationAnswer>Some, toilets are shared and some are separate</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.31</id>
+                <name>Are toilets cleaned on a regular basis?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.32</id>
+                <name>What are the main challenges in keeping toilets clean?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.31</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Budget for staff</item>
+                <item>Shortage of water</item>
+                <item>Shortage of cleaning supplies</item>
+                <item>Difficulty mobilizing the students</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.S.2.33</id>
+                <name>Is emptying and disposing of the sludge from the septic tank or pit done?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.2</id>
+                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
+                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
+                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
+                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
+                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
+                    <relationAnswer>Composting toilet</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.34</id>
+                <name>Is the school ground free from rubbish?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.2</id>
+                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
+                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
+                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
+                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
+                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
+                    <relationAnswer>Composting toilet</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.35</id>
+                <name>Are rubbish bins present in the school grounds?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.2</id>
+                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
+                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
+                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
+                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
+                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
+                    <relationAnswer>Composting toilet</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.36</id>
+                <name>Is the school practicing rubbish segregation/composting?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.2</id>
+                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
+                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
+                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
+                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
+                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
+                    <relationAnswer>Composting toilet</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.S.2.37</id>
+                <name>How does the school dispose of rubbish and sanitary pads?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.S.2.2</id>
+                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
+                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
+                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
+                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
+                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
+                    <relationAnswer>Composting toilet</relationAnswer>
+                </relation>
+                <item>Incinerate</item>
+                <item>Collection service</item>
+                <item>Throw/pile outside (within or out of school compound)</item>
+                <item>Bury</item>
+                <item>No disposal</item>
+                <item>Don't know</item>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>SW.H</id>
+            <name>Hygiene</name>
+            <question>
+                <id>SW.H.1</id>
+                <name>Does the school have a place to wash hands?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>SW.H.2</id>
+                <name>If yes, how many hand washing facilities are functioning?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.H.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.H.2.1</id>
+                <name>Is there a place to wash hands inside, or directly outside, each toilet block?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.H.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>All</item>
+                <item>Most</item>
+                <item>Some</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.H.2.2</id>
+                <name>What kind of hand washing facilities does the school have?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.1</id>
+                    <relationAnswer>All</relationAnswer>
+                    <relationAnswer>Most</relationAnswer>
+                    <relationAnswer>Some</relationAnswer>
+                </relation>
+                <item>All</item>
+                <item>Most</item>
+                <item>Some</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.H.2.3</id>
+                <name>How many group handwashing facilities are available in your school?</name>
+                <flags>INPUT|NUMERIC|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.1</id>
+                    <relationAnswer>All</relationAnswer>
+                    <relationAnswer>Most</relationAnswer>
+                    <relationAnswer>Some</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.H.2.4</id>
+                <name>Is group hand washing practiced in the school?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.1</id>
+                    <relationAnswer>All</relationAnswer>
+                    <relationAnswer>Most</relationAnswer>
+                    <relationAnswer>Some</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.H.2.5</id>
+                <name>Is group hand washing practiced daily?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.4</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Yes, all classes</item>
+                <item>Yes, some classes</item>
+                <item>No</item>
+            </question>
+            <question>
+                <id>SW.H.2.6</id>
+                <name>What are the barriers to practice of group hand washing?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.5</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Soap not available</item>
+                <item>Shortage of water</item>
+                <item>No group facility</item>
+                <item>Not enough time</item>
+                <item>Not considered useful/priority</item>
+                <item>Children are not interested/don't like it</item>
+                <item>Teachers don't like it</item>
+                <item>Not thought of it</item>
+                <item>Don't know</item>
+            </question>
+            <question>
+                <id>90</id>
+                <name>Is hand washing done with soap?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.1</id>
+                    <relationAnswer>All</relationAnswer>
+                    <relationAnswer>Most</relationAnswer>
+                    <relationAnswer>Some</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.H.2.8</id>
+                <name>If no, what other material is used to wash hands?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>90</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>Ash</item>
+                <item>Lemon</item>
+                <item>Coconut husk</item>
+                <item>Sand</item>
+            </question>
+            <question>
+                <id>SW.H.2.9</id>
+                <name>Do teachers supervise hand washing with soap at critical times such as after visiting toilet and before meals?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.5</id>
+                    <relationAnswer>Yes, all classes</relationAnswer>
+                    <relationAnswer>Yes, some classes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.H.2.10</id>
+                <name>Please assess if water and soap are available for hand washing at the hand washing facility (Observation)</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>90</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Yes all have water and soap</item>
+                <item>Some have water and soap</item>
+                <item>None had water and soap available</item>
+                <item>Use other materials</item>
+            </question>
+            <question>
+                <id>SW.H.2.11</id>
+                <name>Please assess if the hand washing facilities are accessible to children with disabilities and the youngest children at the school (Observation)</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.H.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>All</item>
+                <item>Most</item>
+                <item>Some</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.H.2.12</id>
+                <name>Is group tooth brushing practiced daily?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.H.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Yes, all classes</item>
+                <item>Yes, some classes</item>
+                <item>No</item>
+            </question>
+            <question>
+                <id>SW.H.2.13</id>
+                <name>What are the barriers to practicing tooth brushing daily?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.H.2.12</id>
+                    <relationAnswer>Yes, all classes</relationAnswer>
+                    <relationAnswer>Yes, some classes</relationAnswer>
+                </relation>
+                <item>Toothbrushes not available/children don't have any</item>
+                <item>Toothpaste not available</item>
+                <item>Shortage of water</item>
+                <item>No group wash facility</item>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>SW.OM</id>
+            <name>Operation and Maintenance</name>
+            <question>
+                <id>SW.OM.1</id>
+                <name>Do you think the school water and sanitation facilities are successfully maintained and repaired when required?</name>
+                <flags>CHOOSE|SINGLE</flags>
+                <item>All</item>
+                <item>Most</item>
+                <item>Some</item>
+                <item>None</item>
+            </question>
+            <question>
+                <id>SW.OM.2</id>
+                <name>Does the school have a school improvement plan?</name>
+                <flags>TERNARY|SINGLE</flags>
+            </question>
+            <question>
+                <id>SW.OM.2.1</id>
+                <name>Is WASH, solid waste management included in the School Improvement Plan</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.OM.2.2</id>
+                <name>Does the school have an active school management committee?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Yes</item>
+                <item>No</item>
+                <item>Sometimes</item>
+                <item>Don't know</item>
+            </question>
+            <question>
+                <id>SW.OM.2.3</id>
+                <name>Does the school have any student WASH clubs?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Yes, active</item>
+                <item>Yes, but not active</item>
+                <item>No</item>
+            </question>
+            <question>
+                <id>SW.OM.2.4</id>
+                <name>Are members of the school community supportive in the operation of the school such as the maintenance of environment for learning, WASH facilities and provision of soap</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.OM.2.5</id>
+                <name>Indicate with the tick the members of the school community that supports the school in improving learning environment, repair WASH facilities tanks, tippy taps and toilets</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.5</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Parents volunteers</item>
+                <item>Teachers and stuff</item>
+                <item>SIP committee</item>
+                <item>Children</item>
+            </question>
+            <question>
+                <id>SW.OM.2.6</id>
+                <name>How would you rate the community involvement and participation in school activities?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.5</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Non-existent</item>
+                <item>Poor</item>
+                <item>Satisfactory</item>
+                <item>Good</item>
+                <item>Great</item>
+            </question>
+            <question>
+                <id>SW.OM.2.7</id>
+                <name>How would you rate the community involvement and participation in school activities?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.5</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Fundraising</item>
+                <item>School meetings (PTA)</item>
+                <item>School clean up</item>
+                <item>Reconstruction of classrooms</item>
+                <item>Construction of toilets</item>
+                <item>Construction of of water source for the school</item>
+            </question>
+            <question>
+                <id>SW.OM.2.8</id>
+                <name>Why do you think, communities do not support school activities?</name>
+                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.5</id>
+                    <relationAnswer>No</relationAnswer>
+                </relation>
+                <item>No interest</item>
+                <item>Cannot afford to support</item>
+                <item>Other interests take precedence</item>
+            </question>
+            <question>
+                <id>SW.OM.2.9</id>
+                <name>Is there a budget or funding available for repairs and maintenance intended for WASH facilities?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.5</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.OM.2.10</id>
+                <name>If yes, who provide the funding?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.9</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>School Improvement Plan Committee</item>
+                <item>Teachers</item>
+                <item>School committee</item>
+                <item>Parents</item>
+                <item>Department of Education</item>
+                <item>Village Welfare Group</item>
+                <item>Donors</item>
+            </question>
+            <question>
+                <id>SW.OM.2.11</id>
+                <name>Take a picture of the SIP which shows the inclusion of WASH Action Plan/Targets</name>
+                <flags>PHOTO|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.9</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.OM.2.12</id>
+                <name>Within the school, who is responsible for cleaning the toilet facilities? Check all that apply.</name>
+                <flags>CHOOSE|MULTIPLE</flags>
+                <item>Maintenance staff</item>
+                <item>Teachers</item>
+                <item>Students</item>
+                <item>Someone else</item>
+                <item>Don't know</item>
+            </question>
+            <question>
+                <id>SW.OM.2.13</id>
+                <name>If someone else, specify</name>
+                <flags>INPUT|RELATED</flags>
+                <relation>
+                    <id>SW.OM.2.12</id>
+                    <relationAnswer>Someone else</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.OM.2.14</id>
+                <name>Does the school have regular supply of cleaning materials?</name>
+                <flags>BINARY</flags>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>SW.CSA</id>
+            <name>Curriculumn and School Activities</name>
+            <question>
+                <id>SW.CSA.1</id>
+                <name>Is personal hygiene taught at the school or part of the curriculum?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>SW.CSA.2</id>
+                <name>If yes, by whom?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Teachers</item>
+                <item>Health workers</item>
+                <item>Parents</item>
+                <item>Pupils/WASH Clubs</item>
+            </question>
+            <question>
+                <id>SW.CSA.2.1</id>
+                <name>Is menstruation related education taught at school?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.CSA.2.2</id>
+                <name>What is taught?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Information on biological reasons for menstruation</item>
+                <item>How to manage menstrual hygiene</item>
+                <item>As part of reproductive health</item>
+            </question>
+            <question>
+                <id>SW.CSA.2.2</id>
+                <name>If yes, by whom?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Female teachers only</item>
+                <item>Both female and male teachers</item>
+                <item>Health workers</item>
+                <item>Pupils/WASH Clubs</item>
+            </question>
+            <question>
+                <id>SW.CSA.2.3</id>
+                <name>Does the school have WASH activities?</name>
+                <flags>TERNARY</flags>
+            </question>
+            <question>
+                <id>SW.CSA.2.4</id>
+                <name>If yes, what kind of activities?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Infrastructure construction</item>
+                <item>Hygiene awareness</item>
+                <item>WASH committee training</item>
+            </question>
+            <question>
+                <id>SW.CSA.2.5</id>
+                <name>If yes, what was the theme of the WASH activity?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Drink safe water</item>
+                <item>Use of toilets</item>
+                <item>Hand washing</item>
+                <item>Menstrual hygiene</item>
+                <item>Don't know</item>
+            </question>
+            <question>
+                <id>SW.CSA.2.6</id>
+                <name>Do children participate in the WASH activities?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.3</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.CSA.2.7</id>
+                <name>If yes, what activities do children participate in?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.6</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Cleaning toilets</item>
+                <item>Refilling tippy taps</item>
+                <item>Ensuring soap is available at hand washing stations</item>
+                <item>Help supervise hand washing activities</item>
+                <item>Help supervise tooth brushing activities</item>
+            </question>
+            <question>
+                <id>SW.CSA.2.8</id>
+                <name>Does the school have a roster for these activities?</name>
+                <flags>TERNARY|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.6</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.CSA.2.9</id>
+                <name>If yes, what activities have rosters?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.CSA.2.8</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Cleaning toilets</item>
+                <item>Refilling tippy taps</item>
+                <item>Ensuring soap is available at hand washing stations</item>
+                <item>Help supervise hand washing activities</item>
+                <item>Help supervise tooth brushing activities</item>
+            </question>
+            <question>
+                <id>SW.CSA.2.10</id>
+                <name>Are learning materials available for teaching WinS?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>SW.CSA.2.11</id>
+                <name>Are the teachers oriented on WASH in Schools?</name>
+                <flags>BINARY</flags>
+            </question>
+        </subgroup>
+        <subgroup>
+            <id>SW.SWK</id>
+            <name>School WASH Kits</name>
+            <question>
+                <id>SW.SWK.1</id>
+                <name>Did the school receive a school WASH kit?</name>
+                <flags>BINARY</flags>
+            </question>
+            <question>
+                <id>SW.SWK.2</id>
+                <name>If yes, can you please name the items in the kit?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.SWK.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>Posters</item>
+                <item>Emergency hands</item>
+                <item>Pocket guides</item>
+                <item>Water bottles</item>
+                <item>Soap</item>
+                <item>Disposable pads</item>
+                <item>Toothbrush</item>
+                <item>Toothpaste</item>
+                <item>Nail clipper</item>
+            </question>
+            <question>
+                <id>SW.SWK.2.1</id>
+                <name>What materials in the WASH kit were the most useful?</name>
+                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <relation>
+                    <id>SW.SWK.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+                <item>WASH advocacy and learning materials (i.e. poster, sticker, flipchart, brochure, etc.)</item>
+                <item>Water bottles</item>
+                <item>Soap</item>
+                <item>Disposable pads</item>
+                <item>Toothbrush</item>
+                <item>Toothpaste</item>
+                <item>Nail clipper</item>
+            </question>
+            <question>
+                <id>SW.SWK.2.2</id>
+                <name>Have the materials within the kits, been used to create a WASH corner within each classroom?</name>
+                <flags>BINARY|RELATED</flags>
+                <relation>
+                    <id>SW.SWK.1</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
+            <question>
+                <id>SW.SWK.2.3</id>
+                <name>Please take a photo of the WASH corner</name>
+                <flags>PHOTO|RELATED</flags>
+                <relation>
+                    <id>SW.SWK.2.2</id>
+                    <relationAnswer>Yes</relationAnswer>
+                </relation>
+            </question>
         </subgroup>
     </group>
 </survey>
