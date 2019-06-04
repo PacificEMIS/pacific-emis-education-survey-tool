@@ -1,4 +1,4 @@
-<survey>
+<accreditationSurvey>
     <type>SCHOOL_ACCREDITATION</type>
     <version>1</version>
     <category>
@@ -955,4 +955,4 @@
             </criteria>
         </standard>
     </category>
-</survey>
+</accreditationSurvey>

@@ -11,7 +11,6 @@ import java.util.Date;
 
 import fm.doe.national.core.data.model.AnswerState;
 import fm.doe.national.core.data.model.EvaluationForm;
-import fm.doe.national.core.data.model.SurveyType;
 import fm.doe.national.core.data.persistence.AppDatabase;
 import fm.doe.national.core.data.persistence.entity.RoomAnswer;
 import fm.doe.national.core.data.persistence.entity.RoomCategory;

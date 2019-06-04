@@ -2,7 +2,7 @@ package fm.doe.national.fcm_report.data.model;
 
 import com.omega_r.libs.omegatypes.Text;
 
-import fm.doe.national.core.data.model.EvaluationForm;
+import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.fcm_report.BuildConfig;
 
 public class AccreditationForm {

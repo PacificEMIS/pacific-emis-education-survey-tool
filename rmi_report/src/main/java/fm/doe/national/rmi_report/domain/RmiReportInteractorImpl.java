@@ -1,11 +1,11 @@
 package fm.doe.national.rmi_report.domain;
 
-import fm.doe.national.core.data.model.AnswerState;
-import fm.doe.national.core.data.model.Category;
-import fm.doe.national.core.data.model.Criteria;
-import fm.doe.national.core.data.model.Standard;
-import fm.doe.national.core.data.model.SubCriteria;
-import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.AnswerState;
+import fm.doe.national.accreditation_core.data.model.Category;
+import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.report_core.domain.BaseReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;
@@ -21,7 +21,7 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
     private final BehaviorSubject<SchoolAccreditationTallyLevel> levelSubject = BehaviorSubject.createDefault(EMPTY_LEVELS);
 
     @Override
-    public void requestReports(Survey survey) {
+    public void requestReports(AccreditationSurvey survey) {
         super.requestReports(survey);
         requestLevelReport(survey);
     }
@@ -42,7 +42,7 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
         return levelSubject;
     }
 
-    private void requestLevelReport(Survey survey) {
+    private void requestLevelReport(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
             int[] counts = new int[SchoolAccreditationTallyLevel.MAX_CRITERIA_SUM];
             int tallyScore = 0;

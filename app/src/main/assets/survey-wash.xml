@@ -1,4 +1,4 @@
-<survey>
+<accreditationSurvey>
     <type>WASH</type>
     <region>FCM</region>
     <version>1</version>
@@ -1486,4 +1486,4 @@
             </question>
         </subgroup>
     </group>
-</survey>
+</accreditationSurvey>

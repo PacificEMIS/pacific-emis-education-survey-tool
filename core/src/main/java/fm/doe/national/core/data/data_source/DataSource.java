@@ -3,7 +3,6 @@ package fm.doe.national.core.data.data_source;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.core.data.model.Answer;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.Survey;
@@ -27,8 +26,6 @@ public interface DataSource {
     Single<Survey> createSurvey(String schoolId, String schoolName, Date date);
 
     Completable deleteSurvey(long surveyId);
-
-    Single<Answer> updateAnswer(Answer answer, long subCriteriaId);
 
     Single<Photo> createPhoto(Photo photo, long answerId);
 

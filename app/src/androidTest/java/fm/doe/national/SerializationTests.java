@@ -11,7 +11,6 @@ import java.io.InputStream;
 import fm.doe.national.core.data.model.Category;
 import fm.doe.national.core.data.model.Criteria;
 import fm.doe.national.core.data.model.Standard;
-import fm.doe.national.core.data.model.SurveyType;
 import fm.doe.national.core.data.model.mutable.MutableCategory;
 import fm.doe.national.core.data.model.mutable.MutableCriteria;
 import fm.doe.national.core.data.model.mutable.MutableStandard;

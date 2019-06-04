@@ -9,9 +9,10 @@ import fm.doe.national.accreditation.ui.navigation.concrete.CategoryNavigationIt
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportTitleNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.StandardNavigationItem;
-import fm.doe.national.core.data.model.mutable.MutableCategory;
-import fm.doe.national.core.data.model.mutable.MutableStandard;
-import fm.doe.national.core.di.CoreComponent;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
+import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
+import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;
@@ -23,14 +24,18 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class AccreditationSurveyPresenter extends SurveyPresenter {
 
-    public AccreditationSurveyPresenter(CoreComponent coreComponent, SurveyCoreComponent surveyCoreComponent) {
-        super(coreComponent, surveyCoreComponent);
+    private final AccreditationSurveyInteractor accreditationSurveyInteractor;
+
+    public AccreditationSurveyPresenter(AccreditationCoreComponent accreditationCoreComponent, SurveyCoreComponent surveyCoreComponent) {
+        super(surveyCoreComponent);
+        accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
+        onInit();
     }
 
     @Override
     protected void subscribeOnEditingEvents() {
         addDisposable(
-                surveyInteractor.getStandardProgressSubject()
+                accreditationSurveyInteractor.getStandardProgressSubject()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(updatedStandard ->
@@ -44,7 +49,7 @@ public class AccreditationSurveyPresenter extends SurveyPresenter {
 
     @Override
     protected Single<List<NavigationItem>> requestNavigationItems() {
-        return surveyInteractor.requestCategories()
+        return accreditationSurveyInteractor.requestCategories()
                 .flatMap(categories -> Single.fromCallable(() -> {
                     List<NavigationItem> navigationItems = new ArrayList<>();
                     BuildableNavigationItem prevBuildableNavigationItem = null;
@@ -74,5 +79,10 @@ public class AccreditationSurveyPresenter extends SurveyPresenter {
                     navigationItems.add(reportNavigationItem);
                     return navigationItems;
                 }));
+    }
+
+    @Override
+    protected String getSchoolName() {
+        return accreditationSurveyInteractor.getCurrentSurvey().getSchoolName();
     }
 }

@@ -2,8 +2,9 @@ package fm.doe.national.accreditation.ui.questions;
 
 import androidx.annotation.Nullable;
 
-import fm.doe.national.core.data.model.Criteria;
-import fm.doe.national.core.data.model.SubCriteria;
+import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
+
 
 public class Question {
 

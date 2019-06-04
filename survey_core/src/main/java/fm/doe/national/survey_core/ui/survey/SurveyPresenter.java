@@ -5,8 +5,6 @@ import com.omegar.mvp.InjectViewState;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.di.CoreComponent;
-import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
@@ -20,22 +18,23 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
 
-    protected final SurveyInteractor surveyInteractor;
     protected final SurveyNavigator surveyNavigator;
 
-    public SurveyPresenter(CoreComponent coreComponent, SurveyCoreComponent surveyCoreComponent) {
-        surveyInteractor = coreComponent.getSurveyInteractor();
+    public SurveyPresenter(SurveyCoreComponent surveyCoreComponent) {
         surveyNavigator = surveyCoreComponent.getSurveyNavigator();
-
         surveyNavigator.setViewState(getViewState());
+    }
 
-        getViewState().setSchoolName(surveyInteractor.getCurrentSurvey().getSchoolName());
+    // Call this one in the end of inherited constructor
+    protected void onInit() {
+        getViewState().setSchoolName(getSchoolName());
         loadNavigationItems();
         subscribeOnEditingEvents();
     }
 
     protected abstract Single<List<NavigationItem>> requestNavigationItems();
     protected abstract void subscribeOnEditingEvents();
+    protected abstract String getSchoolName();
 
     private void loadNavigationItems() {
         addDisposable(requestNavigationItems()

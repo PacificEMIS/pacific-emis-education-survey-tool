@@ -17,13 +17,13 @@
     <string name="format_standard">Standard %1$s:</string>
     <string name="label_school_accreditation">School Accreditation</string>
     <string name="label_settings">Settings %1$s(%2$d)</string>
-    <string name="label_create_survey">Create new survey</string>
+    <string name="label_create_survey">Create new accreditationSurvey</string>
     <string name="criteria_name">Criteria, %1$d.%2$d: %3$s.</string>
     <string name="category_name" formatted="false">Standard %1$d: %2$s</string>
     <string name="criteria_char_icon_pattern">%1$s.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="action_education_survey_tool">Education survey tool</string>
+    <string name="action_education_survey_tool">Education accreditationSurvey tool</string>
     <string name="title_education_survey_tool">Education\nsurvey tool</string>
     <string name="navigation_drawer_open" translatable="false">DRAWER_OPEN</string>
     <string name="navigation_drawer_close" translatable="false">DRAWER_CLOSE</string>
@@ -39,7 +39,7 @@
     <string name="warn_unable_to_create_answer">Unable to create answer</string>
     <string name="warn_unable_to_load_recent_surveys">Unable to load recent surveys</string>
     <string name="warn_unable_to_get_schools">Unable to get schools</string>
-    <string name="warn_failed_to_load_assets">Failed to load schools and survey from assets. You can load it from Settings screen</string>
+    <string name="warn_failed_to_load_assets">Failed to load schools and accreditationSurvey from assets. You can load it from Settings screen</string>
     <string name="title_choose_school">Choose school</string>
     <string name="title_school_accreditation">School Accreditation</string>
     <string name="title_school_data_verification">School Data Verification</string>
@@ -61,7 +61,7 @@
     <string name="account_drive">Google Drive account</string>
     <string name="account_dropbox">Dropbox account</string>
     <string name="action_import_schools">Import schools</string>
-    <string name="action_import_surveys">Import survey</string>
+    <string name="action_import_surveys">Import accreditationSurvey</string>
     <string name="action_export_folder">Export folder</string>
     <string name="integration_drive">Google Drive integration</string>
     <string name="integration_dropbox">Dropbox integration</string>
@@ -94,7 +94,7 @@
     <string name="format_subcriteria">Sub-criteria %1$s:</string>
 
     <string name="title_delete_confirmation">Confirm Removal</string>
-    <string name="survey_delete_confirmation">Are you sure you want to remove the survey?</string>
+    <string name="survey_delete_confirmation">Are you sure you want to remove the accreditationSurvey?</string>
     <string name="school_delete_confirmation">Are you sure you want to remove the school?</string>
 
     <string name="transition_tag_fullscreen_image">transition_tag_fullscreen_image</string>
@@ -105,7 +105,7 @@
     <string name="title_report_short">Report</string>
     <string name="label_recommendations">Recommendations</string>
 
-    <string name="label_complete_hint">To complete the survey you need to answer all questions.</string>
+    <string name="label_complete_hint">To complete the accreditationSurvey you need to answer all questions.</string>
     <string name="button_prev">Prev</string>
     <string name="button_next">Next</string>
     <string name="button_complete">Complete</string>

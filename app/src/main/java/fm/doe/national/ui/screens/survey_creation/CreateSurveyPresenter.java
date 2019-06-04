@@ -12,8 +12,7 @@ import java.util.List;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.School;
-import fm.doe.national.core.data.model.mutable.MutableSurvey;
-import fm.doe.national.core.interactors.SurveyInteractor;
+import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -21,8 +20,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
-    private final DataSource dataSource = MicronesiaApplication.getInjection().getCoreComponent().getDataSource();
-    private final SurveyInteractor surveyInteractor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
+    private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
+    private final SurveyInteractor accreditationSurveyInteractor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
 
     private Date surveyStartDate = new Date();
     private List<? extends School> schools;
@@ -63,13 +62,12 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     void onContinuePressed() {
         addDisposable(dataSource.createSurvey(selectedSchool.getId(), selectedSchool.getName(), surveyStartDate)
-                .map(MutableSurvey::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(survey -> {
-                    surveyInteractor.setCurrentSurvey(survey, true);
+                    accreditationSurveyInteractor.setCurrentSurvey(survey, true);
                     getViewState().navigateToSurvey();
                 }, this::handleError));
     }

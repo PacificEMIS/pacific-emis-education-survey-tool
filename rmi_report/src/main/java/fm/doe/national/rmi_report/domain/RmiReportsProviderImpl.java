@@ -3,7 +3,8 @@ package fm.doe.national.rmi_report.domain;
 import java.util.Arrays;
 import java.util.List;
 
-import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.model.ReportPage;
 import fm.doe.national.report_core.ui.recommendations.RecommendationsFragment;
@@ -14,20 +15,22 @@ public class RmiReportsProviderImpl implements RmiReportsProvider {
 
     private final List<ReportPage> pages;
 
-    private final ReportInteractor interactor;
+    private final ReportInteractor reportInteractor;
+    private final AccreditationSurveyInteractor accreditationSurveyInteractor;
 
-    public RmiReportsProviderImpl(ReportInteractor reportInteractor) {
-        interactor = reportInteractor;
+    public RmiReportsProviderImpl(ReportInteractor reportInteractor, AccreditationSurveyInteractor accreditationSurveyInteractor) {
+        this.reportInteractor = reportInteractor;
+        this.accreditationSurveyInteractor = accreditationSurveyInteractor;
         pages = Arrays.asList(
-                new ReportPage(LevelsFragment.class, interactor),
-                new ReportPage(SummaryFragment.class, interactor),
-                new ReportPage(RecommendationsFragment.class, interactor)
+                new ReportPage(LevelsFragment.class, reportInteractor),
+                new ReportPage(SummaryFragment.class, reportInteractor),
+                new ReportPage(RecommendationsFragment.class, reportInteractor)
         );
     }
 
     @Override
-    public void requestReports(Survey survey) {
-        interactor.requestReports(survey);
+    public void requestReports() {
+        reportInteractor.requestReports((AccreditationSurvey) accreditationSurveyInteractor.getCurrentSurvey());
     }
 
     @Override

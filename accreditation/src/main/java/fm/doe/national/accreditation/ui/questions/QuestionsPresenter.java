@@ -12,14 +12,15 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
+import fm.doe.national.accreditation_core.data.model.Answer;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
+import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
+import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
 import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.cloud.model.uploader.CloudUploader;
-import fm.doe.national.core.data.model.Answer;
-import fm.doe.national.core.data.model.SubCriteria;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.data.model.mutable.MutableAnswer;
 import fm.doe.national.core.di.CoreComponent;
-import fm.doe.national.core.interactors.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
@@ -31,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
-    private final SurveyInteractor surveyInteractor;
+    private final AccreditationSurveyInteractor accreditationSurveyInteractor;
     private final CloudUploader cloudUploader;
     private final SurveyNavigator navigator;
     private final long standardId;
@@ -43,9 +44,10 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     QuestionsPresenter(CoreComponent coreComponent,
                        CloudComponent cloudComponent,
                        SurveyCoreComponent surveyCoreComponent,
+                       AccreditationCoreComponent accreditationCoreComponent,
                        long categoryId,
                        long standardId) {
-        this.surveyInteractor = coreComponent.getSurveyInteractor();
+        this.accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         this.cloudUploader = cloudComponent.getCloudUploader();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.standardId = standardId;
@@ -56,7 +58,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private void loadQuestions() {
         addDisposable(
-                surveyInteractor.requestCriterias(categoryId, standardId)
+                accreditationSurveyInteractor.requestCriterias(categoryId, standardId)
                         .flatMap(criteriaList -> Single.fromCallable(() -> {
                             List<Question> questions = new ArrayList<>();
                             criteriaList.forEach(criteria -> {
@@ -83,7 +85,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
         if (navigationItem.getNextItem() != null && navigationItem.getNextItem() instanceof ReportNavigationItem) {
             view.setNextButtonText(Text.from(R.string.button_complete));
-            updateCompleteState(surveyInteractor.getCurrentSurvey());
+            updateCompleteState(accreditationSurveyInteractor.getCurrentSurvey());
             subscribeOnProgressChanges();
         } else {
             view.setNextButtonText(Text.from(R.string.button_next));
@@ -93,7 +95,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     }
 
     private void subscribeOnProgressChanges() {
-        addDisposable(surveyInteractor.getSurveyProgressSubject()
+        addDisposable(accreditationSurveyInteractor.getSurveyProgressSubject()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateCompleteState));
@@ -139,10 +141,10 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     }
 
     private void update(long subCriteriaId, long criteriaId, Answer answer) {
-        addDisposable(surveyInteractor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
+        addDisposable(accreditationSurveyInteractor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> cloudUploader.scheduleUploading(surveyInteractor.getCurrentSurvey().getId()), this::handleError)
+                .subscribe(() -> cloudUploader.scheduleUploading(accreditationSurveyInteractor.getCurrentSurvey().getId()), this::handleError)
         );
     }
 

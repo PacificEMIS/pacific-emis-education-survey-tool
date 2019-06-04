@@ -49,6 +49,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(path: ':core')
+    implementation project(path: ':accreditation_core')
     implementation project(path: ':report')
     implementation project(path: ':report_core')
     implementation project(path: ':fcm_report')
@@ -57,6 +58,7 @@ dependencies {
     implementation project(path: ':cloud')
     implementation project(path: ':survey')
     implementation project(path: ':survey_core')
+    implementation project(path: ':data_source_injector')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"

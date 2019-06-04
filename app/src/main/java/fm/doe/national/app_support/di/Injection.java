@@ -2,19 +2,27 @@ package fm.doe.national.app_support.di;
 
 import android.content.Context;
 
+import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
+import fm.doe.national.accreditation_core.di.DaggerAccreditationCoreComponent;
 import fm.doe.national.app_support.di.modules.InteractorsModule;
 import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.cloud.di.DaggerCloudComponent;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.DaggerCoreComponent;
 import fm.doe.national.core.di.modules.ContextModule;
+import fm.doe.national.data_source_injector.di.DaggerDataSourceComponent;
+import fm.doe.national.data_source_injector.di.DataSourceComponent;
+import fm.doe.national.data_source_injector.di.modules.DataSourceModule;
+import fm.doe.national.data_source_injector.di.modules.SerializersModule;
 import fm.doe.national.fcm_report.di.DaggerFcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
+import fm.doe.national.fcm_report.di.FcmReportModule;
 import fm.doe.national.report.di.DaggerReportComponent;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportModule;
 import fm.doe.national.rmi_report.di.DaggerRmiReportComponent;
 import fm.doe.national.rmi_report.di.RmiReportComponent;
+import fm.doe.national.rmi_report.di.RmiReportModule;
 import fm.doe.national.survey.di.DaggerSurveyComponent;
 import fm.doe.national.survey.di.SurveyComponent;
 import fm.doe.national.survey.di.modules.ProviderModule;
@@ -31,6 +39,8 @@ public class Injection {
     private SurveyComponent surveyComponent;
     private SurveyCoreComponent surveyCoreComponent;
     private CloudComponent cloudComponent;
+    private AccreditationCoreComponent accreditationCoreComponent;
+    private DataSourceComponent dataSourceComponent;
 
     public void createDependencyGraph(Context applicationContext) {
         coreComponent = DaggerCoreComponent
@@ -40,18 +50,30 @@ public class Injection {
         surveyCoreComponent = DaggerSurveyCoreComponent.builder()
                 .coreComponent(coreComponent)
                 .build();
+        accreditationCoreComponent = DaggerAccreditationCoreComponent.builder()
+                .coreComponent(coreComponent)
+                .build();
+        dataSourceComponent = DaggerDataSourceComponent.builder()
+                .coreComponent(coreComponent)
+                .dataSourceModule(new DataSourceModule(accreditationCoreComponent))
+                .serializersModule(new SerializersModule(accreditationCoreComponent))
+                .build();
         surveyComponent = DaggerSurveyComponent.builder()
-                .providerModule(new ProviderModule(surveyCoreComponent, coreComponent))
+                .providerModule(new ProviderModule(surveyCoreComponent, coreComponent, accreditationCoreComponent))
                 .build();
         cloudComponent = DaggerCloudComponent.builder()
                 .coreComponent(coreComponent)
                 .build();
         appComponent = DaggerAppComponent.builder()
                 .coreComponent(coreComponent)
-                .interactorsModule(new InteractorsModule(cloudComponent, applicationContext.getAssets()))
+                .interactorsModule(new InteractorsModule(cloudComponent, applicationContext.getAssets(), dataSourceComponent))
                 .build();
-        fcmReportComponent = DaggerFcmReportComponent.builder().build();
-        rmiReportComponent = DaggerRmiReportComponent.builder().build();
+        fcmReportComponent = DaggerFcmReportComponent.builder()
+                .fcmReportModule(new FcmReportModule(accreditationCoreComponent))
+                .build();
+        rmiReportComponent = DaggerRmiReportComponent.builder()
+                .rmiReportModule(new RmiReportModule(accreditationCoreComponent))
+                .build();
         reportComponent = DaggerReportComponent.builder()
                 .coreComponent(coreComponent)
                 .reportModule(new ReportModule(fcmReportComponent, rmiReportComponent))
@@ -88,5 +110,13 @@ public class Injection {
 
     public SurveyCoreComponent getSurveyCoreComponent() {
         return surveyCoreComponent;
+    }
+
+    public AccreditationCoreComponent getAccreditationCoreComponent() {
+        return accreditationCoreComponent;
+    }
+
+    public DataSourceComponent getDataSourceComponent() {
+        return dataSourceComponent;
     }
 }

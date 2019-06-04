@@ -1,5 +1,6 @@
 package fm.doe.national.report.ui.report;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,10 @@ public class ReportFragment extends BaseFragment implements ReportView {
 
     @ProvidePresenter
     ReportPresenter providePresenter() {
-        return new ReportPresenter(ReportComponentInjector.getComponent(getActivity().getApplication()));
+        Application application = getActivity().getApplication();
+        return new ReportPresenter(
+                ReportComponentInjector.getComponent(application)
+        );
     }
 
     @Nullable

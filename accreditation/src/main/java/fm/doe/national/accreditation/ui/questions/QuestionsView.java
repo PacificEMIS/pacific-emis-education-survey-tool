@@ -7,7 +7,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.core.data.model.SubCriteria;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)

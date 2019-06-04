@@ -5,11 +5,15 @@ import androidx.multidex.MultiDexApplication;
 import com.crashlytics.android.Crashlytics;
 import com.omegar.mvp.RegisterMoxyReflectorPackages;
 
+import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
+import fm.doe.national.accreditation_core.di.AccreditationCoreComponentProvider;
 import fm.doe.national.app_support.di.Injection;
 import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.cloud.di.CloudComponentProvider;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.CoreComponentProvider;
+import fm.doe.national.data_source_injector.di.DataSourceComponent;
+import fm.doe.national.data_source_injector.di.DataSourceComponentProvider;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportComponentProvider;
 import fm.doe.national.report.di.ReportComponent;
@@ -39,7 +43,9 @@ public class MicronesiaApplication extends MultiDexApplication implements
         ReportComponentProvider,
         SurveyComponentProvider,
         SurveyCoreComponentProvider,
-        CloudComponentProvider {
+        CloudComponentProvider,
+        AccreditationCoreComponentProvider,
+        DataSourceComponentProvider {
 
     private static final Injection injection = new Injection();
 
@@ -87,5 +93,15 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public SurveyCoreComponent provideSurveyCoreComponent() {
         return injection.getSurveyCoreComponent();
+    }
+
+    @Override
+    public AccreditationCoreComponent provideAccreditationCoreComponent() {
+        return injection.getAccreditationCoreComponent();
+    }
+
+    @Override
+    public DataSourceComponent provideDataSourceComponent() {
+        return injection.getDataSourceComponent();
     }
 }

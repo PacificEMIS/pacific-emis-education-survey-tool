@@ -10,8 +10,7 @@ import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.data.model.mutable.MutableSurvey;
-import fm.doe.national.core.interactors.SurveyInteractor;
+import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -19,10 +18,10 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SurveysPresenter extends BaseDrawerPresenter<SurveysView> {
 
-    private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getCoreComponent().getSurveyInteractor();
-    private final DataSource dataSource = MicronesiaApplication.getInjection().getCoreComponent().getDataSource();
+    private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
+    private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
 
-    private List<MutableSurvey> surveys = new ArrayList<>();
+    private List<Survey> surveys = new ArrayList<>();
 
     private Survey surveyToDelete;
 
@@ -45,7 +44,7 @@ public class SurveysPresenter extends BaseDrawerPresenter<SurveysView> {
     }
 
     public void onSurveyPressed(Survey survey) {
-        interactor.setCurrentSurvey(MutableSurvey.toMutable(survey));
+        interactor.setCurrentSurvey(survey);
         getViewState().navigateToSurvey();
     }
 

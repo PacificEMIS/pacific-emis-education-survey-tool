@@ -1,4 +1,4 @@
-<survey>
+<accreditationSurvey>
     <type>SCHOOL_ACCREDITATION</type>
     <region>FCM</region>
     <version>1</version>
@@ -956,4 +956,4 @@
             </criteria>
         </standard>
     </category>
-</survey>
+</accreditationSurvey>

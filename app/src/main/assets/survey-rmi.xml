@@ -1,4 +1,4 @@
-<survey>
+<accreditationSurvey>
     <type>SCHOOL_ACCREDITATION</type>
     <region>RMI</region>
     <version>1</version>
@@ -1170,4 +1170,4 @@
             </criteria>
         </standard>
     </category>
-</survey>
+</accreditationSurvey>

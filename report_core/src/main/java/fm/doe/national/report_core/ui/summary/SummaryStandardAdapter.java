@@ -13,7 +13,7 @@ import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.core.data.model.Category;
+import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.report_core.R;
