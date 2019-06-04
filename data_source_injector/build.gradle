@@ -27,6 +27,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':core')
     implementation project(path: ':accreditation_core')
+    implementation project(path: ':wash_core')
 
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"

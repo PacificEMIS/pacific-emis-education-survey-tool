@@ -9,6 +9,7 @@ import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.ui.survey.SurveyPresenter;
+import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
 public class ProviderModule {
@@ -16,13 +17,16 @@ public class ProviderModule {
     private final SurveyCoreComponent surveyCoreComponent;
     private final CoreComponent coreComponent;
     private final AccreditationCoreComponent accreditationCoreComponent;
+    private final WashCoreComponent washCoreComponent;
 
     public ProviderModule(SurveyCoreComponent surveyCoreComponent,
                           CoreComponent coreComponent,
-                          AccreditationCoreComponent accreditationCoreComponent) {
+                          AccreditationCoreComponent accreditationCoreComponent,
+                          WashCoreComponent washCoreComponent) {
         this.surveyCoreComponent = surveyCoreComponent;
         this.coreComponent = coreComponent;
         this.accreditationCoreComponent = accreditationCoreComponent;
+        this.washCoreComponent = washCoreComponent;
     }
 
     @Provides
@@ -42,7 +46,7 @@ public class ProviderModule {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getAccreditationSurveyInteractor();
             case WASH:
-                throw new NotImplementedException();
+                return washCoreComponent.getWashSurveyInteractor();
         }
         throw new IllegalStateException();
     }

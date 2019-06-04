@@ -9,13 +9,13 @@ android {
         versionCode 1
         versionName Versions.appVersion
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "int", "DATA_BASE_VERSION", "1"
+        buildConfigField "String", "SURVEYS_FCM_FILE_NAME", "\"survey-wash.xml\""
+        buildConfigField "String", "SCHOOLS_FCM_FILE_NAME", "\"schools.csv\""
+        buildConfigField "String", "SURVEYS_RMI_FILE_NAME", "\"survey-wash.xml\""
+        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools-rmi.csv\""
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.survey']
-            }
-        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -33,12 +33,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(path: ':core')
-    implementation project(path: ':survey_core')
-    implementation project(path: ':accreditation')
-    implementation project(path: ':accreditation_core')
-    implementation project(path: ':wash_core')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
@@ -61,8 +56,17 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
     implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
 
+    // Room
+    implementation "androidx.room:room-runtime:${Deps.room}"
+    annotationProcessor "androidx.room:room-compiler:${Deps.room}"
+    implementation "androidx.room:room-rxjava2:${Deps.room}"
+
     // Moxy
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
     annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
 
+    // SimpleXML
+    implementation("org.simpleframework:simple-xml:2.7.1") {
+        exclude group: 'xpp3', module: 'xpp3'
+    }
 }

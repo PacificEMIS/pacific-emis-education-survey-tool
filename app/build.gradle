@@ -59,6 +59,7 @@ dependencies {
     implementation project(path: ':survey')
     implementation project(path: ':survey_core')
     implementation project(path: ':data_source_injector')
+    implementation project(path: ':wash_core')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
