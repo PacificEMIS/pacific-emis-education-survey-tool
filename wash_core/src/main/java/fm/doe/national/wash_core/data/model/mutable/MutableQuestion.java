@@ -41,6 +41,7 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
     public MutableQuestion(Question other) {
         this(other.getTitle(), other.getPrefix(), other.getType());
 
+        this.id = other.getId();
         this.items = other.getItems();
         this.variants = other.getVariants();
         this.relation = other.getRelation();
@@ -103,5 +104,37 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
     @Override
     public MutableProgress getProgress() {
         return progress;
+    }
+
+    public void setTitle(@NonNull String title) {
+        this.title = title;
+    }
+
+    public void setPrefix(@NonNull String prefix) {
+        this.prefix = prefix;
+    }
+
+    public void setQuestionType(@NonNull QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public void setItems(@Nullable List<String> items) {
+        this.items = items;
+    }
+
+    public void setVariants(@Nullable List<Variant> variants) {
+        this.variants = variants;
+    }
+
+    public void setRelation(@Nullable Relation relation) {
+        this.relation = relation;
+    }
+
+    public void setAnswer(@Nullable MutableAnswer answer) {
+        this.answer = answer;
+    }
+
+    public void setProgress(@NonNull MutableProgress progress) {
+        this.progress = progress;
     }
 }

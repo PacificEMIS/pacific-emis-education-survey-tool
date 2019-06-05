@@ -11,7 +11,6 @@ import org.simpleframework.xml.convert.Convert;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Progress;
-import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.serialization.converters.QuestionTypeConverter;
@@ -93,7 +92,7 @@ public class SerializableQuestion implements Question {
     @NonNull
     @Override
     public Progress getProgress() {
-        return MutableProgress.createEmptyProgress();
+        throw new UnsupportedOperationException();
     }
 
     @Nullable

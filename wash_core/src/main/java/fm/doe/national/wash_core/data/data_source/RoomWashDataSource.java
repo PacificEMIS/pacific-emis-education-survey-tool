@@ -2,289 +2,272 @@ package fm.doe.national.wash_core.data.data_source;
 
 import android.content.Context;
 
+import androidx.room.Room;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.data_source.DataSourceImpl;
 import fm.doe.national.core.data.model.Photo;
-import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.wash_core.BuildConfig;
+import fm.doe.national.wash_core.data.model.Answer;
+import fm.doe.national.wash_core.data.model.Group;
+import fm.doe.national.wash_core.data.model.Question;
+import fm.doe.national.wash_core.data.model.SubGroup;
+import fm.doe.national.wash_core.data.model.WashSurvey;
+import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
+import fm.doe.national.wash_core.data.persistence.WashDatabase;
+import fm.doe.national.wash_core.data.persistence.dao.AnswerDao;
+import fm.doe.national.wash_core.data.persistence.dao.PhotoDao;
+import fm.doe.national.wash_core.data.persistence.entity.RoomAnswer;
+import fm.doe.national.wash_core.data.persistence.entity.RoomGroup;
+import fm.doe.national.wash_core.data.persistence.entity.RoomPhoto;
+import fm.doe.national.wash_core.data.persistence.entity.RoomQuestion;
+import fm.doe.national.wash_core.data.persistence.entity.RoomSubGroup;
+import fm.doe.national.wash_core.data.persistence.entity.RoomWashSurvey;
+import fm.doe.national.wash_core.data.persistence.entity.relative.RelativeRoomSurvey;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public class RoomWashDataSource implements WashDataSource {
+public class RoomWashDataSource extends DataSourceImpl implements WashDataSource {
 
     private static final String DATABASE_NAME = BuildConfig.APPLICATION_ID + ".database";
     private static final String TEMPLATE_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".template_database";
 
-//    private final SurveyDao surveyDao;
-//    private final AnswerDao answerDao;
-//    private final PhotoDao photoDao;
-//
-//    private final AppDatabase templateDatabase;
-//    private final AppDatabase database;
+    private final AnswerDao answerDao;
+    private final PhotoDao photoDao;
+
+    private final WashDatabase templateDatabase;
+    private final WashDatabase database;
 
     private final GlobalPreferences globalPreferences;
 
     public RoomWashDataSource(Context applicationContext, GlobalPreferences globalPreferences) {
+        super(applicationContext, globalPreferences);
         this.globalPreferences = globalPreferences;
-//        database = Room.databaseBuilder(applicationContext, AppDatabase.class, DATABASE_NAME).build();
-//        templateDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class, TEMPLATE_DATABASE_NAME).build();
-//        surveyDao = database.getSurveyDao();
-//        answerDao = database.getAnswerDao();
-//        photoDao = database.getPhotoDao();
+        database = Room.databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME).build();
+        templateDatabase = Room.databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME).build();
+        answerDao = database.getAnswerDao();
+        photoDao = database.getPhotoDao();
     }
 
     public void closeConnections() {
-//        database.close();
-//        templateDatabase.close();
+        super.closeConnections();
+        database.close();
+        templateDatabase.close();
     }
 
     @Override
-    public Single<List<School>> loadSchools() {
-        return null;
-//        return Single.fromCallable(templateDatabase.getSchoolDao()::getAll)
-//                .map(roomSchools -> new ArrayList<>(roomSchools));
+    public Completable rewriteTemplateSurvey(Survey washSurvey) {
+        return Completable.fromAction(() -> {
+            templateDatabase.getSurveyDao().deleteAll();
+            saveSurvey(templateDatabase, (WashSurvey) washSurvey, false);
+        });
     }
 
-    @Override
-    public Completable rewriteAllSchools(List<School> schools) {
-        return null;
-//        return Observable.fromIterable(schools)
-//                .map(RoomSchool::new)
-//                .toList()
-//                .flatMapCompletable(roomSchools -> Completable.fromAction(() -> {
-//                    templateDatabase.getSchoolDao().deleteAll();
-//                    templateDatabase.getSchoolDao().insert(roomSchools);
-//                }));
+    private long saveSurvey(WashDatabase database, WashSurvey washSurvey, boolean shouldCreateAnswers) {
+        RoomWashSurvey roomSurvey = new RoomWashSurvey(washSurvey);
+        roomSurvey.uid = 0;
+        long id = database.getSurveyDao().insert(roomSurvey);
+        if (washSurvey.getGroups() != null) {
+            saveGroups(database, washSurvey.getGroups(), id, shouldCreateAnswers);
+        }
+        return id;
     }
 
-    @Override
-    public Completable rewriteTemplateSurvey(Survey accreditationSurvey) {
-        return null;
-//        return Completable.fromAction(() -> {
-//            templateDatabase.getSurveyDao().deleteAll();
-//            saveSurvey(templateDatabase, (AccreditationSurvey) accreditationSurvey, false);
-//        });
-    }
-//
-//    private long saveSurvey(AppDatabase database, AccreditationSurvey accreditationSurvey, boolean shouldCreateAnswers) {
-//        RoomAccreditationSurvey roomSurvey = new RoomAccreditationSurvey(accreditationSurvey);
-//        roomSurvey.uid = 0;
-//        long id = database.getSurveyDao().insert(roomSurvey);
-//        if (accreditationSurvey.getCategories() != null) {
-//            saveCategories(database, accreditationSurvey.getCategories(), id, shouldCreateAnswers);
-//        }
-//        return id;
-//    }
-//
-//    private void saveCategories(AppDatabase database,
-//                                List<? extends Category> categories,
-//                                long surveyId,
-//                                boolean shouldCreateAnswers) {
-//        for (Category category : categories) {
-//            RoomCategory roomCategory = new RoomCategory(category);
-//            roomCategory.uid = 0;
-//            roomCategory.surveyId = surveyId;
-//            long id = database.getCategoryDao().insert(roomCategory);
-//            if (category.getStandards() != null) {
-//                saveStandards(database, category.getStandards(), id, shouldCreateAnswers);
-//            }
-//        }
-//    }
-//
-//    private void saveStandards(AppDatabase database,
-//                               List<? extends Standard> standards,
-//                               long categoryId,
-//                               boolean shouldCreateAnswers) {
-//        for (Standard standard : standards) {
-//            RoomStandard roomStandard = new RoomStandard(standard);
-//            roomStandard.uid = 0;
-//            roomStandard.categoryId = categoryId;
-//            long id = database.getStandardDao().insert(roomStandard);
-//            if (standard.getCriterias() != null) {
-//                saveCriterias(database, standard.getCriterias(), id, shouldCreateAnswers);
-//            }
-//        }
-//    }
-//
-//    private void saveCriterias(AppDatabase database,
-//                               List<? extends Criteria> criterias,
-//                               long standardId,
-//                               boolean shouldCreateAnswers) {
-//        for (Criteria criteria : criterias) {
-//            RoomCriteria roomCriteria = new RoomCriteria(criteria);
-//            roomCriteria.uid = 0;
-//            roomCriteria.standardId = standardId;
-//            long id = database.getCriteriaDao().insert(roomCriteria);
-//            if (criteria.getSubCriterias() != null) {
-//                saveSubCriterias(database, criteria.getSubCriterias(), id, shouldCreateAnswers);
-//            }
-//        }
-//    }
+    private void saveGroups(WashDatabase database,
+                            List<? extends Group> groups,
+                            long surveyId,
+                            boolean shouldCreateAnswers) {
+        groups.forEach(group -> {
+            RoomGroup roomGroup = new RoomGroup(group);
+            roomGroup.uid = 0;
+            roomGroup.surveyId = surveyId;
+            long id = database.getGroupDao().insert(roomGroup);
 
-//    private void saveSubCriterias(AppDatabase database,
-//                                  List<? extends SubCriteria> subCriterias,
-//                                  long criteriaId,
-//                                  boolean shouldCreateAnswers) {
-//        for (SubCriteria subCriteria : subCriterias) {
-//            RoomSubCriteria roomSubCriteria = new RoomSubCriteria(subCriteria);
-//            roomSubCriteria.uid = 0;
-//            roomSubCriteria.criteriaId = criteriaId;
-//            long id = database.getSubcriteriaDao().insert(roomSubCriteria);
-//            if (shouldCreateAnswers) {
-//                database.getAnswerDao().insert(new RoomAnswer(id));
-//            }
-//        }
-//    }
+            if (group.getSubGroups() != null) {
+                saveSubGroups(database, group.getSubGroups(), id, shouldCreateAnswers);
+            }
+        });
+    }
+
+    private void saveSubGroups(WashDatabase database,
+                               List<? extends SubGroup> subGroups,
+                               long groupId,
+                               boolean shouldCreateAnswers) {
+        subGroups.forEach(subGroup -> {
+            RoomSubGroup roomSubGroup = new RoomSubGroup(subGroup);
+            roomSubGroup.uid = 0;
+            roomSubGroup.groupId = groupId;
+            long id = database.getSubGroupDao().insert(roomSubGroup);
+
+            if (subGroup.getQuestions() != null) {
+                saveQuestions(database, roomSubGroup.getQuestions(), id, shouldCreateAnswers);
+            }
+        });
+    }
+
+    private void saveQuestions(WashDatabase database,
+                               List<? extends Question> questions,
+                               long subGroupId,
+                               boolean shouldCreateAnswers) {
+        questions.forEach(question -> {
+            RoomQuestion roomQuestion = new RoomQuestion(question);
+            roomQuestion.uid = 0;
+            roomQuestion.subGroupId = subGroupId;
+            long id = database.getQuestionDao().insert(roomQuestion);
+
+            if (shouldCreateAnswers) {
+                database.getAnswerDao().insert(new RoomAnswer(id));
+            }
+        });
+    }
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return null;
-//        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled())
-//                .map(RelativeRoomSurvey::toMutableSurvey);
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled())
+                .map(RelativeRoomSurvey::toMutable);
     }
 
     @Override
     public Single<Survey> loadSurvey(long surveyId) {
-        return null;
-//        return Single.fromCallable(() -> surveyDao.getFilledById(surveyId))
-//                .map(RelativeRoomSurvey::toMutableSurvey);
+        return Single.fromCallable(() -> database.getSurveyDao().getFilledById(surveyId))
+                .map(RelativeRoomSurvey::toMutable);
     }
 
     @Override
     public Single<List<Survey>> loadAllSurveys() {
-        return null;
-//        return Single.fromCallable(() -> surveyDao.getAllFilled(globalPreferences.getAppRegion()))
-//                .flatMapObservable(Observable::fromIterable)
-//                .map(RelativeRoomSurvey::toMutableSurvey)
-//                .toList()
-//                .map(list -> new ArrayList<>(list));
+        return Single.fromCallable(() -> database.getSurveyDao().getAllFilled(globalPreferences.getAppRegion()))
+                .flatMapObservable(Observable::fromIterable)
+                .map(RelativeRoomSurvey::toMutable)
+                .toList()
+                .map(list -> new ArrayList<>(list));
     }
 
     @Override
     public Single<Survey> createSurvey(String schoolId, String schoolName, Date date) {
-        return null;
-//        return getTemplateSurvey()
-//                .flatMap(survey -> {
-//                    MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
-//                    mutableSurvey.setId(0);
-//                    mutableSurvey.setSchoolName(schoolName);
-//                    mutableSurvey.setSchoolId(schoolId);
-//                    mutableSurvey.setDate(date);
-//                    long id = saveSurvey(database, mutableSurvey, true);
-//                    return loadSurvey(id);
-//                });
+        return getTemplateSurvey()
+                .flatMap(survey -> {
+                    MutableWashSurvey mutableSurvey = new MutableWashSurvey((WashSurvey) survey);
+                    mutableSurvey.setId(0);
+                    mutableSurvey.setSchoolName(schoolName);
+                    mutableSurvey.setSchoolId(schoolId);
+                    mutableSurvey.setDate(date);
+                    long id = saveSurvey(database, mutableSurvey, true);
+                    return loadSurvey(id);
+                });
     }
 
     @Override
     public Completable deleteSurvey(long surveyId) {
-        return null;
-//        return Completable.fromAction(() -> surveyDao.deleteById(surveyId));
+        return Completable.fromAction(() -> database.getSurveyDao().deleteById(surveyId));
     }
 
-//    @Override
-//    public Single<Answer> updateAnswer(Answer answer, long subCriteriaId) {
-//        return Single.fromCallable(() -> {
-//            RoomAnswer existingAnswer = answerDao.getAllForSubCriteriaWithId(subCriteriaId).get(0);
-//            existingAnswer.comment = answer.getComment();
-//            existingAnswer.state = answer.getState();
-//            answerDao.update(existingAnswer);
-//            return answerDao.getFilledById(existingAnswer.uid).toMutableAnswer();
-//        })
-//                .flatMap(mutableAnswer -> {
-//                    List<MutablePhoto> existingPhotos = mutableAnswer.getPhotos();
-//                    List<MutablePhoto> expectedPhotos = answer.getPhotos() == null ? new ArrayList<>() : answer.getPhotos().stream()
-//                            .map(MutablePhoto::new).collect(Collectors.toList());
-//                    // Note: update photo === delete + create
-//                    List<MutablePhoto> photosToDelete = new ArrayList<>();
-//                    List<MutablePhoto> photosToCreate = new ArrayList<>();
-//                    List<MutablePhoto> photosToUpdate = new ArrayList<>();
-//
-//                    for (MutablePhoto existingPhoto : existingPhotos) {
-//                        Optional<MutablePhoto> updatedPhoto = expectedPhotos.stream()
-//                                .filter(p -> p.getId() == existingPhoto.getId())
-//                                .findFirst();
-//
-//                        if (!updatedPhoto.isPresent()) {
-//                            photosToDelete.add(existingPhoto);
-//                            continue;
-//                        }
-//
-//                        expectedPhotos.remove(updatedPhoto.get());
-//
-//                        if (!existingPhoto.equals(updatedPhoto.get())) {
-//                            photosToUpdate.add(updatedPhoto.get());
-//                        }
-//                    }
-//
-//                    photosToCreate.addAll(expectedPhotos);
-//
-//                    return updatePhotos(photosToUpdate)
-//                            .andThen(deletePhotos(photosToDelete))
-//                            .andThen(createPhotos(photosToCreate, mutableAnswer.getId()))
-//                            .andThen(Single.fromCallable(() -> answerDao.getFilledById(mutableAnswer.getId()).toMutableAnswer()));
-//                });
-//    }
+    @Override
+    public Single<Answer> updateAnswer(Answer answer, long questionId) {
+        return Single.fromCallable(() -> {
+            RoomAnswer existingAnswer = answerDao.getAllForQuestionWithId(questionId).get(0);
+            existingAnswer.comment = answer.getComment();
+            existingAnswer.binaryAnswerState = answer.getBinaryAnswerState();
+            existingAnswer.ternaryAnswerState = answer.getTernaryAnswerState();
+            existingAnswer.items = answer.getItems();
+            existingAnswer.location = answer.getLocation();
+            existingAnswer.variants = answer.getVariants();
+            answerDao.update(existingAnswer);
+            return answerDao.getFilledById(existingAnswer.uid).toMutable();
+        })
+                .flatMap(mutableAnswer -> {
+                    List<MutablePhoto> existingPhotos = mutableAnswer.getPhotos();
+                    List<MutablePhoto> expectedPhotos = answer.getPhotos() == null ? new ArrayList<>() : answer.getPhotos().stream()
+                            .map(MutablePhoto::new).collect(Collectors.toList());
+                    // Note: update photo === delete + create
+                    List<MutablePhoto> photosToDelete = new ArrayList<>();
+                    List<MutablePhoto> photosToCreate = new ArrayList<>();
+                    List<MutablePhoto> photosToUpdate = new ArrayList<>();
+
+                    for (MutablePhoto existingPhoto : existingPhotos) {
+                        Optional<MutablePhoto> updatedPhoto = expectedPhotos.stream()
+                                .filter(p -> p.getId() == existingPhoto.getId())
+                                .findFirst();
+
+                        if (!updatedPhoto.isPresent()) {
+                            photosToDelete.add(existingPhoto);
+                            continue;
+                        }
+
+                        expectedPhotos.remove(updatedPhoto.get());
+
+                        if (!existingPhoto.equals(updatedPhoto.get())) {
+                            photosToUpdate.add(updatedPhoto.get());
+                        }
+                    }
+
+                    photosToCreate.addAll(expectedPhotos);
+
+                    return updatePhotos(photosToUpdate)
+                            .andThen(deletePhotos(photosToDelete))
+                            .andThen(createPhotos(photosToCreate, mutableAnswer.getId()))
+                            .andThen(Single.fromCallable(() -> answerDao.getFilledById(mutableAnswer.getId()).toMutable()));
+                });
+    }
 
     private Completable updatePhotos(List<MutablePhoto> photos) {
-        return null;
-//        return Observable.fromIterable(photos)
-//                .map(photo -> {
-//                    photoDao.update(new RoomPhoto(photo));
-//                    return photo;
-//                })
-//                .toList()
-//                .ignoreElement();
+        return Observable.fromIterable(photos)
+                .map(photo -> {
+                    photoDao.update(new RoomPhoto(photo));
+                    return photo;
+                })
+                .toList()
+                .ignoreElement();
     }
 
     private Completable deletePhotos(List<MutablePhoto> photos) {
-        return null;
-//        return Observable.fromIterable(photos)
-//                .map(photo -> {
-//                    photoDao.deleteById(photo.getId());
-//                    return photo;
-//                })
-//                .toList()
-//                .ignoreElement();
+        return Observable.fromIterable(photos)
+                .map(photo -> {
+                    photoDao.deleteById(photo.getId());
+                    return photo;
+                })
+                .toList()
+                .ignoreElement();
     }
 
     private Completable createPhotos(List<MutablePhoto> photos, long answerId) {
-        return null;
-//        return Observable.fromIterable(photos)
-//                .map(photo -> {
-//                    RoomPhoto roomPhoto = new RoomPhoto(photo);
-//                    roomPhoto.answerId = answerId;
-//                    photoDao.insert(roomPhoto);
-//                    return photo;
-//                })
-//                .toList()
-//                .ignoreElement();
+        return Observable.fromIterable(photos)
+                .map(photo -> {
+                    RoomPhoto roomPhoto = new RoomPhoto(photo);
+                    roomPhoto.answerId = answerId;
+                    photoDao.insert(roomPhoto);
+                    return photo;
+                })
+                .toList()
+                .ignoreElement();
     }
 
     @Override
     public Single<Photo> createPhoto(Photo photo, long answerId) {
-        return null;
-//        return Single.fromCallable(() -> {
-//            RoomPhoto roomPhoto = new RoomPhoto(photo);
-//            roomPhoto.answerId = answerId;
-//            long photoId = photoDao.insert(roomPhoto);
-//            return new MutablePhoto(photoDao.getById(photoId));
-//        });
+        return Single.fromCallable(() -> {
+            RoomPhoto roomPhoto = new RoomPhoto(photo);
+            roomPhoto.answerId = answerId;
+            long photoId = photoDao.insert(roomPhoto);
+            return new MutablePhoto(photoDao.getById(photoId));
+        });
     }
 
     @Override
     public Completable deletePhoto(long photoId) {
-        return Completable.complete();
-//        return Completable.fromAction(() -> photoDao.deleteById(photoId));
+        return Completable.fromAction(() -> photoDao.deleteById(photoId));
     }
 
     @Override
     public Completable deleteCreatedSurveys() {
-        return Completable.complete();
-//        return Completable.fromAction(surveyDao::deleteAll);
+        return Completable.fromAction(database.getSurveyDao()::deleteAll);
     }
 
     @Override
@@ -294,17 +277,6 @@ public class RoomWashDataSource implements WashDataSource {
                 return BuildConfig.SURVEYS_FCM_FILE_NAME;
             case RMI:
                 return BuildConfig.SURVEYS_RMI_FILE_NAME;
-        }
-        throw new IllegalStateException();
-    }
-
-    @Override
-    public String getSchoolsFileName() {
-        switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                return BuildConfig.SCHOOLS_FCM_FILE_NAME;
-            case RMI:
-                return BuildConfig.SCHOOLS_RMI_FILE_NAME;
         }
         throw new IllegalStateException();
     }

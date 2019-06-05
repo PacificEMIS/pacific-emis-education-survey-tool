@@ -27,6 +27,8 @@ public class MutableGroup extends BaseMutableEntity implements Group {
     public MutableGroup(Group other) {
         this(other.getTitle(), other.getPrefix());
 
+        this.id = other.getId();
+
         if (other.getSubGroups() != null) {
             this.subGroups = other.getSubGroups().stream().map(MutableSubGroup::new).collect(Collectors.toList());
         }

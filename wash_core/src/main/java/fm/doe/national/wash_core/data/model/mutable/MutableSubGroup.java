@@ -27,6 +27,8 @@ public class MutableSubGroup extends BaseMutableEntity implements SubGroup {
     public MutableSubGroup(SubGroup other) {
         this(other.getTitle(), other.getPrefix());
 
+        this.id = other.getId();
+
         if (other.getQuestions() != null) {
             this.questions = other.getQuestions().stream().map(MutableQuestion::new).collect(Collectors.toList());
         }

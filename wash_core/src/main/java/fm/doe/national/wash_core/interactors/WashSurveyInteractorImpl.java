@@ -62,23 +62,23 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 //    }
 //
 //    private void initProgress(MutableCategory category) {
-//        for (MutableStandard standard : category.getStandards()) {
-//            initProgress(standard);
-//            category.getProgress().add(standard.getProgress());
+//        for (MutableStandard subGroup : category.getStandards()) {
+//            initProgress(subGroup);
+//            category.getProgress().add(subGroup.getProgress());
 //        }
 //    }
 //
-//    private void initProgress(MutableStandard standard) {
-//        for (MutableCriteria criteria : standard.getCriterias()) {
+//    private void initProgress(MutableStandard subGroup) {
+//        for (MutableCriteria criteria : subGroup.getCriterias()) {
 //            initProgress(criteria);
-//            standard.getProgress().add(criteria.getProgress());
+//            subGroup.getProgress().add(criteria.getProgress());
 //        }
 //    }
 //
 //    private void initProgress(MutableCriteria criteria) {
 //        criteria.getProgress().total = criteria.getSubCriterias().size();
-//        for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
-//            if (subCriteria.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
+//        for (MutableSubCriteria question : criteria.getSubCriterias()) {
+//            if (question.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
 //                criteria.getProgress().completed++;
 //            }
 //        }
@@ -143,9 +143,9 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 //                                           long criteriaId,
 //                                           long subCriteriaId) {
 //        int delta = 0;
-//        for (MutableStandard standard : category.getStandards()) {
-//            if (standard.getId() == standardId) {
-//                delta = findProgressDeltaAndNotify(answer, standard, criteriaId, subCriteriaId);
+//        for (MutableStandard subGroup : category.getStandards()) {
+//            if (subGroup.getId() == standardId) {
+//                delta = findProgressDeltaAndNotify(answer, subGroup, criteriaId, subCriteriaId);
 //                break;
 //            }
 //        }
@@ -155,18 +155,18 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 //    }
 //
 //    private int findProgressDeltaAndNotify(MutableAnswer answer,
-//                                           MutableStandard standard,
+//                                           MutableStandard subGroup,
 //                                           long criteriaId,
 //                                           long subCriteriaId) {
 //        int delta = 0;
-//        for (MutableCriteria criteria : standard.getCriterias()) {
+//        for (MutableCriteria criteria : subGroup.getCriterias()) {
 //            if (criteria.getId() == criteriaId) {
 //                delta = findProgressDeltaAndNotify(answer, criteria, subCriteriaId);
 //                break;
 //            }
 //        }
-//        standard.getProgress().completed += delta;
-//        standardPublishSubject.onNext(standard);
+//        subGroup.getProgress().completed += delta;
+//        standardPublishSubject.onNext(subGroup);
 //        return delta;
 //    }
 //
@@ -175,11 +175,11 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 //                                           long subCriteriaId) {
 //        int oldCompleted = criteria.getProgress().completed;
 //        int completed = 0;
-//        for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
-//            if (subCriteria.getId() == subCriteriaId) {
-//                subCriteria.setAnswer(answer);
+//        for (MutableSubCriteria question : criteria.getSubCriterias()) {
+//            if (question.getId() == subCriteriaId) {
+//                question.setAnswer(answer);
 //            }
-//            if (subCriteria.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
+//            if (question.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
 //                completed++;
 //            }
 //        }

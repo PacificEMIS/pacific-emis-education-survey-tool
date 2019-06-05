@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.Progress;
-import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.data.serialization.converters.AppRegionConverter;
 import fm.doe.national.core.data.serialization.converters.SurveyTypeConverter;
 import fm.doe.national.core.preferences.entities.AppRegion;
@@ -116,6 +115,6 @@ public class SerializableWashSurvey implements WashSurvey {
     @NonNull
     @Override
     public Progress getProgress() {
-        return MutableProgress.createEmptyProgress();
+        throw new UnsupportedOperationException();
     }
 }

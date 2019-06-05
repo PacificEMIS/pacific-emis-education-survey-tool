@@ -41,7 +41,8 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
 
     public MutableWashSurvey(WashSurvey other) {
         this(other.getVersion(), other.getSurveyType(), other.getAppRegion());
-        
+
+        this.id = other.getId();
         this.date = other.getDate();
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();

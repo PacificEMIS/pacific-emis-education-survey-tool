@@ -1,4 +1,4 @@
-package fm.doe.national.accreditation_core.data.persistence.entity;
+package fm.doe.national.core.data.persistence.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

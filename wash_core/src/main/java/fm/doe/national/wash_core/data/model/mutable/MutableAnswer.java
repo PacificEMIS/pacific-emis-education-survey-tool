@@ -47,6 +47,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.location = other.getLocation();
         this.binaryAnswerState = other.getBinaryAnswerState();
         this.ternaryAnswerState = other.getTernaryAnswerState();
+        this.id = other.getId();
 
         if (other.getPhotos() != null) {
             this.photos = other.getPhotos().stream().map(MutablePhoto::new).collect(Collectors.toList());

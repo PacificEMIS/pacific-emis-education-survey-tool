@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.Progress;
-import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.SubGroup;
 
@@ -66,6 +65,6 @@ public class SerializableGroup implements Group {
     @NonNull
     @Override
     public Progress getProgress() {
-        return MutableProgress.createEmptyProgress();
+        throw new UnsupportedOperationException();
     }
 }
