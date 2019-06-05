@@ -9,7 +9,6 @@ import org.simpleframework.xml.Root;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.serialization.model.SerializablePhoto;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
@@ -83,7 +82,7 @@ public class SerializableAnswer implements Answer {
 
     @Nullable
     @Override
-    public List<? extends Photo> getPhotos() {
+    public List<SerializablePhoto> getPhotos() {
         return photos;
     }
 

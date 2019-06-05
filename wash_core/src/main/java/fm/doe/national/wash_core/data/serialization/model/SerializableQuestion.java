@@ -38,13 +38,21 @@ public class SerializableQuestion implements Question {
     @ElementList(inline = true, required = false)
     List<Variant> variants;
 
+    @Element(name = "answer", required = false)
+    SerializableAnswer answer;
+
     public SerializableQuestion(Question other) {
         this.prefix = other.getPrefix();
         this.title = other.getTitle();
         this.type = other.getType();
+
+        if (other.getAnswer() != null) {
+            this.answer = new SerializableAnswer(other.getAnswer());
+        }
     }
 
     public SerializableQuestion() {
+        // required for serialization
     }
 
     @NonNull
@@ -86,5 +94,17 @@ public class SerializableQuestion implements Question {
     @Override
     public Progress getProgress() {
         return MutableProgress.createEmptyProgress();
+    }
+
+    @Nullable
+    @Override
+    public SerializableAnswer getAnswer() {
+        return answer;
+    }
+
+    @Nullable
+    @Override
+    public Relation getRelation() {
+        return relation;
     }
 }

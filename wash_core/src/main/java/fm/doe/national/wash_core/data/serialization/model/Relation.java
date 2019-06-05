@@ -4,22 +4,23 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Root(name = "relation")
-public class Relation {
+public class Relation implements Serializable {
 
     @Element(name = "id")
     String questionId;
 
-    @ElementList(inline = true)
-    List<RelationAnswer> relationAnswers;
+    @ElementList(entry = "relationAnswer", inline = true)
+    List<String> relationAnswers;
 
     public String getQuestionId() {
         return questionId;
     }
 
-    public List<RelationAnswer> getRelationAnswers() {
+    public List<String> getRelationAnswers() {
         return relationAnswers;
     }
 }
