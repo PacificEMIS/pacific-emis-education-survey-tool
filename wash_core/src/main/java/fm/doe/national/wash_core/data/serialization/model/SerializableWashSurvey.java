@@ -19,9 +19,10 @@ import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.WashSurvey;
+import fm.doe.national.wash_core.data.serialization.BaseSerializableIdentifiedObject;
 
 @Root(name = "survey")
-public class SerializableWashSurvey implements WashSurvey {
+public class SerializableWashSurvey extends BaseSerializableIdentifiedObject implements WashSurvey {
 
     @Element
     @Convert(SurveyTypeConverter.class)
@@ -105,11 +106,6 @@ public class SerializableWashSurvey implements WashSurvey {
     @Override
     public AppRegion getAppRegion() {
         return region;
-    }
-
-    @Override
-    public long getId() {
-        return 0;
     }
 
     @NonNull

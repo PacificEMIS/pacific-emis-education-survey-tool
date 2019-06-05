@@ -14,9 +14,10 @@ import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.TernaryAnswerState;
+import fm.doe.national.wash_core.data.serialization.BaseSerializableIdentifiedObject;
 
 @Root(name = "answer")
-public class SerializableAnswer implements Answer {
+public class SerializableAnswer extends BaseSerializableIdentifiedObject implements Answer {
 
     @ElementList(entry = "item", required = false, inline = true)
     List<String> items;
@@ -100,11 +101,6 @@ public class SerializableAnswer implements Answer {
     @Override
     public TernaryAnswerState getTernaryAnswerState() {
         return ternaryAnswerState;
-    }
-
-    @Override
-    public long getId() {
-        return 0;
     }
 
     @Nullable

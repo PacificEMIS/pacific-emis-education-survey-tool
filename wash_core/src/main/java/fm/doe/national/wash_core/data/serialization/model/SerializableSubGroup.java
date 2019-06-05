@@ -13,9 +13,10 @@ import java.util.stream.Collectors;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.SubGroup;
+import fm.doe.national.wash_core.data.serialization.BaseSerializableIdentifiedObject;
 
 @Root(name = "subgroup")
-public class SerializableSubGroup implements SubGroup {
+public class SerializableSubGroup extends BaseSerializableIdentifiedObject implements SubGroup {
 
     @Element(name = "id")
     String prefix;
@@ -54,11 +55,6 @@ public class SerializableSubGroup implements SubGroup {
     @Override
     public List<? extends Question> getQuestions() {
         return questions;
-    }
-
-    @Override
-    public long getId() {
-        return 0;
     }
 
     @NonNull
