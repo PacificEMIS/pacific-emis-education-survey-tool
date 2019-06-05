@@ -39,6 +39,9 @@ public class RoomAnswer implements Answer {
     public String comment;
 
     @Nullable
+    public String inputText;
+
+    @Nullable
     public List<String> items;
 
     @Nullable
@@ -65,6 +68,7 @@ public class RoomAnswer implements Answer {
         this.location = other.getLocation();
         this.binaryAnswerState = other.getBinaryAnswerState();
         this.ternaryAnswerState = other.getTernaryAnswerState();
+        this.inputText = other.getInputText();
     }
 
     @Nullable
@@ -112,5 +116,11 @@ public class RoomAnswer implements Answer {
     @Override
     public long getId() {
         return uid;
+    }
+
+    @Nullable
+    @Override
+    public String getInputText() {
+        return inputText;
     }
 }

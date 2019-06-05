@@ -19,7 +19,7 @@ import io.reactivex.Single;
 
 public abstract class DataSourceImpl implements DataSource {
 
-    private static final String SCHOOLS_DATABASE_NAME = BuildConfig.APPLICATION_ID + "schools.database";
+    private static final String SCHOOLS_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".schools.database";
 
     protected final SchoolsDatabase schoolsDatabase;
 

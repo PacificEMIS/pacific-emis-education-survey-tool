@@ -22,6 +22,9 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
     private String comment;
 
     @Nullable
+    private String inputText;
+
+    @Nullable
     private List<Variant> variants;
 
     @Nullable
@@ -48,6 +51,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.binaryAnswerState = other.getBinaryAnswerState();
         this.ternaryAnswerState = other.getTernaryAnswerState();
         this.id = other.getId();
+        this.inputText = other.getInputText();
 
         if (other.getPhotos() != null) {
             this.photos = other.getPhotos().stream().map(MutablePhoto::new).collect(Collectors.toList());
@@ -96,6 +100,12 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         return ternaryAnswerState;
     }
 
+    @Nullable
+    @Override
+    public String getInputText() {
+        return inputText;
+    }
+
     public void setItems(@Nullable List<String> items) {
         this.items = items;
     }
@@ -122,5 +132,9 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
 
     public void setTernaryAnswerState(@Nullable TernaryAnswerState ternaryAnswerState) {
         this.ternaryAnswerState = ternaryAnswerState;
+    }
+
+    public void setInputText(@Nullable String inputText) {
+        this.inputText = inputText;
     }
 }

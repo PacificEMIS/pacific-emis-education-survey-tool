@@ -24,6 +24,9 @@ public class SerializableAnswer implements Answer {
     @Element(required = false)
     String comment;
 
+    @Element(required = false)
+    String inputText;
+
     @ElementList(required = false, inline = true)
     List<Variant> variants;
 
@@ -50,6 +53,7 @@ public class SerializableAnswer implements Answer {
         this.location = other.getLocation();
         this.binaryAnswerState = other.getBinaryAnswerState();
         this.ternaryAnswerState = other.getTernaryAnswerState();
+        this.inputText = other.getInputText();
 
         if (other.getPhotos() != null) {
             this.photos = other.getPhotos().stream().map(SerializablePhoto::new).collect(Collectors.toList());
@@ -101,5 +105,11 @@ public class SerializableAnswer implements Answer {
     @Override
     public long getId() {
         return 0;
+    }
+
+    @Nullable
+    @Override
+    public String getInputText() {
+        return inputText;
     }
 }

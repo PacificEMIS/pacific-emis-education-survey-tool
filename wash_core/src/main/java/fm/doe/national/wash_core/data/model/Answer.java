@@ -20,6 +20,9 @@ public interface Answer extends IdentifiedObject {
     String getComment();
 
     @Nullable
+    String getInputText();
+
+    @Nullable
     List<Variant> getVariants();
 
     @Nullable
@@ -40,21 +43,19 @@ public interface Answer extends IdentifiedObject {
                 return getBinaryAnswerState() != null;
             case TERNARY:
                 return getTernaryAnswerState() != null;
-            case TEXT_INPUT:
-                return !TextUtils.isEmpty(getComment());
-            case NUMBER_INPUT:
-                return !TextUtils.isEmpty(getComment());
-            case PHONE_INPUT:
-                return !TextUtils.isEmpty(getComment());
             case GEOLOCATION:
                 return getLocation() != null;
             case PHOTO:
                 return !CollectionUtils.isEmpty(getPhotos());
+            case TEXT_INPUT:
+            case NUMBER_INPUT:
+            case PHONE_INPUT:
+                return !TextUtils.isEmpty(getInputText());
             case SINGLE_SELECTION:
-                return !CollectionUtils.isEmpty(getItems());
             case MULTI_SELECTION:
                 return !CollectionUtils.isEmpty(getItems());
             case COMPLEX_BINARY:
+            case COMPLEX_NUMBER_INPUT:
                 return !CollectionUtils.isEmpty(getVariants());
         }
         throw new IllegalStateException();
