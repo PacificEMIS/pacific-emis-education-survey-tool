@@ -32,11 +32,20 @@ public class SerializableQuestion implements Question {
     @Element(name = "relation", required = false)
     Relation relation;
 
-    @ElementList(inline = true, required = false)
-    List<Item> items;
+    @ElementList(entry = "item", inline = true, required = false)
+    List<String> items;
 
     @ElementList(inline = true, required = false)
     List<Variant> variants;
+
+    public SerializableQuestion(Question other) {
+        this.prefix = other.getPrefix();
+        this.title = other.getTitle();
+        this.type = other.getType();
+    }
+
+    public SerializableQuestion() {
+    }
 
     @NonNull
     @Override
@@ -46,7 +55,7 @@ public class SerializableQuestion implements Question {
 
     @NonNull
     @Override
-    public String getSuffix() {
+    public String getPrefix() {
         return prefix;
     }
 
@@ -58,7 +67,7 @@ public class SerializableQuestion implements Question {
 
     @Nullable
     @Override
-    public List<Item> getItems() {
+    public List<String> getItems() {
         return items;
     }
 

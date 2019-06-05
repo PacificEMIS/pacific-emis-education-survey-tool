@@ -8,6 +8,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
@@ -27,6 +28,16 @@ public class SerializableGroup implements Group {
     List<SerializableSubGroup> subGroups;
 
     public SerializableGroup(Group other) {
+        this.prefix = other.getPrefix();
+        this.title = other.getTitle();
+
+        if (other.getSubGroups() != null) {
+            this.subGroups = other.getSubGroups().stream().map(SerializableSubGroup::new).collect(Collectors.toList());
+        }
+    }
+
+    public SerializableGroup() {
+        // required for serialization
     }
 
     @NonNull

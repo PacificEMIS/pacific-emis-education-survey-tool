@@ -7,6 +7,7 @@ public enum QuestionType implements Serializable {
     TERNARY(Flag.TERNARY.value),
     TEXT_INPUT(Flag.INPUT.value),
     NUMBER_INPUT(Flag.INPUT.value + Flag.NUMERIC.value),
+    PHONE_INPUT(Flag.INPUT.value + Flag.PHONE.value),
     GEOLOCATION(Flag.GEO.value),
     PHOTO(Flag.PHOTO.value),
     SINGLE_SELECTION(Flag.CHOOSE.value + Flag.SINGLE.value),
@@ -42,7 +43,8 @@ public enum QuestionType implements Serializable {
         VAR(128),
         PHOTO(256),
         GEO(512),
-        TERNARY(1024);
+        TERNARY(1024),
+        PHONE(2048);
 
         final int value;
 

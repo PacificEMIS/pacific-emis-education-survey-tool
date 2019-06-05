@@ -54,44 +54,44 @@
                 <id>CW.W.1</id>
                 <name>What is the source of water for the school?</name>
                 <flags>VAR|BINARY</flags>
-                <varinat>
+                <variant>
                     <name>Piped water supply</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Protected well/spring</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Unprotected well/spring</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Rainwater</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Bottled water</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Tanker/Truck or cart</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Surfaced water (Lake, River, Stream)</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>No water source</name>
-                </varinat>
+                </variant>
             </question>
         </subgroup>
         <subgroup>
@@ -113,18 +113,18 @@
                 <id>SW.S.2</id>
                 <name>How many toilets/latrines are at the school?</name>
                 <flags>VAR|INPUT|NUMERIC</flags>
-                <varinat>
+                <variant>
                     <name>Total Number</name>
-                    <option>Girls’ only toilets</option>
-                    <option>Boys’ only toilets</option>
-                    <option>Common use only toilets</option>
-                </varinat>
-                <varinat>
+                    <item>Girls’ only toilets</item>
+                    <item>Boys’ only toilets</item>
+                    <item>Common use only toilets</item>
+                </variant>
+                <variant>
                     <name>Number that are usable (accessible, functional, private)</name>
-                    <option>Girls’ only toilets</option>
-                    <option>Boys’ only toilets</option>
-                    <option>Common use only toilets</option>
-                </varinat>
+                    <item>Girls’ only toilets</item>
+                    <item>Boys’ only toilets</item>
+                    <item>Common use only toilets</item>
+                </variant>
             </question>
         </subgroup>
         <subgroup>
@@ -215,7 +215,7 @@
                 <item>2-5 years</item>
                 <item>5-10 years</item>
                 <item>10-20 years</item>
-                <item>&rt;20 years</item>
+                <item>&gt;20 years</item>
             </question>
             <question>
                 <id>SW.W.6</id>
@@ -247,7 +247,7 @@
                 <item>2-5 years</item>
                 <item>5-10 years</item>
                 <item>10-20 years</item>
-                <item>&rt;20 years</item>
+                <item>&gt;20 years</item>
                 <item>Never</item>
             </question>
             <question>
@@ -450,7 +450,7 @@
                 <item>3</item>
                 <item>4</item>
                 <item>5</item>
-                <item>&rt;5</item>
+                <item>&gt;5</item>
             </question>
             <question>
                 <id>SW.W.22</id>

@@ -5,7 +5,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 @Root(name = "variant")
 public class Variant implements Serializable {
@@ -13,14 +13,14 @@ public class Variant implements Serializable {
     @Element(name = "name")
     String name;
 
-    @ElementList(inline = true)
-    ArrayList<Item> options; // AL for serialization purposes
+    @ElementList(entry = "item", inline = true, required = false)
+    List<String> options;
 
     public String getName() {
         return name;
     }
 
-    public ArrayList<Item> getOptions() {
+    public List<String> getOptions() {
         return options;
     }
 }

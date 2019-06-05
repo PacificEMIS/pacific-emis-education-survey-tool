@@ -8,6 +8,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
@@ -25,6 +26,18 @@ public class SerializableSubGroup implements SubGroup {
 
     @ElementList(inline = true)
     List<SerializableQuestion> questions;
+
+    public SerializableSubGroup(SubGroup other) {
+        this.prefix = other.getPrefix();
+        this.title = other.getTitle();
+
+        if (other.getQuestions() != null) {
+            this.questions = other.getQuestions().stream().map(SerializableQuestion::new).collect(Collectors.toList());
+        }
+    }
+
+    public SerializableSubGroup() {
+    }
 
     @NonNull
     @Override

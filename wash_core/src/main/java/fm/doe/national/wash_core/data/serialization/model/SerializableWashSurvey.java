@@ -63,6 +63,9 @@ public class SerializableWashSurvey implements WashSurvey {
         }
     }
 
+    public SerializableWashSurvey() {
+        // required for serialization
+    }
 
     @Nullable
     @Override
