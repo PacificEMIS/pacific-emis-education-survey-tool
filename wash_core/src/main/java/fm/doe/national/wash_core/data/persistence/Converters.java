@@ -1,5 +1,6 @@
 package fm.doe.national.wash_core.data.persistence;
 
+import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
@@ -28,65 +29,76 @@ public class Converters {
         return questionType.name();
     }
 
+    @Nullable
     @TypeConverter
-    public static String convertFromRelationToJson(Relation relation) {
-        return sGson.toJson(relation);
+    public static String convertFromRelationToJson(@Nullable Relation relation) {
+        return relation == null ? null : sGson.toJson(relation);
     }
 
+    @Nullable
     @TypeConverter
-    public static Relation convertFromJsonToRelation(String json) {
-        return sGson.fromJson(json, Relation.class);
+    public static Relation convertFromJsonToRelation(@Nullable String json) {
+        return json == null ? null : sGson.fromJson(json, Relation.class);
     }
 
+    @Nullable
     @TypeConverter
-    public static List<Variant> convertFromJsonToVariantsList(String name) {
-        return Arrays.asList(sGson.fromJson(name, Variant[].class));
+    public static List<Variant> convertFromJsonToVariantsList(@Nullable String json) {
+        return json == null ? null : Arrays.asList(sGson.fromJson(json, Variant[].class));
     }
 
+    @Nullable
     @TypeConverter
-    public static String convertFromVariantsListToJson(List<Variant> list) {
-        return sGson.toJson(list);
+    public static String convertFromVariantsListToJson(@Nullable List<Variant> list) {
+        return list == null ? null : sGson.toJson(list);
     }
 
+    @Nullable
     @TypeConverter
-    public static List<String> convertFromJsonToStringList(String name) {
-        return Arrays.asList(sGson.fromJson(name, String[].class));
+    public static List<String> convertFromJsonToStringList(@Nullable String json) {
+        return json == null ? null : Arrays.asList(sGson.fromJson(json, String[].class));
     }
 
+    @Nullable
     @TypeConverter
-    public static String convertFromStringListToJson(List<String> list) {
-        return sGson.toJson(list);
+    public static String convertFromStringListToJson(@Nullable List<String> list) {
+        return list == null ? null : sGson.toJson(list);
     }
 
+    @Nullable
     @TypeConverter
-    public static Location convertFromJsonToLocation(String name) {
-        return sGson.fromJson(name, Location.class);
+    public static Location convertFromJsonToLocation(@Nullable String json) {
+        return json == null ? null : sGson.fromJson(json, Location.class);
     }
 
+    @Nullable
     @TypeConverter
-    public static String convertFromLocationToJson(Location location) {
-        return sGson.toJson(location);
+    public static String convertFromLocationToJson(@Nullable Location location) {
+        return location == null ? null : sGson.toJson(location);
     }
 
+    @Nullable
     @TypeConverter
-    public static BinaryAnswerState convertFromNameToBinaryAnswerState(String name) {
-        return BinaryAnswerState.valueOf(name);
+    public static BinaryAnswerState convertFromNameToBinaryAnswerState(@Nullable String name) {
+        return name == null ? null : BinaryAnswerState.valueOf(name);
     }
 
+    @Nullable
     @TypeConverter
-    public static String convertFromBinaryAnswerStateToName(BinaryAnswerState binaryAnswerState) {
-        return binaryAnswerState.name();
+    public static String convertFromBinaryAnswerStateToName(@Nullable BinaryAnswerState binaryAnswerState) {
+        return binaryAnswerState == null ? null : binaryAnswerState.name();
     }
 
-
+    @Nullable
     @TypeConverter
-    public static TernaryAnswerState convertFromNameToTernaryAnswerState(String name) {
-        return TernaryAnswerState.valueOf(name);
+    public static TernaryAnswerState convertFromNameToTernaryAnswerState(@Nullable String name) {
+        return name == null ? null : TernaryAnswerState.valueOf(name);
     }
 
+    @Nullable
     @TypeConverter
-    public static String convertFromTernaryAnswerStateStateToName(TernaryAnswerState ternaryAnswerState) {
-        return ternaryAnswerState.name();
+    public static String convertFromTernaryAnswerStateStateToName(@Nullable TernaryAnswerState ternaryAnswerState) {
+        return ternaryAnswerState == null ? null : ternaryAnswerState.name();
     }
 
 }

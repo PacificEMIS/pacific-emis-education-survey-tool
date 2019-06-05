@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
-import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.serialization.model.Relation;
@@ -35,9 +34,6 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
     @Nullable
     private MutableAnswer answer;
 
-    @NonNull
-    private MutableProgress progress;
-
     public MutableQuestion(Question other) {
         this(other.getTitle(), other.getPrefix(), other.getType());
 
@@ -55,7 +51,6 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         this.title = title;
         this.prefix = prefix;
         this.questionType = questionType;
-        this.progress = MutableProgress.createEmptyProgress();
     }
 
     @NonNull
@@ -100,12 +95,6 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         return answer;
     }
 
-    @NonNull
-    @Override
-    public MutableProgress getProgress() {
-        return progress;
-    }
-
     public void setTitle(@NonNull String title) {
         this.title = title;
     }
@@ -134,7 +123,4 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         this.answer = answer;
     }
 
-    public void setProgress(@NonNull MutableProgress progress) {
-        this.progress = progress;
-    }
 }

@@ -1,21 +1,28 @@
 package fm.doe.national.wash_core.interactors;
 
+import java.util.List;
+
 import fm.doe.national.core.domain.SurveyInteractor;
+import fm.doe.national.wash_core.data.model.Answer;
+import fm.doe.national.wash_core.data.model.mutable.MutableGroup;
+import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
+import fm.doe.national.wash_core.data.model.mutable.MutableSubGroup;
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.subjects.PublishSubject;
 
 public interface WashSurveyInteractor extends SurveyInteractor {
 
-//    Single<List<MutableCategory>> requestCategories();
-//
-//    Single<List<MutableStandard>> requestStandards(long categoryId);
-//
-//    Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId);
-//
-//    Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
-//
-//    PublishSubject<MutableCategory> getCategoryProgressSubject();
-//
-//    PublishSubject<MutableStandard> getStandardProgressSubject();
-//
-//    PublishSubject<MutableCriteria> getCriteriaProgressSubject();
+    Single<List<MutableGroup>> requestGroups();
+
+    Single<List<MutableSubGroup>> requestSubGroups(long groupId);
+
+    Single<List<MutableQuestion>> requestQuestions(long groupId, long subGroupId);
+
+    Completable updateAnswer(Answer answer, long groupId, long subGroupId, long questionId);
+
+    PublishSubject<MutableGroup> getGroupProgressSubject();
+
+    PublishSubject<MutableSubGroup> getSubGroupProgressSubject();
 
 }

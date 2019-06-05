@@ -10,7 +10,6 @@ import org.simpleframework.xml.convert.Convert;
 
 import java.util.List;
 
-import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.serialization.converters.QuestionTypeConverter;
@@ -87,12 +86,6 @@ public class SerializableQuestion implements Question {
     @Override
     public long getId() {
         return 0;
-    }
-
-    @NonNull
-    @Override
-    public Progress getProgress() {
-        throw new UnsupportedOperationException();
     }
 
     @Nullable

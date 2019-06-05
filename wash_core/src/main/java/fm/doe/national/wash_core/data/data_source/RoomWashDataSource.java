@@ -109,7 +109,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
             long id = database.getSubGroupDao().insert(roomSubGroup);
 
             if (subGroup.getQuestions() != null) {
-                saveQuestions(database, roomSubGroup.getQuestions(), id, shouldCreateAnswers);
+                saveQuestions(database, subGroup.getQuestions(), id, shouldCreateAnswers);
             }
         });
     }

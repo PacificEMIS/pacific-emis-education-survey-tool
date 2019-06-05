@@ -10,7 +10,6 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
@@ -113,9 +112,4 @@ public class RoomQuestion implements Question {
         return uid;
     }
 
-    @NonNull
-    @Override
-    public Progress getProgress() {
-        throw new UnsupportedOperationException();
-    }
 }

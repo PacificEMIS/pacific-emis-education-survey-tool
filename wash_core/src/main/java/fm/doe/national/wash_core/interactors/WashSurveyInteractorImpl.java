@@ -1,9 +1,20 @@
 package fm.doe.national.wash_core.interactors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.wash_core.data.data_source.WashDataSource;
+import fm.doe.national.wash_core.data.model.Answer;
+import fm.doe.national.wash_core.data.model.WashSurvey;
+import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
+import fm.doe.national.wash_core.data.model.mutable.MutableGroup;
+import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
+import fm.doe.national.wash_core.data.model.mutable.MutableSubGroup;
+import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;
 
@@ -11,11 +22,10 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 
     private final WashDataSource washDataSource;
     private final PublishSubject<Survey> surveyPublishSubject = PublishSubject.create();
-//    private final PublishSubject<MutableCategory> categoryPublishSubject = PublishSubject.create();
-//    private final PublishSubject<MutableStandard> standardPublishSubject = PublishSubject.create();
-//    private final PublishSubject<MutableCriteria> criteriaPublishSubject = PublishSubject.create();
-//
-//    private MutableAccreditationSurvey survey;
+    private final PublishSubject<MutableGroup> groupPublishSubject = PublishSubject.create();
+    private final PublishSubject<MutableSubGroup> subGroupPublishSubject = PublishSubject.create();
+
+    private MutableWashSurvey survey;
 
     public WashSurveyInteractorImpl(WashDataSource washDataSource) {
         this.washDataSource = washDataSource;
@@ -23,16 +33,15 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 
     @Override
     public Single<List<Survey>> getAllSurveys() {
-        return null;
-//        return washDataSource.loadAllSurveys()
-//                .flatMapObservable(Observable::fromIterable)
-//                .map(survey -> {
-//                    MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
-//                    initProgress(mutableSurvey);
-//                    return mutableSurvey;
-//                })
-//                .toList()
-//                .map(list -> new ArrayList<>(list));
+        return washDataSource.loadAllSurveys()
+                .flatMapObservable(Observable::fromIterable)
+                .map(survey -> {
+                    MutableWashSurvey mutableSurvey = new MutableWashSurvey((WashSurvey) survey);
+                    initProgress(mutableSurvey);
+                    return mutableSurvey;
+                })
+                .toList()
+                .map(list -> new ArrayList<>(list));
     }
 
     @Override
@@ -42,170 +51,144 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 
     @Override
     public void setCurrentSurvey(Survey survey, boolean shouldFetchProgress) {
-//        this.survey = (MutableAccreditationSurvey) survey;
-//        if (shouldFetchProgress) {
-//            initProgress(this.survey);
-//        }
+        this.survey = (MutableWashSurvey) survey;
+        if (shouldFetchProgress) {
+            initProgress(this.survey);
+        }
     }
 
     @Override
     public Survey getCurrentSurvey() {
-        return null;
-//        return survey;
+        return survey;
     }
 
-//    private void initProgress(MutableAccreditationSurvey survey) {
-//        for (MutableCategory category : survey.getCategories()) {
-//            initProgress(category);
-//            survey.getProgress().add(category.getProgress());
-//        }
-//    }
-//
-//    private void initProgress(MutableCategory category) {
-//        for (MutableStandard subGroup : category.getStandards()) {
-//            initProgress(subGroup);
-//            category.getProgress().add(subGroup.getProgress());
-//        }
-//    }
-//
-//    private void initProgress(MutableStandard subGroup) {
-//        for (MutableCriteria criteria : subGroup.getCriterias()) {
-//            initProgress(criteria);
-//            subGroup.getProgress().add(criteria.getProgress());
-//        }
-//    }
-//
-//    private void initProgress(MutableCriteria criteria) {
-//        criteria.getProgress().total = criteria.getSubCriterias().size();
-//        for (MutableSubCriteria question : criteria.getSubCriterias()) {
-//            if (question.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
-//                criteria.getProgress().completed++;
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public Single<List<MutableCategory>> requestCategories() {
-//        return Single.fromCallable(() -> survey.getCategories());
-//    }
-//
-//    @Override
-//    public Single<List<MutableStandard>> requestStandards(long categoryId) {
-//        return requestCategories()
-//                .flatMapObservable(Observable::fromIterable)
-//                .filter(cat -> cat.getId() == categoryId)
-//                .firstOrError()
-//                .map(MutableCategory::getStandards);
-//    }
-//
-//    @Override
-//    public Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId) {
-//        return requestStandards(categoryId)
-//                .flatMapObservable(Observable::fromIterable)
-//                .filter(it -> it.getId() == standardId)
-//                .firstOrError()
-//                .map(MutableStandard::getCriterias);
-//    }
-//
-//    @SuppressLint("CheckResult")
-//    @Override
-//    public Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
-//        return washDataSource.updateAnswer(answer, subCriteriaId)
-//                .flatMapCompletable(updatedAnswer -> Completable.fromAction(() -> notifyProgressChanged(
-//                        new MutableAnswer(updatedAnswer),
-//                        categoryId,
-//                        standardId,
-//                        criteriaId,
-//                        subCriteriaId
-//                )));
-//    }
-//
-//    private void notifyProgressChanged(MutableAnswer answer,
-//                                       long categoryId,
-//                                       long standardId,
-//                                       long criteriaId,
-//                                       long subCriteriaId) {
-//        int delta = 0;
-//        for (MutableCategory category : survey.getCategories()) {
-//            if (category.getId() == categoryId) {
-//                delta = findProgressDeltaAndNotify(answer, category, standardId, criteriaId, subCriteriaId);
-//                break;
-//            }
-//        }
-//
-//        survey.getProgress().completed += delta;
-//        surveyPublishSubject.onNext(survey);
-//    }
-//
-//    private int findProgressDeltaAndNotify(MutableAnswer answer,
-//                                           MutableCategory category,
-//                                           long standardId,
-//                                           long criteriaId,
-//                                           long subCriteriaId) {
-//        int delta = 0;
-//        for (MutableStandard subGroup : category.getStandards()) {
-//            if (subGroup.getId() == standardId) {
-//                delta = findProgressDeltaAndNotify(answer, subGroup, criteriaId, subCriteriaId);
-//                break;
-//            }
-//        }
-//        category.getProgress().completed += delta;
-//        categoryPublishSubject.onNext(category);
-//        return delta;
-//    }
-//
-//    private int findProgressDeltaAndNotify(MutableAnswer answer,
-//                                           MutableStandard subGroup,
-//                                           long criteriaId,
-//                                           long subCriteriaId) {
-//        int delta = 0;
-//        for (MutableCriteria criteria : subGroup.getCriterias()) {
-//            if (criteria.getId() == criteriaId) {
-//                delta = findProgressDeltaAndNotify(answer, criteria, subCriteriaId);
-//                break;
-//            }
-//        }
-//        subGroup.getProgress().completed += delta;
-//        standardPublishSubject.onNext(subGroup);
-//        return delta;
-//    }
-//
-//    private int findProgressDeltaAndNotify(MutableAnswer answer,
-//                                           MutableCriteria criteria,
-//                                           long subCriteriaId) {
-//        int oldCompleted = criteria.getProgress().completed;
-//        int completed = 0;
-//        for (MutableSubCriteria question : criteria.getSubCriterias()) {
-//            if (question.getId() == subCriteriaId) {
-//                question.setAnswer(answer);
-//            }
-//            if (question.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
-//                completed++;
-//            }
-//        }
-//        criteria.getProgress().completed = completed;
-//        criteriaPublishSubject.onNext(criteria);
-//        return completed - oldCompleted;
-//    }
+    private void initProgress(MutableWashSurvey survey) {
+        if (survey.getGroups() != null) {
+            survey.getGroups().forEach(group -> {
+                initProgress(group);
+                survey.getProgress().add(group.getProgress());
+            });
+        }
+    }
+
+    private void initProgress(MutableGroup group) {
+        if (group.getSubGroups() != null) {
+            group.getSubGroups().forEach(mutableSubGroup -> {
+                initProgress(mutableSubGroup);
+                group.getProgress().add(mutableSubGroup.getProgress());
+            });
+        }
+    }
+
+    private void initProgress(MutableSubGroup subGroup) {
+        if (subGroup.getQuestions() != null) {
+            subGroup.setProgress(new MutableProgress(
+                    subGroup.getQuestions().size(),
+                    (int) subGroup.getQuestions().parallelStream()
+                            .filter(q -> q.getAnswer() != null && q.getAnswer().isAnsweredForQuestionType(q.getType()))
+                            .count()
+            ));
+        }
+    }
+
+    @Override
+    public Single<List<MutableGroup>> requestGroups() {
+        return Single.fromCallable(() -> survey.getGroups());
+    }
+
+    @Override
+    public Single<List<MutableSubGroup>> requestSubGroups(long groupId) {
+        return requestGroups()
+                .flatMapObservable(Observable::fromIterable)
+                .filter(it -> it.getId() == groupId)
+                .firstOrError()
+                .map(MutableGroup::getSubGroups);
+    }
+
+    @Override
+    public Single<List<MutableQuestion>> requestQuestions(long groupId, long subGroupId) {
+        return requestSubGroups(groupId)
+                .flatMapObservable(Observable::fromIterable)
+                .filter(it -> it.getId() == subGroupId)
+                .firstOrError()
+                .map(MutableSubGroup::getQuestions);
+    }
+
+    @Override
+    public Completable updateAnswer(Answer answer, long groupId, long subGroupId, long questionId) {
+        return washDataSource.updateAnswer(answer, questionId)
+                .flatMapCompletable(updatedAnswer -> Completable.fromAction(() -> notifyProgressChanged(
+                        new MutableAnswer(updatedAnswer),
+                        groupId,
+                        subGroupId,
+                        questionId
+                )));
+    }
+
+    private void notifyProgressChanged(MutableAnswer answer,
+                                       long groupId,
+                                       long subGroupId,
+                                       long questionId) {
+        if (survey.getGroups() != null) {
+            survey.getProgress().completed += survey.getGroups().parallelStream()
+                    .filter(group -> group.getId() == groupId)
+                    .findFirst()
+                    .map(group -> findProgressDeltaAndNotify(answer, group, subGroupId, questionId))
+                    .orElse(0);
+            surveyPublishSubject.onNext(survey);
+        }
+    }
+
+    private int findProgressDeltaAndNotify(MutableAnswer answer,
+                                           MutableGroup group,
+                                           long subGroupId,
+                                           long questionId) {
+        if (group.getSubGroups() == null) {
+            return 0;
+        }
+
+        int delta = group.getSubGroups().parallelStream()
+                .filter(subGroup -> subGroup.getId() == subGroupId)
+                .findFirst()
+                .map(subGroup -> findProgressDeltaAndNotify(answer, subGroup, questionId))
+                .orElse(0);
+        group.getProgress().completed += delta;
+        groupPublishSubject.onNext(group);
+        return delta;
+    }
+
+    private int findProgressDeltaAndNotify(MutableAnswer answer, MutableSubGroup subGroup, long questionId) {
+        if (subGroup.getQuestions() == null) {
+            return 0;
+        }
+
+        int oldCompleted = subGroup.getProgress().getCompleted();
+        int completed = (int) subGroup.getQuestions().parallelStream()
+                .peek(question -> {
+                    if (question.getId() == questionId) {
+                        question.setAnswer(answer);
+                    }
+                })
+                .filter(question ->
+                        question.getAnswer() != null && question.getAnswer().isAnsweredForQuestionType(question.getType())
+                )
+                .count();
+        return completed - oldCompleted;
+    }
 
     @Override
     public PublishSubject<Survey> getSurveyProgressSubject() {
         return surveyPublishSubject;
     }
 
-//    @Override
-//    public PublishSubject<MutableCategory> getCategoryProgressSubject() {
-//        return categoryPublishSubject;
-//    }
-//
-//    @Override
-//    public PublishSubject<MutableStandard> getStandardProgressSubject() {
-//        return standardPublishSubject;
-//    }
-//
-//    @Override
-//    public PublishSubject<MutableCriteria> getCriteriaProgressSubject() {
-//        return criteriaPublishSubject;
-//    }
+    @Override
+    public PublishSubject<MutableGroup> getGroupProgressSubject() {
+        return groupPublishSubject;
+    }
+
+    @Override
+    public PublishSubject<MutableSubGroup> getSubGroupProgressSubject() {
+        return subGroupPublishSubject;
+    }
 
 }

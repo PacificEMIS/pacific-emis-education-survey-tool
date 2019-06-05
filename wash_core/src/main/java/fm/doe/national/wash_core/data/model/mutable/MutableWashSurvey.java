@@ -11,7 +11,6 @@ import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
-import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.WashSurvey;
 
 public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
@@ -61,7 +60,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
 
     @Nullable
     @Override
-    public List<? extends Group> getGroups() {
+    public List<MutableGroup> getGroups() {
         return groups;
     }
 
