@@ -47,6 +47,7 @@ ext {
             material        : '1.1.0-alpha06',
             dropbox         : '3.1.0',
             omegaViews      : '1.0.2',
-            constraintLayout: '2.0.0-beta1'
-            , work          : '2.0.1']
+            constraintLayout: '2.0.0-beta1',
+            work            : '2.0.1',
+            gson            : '2.8.5']
 }

@@ -1,0 +1,75 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode 1
+        versionName Versions.appVersion
+
+        buildConfigField "int", "DATA_BASE_VERSION", "1"
+        buildConfigField "String", "SURVEYS_FCM_FILE_NAME", "\"survey-wash.xml\""
+        buildConfigField "String", "SCHOOLS_FCM_FILE_NAME", "\"schools.csv\""
+        buildConfigField "String", "SURVEYS_RMI_FILE_NAME", "\"survey-wash.xml\""
+        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools-rmi.csv\""
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':core')
+
+    implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
+    implementation "com.google.android.material:material:${Deps.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
+    testImplementation "junit:junit:${Deps.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
+
+    // Omega
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
+    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
+
+    // RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
+
+    // Room
+    implementation "androidx.room:room-runtime:${Deps.room}"
+    annotationProcessor "androidx.room:room-compiler:${Deps.room}"
+    implementation "androidx.room:room-rxjava2:${Deps.room}"
+
+    // Moxy
+    implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
+    annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
+
+    // SimpleXML
+    implementation("org.simpleframework:simple-xml:2.7.1") {
+        exclude group: 'xpp3', module: 'xpp3'
+    }
+
+    // GSON
+    implementation "com.google.code.gson:gson:${Deps.gson}"
+}

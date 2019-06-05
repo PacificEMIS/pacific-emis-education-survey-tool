@@ -54,44 +54,44 @@
                 <id>CW.W.1</id>
                 <name>What is the source of water for the school?</name>
                 <flags>VAR|BINARY</flags>
-                <varinat>
+                <variant>
                     <name>Piped water supply</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Protected well/spring</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Unprotected well/spring</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Rainwater</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Bottled water</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Tanker/Truck or cart</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>Surfaced water (Lake, River, Stream)</name>
-                    <option>Currently Available</option>
-                    <option>Used for Drinking</option>
-                </varinat>
-                <varinat>
+                    <item>Currently Available</item>
+                    <item>Used for Drinking</item>
+                </variant>
+                <variant>
                     <name>No water source</name>
-                </varinat>
+                </variant>
             </question>
         </subgroup>
         <subgroup>
@@ -113,18 +113,18 @@
                 <id>SW.S.2</id>
                 <name>How many toilets/latrines are at the school?</name>
                 <flags>VAR|INPUT|NUMERIC</flags>
-                <varinat>
+                <variant>
                     <name>Total Number</name>
-                    <option>Girls’ only toilets</option>
-                    <option>Boys’ only toilets</option>
-                    <option>Common use only toilets</option>
-                </varinat>
-                <varinat>
+                    <item>Girls’ only toilets</item>
+                    <item>Boys’ only toilets</item>
+                    <item>Common use only toilets</item>
+                </variant>
+                <variant>
                     <name>Number that are usable (accessible, functional, private)</name>
-                    <option>Girls’ only toilets</option>
-                    <option>Boys’ only toilets</option>
-                    <option>Common use only toilets</option>
-                </varinat>
+                    <item>Girls’ only toilets</item>
+                    <item>Boys’ only toilets</item>
+                    <item>Common use only toilets</item>
+                </variant>
             </question>
         </subgroup>
         <subgroup>
@@ -183,7 +183,7 @@
             <question>
                 <id>SW.W.3</id>
                 <name>Is the main water source located on school premises?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.W.1</id>
                     <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
@@ -197,7 +197,7 @@
             <question>
                 <id>SW.W.4</id>
                 <name>How many taps or water points are there?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.W.3</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -206,7 +206,7 @@
             <question>
                 <id>SW.W.5</id>
                 <name>When was the main water source originally completed?</name>
-                <flags>CHOOSE|RELATED|SINGLE</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.3</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -215,12 +215,12 @@
                 <item>2-5 years</item>
                 <item>5-10 years</item>
                 <item>10-20 years</item>
-                <item>&rt;20 years</item>
+                <item>&gt;20 years</item>
             </question>
             <question>
                 <id>SW.W.6</id>
                 <name>In what year was the main water supply completed?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.W.3</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -229,7 +229,7 @@
             <question>
                 <id>SW.W.7</id>
                 <name>Has the main water source have any major rehabilitation?</name>
-                <flags>TERNARY|RELATED</flags>
+                <flags>TERNARY</flags>
                 <relation>
                     <id>SW.W.3</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -238,7 +238,7 @@
             <question>
                 <id>SW.W.8</id>
                 <name>When was the last time the main water source have major rehabilitation?</name>
-                <flags>CHOOSE|RELATED|SINGLE</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.7</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -247,13 +247,13 @@
                 <item>2-5 years</item>
                 <item>5-10 years</item>
                 <item>10-20 years</item>
-                <item>&rt;20 years</item>
+                <item>&gt;20 years</item>
                 <item>Never</item>
             </question>
             <question>
                 <id>SW.W.9</id>
                 <name>Is the main water source shared with others?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.1</id>
                     <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
@@ -272,7 +272,7 @@
             <question>
                 <id>SW.W.10</id>
                 <name>Can water be accessed by all students without teacher assistance?</name>
-                <flags>TERNARY|RELATED</flags>
+                <flags>TERNARY</flags>
                 <relation>
                     <id>SW.W.1</id>
                     <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
@@ -289,7 +289,7 @@
             <question>
                 <id>SW.W.11</id>
                 <name>Does the water source provide a continuous supply of water?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.1</id>
                     <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
@@ -310,7 +310,7 @@
             <question>
                 <id>SW.W.12</id>
                 <name>If rarely available, what is the reason?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.11</id>
                     <relationAnswer>Water isn't available at certain times of the day or year</relationAnswer>
@@ -325,7 +325,7 @@
             <question>
                 <id>SW.W.13</id>
                 <name>Does it provide enough water for the needs of the school, including water for drinking, hand washing, and food preparation?</name>
-                <flags>TERNARY|RELATED</flags>
+                <flags>TERNARY</flags>
                 <relation>
                     <id>SW.W.11</id>
                     <relationAnswer>Water isn't available at certain times of the day or year</relationAnswer>
@@ -335,7 +335,7 @@
             <question>
                 <id>SW.W.14</id>
                 <name>What do children do when drinking water is not available at the school?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.13</id>
                     <relationAnswer>No</relationAnswer>
@@ -348,7 +348,7 @@
             <question>
                 <id>SW.W.15</id>
                 <name>Do you treat water for drinking?</name>
-                <flags>TERNARY|RELATED</flags>
+                <flags>TERNARY</flags>
                 <relation>
                     <id>SW.W.13</id>
                     <relationAnswer>No</relationAnswer>
@@ -357,7 +357,7 @@
             <question>
                 <id>SW.W.16</id>
                 <name>In what ways do you treat water for drinking?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.W.15</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -371,7 +371,7 @@
             <question>
                 <id>SW.W.17</id>
                 <name>What is the reason/s for not treating water?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.15</id>
                     <relationAnswer>No</relationAnswer>
@@ -385,7 +385,7 @@
             <question>
                 <id>SW.W.18</id>
                 <name>Does the school have an alternate or backup drinking water source that students use when water is not available?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.15</id>
                     <relationAnswer>No</relationAnswer>
@@ -396,7 +396,7 @@
             <question>
                 <id>SW.W.19</id>
                 <name>If yes, what is the alternate drinking water source?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.18</id>
                     <relationAnswer>Yes, alternative source available at the school</relationAnswer>
@@ -417,7 +417,7 @@
             <question>
                 <id>SW.W.20</id>
                 <name>Is the alternate or back up water source located in the school ground?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.W.19</id>
                     <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
@@ -433,7 +433,7 @@
             <question>
                 <id>SW.W.21</id>
                 <name>How many times has the water supply had major rehabilitation?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.19</id>
                     <relationAnswer>Piped water into school building (reticulated - treated)</relationAnswer>
@@ -450,7 +450,7 @@
                 <item>3</item>
                 <item>4</item>
                 <item>5</item>
-                <item>&rt;5</item>
+                <item>&gt;5</item>
             </question>
             <question>
                 <id>SW.W.22</id>
@@ -479,7 +479,7 @@
             <question>
                 <id>SW.S.4</id>
                 <name>What kind of toilet facilities are used at the school?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -495,7 +495,7 @@
             <question>
                 <id>SW.S.5</id>
                 <name>What materials are the toilets (pan and Slab) made from?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
                     <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
@@ -512,7 +512,7 @@
             <question>
                 <id>SW.S.6</id>
                 <name>What materials is the toilet structures made from?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
                     <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
@@ -529,7 +529,7 @@
             <question>
                 <id>SW.S.7</id>
                 <name>Are the toilet facilities share with others?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -540,7 +540,7 @@
             <question>
                 <id>SW.S.8</id>
                 <name>Are the toilet facilities accessible to children with disabilities?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -552,7 +552,7 @@
             <question>
                 <id>SW.S.9</id>
                 <name>Please take a photo of the facility that is accessible to children with disabilities.</name>
-                <flags>PHOTO|RELATED</flags>
+                <flags>PHOTO</flags>
                 <relation>
                     <id>SW.S.8</id>
                     <relationAnswer>All</relationAnswer>
@@ -562,7 +562,7 @@
             <question>
                 <id>SW.S.10</id>
                 <name>Are there separate toilets for boys and girls</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -574,7 +574,7 @@
             <question>
                 <id>SW.S.11</id>
                 <name>What is the total number of toilets for students</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -583,7 +583,7 @@
             <question>
                 <id>SW.S.12</id>
                 <name>How many toilet exclusively for the girls?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -593,7 +593,7 @@
             <question>
                 <id>SW.S.13</id>
                 <name>Are girls individual toilet compartments lockable from the inside?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -606,7 +606,7 @@
             <question>
                 <id>SW.S.14</id>
                 <name>How many toilets exclusively for girls are not functioning on the day of the visit?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -616,7 +616,7 @@
             <question>
                 <id>SW.S.15</id>
                 <name>Does the school have cleansing material available for personal hygiene?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -626,7 +626,7 @@
             <question>
                 <id>SW.S.16</id>
                 <name>Does the school provide pads for girls/disposable or reusable for free or safe?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -639,7 +639,7 @@
             <question>
                 <id>SW.S.17</id>
                 <name>What do female students use to clean for personal hygiene?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.S.15</id>
                     <relationAnswer>No</relationAnswer>
@@ -655,7 +655,7 @@
             <question>
                 <id>SW.S.18</id>
                 <name>Would it be useful that the school can provide sanitary pads?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.16</id>
                     <relationAnswer>No</relationAnswer>
@@ -664,7 +664,7 @@
             <question>
                 <id>SW.S.19</id>
                 <name>Can you tell if girls are expected to come to school when menstruating?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.16</id>
                     <relationAnswer>No</relationAnswer>
@@ -673,7 +673,7 @@
             <question>
                 <id>SW.S.20</id>
                 <name>Do girls individual toilet include a container or plastic bag for disposing of napkins and/or disposable pads?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -689,7 +689,7 @@
             <question>
                 <id>SW.S.21</id>
                 <name>Describe the container for napkin disposal?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.S.20</id>
                     <relationAnswer>All (containers)</relationAnswer>
@@ -705,7 +705,7 @@
             <question>
                 <id>SW.S.22</id>
                 <name>Does the school have a room for changing and washing pads for girls?</name>
-                <flags>TERNARY|RELATED</flags>
+                <flags>TERNARY</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -715,7 +715,7 @@
             <question>
                 <id>SW.S.23</id>
                 <name>What can your school do to make it easier for girls to be in school during menstruation?</name>
-                <flags>INPUT|RELATED</flags>
+                <flags>INPUT</flags>
                 <relation>
                     <id>SW.S.19</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -725,7 +725,7 @@
             <question>
                 <id>SW.S.24</id>
                 <name>How many toilets exclusively are for the boys?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -735,7 +735,7 @@
             <question>
                 <id>SW.S.25</id>
                 <name>How many toilets exclusively for boys are not functioning on the day of the visit?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.10</id>
                     <relationAnswer>Yes, girls and boys have separate toilets</relationAnswer>
@@ -745,7 +745,7 @@
             <question>
                 <id>SW.S.26</id>
                 <name>What do children do when toilets are not functioning?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -760,7 +760,7 @@
             <question>
                 <id>SW.S.27</id>
                 <name>Do teachers have their own toilet facilities separate from students?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -770,7 +770,7 @@
             <question>
                 <id>SW.S.28</id>
                 <name>Are these teacher toilets separate for male and females?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.27</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -782,7 +782,7 @@
             <question>
                 <id>SW.S.29</id>
                 <name>How many toilets exclusively for female staff?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.28</id>
                     <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
@@ -792,7 +792,7 @@
             <question>
                 <id>SW.S.30</id>
                 <name>How many of the exclusive female teacher toilets are functioning on the day of the visit?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.28</id>
                     <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
@@ -802,7 +802,7 @@
             <question>
                 <id>SW.S.31</id>
                 <name>How many toilets exclusively for male staff?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.28</id>
                     <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
@@ -812,7 +812,7 @@
             <question>
                 <id>SW.S.32</id>
                 <name>How many of the exclusive male teacher toilets are functioning on the day of the visit?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.28</id>
                     <relationAnswer>Yes, teacher toilets are separate for males and females</relationAnswer>
@@ -822,7 +822,7 @@
             <question>
                 <id>SW.S.33</id>
                 <name>Are toilets cleaned on a regular basis?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -831,7 +831,7 @@
             <question>
                 <id>SW.S.34</id>
                 <name>What are the main challenges in keeping toilets clean?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.33</id>
                     <relationAnswer>No</relationAnswer>
@@ -845,7 +845,7 @@
             <question>
                 <id>SW.S.35</id>
                 <name>Is emptying and disposing of the sludge from the septic tank or pit done?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
                     <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
@@ -860,7 +860,7 @@
             <question>
                 <id>SW.S.36</id>
                 <name>Is the school ground free from rubbish?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
                     <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
@@ -875,7 +875,7 @@
             <question>
                 <id>SW.S.37</id>
                 <name>Are rubbish bins present in the school grounds?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
                     <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
@@ -890,7 +890,7 @@
             <question>
                 <id>SW.S.38</id>
                 <name>Is the school practicing rubbish segregation/composting?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
                     <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
@@ -905,7 +905,7 @@
             <question>
                 <id>SW.S.39</id>
                 <name>How does the school dispose of rubbish and sanitary pads?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
                     <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
@@ -935,7 +935,7 @@
             <question>
                 <id>SW.H.2</id>
                 <name>If yes, how many hand washing facilities are functioning?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.H.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -944,7 +944,7 @@
             <question>
                 <id>SW.H.3</id>
                 <name>Is there a place to wash hands inside, or directly outside, each toilet block?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -957,7 +957,7 @@
             <question>
                 <id>SW.H.4</id>
                 <name>What kind of hand washing facilities does the school have?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.H.3</id>
                     <relationAnswer>All</relationAnswer>
@@ -972,7 +972,7 @@
             <question>
                 <id>SW.H.5</id>
                 <name>How many group handwashing facilities are available in your school?</name>
-                <flags>INPUT|NUMERIC|RELATED</flags>
+                <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.H.3</id>
                     <relationAnswer>All</relationAnswer>
@@ -983,7 +983,7 @@
             <question>
                 <id>SW.H.6</id>
                 <name>Is group hand washing practiced in the school?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.H.3</id>
                     <relationAnswer>All</relationAnswer>
@@ -994,7 +994,7 @@
             <question>
                 <id>SW.H.7</id>
                 <name>Is group hand washing practiced daily?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.6</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1006,7 +1006,7 @@
             <question>
                 <id>SW.H.8</id>
                 <name>What are the barriers to practice of group hand washing?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.H.7</id>
                     <relationAnswer>No</relationAnswer>
@@ -1024,7 +1024,7 @@
             <question>
                 <id>SW.H.9</id>
                 <name>Is hand washing done with soap?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.H.3</id>
                     <relationAnswer>All</relationAnswer>
@@ -1035,7 +1035,7 @@
             <question>
                 <id>SW.H.10</id>
                 <name>If no, what other material is used to wash hands?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.9</id>
                     <relationAnswer>No</relationAnswer>
@@ -1048,7 +1048,7 @@
             <question>
                 <id>SW.H.11</id>
                 <name>Do teachers supervise hand washing with soap at critical times such as after visiting toilet and before meals?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.H.7</id>
                     <relationAnswer>Yes, all classes</relationAnswer>
@@ -1058,7 +1058,7 @@
             <question>
                 <id>SW.H.12</id>
                 <name>Please assess if water and soap are available for hand washing at the hand washing facility (Observation)</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.9</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1071,7 +1071,7 @@
             <question>
                 <id>SW.H.13</id>
                 <name>Please assess if the hand washing facilities are accessible to children with disabilities and the youngest children at the school (Observation)</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1084,7 +1084,7 @@
             <question>
                 <id>SW.H.14</id>
                 <name>Is group tooth brushing practiced daily?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1096,7 +1096,7 @@
             <question>
                 <id>SW.H.15</id>
                 <name>What are the barriers to practicing tooth brushing daily?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.H.14</id>
                     <relationAnswer>Yes, all classes</relationAnswer>
@@ -1128,7 +1128,7 @@
             <question>
                 <id>SW.OM.3</id>
                 <name>Is WASH, solid waste management included in the School Improvement Plan</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.OM.2</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1137,7 +1137,7 @@
             <question>
                 <id>SW.OM.4</id>
                 <name>Does the school have an active school management committee?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.OM.2</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1150,7 +1150,7 @@
             <question>
                 <id>SW.OM.5</id>
                 <name>Does the school have any student WASH clubs?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.OM.2</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1162,7 +1162,7 @@
             <question>
                 <id>SW.OM.6</id>
                 <name>Are members of the school community supportive in the operation of the school such as the maintenance of environment for learning, WASH facilities and provision of soap</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.OM.2</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1171,7 +1171,7 @@
             <question>
                 <id>SW.OM.7</id>
                 <name>Indicate with the tick the members of the school community that supports the school in improving learning environment, repair WASH facilities tanks, tippy taps and toilets</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.OM.7</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1184,7 +1184,7 @@
             <question>
                 <id>SW.OM.8</id>
                 <name>How would you rate the community involvement and participation in school activities?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.OM.7</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1198,7 +1198,7 @@
             <question>
                 <id>SW.OM.9</id>
                 <name>How would you rate the community involvement and participation in school activities?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.OM.7</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1213,7 +1213,7 @@
             <question>
                 <id>SW.OM.10</id>
                 <name>Why do you think, communities do not support school activities?</name>
-                <flags>CHOOSE|SINGLE|RELATED</flags>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.OM.7</id>
                     <relationAnswer>No</relationAnswer>
@@ -1225,7 +1225,7 @@
             <question>
                 <id>SW.OM.11</id>
                 <name>Is there a budget or funding available for repairs and maintenance intended for WASH facilities?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.OM.7</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1234,7 +1234,7 @@
             <question>
                 <id>SW.OM.12</id>
                 <name>If yes, who provide the funding?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.OM.11</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1250,7 +1250,7 @@
             <question>
                 <id>SW.OM.13</id>
                 <name>Take a picture of the SIP which shows the inclusion of WASH Action Plan/Targets</name>
-                <flags>PHOTO|RELATED</flags>
+                <flags>PHOTO</flags>
                 <relation>
                     <id>SW.OM.11</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1269,7 +1269,7 @@
             <question>
                 <id>SW.OM.15</id>
                 <name>If someone else, specify</name>
-                <flags>INPUT|RELATED</flags>
+                <flags>INPUT</flags>
                 <relation>
                     <id>SW.OM.14</id>
                     <relationAnswer>Someone else</relationAnswer>
@@ -1292,7 +1292,7 @@
             <question>
                 <id>SW.CSA.2</id>
                 <name>If yes, by whom?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.CSA.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1305,7 +1305,7 @@
             <question>
                 <id>SW.CSA.3</id>
                 <name>Is menstruation related education taught at school?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.CSA.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1314,7 +1314,7 @@
             <question>
                 <id>SW.CSA.4</id>
                 <name>What is taught?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.CSA.3</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1326,7 +1326,7 @@
             <question>
                 <id>SW.CSA.5</id>
                 <name>If yes, by whom?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.CSA.3</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1344,7 +1344,7 @@
             <question>
                 <id>SW.CSA.7</id>
                 <name>If yes, what kind of activities?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.CSA.6</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1356,7 +1356,7 @@
             <question>
                 <id>SW.CSA.8</id>
                 <name>If yes, what was the theme of the WASH activity?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.CSA.6</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1370,7 +1370,7 @@
             <question>
                 <id>SW.CSA.9</id>
                 <name>Do children participate in the WASH activities?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.CSA.6</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1379,7 +1379,7 @@
             <question>
                 <id>SW.CSA.10</id>
                 <name>If yes, what activities do children participate in?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.CSA.9</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1393,7 +1393,7 @@
             <question>
                 <id>SW.CSA.11</id>
                 <name>Does the school have a roster for these activities?</name>
-                <flags>TERNARY|RELATED</flags>
+                <flags>TERNARY</flags>
                 <relation>
                     <id>SW.CSA.9</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1402,7 +1402,7 @@
             <question>
                 <id>SW.CSA.12</id>
                 <name>If yes, what activities have rosters?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.CSA.11</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1435,7 +1435,7 @@
             <question>
                 <id>SW.SWK.2</id>
                 <name>If yes, can you please name the items in the kit?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.SWK.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1453,7 +1453,7 @@
             <question>
                 <id>SW.SWK.3</id>
                 <name>What materials in the WASH kit were the most useful?</name>
-                <flags>CHOOSE|MULTIPLE|RELATED</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.SWK.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1469,7 +1469,7 @@
             <question>
                 <id>SW.SWK.4</id>
                 <name>Have the materials within the kits, been used to create a WASH corner within each classroom?</name>
-                <flags>BINARY|RELATED</flags>
+                <flags>BINARY</flags>
                 <relation>
                     <id>SW.SWK.1</id>
                     <relationAnswer>Yes</relationAnswer>
@@ -1478,7 +1478,7 @@
             <question>
                 <id>SW.SWK.5</id>
                 <name>Please take a photo of the WASH corner</name>
-                <flags>PHOTO|RELATED</flags>
+                <flags>PHOTO</flags>
                 <relation>
                     <id>SW.SWK.4</id>
                     <relationAnswer>Yes</relationAnswer>

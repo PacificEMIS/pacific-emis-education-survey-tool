@@ -9,6 +9,9 @@ android {
         versionCode 1
         versionName Versions.appVersion
 
+        buildConfigField "String", "SCHOOLS_FCM_FILE_NAME", "\"schools.csv\""
+        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools-rmi.csv\""
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {

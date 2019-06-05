@@ -1,4 +1,4 @@
-package fm.doe.national.accreditation_core.data.persistence.dao;
+package fm.doe.national.core.data.persistence.dao;
 
 import androidx.annotation.Nullable;
 import androidx.room.Dao;
@@ -9,7 +9,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import fm.doe.national.accreditation_core.data.persistence.entity.RoomSchool;
+import fm.doe.national.core.data.persistence.model.RoomSchool;
 
 @Dao
 public interface SchoolDao {

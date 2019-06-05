@@ -18,7 +18,7 @@ import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
-import fm.doe.national.accreditation_core.data.persistence.AppDatabase;
+import fm.doe.national.accreditation_core.data.persistence.AccreditationDatabase;
 import fm.doe.national.accreditation_core.data.persistence.dao.AnswerDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.PhotoDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.SurveyDao;
@@ -27,12 +27,11 @@ import fm.doe.national.accreditation_core.data.persistence.entity.RoomAnswer;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomCategory;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomCriteria;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomPhoto;
-import fm.doe.national.accreditation_core.data.persistence.entity.RoomSchool;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomStandard;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomSubCriteria;
 import fm.doe.national.accreditation_core.data.persistence.entity.relative.RelativeRoomSurvey;
+import fm.doe.national.core.data.data_source.DataSourceImpl;
 import fm.doe.national.core.data.model.Photo;
-import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
@@ -40,7 +39,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public class RoomAccreditationDataSource implements AccreditationDataSource {
+public class RoomAccreditationDataSource extends DataSourceImpl implements AccreditationDataSource {
 
     private static final String DATABASE_NAME = BuildConfig.APPLICATION_ID + ".database";
     private static final String TEMPLATE_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".template_database";
@@ -49,40 +48,26 @@ public class RoomAccreditationDataSource implements AccreditationDataSource {
     private final AnswerDao answerDao;
     private final PhotoDao photoDao;
 
-    private final AppDatabase templateDatabase;
-    private final AppDatabase database;
+    private final AccreditationDatabase templateDatabase;
+    private final AccreditationDatabase database;
 
     private final GlobalPreferences globalPreferences;
 
     public RoomAccreditationDataSource(Context applicationContext, GlobalPreferences globalPreferences) {
+        super(applicationContext, globalPreferences);
+
         this.globalPreferences = globalPreferences;
-        database = Room.databaseBuilder(applicationContext, AppDatabase.class, DATABASE_NAME).build();
-        templateDatabase = Room.databaseBuilder(applicationContext, AppDatabase.class, TEMPLATE_DATABASE_NAME).build();
+        database = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME).build();
+        templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME).build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
     }
 
     public void closeConnections() {
+        super.closeConnections();
         database.close();
         templateDatabase.close();
-    }
-
-    @Override
-    public Single<List<School>> loadSchools() {
-        return Single.fromCallable(templateDatabase.getSchoolDao()::getAll)
-                .map(roomSchools -> new ArrayList<>(roomSchools));
-    }
-
-    @Override
-    public Completable rewriteAllSchools(List<School> schools) {
-        return Observable.fromIterable(schools)
-                .map(RoomSchool::new)
-                .toList()
-                .flatMapCompletable(roomSchools -> Completable.fromAction(() -> {
-                    templateDatabase.getSchoolDao().deleteAll();
-                    templateDatabase.getSchoolDao().insert(roomSchools);
-                }));
     }
 
     @Override
@@ -93,7 +78,7 @@ public class RoomAccreditationDataSource implements AccreditationDataSource {
         });
     }
 
-    private long saveSurvey(AppDatabase database, AccreditationSurvey accreditationSurvey, boolean shouldCreateAnswers) {
+    private long saveSurvey(AccreditationDatabase database, AccreditationSurvey accreditationSurvey, boolean shouldCreateAnswers) {
         RoomAccreditationSurvey roomSurvey = new RoomAccreditationSurvey(accreditationSurvey);
         roomSurvey.uid = 0;
         long id = database.getSurveyDao().insert(roomSurvey);
@@ -103,7 +88,7 @@ public class RoomAccreditationDataSource implements AccreditationDataSource {
         return id;
     }
 
-    private void saveCategories(AppDatabase database,
+    private void saveCategories(AccreditationDatabase database,
                                 List<? extends Category> categories,
                                 long surveyId,
                                 boolean shouldCreateAnswers) {
@@ -118,7 +103,7 @@ public class RoomAccreditationDataSource implements AccreditationDataSource {
         }
     }
 
-    private void saveStandards(AppDatabase database,
+    private void saveStandards(AccreditationDatabase database,
                                List<? extends Standard> standards,
                                long categoryId,
                                boolean shouldCreateAnswers) {
@@ -133,7 +118,7 @@ public class RoomAccreditationDataSource implements AccreditationDataSource {
         }
     }
 
-    private void saveCriterias(AppDatabase database,
+    private void saveCriterias(AccreditationDatabase database,
                                List<? extends Criteria> criterias,
                                long standardId,
                                boolean shouldCreateAnswers) {
@@ -148,7 +133,7 @@ public class RoomAccreditationDataSource implements AccreditationDataSource {
         }
     }
 
-    private void saveSubCriterias(AppDatabase database,
+    private void saveSubCriterias(AccreditationDatabase database,
                                   List<? extends SubCriteria> subCriterias,
                                   long criteriaId,
                                   boolean shouldCreateAnswers) {
@@ -306,17 +291,6 @@ public class RoomAccreditationDataSource implements AccreditationDataSource {
                 return BuildConfig.SURVEYS_FCM_FILE_NAME;
             case RMI:
                 return BuildConfig.SURVEYS_RMI_FILE_NAME;
-        }
-        throw new IllegalStateException();
-    }
-
-    @Override
-    public String getSchoolsFileName() {
-        switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                return BuildConfig.SCHOOLS_FCM_FILE_NAME;
-            case RMI:
-                return BuildConfig.SCHOOLS_RMI_FILE_NAME;
         }
         throw new IllegalStateException();
     }

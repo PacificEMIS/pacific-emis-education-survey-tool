@@ -39,7 +39,7 @@ public class AccreditationSurveyPresenter extends SurveyPresenter {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(updatedStandard ->
-                                        getViewState().updateStandardProgress(
+                                        getViewState().updateQuestionsGroupProgress(
                                                 updatedStandard.getId(),
                                                 updatedStandard.getProgress()
                                         ),

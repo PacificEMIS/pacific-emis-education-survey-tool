@@ -15,7 +15,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final int NO_APP_CONTEXT_VALUE = -1;
 
     private static final String PREF_KEY_ACCREDITATION_TYPE = "PREF_KEY_ACCREDITATION_TYPE";
-    private static final SurveyType DEFAULT_ACCREDITATION_TYPE = SurveyType.SCHOOL_ACCREDITATION;
+    private static final SurveyType DEFAULT_ACCREDITATION_TYPE = SurveyType.WASH; // TODO: temp
     private static final int NO_ACCREDITATION_TYPE_VALUE = -1;
 
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";

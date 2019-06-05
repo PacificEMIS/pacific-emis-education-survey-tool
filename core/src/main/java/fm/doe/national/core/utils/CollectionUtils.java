@@ -4,6 +4,7 @@ package fm.doe.national.core.utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class CollectionUtils {
@@ -16,6 +17,10 @@ public class CollectionUtils {
             }
         }
         return null;
+    }
+
+    public static boolean isEmpty(@Nullable Collection collection) {
+        return collection == null || collection.isEmpty();
     }
 
 }

@@ -11,9 +11,7 @@ android {
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
         buildConfigField "String", "SURVEYS_FCM_FILE_NAME", "\"survey.xml\""
-        buildConfigField "String", "SCHOOLS_FCM_FILE_NAME", "\"schools.csv\""
         buildConfigField "String", "SURVEYS_RMI_FILE_NAME", "\"survey-rmi.xml\""
-        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools-rmi.csv\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

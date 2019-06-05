@@ -161,8 +161,8 @@ public class SurveyActivity extends BaseActivity implements
     }
 
     @Override
-    public void updateStandardProgress(long standardId, Progress progress) {
+    public void updateQuestionsGroupProgress(long id, Progress progress) {
         ViewUtils.rebindProgress(progress, progressTextView, progressBar);
-        navigationItemsAdapter.notifyProgressChanged(standardId, progress);
+        navigationItemsAdapter.notifyProgressChanged(id, progress);
     }
 }

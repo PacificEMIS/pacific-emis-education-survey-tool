@@ -24,6 +24,8 @@ import fm.doe.national.survey.di.SurveyComponent;
 import fm.doe.national.survey.di.SurveyComponentProvider;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponentProvider;
+import fm.doe.national.wash_core.di.WashCoreComponent;
+import fm.doe.national.wash_core.di.WashCoreComponentProvider;
 import io.fabric.sdk.android.Fabric;
 
 @RegisterMoxyReflectorPackages({
@@ -34,7 +36,8 @@ import io.fabric.sdk.android.Fabric;
         "fm.doe.national.accreditation",
         "fm.doe.national.cloud",
         "fm.doe.national.survey_core",
-        "fm.doe.national.survey"
+        "fm.doe.national.survey",
+        "fm.doe.national.wash"
 })
 public class MicronesiaApplication extends MultiDexApplication implements
         CoreComponentProvider,
@@ -45,7 +48,8 @@ public class MicronesiaApplication extends MultiDexApplication implements
         SurveyCoreComponentProvider,
         CloudComponentProvider,
         AccreditationCoreComponentProvider,
-        DataSourceComponentProvider {
+        DataSourceComponentProvider,
+        WashCoreComponentProvider {
 
     private static final Injection injection = new Injection();
 
@@ -103,5 +107,10 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public DataSourceComponent provideDataSourceComponent() {
         return injection.getDataSourceComponent();
+    }
+
+    @Override
+    public WashCoreComponent provideWashCoreComponent() {
+        return injection.getWashCoreComponent();
     }
 }

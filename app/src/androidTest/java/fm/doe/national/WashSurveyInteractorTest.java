@@ -39,7 +39,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
-public class AccreditationSurveyInteractorTest {
+public class WashSurveyInteractorTest {
 
     private final XmlSurveyParser surveyParser = new XmlSurveyParser();
     private SurveyInteractorImpl interactor;

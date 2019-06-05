@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.questions.QuestionsFragment">
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:itemSpace="24dp"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_binary_question">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/ic_alert"
+            android:drawablePadding="16dp"
+            android:gravity="center_vertical"
+            android:text="@string/label_question_hint"
+            android:textAppearance="@style/Text.Small2" />
+
+        <fm.doe.national.core.ui.views.BottomNavigatorView
+            android:id="@+id/bottomnavigatorview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:nextText="@string/button_next"
+            app:prevText="@string/button_prev"
+            app:layout_section="footer"/>
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+</FrameLayout>

@@ -1,1 +1,1 @@
-include ':app', ':core', ':fcm_report', ':report', ':report_core', ':rmi_report', ':accreditation', ':cloud', ':survey_core', ':survey', ':accreditation_core', ':data_source_injector'
+include ':app', ':core', ':fcm_report', ':report', ':report_core', ':rmi_report', ':accreditation', ':cloud', ':survey_core', ':survey', ':accreditation_core', ':data_source_injector', ':wash_core', ':wash'

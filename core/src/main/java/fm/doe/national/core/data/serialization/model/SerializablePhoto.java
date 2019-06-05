@@ -1,4 +1,4 @@
-package fm.doe.national.accreditation_core.data.serialization.entities;
+package fm.doe.national.core.data.serialization.model;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
