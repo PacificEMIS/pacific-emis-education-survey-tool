@@ -36,7 +36,8 @@ import io.fabric.sdk.android.Fabric;
         "fm.doe.national.accreditation",
         "fm.doe.national.cloud",
         "fm.doe.national.survey_core",
-        "fm.doe.national.survey"
+        "fm.doe.national.survey",
+        "fm.doe.national.wash"
 })
 public class MicronesiaApplication extends MultiDexApplication implements
         CoreComponentProvider,

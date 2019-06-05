@@ -15,6 +15,7 @@
       <module fileurl="file://$PROJECT_DIR$/rmi_report/rmi_report.iml" filepath="$PROJECT_DIR$/rmi_report/rmi_report.iml" />
       <module fileurl="file://$PROJECT_DIR$/survey/survey.iml" filepath="$PROJECT_DIR$/survey/survey.iml" />
       <module fileurl="file://$PROJECT_DIR$/survey_core/survey_core.iml" filepath="$PROJECT_DIR$/survey_core/survey_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wash/wash.iml" filepath="$PROJECT_DIR$/wash/wash.iml" />
       <module fileurl="file://$PROJECT_DIR$/wash_core/wash_core.iml" filepath="$PROJECT_DIR$/wash_core/wash_core.iml" />
     </modules>
   </component>

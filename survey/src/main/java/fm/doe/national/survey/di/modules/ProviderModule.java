@@ -4,11 +4,11 @@ import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation.ui.survey.AccreditationSurveyPresenter;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
-import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.ui.survey.SurveyPresenter;
+import fm.doe.national.wash.ui.WashSurveyPresenter;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
@@ -35,7 +35,7 @@ public class ProviderModule {
             case SCHOOL_ACCREDITATION:
                 return new AccreditationSurveyPresenter(accreditationCoreComponent, surveyCoreComponent);
             case WASH:
-                throw new NotImplementedException();
+                return new WashSurveyPresenter(washCoreComponent, surveyCoreComponent);
         }
         throw new IllegalStateException();
     }

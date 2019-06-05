@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.survey']
+                arguments = [moxyReflectorPackage: 'fm.doe.national.wash']
             }
         }
     }
@@ -35,11 +35,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':core')
-    implementation project(path: ':survey_core')
-    implementation project(path: ':accreditation')
-    implementation project(path: ':accreditation_core')
-    implementation project(path: ':wash')
     implementation project(path: ':wash_core')
+    implementation project(path: ':cloud')
+    implementation project(path: ':survey_core')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"

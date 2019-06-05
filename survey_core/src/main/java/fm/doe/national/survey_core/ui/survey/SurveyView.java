@@ -19,7 +19,7 @@ public interface SurveyView extends BaseView {
 
     void setSchoolName(String schoolName);
 
-    void updateStandardProgress(long standardId, Progress progress);
+    void updateQuestionsGroupProgress(long id, Progress progress);
 
     void setNavigationTitle(@Nullable Text prefix, Text name, @Nullable Progress progress);
 
