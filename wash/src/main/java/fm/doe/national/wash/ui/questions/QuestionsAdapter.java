@@ -372,13 +372,14 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         @NonNull
         ArrayList<Integer> findSelectedIndexes() {
             MutableAnswer answer = getItem().getAnswer();
+            List<String> items = getItem().getItems();
 
-            if (CollectionUtils.isEmpty(getItem().getItems()) || answer == null || CollectionUtils.isEmpty(answer.getItems())) {
+            if (CollectionUtils.isEmpty(items) || answer == null || CollectionUtils.isEmpty(answer.getItems())) {
                 return CollectionUtils.emptyArrayList();
             }
 
-            List<String> items = getItem().getItems();
             ArrayList<Integer> selectedIndexes = new ArrayList<>();
+            
             for (int i = 0; i < items.size(); i++) {
                 if (answer.getItems().contains(items.get(i))) {
                     selectedIndexes.add(i);

@@ -13,7 +13,7 @@ public enum TernaryAnswerState {
 
     private final Text text;
 
-    public static TernaryAnswerState createFromText(Text text, Context context) {
+    public static TernaryAnswerState createFromText(Context context, Text text) {
         for (TernaryAnswerState state : TernaryAnswerState.values()) {
             if (state.text.getString(context).equals(text.getString(context))) {
                 return state;

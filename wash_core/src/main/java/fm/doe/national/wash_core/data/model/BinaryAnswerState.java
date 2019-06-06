@@ -12,7 +12,7 @@ public enum BinaryAnswerState {
 
     private final Text text;
 
-    public static BinaryAnswerState createFromText(Text text, Context context) {
+    public static BinaryAnswerState createFromText(Context context, Text text) {
         for (BinaryAnswerState state : BinaryAnswerState.values()) {
             if (state.text.getString(context).equals(text.getString(context))) {
                 return state;
