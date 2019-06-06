@@ -180,6 +180,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
             existingAnswer.items = answer.getItems();
             existingAnswer.location = answer.getLocation();
             existingAnswer.variants = answer.getVariants();
+            existingAnswer.inputText = answer.getInputText();
             answerDao.update(existingAnswer);
             return answerDao.getFilledById(existingAnswer.uid).toMutable();
         })

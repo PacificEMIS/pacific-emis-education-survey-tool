@@ -103,7 +103,8 @@ public class QuestionsFragment extends BaseFragment implements
                 QuestionType.BINARY,
                 QuestionType.SINGLE_SELECTION,
                 QuestionType.MULTI_SELECTION,
-                QuestionType.TERNARY
+                QuestionType.TERNARY,
+                QuestionType.TEXT_INPUT
         );
         questionsAdapter.setItems(
                 questions.stream()

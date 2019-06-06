@@ -1,7 +1,10 @@
 package fm.doe.national.wash.ui.questions;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -57,7 +60,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case TERNARY:
                 return new TernaryViewHolder(parent);
             case TEXT_INPUT:
-                break;
+                return new TextInputViewHolder(parent);
             case NUMBER_INPUT:
                 break;
             case PHONE_INPUT:
@@ -252,6 +255,52 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             questionsListener.onAnswerStateChanged(question);
         }
 
+    }
+
+    class TextInputViewHolder extends QuestionViewHolder {
+
+        private EditText editText = findViewById(R.id.textinputedittext);
+        private ImageButton doneButton = findViewById(R.id.imagebutton_done);
+
+        public TextInputViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_text_input_question);
+            doneButton.setOnClickListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+
+            if (item.getAnswer() != null) {
+                editText.setText(item.getAnswer().getInputText());
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.imagebutton_done) {
+                String inputtedText = editText.getText().toString();
+                MutableQuestion question = getItem();
+                MutableAnswer answer = question.getAnswer();
+
+                if (answer != null) {
+                    answer.setInputText(inputtedText.isEmpty() ? null : inputtedText);
+                    questionsListener.onAnswerStateChanged(question);
+                }
+
+                hideKeyboard();
+            } else {
+                super.onClick(v);
+            }
+        }
+
+        private void hideKeyboard() {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+            itemView.requestFocus();
+
+        }
     }
 
     private abstract class SelectionViewHolder extends QuestionViewHolder implements AnswerSelectorView.Listener {

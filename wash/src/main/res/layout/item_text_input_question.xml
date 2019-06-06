@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_question_header" />
+
+    <RelativeLayout
+        style="@style/AnswersBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textinputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textinputedittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="48dp"
+                android:textAppearance="@style/Text.Body4"
+                tools:text="Enter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/imagebutton_done"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignBottom="@+id/textinputlayout"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_done_black_24dp"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/include_question_footer" />
+
+</LinearLayout>
