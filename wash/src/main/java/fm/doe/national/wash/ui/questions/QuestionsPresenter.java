@@ -14,8 +14,8 @@ import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
 import fm.doe.national.wash.R;
 import fm.doe.national.wash_core.data.model.Answer;
-import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
+import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 import fm.doe.national.wash_core.interactors.WashSurveyInteractor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,7 +31,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     private final long groupId;
 
     @Nullable
-    private Question selectedQuestion;
+    private MutableQuestion selectedQuestion;
 
     QuestionsPresenter(CoreComponent coreComponent,
                        CloudComponent cloudComponent,
@@ -64,23 +64,23 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         view.setPrevButtonVisible(navigationItem.getPreviousItem() != null);
     }
 
-    void onCommentPressed(Question question) {
+    void onCommentPressed(MutableQuestion question) {
         selectedQuestion = question;
         getViewState().showCommentEditor(selectedQuestion);
     }
 
-    void onPhotosPressed(Question question) {
+    void onPhotosPressed(MutableQuestion question) {
         selectedQuestion = question;
         getViewState().navigateToPhotos(groupId, subGroupId, selectedQuestion.getId());
     }
 
-    void onAnswerChanged(Question updatedQuestion) {
+    void onAnswerChanged(MutableQuestion updatedQuestion) {
         update(updatedQuestion.getId(), updatedQuestion.getAnswer());
     }
 
     void onCommentEdit(String comment) {
         if (selectedQuestion == null) return;
-        MutableAnswer answer = (MutableAnswer) selectedQuestion.getAnswer();
+        MutableAnswer answer = selectedQuestion.getAnswer();
         answer.setComment(comment);
         update(selectedQuestion.getId(), answer);
         selectedQuestion = null;

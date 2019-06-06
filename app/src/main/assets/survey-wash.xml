@@ -1099,8 +1099,8 @@
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.H.14</id>
-                    <relationAnswer>Yes, all classes</relationAnswer>
                     <relationAnswer>Yes, some classes</relationAnswer>
+                    <relationAnswer>No</relationAnswer>
                 </relation>
                 <item>Toothbrushes not available/children don't have any</item>
                 <item>Toothpaste not available</item>

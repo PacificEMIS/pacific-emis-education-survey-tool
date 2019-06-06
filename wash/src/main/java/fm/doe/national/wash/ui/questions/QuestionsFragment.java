@@ -16,6 +16,7 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,9 +98,19 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void setQuestions(List<MutableQuestion> questions) {
+        // TODO: temp filter to prevent crashes in development
+        List<QuestionType> developedTypes = Arrays.asList(
+                QuestionType.BINARY,
+                QuestionType.SINGLE_SELECTION,
+                QuestionType.MULTI_SELECTION,
+                QuestionType.TERNARY,
+                QuestionType.TEXT_INPUT,
+                QuestionType.NUMBER_INPUT,
+                QuestionType.PHONE_INPUT
+        );
         questionsAdapter.setItems(
                 questions.stream()
-                        .filter(q -> q.getType() == QuestionType.BINARY)
+                        .filter(q -> developedTypes.contains(q.getType()))
                         .collect(Collectors.toList())
         );
     }
@@ -140,17 +151,17 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void onPhotoPressed(Question question) {
+    public void onPhotoPressed(MutableQuestion question) {
         presenter.onPhotosPressed(question);
     }
 
     @Override
-    public void onCommentPressed(Question question) {
+    public void onCommentPressed(MutableQuestion question) {
         presenter.onCommentPressed(question);
     }
 
     @Override
-    public void onAnswerStateChanged(Question question) {
+    public void onAnswerStateChanged(MutableQuestion question) {
         presenter.onAnswerChanged(question);
     }
 

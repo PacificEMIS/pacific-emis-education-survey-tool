@@ -1,7 +1,13 @@
 package fm.doe.national.wash.ui.questions;
 
+import android.app.Activity;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -10,11 +16,18 @@ import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
 import fm.doe.national.wash.R;
+import fm.doe.national.wash.ui.custom_views.answer_selector_view.AnswerSelectorView;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
-import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
+import fm.doe.national.wash_core.data.model.TernaryAnswerState;
+import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 
 public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
@@ -46,22 +59,24 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case BINARY:
                 return new BinaryQuestionViewHolder(parent);
             case TERNARY:
-                break;
+                return new TernaryViewHolder(parent);
             case TEXT_INPUT:
-                break;
+                return new TextInputViewHolder(parent);
             case NUMBER_INPUT:
-                break;
+                return new NumericTextInputViewHolder(parent);
             case PHONE_INPUT:
-                break;
+                return new PhoneTextInputViewHolder(parent);
             case GEOLOCATION:
                 break;
             case PHOTO:
                 break;
             case SINGLE_SELECTION:
-                break;
+                return new SingleSelectionViewHolder(parent);
             case MULTI_SELECTION:
-                break;
+                return new MultipleSelectionViewHolder(parent);
             case COMPLEX_BINARY:
+                break;
+            case COMPLEX_NUMBER_INPUT:
                 break;
         }
         throw new IllegalStateException();
@@ -91,12 +106,24 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         @Override
         protected void onBind(MutableQuestion item) {
             super.onBind(item);
-            binaryAnswerSelectorView.setStateNotNotifying(convertToUiState(item.getAnswer().getBinaryAnswerState()));
+            MutableAnswer answer = getItem().getAnswer();
+
+            if (answer == null) {
+                return;
+            }
+
+            binaryAnswerSelectorView.setStateNotNotifying(convertToUiState(answer.getBinaryAnswerState()));
         }
 
         @Override
         public void onStateChanged(BinaryAnswerSelectorView view, BinaryAnswerSelectorView.State state) {
-            getItem().getAnswer().setBinaryAnswerState(convertFromUiState(state));
+            MutableAnswer answer = getItem().getAnswer();
+
+            if (answer == null) {
+                return;
+            }
+
+            answer.setBinaryAnswerState(convertFromUiState(state));
             questionsListener.onAnswerStateChanged(getItem());
         }
 
@@ -129,7 +156,164 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         }
     }
 
-    private class QuestionViewHolder extends ViewHolder {
+    class SingleSelectionViewHolder extends SelectionViewHolder {
+
+        SingleSelectionViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_single_selection_question);
+        }
+
+        @Override
+        public void onCheckedChange(int atPosition, boolean checked) {
+            MutableQuestion question = getItem();
+            question.setCheckedState(atPosition, checked);
+            questionsListener.onAnswerStateChanged(question);
+        }
+    }
+
+    class MultipleSelectionViewHolder extends SelectionViewHolder {
+
+        MultipleSelectionViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_multiple_selection_question);
+        }
+
+        @Override
+        public void onCheckedChange(int atPosition, boolean checked) {
+            MutableQuestion question = getItem();
+            question.setCheckedState(atPosition, checked);
+            questionsListener.onAnswerStateChanged(question);
+        }
+    }
+
+    class TernaryViewHolder extends QuestionViewHolder implements AnswerSelectorView.Listener {
+
+        private AnswerSelectorView answerSelectorView = findViewById(R.id.answerselectionview);
+
+        TernaryViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_single_selection_question);
+            answerSelectorView.setListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+
+            List<String> values = Arrays.stream(TernaryAnswerState.values())
+                    .map(v -> v.getText().getString(getContext()))
+                    .collect(Collectors.toList());
+
+            MutableAnswer answer = item.getAnswer();
+            TernaryAnswerState answerState = answer != null ? answer.getTernaryAnswerState() : null;
+            Integer selectedIndex = answerState != null ? answerState.ordinal() : null;
+
+            answerSelectorView.setItems(
+                    values,
+                    selectedIndex != null ? CollectionUtils.singletonArrayList(selectedIndex) : CollectionUtils.emptyArrayList()
+            );
+        }
+
+        @Override
+        public void onCheckedChange(int atPosition, boolean checked) {
+            MutableQuestion question = getItem();
+            question.setCheckedState(atPosition, checked);
+            questionsListener.onAnswerStateChanged(question);
+        }
+
+    }
+
+    class NumericTextInputViewHolder extends TextInputViewHolder {
+
+        NumericTextInputViewHolder(ViewGroup parent) {
+            super(parent);
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
+
+    }
+
+    class PhoneTextInputViewHolder extends TextInputViewHolder {
+
+        PhoneTextInputViewHolder(ViewGroup parent) {
+            super(parent);
+            editText.setInputType(InputType.TYPE_CLASS_PHONE);
+        }
+
+    }
+
+    class TextInputViewHolder extends QuestionViewHolder implements TextWatcher {
+
+        EditText editText = findViewById(R.id.textinputedittext);
+        private ImageButton doneButton = findViewById(R.id.imagebutton_done);
+        private String existingValue;
+
+        TextInputViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_text_input_question);
+            doneButton.setOnClickListener(this);
+            editText.addTextChangedListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+
+            if (item.getAnswer() != null) {
+                existingValue = item.getAnswer().getInputText();
+                editText.setText(existingValue);
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // nothing
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // nothing
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            doneButton.setVisibility(editText.getText().toString().equals(existingValue) ? View.GONE : View.VISIBLE);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.imagebutton_done) {
+                String inputtedText = editText.getText().toString();
+                MutableQuestion question = getItem();
+                existingValue = inputtedText.isEmpty() ? null : inputtedText;
+                question.setAnswerInputText(existingValue);
+                questionsListener.onAnswerStateChanged(question);
+                doneButton.setVisibility(View.GONE);
+                hideKeyboard();
+            } else {
+                super.onClick(v);
+            }
+        }
+
+        private void hideKeyboard() {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            itemView.requestFocus();
+        }
+    }
+
+    private abstract class SelectionViewHolder extends QuestionViewHolder implements AnswerSelectorView.Listener {
+
+        private AnswerSelectorView answerSelectorView = findViewById(R.id.answerselectionview);
+
+        SelectionViewHolder(ViewGroup parent, int res) {
+            super(parent, res);
+            answerSelectorView.setListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+            answerSelectorView.setItems(item.getItems(), item.getSelectedIndexes());
+        }
+    }
+
+    private abstract class QuestionViewHolder extends ViewHolder {
 
         private TextView prefixTextView;
         private TextView titleTextView;
@@ -172,11 +356,11 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     public interface QuestionsListener {
 
-        void onPhotoPressed(Question question);
+        void onPhotoPressed(MutableQuestion question);
 
-        void onCommentPressed(Question question);
+        void onCommentPressed(MutableQuestion question);
 
-        void onAnswerStateChanged(Question question);
+        void onAnswerStateChanged(MutableQuestion question);
 
     }
 }
