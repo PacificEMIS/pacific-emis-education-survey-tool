@@ -104,7 +104,9 @@ public class QuestionsFragment extends BaseFragment implements
                 QuestionType.SINGLE_SELECTION,
                 QuestionType.MULTI_SELECTION,
                 QuestionType.TERNARY,
-                QuestionType.TEXT_INPUT
+                QuestionType.TEXT_INPUT,
+                QuestionType.NUMBER_INPUT,
+                QuestionType.PHONE_INPUT
         );
         questionsAdapter.setItems(
                 questions.stream()

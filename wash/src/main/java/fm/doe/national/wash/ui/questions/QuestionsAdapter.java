@@ -2,6 +2,7 @@ package fm.doe.national.wash.ui.questions;
 
 import android.app.Activity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,9 +65,9 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case TEXT_INPUT:
                 return new TextInputViewHolder(parent);
             case NUMBER_INPUT:
-                break;
+                return new NumericTextInputViewHolder(parent);
             case PHONE_INPUT:
-                break;
+                return new PhoneTextInputViewHolder(parent);
             case GEOLOCATION:
                 break;
             case PHOTO:
@@ -271,9 +272,27 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     }
 
+    class NumericTextInputViewHolder extends TextInputViewHolder {
+
+        public NumericTextInputViewHolder(ViewGroup parent) {
+            super(parent);
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
+
+    }
+
+    class PhoneTextInputViewHolder extends TextInputViewHolder {
+
+        public PhoneTextInputViewHolder(ViewGroup parent) {
+            super(parent);
+            editText.setInputType(InputType.TYPE_CLASS_PHONE);
+        }
+
+    }
+
     class TextInputViewHolder extends QuestionViewHolder implements TextWatcher {
 
-        private EditText editText = findViewById(R.id.textinputedittext);
+        EditText editText = findViewById(R.id.textinputedittext);
         private ImageButton doneButton = findViewById(R.id.imagebutton_done);
         private String existingValue;
 
