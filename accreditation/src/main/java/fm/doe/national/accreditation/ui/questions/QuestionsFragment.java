@@ -2,6 +2,7 @@ package fm.doe.national.accreditation.ui.questions;
 
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.ui.photos.PhotosActivity;
+import fm.doe.national.accreditation.ui.photos.AccreditationPhotosActivity;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
 import fm.doe.national.cloud.di.CloudComponentInjector;
@@ -122,8 +123,8 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId) {
-        startActivity(PhotosActivity.createIntent(getContext(), categoryId, standardId, criteriaId, subCriteriaId));
+    public void navigateToPhotos() {
+        startActivity(new Intent(getActivity(), AccreditationPhotosActivity.class));
     }
 
     @Override

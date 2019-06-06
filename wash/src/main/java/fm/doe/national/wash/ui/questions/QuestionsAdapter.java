@@ -69,7 +69,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case GEOLOCATION:
                 break;
             case PHOTO:
-                break;
+                return new PhotoQuestionViewHolder(parent);
             case SINGLE_SELECTION:
                 return new SingleSelectionViewHolder(parent);
             case MULTI_SELECTION:
@@ -86,6 +86,14 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
     protected ViewHolder provideViewHolder(ViewGroup parent) {
         // unused
         return null;
+    }
+
+    class PhotoQuestionViewHolder extends QuestionViewHolder {
+
+        PhotoQuestionViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_photo_question);
+        }
+
     }
 
     class BinaryQuestionViewHolder extends QuestionViewHolder implements BinaryAnswerSelectorView.StateChangedListener {

@@ -2,6 +2,7 @@ package fm.doe.national.wash.ui.questions;
 
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 import fm.doe.national.wash.R;
+import fm.doe.national.wash.ui.photos.WashPhotosActivity;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
@@ -106,7 +108,8 @@ public class QuestionsFragment extends BaseFragment implements
                 QuestionType.TERNARY,
                 QuestionType.TEXT_INPUT,
                 QuestionType.NUMBER_INPUT,
-                QuestionType.PHONE_INPUT
+                QuestionType.PHONE_INPUT,
+                QuestionType.PHOTO
         );
         questionsAdapter.setItems(
                 questions.stream()
@@ -121,8 +124,8 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void navigateToPhotos(long groupId, long sbuGroupId, long questionId) {
-
+    public void navigateToPhotos() {
+        startActivity(new Intent(getActivity(), WashPhotosActivity.class));
     }
 
     @Override

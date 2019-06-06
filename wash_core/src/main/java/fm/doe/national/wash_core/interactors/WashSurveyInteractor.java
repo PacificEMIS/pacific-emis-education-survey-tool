@@ -21,8 +21,22 @@ public interface WashSurveyInteractor extends SurveyInteractor {
 
     Completable updateAnswer(Answer answer, long groupId, long subGroupId, long questionId);
 
+    Completable updateAnswer(Answer answer);
+
     PublishSubject<MutableGroup> getGroupProgressSubject();
 
     PublishSubject<MutableSubGroup> getSubGroupProgressSubject();
+
+    long getCurrentGroupId();
+
+    long getCurrentSubGroupId();
+
+    long getCurrentQuestionId();
+
+    void setCurrentGroupId(long id);
+
+    void setCurrentSubGroupId(long id);
+
+    void setCurrentQuestionId(long id);
 
 }

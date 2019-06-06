@@ -26,6 +26,9 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     private final PublishSubject<MutableSubGroup> subGroupPublishSubject = PublishSubject.create();
 
     private MutableWashSurvey survey;
+    private long currentGroupId;
+    private long currentSubGroupId;
+    private long currentQuestionId;
 
     public WashSurveyInteractorImpl(WashDataSource washDataSource) {
         this.washDataSource = washDataSource;
@@ -191,4 +194,38 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
         return subGroupPublishSubject;
     }
 
+    @Override
+    public Completable updateAnswer(Answer answer) {
+        return updateAnswer(answer, currentGroupId, currentSubGroupId, currentQuestionId);
+    }
+
+    @Override
+    public long getCurrentGroupId() {
+        return currentGroupId;
+    }
+
+    @Override
+    public long getCurrentSubGroupId() {
+        return currentSubGroupId;
+    }
+
+    @Override
+    public long getCurrentQuestionId() {
+        return currentQuestionId;
+    }
+
+    @Override
+    public void setCurrentGroupId(long id) {
+        currentGroupId = id;
+    }
+
+    @Override
+    public void setCurrentSubGroupId(long id) {
+        currentSubGroupId = id;
+    }
+
+    @Override
+    public void setCurrentQuestionId(long id) {
+        currentQuestionId = id;
+    }
 }

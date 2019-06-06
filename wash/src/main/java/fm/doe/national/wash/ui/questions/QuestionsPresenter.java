@@ -71,7 +71,10 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     void onPhotosPressed(MutableQuestion question) {
         selectedQuestion = question;
-        getViewState().navigateToPhotos(groupId, subGroupId, selectedQuestion.getId());
+        washSurveyInteractor.setCurrentGroupId(groupId);
+        washSurveyInteractor.setCurrentSubGroupId(subGroupId);
+        washSurveyInteractor.setCurrentQuestionId(selectedQuestion.getId());
+        getViewState().navigateToPhotos();
     }
 
     void onAnswerChanged(MutableQuestion updatedQuestion) {

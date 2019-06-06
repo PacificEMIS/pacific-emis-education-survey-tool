@@ -115,12 +115,11 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     void onPhotosPressed(Question question) {
         selectedQuestion = question;
-        getViewState().navigateToPhotos(
-                categoryId,
-                standardId,
-                selectedQuestion.getCriteria().getId(),
-                selectedQuestion.getSubCriteria().getId()
-        );
+        accreditationSurveyInteractor.setCurrentCategoryId(categoryId);
+        accreditationSurveyInteractor.setCurrentStandardId(standardId);
+        accreditationSurveyInteractor.setCurrentCriteriaId(selectedQuestion.getCriteria().getId());
+        accreditationSurveyInteractor.setCurrentSubCriteriaId(selectedQuestion.getSubCriteria().getId());
+        getViewState().navigateToPhotos();
     }
 
     void onAnswerChanged(Question updatedQuestion) {

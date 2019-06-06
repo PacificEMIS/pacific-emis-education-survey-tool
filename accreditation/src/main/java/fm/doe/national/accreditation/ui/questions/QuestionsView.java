@@ -19,7 +19,7 @@ public interface QuestionsView extends BaseView {
     void showCommentEditor(SubCriteria subCriteria);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId);
+    void navigateToPhotos();
 
     void setPrevButtonVisible(boolean isVisible);
 

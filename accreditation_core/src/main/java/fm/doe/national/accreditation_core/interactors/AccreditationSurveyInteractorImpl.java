@@ -30,6 +30,10 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     private final PublishSubject<MutableCriteria> criteriaPublishSubject = PublishSubject.create();
 
     private MutableAccreditationSurvey survey;
+    private long categoryId;
+    private long standardId;
+    private long criteriaId;
+    private long subCriteriaId;
 
     public AccreditationSurveyInteractorImpl(AccreditationDataSource accreditationDataSource) {
         this.accreditationDataSource = accreditationDataSource;
@@ -220,4 +224,48 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
         return criteriaPublishSubject;
     }
 
+    @Override
+    public Completable updateAnswer(Answer answer) {
+        return updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId);
+    }
+
+    @Override
+    public void setCurrentCategoryId(long id) {
+        categoryId = id;
+    }
+
+    @Override
+    public void setCurrentStandardId(long id) {
+        standardId = id;
+    }
+
+    @Override
+    public void setCurrentCriteriaId(long id) {
+        criteriaId = id;
+    }
+
+    @Override
+    public void setCurrentSubCriteriaId(long id) {
+        subCriteriaId = id;
+    }
+
+    @Override
+    public long getCurrentCategoryId() {
+        return categoryId;
+    }
+
+    @Override
+    public long getCurrentStandardId() {
+        return standardId;
+    }
+
+    @Override
+    public long getCurrentCriteriaId() {
+        return criteriaId;
+    }
+
+    @Override
+    public long getCurrentSubCriteriaId() {
+        return subCriteriaId;
+    }
 }
