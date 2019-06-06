@@ -11,8 +11,10 @@ import androidx.annotation.Nullable;
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
@@ -20,6 +22,7 @@ import fm.doe.national.wash.R;
 import fm.doe.national.wash.ui.custom_views.answer_selector_view.AnswerSelectorView;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 import fm.doe.national.wash_core.data.model.QuestionType;
+import fm.doe.national.wash_core.data.model.TernaryAnswerState;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 
@@ -52,7 +55,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case BINARY:
                 return new BinaryQuestionViewHolder(parent);
             case TERNARY:
-                break;
+                return new TernaryViewHolder(parent);
             case TEXT_INPUT:
                 break;
             case NUMBER_INPUT:
@@ -135,7 +138,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         }
     }
 
-    class SingleSelectionViewHolder extends SelectionViewHolder implements AnswerSelectorView.Listener {
+    class SingleSelectionViewHolder extends SelectionViewHolder {
 
         public SingleSelectionViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_single_selection_question);
@@ -146,15 +149,24 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             MutableQuestion question = getItem();
             MutableAnswer answer = question.getAnswer();
             List<String> items = question.getItems();
+            List<Integer> selectedIndexes = findSelectedIndexes();
+            Integer currentSelectedIndex = selectedIndexes.isEmpty() ? null : selectedIndexes.get(0);
 
-            if (checked && !CollectionUtils.isEmpty(items) && items.size() > atPosition && answer != null) {
-                answer.setItems(Collections.singletonList(items.get(atPosition)));
-                questionsListener.onAnswerStateChanged(question);
+            if (answer == null || CollectionUtils.isEmpty(items) || items.size() <= atPosition) {
+                return;
             }
+
+            if (checked) {
+                answer.setItems(Collections.singletonList(items.get(atPosition)));
+            } else if (currentSelectedIndex != null && currentSelectedIndex == atPosition) {
+                answer.setItems(null);
+            }
+
+            questionsListener.onAnswerStateChanged(question);
         }
     }
 
-    class MultipleSelectionViewHolder extends SelectionViewHolder implements AnswerSelectorView.Listener {
+    class MultipleSelectionViewHolder extends SelectionViewHolder {
 
         public MultipleSelectionViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_multiple_selection_question);
@@ -192,6 +204,56 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         }
     }
 
+    class TernaryViewHolder extends QuestionViewHolder implements AnswerSelectorView.Listener {
+
+        private AnswerSelectorView answerSelectorView = findViewById(R.id.answerselectionview);
+
+        public TernaryViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_single_selection_question);
+            answerSelectorView.setListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+
+            List<String> values = Arrays.stream(TernaryAnswerState.values())
+                    .map(v -> v.getText().getString(getContext()))
+                    .collect(Collectors.toList());
+
+            MutableAnswer answer = item.getAnswer();
+            TernaryAnswerState answerState = answer != null ? answer.getTernaryAnswerState() : null;
+            Integer selectedIndex = answerState != null ? answerState.ordinal() : null;
+
+            answerSelectorView.setItems(
+                    values,
+                    selectedIndex != null ? CollectionUtils.singletonArrayList(selectedIndex) : CollectionUtils.emptyArrayList()
+            );
+        }
+
+        @Override
+        public void onCheckedChange(int atPosition, boolean checked) {
+            MutableQuestion question = getItem();
+            MutableAnswer answer = question.getAnswer();
+
+            if (answer == null) {
+                return;
+            }
+
+            TernaryAnswerState answerState = answer.getTernaryAnswerState();
+            Integer currentAnswerStatePosition = answerState != null ? answerState.ordinal() : null;
+
+            if (checked) {
+                answer.setTernaryAnswerState(TernaryAnswerState.values()[atPosition]);
+            } else if (currentAnswerStatePosition != null && atPosition == currentAnswerStatePosition) {
+                answer.setTernaryAnswerState(null);
+            }
+
+            questionsListener.onAnswerStateChanged(question);
+        }
+
+    }
+
     private abstract class SelectionViewHolder extends QuestionViewHolder implements AnswerSelectorView.Listener {
 
         private AnswerSelectorView answerSelectorView = findViewById(R.id.answerselectionview);
@@ -208,7 +270,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         }
 
         @NonNull
-        private ArrayList<Integer> findSelectedIndexes() {
+        protected ArrayList<Integer> findSelectedIndexes() {
             MutableAnswer answer = getItem().getAnswer();
 
             if (CollectionUtils.isEmpty(getItem().getItems()) || answer == null || CollectionUtils.isEmpty(answer.getItems())) {
@@ -227,7 +289,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         }
     }
 
-    private class QuestionViewHolder extends ViewHolder {
+    private abstract class QuestionViewHolder extends ViewHolder {
 
         private TextView prefixTextView;
         private TextView titleTextView;

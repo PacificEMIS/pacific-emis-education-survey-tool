@@ -102,7 +102,8 @@ public class QuestionsFragment extends BaseFragment implements
         List<QuestionType> developedTypes = Arrays.asList(
                 QuestionType.BINARY,
                 QuestionType.SINGLE_SELECTION,
-                QuestionType.MULTI_SELECTION
+                QuestionType.MULTI_SELECTION,
+                QuestionType.TERNARY
         );
         questionsAdapter.setItems(
                 questions.stream()
