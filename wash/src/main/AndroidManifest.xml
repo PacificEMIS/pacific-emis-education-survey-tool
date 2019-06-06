@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fm.doe.national.wash" >
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application>
         <activity
             android:name=".ui.photos.WashPhotosActivity"

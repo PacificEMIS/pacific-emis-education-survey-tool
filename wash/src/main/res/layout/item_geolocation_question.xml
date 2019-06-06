@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_question_header" />
+
+    <RelativeLayout
+        style="@style/AnswersBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.omega_r.libs.views.OmegaTextView
+            android:id="@+id/omegatextview_latitude"
+            style="@style/GeolocationText"
+            app:startText="@string/label_latitude"
+            tools:text="0.235636136" />
+
+        <com.omega_r.libs.views.OmegaTextView
+            android:id="@+id/omegatextview_longitude"
+            style="@style/GeolocationText"
+            android:layout_below="@+id/omegatextview_latitude"
+            android:layout_marginTop="8dp"
+            app:startText="@string/label_longitude"
+            tools:text="0.235636136" />
+
+        <Button
+            android:id="@+id/button_geo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/title_take_position"
+            android:textAppearance="@style/Text.Title1.NavigationButton"
+            android:textColor="@color/black"
+            android:layout_marginEnd="16dp"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/include_question_footer" />
+
+</LinearLayout>

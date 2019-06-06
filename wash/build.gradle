@@ -64,4 +64,7 @@ dependencies {
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
     annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
 
+    // GMS location
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+
 }
