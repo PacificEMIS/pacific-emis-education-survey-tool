@@ -36,7 +36,6 @@ import fm.doe.national.wash.ui.photos.WashPhotosActivity;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
-import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 import fm.doe.national.wash_core.di.WashCoreComponentInjector;
 
@@ -218,11 +217,7 @@ public class QuestionsFragment extends BaseFragment implements
 
         locationProviderClient.getLastLocation()
                 .addOnSuccessListener(location -> {
-                    MutableAnswer answer = question.getAnswer();
-                    if (answer != null) {
-                        answer.setLocation(new Location(location.getLatitude(), location.getLongitude()));
-                    }
-                    onAnswerStateChanged(question);
+                    presenter.onLocationChanged(new Location(location.getLatitude(), location.getLongitude()), question);
                     questionsAdapter.notifyItemChanged(position);
                 });
     }
