@@ -4,6 +4,7 @@ package fm.doe.national.core.utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -21,6 +22,18 @@ public class CollectionUtils {
 
     public static boolean isEmpty(@Nullable Collection collection) {
         return collection == null || collection.isEmpty();
+    }
+
+    @NonNull
+    public static <T> ArrayList<T> emptyArrayList() {
+        return new ArrayList<>();
+    }
+
+    @NonNull
+    public static <T> ArrayList<T> singletonArrayList(@NonNull T element) {
+        ArrayList<T> arrayList = new ArrayList<>();
+        arrayList.add(element);
+        return arrayList;
     }
 
 }

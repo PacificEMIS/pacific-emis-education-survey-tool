@@ -10,11 +10,17 @@ import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
 import fm.doe.national.wash.R;
+import fm.doe.national.wash.ui.custom_views.answer_selector_view.AnswerSelectorView;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
-import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
+import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 
 public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
@@ -58,9 +64,9 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case PHOTO:
                 break;
             case SINGLE_SELECTION:
-                break;
+                return new SingleSelectionViewHolder(parent);
             case MULTI_SELECTION:
-                break;
+                return new MultipleSelectionViewHolder(parent);
             case COMPLEX_BINARY:
                 break;
         }
@@ -129,6 +135,98 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         }
     }
 
+    class SingleSelectionViewHolder extends SelectionViewHolder implements AnswerSelectorView.Listener {
+
+        public SingleSelectionViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_single_selection_question);
+        }
+
+        @Override
+        public void onCheckedChange(int atPosition, boolean checked) {
+            MutableQuestion question = getItem();
+            MutableAnswer answer = question.getAnswer();
+            List<String> items = question.getItems();
+
+            if (checked && !CollectionUtils.isEmpty(items) && items.size() > atPosition && answer != null) {
+                answer.setItems(Collections.singletonList(items.get(atPosition)));
+                questionsListener.onAnswerStateChanged(question);
+            }
+        }
+    }
+
+    class MultipleSelectionViewHolder extends SelectionViewHolder implements AnswerSelectorView.Listener {
+
+        public MultipleSelectionViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_multiple_selection_question);
+        }
+
+        @Override
+        public void onCheckedChange(int atPosition, boolean checked) {
+            MutableQuestion question = getItem();
+            MutableAnswer answer = question.getAnswer();
+            List<String> items = question.getItems();
+
+            if (!CollectionUtils.isEmpty(items) && items.size() > atPosition && answer != null) {
+                List<String> existingAnswerItems = answer.getItems();
+                ArrayList<String> wrappedExistingAnswerItems =
+                        existingAnswerItems == null ? null : new ArrayList<>(existingAnswerItems);
+                String item = items.get(atPosition);
+
+                if (checked) {
+                    if (wrappedExistingAnswerItems == null) {
+                        wrappedExistingAnswerItems = new ArrayList<>();
+                    }
+
+                    wrappedExistingAnswerItems.add(item);
+                } else if (wrappedExistingAnswerItems != null) {
+                    wrappedExistingAnswerItems.remove(item);
+
+                    if (wrappedExistingAnswerItems.isEmpty()) {
+                        wrappedExistingAnswerItems = null;
+                    }
+                }
+
+                answer.setItems(wrappedExistingAnswerItems);
+                questionsListener.onAnswerStateChanged(question);
+            }
+        }
+    }
+
+    private abstract class SelectionViewHolder extends QuestionViewHolder implements AnswerSelectorView.Listener {
+
+        private AnswerSelectorView answerSelectorView = findViewById(R.id.answerselectionview);
+
+        public SelectionViewHolder(ViewGroup parent, int res) {
+            super(parent, res);
+            answerSelectorView.setListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+            answerSelectorView.setItems(item.getItems(), findSelectedIndexes());
+        }
+
+        @NonNull
+        private ArrayList<Integer> findSelectedIndexes() {
+            MutableAnswer answer = getItem().getAnswer();
+
+            if (CollectionUtils.isEmpty(getItem().getItems()) || answer == null || CollectionUtils.isEmpty(answer.getItems())) {
+                return CollectionUtils.emptyArrayList();
+            }
+
+            List<String> items = getItem().getItems();
+            ArrayList<Integer> selectedIndexes = new ArrayList<>();
+            for (int i = 0; i < items.size(); i++) {
+                if (answer.getItems().contains(items.get(i))) {
+                    selectedIndexes.add(i);
+                }
+            }
+
+            return selectedIndexes;
+        }
+    }
+
     private class QuestionViewHolder extends ViewHolder {
 
         private TextView prefixTextView;
@@ -172,11 +270,11 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     public interface QuestionsListener {
 
-        void onPhotoPressed(Question question);
+        void onPhotoPressed(MutableQuestion question);
 
-        void onCommentPressed(Question question);
+        void onCommentPressed(MutableQuestion question);
 
-        void onAnswerStateChanged(Question question);
+        void onAnswerStateChanged(MutableQuestion question);
 
     }
 }

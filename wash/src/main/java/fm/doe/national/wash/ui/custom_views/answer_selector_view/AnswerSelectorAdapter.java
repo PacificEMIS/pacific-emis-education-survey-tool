@@ -11,19 +11,19 @@ import androidx.annotation.NonNull;
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash.R;
 
 public class AnswerSelectorAdapter extends BaseListAdapter<String> {
 
-    private final Type type;
+    private final AnswerSelectionType type;
     private final OnCheckedChangeListener listener;
 
-    private List<Integer> checkedPositions = Collections.emptyList();
+    private ArrayList<Integer> checkedPositions = CollectionUtils.emptyArrayList();
 
-    public AnswerSelectorAdapter(Type type, OnCheckedChangeListener listener) {
+    public AnswerSelectorAdapter(AnswerSelectionType type, OnCheckedChangeListener listener) {
         this.type = type;
         this.listener = listener;
     }
@@ -66,12 +66,17 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
 
     private void checkItemAtPosition(int position) {
         checkedPositions.add(position);
-        listener.onCheckedChange(position, true);
+        updateCheckState(position, true);
     }
 
     private void uncheckItemAtPosition(int position) {
         checkedPositions.remove(position);
-        listener.onCheckedChange(position, false);
+        updateCheckState(position, false);
+    }
+
+    private void updateCheckState(int position, boolean checked) {
+        listener.onCheckedChange(position, checked);
+        notifyItemChanged(position);
     }
 
     private void uncheckAll() {
@@ -81,6 +86,11 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
             this.notifyItemChanged(p);
             listener.onCheckedChange(p, false);
         });
+    }
+
+    public void setSelectedIndexes(ArrayList<Integer> selectedIndexes) {
+        this.checkedPositions = selectedIndexes;
+        notifyDataSetChanged();
     }
 
     class SingleViewHolder extends BaseViewHolder {
@@ -93,6 +103,7 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
 
         @Override
         protected void onBind(String item) {
+            super.onBind(item);
             radioButton.setChecked(isChecked());
         }
     }
@@ -107,6 +118,7 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
 
         @Override
         protected void onBind(String item) {
+            super.onBind(item);
             checkBox.setChecked(isChecked());
         }
     }
@@ -117,6 +129,7 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
 
         public BaseViewHolder(ViewGroup parent, int res) {
             super(parent, res);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -134,10 +147,6 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
         protected boolean isChecked() {
             return checkedPositions.contains(getAdapterPosition());
         }
-    }
-
-    public enum Type {
-        SINGLE, MULTIPLE
     }
 
     public interface OnCheckedChangeListener {
