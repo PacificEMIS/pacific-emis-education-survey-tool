@@ -105,12 +105,24 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         @Override
         protected void onBind(MutableQuestion item) {
             super.onBind(item);
-            binaryAnswerSelectorView.setStateNotNotifying(convertToUiState(item.getAnswer().getBinaryAnswerState()));
+            MutableAnswer answer = getItem().getAnswer();
+
+            if (answer == null) {
+                return;
+            }
+
+            binaryAnswerSelectorView.setStateNotNotifying(convertToUiState(answer.getBinaryAnswerState()));
         }
 
         @Override
         public void onStateChanged(BinaryAnswerSelectorView view, BinaryAnswerSelectorView.State state) {
-            getItem().getAnswer().setBinaryAnswerState(convertFromUiState(state));
+            MutableAnswer answer = getItem().getAnswer();
+
+            if (answer == null) {
+                return;
+            }
+
+            answer.setBinaryAnswerState(convertFromUiState(state));
             questionsListener.onAnswerStateChanged(getItem());
         }
 
@@ -145,7 +157,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     class SingleSelectionViewHolder extends SelectionViewHolder {
 
-        public SingleSelectionViewHolder(ViewGroup parent) {
+        SingleSelectionViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_single_selection_question);
         }
 
@@ -173,7 +185,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     class MultipleSelectionViewHolder extends SelectionViewHolder {
 
-        public MultipleSelectionViewHolder(ViewGroup parent) {
+        MultipleSelectionViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_multiple_selection_question);
         }
 
@@ -213,7 +225,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
         private AnswerSelectorView answerSelectorView = findViewById(R.id.answerselectionview);
 
-        public TernaryViewHolder(ViewGroup parent) {
+        TernaryViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_single_selection_question);
             answerSelectorView.setListener(this);
         }
@@ -265,7 +277,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         private ImageButton doneButton = findViewById(R.id.imagebutton_done);
         private String existingValue;
 
-        public TextInputViewHolder(ViewGroup parent) {
+        TextInputViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_text_input_question);
             doneButton.setOnClickListener(this);
             editText.addTextChangedListener(this);
@@ -327,7 +339,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
         private AnswerSelectorView answerSelectorView = findViewById(R.id.answerselectionview);
 
-        public SelectionViewHolder(ViewGroup parent, int res) {
+        SelectionViewHolder(ViewGroup parent, int res) {
             super(parent, res);
             answerSelectorView.setListener(this);
         }
@@ -339,7 +351,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         }
 
         @NonNull
-        protected ArrayList<Integer> findSelectedIndexes() {
+        ArrayList<Integer> findSelectedIndexes() {
             MutableAnswer answer = getItem().getAnswer();
 
             if (CollectionUtils.isEmpty(getItem().getItems()) || answer == null || CollectionUtils.isEmpty(answer.getItems())) {
