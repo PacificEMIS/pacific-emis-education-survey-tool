@@ -1,6 +1,8 @@
 package fm.doe.national.wash.ui.questions;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -257,14 +259,16 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     }
 
-    class TextInputViewHolder extends QuestionViewHolder {
+    class TextInputViewHolder extends QuestionViewHolder implements TextWatcher {
 
         private EditText editText = findViewById(R.id.textinputedittext);
         private ImageButton doneButton = findViewById(R.id.imagebutton_done);
+        private String existingValue;
 
         public TextInputViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_text_input_question);
             doneButton.setOnClickListener(this);
+            editText.addTextChangedListener(this);
         }
 
         @Override
@@ -272,8 +276,24 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             super.onBind(item);
 
             if (item.getAnswer() != null) {
-                editText.setText(item.getAnswer().getInputText());
+                existingValue = item.getAnswer().getInputText();
+                editText.setText(existingValue);
             }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // nothing
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // nothing
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            doneButton.setVisibility(editText.getText().toString().equals(existingValue) ? View.GONE : View.VISIBLE);
         }
 
         @Override
@@ -284,8 +304,10 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
                 MutableAnswer answer = question.getAnswer();
 
                 if (answer != null) {
-                    answer.setInputText(inputtedText.isEmpty() ? null : inputtedText);
+                    existingValue = inputtedText.isEmpty() ? null : inputtedText;
+                    answer.setInputText(existingValue);
                     questionsListener.onAnswerStateChanged(question);
+                    doneButton.setVisibility(View.GONE);
                 }
 
                 hideKeyboard();
@@ -297,9 +319,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         private void hideKeyboard() {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-
             itemView.requestFocus();
-
         }
     }
 
