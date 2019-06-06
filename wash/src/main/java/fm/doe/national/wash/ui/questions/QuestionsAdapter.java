@@ -16,9 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,6 +75,8 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case MULTI_SELECTION:
                 return new MultipleSelectionViewHolder(parent);
             case COMPLEX_BINARY:
+                break;
+            case COMPLEX_NUMBER_INPUT:
                 break;
         }
         throw new IllegalStateException();
@@ -165,21 +165,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         @Override
         public void onCheckedChange(int atPosition, boolean checked) {
             MutableQuestion question = getItem();
-            MutableAnswer answer = question.getAnswer();
-            List<String> items = question.getItems();
-            List<Integer> selectedIndexes = findSelectedIndexes();
-            Integer currentSelectedIndex = selectedIndexes.isEmpty() ? null : selectedIndexes.get(0);
-
-            if (answer == null || CollectionUtils.isEmpty(items) || items.size() <= atPosition) {
-                return;
-            }
-
-            if (checked) {
-                answer.setItems(Collections.singletonList(items.get(atPosition)));
-            } else if (currentSelectedIndex != null && currentSelectedIndex == atPosition) {
-                answer.setItems(null);
-            }
-
+            question.setCheckedState(atPosition, checked);
             questionsListener.onAnswerStateChanged(question);
         }
     }
@@ -193,32 +179,8 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         @Override
         public void onCheckedChange(int atPosition, boolean checked) {
             MutableQuestion question = getItem();
-            MutableAnswer answer = question.getAnswer();
-            List<String> items = question.getItems();
-
-            if (!CollectionUtils.isEmpty(items) && items.size() > atPosition && answer != null) {
-                List<String> existingAnswerItems = answer.getItems();
-                ArrayList<String> wrappedExistingAnswerItems =
-                        existingAnswerItems == null ? null : new ArrayList<>(existingAnswerItems);
-                String item = items.get(atPosition);
-
-                if (checked) {
-                    if (wrappedExistingAnswerItems == null) {
-                        wrappedExistingAnswerItems = new ArrayList<>();
-                    }
-
-                    wrappedExistingAnswerItems.add(item);
-                } else if (wrappedExistingAnswerItems != null) {
-                    wrappedExistingAnswerItems.remove(item);
-
-                    if (wrappedExistingAnswerItems.isEmpty()) {
-                        wrappedExistingAnswerItems = null;
-                    }
-                }
-
-                answer.setItems(wrappedExistingAnswerItems);
-                questionsListener.onAnswerStateChanged(question);
-            }
+            question.setCheckedState(atPosition, checked);
+            questionsListener.onAnswerStateChanged(question);
         }
     }
 
@@ -252,21 +214,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         @Override
         public void onCheckedChange(int atPosition, boolean checked) {
             MutableQuestion question = getItem();
-            MutableAnswer answer = question.getAnswer();
-
-            if (answer == null) {
-                return;
-            }
-
-            TernaryAnswerState answerState = answer.getTernaryAnswerState();
-            Integer currentAnswerStatePosition = answerState != null ? answerState.ordinal() : null;
-
-            if (checked) {
-                answer.setTernaryAnswerState(TernaryAnswerState.values()[atPosition]);
-            } else if (currentAnswerStatePosition != null && atPosition == currentAnswerStatePosition) {
-                answer.setTernaryAnswerState(null);
-            }
-
+            question.setCheckedState(atPosition, checked);
             questionsListener.onAnswerStateChanged(question);
         }
 
@@ -274,7 +222,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     class NumericTextInputViewHolder extends TextInputViewHolder {
 
-        public NumericTextInputViewHolder(ViewGroup parent) {
+        NumericTextInputViewHolder(ViewGroup parent) {
             super(parent);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
@@ -283,7 +231,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
     class PhoneTextInputViewHolder extends TextInputViewHolder {
 
-        public PhoneTextInputViewHolder(ViewGroup parent) {
+        PhoneTextInputViewHolder(ViewGroup parent) {
             super(parent);
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
         }
@@ -332,15 +280,10 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             if (v.getId() == R.id.imagebutton_done) {
                 String inputtedText = editText.getText().toString();
                 MutableQuestion question = getItem();
-                MutableAnswer answer = question.getAnswer();
-
-                if (answer != null) {
-                    existingValue = inputtedText.isEmpty() ? null : inputtedText;
-                    answer.setInputText(existingValue);
-                    questionsListener.onAnswerStateChanged(question);
-                    doneButton.setVisibility(View.GONE);
-                }
-
+                existingValue = inputtedText.isEmpty() ? null : inputtedText;
+                question.setAnswerInputText(existingValue);
+                questionsListener.onAnswerStateChanged(question);
+                doneButton.setVisibility(View.GONE);
                 hideKeyboard();
             } else {
                 super.onClick(v);
@@ -366,27 +309,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         @Override
         protected void onBind(MutableQuestion item) {
             super.onBind(item);
-            answerSelectorView.setItems(item.getItems(), findSelectedIndexes());
-        }
-
-        @NonNull
-        ArrayList<Integer> findSelectedIndexes() {
-            MutableAnswer answer = getItem().getAnswer();
-            List<String> items = getItem().getItems();
-
-            if (CollectionUtils.isEmpty(items) || answer == null || CollectionUtils.isEmpty(answer.getItems())) {
-                return CollectionUtils.emptyArrayList();
-            }
-
-            ArrayList<Integer> selectedIndexes = new ArrayList<>();
-            
-            for (int i = 0; i < items.size(); i++) {
-                if (answer.getItems().contains(items.get(i))) {
-                    selectedIndexes.add(i);
-                }
-            }
-
-            return selectedIndexes;
+            answerSelectorView.setItems(item.getItems(), item.getSelectedIndexes());
         }
     }
 

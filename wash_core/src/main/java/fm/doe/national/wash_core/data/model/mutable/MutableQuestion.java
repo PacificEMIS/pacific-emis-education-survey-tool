@@ -3,11 +3,15 @@ package fm.doe.national.wash_core.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
+import fm.doe.national.wash_core.data.model.TernaryAnswerState;
 import fm.doe.national.wash_core.data.serialization.model.Relation;
 import fm.doe.national.wash_core.data.serialization.model.Variant;
 
@@ -121,6 +125,93 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
 
     public void setAnswer(@Nullable MutableAnswer answer) {
         this.answer = answer;
+    }
+
+    public void setAnswerInputText(@Nullable String text) {
+        if (answer == null) {
+            return;
+        }
+
+        answer.setInputText(text);
+    }
+
+    public void setCheckedState(int atPosition, boolean checked) {
+        switch (questionType) {
+            case SINGLE_SELECTION:
+                setCheckedStateOnSingle(atPosition, checked);
+                break;
+            case MULTI_SELECTION:
+                setCheckedStateOnMultiple(atPosition, checked);
+                break;
+            case TERNARY:
+                setCheckedStateOnTernary(atPosition, checked);
+                break;
+        }
+    }
+
+    private void setCheckedStateOnSingle(int atPosition, boolean checked) {
+        List<Integer> selectedIndexes = getSelectedIndexes();
+        Integer currentSelectedIndex = selectedIndexes.isEmpty() ? null : selectedIndexes.get(0);
+
+        if (answer == null || CollectionUtils.isEmpty(items) || items.size() <= atPosition) {
+            return;
+        }
+
+        if (checked) {
+            answer.setItems(Collections.singletonList(items.get(atPosition)));
+        } else if (currentSelectedIndex != null && currentSelectedIndex == atPosition) {
+            answer.setItems(null);
+        }
+
+    }
+
+    private void setCheckedStateOnMultiple(int atPosition, boolean checked) {
+        if (!CollectionUtils.isEmpty(items) && items.size() > atPosition && answer != null) {
+            List<String> existingAnswerItems = answer.getItems();
+            ArrayList<String> wrappedExistingAnswerItems =
+                    existingAnswerItems == null ? CollectionUtils.emptyArrayList() : new ArrayList<>(existingAnswerItems);
+            String item = items.get(atPosition);
+
+            if (checked) {
+                wrappedExistingAnswerItems.add(item);
+            } else {
+                wrappedExistingAnswerItems.remove(item);
+            }
+
+            answer.setItems(wrappedExistingAnswerItems);
+        }
+    }
+
+    private void setCheckedStateOnTernary(int atPosition, boolean checked) {
+        if (answer == null) {
+            return;
+        }
+
+        TernaryAnswerState answerState = answer.getTernaryAnswerState();
+        Integer currentAnswerStatePosition = answerState != null ? answerState.ordinal() : null;
+
+        if (checked) {
+            answer.setTernaryAnswerState(TernaryAnswerState.values()[atPosition]);
+        } else if (currentAnswerStatePosition != null && atPosition == currentAnswerStatePosition) {
+            answer.setTernaryAnswerState(null);
+        }
+    }
+
+    @NonNull
+    public ArrayList<Integer> getSelectedIndexes() {
+        if (CollectionUtils.isEmpty(items) || answer == null || CollectionUtils.isEmpty(answer.getItems())) {
+            return CollectionUtils.emptyArrayList();
+        }
+
+        ArrayList<Integer> selectedIndexes = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++) {
+            if (answer.getItems().contains(items.get(i))) {
+                selectedIndexes.add(i);
+            }
+        }
+
+        return selectedIndexes;
     }
 
 }

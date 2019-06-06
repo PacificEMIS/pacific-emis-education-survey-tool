@@ -1,5 +1,7 @@
 package fm.doe.national.wash_core.data.model.mutable;
 
+import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 import fm.doe.national.wash_core.data.model.Location;
@@ -107,7 +110,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
     }
 
     public void setItems(@Nullable List<String> items) {
-        this.items = items;
+        this.items = CollectionUtils.isEmpty(items) ? null : items;
     }
 
     public void setComment(@Nullable String comment) {
@@ -135,6 +138,6 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
     }
 
     public void setInputText(@Nullable String inputText) {
-        this.inputText = inputText;
+        this.inputText = TextUtils.isEmpty(inputText) ? null : inputText;
     }
 }
