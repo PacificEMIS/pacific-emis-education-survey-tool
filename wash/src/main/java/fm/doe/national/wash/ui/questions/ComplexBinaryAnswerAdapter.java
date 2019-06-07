@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
@@ -15,13 +16,18 @@ import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
 
     private SparseArray<BinaryAnswerState> answerStates = new SparseArray<>();
+    private OnBinaryAnswerChangeListener listener;
+
+    public ComplexBinaryAnswerAdapter(OnBinaryAnswerChangeListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     protected ViewHolder provideViewHolder(ViewGroup parent) {
         return new ItemViewHolder(parent);
     }
 
-    public void setAnswerStates(SparseArray<BinaryAnswerState> answerStates) {
+    public void setAnswerStates(@NonNull SparseArray<BinaryAnswerState> answerStates) {
         this.answerStates = answerStates;
         notifyDataSetChanged();
     }
@@ -52,11 +58,15 @@ public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
     }
 
     private void setPositiveStateAtPosition(int position) {
-        answerStates.put(position, BinaryAnswerState.YES);
+        setAnswerState(position, BinaryAnswerState.YES);
     }
 
     private void setNegativeStateAtPosition(int position) {
-        answerStates.put(position, BinaryAnswerState.NO);
+        setAnswerState(position, BinaryAnswerState.NO);
+    }
+
+    private void setAnswerState(int position, BinaryAnswerState state) {
+        answerStates.put(position, state);
     }
 
     private void setNeutralStateAtPosition(int position) {
@@ -97,5 +107,9 @@ public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
                 super.onClick(v);
             }
         }
+    }
+
+    public interface OnBinaryAnswerChangeListener {
+        void onBinaryAsnwerChange(int atPosition, @Nullable BinaryAnswerState binaryAnswerState);
     }
 }
