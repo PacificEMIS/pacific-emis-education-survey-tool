@@ -82,10 +82,28 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
         return new ItemViewHolder(parent);
     }
 
-    class NumericItemViewHolder extends ItemViewHolder {
+    class NumericItemViewHolder extends ItemViewHolder implements ComplexNumericAnswerAdapter.OnNumericAnswerChangeListener {
+
+        private final ComplexNumericAnswerAdapter adapter = new ComplexNumericAnswerAdapter(this);
+
         NumericItemViewHolder(ViewGroup parent) {
             super(parent);
+            recyclerView.setAdapter(adapter);
         }
+
+        @Override
+        protected void onBind(Variant item) {
+            super.onBind(item);
+            adapter.setItems(item.getOptions().stream().map(VariantItem::getName).collect(Collectors.toList()));
+            adapter.setAnswerStates(question.getAnswerValuesOfVariant(item));
+        }
+
+        @Override
+        public void onBinaryAnswerChange(int atPosition, @Nullable String input) {
+            question.setVariantAnswer(getItem(), atPosition, input);
+            notifyQuestionChangedFromDefaultViewHolder();
+        }
+
     }
 
     class BinaryItemViewHolder extends ItemViewHolder implements ComplexBinaryAnswerAdapter.OnBinaryAnswerChangeListener {

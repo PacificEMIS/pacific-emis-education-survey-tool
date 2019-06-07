@@ -22,9 +22,7 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.di.CoreComponentInjector;
@@ -35,7 +33,6 @@ import fm.doe.national.wash.R;
 import fm.doe.national.wash.ui.photos.WashPhotosActivity;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.Question;
-import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 import fm.doe.national.wash_core.di.WashCoreComponentInjector;
 
@@ -119,24 +116,7 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void setQuestions(List<MutableQuestion> questions) {
-        // TODO: temp filter to prevent crashes in development
-        List<QuestionType> developedTypes = Arrays.asList(
-                QuestionType.BINARY,
-                QuestionType.SINGLE_SELECTION,
-                QuestionType.MULTI_SELECTION,
-                QuestionType.TERNARY,
-                QuestionType.TEXT_INPUT,
-                QuestionType.NUMBER_INPUT,
-                QuestionType.PHONE_INPUT,
-                QuestionType.PHOTO,
-                QuestionType.GEOLOCATION,
-                QuestionType.COMPLEX_BINARY
-        );
-        questionsAdapter.setItems(
-                questions.stream()
-                        .filter(q -> developedTypes.contains(q.getType()))
-                        .collect(Collectors.toList())
-        );
+        questionsAdapter.setItems(questions);
     }
 
     @Override

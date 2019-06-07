@@ -294,7 +294,18 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
     }
 
     public SparseArray<BinaryAnswerState> getBinaryAnswerStatesOfVariant(Context context, Variant variant) {
-        SparseArray<BinaryAnswerState> states = new SparseArray<>();
+        SparseArray<String> states = getAnswerValuesOfVariant(variant);
+        SparseArray<BinaryAnswerState> binaryStates = new SparseArray<>();
+
+        for (int i = 0; i < states.size(); i++) {
+            binaryStates.put(states.keyAt(i), BinaryAnswerState.createFromText(context, Text.from(states.valueAt(i))));
+        }
+
+        return binaryStates;
+    }
+
+    public SparseArray<String> getAnswerValuesOfVariant(Variant variant) {
+        SparseArray<String> states = new SparseArray<>();
         List<VariantItem> questionVariantOptions = variant.getOptions();
 
         if (answer == null || CollectionUtils.isEmpty(questionVariantOptions)) {
@@ -320,7 +331,7 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         for (int position = 0; position < questionVariantOptions.size(); position++) {
             for (VariantItem option : currentAnswerVariant.getOptions()) {
                 if (questionVariantOptions.get(position).getName().equals(option.getName())) {
-                    states.put(position, BinaryAnswerState.createFromText(context, Text.from(option.getAnswer())));
+                    states.put(position, option.getAnswer());
                 }
             }
         }
