@@ -27,7 +27,7 @@ public class AccreditationSurveyPresenter extends SurveyPresenter {
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
 
     public AccreditationSurveyPresenter(AccreditationCoreComponent accreditationCoreComponent, SurveyCoreComponent surveyCoreComponent) {
-        super(surveyCoreComponent);
+        super(surveyCoreComponent, accreditationCoreComponent.getAccreditationSurveyInteractor());
         accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         onInit();
     }

@@ -165,4 +165,9 @@ public class SurveyActivity extends BaseActivity implements
         ViewUtils.rebindProgress(progress, progressTextView, progressBar);
         navigationItemsAdapter.notifyProgressChanged(standardId, progress);
     }
+
+    @Override
+    public void setReportEnabled(boolean enabled) {
+        navigationItemsAdapter.setReportEnabled(enabled);
+    }
 }

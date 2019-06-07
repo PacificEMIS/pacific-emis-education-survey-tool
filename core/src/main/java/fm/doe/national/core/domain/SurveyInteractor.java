@@ -4,7 +4,7 @@ import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
 import io.reactivex.Single;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 public interface SurveyInteractor {
     Single<List<Survey>> getAllSurveys();
@@ -15,5 +15,5 @@ public interface SurveyInteractor {
 
     Survey getCurrentSurvey();
 
-    PublishSubject<Survey> getSurveyProgressSubject();
+    Subject<Survey> getSurveyProgressSubject();
 }

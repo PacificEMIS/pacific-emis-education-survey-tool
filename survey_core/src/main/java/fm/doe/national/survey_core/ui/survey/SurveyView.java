@@ -28,4 +28,6 @@ public interface SurveyView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showNavigationItem(BuildableNavigationItem item);
 
+    void setReportEnabled(boolean enabled);
+
 }

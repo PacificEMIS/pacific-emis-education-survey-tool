@@ -19,12 +19,14 @@ import fm.doe.national.core.data.model.Survey;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInteractor {
 
     private final AccreditationDataSource accreditationDataSource;
-    private final PublishSubject<Survey> surveyPublishSubject = PublishSubject.create();
+    private final BehaviorSubject<Survey> surveyBehaviorSubject = BehaviorSubject.create();
     private final PublishSubject<MutableCategory> categoryPublishSubject = PublishSubject.create();
     private final PublishSubject<MutableStandard> standardPublishSubject = PublishSubject.create();
     private final PublishSubject<MutableCriteria> criteriaPublishSubject = PublishSubject.create();
@@ -59,6 +61,8 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
         if (shouldFetchProgress) {
             initProgress(this.survey);
         }
+        // fill initial survey item to BehaviorSubject
+        surveyBehaviorSubject.onNext(this.survey);
     }
 
     @Override
@@ -146,7 +150,7 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
         }
 
         survey.getProgress().completed += delta;
-        surveyPublishSubject.onNext(survey);
+        surveyBehaviorSubject.onNext(survey);
     }
 
     private int findProgressDeltaAndNotify(MutableAnswer answer,
@@ -201,8 +205,8 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     }
 
     @Override
-    public PublishSubject<Survey> getSurveyProgressSubject() {
-        return surveyPublishSubject;
+    public Subject<Survey> getSurveyProgressSubject() {
+        return surveyBehaviorSubject;
     }
 
     @Override
