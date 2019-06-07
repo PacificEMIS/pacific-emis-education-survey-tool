@@ -5,6 +5,7 @@ import com.omegar.mvp.InjectViewState;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
@@ -19,10 +20,12 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
 
     protected final SurveyNavigator surveyNavigator;
+    protected final SurveyInteractor surveyInteractor;
 
-    public SurveyPresenter(SurveyCoreComponent surveyCoreComponent) {
+    public SurveyPresenter(SurveyCoreComponent surveyCoreComponent, SurveyInteractor interactor) {
         surveyNavigator = surveyCoreComponent.getSurveyNavigator();
         surveyNavigator.setViewState(getViewState());
+        this.surveyInteractor = interactor;
     }
 
     // Call this one in the end of inherited constructor
@@ -30,6 +33,7 @@ public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
         getViewState().setSchoolName(getSchoolName());
         loadNavigationItems();
         subscribeOnEditingEvents();
+        subscribeToSurveyProgress();
     }
 
     protected abstract Single<List<NavigationItem>> requestNavigationItems();
@@ -63,6 +67,14 @@ public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
                 .orElse(progressableItems.get(0));
 
         surveyNavigator.select(itemToSelect);
+    }
+
+    private void subscribeToSurveyProgress() {
+        addDisposable(surveyInteractor.getSurveyProgressSubject()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(survey -> getViewState().setReportEnabled(survey.getProgress().isFinished()), this::handleError));
+
     }
 
     public void onNavigationItemPressed(BuildableNavigationItem item) {
