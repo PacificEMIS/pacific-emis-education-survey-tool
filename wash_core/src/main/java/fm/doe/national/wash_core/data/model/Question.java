@@ -7,7 +7,6 @@ import java.util.List;
 
 import fm.doe.national.core.data.model.IdentifiedObject;
 import fm.doe.national.wash_core.data.serialization.model.Relation;
-import fm.doe.national.wash_core.data.serialization.model.Variant;
 
 public interface Question extends IdentifiedObject {
 

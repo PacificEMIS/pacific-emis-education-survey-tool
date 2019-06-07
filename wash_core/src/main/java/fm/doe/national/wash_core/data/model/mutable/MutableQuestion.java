@@ -13,7 +13,7 @@ import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.model.TernaryAnswerState;
 import fm.doe.national.wash_core.data.serialization.model.Relation;
-import fm.doe.national.wash_core.data.serialization.model.Variant;
+import fm.doe.national.wash_core.data.model.Variant;
 
 public class MutableQuestion extends BaseMutableEntity implements Question {
 

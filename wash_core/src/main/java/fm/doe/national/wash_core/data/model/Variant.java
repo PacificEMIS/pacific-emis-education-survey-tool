@@ -1,4 +1,4 @@
-package fm.doe.national.wash_core.data.serialization.model;
+package fm.doe.national.wash_core.data.model;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -13,14 +13,15 @@ public class Variant implements Serializable {
     @Element(name = "name")
     String name;
 
-    @ElementList(entry = "item", inline = true, required = false)
-    List<String> options;
+    @ElementList(entry = "variant_item", inline = true, required = false)
+    List<VariantItem> variantItems;
 
     public String getName() {
         return name;
     }
 
-    public List<String> getOptions() {
-        return options;
+    public List<VariantItem> getOptions() {
+        return variantItems;
     }
+
 }

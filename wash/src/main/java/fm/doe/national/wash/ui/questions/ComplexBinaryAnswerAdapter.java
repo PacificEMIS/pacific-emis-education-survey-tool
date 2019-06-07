@@ -110,6 +110,6 @@ public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
     }
 
     public interface OnBinaryAnswerChangeListener {
-        void onBinaryAsnwerChange(int atPosition, @Nullable BinaryAnswerState binaryAnswerState);
+        void onBinaryAnswerChange(int atPosition, @Nullable BinaryAnswerState binaryAnswerState);
     }
 }

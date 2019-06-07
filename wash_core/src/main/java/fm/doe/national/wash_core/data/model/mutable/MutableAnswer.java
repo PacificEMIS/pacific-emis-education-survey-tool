@@ -14,7 +14,7 @@ import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.TernaryAnswerState;
-import fm.doe.national.wash_core.data.serialization.model.Variant;
+import fm.doe.national.wash_core.data.model.Variant;
 
 public class MutableAnswer extends BaseMutableEntity implements Answer {
 

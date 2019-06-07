@@ -9,7 +9,6 @@ import java.util.List;
 import fm.doe.national.core.data.model.IdentifiedObject;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.utils.CollectionUtils;
-import fm.doe.national.wash_core.data.serialization.model.Variant;
 
 public interface Answer extends IdentifiedObject {
 
