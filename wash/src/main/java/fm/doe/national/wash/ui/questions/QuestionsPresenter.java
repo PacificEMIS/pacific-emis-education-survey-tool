@@ -111,6 +111,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
         if (answer != null) {
             answer.setLocation(location);
+            onAnswerChanged(question);
         }
     }
 }
