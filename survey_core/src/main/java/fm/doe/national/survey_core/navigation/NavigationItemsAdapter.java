@@ -16,6 +16,7 @@ import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.survey_core.R;
+import fm.doe.national.survey_core.navigation.survey_navigator.ReportBuildableNavigationItem;
 
 public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
 
@@ -23,6 +24,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
     private static final int VIEW_TYPE_QUESTION_GROUP = 1;
 
     private int selectedItemPosition = RecyclerView.NO_POSITION;
+    private boolean isReportEnabled;
 
     public NavigationItemsAdapter(OnItemClickListener<NavigationItem> clickListener) {
         super(clickListener);
@@ -89,6 +91,11 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         return null;
     }
 
+    public void setReportEnabled(boolean enabled) {
+        isReportEnabled = enabled;
+        notifyDataSetChanged();
+    }
+
     class QuestionGroupViewHolder extends ViewHolder {
 
         private TextView progressTextView;
@@ -112,6 +119,7 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         protected void onBind(NavigationItem item) {
             titleOmegaTextView.setText(item.getTitle());
             backgroundView.setActivated(isSelected());
+
             if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
                 ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
                 titleOmegaTextView.setStartText(navigationItem.getTitlePrefix());
@@ -123,6 +131,8 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
                 progressTextView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
             }
+
+            itemView.setEnabled(!(item instanceof ReportBuildableNavigationItem) || isReportEnabled);
         }
 
         private boolean isSelected() {
