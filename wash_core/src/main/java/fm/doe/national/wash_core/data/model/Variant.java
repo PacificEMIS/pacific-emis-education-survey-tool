@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import fm.doe.national.core.utils.CollectionUtils;
+
 @Root(name = "variant")
 public class Variant implements Serializable {
 
@@ -44,5 +46,9 @@ public class Variant implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public boolean isBlocker() {
+        return CollectionUtils.isEmpty(variantItems);
     }
 }

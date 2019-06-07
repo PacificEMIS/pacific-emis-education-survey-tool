@@ -1,6 +1,8 @@
 package fm.doe.national.wash.ui.questions;
 
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,7 +13,6 @@ import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash.R;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 import fm.doe.national.wash_core.data.model.Variant;
@@ -21,7 +22,7 @@ import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 public class VariantsAdapter extends BaseListAdapter<Variant> {
 
     private static final int VIEW_TYPE_DEFAULT = 0;
-    private static final int VIEW_TYPE_NONE_SELECTOR = 1;
+    private static final int VIEW_TYPE_BLOCKER = 1;
 
     private final Type type;
     private final MutableQuestion question;
@@ -39,11 +40,7 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
 
     @Override
     public int getItemViewType(int position) {
-        if (CollectionUtils.isEmpty(getItem(position).getOptions())) {
-            return VIEW_TYPE_NONE_SELECTOR;
-        } else {
-            return VIEW_TYPE_DEFAULT;
-        }
+        return getItem(position).isBlocker() ? VIEW_TYPE_BLOCKER : VIEW_TYPE_DEFAULT;
     }
 
     @NonNull
@@ -58,14 +55,26 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
                         return new NumericItemViewHolder(parent);
                 }
                 throw new IllegalStateException();
-            case VIEW_TYPE_NONE_SELECTOR:
-                return new NoneSelectorViewHolder(parent);
+            case VIEW_TYPE_BLOCKER:
+                return new BlockerViewHolder(parent);
         }
         throw new IllegalStateException();
     }
 
-    private void notifyQuestionChanged() {
+    private void notifyQuestionChangedFromDefaultViewHolder() {
         listener.onAnswerChange();
+
+        for (int i = getItemCount() - 1; i >= 0; i--) {
+            if (getItem(i).isBlocker()) {
+                notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
+    private void notifyQuestionChangedFromBlockerViewHolder() {
+        listener.onAnswerChange();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -98,7 +107,7 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
         @Override
         public void onBinaryAnswerChange(int atPosition, @Nullable BinaryAnswerState binaryAnswerState) {
             question.setVariantAnswer(getItem(), atPosition, getBinaryAnswerStateAnswer(binaryAnswerState));
-            notifyQuestionChanged();
+            notifyQuestionChangedFromDefaultViewHolder();
         }
 
         @Nullable
@@ -107,17 +116,33 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
         }
     }
 
-    class NoneSelectorViewHolder extends ViewHolder {
+    class BlockerViewHolder extends ViewHolder {
 
-        NoneSelectorViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_variant);
+        private TextView textView = findViewById(R.id.textview);
+        private RadioButton radioButton = findViewById(R.id.radiobutton);
+
+        private boolean isChecked;
+
+        BlockerViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_selectable_answer_single);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         protected void onBind(Variant item) {
-
+            isChecked = question.haveAnswerOnVariant(item);
+            itemView.setActivated(isChecked);
+            radioButton.setChecked(isChecked);
+            textView.setText(item.getName());
         }
 
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                question.setBlockerVariantAnswered(getItem(), !isChecked);
+                notifyQuestionChangedFromBlockerViewHolder();
+            }
+        }
     }
 
     class ItemViewHolder extends ViewHolder {

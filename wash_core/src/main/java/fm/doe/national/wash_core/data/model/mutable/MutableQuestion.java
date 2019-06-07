@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -228,21 +229,23 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         }
 
         List<Variant> answerVariants = answer.getVariants();
-        Variant variantToChange = variant;
-        List<VariantItem> allVariantItems = variantToChange.getOptions();
+        List<VariantItem> allVariantItems = variant.getOptions();
         VariantItem itemToChange = VariantItem.copy(allVariantItems.get(variantItemIndex));
 
         // Question not answered at all
         if (answerVariants == null) {
-            Variant newVariant = createNewVariant(answerText, variantToChange, itemToChange);
+            Variant newVariant = createNewVariant(answerText, variant, itemToChange);
             answerVariants = new ArrayList<>();
             answerVariants.add(newVariant);
         } else {
+
+            answerVariants = removeBlockerVariantFromAnswers(answerVariants);
+
             ArrayList<Variant> wrappedAnswerVariants = new ArrayList<>(answerVariants);
-            Optional<Variant> existingAnsweredVariantOptional = wrappedAnswerVariants.stream().filter(variantToChange::equals).findFirst();
+            Optional<Variant> existingAnsweredVariantOptional = wrappedAnswerVariants.stream().filter(variant::equals).findFirst();
 
             if (!existingAnsweredVariantOptional.isPresent()) {
-                Variant newVariant = createNewVariant(answerText, variantToChange, itemToChange);
+                Variant newVariant = createNewVariant(answerText, variant, itemToChange);
                 wrappedAnswerVariants.add(newVariant);
             } else {
                 Variant existingAnsweredVariant = existingAnsweredVariantOptional.get();
@@ -270,6 +273,16 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         }
 
         answer.setVariants(answerVariants);
+    }
+
+    private List<Variant> removeBlockerVariantFromAnswers(List<Variant> answerVariants) {
+        if (answer == null) {
+            return answerVariants;
+        }
+
+        return answerVariants.stream()
+                .filter(v -> !v.isBlocker())
+                .collect(Collectors.toList());
     }
 
     private Variant createNewVariant(@Nullable String answerText, Variant variantToChange, VariantItem itemToChange) {
@@ -313,6 +326,32 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         }
 
         return states;
+    }
+
+    public boolean haveAnswerOnVariant(Variant variant) {
+        if (answer == null) {
+            return false;
+        }
+
+        List<Variant> answeredVariants = answer.getVariants();
+
+        if (CollectionUtils.isEmpty(answeredVariants)) {
+            return false;
+        }
+
+        return answeredVariants.stream().anyMatch(variant::equals);
+    }
+
+    public void setBlockerVariantAnswered(Variant blockerVariant, boolean answered) {
+        if (answer == null) {
+            return;
+        }
+
+        if (answered) {
+            answer.setVariants(Collections.singletonList(blockerVariant));
+        } else {
+            answer.setVariants(null);
+        }
     }
 
 }
