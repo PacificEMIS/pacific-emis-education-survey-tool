@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
     android:minHeight="36dp">
 
     <TextView
@@ -15,7 +13,7 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/layout_positive"
         android:textAppearance="@style/Text.Body1"
-        tools:text="@tools:sample/lorem/random" />
+        tools:text="Water used for drinking" />
 
     <LinearLayout
         android:id="@+id/layout_positive"
@@ -26,6 +24,7 @@
         android:layout_toStartOf="@+id/layout_negative">
 
         <RadioButton
+            android:id="@+id/radiobutton_positive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -49,6 +48,7 @@
         android:layout_marginStart="8dp">
 
         <RadioButton
+            android:id="@+id/radiobutton_negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

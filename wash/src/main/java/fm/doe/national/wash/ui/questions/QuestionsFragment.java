@@ -129,7 +129,8 @@ public class QuestionsFragment extends BaseFragment implements
                 QuestionType.NUMBER_INPUT,
                 QuestionType.PHONE_INPUT,
                 QuestionType.PHOTO,
-                QuestionType.GEOLOCATION
+                QuestionType.GEOLOCATION,
+                QuestionType.COMPLEX_BINARY
         );
         questionsAdapter.setItems(
                 questions.stream()

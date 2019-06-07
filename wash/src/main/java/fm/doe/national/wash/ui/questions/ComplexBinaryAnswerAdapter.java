@@ -3,6 +3,7 @@ package fm.doe.national.wash.ui.questions;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,10 +68,12 @@ public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
 
     private void setAnswerState(int position, BinaryAnswerState state) {
         answerStates.put(position, state);
+        listener.onBinaryAnswerChange(position, state);
     }
 
     private void setNeutralStateAtPosition(int position) {
         answerStates.delete(position);
+        listener.onBinaryAnswerChange(position, null);
     }
 
     class ItemViewHolder extends ViewHolder {
@@ -78,6 +81,8 @@ public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
         private TextView nameTextView = findViewById(R.id.textview);
         private View positiveView = findViewById(R.id.layout_positive);
         private View negativeView = findViewById(R.id.layout_negative);
+        private RadioButton positiveRadioButton = findViewById(R.id.radiobutton_positive);
+        private RadioButton negativeRadioButton = findViewById(R.id.radiobutton_negative);
 
         ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_complex_binary_answer);
@@ -92,8 +97,12 @@ public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
 
             BinaryAnswerState state = getAnswerStateAtPosition(getAdapterPosition());
 
-            positiveView.setActivated(state == BinaryAnswerState.YES);
-            negativeView.setActivated(state == BinaryAnswerState.NO);
+            boolean isPositive = state == BinaryAnswerState.YES;
+            boolean isNegative = state == BinaryAnswerState.NO;
+            positiveView.setActivated(isPositive);
+            negativeView.setActivated(isNegative);
+            positiveRadioButton.setChecked(isPositive);
+            negativeRadioButton.setChecked(isNegative);
         }
 
         @Override

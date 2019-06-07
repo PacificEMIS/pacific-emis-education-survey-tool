@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import com.omega_r.libs.omegatypes.Text;
@@ -79,9 +80,9 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case MULTI_SELECTION:
                 return new MultipleSelectionViewHolder(parent);
             case COMPLEX_BINARY:
-                break;
+                return new VariantsViewHolder(parent, VariantsAdapter.Type.BINARY);
             case COMPLEX_NUMBER_INPUT:
-                break;
+                return new VariantsViewHolder(parent, VariantsAdapter.Type.NUMERIC);
         }
         throw new IllegalStateException();
     }
@@ -90,6 +91,30 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
     protected ViewHolder provideViewHolder(ViewGroup parent) {
         // unused
         return null;
+    }
+
+    class VariantsViewHolder extends QuestionViewHolder implements VariantsAdapter.OnAnswerChangeListener {
+
+        private final VariantsAdapter.Type type;
+        private RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        private VariantsAdapter adapter;
+
+        VariantsViewHolder(ViewGroup parent, VariantsAdapter.Type type) {
+            super(parent, R.layout.item_complex_question);
+            this.type = type;
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+            adapter = new VariantsAdapter(type, item, this);
+            recyclerView.setAdapter(adapter);
+        }
+
+        @Override
+        public void onAnswerChange() {
+            questionsListener.onAnswerStateChanged(getItem());
+        }
     }
 
     class GeoLocationViewHolder extends QuestionViewHolder {

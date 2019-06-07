@@ -31,12 +31,16 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
 
     private final Type type;
     private final MutableQuestion question;
-    private final OnVarinatChangeListener listener;
+    private final OnAnswerChangeListener listener;
 
-    public VariantsAdapter(Type type, MutableQuestion question, OnVarinatChangeListener listener) {
+    public VariantsAdapter(Type type, MutableQuestion question, OnAnswerChangeListener listener) {
         this.type = type;
         this.question = question;
         this.listener = listener;
+
+        if (question.getVariants() != null) {
+            setItems(question.getVariants());
+        }
     }
 
     @Override
@@ -64,6 +68,10 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
                 return new NoneSelectorViewHolder(parent);
         }
         throw new IllegalStateException();
+    }
+
+    private void notifyQuestionChanged() {
+        listener.onAnswerChange();
     }
 
     @Override
@@ -131,37 +139,71 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
 
         @Override
         public void onBinaryAnswerChange(int atPosition, @Nullable BinaryAnswerState binaryAnswerState) {
-            Variant updatedVariant = Variant.copy(getItem());
-            getItem()
-                    .getOptions()
-                    .get(atPosition)
-                    .setAnswer(binaryAnswerState == null ? null : binaryAnswerState.getText().getString(getContext()));
-
             MutableAnswer answer = question.getAnswer();
 
             if (answer == null) {
                 return;
             }
 
+            List<Variant> answerVariants = answer.getVariants();
+            Variant variantToChange = getItem();
+            List<VariantItem> allVariantItems = variantToChange.getOptions();
+            VariantItem itemToChange = VariantItem.copy(allVariantItems.get(atPosition));
 
-            List<Variant> existingAnswerVariants = answer.getVariants();
+            // Question not answered at all
+            if (answerVariants == null) {
+                Variant newVariant = createNewVariant(binaryAnswerState, variantToChange, itemToChange);
+                answerVariants = new ArrayList<>();
+                answerVariants.add(newVariant);
+            } else {
+                ArrayList<Variant> wrappedAnswerVariants = new ArrayList<>(answerVariants);
+                Optional<Variant> existingAnsweredVariantOptional = wrappedAnswerVariants.stream().filter(variantToChange::equals).findFirst();
 
-            if (CollectionUtils.isEmpty(existingAnswerVariants)) {
-                if (binaryAnswerState == null) {
-                    return;
+                if (!existingAnsweredVariantOptional.isPresent()) {
+                    Variant newVariant = createNewVariant(binaryAnswerState, variantToChange, itemToChange);
+                    wrappedAnswerVariants.add(newVariant);
+                } else {
+                    Variant existingAnsweredVariant = existingAnsweredVariantOptional.get();
+
+                    // remove existent one to insert it modified state later
+                    wrappedAnswerVariants.remove(existingAnsweredVariant);
+
+                    if (binaryAnswerState == null) {
+                        existingAnsweredVariant.getOptions().remove(itemToChange);
+
+                        // don't add variant back if it's empty
+                        if (!existingAnsweredVariant.getOptions().isEmpty()) {
+                            wrappedAnswerVariants.add(existingAnsweredVariant);
+                        }
+                    } else {
+                        List<VariantItem> answeredOptions = existingAnsweredVariant.getOptions();
+                        itemToChange.setAnswer(getBinaryAnswerStateAnswer(binaryAnswerState));
+                        answeredOptions.remove(itemToChange); // If already exists - remove
+                        answeredOptions.add(itemToChange);
+                        wrappedAnswerVariants.add(existingAnsweredVariant);
+                    }
                 }
 
-                existingAnswerVariants = new ArrayList<>();
-                existingAnswerVariants.add(getItem());
-            } else {
-
+                answerVariants = wrappedAnswerVariants;
             }
 
-            Optional<Variant> currentAnswerVariantOp = existingAnswerVariants.stream()
-                    .filter(v -> v.getName().equals(getItem().getName()))
-                    .findFirst();
+            answer.setVariants(answerVariants);
+            notifyQuestionChanged();
+        }
 
-//            getItem().getOptions()
+        private Variant createNewVariant(@Nullable BinaryAnswerState binaryAnswerState, Variant variantToChange, VariantItem itemToChange) {
+            if (binaryAnswerState != null) {
+                itemToChange.setAnswer(getBinaryAnswerStateAnswer(binaryAnswerState));
+            }
+
+            Variant newVariant = Variant.copy(variantToChange);
+            newVariant.getOptions().clear();
+            newVariant.getOptions().add(itemToChange);
+            return newVariant;
+        }
+
+        private String getBinaryAnswerStateAnswer(BinaryAnswerState binaryAnswerState) {
+            return binaryAnswerState.getText().getString(getContext());
         }
     }
 
@@ -190,7 +232,7 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
         BINARY, NUMERIC
     }
 
-    public interface OnVarinatChangeListener {
-        void onVariantChange(Variant variant);
+    public interface OnAnswerChangeListener {
+        void onAnswerChange();
     }
 }

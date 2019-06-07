@@ -7,6 +7,7 @@ import org.simpleframework.xml.Root;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Root(name = "variant")
 public class Variant implements Serializable {
@@ -32,4 +33,16 @@ public class Variant implements Serializable {
         return variantItems;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Variant variant = (Variant) o;
+        return Objects.equals(name, variant.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
