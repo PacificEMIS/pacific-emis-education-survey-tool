@@ -6,11 +6,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
@@ -65,6 +68,7 @@ public abstract class BaseDrawerActivity extends MenuActivity implements
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        drawerToggle.getDrawerArrowDrawable().setColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
     }
 
     @Override
@@ -114,7 +118,7 @@ public abstract class BaseDrawerActivity extends MenuActivity implements
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggle
         drawerToggle.onConfigurationChanged(newConfig);
