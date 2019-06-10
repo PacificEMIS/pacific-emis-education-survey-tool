@@ -18,6 +18,10 @@ public class AccreditationPhotosActivity extends PhotosActivity {
     @InjectPresenter
     AccreditationPhotosPresenter presenter;
 
+    public static Intent createIntent(Context parentContext) {
+        return new Intent(parentContext, AccreditationPhotosActivity.class);
+    }
+
     @ProvidePresenter
     AccreditationPhotosPresenter providePresenter() {
         Application application = getApplication();
@@ -26,10 +30,6 @@ public class AccreditationPhotosActivity extends PhotosActivity {
                 CloudComponentInjector.getComponent(application),
                 AccreditationCoreComponentInjector.getComponent(application)
         );
-    }
-
-    public static Intent createIntent(Context parentContext) {
-        return new Intent(parentContext, AccreditationPhotosActivity.class);
     }
 
     @Override

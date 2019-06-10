@@ -18,6 +18,10 @@ public class WashPhotosActivity extends PhotosActivity {
     @InjectPresenter
     WashPhotosPresenter presenter;
 
+    public static Intent createIntent(Context parentContext) {
+        return new Intent(parentContext, WashPhotosActivity.class);
+    }
+
     @ProvidePresenter
     WashPhotosPresenter providePresenter() {
         Application application = getApplication();
@@ -26,10 +30,6 @@ public class WashPhotosActivity extends PhotosActivity {
                 CloudComponentInjector.getComponent(application),
                 WashCoreComponentInjector.getComponent(application)
         );
-    }
-
-    public static Intent createIntent(Context parentContext) {
-        return new Intent(parentContext, WashPhotosActivity.class);
     }
 
     @Override
