@@ -1,6 +1,5 @@
 package fm.doe.national.wash.ui.questions;
 
-import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
@@ -24,8 +23,7 @@ public interface QuestionsView extends BaseView {
 
     void setPrevButtonVisible(boolean isVisible);
 
-    void setNextButtonEnabled(boolean isEnabled);
+    void setNextButtonVisible(boolean isVisible);
 
-    void setNextButtonText(Text text);
 
 }

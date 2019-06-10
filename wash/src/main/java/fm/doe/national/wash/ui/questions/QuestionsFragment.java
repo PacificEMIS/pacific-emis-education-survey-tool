@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
@@ -111,6 +110,7 @@ public class QuestionsFragment extends BaseFragment implements
     private void bindViews(@NonNull View view) {
         recyclerView = view.findViewById(R.id.recyclerview);
         bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
+        bottomNavigatorView.setHintTextVisible(false);
     }
 
     @Override
@@ -134,14 +134,10 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void setNextButtonEnabled(boolean isEnabled) {
-        bottomNavigatorView.setNextButtonEnabled(isEnabled);
+    public void setNextButtonVisible(boolean isVisible) {
+        bottomNavigatorView.setNextButtonVisible(isVisible);
     }
-
-    @Override
-    public void setNextButtonText(Text text) {
-        bottomNavigatorView.setNextText(text.getString(getContext()));
-    }
+    
 
     @Override
     public void onPrevPressed() {
