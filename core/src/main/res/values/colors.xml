@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/light_blue_300</color>
-    <color name="colorPrimaryDark">@color/blue_700</color>
+    <color name="colorPrimary">@color/blue_400</color>
+    <color name="colorPrimaryDark">@color/indigo_500</color>
     <color name="colorAccent">@color/green_a700</color>
     <color name="red_a700">#ff0000</color>
     <color name="white">#FFFFFF</color>
@@ -15,7 +15,6 @@
     <color name="grey_900_alpha_32">#51191919</color>
     <color name="grey_300">#E1E1E1</color>
     <color name="red_100">#FFD2DB</color>
-    <color name="blue_400">#32a1e7</color>
     <color name="blue_500">#2e9ae0</color>
     <color name="white_alpha_25">#40ffffff</color>
     <color name="light_blue_300">#4dbaff</color>
@@ -29,4 +28,6 @@
     <color name="green_a100">#D5FFE4</color>
     <color name="red_a100">#FFD5D5</color>
     <color name="deep_orange_600">#EA5D21</color>
+    <color name="blue_400">#32A1E7</color>
+    <color name="indigo_500">#436B9A</color>
 </resources>

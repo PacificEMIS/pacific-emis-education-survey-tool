@@ -10,8 +10,8 @@ import fm.doe.national.R;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.authentication.AuthenticationActivity;
+import fm.doe.national.ui.screens.menu.MainMenuActivity;
 import fm.doe.national.ui.screens.region.ChooseRegionActivity;
-import fm.doe.national.ui.screens.surveys.SurveysActivity;
 
 
 public class SplashActivity extends BaseActivity implements SplashView {
@@ -43,7 +43,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     }
 
     @Override
-    public void navigateToSurveys() {
-        startActivity(SurveysActivity.createIntent(this));
+    public void navigateToMenu() {
+        startActivity(MainMenuActivity.createIntent(this));
     }
 }

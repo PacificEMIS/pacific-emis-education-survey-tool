@@ -20,13 +20,12 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.survey.ui.SurveyActivity;
-import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
-import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
-public class SurveysActivity extends BaseDrawerActivity implements
+public class SurveysActivity extends BaseActivity implements
         SurveysView,
         SearchView.OnQueryTextListener,
         View.OnClickListener,
@@ -47,11 +46,6 @@ public class SurveysActivity extends BaseDrawerActivity implements
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SurveysActivity.class);
-    }
-
-    @Override
-    protected BaseDrawerPresenter getPresenter() {
-        return presenter;
     }
 
     @Override
@@ -116,8 +110,6 @@ public class SurveysActivity extends BaseDrawerActivity implements
             case R.id.fab_new_accreditation:
                 startActivity(CreateSurveyActivity.createIntent(this));
                 break;
-            default:
-                super.onClick(view);
         }
     }
 

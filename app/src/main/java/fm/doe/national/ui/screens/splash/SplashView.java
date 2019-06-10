@@ -15,6 +15,6 @@ public interface SplashView extends BaseView {
 
     void navigateToRegionChoose();
 
-    void navigateToSurveys();
+    void navigateToMenu();
 
 }
