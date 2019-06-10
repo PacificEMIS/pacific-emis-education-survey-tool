@@ -72,7 +72,7 @@
         android:layout_marginBottom="24dp"
         android:scaleType="center"
         android:src="@drawable/ic_plus"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="?colorPrimary"
         app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior"
         app:tint="@color/white" />
 
