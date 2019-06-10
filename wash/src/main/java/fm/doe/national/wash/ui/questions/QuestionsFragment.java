@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,19 +27,18 @@ import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 import fm.doe.national.wash.R;
+import fm.doe.national.wash.ui.custom_views.CommentDialogFragment;
 import fm.doe.national.wash.ui.photos.WashPhotosActivity;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 import fm.doe.national.wash_core.di.WashCoreComponentInjector;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class QuestionsFragment extends BaseFragment implements
         QuestionsView,
         BottomNavigatorView.Listener,
-        QuestionsAdapter.QuestionsListener {
+        QuestionsAdapter.QuestionsListener,
+        CommentDialogFragment.OnCommentSubmitListener {
 
     private static final String ARG_GROUP_ID = "ARG_GROUP_ID";
     private static final String ARG_SUB_GROUP_ID = "ARG_SUB_GROUP_ID";
@@ -60,6 +58,19 @@ public class QuestionsFragment extends BaseFragment implements
     @InjectPresenter
     QuestionsPresenter presenter;
 
+    public static QuestionsFragment create(long groupId, long subGroupId) {
+        QuestionsFragment fragment = new QuestionsFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARG_GROUP_ID, groupId);
+        args.putLong(ARG_SUB_GROUP_ID, subGroupId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public QuestionsFragment() {
+        // Required empty public constructor
+    }
+
     @ProvidePresenter
     QuestionsPresenter providePresenter() {
         Application application = getActivity().getApplication();
@@ -72,19 +83,6 @@ public class QuestionsFragment extends BaseFragment implements
                 args.getLong(ARG_GROUP_ID),
                 args.getLong(ARG_SUB_GROUP_ID)
         );
-    }
-
-    public static QuestionsFragment create(long groupId, long subGroupId) {
-        QuestionsFragment fragment = new QuestionsFragment();
-        Bundle args = new Bundle();
-        args.putLong(ARG_GROUP_ID, groupId);
-        args.putLong(ARG_SUB_GROUP_ID, subGroupId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public QuestionsFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -120,7 +118,9 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void showCommentEditor(Question question) {
-
+        CommentDialogFragment dialog = CommentDialogFragment.create(question);
+        dialog.setListener(this);
+        dialog.show(getChildFragmentManager(), TAG_DIALOG);
     }
 
     @Override
@@ -137,7 +137,6 @@ public class QuestionsFragment extends BaseFragment implements
     public void setNextButtonVisible(boolean isVisible) {
         bottomNavigatorView.setNextButtonVisible(isVisible);
     }
-    
 
     @Override
     public void onPrevPressed() {
@@ -198,7 +197,7 @@ public class QuestionsFragment extends BaseFragment implements
                 });
     }
 
-    //    @Override
+    @Override
     public void onCommentSubmit(String comment) {
         presenter.onCommentEdit(comment);
     }
