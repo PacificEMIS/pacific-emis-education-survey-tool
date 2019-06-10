@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <include layout="@layout/include_appbar" />
 
-        <include layout="@layout/include_toolbar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp">
+            android:layout_height="64dp"
+            android:background="@color/white"
+            android:elevation="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,14 +52,16 @@
 
         </RelativeLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
-        android:id="@+id/recyclerview_categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_survey"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+            android:id="@+id/recyclerview_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/item_survey" />
+
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_new_accreditation"
@@ -67,6 +72,8 @@
         android:layout_marginBottom="24dp"
         android:scaleType="center"
         android:src="@drawable/ic_plus"
-        app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior" />
+        app:backgroundTint="?colorPrimary"
+        app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior"
+        app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

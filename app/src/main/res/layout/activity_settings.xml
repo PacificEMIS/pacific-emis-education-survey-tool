@@ -68,7 +68,7 @@
         app:itemSpace="24dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_title">
+        app:layout_constraintTop_toBottomOf="@+id/textview_logo">
 
         <TextView
             android:id="@+id/textview_title_accounts"
@@ -166,21 +166,5 @@
         </LinearLayout>
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
-
-    <EditText
-        android:id="@+id/edittext_app_context"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_title2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textview_title2"
-        app:layout_constraintTop_toTopOf="@+id/textview_title2"
-        tools:text="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

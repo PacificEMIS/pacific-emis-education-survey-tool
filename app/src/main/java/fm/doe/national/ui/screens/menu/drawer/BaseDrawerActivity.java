@@ -2,15 +2,15 @@ package fm.doe.national.ui.screens.menu.drawer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
@@ -114,7 +114,7 @@ public abstract class BaseDrawerActivity extends MenuActivity implements
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggle
         drawerToggle.onConfigurationChanged(newConfig);

@@ -57,11 +57,13 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         if (toolbar != null && getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
             ActionBar actionBar = getSupportActionBar();
+
             if (actionBar != null) {
                 actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP |
                                 ActionBar.DISPLAY_SHOW_HOME |
                                 ActionBar.DISPLAY_SHOW_CUSTOM);
             }
+
             toolbar.setNavigationOnClickListener(v -> onHomePressed());
         }
     }
@@ -163,9 +165,5 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         if (toolbar != null) {
             toolbar.setTitle(title);
         }
-    }
-
-    protected enum ToolbarDisplaying {
-        PRIMARY, SECONDARY
     }
 }
