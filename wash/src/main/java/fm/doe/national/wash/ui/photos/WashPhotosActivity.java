@@ -1,6 +1,8 @@
 package fm.doe.national.wash.ui.photos;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
@@ -24,6 +26,10 @@ public class WashPhotosActivity extends PhotosActivity {
                 CloudComponentInjector.getComponent(application),
                 WashCoreComponentInjector.getComponent(application)
         );
+    }
+
+    public static Intent createIntent(Context parentContext) {
+        return new Intent(parentContext, WashPhotosActivity.class);
     }
 
     @Override

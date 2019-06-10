@@ -4,7 +4,6 @@ package fm.doe.national.wash.ui.questions;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -126,7 +125,7 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void navigateToPhotos() {
-        startActivity(new Intent(getActivity(), WashPhotosActivity.class));
+        startActivity(WashPhotosActivity.createIntent(getContext()));
     }
 
     @Override
