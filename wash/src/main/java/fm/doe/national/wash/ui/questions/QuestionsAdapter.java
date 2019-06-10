@@ -352,6 +352,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implement
                 existingValue = item.getAnswer().getInputText();
                 editText.setText(existingValue);
             }
+            doneButton.setVisibility(View.GONE);
         }
 
         @Override

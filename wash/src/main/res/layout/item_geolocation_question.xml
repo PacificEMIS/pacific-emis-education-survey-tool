@@ -11,12 +11,15 @@
     <RelativeLayout
         style="@style/AnswersBlock"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp">
 
         <com.omega_r.libs.views.OmegaTextView
             android:id="@+id/omegatextview_latitude"
             style="@style/GeolocationText"
             app:startText="@string/label_latitude"
+            app:startDelimiter=" "
             tools:text="0.235636136" />
 
         <com.omega_r.libs.views.OmegaTextView
@@ -25,6 +28,7 @@
             android:layout_below="@+id/omegatextview_latitude"
             android:layout_marginTop="8dp"
             app:startText="@string/label_longitude"
+            app:startDelimiter=" "
             tools:text="0.235636136" />
 
         <Button
@@ -33,10 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
             android:text="@string/title_take_position"
             android:textAppearance="@style/Text.Title1.NavigationButton"
             android:textColor="@color/black"
-            android:layout_marginEnd="16dp"
             tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
