@@ -22,7 +22,11 @@
         <item name="tabStyle">@style/TabStyle</item>
         <item name="radioButtonStyle">@style/RadioButton</item>
         <item name="toolbarStyle">@style/Toolbar</item>
-        <item name="homeAsUpIndicator">@drawable/ic_arrow_back_white_24dp</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+    
+    <style name="Drawer" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/white</item>
     </style>
 
     <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">

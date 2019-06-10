@@ -73,6 +73,7 @@
         android:scaleType="center"
         android:src="@drawable/ic_plus"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior" />
+        app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior"
+        app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
