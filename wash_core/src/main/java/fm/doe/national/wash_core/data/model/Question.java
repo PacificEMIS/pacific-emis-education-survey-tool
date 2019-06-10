@@ -30,4 +30,5 @@ public interface Question extends IdentifiedObject {
 
     @Nullable
     Answer getAnswer();
+
 }

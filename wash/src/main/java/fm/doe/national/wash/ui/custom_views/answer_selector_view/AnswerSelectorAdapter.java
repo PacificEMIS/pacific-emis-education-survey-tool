@@ -70,7 +70,7 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
     }
 
     private void uncheckItemAtPosition(int position) {
-        checkedPositions.remove(position);
+        checkedPositions.remove(Integer.valueOf(position));
         updateCheckState(position, false);
     }
 

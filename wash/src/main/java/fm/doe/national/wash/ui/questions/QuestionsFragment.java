@@ -115,7 +115,7 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void setQuestions(List<MutableQuestion> questions) {
-        questionsAdapter.setItems(questions);
+        questionsAdapter.setRelativeItems(getContext(), questions);
     }
 
     @Override
