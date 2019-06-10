@@ -24,10 +24,6 @@
         <item name="toolbarStyle">@style/Toolbar</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
-    
-    <style name="Drawer" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@color/white</item>
-    </style>
 
     <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="titleTextColor">@color/white</item>
@@ -49,7 +45,7 @@
         <item name="textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="backgroundTint">?colorPrimary</item>
     </style>
 
     <style name="Text" />
