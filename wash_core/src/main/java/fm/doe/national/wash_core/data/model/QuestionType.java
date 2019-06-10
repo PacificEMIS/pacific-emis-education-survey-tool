@@ -3,34 +3,44 @@ package fm.doe.national.wash_core.data.model;
 import java.io.Serializable;
 
 public enum QuestionType implements Serializable {
-    BINARY(Flag.BINARY.value),
-    TERNARY(Flag.TERNARY.value),
-    TEXT_INPUT(Flag.INPUT.value),
-    NUMBER_INPUT(Flag.INPUT.value + Flag.NUMERIC.value),
-    PHONE_INPUT(Flag.INPUT.value + Flag.PHONE.value),
-    GEOLOCATION(Flag.GEO.value),
-    PHOTO(Flag.PHOTO.value),
-    SINGLE_SELECTION(Flag.CHOOSE.value + Flag.SINGLE.value),
-    MULTI_SELECTION(Flag.CHOOSE.value + Flag.MULTIPLE.value),
-    COMPLEX_BINARY(Flag.VAR.value + Flag.BINARY.value),
-    COMPLEX_NUMBER_INPUT(Flag.VAR.value + Flag.INPUT.value + Flag.NUMERIC.value);
+    BINARY(Flag.BINARY),
+    TERNARY(Flag.TERNARY),
+    TEXT_INPUT(Flag.INPUT),
+    NUMBER_INPUT(Flag.INPUT, Flag.NUMERIC),
+    PHONE_INPUT(Flag.INPUT, Flag.PHONE),
+    GEOLOCATION(Flag.GEO),
+    PHOTO(Flag.PHOTO),
+    SINGLE_SELECTION(Flag.CHOOSE, Flag.SINGLE),
+    MULTI_SELECTION(Flag.CHOOSE, Flag.MULTIPLE),
+    COMPLEX_BINARY(Flag.VAR, Flag.BINARY),
+    COMPLEX_NUMBER_INPUT(Flag.VAR, Flag.INPUT, Flag.NUMERIC);
 
-    private final int flags;
+    private final Flag[] flags;
 
     public static QuestionType createFromFlags(int flags) {
         for (QuestionType questionType : QuestionType.values()) {
-            if (flags == questionType.flags) {
+            if (flags == questionType.getFlagsSum()) {
                 return questionType;
             }
         }
         return BINARY;
     }
 
-    QuestionType(int flags) {
+    QuestionType(Flag... flags) {
         this.flags = flags;
     }
 
-    public int getFlags() {
+    private int getFlagsSum() {
+        int sum = 0;
+
+        for (Flag flag : flags) {
+            sum += flag.getValue();
+        }
+
+        return sum;
+    }
+
+    public Flag[] getFlags() {
         return flags;
     }
 

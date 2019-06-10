@@ -1,5 +1,7 @@
 package fm.doe.national.wash_core.data.serialization.converters;
 
+import android.text.TextUtils;
+
 import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
@@ -24,7 +26,7 @@ public class QuestionTypeConverter implements Converter<QuestionType> {
 
     @Override
     public void write(OutputNode node, QuestionType value) {
-        node.setValue(value.name());
+        node.setValue(TextUtils.join("|", value.getFlags()));
     }
 
 }
