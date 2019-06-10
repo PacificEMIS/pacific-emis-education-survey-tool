@@ -14,6 +14,7 @@ import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
 import fm.doe.national.wash.R;
 import fm.doe.national.wash_core.data.model.Answer;
+import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 import fm.doe.national.wash_core.di.WashCoreComponent;
@@ -71,7 +72,10 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     void onPhotosPressed(MutableQuestion question) {
         selectedQuestion = question;
-        getViewState().navigateToPhotos(groupId, subGroupId, selectedQuestion.getId());
+        washSurveyInteractor.setCurrentGroupId(groupId);
+        washSurveyInteractor.setCurrentSubGroupId(subGroupId);
+        washSurveyInteractor.setCurrentQuestionId(selectedQuestion.getId());
+        getViewState().navigateToPhotos();
     }
 
     void onAnswerChanged(MutableQuestion updatedQuestion) {
@@ -100,5 +104,14 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     void onNextPressed() {
         navigator.selectNext();
+    }
+
+    void onLocationChanged(Location location, MutableQuestion question) {
+        MutableAnswer answer = question.getAnswer();
+
+        if (answer != null) {
+            answer.setLocation(location);
+            onAnswerChanged(question);
+        }
     }
 }

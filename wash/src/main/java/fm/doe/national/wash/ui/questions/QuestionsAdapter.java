@@ -7,14 +7,18 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
+import com.omega_r.libs.omegatypes.Text;
+import com.omega_r.libs.views.OmegaTextView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +29,7 @@ import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
 import fm.doe.national.wash.R;
 import fm.doe.national.wash.ui.custom_views.answer_selector_view.AnswerSelectorView;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
+import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.model.TernaryAnswerState;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
@@ -67,17 +72,17 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             case PHONE_INPUT:
                 return new PhoneTextInputViewHolder(parent);
             case GEOLOCATION:
-                break;
+                return new GeoLocationViewHolder(parent);
             case PHOTO:
-                break;
+                return new PhotoQuestionViewHolder(parent);
             case SINGLE_SELECTION:
                 return new SingleSelectionViewHolder(parent);
             case MULTI_SELECTION:
                 return new MultipleSelectionViewHolder(parent);
             case COMPLEX_BINARY:
-                break;
+                return new VariantsViewHolder(parent, VariantsAdapter.Type.BINARY);
             case COMPLEX_NUMBER_INPUT:
-                break;
+                return new VariantsViewHolder(parent, VariantsAdapter.Type.NUMERIC);
         }
         throw new IllegalStateException();
     }
@@ -86,6 +91,79 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
     protected ViewHolder provideViewHolder(ViewGroup parent) {
         // unused
         return null;
+    }
+
+    class VariantsViewHolder extends QuestionViewHolder implements VariantsAdapter.OnAnswerChangeListener {
+
+        private final VariantsAdapter.Type type;
+        private RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        private VariantsAdapter adapter;
+
+        VariantsViewHolder(ViewGroup parent, VariantsAdapter.Type type) {
+            super(parent, R.layout.item_complex_question);
+            this.type = type;
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+            adapter = new VariantsAdapter(type, item, this);
+            recyclerView.setAdapter(adapter);
+        }
+
+        @Override
+        public void onAnswerChange() {
+            questionsListener.onAnswerStateChanged(getItem());
+        }
+    }
+
+    class GeoLocationViewHolder extends QuestionViewHolder {
+
+        private Button positionButton = findViewById(R.id.button_geo);
+        private OmegaTextView latitudeTextView = findViewById(R.id.omegatextview_latitude);
+        private OmegaTextView longitudeTextView = findViewById(R.id.omegatextview_longitude);
+
+        GeoLocationViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_geolocation_question);
+            positionButton.setOnClickListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+
+            MutableAnswer answer = item.getAnswer();
+
+            if (answer == null) {
+                return;
+            }
+
+            Location existingLocation = answer.getLocation();
+
+            if (existingLocation == null) {
+                return;
+            }
+
+            latitudeTextView.setText(Text.from(String.valueOf(existingLocation.latitude)));
+            longitudeTextView.setText(Text.from(String.valueOf(existingLocation.longitude)));
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.button_geo) {
+                questionsListener.onTakeLocationPressed(getItem(), getAdapterPosition());
+            } else {
+                super.onClick(v);
+            }
+        }
+    }
+
+    class PhotoQuestionViewHolder extends QuestionViewHolder {
+
+        PhotoQuestionViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_photo_question);
+        }
+
     }
 
     class BinaryQuestionViewHolder extends QuestionViewHolder implements BinaryAnswerSelectorView.StateChangedListener {
@@ -361,6 +439,8 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         void onCommentPressed(MutableQuestion question);
 
         void onAnswerStateChanged(MutableQuestion question);
+
+        void onTakeLocationPressed(MutableQuestion question, int position);
 
     }
 }

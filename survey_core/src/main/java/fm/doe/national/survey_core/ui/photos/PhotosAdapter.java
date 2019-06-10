@@ -1,4 +1,4 @@
-package fm.doe.national.accreditation.ui.photos;
+package fm.doe.national.survey_core.ui.photos;
 
 import android.view.View;
 import android.view.ViewGroup;

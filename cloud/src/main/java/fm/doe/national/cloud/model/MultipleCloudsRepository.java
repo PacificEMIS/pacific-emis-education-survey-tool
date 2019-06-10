@@ -12,6 +12,7 @@ import fm.doe.national.core.data.exceptions.FileImportException;
 import fm.doe.national.core.data.exceptions.PickException;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public class MultipleCloudsRepository implements CloudRepository {
     private static final String PREF_KEY_DEFAULT_CLOUD = "PREF_KEY_DEFAULT_CLOUD";
@@ -63,7 +64,9 @@ public class MultipleCloudsRepository implements CloudRepository {
     public Single<String> requestContent(CloudType type) {
         for (Map.Entry<CloudType, CloudAccessor> entry : accessorMap.entrySet()) {
             if (entry.getKey() == type) {
-                return entry.getValue().importContentFromCloud();
+                return entry.getValue().importContentFromCloud()
+                        // Single will emmit in MainLooper, so we need to return to io()
+                        .observeOn(Schedulers.io());
             }
         }
         return Single.fromCallable(() -> {

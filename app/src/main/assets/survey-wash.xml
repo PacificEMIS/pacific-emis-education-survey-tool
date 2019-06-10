@@ -56,38 +56,66 @@
                 <flags>VAR|BINARY</flags>
                 <variant>
                     <name>Piped water supply</name>
-                    <item>Currently Available</item>
-                    <item>Used for Drinking</item>
+                    <variant_item>
+                        <name>Currently Available</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Used for Drinking</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>Protected well/spring</name>
-                    <item>Currently Available</item>
-                    <item>Used for Drinking</item>
+                    <variant_item>
+                        <name>Currently Available</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Used for Drinking</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>Unprotected well/spring</name>
-                    <item>Currently Available</item>
-                    <item>Used for Drinking</item>
+                    <variant_item>
+                        <name>Currently Available</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Used for Drinking</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>Rainwater</name>
-                    <item>Currently Available</item>
-                    <item>Used for Drinking</item>
+                    <variant_item>
+                        <name>Currently Available</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Used for Drinking</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>Bottled water</name>
-                    <item>Currently Available</item>
-                    <item>Used for Drinking</item>
+                    <variant_item>
+                        <name>Currently Available</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Used for Drinking</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>Tanker/Truck or cart</name>
-                    <item>Currently Available</item>
-                    <item>Used for Drinking</item>
+                    <variant_item>
+                        <name>Currently Available</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Used for Drinking</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>Surfaced water (Lake, River, Stream)</name>
-                    <item>Currently Available</item>
-                    <item>Used for Drinking</item>
+                    <variant_item>
+                        <name>Currently Available</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Used for Drinking</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>No water source</name>
@@ -115,15 +143,27 @@
                 <flags>VAR|INPUT|NUMERIC</flags>
                 <variant>
                     <name>Total Number</name>
-                    <item>Girls’ only toilets</item>
-                    <item>Boys’ only toilets</item>
-                    <item>Common use only toilets</item>
+                    <variant_item>
+                        <name>Girls’ only toilets</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Boys’ only toilets</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Common use only toilets</name>
+                    </variant_item>
                 </variant>
                 <variant>
                     <name>Number that are usable (accessible, functional, private)</name>
-                    <item>Girls’ only toilets</item>
-                    <item>Boys’ only toilets</item>
-                    <item>Common use only toilets</item>
+                    <variant_item>
+                        <name>Girls’ only toilets</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Boys’ only toilets</name>
+                    </variant_item>
+                    <variant_item>
+                        <name>Common use only toilets</name>
+                    </variant_item>
                 </variant>
             </question>
         </subgroup>

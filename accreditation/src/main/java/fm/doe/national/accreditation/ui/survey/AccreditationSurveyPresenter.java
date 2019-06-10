@@ -13,6 +13,7 @@ import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
+import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;
@@ -27,9 +28,14 @@ public class AccreditationSurveyPresenter extends SurveyPresenter {
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
 
     public AccreditationSurveyPresenter(AccreditationCoreComponent accreditationCoreComponent, SurveyCoreComponent surveyCoreComponent) {
-        super(surveyCoreComponent, accreditationCoreComponent.getAccreditationSurveyInteractor());
+        super(surveyCoreComponent);
         accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         onInit();
+    }
+
+    @Override
+    protected SurveyInteractor getSurveyInteractor() {
+        return accreditationSurveyInteractor;
     }
 
     @Override

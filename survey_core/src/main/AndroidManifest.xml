@@ -3,11 +3,7 @@
 
     <application>
         <activity
-            android:name="fm.doe.national.accreditation.ui.photos.FullscreenImageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="fm.doe.national.accreditation.ui.photos.PhotosActivity"
-            android:label="@string/label_attached_photos"
+            android:name="fm.doe.national.survey_core.ui.photos.FullscreenImageActivity"
             android:screenOrientation="portrait" />
     </application>
 

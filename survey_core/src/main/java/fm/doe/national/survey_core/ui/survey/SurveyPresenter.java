@@ -20,12 +20,10 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
 
     protected final SurveyNavigator surveyNavigator;
-    protected final SurveyInteractor surveyInteractor;
 
-    public SurveyPresenter(SurveyCoreComponent surveyCoreComponent, SurveyInteractor interactor) {
+    public SurveyPresenter(SurveyCoreComponent surveyCoreComponent) {
         surveyNavigator = surveyCoreComponent.getSurveyNavigator();
         surveyNavigator.setViewState(getViewState());
-        this.surveyInteractor = interactor;
     }
 
     // Call this one in the end of inherited constructor
@@ -39,6 +37,7 @@ public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
     protected abstract Single<List<NavigationItem>> requestNavigationItems();
     protected abstract void subscribeOnEditingEvents();
     protected abstract String getSchoolName();
+    protected abstract SurveyInteractor getSurveyInteractor();
 
     private void loadNavigationItems() {
         addDisposable(requestNavigationItems()
@@ -70,7 +69,7 @@ public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
     }
 
     private void subscribeToSurveyProgress() {
-        addDisposable(surveyInteractor.getSurveyProgressSubject()
+        addDisposable(getSurveyInteractor().getSurveyProgressSubject()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(survey -> getViewState().setReportEnabled(survey.getProgress().isFinished()), this::handleError));

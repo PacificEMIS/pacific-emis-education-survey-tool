@@ -5,6 +5,7 @@ import com.omegar.mvp.InjectViewState;
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;
@@ -28,6 +29,11 @@ public class WashSurveyPresenter extends SurveyPresenter {
         super(surveyCoreComponent);
         washSurveyInteractor = washCoreComponent.getWashSurveyInteractor();
         onInit();
+    }
+
+    @Override
+    protected SurveyInteractor getSurveyInteractor() {
+        return washSurveyInteractor;
     }
 
     @Override

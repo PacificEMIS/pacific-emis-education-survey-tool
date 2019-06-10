@@ -1,19 +1,28 @@
 package fm.doe.national.wash_core.data.model.mutable;
 
+import android.content.Context;
+import android.util.SparseArray;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.omega_r.libs.omegatypes.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.QuestionType;
 import fm.doe.national.wash_core.data.model.TernaryAnswerState;
+import fm.doe.national.wash_core.data.model.Variant;
+import fm.doe.national.wash_core.data.model.VariantItem;
 import fm.doe.national.wash_core.data.serialization.model.Relation;
-import fm.doe.national.wash_core.data.serialization.model.Variant;
 
 public class MutableQuestion extends BaseMutableEntity implements Question {
 
@@ -212,6 +221,148 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         }
 
         return selectedIndexes;
+    }
+
+    public void setVariantAnswer(Variant variant, int variantItemIndex, @Nullable String answerText) {
+        if (answer == null) {
+            return;
+        }
+
+        List<Variant> answerVariants = answer.getVariants();
+        List<VariantItem> allVariantItems = variant.getOptions();
+        VariantItem itemToChange = VariantItem.copy(allVariantItems.get(variantItemIndex));
+
+        // Question not answered at all
+        if (answerVariants == null) {
+            Variant newVariant = createNewVariant(answerText, variant, itemToChange);
+            answerVariants = new ArrayList<>();
+            answerVariants.add(newVariant);
+        } else {
+
+            answerVariants = removeBlockerVariantFromAnswers(answerVariants);
+
+            ArrayList<Variant> wrappedAnswerVariants = new ArrayList<>(answerVariants);
+            Optional<Variant> existingAnsweredVariantOptional = wrappedAnswerVariants.stream().filter(variant::equals).findFirst();
+
+            if (!existingAnsweredVariantOptional.isPresent()) {
+                Variant newVariant = createNewVariant(answerText, variant, itemToChange);
+                wrappedAnswerVariants.add(newVariant);
+            } else {
+                Variant existingAnsweredVariant = existingAnsweredVariantOptional.get();
+
+                // remove existent one to insert it modified state later
+                wrappedAnswerVariants.remove(existingAnsweredVariant);
+
+                if (answerText == null) {
+                    existingAnsweredVariant.getOptions().remove(itemToChange);
+
+                    // don't add variant back if it's empty
+                    if (!existingAnsweredVariant.getOptions().isEmpty()) {
+                        wrappedAnswerVariants.add(existingAnsweredVariant);
+                    }
+                } else {
+                    List<VariantItem> answeredOptions = existingAnsweredVariant.getOptions();
+                    itemToChange.setAnswer(answerText);
+                    answeredOptions.remove(itemToChange); // If already exists - remove
+                    answeredOptions.add(itemToChange);
+                    wrappedAnswerVariants.add(existingAnsweredVariant);
+                }
+            }
+
+            answerVariants = wrappedAnswerVariants;
+        }
+
+        answer.setVariants(answerVariants);
+    }
+
+    private List<Variant> removeBlockerVariantFromAnswers(List<Variant> answerVariants) {
+        if (answer == null) {
+            return answerVariants;
+        }
+
+        return answerVariants.stream()
+                .filter(v -> !v.isBlocker())
+                .collect(Collectors.toList());
+    }
+
+    private Variant createNewVariant(@Nullable String answerText, Variant variantToChange, VariantItem itemToChange) {
+        itemToChange.setAnswer(answerText);
+        Variant newVariant = Variant.copy(variantToChange);
+        newVariant.getOptions().clear();
+        newVariant.getOptions().add(itemToChange);
+        return newVariant;
+    }
+
+    public SparseArray<BinaryAnswerState> getBinaryAnswerStatesOfVariant(Context context, Variant variant) {
+        SparseArray<String> states = getAnswerValuesOfVariant(variant);
+        SparseArray<BinaryAnswerState> binaryStates = new SparseArray<>();
+
+        for (int i = 0; i < states.size(); i++) {
+            binaryStates.put(states.keyAt(i), BinaryAnswerState.createFromText(context, Text.from(states.valueAt(i))));
+        }
+
+        return binaryStates;
+    }
+
+    public SparseArray<String> getAnswerValuesOfVariant(Variant variant) {
+        SparseArray<String> states = new SparseArray<>();
+        List<VariantItem> questionVariantOptions = variant.getOptions();
+
+        if (answer == null || CollectionUtils.isEmpty(questionVariantOptions)) {
+            return states;
+        }
+
+        List<Variant> existingAnswerVariants = answer.getVariants();
+
+        if (existingAnswerVariants == null) {
+            return states;
+        }
+
+        Optional<Variant> currentAnswerVariantOp = existingAnswerVariants.stream()
+                .filter(v -> v.getName().equals(variant.getName()))
+                .findFirst();
+
+        if (!currentAnswerVariantOp.isPresent()) {
+            return states;
+        }
+
+        Variant currentAnswerVariant = currentAnswerVariantOp.get();
+
+        for (int position = 0; position < questionVariantOptions.size(); position++) {
+            for (VariantItem option : currentAnswerVariant.getOptions()) {
+                if (questionVariantOptions.get(position).getName().equals(option.getName())) {
+                    states.put(position, option.getAnswer());
+                }
+            }
+        }
+
+        return states;
+    }
+
+    public boolean haveAnswerOnVariant(Variant variant) {
+        if (answer == null) {
+            return false;
+        }
+
+        List<Variant> answeredVariants = answer.getVariants();
+
+        if (CollectionUtils.isEmpty(answeredVariants)) {
+            return false;
+        }
+
+        return answeredVariants.stream().anyMatch(variant::equals);
+    }
+
+    public void setBlockerVariantAnswered(Variant blockerVariant, boolean answered) {
+        if (answer == null) {
+            return;
+        }
+
+        if (answered) {
+            answer.setVariants(Collections.singletonList(blockerVariant));
+        } else {
+            answer.setVariants(null);
+        }
     }
 
 }

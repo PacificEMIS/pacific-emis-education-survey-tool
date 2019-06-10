@@ -20,7 +20,7 @@ public interface QuestionsView extends BaseView {
     void showCommentEditor(Question question);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToPhotos(long groupId, long subGroupId, long questionId);
+    void navigateToPhotos();
 
     void setPrevButtonVisible(boolean isVisible);
 
