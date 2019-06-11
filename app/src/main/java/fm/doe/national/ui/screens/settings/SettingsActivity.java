@@ -43,6 +43,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
     }
 
     private void initViews() {
+        setTitle(R.string.label_settings);
         recyclerView.setAdapter(adapter);
     }
 
