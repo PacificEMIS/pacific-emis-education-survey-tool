@@ -23,6 +23,7 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.survey.ui.SurveyActivity;
+import fm.doe.national.ui.screens.menu.MainMenuActivity;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
 public class SurveysActivity extends BaseActivity implements
@@ -45,7 +46,9 @@ public class SurveysActivity extends BaseActivity implements
     private final DeleteConfirmationListener deleteConfirmationListener = new DeleteConfirmationListener();
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, SurveysActivity.class);
+        Intent intent = new Intent(context, SurveysActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
     }
 
     @Override
@@ -54,10 +57,24 @@ public class SurveysActivity extends BaseActivity implements
         initViews();
     }
 
+    @Override
+    protected void initToolbar() {
+        super.initToolbar();
+
+        if (supportActionBar != null) {
+            supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        }
+    }
+
     private void initViews() {
         setTitle(R.string.label_school_accreditation);
         recyclerView.setAdapter(surveysAdapter);
         newAccreditationFab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onHomePressed() {
+        startActivity(MainMenuActivity.createIntent(this, true));
     }
 
     @Override

@@ -14,9 +14,9 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final AppRegion DEFAULT_APP_REGION = AppRegion.FCM;
     private static final int NO_APP_CONTEXT_VALUE = -1;
 
-    private static final String PREF_KEY_ACCREDITATION_TYPE = "PREF_KEY_ACCREDITATION_TYPE";
-    private static final SurveyType DEFAULT_ACCREDITATION_TYPE = SurveyType.WASH; // TODO: temp
-    private static final int NO_ACCREDITATION_TYPE_VALUE = -1;
+    private static final String PREF_KEY_SURVEY_TYPE = "PREF_KEY_SURVEY_TYPE";
+    private static final int NO_SURVEY_TYPE_VALUE = -1;
+    private static final SurveyType DEFAULT_SURVEY_TYPE = SurveyType.SCHOOL_ACCREDITATION;
 
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
 
@@ -59,21 +59,22 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
         sharedPreferences.edit().putString(PREF_KEY_LOGO_PATH, path).apply();
     }
 
-    @NonNull
+    @Nullable
     @Override
     public SurveyType getSurveyType() {
-        SurveyType savedSurveyType = getSavedAccreditationType();
-        return savedSurveyType != null ? savedSurveyType : DEFAULT_ACCREDITATION_TYPE;
+        return SurveyType.createFromValue(sharedPreferences.getInt(PREF_KEY_SURVEY_TYPE, NO_SURVEY_TYPE_VALUE));
+    }
+
+    @NonNull
+    @Override
+    public SurveyType getSurveyTypeOrDefault() {
+        SurveyType savedSurveyType = getSurveyType();
+        return savedSurveyType == null ? DEFAULT_SURVEY_TYPE : savedSurveyType;
     }
 
     @Override
     public void setSurveyType(SurveyType surveyType) {
-        sharedPreferences.edit().putInt(PREF_KEY_ACCREDITATION_TYPE, surveyType.getValue()).apply();
-    }
-
-    @Nullable
-    private SurveyType getSavedAccreditationType() {
-        return SurveyType.createFromValue(sharedPreferences.getInt(PREF_KEY_ACCREDITATION_TYPE, NO_ACCREDITATION_TYPE_VALUE));
+        sharedPreferences.edit().putInt(PREF_KEY_SURVEY_TYPE, surveyType.getValue()).apply();
     }
 
     @Override

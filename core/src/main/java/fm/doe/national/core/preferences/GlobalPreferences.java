@@ -16,6 +16,9 @@ public interface GlobalPreferences {
     void setAppRegion(AppRegion appRegion);
 
     @NonNull
+    SurveyType getSurveyTypeOrDefault();
+
+    @Nullable
     SurveyType getSurveyType();
 
     void setSurveyType(SurveyType surveyType);

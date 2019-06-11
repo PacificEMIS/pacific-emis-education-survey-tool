@@ -11,9 +11,9 @@
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="actionButtonStyle">@style/ActionButton</item>
-        <item name="android:windowActivityTransitions" tools:targetApi="l">true</item>
-        <item name="android:windowEnterTransition" tools:targetApi="l">@transition/window_fade</item>
-        <item name="android:windowExitTransition" tools:targetApi="l">@transition/window_fade</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@transition/window_fade</item>
+        <item name="android:windowExitTransition">@transition/window_fade</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/Text.PopupMenu</item>
@@ -25,12 +25,17 @@
         <item name="colorControlNormal">@color/white</item>
         <item name="checkboxStyle">@style/CheckBox</item>
         <item name="textInputStyle">@style/TextInputLayout</item>
-        <item name="buttonStyle">@style/Button</item>
+        <item name="buttonBarButtonStyle">@style/Button</item>
     </style>
 
     <style name="Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:colorButtonNormal">@color/button_selector</item>
+        <item name="backgroundTint">@color/button_selector</item>
         <item name="android:textColor">@color/button_text_selector</item>
+        <item name="android:textAppearance">@style/Text.Button</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="Text.Button">
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/noto_sans_medium</item>
         <item name="android:textSize">18sp</item>

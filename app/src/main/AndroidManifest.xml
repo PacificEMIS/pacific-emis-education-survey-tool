@@ -19,7 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ui.screens.menu.MainMenuActivity"></activity>
         <activity
             android:name=".ui.screens.splash.SplashActivity"
             android:noHistory="true"
@@ -36,6 +35,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.authentication.AuthenticationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.screens.menu.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
