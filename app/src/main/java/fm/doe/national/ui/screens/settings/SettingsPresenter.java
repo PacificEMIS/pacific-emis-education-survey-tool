@@ -8,7 +8,7 @@ import com.omegar.mvp.InjectViewState;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Arrays;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
@@ -18,44 +18,58 @@ import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
-import io.reactivex.Observable;
+import fm.doe.national.ui.screens.settings.items.AccountItem;
+import fm.doe.national.ui.screens.settings.items.ContactItem;
+import fm.doe.national.ui.screens.settings.items.ContextItem;
+import fm.doe.national.ui.screens.settings.items.ExportFolderItem;
+import fm.doe.national.ui.screens.settings.items.ImportSchoolsItem;
+import fm.doe.national.ui.screens.settings.items.LogoItem;
+import fm.doe.national.ui.screens.settings.items.ModeItem;
+import fm.doe.national.ui.screens.settings.items.NameItem;
+import fm.doe.national.ui.screens.settings.items.PasswordItem;
+import fm.doe.national.ui.screens.settings.items.TemplatesItem;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SettingsPresenter extends BasePresenter<SettingsView> {
 
+    private static final CloudType CLOUD_TYPE = CloudType.DRIVE;
+
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getInjection().getCoreComponent().getPicturesRepository();
 
     public SettingsPresenter() {
-        loadLogo();
-        updateUi();
+        refresh();
     }
 
-    public void onConnectToDropboxClick() {
-        authenticate(CloudType.DROPBOX);
+    private void refresh() {
+        String googleEmail = null;
+        String exportFolder = null;
+
+        if (!interactor.getConnectedAccounts().isEmpty()) {
+            CloudAccountData accountData = interactor.getConnectedAccounts().get(0);
+            googleEmail = accountData.getEmail();
+            exportFolder = accountData.getExportPath();
+        }
+
+        getViewState().setOptions(Arrays.asList(
+                new LogoItem(globalPreferences.getLogoPath()),
+                new AccountItem(googleEmail == null ? Text.from(R.string.label_sign_in) : Text.from(googleEmail)),
+                new ContextItem(globalPreferences.getAppRegion().getName()),
+                new NameItem(Text.from(globalPreferences.getAppName())),
+                new ContactItem(Text.from(globalPreferences.getContactName())),
+                new ModeItem(globalPreferences.getOperatingMode().getName()),
+                new ImportSchoolsItem(),
+                new ExportFolderItem(exportFolder == null ? Text.empty() : Text.from(exportFolder)),
+                new TemplatesItem(),
+                new PasswordItem()
+        ));
     }
 
-    public void onConnectToDriveClick() {
-        authenticate(CloudType.DRIVE);
-    }
-
-    private void authenticate(CloudType type) {
-        addDisposable(interactor.auth(type)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(() -> {
-                    interactor.setDefaultCloudForExport(type);
-                    updateUi();
-                }, this::handleError));
-    }
-
-    public void onImportSchoolsClick(CloudAccountData viewData) {
-        addDisposable(interactor.importSchools(viewData.getType())
+    public void onImportSchoolsClick() {
+        addDisposable(interactor.importSchools(CLOUD_TYPE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -63,37 +77,13 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_import_schools_success)), this::handleError));
     }
 
-    public void onImportSurveyClick(CloudAccountData viewData) {
-        addDisposable(interactor.importSurvey(viewData.getType())
+    public void onChooseFolderClick() {
+        addDisposable(interactor.selectExportFolder(CLOUD_TYPE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_import_survey_success)), this::handleError));
-    }
-
-    public void onChooseFolderClick(CloudAccountData viewData) {
-        addDisposable(interactor.selectExportFolder(viewData.getType())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(this::updateUi, this::handleError));
-    }
-
-    public void onSetDefaultClick(CloudAccountData viewData) {
-        interactor.setDefaultCloudForExport(viewData.getType());
-        updateUi();
-    }
-
-    private void updateUi() {
-        SettingsView view = getViewState();
-        List<CloudAccountData> connectedAccounts = interactor.getConnectedAccounts();
-        view.showAccountConnections(connectedAccounts);
-        addDisposable(Observable.fromIterable(connectedAccounts)
-                .map(CloudAccountData::getType)
-                .toList()
-                .subscribe(getViewState()::hideConnectViews));
+                .subscribe(this::refresh, this::handleError));
     }
 
     public void onChangeLogoClick() {
@@ -108,18 +98,11 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             bitmap.recycle();
             String filePath = pictureFile.getPath();
             globalPreferences.setLogoPath(filePath);
-            loadLogo();
+            refresh();
         } catch (IOException ex) {
             ex.printStackTrace();
             getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_save_logo));
         }
     }
 
-    private void loadLogo() {
-        String logoPath = globalPreferences.getLogoPath();
-        if (logoPath != null) {
-            getViewState().setLogo(logoPath);
-            getViewState().setLogoName(new File(logoPath).getName());
-        }
-    }
 }

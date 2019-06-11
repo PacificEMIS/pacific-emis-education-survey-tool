@@ -5,118 +5,91 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import butterknife.BindView;
+
+import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
+import com.omega_r.libs.omegatypes.Image;
+
 import fm.doe.national.R;
-import fm.doe.national.cloud.model.CloudAccountData;
-import fm.doe.national.core.ui.screens.base.BaseAdapter;
+import fm.doe.national.ui.screens.settings.items.Item;
+import fm.doe.national.ui.screens.settings.items.ValuableItem;
 
-public class SettingsAdapter extends BaseAdapter<CloudAccountData> {
+public class SettingsAdapter extends BaseListAdapter<Item> {
 
-    @Nullable
-    private Callback callback = null;
+    private static final int VIEW_TYPE_VALUE = 0;
+    private static final int VIEW_TYPE_NAV = 1;
 
-    public void setCallback(@Nullable Callback callback) {
-        this.callback = callback;
+    public SettingsAdapter(@Nullable OnItemClickListener<Item> clickListener) {
+        super(clickListener);
     }
 
     @Override
-    protected AccountViewHolder provideViewHolder(ViewGroup parent) {
-        return new AccountViewHolder(parent);
+    public int getItemViewType(int position) {
+        return (getItem(position) instanceof ValuableItem) ? VIEW_TYPE_VALUE : VIEW_TYPE_NAV;
     }
 
-    class AccountViewHolder extends ViewHolder {
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case VIEW_TYPE_VALUE:
+                return new ValueViewHolder(parent);
+            case VIEW_TYPE_NAV:
+                return new NavViewHolder(parent);
+        }
+        throw new IllegalStateException();
+    }
 
-        @BindView(R.id.imageview_cloud_icon)
-        ImageView iconImageView;
+    @Override
+    protected ViewHolder provideViewHolder(ViewGroup parent) {
+        return null;
+    }
 
-        @BindView(R.id.imegaview_done_icon)
-        ImageView exportIconImageView;
+    class ValueViewHolder extends BaseViewHolder {
 
-        @BindView(R.id.textview_name)
-        TextView nameTextView;
-
-        @BindView(R.id.textview_email)
-        TextView emailTextView;
-
-        @BindView(R.id.textview_export)
-        TextView exportTextView;
-
-        @BindView(R.id.textview_import_schools)
-        TextView importSchoolsTextView;
-
-        @BindView(R.id.textview_import_survey)
-        TextView importSurveyTextView;
-
-        @BindView(R.id.textview_folder_path)
-        TextView folderPathTextView;
-
-        @BindView(R.id.textview_choose_folder)
-        TextView chooseFolderTextView;
-
-        AccountViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_account);
+        ValueViewHolder(ViewGroup parent) {
+            super(parent);
+            actionIconImageView.setVisibility(View.GONE);
         }
 
         @Override
-        protected void onBind(CloudAccountData item) {
-            switch (item.getType()) {
-                case DRIVE:
-                    iconImageView.setImageResource(R.drawable.ic_google_drive);
-                    nameTextView.setText(R.string.account_drive);
-                    break;
-                case DROPBOX:
-                    iconImageView.setImageResource(R.drawable.ic_dropbox);
-                    nameTextView.setText(R.string.account_dropbox);
-                    break;
-            }
-            folderPathTextView.setText(item.getExportPath());
-
-            if (item.isDefault()) {
-                exportIconImageView.setVisibility(View.VISIBLE);
-                exportTextView.setActivated(true);
-                exportTextView.setOnClickListener(null);
-                exportTextView.setText(R.string.default_export);
-            } else {
-                exportIconImageView.setVisibility(View.GONE);
-                exportTextView.setActivated(false);
-                exportTextView.setOnClickListener(this);
-                exportTextView.setText(R.string.change_default_export);
-            }
-
-            importSchoolsTextView.setOnClickListener(this);
-            importSurveyTextView.setOnClickListener(this);
-            chooseFolderTextView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (callback != null) {
-                switch (v.getId()) {
-                    case R.id.textview_import_schools:
-                        callback.onImportSchoolsClick(getItem());
-                        break;
-                    case R.id.textview_import_survey:
-                        callback.onImportSurveyClick(getItem());
-                        break;
-                    case R.id.textview_choose_folder:
-                        callback.onChooseFolderClick(getItem());
-                        break;
-                    case R.id.textview_export:
-                        callback.onChooseDefaultClick(getItem());
-                        break;
-                }
-            }
+        protected void onBind(Item item) {
+            super.onBind(item);
+            ValuableItem valuableItem = (ValuableItem) item;
+            valuableItem.getValue().applyTo(valueTextView);
         }
     }
 
-    public interface Callback {
-        void onImportSchoolsClick(CloudAccountData viewData);
+    class NavViewHolder extends BaseViewHolder {
 
-        void onImportSurveyClick(CloudAccountData viewData);
+        NavViewHolder(ViewGroup parent) {
+            super(parent);
+            valueTextView.setVisibility(View.GONE);
+        }
 
-        void onChooseFolderClick(CloudAccountData viewData);
+    }
 
-        void onChooseDefaultClick(CloudAccountData viewData);
+    class BaseViewHolder extends ViewHolder {
+
+        ImageView iconImageView = findViewById(R.id.imageview_icon);
+        ImageView actionIconImageView = findViewById(R.id.imageview_action_icon);
+        TextView valueTextView = findViewById(R.id.textview_value);
+        TextView titleTextView = findViewById(R.id.textview_title);
+
+        BaseViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_setting);
+        }
+
+        @Override
+        protected void onBind(Item item) {
+            item.getTitle().applyTo(titleTextView);
+
+            Image iconImage = item.getIcon();
+
+            if (iconImage != null) {
+                iconImage.applyImage(iconImageView, 0);
+            }
+        }
     }
 }

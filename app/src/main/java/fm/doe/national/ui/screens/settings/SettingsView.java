@@ -6,20 +6,15 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.cloud.model.CloudAccountData;
-import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.ui.screens.base.BaseView;
+import fm.doe.national.ui.screens.settings.items.Item;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SettingsView extends BaseView {
-    void showAccountConnections(List<CloudAccountData> viewDataList);
-
-    void hideConnectViews(List<CloudType> types);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void pickPhotoFromGallery();
 
-    void setLogo(String path);
+    void setOptions(List<Item> options);
 
-    void setLogoName(String logoName);
 }

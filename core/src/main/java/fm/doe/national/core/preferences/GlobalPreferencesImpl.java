@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
 
 public class GlobalPreferencesImpl implements GlobalPreferences {
@@ -19,6 +20,11 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final SurveyType DEFAULT_SURVEY_TYPE = SurveyType.SCHOOL_ACCREDITATION;
 
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
+    private static final String PREF_KEY_APP_NAME = "PREF_KEY_APP_NAME";
+    private static final String PREF_KEY_CONTACT_NAME = "PREF_KEY_CONTACT_NAME";
+
+    private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
+    private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.PROD;
 
     private final SharedPreferences sharedPreferences;
 
@@ -98,5 +104,35 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     public String getFactoryPassword() {
         // TODO: not implemented
         return null;
+    }
+
+    @Override
+    public String getAppName() {
+        return sharedPreferences.getString(PREF_KEY_APP_NAME, "");
+    }
+
+    @Override
+    public void setAppName(String name) {
+        sharedPreferences.edit().putString(PREF_KEY_APP_NAME, name).apply();
+    }
+
+    @Override
+    public String getContactName() {
+        return sharedPreferences.getString(PREF_KEY_CONTACT_NAME, "");
+    }
+
+    @Override
+    public void setContactName(String name) {
+        sharedPreferences.edit().putString(PREF_KEY_CONTACT_NAME, name).apply();
+    }
+
+    @Override
+    public OperatingMode getOperatingMode() {
+        return OperatingMode.createFromValue(sharedPreferences.getInt(PREF_KEY_OPERATING_MODE, DEFAULT_OPERATING_MODE.getValue()));
+    }
+
+    @Override
+    public void setOperatingMode(OperatingMode mode) {
+        sharedPreferences.edit().putInt(PREF_KEY_OPERATING_MODE, mode.getValue()).apply();
     }
 }
