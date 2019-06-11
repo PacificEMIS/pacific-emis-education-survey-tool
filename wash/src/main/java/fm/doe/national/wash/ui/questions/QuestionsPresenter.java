@@ -2,7 +2,6 @@ package fm.doe.national.wash.ui.questions;
 
 import androidx.annotation.Nullable;
 
-import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.cloud.di.CloudComponent;
@@ -12,7 +11,6 @@ import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
-import fm.doe.national.wash.R;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
@@ -61,7 +59,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     private void loadNavigation() {
         BuildableNavigationItem navigationItem = navigator.getCurrentItem();
         QuestionsView view = getViewState();
-        view.setNextButtonText(Text.from(R.string.button_next));
+        view.setNextButtonVisible(navigationItem.getNextItem() != null);
         view.setPrevButtonVisible(navigationItem.getPreviousItem() != null);
     }
 

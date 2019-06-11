@@ -1,6 +1,7 @@
 package fm.doe.national.wash.ui.questions;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -35,9 +36,10 @@ import fm.doe.national.wash_core.data.model.TernaryAnswerState;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 
-public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
+public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implements QuestionRelationsHelper.Listener {
 
     private QuestionsListener questionsListener;
+    private QuestionRelationsHelper relationsHelper;
 
     public QuestionsAdapter(QuestionsListener questionsListener) {
         this.questionsListener = questionsListener;
@@ -93,6 +95,20 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         return null;
     }
 
+    public void setRelativeItems(Context context, List<MutableQuestion> items) {
+        relationsHelper = new QuestionRelationsHelper(context, items , this);
+    }
+
+    private void notifyAnswerStateChanged(MutableQuestion question) {
+        relationsHelper.onQuestionAnswerChanged(question);
+        questionsListener.onAnswerStateChanged(question);
+    }
+
+    @Override
+    public void onVisibleItemsChanged(List<MutableQuestion> visibleItems) {
+        this.setItems(visibleItems);
+    }
+
     class VariantsViewHolder extends QuestionViewHolder implements VariantsAdapter.OnAnswerChangeListener {
 
         private final VariantsAdapter.Type type;
@@ -113,7 +129,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
 
         @Override
         public void onAnswerChange() {
-            questionsListener.onAnswerStateChanged(getItem());
+            notifyAnswerStateChanged(getItem());
         }
     }
 
@@ -202,7 +218,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
             }
 
             answer.setBinaryAnswerState(convertFromUiState(state));
-            questionsListener.onAnswerStateChanged(getItem());
+            notifyAnswerStateChanged(getItem());
         }
 
         private BinaryAnswerSelectorView.State convertToUiState(@Nullable BinaryAnswerState state) {
@@ -244,7 +260,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         public void onCheckedChange(int atPosition, boolean checked) {
             MutableQuestion question = getItem();
             question.setCheckedState(atPosition, checked);
-            questionsListener.onAnswerStateChanged(question);
+            notifyAnswerStateChanged(question);
         }
     }
 
@@ -258,7 +274,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         public void onCheckedChange(int atPosition, boolean checked) {
             MutableQuestion question = getItem();
             question.setCheckedState(atPosition, checked);
-            questionsListener.onAnswerStateChanged(question);
+            notifyAnswerStateChanged(question);
         }
     }
 
@@ -293,7 +309,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
         public void onCheckedChange(int atPosition, boolean checked) {
             MutableQuestion question = getItem();
             question.setCheckedState(atPosition, checked);
-            questionsListener.onAnswerStateChanged(question);
+            notifyAnswerStateChanged(question);
         }
 
     }
@@ -336,6 +352,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
                 existingValue = item.getAnswer().getInputText();
                 editText.setText(existingValue);
             }
+            doneButton.setVisibility(View.GONE);
         }
 
         @Override
@@ -360,7 +377,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> {
                 MutableQuestion question = getItem();
                 existingValue = inputtedText.isEmpty() ? null : inputtedText;
                 question.setAnswerInputText(existingValue);
-                questionsListener.onAnswerStateChanged(question);
+                notifyAnswerStateChanged(question);
                 doneButton.setVisibility(View.GONE);
                 hideKeyboard();
             } else {

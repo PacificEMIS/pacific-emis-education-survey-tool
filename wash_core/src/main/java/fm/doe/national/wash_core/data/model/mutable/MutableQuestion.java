@@ -1,6 +1,7 @@
 package fm.doe.national.wash_core.data.model.mutable;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import com.omega_r.libs.omegatypes.Text;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -365,4 +367,61 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        MutableQuestion question = (MutableQuestion) o;
+        return title.equals(question.title) &&
+                prefix.equals(question.prefix) &&
+                questionType == question.questionType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), title, prefix, questionType);
+    }
+
+    public boolean isAnswered() {
+        return answer != null && answer.isAnsweredForQuestionType(questionType);
+    }
+
+    @Nullable
+    public String getAnswerAsString(Context context) {
+        if (!isAnswered()) {
+            return null;
+        }
+
+        switch (questionType) {
+            case BINARY:
+                BinaryAnswerState binaryAnswerState = answer.getBinaryAnswerState();
+                return binaryAnswerState == null ? null : binaryAnswerState.getText().getString(context);
+            case TERNARY:
+                TernaryAnswerState ternaryAnswerState = answer.getTernaryAnswerState();
+                return ternaryAnswerState == null ? null : ternaryAnswerState.getText().getString(context);
+            case TEXT_INPUT:
+            case NUMBER_INPUT:
+            case PHONE_INPUT:
+                return answer.getInputText();
+            case COMPLEX_BINARY:
+            case COMPLEX_NUMBER_INPUT:
+            case GEOLOCATION:
+            case PHOTO:
+                return null; // have no String answer
+            case SINGLE_SELECTION:
+            case MULTI_SELECTION:
+                return TextUtils.join("|", answer.getItems());
+        }
+
+        return null;
+    }
+
+    public void clearAnswer() {
+        if (!isAnswered()) {
+            return;
+        }
+
+        answer = new MutableAnswer();
+    }
 }
