@@ -10,8 +10,6 @@ android {
         versionName Versions.appVersion
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
-        buildConfigField "String", "SURVEYS_FCM_FILE_NAME", "\"survey.xml\""
-        buildConfigField "String", "SURVEYS_RMI_FILE_NAME", "\"survey-rmi.xml\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -71,10 +71,10 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Completable rewriteTemplateSurvey(Survey accreditationSurvey) {
+    public Completable rewriteTemplateSurvey(Survey survey) {
         return Completable.fromAction(() -> {
-            templateDatabase.getSurveyDao().deleteAll();
-            saveSurvey(templateDatabase, (AccreditationSurvey) accreditationSurvey, false);
+            templateDatabase.getSurveyDao().deleteAllForAppRegion(survey.getAppRegion());
+            saveSurvey(templateDatabase, (AccreditationSurvey) survey, false);
         });
     }
 
@@ -150,7 +150,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled())
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(globalPreferences.getAppRegion()))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
@@ -284,14 +284,4 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         return Completable.fromAction(surveyDao::deleteAll);
     }
 
-    @Override
-    public String getSurveyTemplateFileName() {
-        switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                return BuildConfig.SURVEYS_FCM_FILE_NAME;
-            case RMI:
-                return BuildConfig.SURVEYS_RMI_FILE_NAME;
-        }
-        throw new IllegalStateException();
-    }
 }

@@ -65,10 +65,10 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     }
 
     @Override
-    public Completable rewriteTemplateSurvey(Survey washSurvey) {
+    public Completable rewriteTemplateSurvey(Survey survey) {
         return Completable.fromAction(() -> {
-            templateDatabase.getSurveyDao().deleteAll();
-            saveSurvey(templateDatabase, (WashSurvey) washSurvey, false);
+            templateDatabase.getSurveyDao().deleteAllForAppRegion(survey.getAppRegion());
+            saveSurvey(templateDatabase, (WashSurvey) survey, false);
         });
     }
 
@@ -132,7 +132,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled())
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(globalPreferences.getAppRegion()))
                 .map(RelativeRoomSurvey::toMutable);
     }
 
@@ -271,14 +271,4 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
         return Completable.fromAction(database.getSurveyDao()::deleteAll);
     }
 
-    @Override
-    public String getSurveyTemplateFileName() {
-        switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                return BuildConfig.SURVEYS_FCM_FILE_NAME;
-            case RMI:
-                return BuildConfig.SURVEYS_RMI_FILE_NAME;
-        }
-        throw new IllegalStateException();
-    }
 }

@@ -54,6 +54,6 @@ public class UploadWorker extends RxWorker {
 
     @NonNull
     private String createFilename(Survey survey) {
-        return TextUtil.createSurveyFileName(new MutableSchool(survey.getSchoolName(), survey.getSchoolId()), survey.getDate());
+        return TextUtil.createSurveyFileName(new MutableSchool(survey.getSchoolName(), survey.getSchoolId(), survey.getAppRegion()), survey.getDate());
     }
 }

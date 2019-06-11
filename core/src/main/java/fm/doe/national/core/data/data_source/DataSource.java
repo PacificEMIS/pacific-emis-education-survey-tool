@@ -13,13 +13,10 @@ public interface DataSource {
 
     Single<List<School>> loadSchools();
 
-    // TODO: rewriteAllSchools(byType:)
     Completable rewriteAllSchools(List<School> schools);
 
-    // TODO: rewriteTemplateSurvey(byType:)
     Completable rewriteTemplateSurvey(Survey survey);
 
-    // TODO: getTemplateSurvey(byType:)
     Single<Survey> getTemplateSurvey();
 
     Single<Survey> loadSurvey(long surveyId);
@@ -35,9 +32,5 @@ public interface DataSource {
     Completable deletePhoto(long photoId);
 
     Completable deleteCreatedSurveys();
-
-    String getSurveyTemplateFileName();
-
-    String getSchoolsFileName();
 
 }
