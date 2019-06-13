@@ -13,6 +13,8 @@ import fm.doe.national.core.data.persistence.SchoolsDatabase;
 import fm.doe.national.core.data.persistence.dao.SchoolDao;
 import fm.doe.national.core.data.persistence.model.RoomSchool;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.utils.CollectionUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -37,33 +39,27 @@ public abstract class DataSourceImpl implements DataSource {
         schoolsDatabase.close();
     }
 
-    // TODO: loadSchools(byType:)
     @Override
     public Single<List<School>> loadSchools() {
-        return Single.fromCallable(schoolDao::getAll)
+        return Single.fromCallable(() -> schoolDao.getAll(globalPreferences.getAppRegion()))
                 .map(roomSchools -> new ArrayList<>(roomSchools));
     }
 
-    // TODO: rewriteAllSchools(byType:schools:)
     @Override
     public Completable rewriteAllSchools(List<School> schools) {
+        if (CollectionUtils.isEmpty(schools)) {
+            return Completable.complete();
+        }
+
+        final AppRegion appRegion = schools.get(0).getAppRegion();
+
         return Observable.fromIterable(schools)
                 .map(RoomSchool::new)
                 .toList()
                 .flatMapCompletable(roomSchools -> Completable.fromAction(() -> {
-                    schoolDao.deleteAll();
+                    schoolDao.deleteAllForAppRegion(appRegion);
                     schoolDao.insert(roomSchools);
                 }));
     }
 
-    @Override
-    public String getSchoolsFileName() {
-        switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                return BuildConfig.SCHOOLS_FCM_FILE_NAME;
-            case RMI:
-                return BuildConfig.SCHOOLS_RMI_FILE_NAME;
-        }
-        throw new IllegalStateException();
-    }
 }

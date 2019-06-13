@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
+import fm.doe.national.core.preferences.entities.AppRegion;
+
 public interface School extends Serializable {
 
     @NonNull
@@ -11,5 +13,8 @@ public interface School extends Serializable {
 
     @NonNull
     String getId();
+
+    @NonNull
+    AppRegion getAppRegion();
 
 }

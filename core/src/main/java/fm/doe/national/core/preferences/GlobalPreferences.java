@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
 
 public interface GlobalPreferences {
@@ -16,6 +17,9 @@ public interface GlobalPreferences {
     void setAppRegion(AppRegion appRegion);
 
     @NonNull
+    SurveyType getSurveyTypeOrDefault();
+
+    @Nullable
     SurveyType getSurveyType();
 
     void setSurveyType(SurveyType surveyType);
@@ -32,5 +36,17 @@ public interface GlobalPreferences {
     void setMasterPassword(String password);
 
     String getFactoryPassword();
+
+    String getAppName();
+
+    void setAppName(String name);
+
+    String getContactName();
+
+    void setContactName(String name);
+
+    OperatingMode getOperatingMode();
+
+    void setOperatingMode(OperatingMode mode);
 
 }

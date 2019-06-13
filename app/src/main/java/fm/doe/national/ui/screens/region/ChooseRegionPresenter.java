@@ -34,7 +34,7 @@ public class ChooseRegionPresenter extends BasePresenter<ChooseRegionView> {
                 .doOnSubscribe(d -> getViewState().showWaiting())
                 .subscribe(() -> {
                     getViewState().hideWaiting();
-                    getViewState().navigateToSurveys();
+                    getViewState().navigateToMenu();
                 }, this::handleError));
     }
 }

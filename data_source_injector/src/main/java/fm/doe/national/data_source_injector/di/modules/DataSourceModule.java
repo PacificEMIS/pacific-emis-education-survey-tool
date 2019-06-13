@@ -20,7 +20,7 @@ public class DataSourceModule {
 
     @Provides
     DataSource provideDataSource(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getSurveyType()) {
+        switch (globalPreferences.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getDataSource();
             case WASH:

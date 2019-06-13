@@ -112,4 +112,7 @@
 
     <string name="region_fcm">FedEMIS</string>
     <string name="region_rmi">MIEMIS</string>
+
+    <string name="op_mode_dev">Development</string>
+    <string name="op_mode_prod">Production</string>
 </resources>

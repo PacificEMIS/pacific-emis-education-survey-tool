@@ -36,6 +36,9 @@ public interface SurveyDao {
     @Query("DELETE FROM RoomWashSurvey")
     void deleteAll();
 
+    @Query("DELETE FROM RoomWashSurvey WHERE region = :appRegion")
+    void deleteAllForAppRegion(AppRegion appRegion);
+
     @Query("DELETE FROM RoomWashSurvey WHERE uid = :id")
     void deleteById(long id);
 
@@ -46,8 +49,8 @@ public interface SurveyDao {
 
     @Nullable
     @Transaction
-    @Query("SELECT * FROM RoomWashSurvey LIMIT 1")
-    RelativeRoomSurvey getFirstFilled();
+    @Query("SELECT * FROM RoomWashSurvey WHERE region = :region LIMIT 1")
+    RelativeRoomSurvey getFirstFilled(AppRegion region);
 
     @Nullable
     @Transaction

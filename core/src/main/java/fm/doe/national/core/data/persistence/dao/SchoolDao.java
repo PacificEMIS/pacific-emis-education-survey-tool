@@ -10,6 +10,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import fm.doe.national.core.data.persistence.model.RoomSchool;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 @Dao
 public interface SchoolDao {
@@ -26,8 +27,8 @@ public interface SchoolDao {
     @Delete
     void delete(RoomSchool school);
 
-    @Query("SELECT * FROM RoomSchool")
-    List<RoomSchool> getAll();
+    @Query("SELECT * FROM RoomSchool WHERE appRegion = :appRegion")
+    List<RoomSchool> getAll(AppRegion appRegion);
 
     @Nullable
     @Query("SELECT * FROM RoomSchool WHERE id = :id LIMIT 1")
@@ -35,4 +36,7 @@ public interface SchoolDao {
 
     @Query("DELETE FROM RoomSchool")
     void deleteAll();
+
+    @Query("DELETE FROM RoomSchool WHERE appRegion = :appRegion")
+    void deleteAllForAppRegion(AppRegion appRegion);
 }

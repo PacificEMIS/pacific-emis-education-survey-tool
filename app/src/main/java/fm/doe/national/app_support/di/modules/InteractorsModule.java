@@ -6,24 +6,30 @@ import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
+import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.serialization.Parser;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.domain.SettingsInteractor;
+import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
 public class InteractorsModule {
 
     private final CloudComponent cloudComponent;
     private final AssetManager assetManager;
-    private final DataSourceComponent dataSourceComponent;
+    private final AccreditationCoreComponent accreditationCoreComponent;
+    private final WashCoreComponent washCoreComponent;
 
-    public InteractorsModule(CloudComponent cloudComponent, AssetManager assetManager, DataSourceComponent dataSourceComponent) {
+    public InteractorsModule(CloudComponent cloudComponent,
+                             AssetManager assetManager,
+                             AccreditationCoreComponent accreditationCoreComponent,
+                             WashCoreComponent washCoreComponent) {
         this.cloudComponent = cloudComponent;
         this.assetManager = assetManager;
-        this.dataSourceComponent = dataSourceComponent;
+        this.accreditationCoreComponent = accreditationCoreComponent;
+        this.washCoreComponent = washCoreComponent;
     }
 
     @Provides
@@ -31,11 +37,16 @@ public class InteractorsModule {
                                                  GlobalPreferences globalPreferences) {
         return new SettingsInteractor(
                 cloudComponent.getCloudRepository(),
-                dataSourceComponent.getDataSource(),
-                dataSourceComponent.getSurveyParser(),
                 schoolsParser,
                 assetManager,
-                globalPreferences
+                globalPreferences,
+                new SettingsInteractor.SurveyAccessor(
+                        accreditationCoreComponent.getDataSource(),
+                        washCoreComponent.getDataSource(),
+                        accreditationCoreComponent.getSurveyParser(),
+                        washCoreComponent.getSurveyParser(),
+                        assetManager
+                )
         );
     }
 
