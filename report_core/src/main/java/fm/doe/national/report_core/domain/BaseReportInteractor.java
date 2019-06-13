@@ -81,15 +81,17 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                 .collect(Collectors.toList());
 
         if (classroomObservations.size() == CLASSROOM_OBSERVATIONS_TO_TRIGGER_FILTER) {
-            long sum1 = getCategorySum(classroomObservations.get(0));
-            long sum2 = getCategorySum(classroomObservations.get(1));
+            MutableCategory cat0 = classroomObservations.get(0);
+            MutableCategory cat1 = classroomObservations.get(1);
+            long sum0 = getCategorySum(cat0);
+            long sum1 = getCategorySum(cat1);
 
             List<MutableCategory> resultCategories = new ArrayList<>(otherCategories);
 
-            if (sum1 > sum2) {
-                resultCategories.add(classroomObservations.get(1));
+            if (sum0 <= sum1) {
+                resultCategories.add(cat0);
             } else {
-                resultCategories.add(classroomObservations.get(0));
+                resultCategories.add(cat1);
             }
 
             otherSurvey.setCategories(resultCategories);
