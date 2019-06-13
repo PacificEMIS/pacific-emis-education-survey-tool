@@ -37,13 +37,16 @@ public class InteractorsModule {
                                                  GlobalPreferences globalPreferences) {
         return new SettingsInteractor(
                 cloudComponent.getCloudRepository(),
-                accreditationCoreComponent.getDataSource(),
-                washCoreComponent.getDataSource(),
-                accreditationCoreComponent.getSurveyParser(),
-                washCoreComponent.getSurveyParser(),
                 schoolsParser,
                 assetManager,
-                globalPreferences
+                globalPreferences,
+                new SettingsInteractor.SurveyAccessor(
+                        accreditationCoreComponent.getDataSource(),
+                        washCoreComponent.getDataSource(),
+                        accreditationCoreComponent.getSurveyParser(),
+                        washCoreComponent.getSurveyParser(),
+                        assetManager
+                )
         );
     }
 

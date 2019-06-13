@@ -12,11 +12,7 @@ import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import com.omega_r.libs.omegatypes.Image;
 
 import fm.doe.national.R;
-import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.ui.screens.settings.items.Item;
-import fm.doe.national.ui.screens.settings.items.LogoItem;
-import fm.doe.national.ui.screens.settings.items.NavItem;
-import fm.doe.national.ui.screens.settings.items.ValuableItem;
 
 public class SettingsAdapter extends BaseListAdapter<Item> {
 
@@ -31,15 +27,19 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
     @Override
     public int getItemViewType(int position) {
         Item item = getItem(position);
-        if (item instanceof LogoItem) {
+
+        if (item.getType() == Item.Type.LOGO) {
             return VIEW_TYPE_LOGO;
-        } else if (item instanceof ValuableItem) {
-            return VIEW_TYPE_VALUE;
-        } else if (item instanceof NavItem) {
-            return VIEW_TYPE_NAV;
         }
 
-        return (getItem(position) instanceof ValuableItem) ? VIEW_TYPE_VALUE : VIEW_TYPE_NAV;
+        switch (item.getIconType()) {
+            case NAV:
+                return VIEW_TYPE_NAV;
+            case VALUE:
+                return VIEW_TYPE_VALUE;
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     @NonNull
@@ -71,8 +71,10 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
         @Override
         protected void onBind(Item item) {
             super.onBind(item);
-            ValuableItem valuableItem = (ValuableItem) item;
-            valuableItem.getValue().applyTo(valueTextView);
+
+            if (item.getValue() != null) {
+                item.getValue().applyTo(valueTextView);
+            }
         }
     }
 
@@ -96,7 +98,10 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
         @Override
         protected void onBind(Item item) {
             super.onBind(item);
-            ViewUtils.setImageTo(imageView, ((LogoItem) item).getImagePath());
+
+            if (item.getCustomImage() != null) {
+                item.getCustomImage().applyImage(imageView, 0);
+            }
         }
     }
 

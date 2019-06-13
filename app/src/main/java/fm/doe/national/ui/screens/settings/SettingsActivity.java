@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.settings;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,7 +25,7 @@ import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
-import fm.doe.national.core.ui.views.InputDialogFragment;
+import fm.doe.national.core.ui.views.InputDialog;
 import fm.doe.national.ui.screens.settings.items.Item;
 
 public class SettingsActivity extends BaseActivity implements SettingsView, BaseListAdapter.OnItemClickListener<Item> {
@@ -39,6 +40,12 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+
+    @Nullable
+    private Dialog inputDialog;
+
+    @Nullable
+    private Dialog selectorDialog;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
@@ -85,7 +92,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
     }
 
     @Override
-    public void setOptions(List<Item> options) {
+    public void setItems(List<Item> options) {
         adapter.setItems(options);
     }
 
@@ -96,14 +103,14 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
 
     @Override
     public void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener) {
-        InputDialogFragment dialog = InputDialogFragment.create(title, existingText);
-        dialog.setListener(listener::onInput);
-        dialog.show(getSupportFragmentManager(), TAG_INPUT_DIALOG);
+        inputDialog = InputDialog.create(this, title, existingText)
+                .setListener(listener::onInput);
+        inputDialog.show();
     }
 
     @Override
     public void showRegionSelector(RegionListener listener) {
-        final BottomSheetDialog bsd = new BottomSheetDialog(this);
+        selectorDialog = new BottomSheetDialog(this);
         View sheetView = getLayoutInflater().inflate(R.layout.sheet_app_context, null);
         View fcmItemView = sheetView.findViewById(R.id.textview_fcm);
         View rmiItemView = sheetView.findViewById(R.id.textview_rmi);
@@ -111,13 +118,26 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
         titleTextView.setText(R.string.title_choose_context);
         fcmItemView.setOnClickListener((v) -> {
             listener.onRegionSelected(AppRegion.FCM);
-            bsd.dismiss();
+            safeDismiss(selectorDialog);
         });
         rmiItemView.setOnClickListener((v) -> {
             listener.onRegionSelected(AppRegion.RMI);
-            bsd.dismiss();
+            safeDismiss(selectorDialog);
         });
-        bsd.setContentView(sheetView);
-        bsd.show();
+        selectorDialog.setContentView(sheetView);
+        selectorDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        safeDismiss(inputDialog);
+        safeDismiss(selectorDialog);
+    }
+
+    private void safeDismiss(@Nullable Dialog dialog) {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 }

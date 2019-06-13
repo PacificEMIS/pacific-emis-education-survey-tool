@@ -19,7 +19,7 @@ public interface SettingsView extends BaseView {
     void pickPhotoFromGallery();
 
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void setOptions(List<Item> options);
+    void setItems(List<Item> options);
 
     void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener);
 

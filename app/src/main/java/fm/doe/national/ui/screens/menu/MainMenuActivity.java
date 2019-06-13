@@ -46,9 +46,8 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView {
     Button washButton;
 
     public static Intent createIntent(Context parentContext, boolean haveParent) {
-        Intent intent = new Intent(parentContext, MainMenuActivity.class);
-        intent.putExtra(EXTRA_HAVE_PARENT, haveParent);
-        return intent;
+        return new Intent(parentContext, MainMenuActivity.class)
+                .putExtra(EXTRA_HAVE_PARENT, haveParent);
     }
 
     @Override
