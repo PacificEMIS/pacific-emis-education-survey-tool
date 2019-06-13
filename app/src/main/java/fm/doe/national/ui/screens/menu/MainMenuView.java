@@ -14,7 +14,7 @@ import fm.doe.national.core.ui.screens.base.BaseView;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface MainMenuView extends BaseView {
 
-    void setIcon(Image image);
+    void setIcon(Image icon);
 
     void setTitle(Text title);
 
