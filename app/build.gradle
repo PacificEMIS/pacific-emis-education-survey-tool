@@ -92,8 +92,8 @@ dependencies {
 
     // OmegaLibs
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
-    implementation 'com.github.Omega-R.OmegaTypes:omegatypes:1.0.0'
-    implementation 'com.github.Omega-R.OmegaTypes:glide:1.0.0'
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:glide:${Deps.omegaTypes}"
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
 
