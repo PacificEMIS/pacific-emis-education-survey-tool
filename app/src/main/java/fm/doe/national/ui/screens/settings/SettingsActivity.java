@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import com.omega_r.libs.omegatypes.Text;
@@ -19,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.InputDialogFragment;
 import fm.doe.national.ui.screens.settings.items.Item;
@@ -97,4 +101,23 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
         dialog.show(getSupportFragmentManager(), TAG_INPUT_DIALOG);
     }
 
+    @Override
+    public void showRegionSelector(RegionListener listener) {
+        final BottomSheetDialog bsd = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.sheet_app_context, null);
+        View fcmItemView = sheetView.findViewById(R.id.textview_fcm);
+        View rmiItemView = sheetView.findViewById(R.id.textview_rmi);
+        TextView titleTextView = sheetView.findViewById(R.id.textview_title);
+        titleTextView.setText(R.string.title_choose_context);
+        fcmItemView.setOnClickListener((v) -> {
+            listener.onRegionSelected(AppRegion.FCM);
+            bsd.dismiss();
+        });
+        rmiItemView.setOnClickListener((v) -> {
+            listener.onRegionSelected(AppRegion.RMI);
+            bsd.dismiss();
+        });
+        bsd.setContentView(sheetView);
+        bsd.show();
+    }
 }

@@ -101,7 +101,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onContextPressed() {
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        getViewState().showRegionSelector((region) -> {
+            globalPreferences.setAppRegion(region);
+            refresh();
+        });
     }
 
     private void onNamePressed() {
