@@ -6,10 +6,12 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 
 import java.io.IOException;
@@ -18,11 +20,13 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.views.InputDialogFragment;
 import fm.doe.national.ui.screens.settings.items.Item;
 
 public class SettingsActivity extends BaseActivity implements SettingsView, BaseListAdapter.OnItemClickListener<Item> {
 
     private static final int REQUEST_CODE_GALLERY = 201;
+    private static final String TAG_INPUT_DIALOG = "TAG_INPUT_DIALOG";
 
     private final SettingsAdapter adapter = new SettingsAdapter(this);
 
@@ -83,6 +87,14 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
 
     @Override
     public void onItemClick(Item item) {
-
+        presenter.onItemPressed(item);
     }
+
+    @Override
+    public void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener) {
+        InputDialogFragment dialog = InputDialogFragment.create(title, existingText);
+        dialog.setListener(listener::onInput);
+        dialog.show(getSupportFragmentManager(), TAG_INPUT_DIALOG);
+    }
+
 }

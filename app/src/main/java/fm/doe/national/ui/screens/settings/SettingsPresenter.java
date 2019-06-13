@@ -14,6 +14,7 @@ import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.cloud.model.CloudAccountData;
 import fm.doe.national.cloud.model.CloudType;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
@@ -23,6 +24,7 @@ import fm.doe.national.ui.screens.settings.items.ContactItem;
 import fm.doe.national.ui.screens.settings.items.ContextItem;
 import fm.doe.national.ui.screens.settings.items.ExportFolderItem;
 import fm.doe.national.ui.screens.settings.items.ImportSchoolsItem;
+import fm.doe.national.ui.screens.settings.items.Item;
 import fm.doe.national.ui.screens.settings.items.LogoItem;
 import fm.doe.national.ui.screens.settings.items.ModeItem;
 import fm.doe.national.ui.screens.settings.items.NameItem;
@@ -68,7 +70,67 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         ));
     }
 
-    public void onImportSchoolsClick() {
+    public void onItemPressed(Item item) {
+        if (item instanceof LogoItem) {
+            onLogoPressed();
+        } else if (item instanceof AccountItem) {
+            // nothing
+        } else if (item instanceof ContextItem) {
+            onContextPressed();
+        } else if (item instanceof NameItem) {
+            onNamePressed();
+        } else if (item instanceof ContactItem) {
+            onContactPressed();
+        } else if (item instanceof ModeItem) {
+            onOperatingModePressed();
+        } else if (item instanceof ImportSchoolsItem) {
+            onImportSchoolsPressed();
+        } else if (item instanceof ExportFolderItem) {
+            onChooseFolderPressed();
+        } else if (item instanceof TemplatesItem) {
+            onTemplatesPressed();
+        } else if (item instanceof PasswordItem) {
+            onChangeMasterPasswordPressed();
+        } else {
+            throw new NotImplementedException();
+        }
+    }
+
+    private void onLogoPressed() {
+        getViewState().pickPhotoFromGallery();
+    }
+
+    private void onContextPressed() {
+        getViewState().showToast(Text.from(R.string.coming_soon));
+    }
+
+    private void onNamePressed() {
+        getViewState().showInputDialog(
+                Text.from(R.string.title_input_name),
+                Text.from(globalPreferences.getAppName()),
+                (name) -> {
+                    globalPreferences.setAppName(name);
+                    refresh();
+                }
+        );
+    }
+
+    private void onContactPressed() {
+        getViewState().showInputDialog(
+                Text.from(R.string.title_input_contact),
+                Text.from(globalPreferences.getContactName()),
+                (name) -> {
+                    globalPreferences.setContactName(name);
+                    refresh();
+                }
+        );
+    }
+
+    private void onOperatingModePressed() {
+        getViewState().showToast(Text.from(R.string.coming_soon));
+    }
+
+    private void onImportSchoolsPressed() {
         addDisposable(interactor.importSchools(CLOUD_TYPE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -77,7 +139,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_import_schools_success)), this::handleError));
     }
 
-    public void onChooseFolderClick() {
+    private void onChooseFolderPressed() {
         addDisposable(interactor.selectExportFolder(CLOUD_TYPE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -86,8 +148,12 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .subscribe(this::refresh, this::handleError));
     }
 
-    public void onChangeLogoClick() {
-        getViewState().pickPhotoFromGallery();
+    private void onTemplatesPressed() {
+        getViewState().showToast(Text.from(R.string.coming_soon));
+    }
+
+    private void onChangeMasterPasswordPressed() {
+        getViewState().showToast(Text.from(R.string.coming_soon));
     }
 
     public void onImagePicked(Bitmap bitmap) {

@@ -9,12 +9,22 @@
     android:focusable="true">
 
     <ImageView
-        android:id="@+id/imageview_icon"
+        android:id="@+id/imageview_custom_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
+        tools:ignore="ContentDescription"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageview_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="24dp"
         tools:ignore="ContentDescription"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -44,9 +54,9 @@
         android:id="@+id/textview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="36dp"
-        android:layout_toEndOf="@+id/imageview_icon"
+        android:layout_marginStart="92dp"
         android:textAppearance="@style/Text.Body2"
         android:textColor="@color/blue_grey_700"
         tools:text="person.name@email.com" />

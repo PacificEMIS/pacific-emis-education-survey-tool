@@ -118,7 +118,13 @@ public class DriveCloudAccessor implements CloudAccessor {
 
     @Override
     public String getEmail() {
-        return "";
+        GoogleSignInAccount account = getGoogleAccount();
+
+        if (account == null) {
+            return "";
+        }
+
+        return account.getDisplayName();
     }
 
     @Override

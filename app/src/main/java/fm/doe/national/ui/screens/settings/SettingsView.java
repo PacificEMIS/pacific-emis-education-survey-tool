@@ -1,5 +1,8 @@
 package fm.doe.national.ui.screens.settings;
 
+import androidx.annotation.Nullable;
+
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
@@ -16,5 +19,13 @@ public interface SettingsView extends BaseView {
     void pickPhotoFromGallery();
 
     void setOptions(List<Item> options);
+
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener);
+
+    interface InputListener {
+        void onInput(String string);
+    }
 
 }

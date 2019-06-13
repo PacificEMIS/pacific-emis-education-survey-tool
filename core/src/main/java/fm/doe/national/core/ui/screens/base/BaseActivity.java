@@ -169,5 +169,4 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
             toolbar.setTitle(title);
         }
     }
-
 }

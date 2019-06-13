@@ -14,7 +14,9 @@
     <string name="label_account">Google Account</string>
     <string name="label_context">Context</string>
     <string name="label_name">Name</string>
+    <string name="title_input_name">Input Name</string>
     <string name="label_contact">Contact</string>
+    <string name="title_input_contact">Input Contact</string>
     <string name="label_mode">Operating Mode</string>
     <string name="label_import_schools">Import Schools</string>
     <string name="label_export_folder">Export Folder</string>

@@ -35,6 +35,10 @@
         <item name="cornerRadius">8dp</item>
     </style>
 
+    <style name="DialogTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textAppearance">@style/Text.Button</item>
+    </style>
+
     <style name="Text.Button">
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/noto_sans_medium</item>
