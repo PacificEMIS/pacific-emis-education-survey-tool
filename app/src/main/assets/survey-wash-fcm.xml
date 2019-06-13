@@ -888,13 +888,13 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
-                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
-                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
-                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
-                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
-                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
-                    <relationAnswer>Composting toilet</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
+                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Composing toilets</relationAnswer>
+                    <relationAnswer>Pit latrines without slab</relationAnswer>
+                    <relationAnswer>Hanging latrines</relationAnswer>
+                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
             <question>
@@ -903,13 +903,13 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
-                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
-                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
-                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
-                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
-                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
-                    <relationAnswer>Composting toilet</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
+                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Composing toilets</relationAnswer>
+                    <relationAnswer>Pit latrines without slab</relationAnswer>
+                    <relationAnswer>Hanging latrines</relationAnswer>
+                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
             <question>
@@ -918,13 +918,13 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
-                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
-                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
-                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
-                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
-                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
-                    <relationAnswer>Composting toilet</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
+                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Composing toilets</relationAnswer>
+                    <relationAnswer>Pit latrines without slab</relationAnswer>
+                    <relationAnswer>Hanging latrines</relationAnswer>
+                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
             <question>
@@ -933,13 +933,13 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
-                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
-                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
-                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
-                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
-                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
-                    <relationAnswer>Composting toilet</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
+                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Composing toilets</relationAnswer>
+                    <relationAnswer>Pit latrines without slab</relationAnswer>
+                    <relationAnswer>Hanging latrines</relationAnswer>
+                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
             <question>
@@ -948,13 +948,13 @@
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush toilet (using cistern and pan) to sewer</relationAnswer>
-                    <relationAnswer>Flush (using cister and pan) to septic tank</relationAnswer>
-                    <relationAnswer>Flush to pit (water seal/pour flush)</relationAnswer>
-                    <relationAnswer>Ventilated improved latrines (VIP)</relationAnswer>
-                    <relationAnswer>Pit latrines with slab (concrete and/or timber)</relationAnswer>
-                    <relationAnswer>Pit latrine without slab/open pit</relationAnswer>
-                    <relationAnswer>Composting toilet</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
+                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Composing toilets</relationAnswer>
+                    <relationAnswer>Pit latrines without slab</relationAnswer>
+                    <relationAnswer>Hanging latrines</relationAnswer>
+                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
                 <item>Incinerate</item>
                 <item>Collection service</item>
