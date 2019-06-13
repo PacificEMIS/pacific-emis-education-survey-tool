@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
 import fm.doe.national.report_core.model.Level;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
@@ -28,6 +32,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     private static final List<Recommendation> EMPTY_RECOMMENDATIONS = Collections.emptyList();
     private static final List<SummaryViewData> EMPTY_SUMMARY = Collections.emptyList();
     private static final LevelLegendView.Item EMPTY_HEADER = LevelLegendView.Item.empty();
+    private static final int CLASSROOM_OBSERVATIONS_TO_TRIGGER_FILTER = 2;
 
     private final BehaviorSubject<List<Recommendation>> recommendationsSubject =
             BehaviorSubject.createDefault(EMPTY_RECOMMENDATIONS);
@@ -64,10 +69,48 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         headerSubject.onNext(EMPTY_HEADER);
     }
 
+    protected AccreditationSurvey getSurveyWithWorstClassroomObservation(AccreditationSurvey survey) {
+        MutableAccreditationSurvey otherSurvey = new MutableAccreditationSurvey(survey);
+
+        List<MutableCategory> classroomObservations = otherSurvey.getCategories().stream()
+                .filter(cat -> cat.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
+                .collect(Collectors.toList());
+
+        List<MutableCategory> otherCategories =otherSurvey.getCategories().stream()
+                .filter(cat -> cat.getEvaluationForm() != EvaluationForm.CLASSROOM_OBSERVATION)
+                .collect(Collectors.toList());
+
+        if (classroomObservations.size() == CLASSROOM_OBSERVATIONS_TO_TRIGGER_FILTER) {
+            long sum1 = getCategorySum(classroomObservations.get(0));
+            long sum2 = getCategorySum(classroomObservations.get(1));
+
+            List<MutableCategory> resultCategories = new ArrayList<>(otherCategories);
+
+            if (sum1 > sum2) {
+                resultCategories.add(classroomObservations.get(1));
+            } else {
+                resultCategories.add(classroomObservations.get(0));
+            }
+
+            otherSurvey.setCategories(resultCategories);
+        }
+
+        return otherSurvey;
+    }
+
+    private long getCategorySum(Category category) {
+        return category.getStandards().stream()
+                .flatMap(s -> s.getCriterias().stream())
+                .flatMap(c -> c.getSubCriterias().stream())
+                .filter(sc -> sc.getAnswer().getState() == AnswerState.POSITIVE)
+                .count();
+    }
+
     private void requestSummary(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
+            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
             List<SummaryViewData> summaryViewDataList = new ArrayList<>();
-            for (Category category : survey.getCategories()) {
+            for (Category category : clearedSurvey.getCategories()) {
                 for (Standard standard : category.getStandards()) {
                     List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
                     int totalByStandard = 0;
