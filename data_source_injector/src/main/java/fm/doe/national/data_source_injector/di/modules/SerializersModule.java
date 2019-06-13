@@ -3,38 +3,40 @@ package fm.doe.national.data_source_injector.di.modules;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
-import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.serialization.SurveyParser;
 import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
 public class SerializersModule {
 
     private final AccreditationCoreComponent accreditationCoreComponent;
+    private final WashCoreComponent washCoreComponent;
 
-    public SerializersModule(AccreditationCoreComponent accreditationCoreComponent) {
+    public SerializersModule(AccreditationCoreComponent accreditationCoreComponent, WashCoreComponent washCoreComponent) {
         this.accreditationCoreComponent = accreditationCoreComponent;
+        this.washCoreComponent = washCoreComponent;
     }
 
     @Provides
     public SurveyParser provideSurveyParser(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getSurveyType()) {
+        switch (globalPreferences.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getSurveyParser();
             case WASH:
-                throw new NotImplementedException();
+                return washCoreComponent.getSurveyParser();
         }
         throw new IllegalStateException();
     }
 
     @Provides
     public SurveySerializer provideSurveySerializer(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getSurveyType()) {
+        switch (globalPreferences.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getSurveySerializer();
             case WASH:
-                throw new NotImplementedException();
+                return washCoreComponent.getSurveySerializer();
         }
         throw new IllegalStateException();
     }

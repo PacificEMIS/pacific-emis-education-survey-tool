@@ -21,10 +21,28 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
     Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
 
+    Completable updateAnswer(Answer answer);
+
     PublishSubject<MutableCategory> getCategoryProgressSubject();
 
     PublishSubject<MutableStandard> getStandardProgressSubject();
 
     PublishSubject<MutableCriteria> getCriteriaProgressSubject();
+
+    long getCurrentCategoryId();
+
+    long getCurrentStandardId();
+
+    long getCurrentCriteriaId();
+
+    long getCurrentSubCriteriaId();
+
+    void setCurrentCategoryId(long id);
+
+    void setCurrentStandardId(long id);
+
+    void setCurrentCriteriaId(long id);
+
+    void setCurrentSubCriteriaId(long id);
 
 }

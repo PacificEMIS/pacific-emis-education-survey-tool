@@ -15,6 +15,6 @@ public interface ChooseRegionView extends BaseView {
     void setRegions(List<AppRegion> regions);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToSurveys();
+    void navigateToMenu();
 
 }

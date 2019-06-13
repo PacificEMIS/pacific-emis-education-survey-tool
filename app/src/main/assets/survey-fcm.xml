@@ -1,0 +1,1310 @@
+<survey>
+    <type>SCHOOL_ACCREDITATION</type>
+    <region>FCM</region>
+    <version>3</version>
+    <category>
+        <name>School Evaluation (Principal's interview)</name>
+        <type>SCHOOL_EVALUATION</type>
+        <standard>
+            <id>SE.1</id>
+            <name>Leadership</name>
+            <criteria>
+                <id>SE.1.1</id>
+                <name>The principal has very high expectations for students and teachers.</name>
+                <subcriteria>
+                    <id>SE.1.1.a</id>
+                    <name>The principal ensures that a minimum of 165 instructional days are delivered and can provide documentary evidence.</name>
+                    <interviewQuestions>How do you ensure your school reaches at least 180 instructional days? What evidence do you collect or store to demonstrate that 180 days occur?</interviewQuestions>
+                    <hint>-There is record of daily instruction for a minimum of 180 days in the year.\n-Records include whether the school was a half-day, full-day, day off or a special event (e.g. Women’s Day, Education Day, General Cleanup). \n-There is evidence that school was operational in all designated school days.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.1.b</id>
+                    <name>The mandatory number of instructional hours is delivered (Grade 1&amp;2: 3 hours and 34 minutes: Grades 3-12: 4 hours 15 minutes per day).</name>
+                    <interviewQuestions>How do you ensure that each school day reaches the mandatory number of instructional hours? Are all four core subject areas (English, Math, Science, Social Studies) taught every day?</interviewQuestions>
+                    <hint>-Evidence that classes were run in full duration meeting the prescribed hours of instruction in each school day. \n-Each class period in the accreditation visit demonstrated the bell was rung on time \n-Documentation for instructional hours demonstrate that the mandatory number are delivered</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.1.c</id>
+                    <name>Corporal punishment is not allowed. </name>
+                    <interviewQuestions>What is your school’s policy on corporal punishment? What kind of procedures do you have in place in the event a corporal punishment incident occurs?</interviewQuestions>
+                    <hint>-There is no record of corporal punishment but procedures to record and deal with it exist. \nOR \n-If there are records of corporal punishment, the above-mentioned procedures were followed. \n-There is documentation that the school is aware of this policy &amp; law.</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.1.2</id>
+                <name>The principal has a clear philosophy of education and is an expert in curriculum and instruction.</name>
+                <subcriteria>
+                    <id>SE.1.2.a</id>
+                    <name>The principal manages a program of teacher collaboration for instructional planning.</name>
+                    <interviewQuestions>How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves?</interviewQuestions>
+                    <hint>-During the accreditation visit interview, the principal demonstrated a deep understanding of what his/her teachers were teaching and how they were doing \n-The principal conducts or contributes to workshops on curriculum and instruction \n-Regular meeting with school teachers are held to build collaboration among them. \n-Evidence of meeting attendance.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.2.b</id>
+                    <name>The principal conducts weekly planning meetings with teachers and staff to develop and review curriculum, syllabi, programs of study, and lesson plans.</name>
+                    <interviewQuestions>How often do you conduct meetings with your staff to review curriculum, syllabi, and lesson plans? What sort of documentation do you have to support that those meetings took place and were attended?</interviewQuestions>
+                    <hint>-Weekly planning meetings are held to develop instructional plans and class assignments. \n-Physical and/or electronic copies of teachers’ syllabi/lesson plans are documented. \n-Evidence of meeting attendance</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.2.c</id>
+                    <name>The principal ensures that there is continuity and progression among students between grades in the school.</name>
+                    <interviewQuestions>How do you ensure there is continuity and progression between grades throughout your school?</interviewQuestions>
+                    <hint>Evidence of student enrollment, retention, and percent of student progressing from one grade to the other in last year’s annual examination.</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.1.3</id>
+                <name>The principal is involved in a program of continuous professional development and appraisal by supervisors, board members or peers.</name>
+                <subcriteria>
+                    <id>SE.1.3.a</id>
+                    <name>The principal keeps up to date with innovations in education.</name>
+                    <interviewQuestions>How do you keep up to date with innovations in pedagogy, curricula, and other developments in education?</interviewQuestions>
+                    <hint>- Evidence of principal attending DOE-mandated meetings \n-Evidence of principal involved in professional development \n-Evidence of the principal joining a professional organization, subscribing to education-related periodicals or email lists, or relationships with school systems abroad</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.3.b</id>
+                    <name>The principal creates many opportunities for teachers to engage in continuous professional development activities.</name>
+                    <interviewQuestions>What kinds of professional development opportunities do you create for your teachers? How many teachers engage in professional development workshops at your school each year? What kind of records do you maintain to track professional development?</interviewQuestions>
+                    <hint>-Attendance sheets and/or meeting notes of monthly professional development meetings (led by principal, master trainer/teacher, DOE specialists, COM, and other training providers)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.3.c</id>
+                    <name>The principal mentors teachers and conducts formal and informal training at the school.</name>
+                    <interviewQuestions>How do you conduct formal and informal training at your school?</interviewQuestions>
+                    <hint>Evidence of number of such mentoring and training programs conducted in the school in that year with an aim to build teacher’s capacity.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.3.d</id>
+                    <name>The principal is evaluated annually by their supervisor/s</name>
+                    <interviewQuestions>Can we see documentation demonstrating that you have been evaluated by your Chief, Superintendent, or Supervisor?</interviewQuestions>
+                    <hint>- Evidence of principal’s evaluation by his/her supervisor. Was it strongly positive or negative?</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.1.4</id>
+                <name>The principal conducts a regular program of teacher performance appraisals.</name>
+                <subcriteria>
+                    <id>SE.1.4.a</id>
+                    <name>There are regular, structured classroom observations and written reports are produced.</name>
+                    <interviewQuestions>How often do you formally observe each classroom teacher in a given academic year? How often do you informally observe teachers in a given academic year?</interviewQuestions>
+                    <hint>-Evidence of observation forms that each teacher is being formally observed per SDOE policy. \n-Evidence that each teacher is also being informally observed per SDOE policy.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.4.b</id>
+                    <name>Feedback on observations is constructive and designed to improve teaching and learning.</name>
+                    <hint>-Evidence that written feedbacks is provided to ALL teachers based on what was observed and focusing on the following: \nAreas of strengths and weaknesses. \nStrategies or skills areas to improve. \n-Evidence that a follow up plans and strategies for improvement was discussed and agreed with the teacher.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.4.c</id>
+                    <name>The principal coaches teachers and conducts model lessons where necessary.</name>
+                    <hint>-Evidence of the principal conducting model lessons and/or discussing the issue at staff meetings.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.1.4.d</id>
+                    <name>The principal encourages teachers to evaluate their own performance based on student learning outcomes.</name>
+                    <interviewQuestions>How do you encourage your teachers to reflect on their own performance? What documentation do you keep that demonstrates this?</interviewQuestions>
+                    <hint>-Evidence of teacher self-evaluation and its reflections in shown un their lesson plans.</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.3</id>
+            <name>Data Management</name>
+            <criteria>
+                <id>SE.3.1</id>
+                <name>Comprehensive and accurate school data is collected on a regular schedule.</name>
+                <subcriteria>
+                    <id>SE.3.1.a</id>
+                    <name>Comprehensive and accurate school data is collected on a quarterly schedule.</name>
+                    <interviewQuestions>Let’s review the Data Checklist together—these are the kinds of data we’re looking for. Can you demonstrate that you collect all of these data?</interviewQuestions>
+                    <hint>-School data as indicated on the Data Checklist is collected on a regular schedule (e.g. daily, weekly, monthly, etc.) \n-School data is verifiably accurate</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.1.b</id>
+                    <name>Daily attendance data for students and teachers is collected to produce daily, weekly, quarterly and annual reports for individuals, classes and the whole school.</name>
+                    <interviewQuestions>How do you record daily attendance for students and teachers?</interviewQuestions>
+                    <hint>-Daily attendance data is collected \n-Daily, weekly, and annual percentages are available for students, teachers, classes, and the whole school</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.1.c</id>
+                    <name>Reports, per the Data Checklist, for the last three years or more are available.</name>
+                    <hint>-At least three academic years’ worth of data is available</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.1.d</id>
+                    <name>Action, per school policy, is taken early to address attendance and/or drop-out issues, and no student in the mandatory education range drops out of formal education.</name>
+                    <hint>-There is written documentation on actions taken to address student/teacher attendance or drop-out issues</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.3.2</id>
+                <name>All school data is centrally located and carefully filed.</name>
+                <subcriteria>
+                    <id>SE.3.2.a</id>
+                    <name>All SDOE-mandated school data files, per the Data Checklist, are backed-up or duplicated and are securely held, including IEPs.</name>
+                    <hint>-All school data is centralized in the principal’s office or designated data office \nAND/OR \n-All school data is centralized on a specific desktop or portable hard-drive (multiple redundant drives is better) \n-Each document exists in more than one location (including the SDOE itself) \n-Each document is in a secured room or a secured computer (including the SDOE itself)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.2.b</id>
+                    <name>All data, per the Data Checklist, is checked, cleaned and updated at least weekly.</name>
+                    <hint>-All school data is verifiably checked, cleaned, and updated once per week</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.2.c</id>
+                    <name>Data is provided to the Department of Education by September 15th in either electronic or hardcopy format.</name>
+                    <hint>-All school data that is provided to the SDOE is provided both electronically and/or physically \n-All school data that is provided to the SDOE is within the SDOE’s deadline schedule</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.2.d</id>
+                    <name>All school data is centrally located and accessible in the principal’s office or other designated common area. (Resource room for IEP files).</name>
+                    <hint>-If there are students with IEPs, the IEPs are carefully filed \n-IEPs are consulted by relevant teachers \n-IEPs are updated as necessary</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.3.3</id>
+                <name>All student performance data, including classroom assessment, teacher observations, student portfolios and test data, is analyzed by all teachers during regular assessment meetings to identify individual students’ strengths and weaknesses, including students with IEPs.</name>
+                <subcriteria>
+                    <id>SE.3.3.a</id>
+                    <name>Scheduled assessment meetings are held by teacher teams at least once per quarter, with said meetings analyzing assessment results.</name>
+                    <interviewQuestions>How often do you and your staff hold assessment meetings? What documentation do you have to demonstrate that those meetings result in teachers adapting their strategies to meet individual student needs?</interviewQuestions>
+                    <hint>-Evidence of regular (quarterly, monthly, or weekly) teacher meetings to discuss assessment</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.3.c</id>
+                    <name>Standardized Tests and/or Standards-based assessment data (e.g. NMCT, COMET, etc.) are analyzed and used by teachers to adapt their teaching strategies and programs to meet individual student needs.</name>
+                    <hint>-Evidence of data analysis on standardized test and/or standards-based assessment data is used by teachers to adapt their teaching to student needs (can be confirmed in teacher interviews and assessment meeting minutes)</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.3.4</id>
+                <name>An extensive collection of school data is used to guide all management decision making.</name>
+                <subcriteria>
+                    <id>SE.3.4.a</id>
+                    <name>An extensive collection of school data is used to guide all management and resource decision making, with at least two examples given during the Principal Interview of decisions made because of data.</name>
+                    <interviewQuestions>Can you describe how you use data to make resource-based decisions, such as how you prioritize your budget and how you determine how teachers and classrooms get resources?</interviewQuestions>
+                    <hint>-Evidence of data in resource decision making (e.g. if there is only one projector, what’s the process for staff being able to use it?, if the school’s budget is X dollars but Y dollars are what’s necessary, how does the school prioritize their spending?)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.4.b</id>
+                    <name>A full range of student performance and attendance data, including findings from surveys, is shown and used in the School Improvement Plan</name>
+                    <hint>-The School Improvement Plan includes multiple datasets and data sources</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.4.c</id>
+                    <name>Data analysis is used by the principal to support teacher deployment, with at least two decisions expanded upon during the Principal Interview.</name>
+                    <interviewQuestions>Using at least two examples, can you expand on how you use teacher certification results, observation results, NMCT and/or NSTT results, educational backgrounds, and annual evaluation results to determine which teacher teaches a given grade or subject?</interviewQuestions>
+                    <hint>-Evidence of data supporting management decisions (e.g. if Sherlynn is teaching mathematics, there are NSTT results cited), e.g.: \nTeacher’s certification results; \nObservation results; \nNMCT and/or NSTT results; \nEducational background and specializations ; and/or \nAnnual evaluation results; are used to determine teacher placement</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.4.d</id>
+                    <name>Data analysis is used by the principal to support student placement, in the classroom, for extracurricular activities, for consideration in special education, etc., with at least two decisions expanded upon during the Principal Interview.</name>
+                    <interviewQuestions>Using at least two examples, can you expand on how you student performance data, student behavior data, and student attendance data to determine how students at your school are placed in particular sections, extracurricular activities, consideration for special education programs, etc?</interviewQuestions>
+                    <hint>-Evidence that student placement are based on the analysis of student performance data. e.g. \nIf Richard is in mathematics tutoring, it’s because his GPA is low; \nIf Richardleen has an interest in volleyball and a sufficient GPA she can join the volleyball team; and/or \nIf Richardson demonstrates significantly below average performance he can be considered for placement in special education</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.4</id>
+            <name>National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
+            <criteria>
+                <id>SE.4.1</id>
+                <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.</name>
+                <subcriteria>
+                    <id>SE.4.1.a</id>
+                    <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics, Social Studies, and Science are taught throughout the school in accordance with the National Curriculum and/or State Curriculum.</name>
+                    <interviewQuestions>What written policies do you have at your school regarding the use of the national and/or state curriculum?</interviewQuestions>
+                    <hint>-Evidence of a written policy that the school follows the National Curriculum exclusively \nOR \n-Evidence of a written policy that the school follows the State Curriculum exclusively</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.1.b</id>
+                    <name>All observed lesson plans are based on the National or State Curriculum Standards, Benchmarks and Student Learning Outcomes.</name>
+                    <hint>-Evidence of lesson plans following the National Curriculum exclusively \nOR \n-Evidence of lesson plans following the State Curriculum exclusively</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.1.d</id>
+                    <name>All observed lesson plans in 2.1 include the SDOE-required components.</name>
+                    <hint>Evidence that the lesson plans include SDOE required components</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.4.2</id>
+                <name>Student performance data shows that the vast majority of students reach Competent or Minimum Competent levels on the NMCT and pass other State-mandated exams.</name>
+                <subcriteria>
+                    <id>SE.4.2.a</id>
+                    <name>Whole assessment benchmark data in all tested Mathematics NMCTs show 50% as their average benchmark score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows at least 50% of benchmarks are at competent or minimum competent levels \nOR \n-The NMCT result at the school shows a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.2.b</id>
+                    <name>Whole assessment benchmark data in all tested English Language Arts NMCTs show 50% as their average benchmark score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows at least 50% of benchmarks are at competent or minimum competent levels \nOR \n-The NMCT result at the school shows a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.2.c</id>
+                    <name>The average student score in all tested Mathematics NMCTs show 50% as their average student score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows the average student score is at least 50% of questions correct \nOR \n-The NMCT result at the school shows the average student score had a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.2.d</id>
+                    <name>The average student score in all tested English Language Arts NMCTs show 50% as their average student score or a 2%+ increase compared to the previous year.</name>
+                    <hint>- The NMCT result at the school shows the average student score is at least 50% of questions correct \nOR \n-The NMCT result at the school shows the average student score had a 2%+ increase compared to the previous year</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.4.4</id>
+                <name>A full timetable of extra-curricular academic, sports, cultural, civic and community activities are conducted after school for both boys and girls.</name>
+                <subcriteria>
+                    <id>SE.4.4.a</id>
+                    <name>At least two extra-curricular academic and/or sports activities are conducted after school for both boys and girls.</name>
+                    <interviewQuestions>What kinds of extracurricular activities are on offer at your school?</interviewQuestions>
+                    <hint>Each extracurricular activity has documented rules \n-Extracurricular activities do not discriminate against boys or girls</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.4.b</id>
+                    <name>The school informs students of, and promotes cultural, civic and community activities.</name>
+                    <interviewQuestions>How does your school promote cultural and community activities?</interviewQuestions>
+                    <hint>-Documentation, such as a list of participants, assigned classwork or homework re: cultural and community activities, state events that the school participates in e.g. Cultural Day or Constitution Day events, a poster or agenda marketing an activity etc., shows that the school informs students of activities afterschool, e.g. weaving, carving, dancing, chanting, feasts</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.4.c</id>
+                    <name>Students have received awards for extra-curricular activities from local and/or international bodies and organizations.</name>
+                    <hint>-Evidence of students receiving awards, either from local organizations (e.g. Public Health, TSP, School-based awards) or international organizations (e.g. IOM, SCRIPPS Spelling Bee)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.4.d</id>
+                    <name>Values such as fair play and healthy lifestyles are promoted.</name>
+                    <hint>-Rules promoted fair play and healthy lifestyles</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.5</id>
+            <name>School Campus, Classrooms and Facilities</name>
+            <criteria>
+                <id>SE.5.1</id>
+                <name>The school has a written maintenance and facilities development plan.</name>
+                <subcriteria>
+                    <id>SE.5.1.a</id>
+                    <name>The school has a written maintenance plan that sets out a schedule of routine cleaning, minor repairs, painting and preventative maintenance.</name>
+                    <interviewQuestions>Has your school developed a written maintenance plan and facilities development plan? What documentation do you keep to demonstrate the plans are effective?</interviewQuestions>
+                    <hint>-There is a written maintenance plan that schedules cleaning, repairs, etc.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.1.b</id>
+                    <name>Records show that maintenance work is regularly carried out.</name>
+                    <hint>-There is written evidence of the maintenance plan in effect</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.1.c</id>
+                    <name>The school has a written facilities development plan that sets out a schedule for major maintenance works, refurbishment or rebuilding.</name>
+                    <hint>-There is a written facilities development plan that schedules major maintenance, refurbishment, etc.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.1.d</id>
+                    <name>Records and plans show that the facilities development plan is actively implemented.</name>
+                    <hint>-There is written evidence of the facilities development plan in effect</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.5.4</id>
+                <name>Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an emergency evacuation plan with evidence of a drill.</name>
+                <subcriteria>
+                    <id>SE.5.4.a</id>
+                    <name>All food handling and preparation personnel wear protective clothing, are certified by the Public Health Department and their certificates are clearly displayed. [For schools with vendors, ECE centers, cafeterias] \nIf there are no vendors, ECE centers, or cafeterias onsite, ignore this indicator and receive an automatic point.</name>
+                    <hint>-Evidence of recommended repairs and improvements \n-Evidence of implementation or attempted implementation (e.g. if the school needs new chairs, evidence of communication to SDOE requesting new chairs) \n-All food handling and preparation personnel wear proper clothing and have their Public Health (yellow card) clearly displayed</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.4.b</id>
+                    <name>Toilets have a current EPA certificate verifying that they are safe and clean.</name>
+                    <interviewQuestions>Can you provide documentation demonstrating that the EPA certifies your school’s toilets and water as being clean?</interviewQuestions>
+                    <hint>-All toilets have a current EPA certificate \n-If toilets are not EPA-certified, evidence of the school reaching out to SDOE and/or EPA regarding this issue</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.4.c</id>
+                    <name>There is adequate safe drinking water.</name>
+                    <interviewQuestions>How do you ensure your students have access to water at all times?</interviewQuestions>
+                    <hint>-Each classroom is equipped with a water container \n-The school has onsite, or nearby access to, water container refill stations \n-EPA certifies the water is safe to drink</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.4.d</id>
+                    <name>There is an emergency evacuation plan and evidence of a drill within the past 3 months.</name>
+                    <interviewQuestions>How does your school engage in routine emergency drills?</interviewQuestions>
+                    <hint>-Evidence of an Emergency Action Plan \n-Evidence of an Emergency Drill within the past 3 months</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.6</id>
+            <name>School Improvement Planning</name>
+            <criteria>
+                <id>SE.6.1</id>
+                <name>The School Improvement Plan has been developed and evaluated in accordance with the National Guidelines.</name>
+                <subcriteria>
+                    <id>SE.6.1.a</id>
+                    <name>The School Improvement Plan has been developed by a school improvement team that includes selected teachers, parents, and other community members as consistent with the National Guidelines.</name>
+                    <interviewQuestions>Can you show us your School Improvement Plan? We will review it with you to determine if it meets the required criteria in Standard Six.</interviewQuestions>
+                    <hint>-Evidence the SIP has been developed by SIT and that it has followed the National guidelines. \n-Evidence of SIT signatures\n</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.1.b</id>
+                    <name>The SIP is reviewed and revised on an annual basis.</name>
+                    <hint>-Evidence the SIP is discussed in PTA meetings, staff meetings, or other school discussions</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.1.c</id>
+                    <name>There is evidence of improving student achievement as a result of the SIP.</name>
+                    <hint>-Plans in the SIP for improving student performance have increased student performance (e.g. tutoring increased at-risk student GPAs)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.1.d</id>
+                    <name>All goals in the SIP are student achievement oriented, per the National Guidelines.</name>
+                    <hint>Evidence of SIP goals that reflect student achievement</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.6.2</id>
+                <name>The school principal plays a leadership role in the development and implementation of the SIP.</name>
+                <subcriteria>
+                    <id>SE.6.2.a</id>
+                    <name>The SIP contains a Vision and Mission, the former successfully stating what the school wants to become, and the latter successfully stating what they do and how they do it.</name>
+                    <hint>-During the accreditation visit interview, there is evidence the principal contributed to SIP development and implementation \n-The SIP contains a Vision and Mission</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.2.b</id>
+                    <name>The Vision and Mission are well known and shared by the school community.</name>
+                    <hint>-The Vision and Mission are posted in the school community and in school materials (e.g. student handbook, main office, classrooms, etc.) \n-Staff at the school can express (in their own words) what the school’s vision and mission means to them</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.2.c</id>
+                    <name>The SIP is effectively implemented and monitored.</name>
+                    <hint>-Plans in the SIP are visibly being implemented. \n-During the accreditation visit interview, the principal and teachers can elaborate on how the SIP has been implemented with supporting documents as necessary</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.2.d</id>
+                    <name>All staff members and members of the school community are fully committed to implementing the SIP.</name>
+                    <hint>-During the accreditation visit interview, all teachers can identify the SIP’s core plans and methods of implementation</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.6.3</id>
+                <name>The School Improvement Plan contains comprehensive data analysis of student performance, attendance, resources and school management, over a period of at least three years, noting school strengths and weaknesses.</name>
+                <subcriteria>
+                    <id>SE.6.3.a</id>
+                    <name>The School Improvement Plan contains three years of comprehensive data analysis of student performance, presented graphically</name>
+                    <hint>-The SIP contains analysis of student performance data for at least three years and are presented graphically.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.3.b</id>
+                    <name>The School Improvement Plan contains three years of comprehensive data analysis of student attendance, presented graphically</name>
+                    <hint>- The SIP contains analysis of student attendance data for at least three years and are presented graphically.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.3.c</id>
+                    <name>The School Improvement Plan contains three years comprehensive data analysis of school resources, presented graphically</name>
+                    <hint>- The SIP contains analysis of school’s resources for at least three years and are presented graphically.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.3.d</id>
+                    <name>The School Improvement Plan contains three years comprehensive data analysis of school management, presented graphically</name>
+                    <hint>- The SIP contains analysis student management data for at least three years and are presented graphically.</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.6.4</id>
+                <name>The School Improvement Plan contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes.</name>
+                <subcriteria>
+                    <id>SE.6.4.a</id>
+                    <name>The SIP is posted in a public place (on campus, in the principal’s office, DOE website, or a bulletin board) and regular monitoring reports are issued to the community.</name>
+                    <hint>-The accreditation team can visibly see the SIP posted in a public place \n-Documentation exists that the status of the SIP is discussed at PTA meetings or letters to parents</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.4.b</id>
+                    <name>Financial records for the last three years are extensive, accurate and transparent.</name>
+                    <hint>-Documentation for school income and expenditure exist for at least three years \n-Documentation for school income and expenditure are detailed and accurate</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.4.c</id>
+                    <name>The SIP contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, timelines, outputs and outcomes.</name>
+                    <hint>- SIP contains goals, objectives, and activity matrices.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.6.4.d</id>
+                    <name>At least 90% of SIP goals are being achieved and are relevant to student achievement.</name>
+                    <hint>- SIP achievement status</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+    </category>
+    <category>
+        <name>School Evaluation (School Checklist)</name>
+        <type>SCHOOL_EVALUATION</type>
+        <standard>
+            <id>SE.1</id>
+            <name>Leadership</name>
+            <criteria>
+                <id>SE.1.1</id>
+                <name>The principal has very high expectations for students and teachers.</name>
+                <subcriteria>
+                    <id>SE.1.1.d</id>
+                    <name>Students are responsible and student behavior is very orderly and respectful towards adults and other students</name>
+                    <interviewQuestions>How do you measure student behavior at your school? How do you ensure that students are responsible and student behavior is orderly and respectful?</interviewQuestions>
+                    <hint>-Posted principal’s expectations or classroom rules for students’ behavior in every classroom \n-During classroom observations, the running record document demonstrates student behavior is respectful and orderly \n-Documentation exists wherein the principal intervenes with student behavior issues. \n-The school has some means rewarding positive behavior and consequences for negative behavior. \n-During the accreditation visit, the principal modeled good behavior, the teachers modeled good behavior, and students were respectful towards adults and other students.</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.1.2</id>
+                <name>The principal has a clear philosophy of education and is an expert in curriculum and instruction.</name>
+                <subcriteria>
+                    <id>SE.1.2.d</id>
+                    <name>The Principal has a written Educational Philosophy posted in his office and all classrooms.</name>
+                    <hint>- Principal’s Philosophy is well written and is document as well as posted in every classroom and in the office.</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.2</id>
+            <name>Teacher Performance</name>
+            <criteria>
+                <id>SE.2.1</id>
+                <name>At least 75% of observed teachers prepare standardized long, medium or short-term lesson plans that provide adequate guidance for teaching and learning activities.</name>
+                <subcriteria>
+                    <id>SE.2.1.a</id>
+                    <name>Plans include appropriate learning activities including differentiated activities for different learners, including those with IEPs, for at least 75% of teachers observed (all teachers are observed).</name>
+                    <interviewQuestions>When do you collect lesson plans? What is your process of reviewing them and checking for differentiated instructional activities within them?</interviewQuestions>
+                    <hint>-Of five reviewed lesson plans for each teacher, all demonstrate more than one type of instructional activity (Core Subjects)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.1.b</id>
+                    <name>All Plans include sequenced, measurable learning objectives from the National and/or State Curricula for at least 75% of teachers observed (all teachers are observed).</name>
+                    <hint>-Of five reviewed lesson plans for each teacher, all five include SMART goals and objectives tied into the curriculum (Core Subjects)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.1.c</id>
+                    <name>Assessment is planned and integrated into lessons and is based on observable and measurable criteria.</name>
+                    <hint>-Of five reviewed lesson plans for each teacher, all assessment is integrated and based on measurable criteria (Core Subjects)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.1.d</id>
+                    <name>Student assessment records are used for planning purposes.</name>
+                    <hint>-During weekly lesson planning meetings/appropriate staff meetings, there is evidence of student assessment informing lesson planning</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.2.2</id>
+                <name>All teachers create high quality classroom learning environments.</name>
+                <subcriteria>
+                    <id>SE.2.2.a</id>
+                    <name>The classrooms and other teaching areas are rich in print and visual displays that are related to the current learning objectives.</name>
+                    <interviewQuestions>What, in your opinion, is a high quality classroom learning environment? Do all of your classrooms meet your expectation of a high quality classroom? Why or why not?</interviewQuestions>
+                    <hint>-Bulletin boards and classroom displays are relevant to class activities (e.g. a class that teaches the water cycle has water-cycle related content displayed)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.2.b</id>
+                    <name>There are designated areas of the classrooms with topical displays.</name>
+                    <hint>-Each classroom contains reading corners/learning centers \n-Each classroom’s displays are organized in a designated area</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.2.c</id>
+                    <name>Book corners or activity centers have appropriate learning materials.</name>
+                    <interviewQuestions>Do all of your classrooms having learning centers, book corners, etc? Are there any classrooms you are particularly proud of at your school, or classrooms you think may need some work?</interviewQuestions>
+                    <hint>- Evidence that each book corner or activity centers have grade-specific adequate and appropriate learning material.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.2.d</id>
+                    <name>A wide range of student work of very high quality is neatly displayed and clearly labeled.</name>
+                    <hint>-Student work is displayed \n-Student work ranges from knowledge to evaluation-type questions on Bloom’s Taxonomy</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.2.3</id>
+                <name>All teachers manage their time effectively to maximize students’ learning opportunities.</name>
+                <subcriteria>
+                    <id>SE.2.3.a</id>
+                    <name>All observed lessons start and finish on time.</name>
+                    <hint>-All classes during the accreditation visitation day, from the start of school to the end of school, begin and finish on time</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.3.b</id>
+                    <name>Students are on-task and engaged in learning activities for most of the lesson time.</name>
+                    <hint>-Classroom Observation Running Records demonstrate students are on-task and engaged for most of the lesson time</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.3.c</id>
+                    <name>A variety of teaching and learning strategies are used, including strategies suitable for students with IEPs.</name>
+                    <hint>-Lesson plans demonstrate a variety of instructional activities/differentiated instruction \n-Classroom Observation Running Records demonstrate differentiated instruction/variety of instructional activities</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.3.d</id>
+                    <name>Student work demonstrates higher-order thinking, inquiry, observation, analysis and problem solving skills.</name>
+                    <hint>-There is displayed student work that demonstrates higher-order thinking, inquiry, observation, analysis, and problem-solving skills \n-Student portfolios demonstrate the above</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.2.4</id>
+                <name>All teachers actively participate with enthusiasm in a school-based appraisal program.</name>
+                <subcriteria>
+                    <id>SE.2.4.a</id>
+                    <name>All teachers, individually or in groups, reflect upon and evaluate their performance.</name>
+                    <hint>-Of five teacher lesson plans reviewed, all five have comments in the Self-Reflection section</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.4.b</id>
+                    <name>All teachers participate in professional development, and are certified by National Department of Education.</name>
+                    <hint>-There is evidence of all teachers participating in professional development (e.g. meetings with PDOE, NDOE, COM, and other training providers.) \n-There is evidence that all teachers have been certified</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.4.c</id>
+                    <name>Teachers regularly make thoughtful and accurate written evaluations of lesson effectiveness based on children’s learning outcomes.</name>
+                    <hint>-Of five teacher lesson plans reviewed, all five have comments in the Self-Reflection section \n-There is evidence of other written evaluations of lesson effectiveness (e.g. meeting notes on lesson planning)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.2.4.d</id>
+                    <name>All teachers engage in a formal means of peer observation.</name>
+                    <hint>-There is evidence of teacher involvement in an organized school-based appraisal program including peer observations.</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.3</id>
+            <name>Data Management</name>
+            <criteria>
+                <id>SE.3.3</id>
+                <name>All student performance data, including classroom assessment, teacher observations, student portfolios and test data, is analyzed by all teachers during regular assessment meetings to identify individual students’ strengths and weaknesses, including students with IEPs.</name>
+                <subcriteria>
+                    <id>SE.3.3.b</id>
+                    <name>Classroom assessments (e.g. quarterly exams, quizzes, etc.) are analyzed and used by teachers to adapt their teaching strategies and programs to meet individual student needs.</name>
+                    <hint>-Evidence of data analysis on classroom assessment is used by teachers to adapt their teaching to student needs (can be confirmed in teacher interviews and assessment meeting minutes) \n-Based on report cards, teachers identify students who are average/at-risk etc., who needs to repeat a lesson vs who excels at it, who might benefit from a retest vs who has mastered the test</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.3.3.d</id>
+                    <name>Teacher observations and student portfolios are analyzed and used by teachers to adapt their teaching strategies and programs to meet individual student needs.</name>
+                    <hint>-Evidence of data analysis on teacher observations and student portfolios are used by teachers to adapt their teaching to student needs (can be confirmed in teacher interviews and assessment meeting minutes)</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.4</id>
+            <name>National Curriculum Standards, Benchmarks and Student Learning Outcomes</name>
+            <criteria>
+                <id>SE.4.1</id>
+                <name>Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught throughout the school in accordance with the National Curriculum.</name>
+                <subcriteria>
+                    <id>SE.4.1.c</id>
+                    <name>Classroom schedules follow the National and/or State adopted Core Classes.</name>
+                    <hint>Evidence that the classrooms follow the adopted Core Classes.</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.4.3</id>
+                <name>All students in all grades have their own copies of modern textbooks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
+                <subcriteria>
+                    <id>SE.4.3.a</id>
+                    <name>All students in all grades have their own copies of modern (and/or any) textbooks and/or relevant resources to support the benchmarks for Vernacular Language Arts, English Language Arts, Mathematics, Science and Social Studies.</name>
+                    <hint>-Evidence of (a comprehensive list showing) each student having access to their own textbook for each core subject (e.g. if 26 students in one period take ELA, there are 26 books) \nAND/OR \n-Evidence of relevant resources that support the benchmarks in the core subjects (e.g. solar/digital library, flashdrives/portable harddrives with resources, etc.)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.3.b</id>
+                    <name>All textbooks available at the school are aligned to the correct grade level or students are working above grade level and there is clear progression from one grade to the next.</name>
+                    <hint>-Evidence of textbooks aligned to the correct grade level \n-A comprehensive textbook list incorporating every textbook and assigned grade-level on campus</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.3.c</id>
+                    <name>Students have access to additional resources, including on-line resources, in a well-stocked library, and/or traditional knowledge for schools.</name>
+                    <hint>-There is a library on campus \n-The library has an internet connection \n-The library has relevant materials for the school’s grade levels</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.4.3.d</id>
+                    <name>All teachers have a Teacher’s Guide/Teacher’s Edition for all grades and core subject areas taught.</name>
+                    <hint>-All teachers have a teacher’s guide edition for their core subject textbooks</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+        <standard>
+            <id>SE.5</id>
+            <name>School Campus, Classrooms and Facilities</name>
+            <criteria>
+                <id>SE.5.2</id>
+                <name>The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones.</name>
+                <subcriteria>
+                    <id>SE.5.2.a</id>
+                    <name>Buildings are neat, clean, safe and secure (inside-out and outside-in), free of graffiti (e.g. writing on walls) vandalism (i.e. destruction of government property), and are explicitly drug-free zones.</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that buildings are neat, clean, safe, and secure</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.2.b</id>
+                    <name>The school compound is neat, clean, safe and secure, free of graffiti (e.g. writing on walls), vandalism (i.e. destruction of government property), and is explicitly a drug-free zone.</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that public areas are clean, neat, and attractive (e.g. no litter, etc.)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.2.c</id>
+                    <name>All school facilities are easily accessible to students with special needs (inside-out and outside-in).</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that all school facilities are accessible to students with special needs. \n-Documented plans to assist students with special needs.</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.2.d</id>
+                    <name>The campus is used as a learning resource, with a school garden, and sports and play area.</name>
+                    <hint>-There is a school garden \n-There is a sports and/or play facility (e.g. basketball court, gymnasium)</hint>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>SE.5.3</id>
+                <name>Classrooms meet recommended area requirements, with adequate lighting and ventilation.</name>
+                <subcriteria>
+                    <id>SE.5.3.a</id>
+                    <name>All classrooms used by groups of 30 or more students exceed 25 feet by 25 feet in area (625 square feet), and classrooms used by less than 30 students allow an excess of 20 square feet of floor space per student.</name>
+                    <hint>-Using measuring tape during the accreditation visit, all classrooms used by less than 30 students have an excess of 20 square feet of floor space per student. \n-The classroom is not visibly congested, i.e. the teacher can walk between each row and help each student without resources, chairs etc. getting in their way</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.3.b</id>
+                    <name>All classrooms are bright, well ventilated and equipped with adequate lighting, and if electricity is present then all electrical outlets and all electrical fittings are in as-new condition with safety cut-off switches or circuit breakers.</name>
+                    <hint>-Photographic evidence during the accreditation visit demonstrates that all classrooms are bright, ventilated, well-lit, and have working electrical outlets \n-Photographic evidence and Classroom Checklist sheets demonstrate all electrical fittings are in like-new condition with safety switches or circuit breakers</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.3.c</id>
+                    <name>All classrooms have adequate student and teacher furniture, including adequate storage and display.</name>
+                    <hint>-All classrooms have adequate storage for supplies and texts, and high-quality furniture (i.e. chairs)</hint>
+                </subcriteria>
+                <subcriteria>
+                    <id>SE.5.3.d</id>
+                    <name>There is a science lab (e.g. with chemicals, beakers, Bunsen burners, thermometers, microscopes, telescopes, etc.) and it has a sink/s with running water. [For secondary schools] \nThere is a designated area for science experimentation on campus or its surrounds. [For elementary schools and secondary schools without science labs]</name>
+                    <hint>-If science labs exist, they are well supplied and have a sink/s with running water \n-There is a designated area for science experimentation on campus or its surrounds</hint>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+    </category>
+    <category>
+        <name>Classroom Observation 1</name>
+        <type>CLASSROOM_OBSERVATION</type>
+        <standard>
+            <id>CO.1</id>
+            <name>Planning and preparation</name>
+            <criteria>
+                <id>CO.1.1</id>
+                <name>Long term plans show an understanding of the curriculum, the connections between different subject areas and an attempt to link the curriculum to local contexts.</name>
+                <subcriteria>
+                    <id>CO.1.1.a</id>
+                    <name>There is evidence that National and State curriculum documents and guidelines are regularly used in planning</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.b</id>
+                    <name>There is a written program for all curriculum areas for a period of at least 4 weeks </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.c</id>
+                    <name>The program identifies major concepts and breaks them down into sequenced learning steps and appropriate learning activities</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.d</id>
+                    <name>Some learning objectives are integrated in themes or topics and the use of Information and Communications Technology is integrated</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.e</id>
+                    <name>The program is linked to local events and seasonal activities</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.1.2</id>
+                <name>Short term lesson plans provide adequate guidance for teaching and learning activities</name>
+                <subcriteria>
+                    <id>CO.1.2.a</id>
+                    <name>Written plans for at least 1 week show continuity and progression between lessons</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.b</id>
+                    <name>Plans include sequenced, measurable learning objectives from the curriculum </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.c</id>
+                    <name>Plans include appropriate learning activities including differentiated activities for different learners, including students with IEPs</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.d</id>
+                    <name>Plans have enough detail to guide teaching and learning</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.e</id>
+                    <name>State planning forms are used</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.2</id>
+            <name>Classroom   Management</name>
+            <criteria>
+                <id>CO.2.1</id>
+                <name>Time is managed effectively to maximize students’ learning opportunities</name>
+                <subcriteria>
+                    <id>CO.2.1.a</id>
+                    <name>Time is used constructively for teaching and learning of new material</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.b</id>
+                    <name>Children are on-task and engaged in appropriate learning activities for most of the lesson time</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.c</id>
+                    <name>The lesson starts and finishes on time</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.d</id>
+                    <name>The pace of the lesson is neither too slow nor too rushed</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.e</id>
+                    <name>The teacher allocates their time fairly and equitably towards all children</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.2.2</id>
+                <name>Resources and learning materials are managed effectively</name>
+                <subcriteria>
+                    <id>CO.2.2.a</id>
+                    <name>All resources and learning materials needed for the lesson are prepared in advance</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.b</id>
+                    <name>Children have access to adequate and appropriate resources and learning materials</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.c</id>
+                    <name>Resources and learning materials are stored neatly, safely and securely</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.d</id>
+                    <name>Children are partly responsible for the management of resources and learning materials</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.e</id>
+                    <name>Resources and learning materials are collected and put away at the end of the lesson</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.2.3</id>
+                <name>A positive, supportive climate for learning is created</name>
+                <subcriteria>
+                    <id>CO.2.3.a</id>
+                    <name>The teacher expects, recognizes and rewards high standards of student behavior and achievement</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.b</id>
+                    <name>The classroom is orderly, safe and non-threatening</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.c</id>
+                    <name>Classroom rules and routines are clearly explained and children follow them</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.d</id>
+                    <name>Violence, threats or other forms of physical punishment are not used </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.e</id>
+                    <name>Children are encouraged to act responsibly and  learn cooperatively</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.2.4</id>
+                <name>A high quality physical learning environment is created</name>
+                <subcriteria>
+                    <id>CO.2.4.a</id>
+                    <name>The environment is rich in print and visual displays that are related to the current learning objectives </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.b</id>
+                    <name>The classroom is clean, receives enough daylight light and is well ventilated </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.c</id>
+                    <name>The arrangement of furniture allows and supports a variety of teaching and learning activities</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.d</id>
+                    <name>The arrangement of furniture allows the teacher to move about the room to monitor and assist all children</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.e</id>
+                    <name>There are designated areas of the classroom where topical displays or activity centers are located</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.3</id>
+            <name>Teaching and learning</name>
+            <criteria>
+                <id>CO.3.1</id>
+                <name>The lesson is structured and objectives are clear</name>
+                <subcriteria>
+                    <id>CO.3.1.a</id>
+                    <name>The lesson begins with a review of previous learning </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.b</id>
+                    <name>The learning objectives of the lesson are clearly stated</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.c</id>
+                    <name>The lesson contains a balance of teacher instruction and student activity</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.d</id>
+                    <name>The lesson is adapted to take account of student feedback </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.e</id>
+                    <name>The lesson ends with a review of what has been learned</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.3.2</id>
+                <name>New material is accurately and clearly presented, explained and placed within a meaningful context</name>
+                <subcriteria>
+                    <id>CO.3.2.a</id>
+                    <name>New material or content is presented with authority in a logical and systematic way using clearly recognizable steps</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.b</id>
+                    <name>Explanations and demonstrations are clear, concise and easy to follow</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.c</id>
+                    <name>Concepts are explained in several different ways using relevant examples and meaningful contexts</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.d</id>
+                    <name>The language of instruction is appropriate to the needs of the children</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.e</id>
+                    <name>Verbal communication is clear, concise and understandable and is supported by print or other media</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.3.3</id>
+                <name>A variety of highly efficient interactive teaching and learning strategies are used</name>
+                <subcriteria>
+                    <id>CO.3.3.a</id>
+                    <name>The teacher facilitates a wide variety of interactive teaching and cooperative learning strategies </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.b</id>
+                    <name>Children are actively and meaningfully engaged in appropriate, challenging activities and learning takes place through activity</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.c</id>
+                    <name>Learning activities include higher-order thinking, inquiry, observation, analysis and problem solving </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.d</id>
+                    <name>Students are given opportunities to apply their learning in meaningful contexts, including through the use of ICT</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.e</id>
+                    <name>Different learning activities are assigned according to individual children’s needs</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.3.4</id>
+                <name>Questioning and discussion are used effectively to support learning</name>
+                <subcriteria>
+                    <id>CO.3.4.a</id>
+                    <name>The majority of teacher questions are open and enabling and encourage higher order thinking</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.b</id>
+                    <name>Questions are adapted to individual students’ needs and abilities, including those with IEPs</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.c</id>
+                    <name>The teacher responds positively to students’ responses and asks appropriate supplementary or follow-up questions</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.d</id>
+                    <name>Question and answer time is efficiently managed with appropriate routines such as wait time, hands up and other forms of signaling</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.e</id>
+                    <name>Discussions are managed so as to allow contributions from all students</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.4</id>
+            <name>Student assessment</name>
+            <criteria>
+                <id>CO.4.1</id>
+                <name>Assessment is planned and integrated into the lesson and is based on observable and measurable criteria</name>
+                <subcriteria>
+                    <id>CO.4.1.a</id>
+                    <name>Learning objectives and assessment criteria are explained to the children in language they can understand</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.b</id>
+                    <name>A variety of assessment strategies are used in the lesson and feedback is given to students at strategic points </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.c</id>
+                    <name>The results of assessment are used to adapt current and future teaching and learning activities </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.d</id>
+                    <name>Individual assessment outcomes are recorded by the teacher or stored in a student portfolio or other record system</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.e</id>
+                    <name>Children are involved in conducting self or peer assessments</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.5</id>
+            <name>Evaluation and professional development</name>
+            <criteria>
+                <id>CO.5.1</id>
+                <name>The teacher reflects upon and evaluates their performance and participates in professional development </name>
+                <subcriteria>
+                    <id>CO.5.1.a</id>
+                    <name>The teacher regularly makes thoughtful and accurate evaluations of lesson effectiveness based on children’s learning outcomes</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.b</id>
+                    <name>The teacher adjusts future lessons based on evaluation</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.c</id>
+                    <name>The teacher welcomes and acts upon feedback from observers, principal or other teachers</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.d</id>
+                    <name>The teacher participates in a school-based appraisal program</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.e</id>
+                    <name>The teacher actively seeks appropriate ways to enhance their professional knowledge and practice</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+
+    </category>
+    <category>
+        <name>Classroom Observation 2</name>
+        <type>CLASSROOM_OBSERVATION</type>
+        <standard>
+            <id>CO.1</id>
+            <name>Planning and preparation</name>
+            <criteria>
+                <id>CO.1.1</id>
+                <name>Long term plans show an understanding of the curriculum, the connections between different subject areas and an attempt to link the curriculum to local contexts.</name>
+                <subcriteria>
+                    <id>CO.1.1.a</id>
+                    <name>There is evidence that National and State curriculum documents and guidelines are regularly used in planning</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.b</id>
+                    <name>There is a written program for all curriculum areas for a period of at least 4 weeks </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.c</id>
+                    <name>The program identifies major concepts and breaks them down into sequenced learning steps and appropriate learning activities</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.d</id>
+                    <name>Some learning objectives are integrated in themes or topics and the use of Information and Communications Technology is integrated</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.1.e</id>
+                    <name>The program is linked to local events and seasonal activities</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.1.2</id>
+                <name>Short term lesson plans provide adequate guidance for teaching and learning activities</name>
+                <subcriteria>
+                    <id>CO.1.2.a</id>
+                    <name>Written plans for at least 1 week show continuity and progression between lessons</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.b</id>
+                    <name>Plans include sequenced, measurable learning objectives from the curriculum </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.c</id>
+                    <name>Plans include appropriate learning activities including differentiated activities for different learners, including students with IEPs</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.d</id>
+                    <name>Plans have enough detail to guide teaching and learning</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.1.2.e</id>
+                    <name>State planning forms are used</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.2</id>
+            <name>Classroom   Management</name>
+            <criteria>
+                <id>CO.2.1</id>
+                <name>Time is managed effectively to maximize students’ learning opportunities</name>
+                <subcriteria>
+                    <id>CO.2.1.a</id>
+                    <name>Time is used constructively for teaching and learning of new material</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.b</id>
+                    <name>Children are on-task and engaged in appropriate learning activities for most of the lesson time</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.c</id>
+                    <name>The lesson starts and finishes on time</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.d</id>
+                    <name>The pace of the lesson is neither too slow nor too rushed</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.1.e</id>
+                    <name>The teacher allocates their time fairly and equitably towards all children</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.2.2</id>
+                <name>Resources and learning materials are managed effectively</name>
+                <subcriteria>
+                    <id>CO.2.2.a</id>
+                    <name>All resources and learning materials needed for the lesson are prepared in advance</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.b</id>
+                    <name>Children have access to adequate and appropriate resources and learning materials</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.c</id>
+                    <name>Resources and learning materials are stored neatly, safely and securely</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.d</id>
+                    <name>Children are partly responsible for the management of resources and learning materials</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.2.e</id>
+                    <name>Resources and learning materials are collected and put away at the end of the lesson</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.2.3</id>
+                <name>A positive, supportive climate for learning is created</name>
+                <subcriteria>
+                    <id>CO.2.3.a</id>
+                    <name>The teacher expects, recognizes and rewards high standards of student behavior and achievement</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.b</id>
+                    <name>The classroom is orderly, safe and non-threatening</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.c</id>
+                    <name>Classroom rules and routines are clearly explained and children follow them</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.d</id>
+                    <name>Violence, threats or other forms of physical punishment are not used </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.3.e</id>
+                    <name>Children are encouraged to act responsibly and  learn cooperatively</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.2.4</id>
+                <name>A high quality physical learning environment is created</name>
+                <subcriteria>
+                    <id>CO.2.4.a</id>
+                    <name>The environment is rich in print and visual displays that are related to the current learning objectives </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.b</id>
+                    <name>The classroom is clean, receives enough daylight light and is well ventilated </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.c</id>
+                    <name>The arrangement of furniture allows and supports a variety of teaching and learning activities</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.d</id>
+                    <name>The arrangement of furniture allows the teacher to move about the room to monitor and assist all children</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.2.4.e</id>
+                    <name>There are designated areas of the classroom where topical displays or activity centers are located</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.3</id>
+            <name>Teaching and learning</name>
+            <criteria>
+                <id>CO.3.1</id>
+                <name>The lesson is structured and objectives are clear</name>
+                <subcriteria>
+                    <id>CO.3.1.a</id>
+                    <name>The lesson begins with a review of previous learning </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.b</id>
+                    <name>The learning objectives of the lesson are clearly stated</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.c</id>
+                    <name>The lesson contains a balance of teacher instruction and student activity</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.d</id>
+                    <name>The lesson is adapted to take account of student feedback </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.1.e</id>
+                    <name>The lesson ends with a review of what has been learned</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.3.2</id>
+                <name>New material is accurately and clearly presented, explained and placed within a meaningful context</name>
+                <subcriteria>
+                    <id>CO.3.2.a</id>
+                    <name>New material or content is presented with authority in a logical and systematic way using clearly recognizable steps</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.b</id>
+                    <name>Explanations and demonstrations are clear, concise and easy to follow</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.c</id>
+                    <name>Concepts are explained in several different ways using relevant examples and meaningful contexts</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.d</id>
+                    <name>The language of instruction is appropriate to the needs of the children</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.2.e</id>
+                    <name>Verbal communication is clear, concise and understandable and is supported by print or other media</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.3.3</id>
+                <name>A variety of highly efficient interactive teaching and learning strategies are used</name>
+                <subcriteria>
+                    <id>CO.3.3.a</id>
+                    <name>The teacher facilitates a wide variety of interactive teaching and cooperative learning strategies </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.b</id>
+                    <name>Children are actively and meaningfully engaged in appropriate, challenging activities and learning takes place through activity</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.c</id>
+                    <name>Learning activities include higher-order thinking, inquiry, observation, analysis and problem solving </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.d</id>
+                    <name>Students are given opportunities to apply their learning in meaningful contexts, including through the use of ICT</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.3.e</id>
+                    <name>Different learning activities are assigned according to individual children’s needs</name>
+                </subcriteria>
+            </criteria>
+            <criteria>
+                <id>CO.3.4</id>
+                <name>Questioning and discussion are used effectively to support learning</name>
+                <subcriteria>
+                    <id>CO.3.4.a</id>
+                    <name>The majority of teacher questions are open and enabling and encourage higher order thinking</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.b</id>
+                    <name>Questions are adapted to individual students’ needs and abilities, including those with IEPs</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.c</id>
+                    <name>The teacher responds positively to students’ responses and asks appropriate supplementary or follow-up questions</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.d</id>
+                    <name>Question and answer time is efficiently managed with appropriate routines such as wait time, hands up and other forms of signaling</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.3.4.e</id>
+                    <name>Discussions are managed so as to allow contributions from all students</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.4</id>
+            <name>Student assessment</name>
+            <criteria>
+                <id>CO.4.1</id>
+                <name>Assessment is planned and integrated into the lesson and is based on observable and measurable criteria</name>
+                <subcriteria>
+                    <id>CO.4.1.a</id>
+                    <name>Learning objectives and assessment criteria are explained to the children in language they can understand</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.b</id>
+                    <name>A variety of assessment strategies are used in the lesson and feedback is given to students at strategic points </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.c</id>
+                    <name>The results of assessment are used to adapt current and future teaching and learning activities </name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.d</id>
+                    <name>Individual assessment outcomes are recorded by the teacher or stored in a student portfolio or other record system</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.4.1.e</id>
+                    <name>Children are involved in conducting self or peer assessments</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+        <standard>
+            <id>CO.5</id>
+            <name>Evaluation and professional development</name>
+            <criteria>
+                <id>CO.5.1</id>
+                <name>The teacher reflects upon and evaluates their performance and participates in professional development </name>
+                <subcriteria>
+                    <id>CO.5.1.a</id>
+                    <name>The teacher regularly makes thoughtful and accurate evaluations of lesson effectiveness based on children’s learning outcomes</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.b</id>
+                    <name>The teacher adjusts future lessons based on evaluation</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.c</id>
+                    <name>The teacher welcomes and acts upon feedback from observers, principal or other teachers</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.d</id>
+                    <name>The teacher participates in a school-based appraisal program</name>
+                </subcriteria>
+                <subcriteria>
+                    <id>CO.5.1.e</id>
+                    <name>The teacher actively seeks appropriate ways to enhance their professional knowledge and practice</name>
+                </subcriteria>
+            </criteria>
+        </standard>
+    </category>
+</survey>

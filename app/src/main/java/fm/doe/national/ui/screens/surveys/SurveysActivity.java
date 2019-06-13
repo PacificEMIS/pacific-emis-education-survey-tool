@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +21,13 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.survey.ui.SurveyActivity;
-import fm.doe.national.ui.screens.menu.drawer.BaseDrawerActivity;
-import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
+import fm.doe.national.ui.screens.menu.MainMenuActivity;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
-public class SurveysActivity extends BaseDrawerActivity implements
+public class SurveysActivity extends BaseActivity implements
         SurveysView,
         SearchView.OnQueryTextListener,
         View.OnClickListener,
@@ -46,12 +47,9 @@ public class SurveysActivity extends BaseDrawerActivity implements
     private final DeleteConfirmationListener deleteConfirmationListener = new DeleteConfirmationListener();
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, SurveysActivity.class);
-    }
-
-    @Override
-    protected BaseDrawerPresenter getPresenter() {
-        return presenter;
+        Intent intent = new Intent(context, SurveysActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
     }
 
     @Override
@@ -60,10 +58,25 @@ public class SurveysActivity extends BaseDrawerActivity implements
         initViews();
     }
 
+    @Override
+    protected void initToolbar() {
+        super.initToolbar();
+        ActionBar supportActionBar = getSupportActionBar();
+
+        if (supportActionBar != null) {
+            supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        }
+    }
+
     private void initViews() {
         setTitle(R.string.label_school_accreditation);
         recyclerView.setAdapter(surveysAdapter);
         newAccreditationFab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onHomePressed() {
+        startActivity(MainMenuActivity.createIntent(this, true));
     }
 
     @Override
@@ -116,8 +129,6 @@ public class SurveysActivity extends BaseDrawerActivity implements
             case R.id.fab_new_accreditation:
                 startActivity(CreateSurveyActivity.createIntent(this));
                 break;
-            default:
-                super.onClick(view);
         }
     }
 

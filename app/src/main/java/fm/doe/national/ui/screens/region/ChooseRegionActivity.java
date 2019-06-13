@@ -14,7 +14,7 @@ import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
-import fm.doe.national.ui.screens.surveys.SurveysActivity;
+import fm.doe.national.ui.screens.menu.MainMenuActivity;
 
 public class ChooseRegionActivity extends BaseActivity implements
         ChooseRegionView,
@@ -50,8 +50,8 @@ public class ChooseRegionActivity extends BaseActivity implements
     }
 
     @Override
-    public void navigateToSurveys() {
-        startActivity(SurveysActivity.createIntent(this));
+    public void navigateToMenu() {
+        startActivity(MainMenuActivity.createIntent(this, false));
     }
 
     @Override

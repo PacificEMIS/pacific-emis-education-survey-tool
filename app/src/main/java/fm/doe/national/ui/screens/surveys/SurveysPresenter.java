@@ -11,12 +11,12 @@ import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.domain.SurveyInteractor;
-import fm.doe.national.ui.screens.menu.drawer.BaseDrawerPresenter;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class SurveysPresenter extends BaseDrawerPresenter<SurveysView> {
+public class SurveysPresenter extends BasePresenter<SurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();

@@ -23,7 +23,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
         } else if (interactor.getAppRegion() == null) {
             getViewState().navigateToRegionChoose();
         } else {
-            getViewState().navigateToSurveys();
+            getViewState().navigateToMenu();
         }
     }
 

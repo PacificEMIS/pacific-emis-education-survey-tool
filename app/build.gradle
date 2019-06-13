@@ -13,6 +13,13 @@ android {
         multiDexEnabled true
 
         ext.betaDistributionGroupAliases = "testaccounts"
+
+        buildConfigField "String", "SURVEY_FCM_FILE_NAME", "\"survey-fcm.xml\""
+        buildConfigField "String", "SURVEY_RMI_FILE_NAME", "\"survey-rmi.xml\""
+        buildConfigField "String", "SURVEY_WASH_FCM_FILE_NAME", "\"survey-wash-fcm.xml\""
+        buildConfigField "String", "SURVEY_WASH_RMI_FILE_NAME", "\"survey-wash-rmi.xml\""
+        buildConfigField "String", "SCHOOLS_FCM_FILE_NAME", "\"schools.csv\""
+        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools-rmi.csv\""
     }
     signingConfigs {
         release {
@@ -59,6 +66,8 @@ dependencies {
     implementation project(path: ':survey')
     implementation project(path: ':survey_core')
     implementation project(path: ':data_source_injector')
+    implementation project(path: ':wash_core')
+    implementation project(path: ':wash')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
@@ -83,7 +92,8 @@ dependencies {
 
     // OmegaLibs
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:glide:${Deps.omegaTypes}"
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
 

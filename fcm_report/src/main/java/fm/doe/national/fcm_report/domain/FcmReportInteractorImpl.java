@@ -34,9 +34,10 @@ public class FcmReportInteractorImpl extends BaseReportInteractor implements Fcm
 
     private void requestLevelReport(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
+            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
             List<AccreditationForm.Builder> formBuilders = new ArrayList<>();
 
-            for (Category category : survey.getCategories()) {
+            for (Category category : clearedSurvey.getCategories()) {
                 AccreditationForm.Builder formBuilder = formBuilders.stream()
                         .filter(it -> it.getForm() == category.getEvaluationForm())
                         .findFirst()

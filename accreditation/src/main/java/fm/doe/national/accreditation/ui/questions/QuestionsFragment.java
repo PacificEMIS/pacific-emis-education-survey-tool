@@ -18,7 +18,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.ui.photos.PhotosActivity;
+import fm.doe.national.accreditation.ui.photos.AccreditationPhotosActivity;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
 import fm.doe.national.cloud.di.CloudComponentInjector;
@@ -72,11 +72,6 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_questions, container, false);
     }
@@ -127,8 +122,8 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void navigateToPhotos(long categoryId, long standardId, long criteriaId, long subCriteriaId) {
-        startActivity(PhotosActivity.createIntent(getContext(), categoryId, standardId, criteriaId, subCriteriaId));
+    public void navigateToPhotos() {
+        startActivity(AccreditationPhotosActivity.createIntent(getContext()));
     }
 
     @Override

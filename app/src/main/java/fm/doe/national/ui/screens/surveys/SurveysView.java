@@ -7,10 +7,10 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.ui.screens.menu.drawer.BaseDrawerView;
+import fm.doe.national.core.ui.screens.base.BaseView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-interface SurveysView extends BaseDrawerView {
+interface SurveysView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSurvey();

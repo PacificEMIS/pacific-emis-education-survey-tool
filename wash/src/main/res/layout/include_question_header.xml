@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textview_prefix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:textAppearance="@style/Text.Title3"
+        tools:text="Sub-criteria SE1.1.a:" />
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="56dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:longClickable="true"
+        android:textAppearance="@style/Text.Body1"
+        tools:text="The mandatory number of instructional hours is delivered (Grade 1 and 2: 3 hours and 36 minutes: Grades 3-12: 4 hours 15" />
+
+</LinearLayout>

@@ -12,6 +12,7 @@ import de.siegmar.fastcsv.reader.CsvRow;
 import fm.doe.national.core.data.exceptions.ParseException;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.mutable.MutableSchool;
+import fm.doe.national.core.preferences.entities.AppRegion;
 
 public class CsvSchoolParser implements Parser<List<School>> {
 
@@ -30,13 +31,20 @@ public class CsvSchoolParser implements Parser<List<School>> {
 
             CsvParser parser = reader.parse(new InputStreamReader(dataStream));
             CsvRow row;
+            AppRegion appRegion = null;
 
             while ((row = parser.nextRow()) != null) {
                 String schoolNumber = row.getField(Column.SCHOOL_NUMBER);
                 String name = row.getField(Column.NAME);
 
                 if (schoolNumber != null && name != null) {
-                    schoolList.add(new MutableSchool(schoolNumber, name));
+
+                    if (appRegion == null) {
+                        appRegion = AppRegion.valueOf(name);
+                    } else {
+                        schoolList.add(new MutableSchool(schoolNumber, name, appRegion));
+                    }
+
                 }
             }
         } catch (IOException e) {

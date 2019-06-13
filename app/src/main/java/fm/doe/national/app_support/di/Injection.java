@@ -28,6 +28,8 @@ import fm.doe.national.survey.di.SurveyComponent;
 import fm.doe.national.survey.di.modules.ProviderModule;
 import fm.doe.national.survey_core.di.DaggerSurveyCoreComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
+import fm.doe.national.wash_core.di.DaggerWashCoreComponent;
+import fm.doe.national.wash_core.di.WashCoreComponent;
 
 public class Injection {
 
@@ -41,6 +43,7 @@ public class Injection {
     private CloudComponent cloudComponent;
     private AccreditationCoreComponent accreditationCoreComponent;
     private DataSourceComponent dataSourceComponent;
+    private WashCoreComponent washCoreComponent;
 
     public void createDependencyGraph(Context applicationContext) {
         coreComponent = DaggerCoreComponent
@@ -53,20 +56,32 @@ public class Injection {
         accreditationCoreComponent = DaggerAccreditationCoreComponent.builder()
                 .coreComponent(coreComponent)
                 .build();
+        washCoreComponent = DaggerWashCoreComponent.builder()
+                .coreComponent(coreComponent)
+                .build();
         dataSourceComponent = DaggerDataSourceComponent.builder()
                 .coreComponent(coreComponent)
-                .dataSourceModule(new DataSourceModule(accreditationCoreComponent))
-                .serializersModule(new SerializersModule(accreditationCoreComponent))
+                .dataSourceModule(new DataSourceModule(accreditationCoreComponent, washCoreComponent))
+                .serializersModule(new SerializersModule(accreditationCoreComponent, washCoreComponent))
                 .build();
         surveyComponent = DaggerSurveyComponent.builder()
-                .providerModule(new ProviderModule(surveyCoreComponent, coreComponent, accreditationCoreComponent))
+                .providerModule(new ProviderModule(
+                        surveyCoreComponent,
+                        coreComponent,
+                        accreditationCoreComponent,
+                        washCoreComponent
+                ))
                 .build();
         cloudComponent = DaggerCloudComponent.builder()
                 .coreComponent(coreComponent)
                 .build();
         appComponent = DaggerAppComponent.builder()
                 .coreComponent(coreComponent)
-                .interactorsModule(new InteractorsModule(cloudComponent, applicationContext.getAssets(), dataSourceComponent))
+                .interactorsModule(new InteractorsModule(
+                        cloudComponent,
+                        applicationContext.getAssets(),
+                        accreditationCoreComponent,
+                        washCoreComponent))
                 .build();
         fcmReportComponent = DaggerFcmReportComponent.builder()
                 .fcmReportModule(new FcmReportModule(accreditationCoreComponent))
@@ -118,5 +133,9 @@ public class Injection {
 
     public DataSourceComponent getDataSourceComponent() {
         return dataSourceComponent;
+    }
+
+    public WashCoreComponent getWashCoreComponent() {
+        return washCoreComponent;
     }
 }

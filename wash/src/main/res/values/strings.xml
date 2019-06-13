@@ -1,0 +1,5 @@
+<resources>
+    <string name="label_latitude">Latitude:</string>
+    <string name="label_longitude">Longitude:</string>
+    <string name="title_take_position">Take position</string>
+</resources>

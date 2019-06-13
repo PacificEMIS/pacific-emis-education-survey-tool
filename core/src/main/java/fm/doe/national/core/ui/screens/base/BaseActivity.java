@@ -56,10 +56,10 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     protected void initToolbar() {
         if (toolbar != null && getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
-            ActionBar actionBar = getSupportActionBar();
+            ActionBar supportActionBar = getSupportActionBar();
 
-            if (actionBar != null) {
-                actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP |
+            if (supportActionBar != null) {
+                supportActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP |
                                 ActionBar.DISPLAY_SHOW_HOME |
                                 ActionBar.DISPLAY_SHOW_CUSTOM);
             }
