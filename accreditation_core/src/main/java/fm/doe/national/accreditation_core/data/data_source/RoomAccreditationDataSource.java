@@ -143,7 +143,10 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             roomSubCriteria.criteriaId = criteriaId;
             long id = database.getSubcriteriaDao().insert(roomSubCriteria);
             if (shouldCreateAnswers) {
-                database.getAnswerDao().insert(new RoomAnswer(id));
+                RoomAnswer answer = new RoomAnswer(id);
+                // TODO: fill answers (comment in actual build)
+//                answer.state = AnswerState.POSITIVE;
+                database.getAnswerDao().insert(answer);
             }
         }
     }
