@@ -34,9 +34,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     protected Toolbar toolbar;
 
     @Nullable
-    protected ActionBar supportActionBar;
-
-    @Nullable
     private ProgressDialogFragment progressDialog = null;
     private int progressDialogsCount = 0;
 
@@ -59,7 +56,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     protected void initToolbar() {
         if (toolbar != null && getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
-            supportActionBar = getSupportActionBar();
+            ActionBar supportActionBar = getSupportActionBar();
 
             if (supportActionBar != null) {
                 supportActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP |

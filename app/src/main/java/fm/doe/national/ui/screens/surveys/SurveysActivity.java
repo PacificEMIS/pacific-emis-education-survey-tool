@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,6 +61,7 @@ public class SurveysActivity extends BaseActivity implements
     @Override
     protected void initToolbar() {
         super.initToolbar();
+        ActionBar supportActionBar = getSupportActionBar();
 
         if (supportActionBar != null) {
             supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
