@@ -117,4 +117,5 @@
     <string name="op_mode_prod">Production</string>
     <string name="message_invalid_password">Invalid password</string>
     <string name="message_delete_password_prompt">Confirm survey removal with master password</string>
+    <string name="message_settings_password_prompt">Enter Master Password to access Settings</string>
 </resources>
