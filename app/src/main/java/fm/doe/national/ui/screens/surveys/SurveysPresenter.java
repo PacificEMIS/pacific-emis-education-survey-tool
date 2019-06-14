@@ -1,5 +1,7 @@
 package fm.doe.national.ui.screens.surveys;
 
+import androidx.annotation.NonNull;
+
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
@@ -11,6 +13,7 @@ import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.domain.SurveyInteractor;
+import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -20,6 +23,7 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
+    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
 
     private List<Survey> surveys = new ArrayList<>();
 
@@ -72,13 +76,29 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
 
     public void onSurveyRemovePressed(Survey survey) {
         surveyToDelete = survey;
-        getViewState().showSurveyDeleteConfirmation();
+        getViewState().promptMasterPassword(Text.from(R.string.message_delete_password_prompt));
     }
 
-    public void onSurveyDeletionConfirmed() {
+    @NonNull
+    @Override
+    protected String provideMasterPassword() {
+        return globalPreferences.getMasterPassword();
+    }
+
+    @Override
+    protected void onMasterPasswordValidated() {
+        if (surveyToDelete != null) {
+            deleteSurvey();
+        }
+    }
+
+    private void deleteSurvey() {
         addDisposable(dataSource.deleteSurvey(surveyToDelete.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().removeSurvey(surveyToDelete), this::handleError));
+                .subscribe(() -> {
+                    getViewState().removeSurvey(surveyToDelete);
+                    surveyToDelete = null;
+                }, this::handleError));
     }
 }

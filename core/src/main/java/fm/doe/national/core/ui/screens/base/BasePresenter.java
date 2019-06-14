@@ -1,5 +1,7 @@
 package fm.doe.national.core.ui.screens.base;
 
+import androidx.annotation.NonNull;
+
 import com.dropbox.core.NetworkIOException;
 import com.omega_r.libs.omegatypes.Text;
 
@@ -34,6 +36,23 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
             throw (RuntimeException) throwable;
         } else {
             getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_any));
+        }
+    }
+
+    @NonNull
+    protected String provideMasterPassword() {
+        return "";
+    }
+
+    protected void onMasterPasswordValidated() {
+        // nothing
+    }
+
+    public void onMasterPasswordSubmit(String submittedPassword) {
+        if (submittedPassword.equals(provideMasterPassword())) {
+            onMasterPasswordValidated();
+        } else {
+            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.message_invalid_password));
         }
     }
 }

@@ -1,15 +1,14 @@
 package fm.doe.national.ui.screens.surveys;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +22,7 @@ import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.survey.ui.SurveyActivity;
 import fm.doe.national.ui.screens.menu.MainMenuActivity;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
@@ -44,7 +44,6 @@ public class SurveysActivity extends BaseActivity implements
     FloatingActionButton newAccreditationFab;
 
     private final SurveysAdapter surveysAdapter = new SurveysAdapter(this, this);
-    private final DeleteConfirmationListener deleteConfirmationListener = new DeleteConfirmationListener();
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, SurveysActivity.class);
@@ -108,17 +107,6 @@ public class SurveysActivity extends BaseActivity implements
     }
 
     @Override
-    public void showSurveyDeleteConfirmation() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.title_delete_confirmation)
-                .setMessage(R.string.survey_delete_confirmation)
-                .setPositiveButton(R.string.yes, deleteConfirmationListener)
-                .setNegativeButton(R.string.no, deleteConfirmationListener)
-                .create()
-                .show();
-    }
-
-    @Override
     public void removeSurvey(Survey passing) {
         surveysAdapter.removeItem(passing);
     }
@@ -165,17 +153,9 @@ public class SurveysActivity extends BaseActivity implements
         return false;
     }
 
-    private class DeleteConfirmationListener implements DialogInterface.OnClickListener {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    presenter.onSurveyDeletionConfirmed();
-                    break;
-                default:
-                    dialog.dismiss();
-            }
-
-        }
+    @Nullable
+    @Override
+    protected BasePresenter getPresenter() {
+        return presenter;
     }
 }

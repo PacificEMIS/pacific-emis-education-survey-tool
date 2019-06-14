@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import fm.doe.national.core.BuildConfig;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
@@ -22,6 +23,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final String PREF_KEY_LOGO_PATH = "PREF_KEY_LOGO_PATH";
     private static final String PREF_KEY_APP_NAME = "PREF_KEY_APP_NAME";
     private static final String PREF_KEY_CONTACT_NAME = "PREF_KEY_CONTACT_NAME";
+    private static final String PREF_KEY_MASTER_PASSWORD = "PREF_KEY_MASTER_PASSWORD";
 
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.PROD;
@@ -85,8 +87,13 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @Override
     public String getMasterPassword() {
-        // TODO: not implemented
-        return null;
+        String savedPassword = getSavedMasterPassword();
+        return savedPassword == null ? getFactoryPassword() : savedPassword;
+    }
+
+    @Nullable
+    private String getSavedMasterPassword() {
+        return sharedPreferences.getString(PREF_KEY_MASTER_PASSWORD, null);
     }
 
     @Override
@@ -102,8 +109,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @Override
     public String getFactoryPassword() {
-        // TODO: not implemented
-        return null;
+        return BuildConfig.FACTORY_PASSWORD;
     }
 
     @Override

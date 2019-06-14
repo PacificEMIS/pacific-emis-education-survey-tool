@@ -1,7 +1,5 @@
 package fm.doe.national.core.ui.screens.base;
 
-import androidx.annotation.Nullable;
-
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.MvpView;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
@@ -20,4 +18,6 @@ public interface BaseView extends MvpView {
     void showWaiting();
 
     void hideWaiting();
+
+    void promptMasterPassword(Text title);
 }

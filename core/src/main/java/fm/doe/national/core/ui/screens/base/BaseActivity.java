@@ -1,5 +1,6 @@
 package fm.doe.national.core.ui.screens.base;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import java.io.Serializable;
 
 import butterknife.ButterKnife;
 import fm.doe.national.core.R;
+import fm.doe.national.core.ui.views.InputDialog;
 import fm.doe.national.core.ui.views.ProgressDialogFragment;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
@@ -37,6 +39,9 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     private ProgressDialogFragment progressDialog = null;
     private int progressDialogsCount = 0;
 
+    @Nullable
+    private Dialog masterPasswordDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,15 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         ButterKnife.bind(this);
         bindToolbarViews();
         initToolbar();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (masterPasswordDialog != null) {
+            masterPasswordDialog.dismiss();
+        }
     }
 
     private void bindToolbarViews() {
@@ -165,5 +179,21 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         if (toolbar != null) {
             toolbar.setTitle(title);
         }
+    }
+
+    @Nullable
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void promptMasterPassword(Text title) {
+        if (getPresenter() == null) {
+            throw new IllegalStateException("Activity must override getPresenter() to prompt master password");
+        }
+
+        masterPasswordDialog = InputDialog.create(this, title, null)
+                .setListener(getPresenter()::onMasterPasswordSubmit);
+        masterPasswordDialog.show();
     }
 }
