@@ -98,13 +98,12 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @Override
     public boolean isMasterPasswordSaved() {
-        // TODO: not implemented
-        return true;
+        return getSavedMasterPassword() != null;
     }
 
     @Override
     public void setMasterPassword(String password) {
-        // TODO: not implemented
+        sharedPreferences.edit().putString(PREF_KEY_MASTER_PASSWORD, password).apply();
     }
 
     @Override

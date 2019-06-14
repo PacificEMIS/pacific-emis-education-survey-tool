@@ -23,4 +23,8 @@
     <string name="label_templates">Templates of Survey</string>
     <string name="label_change_password">Change Master Password</string>
     <string name="label_sign_in">Sign In</string>
+    <string name="label_passwords">New Master Password</string>
+    <string name="title_enter_the_master_password">Enter the master password</string>
+    <string name="title_confirm_the_master_password">Confirm the master password</string>
+    <string name="error_passwords_not_match">Passwords not match</string>
 </resources>

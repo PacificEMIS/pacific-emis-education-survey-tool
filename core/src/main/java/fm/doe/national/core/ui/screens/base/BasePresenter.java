@@ -44,12 +44,17 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
         return "";
     }
 
+    @NonNull
+    protected String provideFactoryPassword() {
+        return "";
+    }
+
     protected void onMasterPasswordValidated() {
         // nothing
     }
 
     public void onMasterPasswordSubmit(String submittedPassword) {
-        if (submittedPassword.equals(provideMasterPassword())) {
+        if (submittedPassword.equals(provideFactoryPassword()) || submittedPassword.equals(provideMasterPassword())) {
             onMasterPasswordValidated();
         } else {
             getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.message_invalid_password));

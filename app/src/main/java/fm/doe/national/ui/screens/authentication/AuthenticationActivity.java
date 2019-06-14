@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.authentication;
 
+import android.content.Context;
 import android.content.Intent;
 
 import com.omegar.mvp.presenter.InjectPresenter;
@@ -12,6 +13,10 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
 
     @InjectPresenter
     AuthenticationPresenter presenter;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, AuthenticationActivity.class);
+    }
 
     @Override
     protected int getContentView() {

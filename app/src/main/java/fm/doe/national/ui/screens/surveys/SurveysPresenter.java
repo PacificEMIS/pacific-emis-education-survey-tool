@@ -85,6 +85,12 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
         return globalPreferences.getMasterPassword();
     }
 
+    @NonNull
+    @Override
+    protected String provideFactoryPassword() {
+        return globalPreferences.getFactoryPassword();
+    }
+
     @Override
     protected void onMasterPasswordValidated() {
         if (surveyToDelete != null) {

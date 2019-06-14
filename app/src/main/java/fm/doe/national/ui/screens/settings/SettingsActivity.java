@@ -26,6 +26,7 @@ import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.InputDialog;
+import fm.doe.national.ui.screens.password.PasswordsActivity;
 import fm.doe.national.ui.screens.settings.items.Item;
 
 public class SettingsActivity extends BaseActivity implements SettingsView, BaseListAdapter.OnItemClickListener<Item> {
@@ -139,5 +140,10 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
         if (dialog != null) {
             dialog.dismiss();
         }
+    }
+
+    @Override
+    public void navigateToChangePassword() {
+        startActivity(PasswordsActivity.createIntent(this, true));
     }
 }
