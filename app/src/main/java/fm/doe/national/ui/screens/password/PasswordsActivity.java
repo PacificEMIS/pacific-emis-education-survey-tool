@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -57,14 +58,14 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
     }
 
     private void bindViews() {
-        ((EditText) findViewById(R.id.textinputedittext_new_pass)).addTextChangedListener(newPassTextWatcher);
-        ((EditText) findViewById(R.id.textinputedittext_confirm_pass)).addTextChangedListener(confirmPassTextWatcher);
+        setTextWatcher(R.id.textinputedittext_new_pass, newPassTextWatcher);
+        setTextWatcher(R.id.textinputedittext_confirm_pass, confirmPassTextWatcher);
         notMatchView = findViewById(R.id.textview_incorrect);
 
-        BottomNavigatorView bnv = findViewById(R.id.bottomnavigatorview);
+        BottomNavigatorView navigatorView = findViewById(R.id.bottomnavigatorview);
 
-        if (bnv != null) {
-            bnv.setListener(this);
+        if (navigatorView != null) {
+            navigatorView.setListener(this);
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -72,6 +73,10 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
         if (fab != null) {
             fab.setOnClickListener(v -> presenter.onConfirmPressed());
         }
+    }
+
+    private void setTextWatcher(@IdRes int idRes, TextWatcher watcher) {
+        ((EditText) findViewById(idRes)).addTextChangedListener(watcher);
     }
 
     @Override
