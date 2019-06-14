@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.ui.screens.settings.SettingsActivity;
 import fm.doe.national.ui.screens.surveys.SurveysActivity;
 
@@ -133,5 +134,11 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView {
 
     private void setCloseEnabled(boolean isEnabled) {
         closeButton.setVisibility(isEnabled ? View.VISIBLE : View.GONE);
+    }
+
+    @Nullable
+    @Override
+    protected BasePresenter getPresenter() {
+        return presenter;
     }
 }

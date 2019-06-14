@@ -25,6 +25,8 @@ public interface SettingsView extends BaseView {
 
     void showRegionSelector(RegionListener listener);
 
+    void navigateToChangePassword();
+
     interface InputListener {
         void onInput(String string);
     }

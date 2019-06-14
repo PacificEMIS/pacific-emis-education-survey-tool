@@ -16,6 +16,8 @@ android {
                 arguments = [ moxyReflectorPackage : 'fm.doe.national.core' ]
             }
         }
+
+        buildConfigField "String", "FACTORY_PASSWORD", "\"XzFY8x8m\""
     }
 
     buildTypes {

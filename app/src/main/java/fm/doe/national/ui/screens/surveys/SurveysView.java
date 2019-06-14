@@ -18,8 +18,5 @@ interface SurveysView extends BaseView {
     void setSurveys(List<Survey> accreditations);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showSurveyDeleteConfirmation();
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
     void removeSurvey(Survey passing);
 }

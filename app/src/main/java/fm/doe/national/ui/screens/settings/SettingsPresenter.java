@@ -165,7 +165,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onChangeMasterPasswordPressed() {
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        getViewState().navigateToChangePassword();
     }
 
     public void onImagePicked(Bitmap bitmap) {
