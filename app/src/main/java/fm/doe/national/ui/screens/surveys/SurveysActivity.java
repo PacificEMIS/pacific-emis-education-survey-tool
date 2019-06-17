@@ -18,6 +18,7 @@ import com.omegar.mvp.presenter.InjectPresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
@@ -157,5 +158,10 @@ public class SurveysActivity extends BaseActivity implements
     @Override
     protected BasePresenter getPresenter() {
         return presenter;
+    }
+
+    @OnClick(R.id.textview_load_survey)
+    void onLoadPartiallySavedSurveyPressed() {
+        presenter.onLoadPartiallySavedSurveyPressed();
     }
 }

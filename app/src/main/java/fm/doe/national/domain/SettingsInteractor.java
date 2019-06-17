@@ -141,6 +141,11 @@ public class SettingsInteractor {
         return globalPreferences.isMasterPasswordSaved();
     }
 
+    public Completable createFilledSurveyFromCloud(CloudType cloudType) {
+        return cloudRepository.requestContent(cloudType)
+                .flatMapCompletable(accessor::createPartiallySavedSurvey);
+    }
+
     public static class SurveyAccessor {
 
         private final DataSource accreditationDataSource;
@@ -192,6 +197,22 @@ public class SettingsInteractor {
 
             if (survey != null) {
                 return washDataSource.rewriteTemplateSurvey(survey);
+            }
+
+            throw new ParseException();
+        }
+
+        public Completable createPartiallySavedSurvey(String content) throws ParseException {
+            Survey survey = tryParseAccreditation(content);
+
+            if (survey != null) {
+                return accreditationDataSource.createPartiallySavedSurvey(survey);
+            }
+
+            survey = tryParseWash(content);
+
+            if (survey != null) {
+                return washDataSource.createPartiallySavedSurvey(survey);
             }
 
             throw new ParseException();

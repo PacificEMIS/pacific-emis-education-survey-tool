@@ -142,13 +142,30 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             roomSubCriteria.uid = 0;
             roomSubCriteria.criteriaId = criteriaId;
             long id = database.getSubcriteriaDao().insert(roomSubCriteria);
-            if (shouldCreateAnswers) {
-                RoomAnswer answer = new RoomAnswer(id);
-                // TODO: fill answers (comment in actual build)
-//                answer.state = AnswerState.POSITIVE;
-                database.getAnswerDao().insert(answer);
+            Answer answer = subCriteria.getAnswer();
+
+            if (answer != null) {
+                RoomAnswer roomAnswer = new RoomAnswer(answer);
+                roomAnswer.subCriteriaId = id;
+                long answerId = database.getAnswerDao().insert(roomAnswer);
+
+                if (answer.getPhotos() != null) {
+                    savePhotos(database, answer.getPhotos(), answerId);
+                }
+            } else if (shouldCreateAnswers) {
+                database.getAnswerDao().insert(new RoomAnswer(id));
             }
         }
+    }
+
+    private void savePhotos(AccreditationDatabase database,
+                            List<? extends Photo> photos,
+                            long answerId) {
+        photos.forEach(photo -> {
+            RoomPhoto roomPhoto = new RoomPhoto(photo);
+            roomPhoto.answerId = answerId;
+            database.getPhotoDao().insert(roomPhoto);
+        });
     }
 
     @Override
@@ -287,4 +304,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         return Completable.fromAction(surveyDao::deleteAll);
     }
 
+    @Override
+    public Completable createPartiallySavedSurvey(Survey survey) {
+        return Completable.fromAction(() -> saveSurvey(database, (AccreditationSurvey) survey, true));
+    }
 }

@@ -28,30 +28,24 @@
                 android:text="@string/title_recent_surveys"
                 android:textAppearance="@style/Text.Title1" />
 
-            <ImageButton
-                android:id="@+id/imagebutton_load"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="24dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_download"
-                tools:ignore="ContentDescription" />
-
             <TextView
+                android:id="@+id/textview_load_survey"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="56dp"
-                android:layout_marginEnd="8dp"
-                android:layout_toStartOf="@+id/imagebutton_load"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_download"
+                android:drawablePadding="8dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="24dp"
                 android:text="@string/label_load_survey"
                 android:textAppearance="@style/Text.Body2"
                 tools:ignore="RelativeOverlap" />
 
         </RelativeLayout>
-
 
         <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
             android:id="@+id/recyclerview_categories"
