@@ -10,11 +10,13 @@ import java.util.List;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.domain.SettingsInteractor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -24,6 +26,7 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
+    private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
 
     private List<Survey> surveys = new ArrayList<>();
 
@@ -79,6 +82,13 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
         getViewState().promptMasterPassword(Text.from(R.string.message_delete_password_prompt));
     }
 
+    public void onLoadPartiallySavedSurveyPressed() {
+        addDisposable(settingsInteractor.createFilledSurveyFromCloud(CloudType.DRIVE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::loadRecentSurveys, this::handleError));
+    }
+
     @NonNull
     @Override
     protected String provideMasterPassword() {
@@ -102,6 +112,8 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
         addDisposable(dataSource.deleteSurvey(surveyToDelete.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> getViewState().showWaiting())
+                .doOnComplete(() -> getViewState().hideWaiting())
                 .subscribe(() -> {
                     getViewState().removeSurvey(surveyToDelete);
                     surveyToDelete = null;

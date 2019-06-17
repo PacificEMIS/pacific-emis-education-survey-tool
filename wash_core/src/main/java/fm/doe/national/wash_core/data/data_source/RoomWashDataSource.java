@@ -123,10 +123,29 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
             roomQuestion.uid = 0;
             roomQuestion.subGroupId = subGroupId;
             long id = database.getQuestionDao().insert(roomQuestion);
+            Answer questionAnswer = question.getAnswer();
 
-            if (shouldCreateAnswers) {
+            if (questionAnswer != null) {
+                RoomAnswer roomAnswer = new RoomAnswer(questionAnswer);
+                roomAnswer.questionId = id;
+                long answerId = database.getAnswerDao().insert(roomAnswer);
+
+                if (questionAnswer.getPhotos() != null) {
+                    savePhotos(database, questionAnswer.getPhotos(), answerId);
+                }
+            } else if (shouldCreateAnswers) {
                 database.getAnswerDao().insert(new RoomAnswer(id));
             }
+        });
+    }
+
+    private void savePhotos(WashDatabase database,
+                            List<? extends Photo> photos,
+                            long answerId) {
+        photos.forEach(photo -> {
+            RoomPhoto roomPhoto = new RoomPhoto(photo);
+            roomPhoto.answerId = answerId;
+            database.getPhotoDao().insert(roomPhoto);
         });
     }
 
@@ -271,4 +290,8 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
         return Completable.fromAction(database.getSurveyDao()::deleteAll);
     }
 
+    @Override
+    public Completable createPartiallySavedSurvey(Survey survey) {
+        return Completable.fromAction(() -> saveSurvey(database, (WashSurvey) survey, true));
+    }
 }

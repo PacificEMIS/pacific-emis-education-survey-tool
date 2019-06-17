@@ -45,6 +45,9 @@ public class SerializableQuestion extends BaseSerializableIdentifiedObject imple
         this.prefix = other.getPrefix();
         this.title = other.getTitle();
         this.type = other.getType();
+        this.relation = other.getRelation();
+        this.items = other.getItems();
+        this.variants = other.getVariants();
 
         if (other.getAnswer() != null) {
             this.answer = new SerializableAnswer(other.getAnswer());

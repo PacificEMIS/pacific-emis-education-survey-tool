@@ -24,7 +24,6 @@ public class WashSurveySerializer implements SurveySerializer {
 
     @Override
     public String serialize(Survey data) {
-        // TODO: not finished
         SerializableWashSurvey serializableSurvey = new SerializableWashSurvey((WashSurvey) data);
         Writer writer = new StringWriter();
         try {

@@ -35,7 +35,7 @@ public class SerializableAnswer extends BaseSerializableIdentifiedObject impleme
     @Element(name = "geo", required = false)
     Location location;
 
-    @ElementList(required = false, inline = true)
+    @ElementList(entry = "photo", required = false, inline = true)
     List<SerializablePhoto> photos;
 
     @Element(name = "b_answer", required = false)

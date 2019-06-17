@@ -33,4 +33,6 @@ public interface DataSource {
 
     Completable deleteCreatedSurveys();
 
+    Completable createPartiallySavedSurvey(Survey survey);
+
 }
