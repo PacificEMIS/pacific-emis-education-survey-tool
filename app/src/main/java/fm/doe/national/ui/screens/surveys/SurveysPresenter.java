@@ -86,6 +86,8 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
         addDisposable(settingsInteractor.createFilledSurveyFromCloud(CloudType.DRIVE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(this::loadRecentSurveys, this::handleError));
     }
 
@@ -113,7 +115,7 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> getViewState().showWaiting())
-                .doOnComplete(() -> getViewState().hideWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(() -> {
                     getViewState().removeSurvey(surveyToDelete);
                     surveyToDelete = null;
