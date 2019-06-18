@@ -5,8 +5,6 @@ import android.content.Context;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.di.DaggerAccreditationCoreComponent;
 import fm.doe.national.app_support.di.modules.InteractorsModule;
-import fm.doe.national.cloud.di.CloudComponent;
-import fm.doe.national.cloud.di.DaggerCloudComponent;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.DaggerCoreComponent;
 import fm.doe.national.core.di.modules.ContextModule;
@@ -17,6 +15,8 @@ import fm.doe.national.data_source_injector.di.modules.SerializersModule;
 import fm.doe.national.fcm_report.di.DaggerFcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportModule;
+import fm.doe.national.remote_storage.di.DaggerRemoteStorageComponent;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.report.di.DaggerReportComponent;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportModule;
@@ -40,7 +40,7 @@ public class Injection {
     private ReportComponent reportComponent;
     private SurveyComponent surveyComponent;
     private SurveyCoreComponent surveyCoreComponent;
-    private CloudComponent cloudComponent;
+    private RemoteStorageComponent remoteStorageComponent;
     private AccreditationCoreComponent accreditationCoreComponent;
     private DataSourceComponent dataSourceComponent;
     private WashCoreComponent washCoreComponent;
@@ -72,13 +72,13 @@ public class Injection {
                         washCoreComponent
                 ))
                 .build();
-        cloudComponent = DaggerCloudComponent.builder()
+        remoteStorageComponent = DaggerRemoteStorageComponent.builder()
                 .coreComponent(coreComponent)
                 .build();
         appComponent = DaggerAppComponent.builder()
                 .coreComponent(coreComponent)
                 .interactorsModule(new InteractorsModule(
-                        cloudComponent,
+                        remoteStorageComponent,
                         applicationContext.getAssets(),
                         accreditationCoreComponent,
                         washCoreComponent))
@@ -115,10 +115,6 @@ public class Injection {
         return reportComponent;
     }
 
-    public CloudComponent getCloudComponent() {
-        return cloudComponent;
-    }
-
     public SurveyComponent getSurveyComponent() {
         return surveyComponent;
     }
@@ -137,5 +133,9 @@ public class Injection {
 
     public WashCoreComponent getWashCoreComponent() {
         return washCoreComponent;
+    }
+
+    public RemoteStorageComponent getRemoteStorageComponent() {
+        return remoteStorageComponent;
     }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.domain.SurveyInteractor;
@@ -83,7 +82,7 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
     }
 
     public void onLoadPartiallySavedSurveyPressed() {
-        addDisposable(settingsInteractor.createFilledSurveyFromCloud(CloudType.DRIVE)
+        addDisposable(settingsInteractor.createFilledSurveyFromCloud()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> getViewState().showWaiting())

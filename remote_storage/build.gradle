@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.wash']
+                arguments = [moxyReflectorPackage: 'fm.doe.national.remote_storage']
             }
         }
     }
@@ -33,23 +33,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(path: ':core')
-    implementation project(path: ':wash_core')
-    implementation project(path: ':survey_core')
-    implementation project(path: ':remote_storage')
+    implementation project(path: ':data_source_injector')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
-    implementation "com.google.android.material:material:${Deps.material}"
-    implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
     testImplementation "junit:junit:${Deps.junit}"
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
-
-    // Omega
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
-    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
-    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
 
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"
@@ -60,11 +50,16 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
     implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
 
+    // WorkManager
+    implementation "androidx.work:work-runtime:${Deps.work}"
+    implementation "androidx.work:work-rxjava2:${Deps.work}"
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-storage:18.0.0'
+    implementation 'com.google.firebase:firebase-auth:18.0.0'
+
     // Moxy
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
     annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
-
-    // GMS location
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
 
 }

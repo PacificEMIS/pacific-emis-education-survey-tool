@@ -7,26 +7,26 @@ import java.util.List;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
-import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.serialization.Parser;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.domain.SettingsInteractor;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
 public class InteractorsModule {
 
-    private final CloudComponent cloudComponent;
+    private final RemoteStorageComponent remoteStorageComponent;
     private final AssetManager assetManager;
     private final AccreditationCoreComponent accreditationCoreComponent;
     private final WashCoreComponent washCoreComponent;
 
-    public InteractorsModule(CloudComponent cloudComponent,
+    public InteractorsModule(RemoteStorageComponent remoteStorageComponent,
                              AssetManager assetManager,
                              AccreditationCoreComponent accreditationCoreComponent,
                              WashCoreComponent washCoreComponent) {
-        this.cloudComponent = cloudComponent;
+        this.remoteStorageComponent = remoteStorageComponent;
         this.assetManager = assetManager;
         this.accreditationCoreComponent = accreditationCoreComponent;
         this.washCoreComponent = washCoreComponent;
@@ -36,7 +36,7 @@ public class InteractorsModule {
     SettingsInteractor provideSettingsInteractor(Parser<List<School>> schoolsParser,
                                                  GlobalPreferences globalPreferences) {
         return new SettingsInteractor(
-                cloudComponent.getCloudRepository(),
+                remoteStorageComponent.getRemoteStorage(),
                 schoolsParser,
                 assetManager,
                 globalPreferences,

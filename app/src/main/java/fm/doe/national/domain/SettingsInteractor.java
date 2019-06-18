@@ -9,9 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import fm.doe.national.BuildConfig;
-import fm.doe.national.cloud.model.CloudAccountData;
-import fm.doe.national.cloud.model.CloudRepository;
-import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.ParseException;
 import fm.doe.national.core.data.model.School;
@@ -20,58 +17,50 @@ import fm.doe.national.core.data.serialization.Parser;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
+import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class SettingsInteractor {
 
-    private final CloudRepository cloudRepository;
+    private final RemoteStorage remoteStorage;
     private final Parser<List<School>> schoolsParser;
     private final AssetManager assetManager;
     private final GlobalPreferences globalPreferences;
     private final SurveyAccessor accessor;
 
-    public SettingsInteractor(CloudRepository cloudRepository,
+    public SettingsInteractor(RemoteStorage remoteStorage,
                               Parser<List<School>> schoolsParser,
                               AssetManager assetManager,
                               GlobalPreferences globalPreferences,
                               SurveyAccessor accessor) {
-        this.cloudRepository = cloudRepository;
+        this.remoteStorage = remoteStorage;
         this.accessor = accessor;
         this.schoolsParser = schoolsParser;
         this.assetManager = assetManager;
         this.globalPreferences = globalPreferences;
     }
 
-    public Completable auth(CloudType type) {
-        return cloudRepository.auth(type);
-    }
-
     private DataSource getCurrentDataSource() {
         return accessor.getDataSource(globalPreferences.getSurveyTypeOrDefault());
     }
 
-    public Completable importSchools(CloudType type) {
-        return cloudRepository.requestContent(type)
-                .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
-                        schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
+    public Completable importSchools() {
+        return Completable.complete();
+//        return cloudRepository.requestContent(type)
+//                .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
+//                        schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
     }
 
-    public Completable importSurvey(CloudType type) {
-        return cloudRepository.requestContent(type)
-                .flatMapCompletable(accessor::rewriteTemplateSurvey);
+    public Completable importSurvey() {
+        return Completable.complete();
+//        return cloudRepository.requestContent(type)
+//                .flatMapCompletable(accessor::rewriteTemplateSurvey);
     }
 
-    public Completable selectExportFolder(CloudType type) {
-        return cloudRepository.chooseExportFolder(type);
-    }
-
-    public void setDefaultCloudForExport(CloudType type) {
-        cloudRepository.setPrimary(type);
-    }
-
-    public List<CloudAccountData> getConnectedAccounts() {
-        return cloudRepository.getUsedAccounts();
+    public Completable selectExportFolder() {
+        return Completable.complete();
+//        return cloudRepository.chooseExportFolder(type);
     }
 
     public Completable loadDataFromAssets() {
@@ -141,9 +130,10 @@ public class SettingsInteractor {
         return globalPreferences.isMasterPasswordSaved();
     }
 
-    public Completable createFilledSurveyFromCloud(CloudType cloudType) {
-        return cloudRepository.requestContent(cloudType)
-                .flatMapCompletable(accessor::createPartiallySavedSurvey);
+    public Completable createFilledSurveyFromCloud() {
+        return Completable.complete();
+//        return cloudRepository.requestContent(cloudType)
+//                .flatMapCompletable(accessor::createPartiallySavedSurvey);
     }
 
     public static class SurveyAccessor {

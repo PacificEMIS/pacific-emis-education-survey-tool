@@ -14,8 +14,6 @@ import java.util.Arrays;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.cloud.model.CloudAccountData;
-import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
@@ -27,8 +25,6 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SettingsPresenter extends BasePresenter<SettingsView> {
-
-    private static final CloudType CLOUD_TYPE = CloudType.DRIVE;
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
@@ -43,11 +39,11 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         String googleEmail = null;
         String exportFolder = null;
 
-        if (!interactor.getConnectedAccounts().isEmpty()) {
-            CloudAccountData accountData = interactor.getConnectedAccounts().get(0);
-            googleEmail = accountData.getEmail();
-            exportFolder = accountData.getExportPath();
-        }
+//        if (!interactor.getConnectedAccounts().isEmpty()) {
+//            CloudAccountData accountData = interactor.getConnectedAccounts().get(0);
+//            googleEmail = accountData.getEmail();
+//            exportFolder = accountData.getExportPath();
+//        }
 
         Image logoImage = null;
         String logoPath = globalPreferences.getLogoPath();
@@ -143,7 +139,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onImportSchoolsPressed() {
-        addDisposable(interactor.importSchools(CLOUD_TYPE)
+        addDisposable(interactor.importSchools()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -152,7 +148,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onChooseFolderPressed() {
-        addDisposable(interactor.selectExportFolder(CLOUD_TYPE)
+        addDisposable(interactor.selectExportFolder()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())

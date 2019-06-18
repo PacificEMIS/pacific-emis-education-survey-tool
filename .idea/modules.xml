@@ -5,11 +5,11 @@
       <module fileurl="file://$PROJECT_DIR$/accreditation/accreditation.iml" filepath="$PROJECT_DIR$/accreditation/accreditation.iml" />
       <module fileurl="file://$PROJECT_DIR$/accreditation_core/accreditation_core.iml" filepath="$PROJECT_DIR$/accreditation_core/accreditation_core.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cloud/cloud.iml" filepath="$PROJECT_DIR$/cloud/cloud.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/data_source_injector/data_source_injector.iml" filepath="$PROJECT_DIR$/data_source_injector/data_source_injector.iml" />
       <module fileurl="file://$PROJECT_DIR$/fcm_report/fcm_report.iml" filepath="$PROJECT_DIR$/fcm_report/fcm_report.iml" />
       <module fileurl="file://$PROJECT_DIR$/micronesia.iml" filepath="$PROJECT_DIR$/micronesia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/remote_storage/remote_storage.iml" filepath="$PROJECT_DIR$/remote_storage/remote_storage.iml" />
       <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" />
       <module fileurl="file://$PROJECT_DIR$/report_core/report_core.iml" filepath="$PROJECT_DIR$/report_core/report_core.iml" />
       <module fileurl="file://$PROJECT_DIR$/rmi_report/rmi_report.iml" filepath="$PROJECT_DIR$/rmi_report/rmi_report.iml" />
