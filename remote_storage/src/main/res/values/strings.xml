@@ -1,3 +1,4 @@
 <resources>
     <string name="bucket">gs://micronesia-88754.appspot.com/</string>
+    <string name="auth_client_id">484888352330-ujcv9137cibnmemvp27vhrp69qr7qs8a.apps.googleusercontent.com</string>
 </resources>

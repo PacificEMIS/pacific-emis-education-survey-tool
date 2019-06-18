@@ -46,6 +46,14 @@ public class SettingsInteractor {
         return accessor.getDataSource(globalPreferences.getSurveyTypeOrDefault());
     }
 
+    public Completable signIn() {
+        return remoteStorageAccessor.signIn();
+    }
+
+    public void signOut() {
+        remoteStorageAccessor.signOut();
+    }
+
     public Completable importSchools() {
         return remoteStorageAccessor.requestContentFromDefaultStorage()
                 .observeOn(Schedulers.io())

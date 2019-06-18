@@ -3,7 +3,8 @@
     package="fm.doe.national.remote_storage">
 
     <application>
-        <activity android:name=".ui.default_storage.DefaultStorageActivity"></activity>
+        <activity android:name=".ui.auth.GoogleAuthActivity"></activity>
+        <activity android:name=".ui.default_storage.DefaultStorageActivity" />
     </application>
 
 </manifest>
