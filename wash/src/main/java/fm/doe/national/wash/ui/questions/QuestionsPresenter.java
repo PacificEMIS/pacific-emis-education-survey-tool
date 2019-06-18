@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private final WashSurveyInteractor washSurveyInteractor;
-    private final RemoteUploader remoteUploader;
+    private final RemoteStorageAccessor remoteStorageAccessor;
     private final SurveyNavigator navigator;
     private final long subGroupId;
     private final long groupId;
@@ -37,7 +37,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                        long groupId,
                        long subGroupId) {
         this.washSurveyInteractor = washCoreComponent.getWashSurveyInteractor();
-        this.remoteUploader = remoteStorageComponent.getRemoteUploader();
+        this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.subGroupId = subGroupId;
         this.groupId = groupId;
@@ -90,7 +90,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         addDisposable(washSurveyInteractor.updateAnswer(answer, groupId, subGroupId, questionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> remoteUploader.scheduleUploading(washSurveyInteractor.getCurrentSurvey().getId()), this::handleError)
+                .subscribe(() -> remoteStorageAccessor.scheduleUploading(washSurveyInteractor.getCurrentSurvey().getId()), this::handleError)
         );
     }
 

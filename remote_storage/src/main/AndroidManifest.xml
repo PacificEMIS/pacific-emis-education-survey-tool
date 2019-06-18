@@ -1,2 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fm.doe.national.remote_storage" />
+    package="fm.doe.national.remote_storage">
+
+    <application>
+        <activity android:name=".ui.default_storage.DefaultStorageActivity"></activity>
+    </application>
+
+</manifest>

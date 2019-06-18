@@ -62,4 +62,7 @@ dependencies {
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
     annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
 
+    // Omega
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+
 }

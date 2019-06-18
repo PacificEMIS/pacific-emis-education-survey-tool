@@ -17,24 +17,25 @@ import fm.doe.national.core.data.serialization.Parser;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
-import fm.doe.national.remote_storage.data.storage.RemoteStorage;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public class SettingsInteractor {
 
-    private final RemoteStorage remoteStorage;
+    private final RemoteStorageAccessor remoteStorageAccessor;
     private final Parser<List<School>> schoolsParser;
     private final AssetManager assetManager;
     private final GlobalPreferences globalPreferences;
     private final SurveyAccessor accessor;
 
-    public SettingsInteractor(RemoteStorage remoteStorage,
+    public SettingsInteractor(RemoteStorageAccessor remoteStorageAccessor,
                               Parser<List<School>> schoolsParser,
                               AssetManager assetManager,
                               GlobalPreferences globalPreferences,
                               SurveyAccessor accessor) {
-        this.remoteStorage = remoteStorage;
+        this.remoteStorageAccessor = remoteStorageAccessor;
         this.accessor = accessor;
         this.schoolsParser = schoolsParser;
         this.assetManager = assetManager;
@@ -46,10 +47,11 @@ public class SettingsInteractor {
     }
 
     public Completable importSchools() {
-        return Completable.complete();
-//        return cloudRepository.requestContent(type)
-//                .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
-//                        schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
+        return remoteStorageAccessor.requestContentFromDefaultStorage()
+                .observeOn(Schedulers.io())
+                .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
+                        schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
+
     }
 
     public Completable importSurvey() {

@@ -34,7 +34,7 @@ import io.fabric.sdk.android.Fabric;
         "fm.doe.national.report_core",
         "fm.doe.national.report",
         "fm.doe.national.accreditation",
-//        "fm.doe.national.remote_storage",
+        "fm.doe.national.remote_storage",
         "fm.doe.national.survey_core",
         "fm.doe.national.survey",
         "fm.doe.national.wash"

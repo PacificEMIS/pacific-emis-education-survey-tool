@@ -36,7 +36,7 @@ public class InteractorsModule {
     SettingsInteractor provideSettingsInteractor(Parser<List<School>> schoolsParser,
                                                  GlobalPreferences globalPreferences) {
         return new SettingsInteractor(
-                remoteStorageComponent.getRemoteStorage(),
+                remoteStorageComponent.getRemoteStorageAccessor(),
                 schoolsParser,
                 assetManager,
                 globalPreferences,

@@ -14,7 +14,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.R;
 import io.reactivex.Completable;
@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
 
-    private final RemoteUploader remoteUploader;
+    private final RemoteStorageAccessor remoteStorageAccessor;
     private final PicturesRepository picturesRepository;
 
     @Nullable
@@ -33,7 +33,7 @@ public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
     protected PhotosPresenter(CoreComponent coreComponent,
                               RemoteStorageComponent remoteStorageComponent) {
         picturesRepository = coreComponent.getPicturesRepository();
-        remoteUploader = remoteStorageComponent.getRemoteUploader();
+        remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
     }
 
     // Call this in subclass constructor
@@ -63,7 +63,7 @@ public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
         addDisposable(updateAnswer()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> remoteUploader.scheduleUploading(getSurveyId()), this::handleError));
+                .subscribe(() -> remoteStorageAccessor.scheduleUploading(getSurveyId()), this::handleError));
     }
 
     protected void onAnswerLoaded() {
