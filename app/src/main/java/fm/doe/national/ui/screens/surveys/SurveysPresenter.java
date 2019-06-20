@@ -17,6 +17,7 @@ import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
+import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -27,6 +28,7 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
     private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
+    private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
 
     private List<Survey> surveys = new ArrayList<>();
 
@@ -68,8 +70,7 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
     }
 
     public void onSurveyMergePressed(Survey survey) {
-        // TODO: not implemented
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        offlineSyncUseCase.execute(survey);
     }
 
     public void onSurveyExportToExcelPressed(Survey survey) {

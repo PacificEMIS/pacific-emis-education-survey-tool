@@ -17,6 +17,8 @@ import fm.doe.national.data_source_injector.di.modules.SerializersModule;
 import fm.doe.national.fcm_report.di.DaggerFcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportModule;
+import fm.doe.national.offline_sync.di.DaggerOfflineSyncComponent;
+import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.report.di.DaggerReportComponent;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportModule;
@@ -44,6 +46,7 @@ public class Injection {
     private AccreditationCoreComponent accreditationCoreComponent;
     private DataSourceComponent dataSourceComponent;
     private WashCoreComponent washCoreComponent;
+    private OfflineSyncComponent offlineSyncComponent;
 
     public void createDependencyGraph(Context applicationContext) {
         coreComponent = DaggerCoreComponent
@@ -93,6 +96,9 @@ public class Injection {
                 .coreComponent(coreComponent)
                 .reportModule(new ReportModule(fcmReportComponent, rmiReportComponent))
                 .build();
+        offlineSyncComponent = DaggerOfflineSyncComponent.builder()
+                .coreComponent(coreComponent)
+                .build();
     }
 
     public CoreComponent getCoreComponent() {
@@ -137,5 +143,9 @@ public class Injection {
 
     public WashCoreComponent getWashCoreComponent() {
         return washCoreComponent;
+    }
+
+    public OfflineSyncComponent getOfflineSyncComponent() {
+        return offlineSyncComponent;
     }
 }

@@ -1,0 +1,5 @@
+<resources>
+    <string name="title_devices">Select device</string>
+    <string name="title_no_name">No name</string>
+    <string name="action_open_bt_settings">Open Bluetooth Settings</string>
+</resources>

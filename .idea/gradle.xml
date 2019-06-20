@@ -11,7 +11,20 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/accreditation" />
+            <option value="$PROJECT_DIR$/accreditation_core" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/cloud" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/data_source_injector" />
+            <option value="$PROJECT_DIR$/fcm_report" />
+            <option value="$PROJECT_DIR$/report" />
+            <option value="$PROJECT_DIR$/report_core" />
+            <option value="$PROJECT_DIR$/rmi_report" />
+            <option value="$PROJECT_DIR$/survey" />
+            <option value="$PROJECT_DIR$/survey_core" />
+            <option value="$PROJECT_DIR$/wash" />
+            <option value="$PROJECT_DIR$/wash_core" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
