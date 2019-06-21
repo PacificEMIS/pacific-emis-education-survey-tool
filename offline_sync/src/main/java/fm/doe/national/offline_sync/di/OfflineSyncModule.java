@@ -21,7 +21,7 @@ public class OfflineSyncModule {
 
     @Provides
     @OfflineSyncScope
-    OfflineSyncUseCase provideUseCase(LifecycleListener lifecycleListener) {
-        return new InteractiveOfflineSyncUseCaseImpl(lifecycleListener);
+    OfflineSyncUseCase provideUseCase(LifecycleListener lifecycleListener, OfflineAccessor offlineAccessor) {
+        return new InteractiveOfflineSyncUseCaseImpl(lifecycleListener, offlineAccessor);
     }
 }

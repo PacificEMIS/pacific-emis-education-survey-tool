@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import fm.doe.national.offline_sync.R;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Single;
 
 public class Connector {
 
@@ -18,13 +18,10 @@ public class Connector {
 
     private final BluetoothSocket bluetoothSocket;
     private final BluetoothAdapter bluetoothAdapter;
-    private final OnConnectionAttemptListener connectionAttemptListener;
 
     public Connector(Context context,
                      BluetoothAdapter adapter,
-                     BluetoothDevice device,
-                     OnConnectionAttemptListener connectionAttemptListener) {
-        this.connectionAttemptListener = connectionAttemptListener;
+                     BluetoothDevice device) {
         this.bluetoothAdapter = adapter;
         BluetoothSocket tmp = null;
 
@@ -37,19 +34,12 @@ public class Connector {
         bluetoothSocket = tmp;
     }
 
-    public void start() {
-        // Cancel discovery because it otherwise slows down the connection.
-        bluetoothAdapter.cancelDiscovery();
-
-        Schedulers.newThread().scheduleDirect(() -> {
-            try {
-                bluetoothSocket.connect();
-            } catch (IOException connectException) {
-                end();
-                return;
-            }
-
-            connectionAttemptListener.onConnectionAttempted(bluetoothSocket);
+    public Single<BluetoothSocket> connect() {
+        return Single.fromCallable(() -> {
+            // Cancel discovery because it otherwise slows down the connection.
+            bluetoothAdapter.cancelDiscovery();
+            bluetoothSocket.connect();
+            return bluetoothSocket;
         });
     }
 
@@ -59,10 +49,6 @@ public class Connector {
         } catch (IOException e) {
             Log.e(TAG, "Could not close the client socket", e);
         }
-    }
-
-    public interface OnConnectionAttemptListener {
-        void onConnectionAttempted(BluetoothSocket socket);
     }
 
 }

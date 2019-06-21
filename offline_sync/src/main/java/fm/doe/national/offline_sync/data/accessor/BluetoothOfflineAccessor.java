@@ -8,30 +8,39 @@ import android.content.Intent;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Acceptor;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Connector;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Transporter;
 import fm.doe.national.offline_sync.data.model.BluetoothDeviceWrapper;
+import fm.doe.national.offline_sync.data.model.BtMessage;
 import fm.doe.national.offline_sync.data.model.Device;
+import fm.doe.national.offline_sync.data.model.ResponseSurveysBody;
+import fm.doe.national.offline_sync.data.model.TmpSurvey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Action;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.SingleSubject;
 import io.reactivex.subjects.Subject;
 
-public final class BluetoothOfflineAccessor implements OfflineAccessor, Connector.OnConnectionAttemptListener, Transporter.Listener, Acceptor.OnSocketAcceptedListener {
+public final class BluetoothOfflineAccessor implements OfflineAccessor, Transporter.Listener, Acceptor.OnSocketAcceptedListener {
 
     public static final List<String> sReceiverActionsToRegister = Arrays.asList(
             BluetoothDevice.ACTION_FOUND,
@@ -39,6 +48,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
             BluetoothAdapter.ACTION_DISCOVERY_FINISHED
     );
 
+    private final Gson gson = new Gson();
     private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private final WeakReference<Context> applicationContextRef;
     private final Subject<List<Device>> devicesSubject = PublishSubject.create();
@@ -46,6 +56,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
     private final Subject<Action> discoverableRequestSubject = PublishSubject.create();
     private final Subject<Action> btPermissionsRequestSubject = PublishSubject.create();
     private final List<BluetoothDevice> devicesCache = new ArrayList<>();
+
+    @Nullable
+    private SingleSubject<List<Survey>> requestSurveysSubject;
 
     private ConnectionState connectionState = ConnectionState.NONE;
 
@@ -57,9 +70,6 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
 
     @Nullable
     private Transporter transporter;
-
-    @Nullable
-    private CompletableSubject connectionSubject;
 
     public BluetoothOfflineAccessor(Context applicationContext) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
@@ -145,10 +155,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
         }
 
         setConnectionState(ConnectionState.CONNECTING);
-        connectionSubject = CompletableSubject.create();
-        connector = new Connector(appContext, bluetoothAdapter, btDevice, this);
-        connector.start();
-        return connectionSubject;
+        connector = new Connector(appContext, bluetoothAdapter, btDevice);
+        return connector.connect()
+                .flatMapCompletable(socket -> Completable.fromAction(() -> establishConnection(socket)));
     }
 
     @Override
@@ -157,12 +166,23 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
     }
 
     @Override
-    public Single<List<Survey>> requestSurveys(Device device) {
-        return Single.just(Collections.emptyList());
+    public Single<List<Survey>> requestSurveys() {
+        requestSurveysSubject = SingleSubject.create();
+
+        return Completable.fromAction(() -> {
+            if (transporter == null) {
+                passErrorToMessageSubjects(new IllegalStateException());
+                return;
+            }
+
+            BtMessage message = new BtMessage(BtMessage.Type.REQUEST_SYRVEYS, "");
+            transporter.write(gson.toJson(message).getBytes());
+        })
+                .andThen(requestSurveysSubject);
     }
 
     @Override
-    public Single<Survey> requestFilledSurvey(Device device, long surveyId) {
+    public Single<Survey> requestFilledSurvey(long surveyId) {
         return Single.error(new NotImplementedException());
     }
 
@@ -180,15 +200,6 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
     }
 
     @Override
-    public void onConnectionAttempted(BluetoothSocket socket) {
-        if (connectionSubject != null) {
-            connectionSubject.onComplete();
-        }
-
-        establishConnection(socket);
-    }
-
-    @Override
     public void onSocketAccept(BluetoothSocket socket) {
         establishConnection(socket);
     }
@@ -199,11 +210,6 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
         setConnectionState(ConnectionState.CONNECTED);
         transporter.setState(connectionState);
         transporter.start();
-    }
-
-    @Override
-    public void onMessageObtain(byte[] buffer, int byteCount) {
-
     }
 
     @Override
@@ -248,4 +254,56 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
         connectionStateSubject.onNext(this.connectionState);
     }
 
+    @Override
+    public void onMessageObtain(String message) {
+        try {
+            BtMessage btMessage = gson.fromJson(message, BtMessage.class);
+            switch (btMessage.getType()) {
+                case REQUEST_SYRVEYS:
+                    handleSurveysRequest();
+                    break;
+                case REQUEST_SURVEY:
+                    break;
+                case RESPONSE_SURVEYS:
+                    handleSurveysResponse(btMessage.getContent());
+                    break;
+                case RESPONSE_SURVEY:
+                    break;
+            }
+        } catch (JsonSyntaxException ex) {
+            passErrorToMessageSubjects(ex);
+        }
+    }
+
+    private void handleSurveysRequest() {
+        if (transporter != null) {
+            // TODO: temp logic
+            List<Survey> surveys = new ArrayList<>();
+            surveys.add(new TmpSurvey(1, SurveyType.SCHOOL_ACCREDITATION, AppRegion.FCM, new Date(1234567), "SCHOOL", "SCH001"));
+            surveys.add(new TmpSurvey(1, SurveyType.SCHOOL_ACCREDITATION, AppRegion.RMI, new Date(1233678), "SCHOOL2", "SCH002"));
+            surveys.add(new TmpSurvey(2, SurveyType.WASH, AppRegion.FCM, new Date(12312345), "SCHOOL", "SCH001"));
+            ResponseSurveysBody responseSurveysBody = new ResponseSurveysBody(surveys);
+            BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(responseSurveysBody));
+            transporter.write(gson.toJson(message).getBytes());
+        }
+    }
+
+    private void handleSurveysResponse(String response) {
+        if (requestSurveysSubject != null) {
+            try {
+                ResponseSurveysBody body = gson.fromJson(response, ResponseSurveysBody.class);
+                requestSurveysSubject.onSuccess(body.getSurveys());
+            } catch (JsonSyntaxException ex) {
+                passErrorToMessageSubjects(ex);
+            }
+            requestSurveysSubject = null;
+        }
+    }
+
+    private void passErrorToMessageSubjects(Throwable throwable) {
+        if (requestSurveysSubject != null) {
+            requestSurveysSubject.onError(throwable);
+
+        }
+    }
 }

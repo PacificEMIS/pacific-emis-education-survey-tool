@@ -35,9 +35,9 @@ public interface OfflineAccessor {
 
     void disconnect();
 
-    Single<List<Survey>> requestSurveys(Device device);
+    Single<List<Survey>> requestSurveys();
 
-    Single<Survey> requestFilledSurvey(Device device, long surveyId);
+    Single<Survey> requestFilledSurvey(long surveyId);
 
     void onBroadcastReceive(Context context, Intent intent);
 

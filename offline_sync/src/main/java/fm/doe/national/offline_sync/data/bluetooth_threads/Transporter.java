@@ -39,13 +39,12 @@ public class Transporter {
 
     public void start() {
         Schedulers.newThread().scheduleDirect(() -> {
-            byte[] buffer = new byte[1024];
-            int bytes;
-
             while (connectionState == ConnectionState.CONNECTED) {
+                byte[] buffer = new byte[1024];
+                int bytes;
                 try {
                     bytes = inputStream.read(buffer);
-                    listener.onMessageObtain(buffer, bytes);
+                    listener.onMessageObtain(new String(buffer));
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     listener.onConnectionLost();
@@ -78,7 +77,7 @@ public class Transporter {
     }
 
     public interface Listener {
-        void onMessageObtain(byte[] buffer, int byteCount);
+        void onMessageObtain(String message);
         void onConnectionLost();
     }
 }
