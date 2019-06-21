@@ -6,15 +6,13 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.offline_sync.data.model.Device;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface PairedDevicesView extends BaseView {
+public interface PairedDevicesView extends BaseBluetoothView {
 
     void setDevicesList(List<Device> devices);
-
-    void askBluetoothPermissions();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToDeviceSettings();

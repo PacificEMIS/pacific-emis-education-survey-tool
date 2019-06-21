@@ -1,8 +1,9 @@
 package fm.doe.national.offline_sync.di;
 
+import android.content.Context;
+
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
@@ -14,8 +15,8 @@ public class OfflineSyncModule {
 
     @Provides
     @OfflineSyncScope
-    OfflineAccessor provideOfflineAccessor() {
-        return new BluetoothOfflineAccessor();
+    OfflineAccessor provideOfflineAccessor(Context context) {
+        return new BluetoothOfflineAccessor(context);
     }
 
     @Provides

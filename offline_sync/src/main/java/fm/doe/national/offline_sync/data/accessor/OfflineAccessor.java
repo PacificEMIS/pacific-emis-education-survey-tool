@@ -6,14 +6,22 @@ import android.content.Intent;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.model.Device;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.functions.Action;
 import io.reactivex.subjects.Subject;
 
 public interface OfflineAccessor {
 
     Subject<List<Device>> getDevicesSubject();
+
+    Subject<ConnectionState> getConnectionStateSubject();
+
+    Subject<Action> getDiscoverableRequestSubject();
+
+    Subject<Action> getPermissionsRequestSubject();
 
     void discoverDevices();
 
@@ -32,13 +40,5 @@ public interface OfflineAccessor {
     Single<Survey> requestFilledSurvey(Device device, long surveyId);
 
     void onBroadcastReceive(Context context, Intent intent);
-
-//    void onConnectRecieved(Device device);
-//
-//    void onDisconnectRecieved(Device device);
-//
-//    void onSurveysRequestRecieved(Device device);
-//
-//    void onFilledSurveyRequestRecieved(Device device);
 
 }

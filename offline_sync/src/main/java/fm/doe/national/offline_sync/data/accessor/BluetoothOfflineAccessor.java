@@ -25,6 +25,8 @@ import fm.doe.national.offline_sync.data.model.BluetoothDeviceWrapper;
 import fm.doe.national.offline_sync.data.model.Device;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.functions.Action;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
@@ -40,6 +42,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
     private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private final WeakReference<Context> applicationContextRef;
     private final Subject<List<Device>> devicesSubject = PublishSubject.create();
+    private final Subject<ConnectionState> connectionStateSubject = BehaviorSubject.createDefault(ConnectionState.NONE);
+    private final Subject<Action> discoverableRequestSubject = PublishSubject.create();
+    private final Subject<Action> btPermissionsRequestSubject = PublishSubject.create();
     private final List<BluetoothDevice> devicesCache = new ArrayList<>();
 
     private ConnectionState connectionState = ConnectionState.NONE;
@@ -66,6 +71,21 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
     }
 
     @Override
+    public Subject<ConnectionState> getConnectionStateSubject() {
+        return connectionStateSubject;
+    }
+
+    @Override
+    public Subject<Action> getDiscoverableRequestSubject() {
+        return discoverableRequestSubject;
+    }
+
+    @Override
+    public Subject<Action> getPermissionsRequestSubject() {
+        return btPermissionsRequestSubject;
+    }
+
+    @Override
     public void discoverDevices() {
         startDiscoverDevices();
     }
@@ -75,7 +95,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
             return;
         }
 
-        bluetoothAdapter.startDiscovery();
+        doWithBluetoothPermissions(bluetoothAdapter::startDiscovery);
     }
 
     @Override
@@ -93,8 +113,18 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
             return;
         }
 
-        acceptor = new Acceptor(appContext, bluetoothAdapter, this);
-        connectionState = ConnectionState.LISTENING;
+        doWithBluetoothPermissions(() -> doInDiscoverableMode(() -> {
+            acceptor = new Acceptor(appContext, bluetoothAdapter, this);
+            setConnectionState(ConnectionState.LISTENING);
+        }));
+    }
+
+    private void doWithBluetoothPermissions(Action action) {
+        btPermissionsRequestSubject.onNext(action);
+    }
+
+    private void doInDiscoverableMode(Action action) {
+        discoverableRequestSubject.onNext(action);
     }
 
     @Override
@@ -114,7 +144,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
             return CompletableSubject.error(new IllegalStateException());
         }
 
-        connectionState = ConnectionState.CONNECTING;
+        setConnectionState(ConnectionState.CONNECTING);
         connectionSubject = CompletableSubject.create();
         connector = new Connector(appContext, bluetoothAdapter, btDevice, this);
         connector.start();
@@ -166,7 +196,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
     private void establishConnection(BluetoothSocket socket) {
         killAll();
         transporter = new Transporter(socket, this);
-        connectionState = ConnectionState.CONNECTED;
+        setConnectionState(ConnectionState.CONNECTED);
         transporter.setState(connectionState);
         transporter.start();
     }
@@ -182,7 +212,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
     }
 
     private void onDisconnect() {
-        connectionState = ConnectionState.NONE;
+        setConnectionState(ConnectionState.NONE);
         killAll();
     }
 
@@ -211,6 +241,11 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Connecto
             connector.end();
             connector = null;
         }
+    }
+
+    private void setConnectionState(ConnectionState connectionState) {
+        this.connectionState = connectionState;
+        connectionStateSubject.onNext(this.connectionState);
     }
 
 }

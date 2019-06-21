@@ -1,17 +1,15 @@
 package fm.doe.national.offline_sync.ui.devices;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -21,19 +19,16 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
-import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.model.Device;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentInjector;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
 
-public class PairedDevicesActivity extends BaseActivity implements
+public class PairedDevicesActivity extends BaseBluetoothActivity implements
         PairedDevicesView,
         BaseListAdapter.OnItemClickListener<Device>,
         SwipeRefreshLayout.OnRefreshListener {
-
-    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 987;
-    private static final String bluetoothPermission = Manifest.permission.ACCESS_COARSE_LOCATION;
 
     private final PairedDevicesAdapter adapter = new PairedDevicesAdapter(this);
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -130,27 +125,14 @@ public class PairedDevicesActivity extends BaseActivity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS &&
-                permissions.length > 0 &&
-                permissions[0].equals(bluetoothPermission) &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            presenter.onBluetoothPermissionsGranted();
-        }
-    }
-
-    @Override
-    public void askBluetoothPermissions() {
-        if (checkSelfPermission(bluetoothPermission) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{bluetoothPermission}, REQUEST_BLUETOOTH_PERMISSIONS);
-        } else {
-            presenter.onBluetoothPermissionsGranted();
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
+    }
+
+    @Nullable
+    @Override
+    public PairedDevicesPresenter getPresenter() {
+        return presenter;
     }
 }

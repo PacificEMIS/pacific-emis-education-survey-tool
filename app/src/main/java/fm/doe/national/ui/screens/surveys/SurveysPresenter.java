@@ -17,6 +17,7 @@ import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
+import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -29,10 +30,20 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
+    private final OfflineAccessor offlineAccessor = MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor();
 
     private List<Survey> surveys = new ArrayList<>();
 
     private Survey surveyToDelete;
+
+    public SurveysPresenter() {
+        addDisposable(
+                offlineAccessor.getConnectionStateSubject()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(getViewState()::setConnectionState, this::handleError)
+        );
+    }
 
     @Override
     public void attachView(SurveysView view) {
@@ -57,18 +68,6 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
         getViewState().navigateToSurvey();
     }
 
-    public void onSearchQueryChanged(String query) {
-        List<Survey> queriedPassings = new ArrayList<>();
-        String lowerQuery = query.toLowerCase();
-        for (Survey passing : surveys) {
-            if (passing.getSchoolName().toLowerCase().contains(lowerQuery) ||
-                    passing.getSchoolId().toLowerCase().contains(lowerQuery)) {
-                queriedPassings.add(passing);
-            }
-        }
-        getViewState().setSurveys(queriedPassings);
-    }
-
     public void onSurveyMergePressed(Survey survey) {
         offlineSyncUseCase.execute(survey);
     }
@@ -81,6 +80,19 @@ public class SurveysPresenter extends BasePresenter<SurveysView> {
     public void onSurveyRemovePressed(Survey survey) {
         surveyToDelete = survey;
         getViewState().promptMasterPassword(Text.from(R.string.message_delete_password_prompt));
+    }
+
+    public void onExportAllPressed() {
+        // TODO: not implemented
+        getViewState().showToast(Text.from(R.string.coming_soon));
+    }
+
+    public void onBecomeAvailableForSyncPressed() {
+        offlineAccessor.becomeAvailableToConnect();
+    }
+
+    public void onBecomeUnavailableForSyncPressed() {
+        offlineAccessor.becomeUnavailableToConnect();
     }
 
     public void onLoadPartiallySavedSurveyPressed() {
