@@ -81,7 +81,7 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
     @Override
     public void onHomePressed() {
-        startActivity(MainMenuActivity.createIntent(this, true));
+        startActivity(MainMenuActivity.createIntent(this));
     }
 
     @Override

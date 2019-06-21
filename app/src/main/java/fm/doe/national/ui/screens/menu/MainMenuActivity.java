@@ -3,9 +3,7 @@ package fm.doe.national.ui.screens.menu;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,13 +24,8 @@ import fm.doe.national.ui.screens.surveys.SurveysActivity;
 
 public class MainMenuActivity extends BaseActivity implements MainMenuView {
 
-    private static final String EXTRA_HAVE_PARENT = "EXTRA_HAVE_PARENT";
-
     @InjectPresenter
     MainMenuPresenter presenter;
-
-    @BindView(R.id.imagebutton_close)
-    ImageButton closeButton;
 
     @BindView(R.id.textview_title)
     TextView titleTextView;
@@ -46,15 +39,13 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView {
     @BindView(R.id.button_wash)
     Button washButton;
 
-    public static Intent createIntent(Context parentContext, boolean haveParent) {
-        return new Intent(parentContext, MainMenuActivity.class)
-                .putExtra(EXTRA_HAVE_PARENT, haveParent);
+    public static Intent createIntent(Context parentContext) {
+        return new Intent(parentContext, MainMenuActivity.class);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setCloseEnabled(getIntent().getBooleanExtra(EXTRA_HAVE_PARENT, false));
     }
 
     @Override
@@ -70,12 +61,6 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView {
     @OnClick(R.id.textview_settings)
     void onSettingsPressed() {
         presenter.onSettingsPressed();
-    }
-
-
-    @OnClick(R.id.imagebutton_close)
-    void onClosePressed() {
-        finish();
     }
 
     @OnClick(R.id.button_accreditation)
@@ -130,10 +115,6 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView {
     @Override
     public void navigateToCredits() {
         showToast(Text.from(R.string.coming_soon));
-    }
-
-    private void setCloseEnabled(boolean isEnabled) {
-        closeButton.setVisibility(isEnabled ? View.VISIBLE : View.GONE);
     }
 
     @Nullable
