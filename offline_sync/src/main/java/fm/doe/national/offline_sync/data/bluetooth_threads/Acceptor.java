@@ -10,15 +10,16 @@ import java.io.IOException;
 import java.util.UUID;
 
 import fm.doe.national.offline_sync.R;
+import io.reactivex.schedulers.Schedulers;
 
-public class AcceptThread extends Thread {
+public class Acceptor {
 
-    private static final String TAG = AcceptThread.class.getName();
+    private static final String TAG = Acceptor.class.getName();
 
     private final BluetoothServerSocket serverSocket;
     private final OnSocketAcceptedListener socketAcceptedListener;
 
-    public AcceptThread(Context context, BluetoothAdapter adapter, OnSocketAcceptedListener socketAcceptedListener) {
+    public Acceptor(Context context, BluetoothAdapter adapter, OnSocketAcceptedListener socketAcceptedListener) {
         this.socketAcceptedListener = socketAcceptedListener;
         BluetoothServerSocket tempSocket = null;
 
@@ -34,27 +35,28 @@ public class AcceptThread extends Thread {
         serverSocket = tempSocket;
     }
 
-    @Override
-    public void run() {
-        BluetoothSocket socket = null;
+    public void start() {
+        Schedulers.newThread().scheduleDirect(() -> {
+            BluetoothSocket socket;
 
-        while (true) {
-            try {
-                socket = serverSocket.accept();
-            } catch (IOException ex) {
-                Log.e(TAG, "Socket's accept() method failed", ex);
-                break;
-            }
+            while (true) {
+                try {
+                    socket = serverSocket.accept();
+                } catch (IOException ex) {
+                    Log.e(TAG, "Socket's accept() method failed", ex);
+                    break;
+                }
 
-            if (socket != null) {
-                socketAcceptedListener.onSocketAccept(socket);
-                cancel();
-                break;
+                if (socket != null) {
+                    socketAcceptedListener.onSocketAccept(socket);
+                    end();
+                    break;
+                }
             }
-        }
+        });
     }
 
-    public void cancel() {
+    public void end() {
         try {
             serverSocket.close();
         } catch (IOException e) {

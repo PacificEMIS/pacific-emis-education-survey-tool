@@ -19,9 +19,13 @@ public interface OfflineAccessor {
 
     void stopDiscoverDevices();
 
+    void becomeAvailableToConnect();
+
+    void becomeUnavailableToConnect();
+
     Completable connect(Device device);
 
-    Completable disconnect(Device device);
+    void disconnect();
 
     Single<List<Survey>> requestSurveys(Device device);
 

@@ -10,19 +10,20 @@ import java.io.IOException;
 import java.util.UUID;
 
 import fm.doe.national.offline_sync.R;
+import io.reactivex.schedulers.Schedulers;
 
-public class ConnectThread extends Thread {
+public class Connector {
 
-    private static final String TAG = ConnectThread.class.getName();
+    private static final String TAG = Connector.class.getName();
 
     private final BluetoothSocket bluetoothSocket;
     private final BluetoothAdapter bluetoothAdapter;
     private final OnConnectionAttemptListener connectionAttemptListener;
 
-    public ConnectThread(Context context,
-                         BluetoothAdapter adapter,
-                         BluetoothDevice device,
-                         OnConnectionAttemptListener connectionAttemptListener) {
+    public Connector(Context context,
+                     BluetoothAdapter adapter,
+                     BluetoothDevice device,
+                     OnConnectionAttemptListener connectionAttemptListener) {
         this.connectionAttemptListener = connectionAttemptListener;
         this.bluetoothAdapter = adapter;
         BluetoothSocket tmp = null;
@@ -36,22 +37,23 @@ public class ConnectThread extends Thread {
         bluetoothSocket = tmp;
     }
 
-    @Override
-    public void run() {
+    public void start() {
         // Cancel discovery because it otherwise slows down the connection.
         bluetoothAdapter.cancelDiscovery();
 
-        try {
-            bluetoothSocket.connect();
-        } catch (IOException connectException) {
-            cancel();
-            return;
-        }
+        Schedulers.newThread().scheduleDirect(() -> {
+            try {
+                bluetoothSocket.connect();
+            } catch (IOException connectException) {
+                end();
+                return;
+            }
 
-        connectionAttemptListener.onConnectionAttempted(bluetoothSocket);
+            connectionAttemptListener.onConnectionAttempted(bluetoothSocket);
+        });
     }
 
-    public void cancel() {
+    public void end() {
         try {
             bluetoothSocket.close();
         } catch (IOException e) {
