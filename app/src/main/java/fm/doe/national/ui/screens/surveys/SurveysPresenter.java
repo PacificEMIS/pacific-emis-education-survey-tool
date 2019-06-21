@@ -15,28 +15,27 @@ import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
-import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class SurveysPresenter extends BasePresenter<SurveysView> {
+public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
-    private final OfflineAccessor offlineAccessor = MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor();
 
     private List<Survey> surveys = new ArrayList<>();
 
     private Survey surveyToDelete;
 
     public SurveysPresenter() {
+        super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
         addDisposable(
                 offlineAccessor.getConnectionStateSubject()
                         .subscribeOn(Schedulers.io())

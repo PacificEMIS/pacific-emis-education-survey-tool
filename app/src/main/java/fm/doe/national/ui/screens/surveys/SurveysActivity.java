@@ -20,15 +20,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
 import fm.doe.national.survey.ui.SurveyActivity;
 import fm.doe.national.ui.screens.menu.MainMenuActivity;
 import fm.doe.national.ui.screens.survey_creation.CreateSurveyActivity;
 
-public class SurveysActivity extends BaseActivity implements
+public class SurveysActivity extends BaseBluetoothActivity implements
         SurveysView,
         View.OnClickListener,
         BaseAdapter.OnItemClickListener<Survey>,
@@ -180,17 +180,14 @@ public class SurveysActivity extends BaseActivity implements
         delayedMenuInit = () -> {
             switch (connectionState) {
                 case NONE:
+                case CONNECTING:
                     becomeAvailableItem.setVisible(true);
                     becomeUnavailableItem.setVisible(false);
                     break;
                 case CONNECTED:
+                case LISTENING:
                     becomeAvailableItem.setVisible(false);
                     becomeUnavailableItem.setVisible(true);
-                    break;
-                case LISTENING:
-                case CONNECTING:
-                    becomeAvailableItem.setVisible(false);
-                    becomeUnavailableItem.setVisible(false);
                     break;
             }
         };
