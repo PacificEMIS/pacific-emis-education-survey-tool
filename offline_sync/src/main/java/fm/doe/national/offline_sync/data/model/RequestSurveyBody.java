@@ -5,6 +5,10 @@ import java.io.Serializable;
 public class RequestSurveyBody implements Serializable {
     private long surveyId;
 
+    public RequestSurveyBody() {
+        // required for serialization
+    }
+
     public RequestSurveyBody(long surveyId) {
         this.surveyId = surveyId;
     }

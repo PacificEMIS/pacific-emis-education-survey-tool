@@ -1,6 +1,7 @@
 package fm.doe.national.offline_sync.data.bluetooth_threads;
 
 import android.bluetooth.BluetoothSocket;
+import android.os.SystemClock;
 import android.util.Log;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class Transporter {
             tempInputStream = socket.getInputStream();
             tempOutputStream = socket.getOutputStream();
         } catch (IOException e) {
-            Log.e(TAG, "temp sockets not created", e);
+            Log.e(TAG, "temp streams not created", e);
         }
 
         inputStream = tempInputStream;
@@ -40,15 +41,20 @@ public class Transporter {
     public void start() {
         Schedulers.newThread().scheduleDirect(() -> {
             while (connectionState == ConnectionState.CONNECTED) {
-                byte[] buffer = new byte[1024];
-                int bytes;
                 try {
-                    bytes = inputStream.read(buffer);
-                    listener.onMessageObtain(new String(buffer));
+                    if (inputStream.available() > 0) {
+                        SystemClock.sleep(100); // wait for all data
+                        int bytesToRead = inputStream.available();
+                        byte[] buffer = new byte[bytesToRead];
+                        inputStream.read(buffer, 0, bytesToRead);
+                        listener.onMessageObtain(new String(buffer));
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
-                    listener.onConnectionLost();
-                    break;
+                    if (!bluetoothSocket.isConnected()) {
+                        listener.onConnectionLost();
+                        break;
+                    }
                 }
             }
         });
@@ -66,6 +72,8 @@ public class Transporter {
 
     public void end() {
         try {
+            inputStream.close();
+            outputStream.close();
             bluetoothSocket.close();
         } catch (IOException e) {
             Log.e(TAG, "close() of connect socket failed", e);
@@ -78,6 +86,7 @@ public class Transporter {
 
     public interface Listener {
         void onMessageObtain(String message);
+
         void onConnectionLost();
     }
 }

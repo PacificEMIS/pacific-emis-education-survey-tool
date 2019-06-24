@@ -9,6 +9,7 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.lang.ref.WeakReference;
@@ -29,8 +30,9 @@ import fm.doe.national.offline_sync.data.bluetooth_threads.Transporter;
 import fm.doe.national.offline_sync.data.model.BluetoothDeviceWrapper;
 import fm.doe.national.offline_sync.data.model.BtMessage;
 import fm.doe.national.offline_sync.data.model.Device;
-import fm.doe.national.offline_sync.data.model.ResponseSurveysBody;
-import fm.doe.national.offline_sync.data.model.TmpSurvey;
+import fm.doe.national.offline_sync.data.model.ResponseWashSurveysBody;
+import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
+import fm.doe.national.wash_core.data.serialization.model.SerializableWashSurvey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Action;
@@ -48,7 +50,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             BluetoothAdapter.ACTION_DISCOVERY_FINISHED
     );
 
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+            .create();
     private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private final WeakReference<Context> applicationContextRef;
     private final Subject<List<Device>> devicesSubject = PublishSubject.create();
@@ -125,6 +129,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
         doWithBluetoothPermissions(() -> doInDiscoverableMode(() -> {
             acceptor = new Acceptor(appContext, bluetoothAdapter, this);
+            acceptor.start();
             setConnectionState(ConnectionState.LISTENING);
         }));
     }
@@ -205,7 +210,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     private void establishConnection(BluetoothSocket socket) {
-        killAll();
+        killAcceptor();
         transporter = new Transporter(socket, this);
         setConnectionState(ConnectionState.CONNECTED);
         transporter.setState(connectionState);
@@ -278,11 +283,26 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private void handleSurveysRequest() {
         if (transporter != null) {
             // TODO: temp logic
-            List<Survey> surveys = new ArrayList<>();
-            surveys.add(new TmpSurvey(1, SurveyType.SCHOOL_ACCREDITATION, AppRegion.FCM, new Date(1234567), "SCHOOL", "SCH001"));
-            surveys.add(new TmpSurvey(1, SurveyType.SCHOOL_ACCREDITATION, AppRegion.RMI, new Date(1233678), "SCHOOL2", "SCH002"));
-            surveys.add(new TmpSurvey(2, SurveyType.WASH, AppRegion.FCM, new Date(12312345), "SCHOOL", "SCH001"));
-            ResponseSurveysBody responseSurveysBody = new ResponseSurveysBody(surveys);
+            List<SerializableWashSurvey> surveys = new ArrayList<>();
+            MutableWashSurvey mutableWashSurvey = new MutableWashSurvey(1, SurveyType.SCHOOL_ACCREDITATION, AppRegion.FCM);
+
+            mutableWashSurvey.setDate(new Date(1234567));
+            mutableWashSurvey.setSchoolId("SCH001");
+            mutableWashSurvey.setSchoolName("SCHOOL");
+            surveys.add(new SerializableWashSurvey(mutableWashSurvey));
+
+            mutableWashSurvey.setDate(new Date(1233678));
+            mutableWashSurvey.setSchoolId("SCH002");
+            mutableWashSurvey.setSchoolName("SCHOOL2");
+            surveys.add(new SerializableWashSurvey(mutableWashSurvey));
+
+            MutableWashSurvey mutableWashSurvey2 = new MutableWashSurvey(1, SurveyType.WASH, AppRegion.FCM);
+            mutableWashSurvey.setDate(new Date(12312345));
+            mutableWashSurvey.setSchoolId("SCH001");
+            mutableWashSurvey.setSchoolName("SCHOOL");
+            surveys.add(new SerializableWashSurvey(mutableWashSurvey2));
+
+            ResponseWashSurveysBody responseSurveysBody = new ResponseWashSurveysBody(surveys);
             BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(responseSurveysBody));
             transporter.write(gson.toJson(message).getBytes());
         }
@@ -291,8 +311,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private void handleSurveysResponse(String response) {
         if (requestSurveysSubject != null) {
             try {
-                ResponseSurveysBody body = gson.fromJson(response, ResponseSurveysBody.class);
-                requestSurveysSubject.onSuccess(body.getSurveys());
+                ResponseWashSurveysBody body = gson.fromJson(response, ResponseWashSurveysBody.class);
+                requestSurveysSubject.onSuccess(body.getSurveys().stream().map(it -> (Survey) it).collect(Collectors.toList()));
             } catch (JsonSyntaxException ex) {
                 passErrorToMessageSubjects(ex);
             }

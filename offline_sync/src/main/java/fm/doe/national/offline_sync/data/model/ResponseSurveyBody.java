@@ -8,6 +8,10 @@ public class ResponseSurveyBody implements Serializable {
 
     private Survey survey;
 
+    public ResponseSurveyBody() {
+        // required for serialization
+    }
+
     public ResponseSurveyBody(Survey survey) {
         this.survey = survey;
     }
