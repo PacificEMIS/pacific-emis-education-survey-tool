@@ -4,20 +4,8 @@ import java.io.Serializable;
 
 import fm.doe.national.core.data.model.Survey;
 
-public class ResponseSurveyBody implements Serializable {
+public interface ResponseSurveyBody extends Serializable {
 
-    private Survey survey;
-
-    public ResponseSurveyBody() {
-        // required for serialization
-    }
-
-    public ResponseSurveyBody(Survey survey) {
-        this.survey = survey;
-    }
-
-    public Survey getSurvey() {
-        return survey;
-    }
+    Survey getSurvey();
 
 }

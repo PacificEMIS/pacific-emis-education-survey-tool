@@ -41,4 +41,5 @@ public interface OfflineAccessor {
 
     void onBroadcastReceive(Context context, Intent intent);
 
+    Completable mergeSurveys(Survey targetSurvey, Survey externalSurvey);
 }

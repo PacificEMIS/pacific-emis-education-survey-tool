@@ -1,33 +1,32 @@
 package fm.doe.national.offline_sync.domain;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.util.Log;
 
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
-import fm.doe.national.offline_sync.data.model.Device;
 import fm.doe.national.offline_sync.ui.devices.PairedDevicesActivity;
 import io.reactivex.Completable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.CompletableSubject;
 
-public class InteractiveOfflineSyncUseCaseImpl implements InteractiveOfflineSyncUseCase {
+public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase {
 
     private final LifecycleListener lifecycleListener;
     private final OfflineAccessor offlineAccessor;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private CompletableSubject completableSubject;
-    private Survey parentSurvey;
+    private Survey targetSurvey;
 
-    public InteractiveOfflineSyncUseCaseImpl(LifecycleListener lifecycleListener, OfflineAccessor offlineAccessor) {
+    public OfflineSyncUseCaseImpl(LifecycleListener lifecycleListener, OfflineAccessor offlineAccessor) {
         this.lifecycleListener = lifecycleListener;
         this.offlineAccessor = offlineAccessor;
     }
 
     @Override
     public Completable execute(Survey survey) {
-        parentSurvey = survey;
+        targetSurvey = survey;
         completableSubject = CompletableSubject.create();
         selectDevice();
         return completableSubject;
@@ -44,16 +43,17 @@ public class InteractiveOfflineSyncUseCaseImpl implements InteractiveOfflineSync
         activity.startActivity(PairedDevicesActivity.createIntent(activity));
     }
 
-    @SuppressLint("CheckResult")
     @Override
-    public void onDeviceSelected(Device device) {
-        offlineAccessor.connect(device)
-                .andThen(offlineAccessor.requestSurveys())
-                .subscribe(surveys -> Log.d("LOG", surveys.toString()), Throwable::printStackTrace);
+    public Survey getTargetSurvey() {
+        return targetSurvey;
     }
 
     @Override
-    public void onSurveySelected(Survey survey) {
-
+    public void finish() {
+        offlineAccessor.disconnect();
+        offlineAccessor.stopDiscoverDevices();
+        offlineAccessor.becomeUnavailableToConnect();
+        compositeDisposable.dispose();
     }
+
 }

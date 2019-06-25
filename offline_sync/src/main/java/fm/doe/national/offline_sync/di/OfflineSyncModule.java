@@ -9,7 +9,7 @@ import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
-import fm.doe.national.offline_sync.domain.InteractiveOfflineSyncUseCaseImpl;
+import fm.doe.national.offline_sync.domain.OfflineSyncUseCaseImpl;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 
@@ -38,6 +38,6 @@ public class OfflineSyncModule {
     @Provides
     @OfflineSyncScope
     OfflineSyncUseCase provideUseCase(LifecycleListener lifecycleListener, OfflineAccessor offlineAccessor) {
-        return new InteractiveOfflineSyncUseCaseImpl(lifecycleListener, offlineAccessor);
+        return new OfflineSyncUseCaseImpl(lifecycleListener, offlineAccessor);
     }
 }

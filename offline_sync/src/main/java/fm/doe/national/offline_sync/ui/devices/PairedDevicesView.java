@@ -14,7 +14,11 @@ public interface PairedDevicesView extends BaseBluetoothView {
 
     void setDevicesList(List<Device> devices);
 
+    void setListLoadingVisible(boolean visible);
+
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToDeviceSettings();
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToSurveys();
 }

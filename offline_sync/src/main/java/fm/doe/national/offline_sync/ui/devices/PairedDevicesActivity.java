@@ -24,11 +24,14 @@ import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.model.Device;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentInjector;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
+import fm.doe.national.offline_sync.ui.surveys.SyncSurveysActivity;
 
 public class PairedDevicesActivity extends BaseBluetoothActivity implements
         PairedDevicesView,
         BaseListAdapter.OnItemClickListener<Device>,
         SwipeRefreshLayout.OnRefreshListener {
+
+    private static final int REQUEST_CODE_SYNC = 888;
 
     private final PairedDevicesAdapter adapter = new PairedDevicesAdapter(this);
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -59,6 +62,17 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
         setTitle(R.string.title_devices);
         bindViews();
         registerBroadcastReceiver();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE_SYNC) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void registerBroadcastReceiver() {
@@ -115,16 +129,6 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
     }
 
     @Override
-    public void showWaiting() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideWaiting() {
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
@@ -134,5 +138,15 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
     @Override
     public PairedDevicesPresenter getPresenter() {
         return presenter;
+    }
+
+    @Override
+    public void setListLoadingVisible(boolean visible) {
+        swipeRefreshLayout.setRefreshing(visible);
+    }
+
+    @Override
+    public void navigateToSurveys() {
+        startActivityForResult(SyncSurveysActivity.createIntent(this), REQUEST_CODE_SYNC);
     }
 }

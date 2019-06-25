@@ -21,6 +21,6 @@ public class BtMessage implements Serializable {
     }
 
     public enum Type implements Serializable {
-        REQUEST_SYRVEYS, REQUEST_SURVEY, RESPONSE_SURVEYS, RESPONSE_SURVEY
+        REQUEST_SURVEYS, REQUEST_FILLED_SURVEY, RESPONSE_SURVEYS, RESPONSE_FILLED_SURVEY
     }
 }
