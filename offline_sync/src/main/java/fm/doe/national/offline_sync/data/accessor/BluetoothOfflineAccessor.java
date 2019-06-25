@@ -18,13 +18,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.accreditation_core.data.data_source.AccreditationDataSource;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
-import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.utils.RxUtils;
 import fm.doe.national.core.utils.VoidFunction;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Acceptor;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
@@ -41,6 +42,7 @@ import fm.doe.national.offline_sync.data.model.ResponseSurveyBody;
 import fm.doe.national.offline_sync.data.model.ResponseSurveysBody;
 import fm.doe.national.offline_sync.data.model.ResponseWashSurveysBody;
 import fm.doe.national.offline_sync.data.model.WashResponseSurveyBody;
+import fm.doe.national.wash_core.data.data_source.WashDataSource;
 import fm.doe.national.wash_core.data.model.WashSurvey;
 import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
 import io.reactivex.Completable;
@@ -75,8 +77,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final List<BluetoothDevice> devicesCache = new ArrayList<>();
     private final GlobalPreferences globalPreferences;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private final DataSource accreditationDataSource;
-    private final DataSource washDataSource;
+    private final AccreditationDataSource accreditationDataSource;
+    private final WashDataSource washDataSource;
 
     @Nullable
     private SingleSubject<List<Survey>> requestSurveysSubject;
@@ -97,8 +99,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     public BluetoothOfflineAccessor(Context applicationContext,
                                     GlobalPreferences globalPreferences,
-                                    DataSource accreditationDataSource,
-                                    DataSource washDataSource) {
+                                    AccreditationDataSource accreditationDataSource,
+                                    WashDataSource washDataSource) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
         this.globalPreferences = globalPreferences;
         this.accreditationDataSource = accreditationDataSource;
@@ -479,26 +481,30 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     @Override
     public Completable mergeSurveys(Survey targetSurvey, Survey externalSurvey) {
-        // TODO: will be implemented in next feature
-//        if (targetSurvey instanceof AccreditationSurvey && externalSurvey instanceof AccreditationSurvey) {
-//            return mergeAccreditationSurveys((AccreditationSurvey) targetSurvey, (AccreditationSurvey) externalSurvey);
-//        }
-//
-//        if (targetSurvey instanceof WashSurvey && externalSurvey instanceof WashSurvey) {
-//            return mergeWashSurveys((WashSurvey) targetSurvey, (WashSurvey) externalSurvey);
-//        }
+        if (targetSurvey instanceof AccreditationSurvey && externalSurvey instanceof AccreditationSurvey) {
+            return mergeAccreditationSurveys((AccreditationSurvey) targetSurvey, (AccreditationSurvey) externalSurvey);
+        }
+
+        if (targetSurvey instanceof WashSurvey && externalSurvey instanceof WashSurvey) {
+            return mergeWashSurveys((WashSurvey) targetSurvey, (WashSurvey) externalSurvey);
+        }
 
         return Completable.error(new NotImplementedException());
     }
 
-    // TODO: will be implemented in next feature
-//    private Completable mergeAccreditationSurveys(AccreditationSurvey targetSurvey, AccreditationSurvey externalSurvey) {
-//        return Completable.fromAction(() -> {
-//        });
-//    }
-//
-//    private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey) {
-//        return Completable.fromAction(() -> {
-//        });
-//    }
+    private Completable mergeAccreditationSurveys(AccreditationSurvey targetSurvey, AccreditationSurvey externalSurvey) {
+        return Single.fromCallable(() -> {
+            MutableAccreditationSurvey mutableTargetSurvey = (MutableAccreditationSurvey) targetSurvey;
+            return mutableTargetSurvey.merge(externalSurvey);
+        })
+                .flatMapCompletable(changedAnswers -> RxUtils.chain(
+                        // TODO: stack overflow
+                        changedAnswers.stream().map(accreditationDataSource::updateAnswer).collect(Collectors.toList())
+                ));
+    }
+
+    private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey) {
+        return Completable.fromAction(() -> {
+        });
+    }
 }

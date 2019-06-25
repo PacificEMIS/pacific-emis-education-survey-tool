@@ -6,6 +6,6 @@ import io.reactivex.Single;
 
 public interface AccreditationDataSource extends DataSource {
 
-    Single<Answer> updateAnswer(Answer answer, long subCriteriaId);
+    Single<Answer> updateAnswer(Answer answer);
 
 }

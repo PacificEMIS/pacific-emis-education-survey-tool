@@ -87,4 +87,14 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
         this.answer = answer;
     }
 
+    @Nullable
+    public MutableAnswer merge(SubCriteria other) {
+        Answer externalAnswer = other.getAnswer();
+
+        if (externalAnswer == null) {
+            return null;
+        }
+
+        return answer.merge(externalAnswer);
+    }
 }

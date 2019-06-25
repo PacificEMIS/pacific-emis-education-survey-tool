@@ -219,9 +219,9 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Single<Answer> updateAnswer(Answer answer, long subCriteriaId) {
+    public Single<Answer> updateAnswer(Answer answer) {
         return Single.fromCallable(() -> {
-            RoomAnswer existingAnswer = answerDao.getAllForSubCriteriaWithId(subCriteriaId).get(0);
+            RoomAnswer existingAnswer = answerDao.getById(answer.getId());
             existingAnswer.comment = answer.getComment();
             existingAnswer.state = answer.getState();
             answerDao.update(existingAnswer);

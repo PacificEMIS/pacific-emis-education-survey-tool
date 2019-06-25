@@ -3,6 +3,7 @@ package fm.doe.national.accreditation_core.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +56,31 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
 
     public void setPhotos(List<MutablePhoto> photos) {
         this.photos = photos;
+    }
+
+    @Nullable
+    public MutableAnswer merge(Answer other) {
+        boolean haveChanges = false;
+
+        if (answerState == AnswerState.NOT_ANSWERED) {
+            answerState = other.getState();
+            haveChanges = true;
+        }
+
+        String externalComment = other.getComment();
+        if (externalComment != null) {
+            comment += "\n" + externalComment;
+            haveChanges = true;
+        }
+
+        if (other.getPhotos() != null) {
+            if (this.photos == null) {
+                this.photos = new ArrayList<>();
+            }
+            this.photos.addAll(other.getPhotos().stream().map(MutablePhoto::new).collect(Collectors.toList()));
+            haveChanges = true;
+        }
+
+        return haveChanges ? this : null;
     }
 }
