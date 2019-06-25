@@ -15,14 +15,17 @@ import com.google.gson.JsonSyntaxException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.data.serialization.entities.SerializableAccreditationSurvey;
+import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
-import fm.doe.national.core.preferences.entities.SurveyType;
+import fm.doe.national.core.utils.VoidFunction;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Acceptor;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Connector;
@@ -30,12 +33,18 @@ import fm.doe.national.offline_sync.data.bluetooth_threads.Transporter;
 import fm.doe.national.offline_sync.data.model.BluetoothDeviceWrapper;
 import fm.doe.national.offline_sync.data.model.BtMessage;
 import fm.doe.national.offline_sync.data.model.Device;
+import fm.doe.national.offline_sync.data.model.RequestSurveysBody;
+import fm.doe.national.offline_sync.data.model.ResponseAccreditationSurveysBody;
+import fm.doe.national.offline_sync.data.model.ResponseSurveysBody;
 import fm.doe.national.offline_sync.data.model.ResponseWashSurveysBody;
-import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
+import fm.doe.national.wash_core.data.model.WashSurvey;
 import fm.doe.national.wash_core.data.serialization.model.SerializableWashSurvey;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.PublishSubject;
@@ -60,6 +69,11 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final Subject<Action> discoverableRequestSubject = PublishSubject.create();
     private final Subject<Action> btPermissionsRequestSubject = PublishSubject.create();
     private final List<BluetoothDevice> devicesCache = new ArrayList<>();
+    private final GlobalPreferences globalPreferences;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final DataSource accreditationDataSource;
+    private final DataSource washDataSource;
+
 
     @Nullable
     private SingleSubject<List<Survey>> requestSurveysSubject;
@@ -75,8 +89,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     @Nullable
     private Transporter transporter;
 
-    public BluetoothOfflineAccessor(Context applicationContext) {
+    public BluetoothOfflineAccessor(Context applicationContext,
+                                    GlobalPreferences globalPreferences,
+                                    DataSource accreditationDataSource,
+                                    DataSource washDataSource) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
+        this.globalPreferences = globalPreferences;
+        this.accreditationDataSource = accreditationDataSource;
+        this.washDataSource = washDataSource;
     }
 
     @Override
@@ -168,10 +188,11 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     @Override
     public void disconnect() {
         onDisconnect();
+        compositeDisposable.dispose();
     }
 
     @Override
-    public Single<List<Survey>> requestSurveys() {
+    public Single<List<Survey>> requestSurveys(String schoolId) {
         requestSurveysSubject = SingleSubject.create();
 
         return Completable.fromAction(() -> {
@@ -180,7 +201,12 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 return;
             }
 
-            BtMessage message = new BtMessage(BtMessage.Type.REQUEST_SYRVEYS, "");
+            RequestSurveysBody body = new RequestSurveysBody(
+                    schoolId,
+                    globalPreferences.getAppRegion(),
+                    globalPreferences.getSurveyTypeOrDefault()
+            );
+            BtMessage message = new BtMessage(BtMessage.Type.REQUEST_SYRVEYS, gson.toJson(body));
             transporter.write(gson.toJson(message).getBytes());
         })
                 .andThen(requestSurveysSubject);
@@ -265,7 +291,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             BtMessage btMessage = gson.fromJson(message, BtMessage.class);
             switch (btMessage.getType()) {
                 case REQUEST_SYRVEYS:
-                    handleSurveysRequest();
+                    handleSurveysRequest(btMessage.getContent());
                     break;
                 case REQUEST_SURVEY:
                     break;
@@ -280,50 +306,85 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         }
     }
 
-    private void handleSurveysRequest() {
+    private void handleSurveysRequest(String body) {
         if (transporter != null) {
-            // TODO: temp logic
-            List<SerializableWashSurvey> surveys = new ArrayList<>();
-            MutableWashSurvey mutableWashSurvey = new MutableWashSurvey(1, SurveyType.SCHOOL_ACCREDITATION, AppRegion.FCM);
+            RequestSurveysBody request = gson.fromJson(body, RequestSurveysBody.class);
+            String schoolId = request.getSchoolId();
+            AppRegion region = request.getAppRegion();
 
-            mutableWashSurvey.setDate(new Date(1234567));
-            mutableWashSurvey.setSchoolId("SCH001");
-            mutableWashSurvey.setSchoolName("SCHOOL");
-            surveys.add(new SerializableWashSurvey(mutableWashSurvey));
+            VoidFunction<ResponseSurveysBody> onSuccess = v -> {
+                BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(v));
+                transporter.write(gson.toJson(message).getBytes());
+            };
 
-            mutableWashSurvey.setDate(new Date(1233678));
-            mutableWashSurvey.setSchoolId("SCH002");
-            mutableWashSurvey.setSchoolName("SCHOOL2");
-            surveys.add(new SerializableWashSurvey(mutableWashSurvey));
-
-            MutableWashSurvey mutableWashSurvey2 = new MutableWashSurvey(1, SurveyType.WASH, AppRegion.FCM);
-            mutableWashSurvey.setDate(new Date(12312345));
-            mutableWashSurvey.setSchoolId("SCH001");
-            mutableWashSurvey.setSchoolName("SCHOOL");
-            surveys.add(new SerializableWashSurvey(mutableWashSurvey2));
-
-            ResponseWashSurveysBody responseSurveysBody = new ResponseWashSurveysBody(surveys);
-            BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(responseSurveysBody));
-            transporter.write(gson.toJson(message).getBytes());
+            switch (request.getSurveyType()) {
+                case SCHOOL_ACCREDITATION:
+                    compositeDisposable.add(
+                            accreditationDataSource.loadSurveys(schoolId, region)
+                                    .flatMapObservable(Observable::fromIterable)
+                                    .cast(AccreditationSurvey.class)
+                                    .map(SerializableAccreditationSurvey::new)
+                                    .toList()
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(Schedulers.io())
+                                    .subscribe(
+                                            surveys -> onSuccess.apply(new ResponseAccreditationSurveysBody(surveys)),
+                                            Throwable::printStackTrace
+                                    )
+                    );
+                    break;
+                case WASH:
+                    compositeDisposable.add(
+                            washDataSource.loadSurveys(schoolId, region)
+                                    .flatMapObservable(Observable::fromIterable)
+                                    .cast(WashSurvey.class)
+                                    .map(SerializableWashSurvey::new)
+                                    .toList()
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(Schedulers.io())
+                                    .subscribe(
+                                            surveys -> onSuccess.apply(new ResponseWashSurveysBody(surveys)),
+                                            Throwable::printStackTrace
+                                    )
+                    );
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 
     private void handleSurveysResponse(String response) {
         if (requestSurveysSubject != null) {
-            try {
-                ResponseWashSurveysBody body = gson.fromJson(response, ResponseWashSurveysBody.class);
+            ResponseSurveysBody body = tryParseResponseSurveysBodyJson(response);
+
+            if (body != null) {
                 requestSurveysSubject.onSuccess(body.getSurveys().stream().map(it -> (Survey) it).collect(Collectors.toList()));
-            } catch (JsonSyntaxException ex) {
-                passErrorToMessageSubjects(ex);
+            } else {
+                passErrorToMessageSubjects(new IllegalStateException("Failed to parse server device response"));
             }
+
             requestSurveysSubject = null;
+        }
+    }
+
+    @Nullable
+    private ResponseSurveysBody tryParseResponseSurveysBodyJson(String json) {
+        try {
+            return gson.fromJson(json, ResponseAccreditationSurveysBody.class);
+        } catch (JsonSyntaxException ex) {
+            try {
+                return gson.fromJson(json, ResponseWashSurveysBody.class);
+            } catch (JsonSyntaxException otherEx) {
+                return null;
+            }
         }
     }
 
     private void passErrorToMessageSubjects(Throwable throwable) {
         if (requestSurveysSubject != null) {
             requestSurveysSubject.onError(throwable);
-
         }
     }
+
 }

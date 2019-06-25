@@ -35,7 +35,7 @@ public interface OfflineAccessor {
 
     void disconnect();
 
-    Single<List<Survey>> requestSurveys();
+    Single<List<Survey>> requestSurveys(String schoolId);
 
     Single<Survey> requestFilledSurvey(long surveyId);
 

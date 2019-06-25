@@ -15,6 +15,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.wash_core.BuildConfig;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.Group;
@@ -166,6 +167,15 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
         return Single.fromCallable(() -> database.getSurveyDao().getAllFilled(globalPreferences.getAppRegion()))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutable)
+                .toList()
+                .map(list -> new ArrayList<>(list));
+    }
+
+    @Override
+    public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion) {
+        return Single.fromCallable(() -> database.getSurveyDao().getBySchoolIdAndRegion(schoolId, appRegion))
+                .flatMapObservable(Observable::fromIterable)
+                .map(MutableWashSurvey::new)
                 .toList()
                 .map(list -> new ArrayList<>(list));
     }

@@ -5,4 +5,6 @@ import io.reactivex.Completable;
 
 public interface OfflineSyncUseCase {
     Completable execute(Survey survey);
+
+    void finish();
 }

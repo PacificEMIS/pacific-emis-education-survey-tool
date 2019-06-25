@@ -19,6 +19,7 @@ import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportModule;
 import fm.doe.national.offline_sync.di.DaggerOfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
+import fm.doe.national.offline_sync.di.OfflineSyncModule;
 import fm.doe.national.report.di.DaggerReportComponent;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportModule;
@@ -98,6 +99,7 @@ public class Injection {
                 .build();
         offlineSyncComponent = DaggerOfflineSyncComponent.builder()
                 .coreComponent(coreComponent)
+                .offlineSyncModule(new OfflineSyncModule(washCoreComponent, accreditationCoreComponent))
                 .build();
     }
 
