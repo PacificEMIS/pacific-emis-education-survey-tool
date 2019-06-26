@@ -20,7 +20,7 @@ public class BtMessage implements Serializable {
         return content;
     }
 
-    public enum Type implements Serializable {
+    public enum Type {
         REQUEST_SURVEYS, REQUEST_FILLED_SURVEY, RESPONSE_SURVEYS, RESPONSE_FILLED_SURVEY
     }
 }

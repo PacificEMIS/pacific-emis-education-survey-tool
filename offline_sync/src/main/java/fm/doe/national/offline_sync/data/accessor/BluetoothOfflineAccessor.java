@@ -108,22 +108,22 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     @Override
-    public Subject<List<Device>> getDevicesSubject() {
+    public Observable<List<Device>> getDevicesObservable() {
         return devicesSubject;
     }
 
     @Override
-    public Subject<ConnectionState> getConnectionStateSubject() {
+    public Observable<ConnectionState> getConnectionStateObservable() {
         return connectionStateSubject;
     }
 
     @Override
-    public Subject<Action> getDiscoverableRequestSubject() {
+    public Observable<Action> getDiscoverableRequestObservable() {
         return discoverableRequestSubject;
     }
 
     @Override
-    public Subject<Action> getPermissionsRequestSubject() {
+    public Observable<Action> getPermissionsRequestObservable() {
         return btPermissionsRequestSubject;
     }
 
@@ -238,12 +238,20 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     public void onBroadcastReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-            devicesCache.clear();
-        } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-            devicesSubject.onNext(devicesCache.stream().map(BluetoothDeviceWrapper::new).collect(Collectors.toList()));
-        } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-            devicesCache.add(intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
+        if (action == null) {
+            return;
+        }
+
+        switch (action) {
+            case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
+                devicesCache.clear();
+                break;
+            case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
+                devicesSubject.onNext(devicesCache.stream().map(BluetoothDeviceWrapper::new).collect(Collectors.toList()));
+                break;
+            case BluetoothDevice.ACTION_FOUND:
+                devicesCache.add(intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
+                break;
         }
     }
 

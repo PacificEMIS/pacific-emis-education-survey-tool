@@ -97,6 +97,7 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
         if (delayedMenuInit != null) {
             delayedMenuInit.run();
+            delayedMenuInit = null;
         }
 
         return true;

@@ -12,26 +12,34 @@ import fm.doe.national.core.ui.screens.base.BaseActivity;
 
 public abstract class BaseBluetoothActivity extends BaseActivity implements BaseBluetoothView {
 
-    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 987;
-    private static final int DISCOVERABILITY_DURATION_SEC = 300;
+    private static final int REQUEST_CODE_BLUETOOTH_PERMISSIONS = 987;
+    private static final int DURATION_DISCOVERABILITY_SEC = 300;
     private static final int REQUEST_CODE_DISCOVERABILITY = 300;
     private static final String bluetoothPermission = Manifest.permission.ACCESS_COARSE_LOCATION;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_CODE_DISCOVERABILITY && resultCode != RESULT_CANCELED) {
-            getBaseBluetoothPresenter().onBecomeDiscoverable();
+        switch (requestCode) {
+            case REQUEST_CODE_DISCOVERABILITY:
+                if (resultCode != RESULT_CANCELED) {
+                    getBaseBluetoothPresenter().onBecomeDiscoverable();
+                }
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS &&
-                permissions.length > 0 &&
-                permissions[0].equals(bluetoothPermission) &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            getBaseBluetoothPresenter().onBluetoothPermissionsGranted();
+        switch (requestCode) {
+            case REQUEST_CODE_BLUETOOTH_PERMISSIONS:
+                if (permissions.length > 0 &&
+                        permissions[0].equals(bluetoothPermission) &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    getBaseBluetoothPresenter().onBluetoothPermissionsGranted();
+                }
+                break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -39,7 +47,7 @@ public abstract class BaseBluetoothActivity extends BaseActivity implements Base
     @Override
     public void requestBluetoothPermissions() {
         if (checkSelfPermission(bluetoothPermission) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{bluetoothPermission}, REQUEST_BLUETOOTH_PERMISSIONS);
+            requestPermissions(new String[]{bluetoothPermission}, REQUEST_CODE_BLUETOOTH_PERMISSIONS);
         } else {
             getBaseBluetoothPresenter().onBluetoothPermissionsGranted();
         }
@@ -48,7 +56,7 @@ public abstract class BaseBluetoothActivity extends BaseActivity implements Base
     @Override
     public void requestBluetoothDiscoverability() {
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVERABILITY_DURATION_SEC);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DURATION_DISCOVERABILITY_SEC);
         startActivityForResult(discoverableIntent, REQUEST_CODE_DISCOVERABILITY);
     }
 

@@ -9,19 +9,19 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.model.Device;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Action;
-import io.reactivex.subjects.Subject;
 
 public interface OfflineAccessor {
 
-    Subject<List<Device>> getDevicesSubject();
+    Observable<List<Device>> getDevicesObservable();
 
-    Subject<ConnectionState> getConnectionStateSubject();
+    Observable<ConnectionState> getConnectionStateObservable();
 
-    Subject<Action> getDiscoverableRequestSubject();
+    Observable<Action> getDiscoverableRequestObservable();
 
-    Subject<Action> getPermissionsRequestSubject();
+    Observable<Action> getPermissionsRequestObservable();
 
     void discoverDevices();
 

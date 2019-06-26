@@ -27,4 +27,13 @@ public class TextUtil {
         builder.append((char)('a' + mod));
     }
 
+    public static boolean endsWith(String source, String ending) {
+        if (source.length() < ending.length()) {
+            return false;
+        }
+
+        String sourceEnding = source.substring(source.length() - ending.length());
+        return sourceEnding.equals(ending);
+    }
+
 }
