@@ -63,8 +63,8 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         boolean haveChanges = false;
 
         if (answerState == AnswerState.NOT_ANSWERED) {
+            haveChanges = answerState != other.getState();
             answerState = other.getState();
-            haveChanges = true;
         }
 
         String externalComment = other.getComment();

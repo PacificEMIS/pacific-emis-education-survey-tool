@@ -200,9 +200,9 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     }
 
     @Override
-    public Single<Answer> updateAnswer(Answer answer, long questionId) {
+    public Single<Answer> updateAnswer(Answer answer) {
         return Single.fromCallable(() -> {
-            RoomAnswer existingAnswer = answerDao.getAllForQuestionWithId(questionId).get(0);
+            RoomAnswer existingAnswer = answerDao.getById(answer.getId());
             existingAnswer.comment = answer.getComment();
             existingAnswer.binaryAnswerState = answer.getBinaryAnswerState();
             existingAnswer.ternaryAnswerState = answer.getTernaryAnswerState();

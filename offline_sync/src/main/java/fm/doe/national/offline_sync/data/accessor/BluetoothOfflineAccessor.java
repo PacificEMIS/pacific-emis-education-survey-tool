@@ -467,7 +467,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     @Nullable
     private ResponseSurveyBody tryParseResponseSurveyBodyJson(String json) {
         try {
-            return gson.fromJson(json, AccreditationResponseSurveyBody.class);
+            AccreditationResponseSurveyBody accreditationBody = gson.fromJson(json, AccreditationResponseSurveyBody.class);
+
+            // fix for https://github.com/google/gson/issues/61
+            if (accreditationBody.getSurvey() == null) {
+                throw new JsonSyntaxException("Required field not present");
+            }
+
+            return accreditationBody;
         } catch (JsonSyntaxException ex) {
             try {
                 return gson.fromJson(json, WashResponseSurveyBody.class);
@@ -513,7 +520,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey) {
-        return Completable.fromAction(() -> {
-        });
+        return Single.fromCallable(() -> {
+            MutableWashSurvey mutableTargetSurvey = (MutableWashSurvey) targetSurvey;
+            return mutableTargetSurvey.merge(externalSurvey);
+        })
+                .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
+                        .concatMapEager(index -> washDataSource.updateAnswer(changedAnswers.get(index))
+                                .toFlowable())
+                        .toList()
+                        .ignoreElement());
     }
 }

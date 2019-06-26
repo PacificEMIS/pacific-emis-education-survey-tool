@@ -424,4 +424,17 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
 
         answer = new MutableAnswer();
     }
+
+    public MutableAnswer merge(Question other) {
+        if (other.getAnswer() == null || !other.getAnswer().isAnsweredForQuestionType(other.getType())) {
+            return null;
+        }
+
+        if (this.isAnswered()) {
+            return null;
+        }
+
+        this.answer = new MutableAnswer(other.getAnswer());
+        return this.answer;
+    }
 }
