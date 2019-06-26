@@ -43,10 +43,10 @@ public class Transporter {
     public void start() {
         Schedulers.newThread().scheduleDirect(() -> {
             Scanner inputScanner = new Scanner(inputStream).useDelimiter(MARK_END);
-
+            Runnable disconnectRunnable = listener::onConnectionLost;
             while (connectionState == ConnectionState.CONNECTED) {
                 if (!bluetoothSocket.isConnected()) {
-                    listener.onConnectionLost();
+                    disconnectRunnable.run();
                     break;
                 }
 
@@ -55,9 +55,11 @@ public class Transporter {
                     Log.d(TAG, "<===\n" + message + "\n<===");
                     listener.onMessageObtain(message);
                 } catch (NoSuchElementException noElementException) {
-                    // Nothing
+                    Log.d(TAG, "<===\n" + "NoSuchElementException" + "\n<===");
+                    disconnectRunnable.run();
                 } catch (IllegalStateException illegalStateException) {
-                    // Nothing
+                    Log.d(TAG, "<===\n" + "IllegalStateException" + "\n<===");
+                    disconnectRunnable.run();
                 }
             }
         });

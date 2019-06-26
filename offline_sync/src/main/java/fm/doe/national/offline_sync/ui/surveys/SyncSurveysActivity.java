@@ -46,6 +46,7 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.title_select_survey);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);
