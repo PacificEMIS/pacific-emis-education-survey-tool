@@ -16,7 +16,6 @@ import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
-import fm.doe.national.ui.screens.authentication.AuthenticationActivity;
 import fm.doe.national.ui.screens.menu.MainMenuActivity;
 
 public class ChooseRegionActivity extends BaseActivity implements
@@ -36,7 +35,8 @@ public class ChooseRegionActivity extends BaseActivity implements
     private final RegionsAdapter adapter = new RegionsAdapter(this);
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, ChooseRegionActivity.class);
+        return new Intent(context, ChooseRegionActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
     @Override
