@@ -17,7 +17,7 @@ public class PairedDevicesPresenter extends BaseBluetoothPresenter<PairedDevices
     public PairedDevicesPresenter(OfflineSyncComponent component) {
         super(component.getAccessor());
         addDisposable(
-                offlineAccessor.getDevicesSubject()
+                offlineAccessor.getDevicesObservable()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(devices -> {
@@ -32,6 +32,7 @@ public class PairedDevicesPresenter extends BaseBluetoothPresenter<PairedDevices
     @Override
     public void onDestroy() {
         super.onDestroy();
+        offlineAccessor.disconnect();
         offlineAccessor.stopDiscoverDevices();
     }
 

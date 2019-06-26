@@ -66,13 +66,13 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_CODE_SYNC) {
-            if (resultCode == RESULT_OK) {
-                finish();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_SYNC:
+                if (resultCode == RESULT_OK) {
+                    finish();
+                }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void registerBroadcastReceiver() {

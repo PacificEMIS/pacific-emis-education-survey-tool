@@ -37,7 +37,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     public SurveysPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
         addDisposable(
-                offlineAccessor.getConnectionStateSubject()
+                offlineAccessor.getConnectionStateObservable()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(getViewState()::setConnectionState, this::handleError)

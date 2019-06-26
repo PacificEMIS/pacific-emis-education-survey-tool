@@ -22,7 +22,7 @@ public abstract class BaseBluetoothPresenter<T extends BaseBluetoothView> extend
         this.offlineAccessor = offlineAccessor;
 
         addDisposable(
-                offlineAccessor.getPermissionsRequestSubject()
+                offlineAccessor.getPermissionsRequestObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action -> {
@@ -32,7 +32,7 @@ public abstract class BaseBluetoothPresenter<T extends BaseBluetoothView> extend
         );
 
         addDisposable(
-                offlineAccessor.getDiscoverableRequestSubject()
+                offlineAccessor.getDiscoverableRequestObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action -> {

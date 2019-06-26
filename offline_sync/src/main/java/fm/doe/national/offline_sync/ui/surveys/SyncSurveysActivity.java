@@ -67,12 +67,6 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
     }
 
     @Override
-    public void onBackPressed() {
-        setResult(RESULT_CANCELED);
-        super.onBackPressed();
-    }
-
-    @Override
     public void close() {
         setResult(RESULT_OK);
         finish();

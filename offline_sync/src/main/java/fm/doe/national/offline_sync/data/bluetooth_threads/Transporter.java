@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Scanner;
 
 import io.reactivex.schedulers.Schedulers;
 
@@ -40,31 +41,17 @@ public class Transporter {
 
     public void start() {
         Schedulers.newThread().scheduleDirect(() -> {
-            StringBuilder messageBuilder = new StringBuilder();
+            Scanner inputScanner = new Scanner(inputStream).useDelimiter(MARK_END);
+
             while (connectionState == ConnectionState.CONNECTED) {
-                try {
-                    int bytesToRead = inputStream.available();
-                    if (bytesToRead > 0) {
-                        byte[] buffer = new byte[bytesToRead];
-                        inputStream.read(buffer, 0, bytesToRead);
-                        String readedString = new String(buffer);
-                        Log.d(TAG, "<===\n" + readedString + "\n<===");
-                        messageBuilder.append(readedString);
-                    } else if (messageBuilder.length() > 0) {
-                        String message = messageBuilder.toString();
-                        if (message.contains(MARK_END)) {
-                            message = message.replace(MARK_END, "");
-                            listener.onMessageObtain(message);
-                            messageBuilder = new StringBuilder();
-                        }
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "disconnected", e);
-                    if (!bluetoothSocket.isConnected()) {
-                        listener.onConnectionLost();
-                        break;
-                    }
+                if (!bluetoothSocket.isConnected()) {
+                    listener.onConnectionLost();
+                    break;
                 }
+
+                String message = inputScanner.next();
+                Log.d(TAG, "<===\n" + message + "\n<===");
+                listener.onMessageObtain(message);
             }
         });
     }

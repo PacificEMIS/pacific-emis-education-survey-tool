@@ -1,6 +1,6 @@
 package fm.doe.national.core.utils;
 
-import io.reactivex.annotations.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * A functional interface that takes a value
