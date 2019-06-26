@@ -1,5 +1,6 @@
 package fm.doe.national.offline_sync.ui.surveys;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.offline_sync.R;
@@ -34,12 +36,17 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
 
     @ProvidePresenter
     SyncSurveysPresenter providePresenter() {
-        return new SyncSurveysPresenter(OfflineSyncComponentInjector.getComponent(getApplication()));
+        Application application = getApplication();
+        return new SyncSurveysPresenter(
+                OfflineSyncComponentInjector.getComponent(application),
+                CloudComponentInjector.getComponent(application)
+        );
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.title_select_survey);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);

@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import io.reactivex.schedulers.Schedulers;
@@ -42,16 +43,24 @@ public class Transporter {
     public void start() {
         Schedulers.newThread().scheduleDirect(() -> {
             Scanner inputScanner = new Scanner(inputStream).useDelimiter(MARK_END);
-
+            Runnable disconnectRunnable = listener::onConnectionLost;
             while (connectionState == ConnectionState.CONNECTED) {
                 if (!bluetoothSocket.isConnected()) {
-                    listener.onConnectionLost();
+                    disconnectRunnable.run();
                     break;
                 }
 
-                String message = inputScanner.next();
-                Log.d(TAG, "<===\n" + message + "\n<===");
-                listener.onMessageObtain(message);
+                try {
+                    String message = inputScanner.next();
+                    Log.d(TAG, "<===\n" + message + "\n<===");
+                    listener.onMessageObtain(message);
+                } catch (NoSuchElementException noElementException) {
+                    Log.d(TAG, "<===\n" + "NoSuchElementException" + "\n<===");
+                    disconnectRunnable.run();
+                } catch (IllegalStateException illegalStateException) {
+                    Log.d(TAG, "<===\n" + "IllegalStateException" + "\n<===");
+                    disconnectRunnable.run();
+                }
             }
         });
     }

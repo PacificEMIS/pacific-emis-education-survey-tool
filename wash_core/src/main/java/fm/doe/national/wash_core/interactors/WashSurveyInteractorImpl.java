@@ -119,7 +119,7 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 
     @Override
     public Completable updateAnswer(Answer answer, long groupId, long subGroupId, long questionId) {
-        return washDataSource.updateAnswer(answer, questionId)
+        return washDataSource.updateAnswer(answer)
                 .flatMapCompletable(updatedAnswer -> Completable.fromAction(() -> notifyProgressChanged(
                         new MutableAnswer(updatedAnswer),
                         groupId,

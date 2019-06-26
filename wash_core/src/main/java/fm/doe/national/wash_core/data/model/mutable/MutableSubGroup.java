@@ -3,11 +3,14 @@ package fm.doe.national.wash_core.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
+import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.SubGroup;
 
 public class MutableSubGroup extends BaseMutableEntity implements SubGroup {
@@ -78,5 +81,28 @@ public class MutableSubGroup extends BaseMutableEntity implements SubGroup {
 
     public void setProgress(@NonNull MutableProgress progress) {
         this.progress = progress;
+    }
+
+    public List<MutableAnswer> merge(SubGroup other) {
+        List<? extends Question> externalQuestions = other.getQuestions();
+        List<MutableAnswer> changedAnswers = new ArrayList<>();
+
+        if (!CollectionUtils.isEmpty(externalQuestions)) {
+            for (Question question : externalQuestions) {
+                for (MutableQuestion mutableQuestion : getQuestions()) {
+                    if (mutableQuestion.getPrefix().equals(question.getPrefix())) {
+                        MutableAnswer changedAnswer = mutableQuestion.merge(question);
+
+                        if (changedAnswer != null) {
+                            changedAnswers.add(changedAnswer);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        return changedAnswers;
     }
 }
