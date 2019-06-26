@@ -35,7 +35,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.authentication.AuthenticationActivity"
-            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.menu.MainMenuActivity"
