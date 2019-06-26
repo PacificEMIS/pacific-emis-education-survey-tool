@@ -30,6 +30,9 @@
     <string name="title_recent_surveys">Recent Surveys</string>
     <string name="header_choose_category">Choose category</string>
     <string name="header_choose_standard">Choose standard</string>
+    <string name="action_export_all">Export all Surveys Data to Excel</string>
+    <string name="action_become_available_for_sync">Become available for sync</string>
+    <string name="action_become_unavailable_for_sync">Become unavailable for sync</string>
     <string name="action_search">Search</string>
     <string name="write_school">Enter the school</string>
     <string name="label_question_hint">For detailed information, make a long touch on interested item</string>

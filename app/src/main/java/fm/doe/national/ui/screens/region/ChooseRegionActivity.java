@@ -16,7 +16,6 @@ import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
-import fm.doe.national.ui.screens.authentication.AuthenticationActivity;
 import fm.doe.national.ui.screens.menu.MainMenuActivity;
 
 public class ChooseRegionActivity extends BaseActivity implements
@@ -58,7 +57,7 @@ public class ChooseRegionActivity extends BaseActivity implements
 
     @Override
     public void navigateToMenu() {
-        startActivity(MainMenuActivity.createIntent(this, false));
+        startActivity(MainMenuActivity.createIntent(this));
     }
 
     @Override

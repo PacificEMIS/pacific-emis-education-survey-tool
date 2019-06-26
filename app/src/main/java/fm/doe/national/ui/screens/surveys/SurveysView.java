@@ -7,10 +7,11 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.ui.screens.base.BaseView;
+import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-interface SurveysView extends BaseView {
+interface SurveysView extends BaseBluetoothView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSurvey();
@@ -19,4 +20,6 @@ interface SurveysView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void removeSurvey(Survey passing);
+
+    void setConnectionState(ConnectionState connectionState);
 }

@@ -43,6 +43,6 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     @Override
     public void navigateToMenu() {
-        startActivity(MainMenuActivity.createIntent(this, false));
+        startActivity(MainMenuActivity.createIntent(this));
     }
 }

@@ -35,6 +35,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -185,6 +186,15 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         return Single.fromCallable(() -> surveyDao.getAllFilled(globalPreferences.getAppRegion()))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
+                .toList()
+                .map(list -> new ArrayList<>(list));
+    }
+
+    @Override
+    public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion) {
+        return Single.fromCallable(() -> surveyDao.getBySchoolIdAndRegion(schoolId, appRegion))
+                .flatMapObservable(Observable::fromIterable)
+                .map(MutableAccreditationSurvey::new)
                 .toList()
                 .map(list -> new ArrayList<>(list));
     }

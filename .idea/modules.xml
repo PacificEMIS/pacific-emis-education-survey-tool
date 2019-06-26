@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/data_source_injector/data_source_injector.iml" filepath="$PROJECT_DIR$/data_source_injector/data_source_injector.iml" />
       <module fileurl="file://$PROJECT_DIR$/fcm_report/fcm_report.iml" filepath="$PROJECT_DIR$/fcm_report/fcm_report.iml" />
       <module fileurl="file://$PROJECT_DIR$/micronesia.iml" filepath="$PROJECT_DIR$/micronesia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/offline_sync/offline_sync.iml" filepath="$PROJECT_DIR$/offline_sync/offline_sync.iml" />
       <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" />
       <module fileurl="file://$PROJECT_DIR$/report_core/report_core.iml" filepath="$PROJECT_DIR$/report_core/report_core.iml" />
       <module fileurl="file://$PROJECT_DIR$/rmi_report/rmi_report.iml" filepath="$PROJECT_DIR$/rmi_report/rmi_report.iml" />

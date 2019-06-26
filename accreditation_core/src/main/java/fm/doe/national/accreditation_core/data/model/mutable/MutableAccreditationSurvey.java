@@ -124,4 +124,12 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     public void setAppRegion(AppRegion appRegion) {
         this.appRegion = appRegion;
     }
+
+    public void merge(AccreditationSurvey other) {
+        if (other.getCategories() != null) {
+            other.getCategories().forEach(otherCategory -> {
+
+            });
+        }
+    }
 }
