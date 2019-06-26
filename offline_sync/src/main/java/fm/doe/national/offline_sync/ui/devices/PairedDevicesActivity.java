@@ -71,8 +71,10 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
                 if (resultCode == RESULT_OK) {
                     finish();
                 }
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void registerBroadcastReceiver() {

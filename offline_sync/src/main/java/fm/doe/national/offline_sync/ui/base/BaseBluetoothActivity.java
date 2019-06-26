@@ -25,8 +25,10 @@ public abstract class BaseBluetoothActivity extends BaseActivity implements Base
                     getBaseBluetoothPresenter().onBecomeDiscoverable();
                 }
                 break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -40,8 +42,11 @@ public abstract class BaseBluetoothActivity extends BaseActivity implements Base
                     getBaseBluetoothPresenter().onBluetoothPermissionsGranted();
                 }
                 break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                break;
+
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
