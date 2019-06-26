@@ -25,7 +25,6 @@ import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
-import fm.doe.national.core.utils.RxUtils;
 import fm.doe.national.core.utils.VoidFunction;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Acceptor;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
@@ -46,6 +45,7 @@ import fm.doe.national.wash_core.data.data_source.WashDataSource;
 import fm.doe.national.wash_core.data.model.WashSurvey;
 import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
@@ -505,10 +505,11 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             MutableAccreditationSurvey mutableTargetSurvey = (MutableAccreditationSurvey) targetSurvey;
             return mutableTargetSurvey.merge(externalSurvey);
         })
-                .flatMapCompletable(changedAnswers -> RxUtils.chain(
-                        // TODO: stack overflow
-                        changedAnswers.stream().map(accreditationDataSource::updateAnswer).collect(Collectors.toList())
-                ));
+                .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
+                        .concatMapEager(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
+                                .toFlowable())
+                        .toList()
+                        .ignoreElement());
     }
 
     private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey) {

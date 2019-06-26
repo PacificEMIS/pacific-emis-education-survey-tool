@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import io.reactivex.schedulers.Schedulers;
@@ -49,9 +50,15 @@ public class Transporter {
                     break;
                 }
 
-                String message = inputScanner.next();
-                Log.d(TAG, "<===\n" + message + "\n<===");
-                listener.onMessageObtain(message);
+                try {
+                    String message = inputScanner.next();
+                    Log.d(TAG, "<===\n" + message + "\n<===");
+                    listener.onMessageObtain(message);
+                } catch (NoSuchElementException noElementException) {
+                    // Nothing
+                } catch (IllegalStateException illegalStateException) {
+                    // Nothing
+                }
             }
         });
     }

@@ -69,7 +69,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
 
         String externalComment = other.getComment();
         if (externalComment != null) {
-            comment += "\n" + externalComment;
+            comment = (comment == null ? "" : (comment + "/n")) + externalComment;
             haveChanges = true;
         }
 
