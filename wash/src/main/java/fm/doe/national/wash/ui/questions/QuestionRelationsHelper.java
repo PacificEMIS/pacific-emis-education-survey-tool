@@ -74,20 +74,8 @@ public class QuestionRelationsHelper {
             return;
         }
 
-        boolean isVisible = false;
         MutableQuestion parentQuestion = parentWrapper.getQuestion();
-
-        String answerAsString = parentQuestion.getAnswerAsString(context);
-
-        if (answerAsString != null) {
-            for (String relationAnswer : relation.getRelationAnswers()) {
-                if (answerAsString.toLowerCase().contains(relationAnswer.toLowerCase())) {
-                    isVisible = true;
-                    break;
-                }
-            }
-        }
-
+        boolean isVisible = parentQuestion.isAnswerInRelation(context, relation);
         childWrapper.setVisible(isVisible);
 
         // clear answers in questions that become unavailable (but I may be wrong about this behavior)

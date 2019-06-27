@@ -201,18 +201,7 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
         Relation relation = child.getRelation();
         assert relation != null;
 
-
-        String answerAsString = parentQuestion.getAnswerAsString(context);
-
-        if (answerAsString != null) {
-            for (String relationAnswer : relation.getRelationAnswers()) {
-                if (answerAsString.toLowerCase().contains(relationAnswer.toLowerCase())) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return parentQuestion.isAnswerInRelation(context, relation);
     }
 
     private Optional<MutableQuestion> findParentQuestion(MutableSubGroup subGroup, MutableQuestion child) {
