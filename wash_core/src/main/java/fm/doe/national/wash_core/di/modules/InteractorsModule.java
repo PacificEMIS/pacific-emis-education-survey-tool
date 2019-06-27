@@ -1,5 +1,7 @@
 package fm.doe.national.wash_core.di.modules;
 
+import android.content.Context;
+
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.wash_core.data.data_source.WashDataSource;
@@ -12,7 +14,7 @@ public class InteractorsModule {
 
     @Provides
     @WashCoreScope
-    WashSurveyInteractor provideAccreditationSurveyInteractor(WashDataSource dataSource) {
-        return new WashSurveyInteractorImpl(dataSource);
+    WashSurveyInteractor provideAccreditationSurveyInteractor(WashDataSource dataSource, Context context) {
+        return new WashSurveyInteractorImpl(dataSource, context);
     }
 }
