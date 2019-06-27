@@ -2,9 +2,12 @@ package fm.doe.national.app_support;
 
 import androidx.multidex.MultiDexApplication;
 
-import com.crashlytics.android.Crashlytics;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.omegar.mvp.RegisterMoxyReflectorPackages;
 
+import fm.doe.national.R;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentProvider;
 import fm.doe.national.app_support.di.Injection;
@@ -26,7 +29,6 @@ import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponentProvider;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 import fm.doe.national.wash_core.di.WashCoreComponentProvider;
-import io.fabric.sdk.android.Fabric;
 
 @RegisterMoxyReflectorPackages({
         "fm.doe.national.fcm_report",
@@ -56,7 +58,7 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        AppCenter.start(this, getString(R.string.app_center_key), Analytics.class, Crashes.class);
         injection.createDependencyGraph(this);
     }
 

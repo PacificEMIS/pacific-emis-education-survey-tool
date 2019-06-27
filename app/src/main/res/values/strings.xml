@@ -27,4 +27,5 @@
     <string name="title_enter_the_master_password">Enter the master password</string>
     <string name="title_confirm_the_master_password">Confirm the master password</string>
     <string name="error_passwords_not_match">Passwords not match</string>
+    <string name="app_center_key">d424eec5-93ab-4dbd-aa21-ea1dd6b38eaa</string>
 </resources>

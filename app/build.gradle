@@ -103,11 +103,10 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
 
-    implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
-        transitive = true
-    }
-
     // CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
+    // AppCenter
+    implementation "com.microsoft.appcenter:appcenter-analytics:${Deps.appCenter}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${Deps.appCenter}"
 }
