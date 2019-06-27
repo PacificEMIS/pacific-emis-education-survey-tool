@@ -1,8 +1,16 @@
 package fm.doe.national.wash_core.interactors;
 
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
+import fm.doe.national.core.data.model.Progressable;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.wash_core.data.data_source.WashDataSource;
@@ -13,6 +21,7 @@ import fm.doe.national.wash_core.data.model.mutable.MutableGroup;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 import fm.doe.national.wash_core.data.model.mutable.MutableSubGroup;
 import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
+import fm.doe.national.wash_core.data.serialization.model.Relation;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -24,14 +33,16 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     private final PublishSubject<Survey> surveyPublishSubject = PublishSubject.create();
     private final PublishSubject<MutableGroup> groupPublishSubject = PublishSubject.create();
     private final PublishSubject<MutableSubGroup> subGroupPublishSubject = PublishSubject.create();
+    private final WeakReference<Context> appContextRef;
 
     private MutableWashSurvey survey;
     private long currentGroupId;
     private long currentSubGroupId;
     private long currentQuestionId;
 
-    public WashSurveyInteractorImpl(WashDataSource washDataSource) {
+    public WashSurveyInteractorImpl(WashDataSource washDataSource, Context context) {
         this.washDataSource = washDataSource;
+        this.appContextRef = new WeakReference<>(context);
     }
 
     @Override
@@ -67,30 +78,25 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
 
     private void initProgress(MutableWashSurvey survey) {
         if (survey.getGroups() != null) {
-            survey.getGroups().forEach(group -> {
-                initProgress(group);
-                survey.getProgress().add(group.getProgress());
-            });
+            survey.setProgress(reduceProgress(survey.getGroups().stream().peek(this::initProgress)));
         }
     }
 
     private void initProgress(MutableGroup group) {
         if (group.getSubGroups() != null) {
-            group.getSubGroups().forEach(mutableSubGroup -> {
-                initProgress(mutableSubGroup);
-                group.getProgress().add(mutableSubGroup.getProgress());
-            });
+            group.setProgress(reduceProgress(group.getSubGroups().parallelStream().peek(this::initProgress)));
         }
     }
 
     private void initProgress(MutableSubGroup subGroup) {
         if (subGroup.getQuestions() != null) {
-            subGroup.setProgress(new MutableProgress(
-                    subGroup.getQuestions().size(),
-                    (int) subGroup.getQuestions().parallelStream()
-                            .filter(q -> q.getAnswer() != null && q.getAnswer().isAnsweredForQuestionType(q.getType()))
-                            .count()
-            ));
+            int completed = (int) subGroup.getQuestions().parallelStream()
+                    .filter(MutableQuestion::isAnswered)
+                    .count();
+            int total = (int) subGroup.getQuestions().parallelStream()
+                    .filter(question -> isQuestionAvailable(subGroup, question))
+                    .count();
+            subGroup.setProgress(new MutableProgress(total, completed));
         }
     }
 
@@ -132,51 +138,81 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
                                        long groupId,
                                        long subGroupId,
                                        long questionId) {
-        if (survey.getGroups() != null) {
-            survey.getProgress().completed += survey.getGroups().parallelStream()
-                    .filter(group -> group.getId() == groupId)
-                    .findFirst()
-                    .map(group -> findProgressDeltaAndNotify(answer, group, subGroupId, questionId))
-                    .orElse(0);
-            surveyPublishSubject.onNext(survey);
+        if (survey.getGroups() == null) {
+            return;
         }
+
+        MutableProgress updatedProgress = reduceProgress(
+                survey.getGroups().parallelStream()
+                        .peek(group -> {
+                            if (group.getId() == groupId) {
+                                updateProgressAndNotify(answer, group, subGroupId, questionId);
+                            }
+                        })
+        );
+        survey.setProgress(updatedProgress);
+        surveyPublishSubject.onNext(survey);
     }
 
-    private int findProgressDeltaAndNotify(MutableAnswer answer,
-                                           MutableGroup group,
-                                           long subGroupId,
-                                           long questionId) {
+    private void updateProgressAndNotify(MutableAnswer answer,
+                                         MutableGroup group,
+                                         long subGroupId,
+                                         long questionId) {
         if (group.getSubGroups() == null) {
-            return 0;
+            return;
         }
 
-        int delta = group.getSubGroups().parallelStream()
-                .filter(subGroup -> subGroup.getId() == subGroupId)
-                .findFirst()
-                .map(subGroup -> findProgressDeltaAndNotify(answer, subGroup, questionId))
-                .orElse(0);
-        group.getProgress().completed += delta;
+        MutableProgress updatedProgress = reduceProgress(
+                group.getSubGroups().parallelStream()
+                        .peek(subGroup -> {
+                            if (subGroup.getId() == subGroupId) {
+                                updateProgressAndNotify(answer, subGroup, questionId);
+                            }
+                        })
+        );
+        group.setProgress(updatedProgress);
         groupPublishSubject.onNext(group);
-        return delta;
     }
 
-    private int findProgressDeltaAndNotify(MutableAnswer answer, MutableSubGroup subGroup, long questionId) {
+    private void updateProgressAndNotify(MutableAnswer answer, MutableSubGroup subGroup, long questionId) {
         if (subGroup.getQuestions() == null) {
-            return 0;
+            return;
         }
 
-        int oldCompleted = subGroup.getProgress().getCompleted();
-        int completed = (int) subGroup.getQuestions().parallelStream()
-                .peek(question -> {
-                    if (question.getId() == questionId) {
-                        question.setAnswer(answer);
-                    }
-                })
-                .filter(question ->
-                        question.getAnswer() != null && question.getAnswer().isAnsweredForQuestionType(question.getType())
-                )
-                .count();
-        return completed - oldCompleted;
+        subGroup.getQuestions().stream().filter(q -> q.getId() == questionId).peek(q -> q.setAnswer(answer)).close();
+        initProgress(subGroup);
+        subGroupPublishSubject.onNext(subGroup);
+    }
+
+    private boolean isQuestionAvailable(MutableSubGroup subGroup, MutableQuestion child) {
+        Optional<MutableQuestion> parentQuestionOp = findParentQuestion(subGroup, child);
+
+        if (!parentQuestionOp.isPresent()) {
+            return true;
+        }
+
+        Context context = appContextRef.get();
+
+        if (context == null) {
+            return false;
+        }
+
+        MutableQuestion parentQuestion = parentQuestionOp.get();
+        Relation relation = child.getRelation();
+        assert relation != null;
+
+        return parentQuestion.isAnswerInRelation(context, relation);
+    }
+
+    private Optional<MutableQuestion> findParentQuestion(MutableSubGroup subGroup, MutableQuestion child) {
+        if (child.getRelation() == null) {
+            return Optional.empty();
+        }
+
+        String parentId = child.getRelation().getQuestionId();
+        return subGroup.getQuestions().parallelStream()
+                .filter(question -> question.getPrefix().equals(parentId))
+                .findFirst();
     }
 
     @Override
@@ -227,5 +263,11 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     @Override
     public void setCurrentQuestionId(long id) {
         currentQuestionId = id;
+    }
+
+    private MutableProgress reduceProgress(@NonNull Stream<? extends Progressable> stream) {
+        return (MutableProgress) stream
+                .map(Progressable::getProgress)
+                .reduce(MutableProgress.createEmptyProgress(), MutableProgress::plus);
     }
 }

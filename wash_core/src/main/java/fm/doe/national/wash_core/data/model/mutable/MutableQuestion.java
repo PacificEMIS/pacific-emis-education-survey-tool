@@ -425,6 +425,20 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         answer = new MutableAnswer();
     }
 
+    public boolean isAnswerInRelation(Context context, Relation relation) {
+        String answerAsString = getAnswerAsString(context);
+
+        if (answerAsString != null) {
+            for (String relationAnswer : relation.getRelationAnswers()) {
+                if (answerAsString.toLowerCase().equals(relationAnswer.toLowerCase())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public MutableAnswer merge(Question other) {
         if (other.getAnswer() == null || !other.getAnswer().isAnsweredForQuestionType(other.getType())) {
             return null;

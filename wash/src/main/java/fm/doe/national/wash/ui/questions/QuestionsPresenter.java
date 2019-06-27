@@ -81,7 +81,10 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     }
 
     void onCommentEdit(String comment) {
-        if (selectedQuestion == null) return;
+        if (selectedQuestion == null) {
+            return;
+        }
+
         MutableAnswer answer = selectedQuestion.getAnswer();
         answer.setComment(comment);
         update(selectedQuestion.getId(), answer);

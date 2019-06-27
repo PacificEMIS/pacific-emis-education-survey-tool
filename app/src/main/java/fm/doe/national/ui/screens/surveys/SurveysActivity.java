@@ -52,9 +52,8 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     private final SurveysAdapter surveysAdapter = new SurveysAdapter(this, this);
 
     public static Intent createIntent(Context context) {
-        Intent intent = new Intent(context, SurveysActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        return intent;
+        return new Intent(context, SurveysActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
     @Override

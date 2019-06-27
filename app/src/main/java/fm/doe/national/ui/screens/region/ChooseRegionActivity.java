@@ -35,7 +35,8 @@ public class ChooseRegionActivity extends BaseActivity implements
     private final RegionsAdapter adapter = new RegionsAdapter(this);
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, ChooseRegionActivity.class);
+        return new Intent(context, ChooseRegionActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
     @Override
