@@ -20,12 +20,19 @@ public class FilePicturesRepository implements PicturesRepository {
     @Override
     public File createEmptyFile() throws IOException {
         String imageFileName = String.format(Locale.getDefault(), PATTERN_FILENAME, new Date().getTime());
-        return File.createTempFile(imageFileName, EXT_PICTURE, externalPicturesDirectory);
+        return createEmptyFile(imageFileName);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void delete(File file) {
         file.delete();
+    }
+
+    @Override
+    public File createEmptyFile(String name) throws IOException {
+        File file;
+        file = File.createTempFile(name, EXT_PICTURE, externalPicturesDirectory);
+        return file;
     }
 }

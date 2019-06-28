@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 
@@ -77,7 +78,13 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
             if (this.photos == null) {
                 this.photos = new ArrayList<>();
             }
-            this.photos.addAll(other.getPhotos().stream().map(MutablePhoto::new).collect(Collectors.toList()));
+            this.photos.addAll(
+                    other.getPhotos().stream()
+                            .map(MutablePhoto::new)
+                            .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.equals(mutablePhoto)))
+                            .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
+                            .collect(Collectors.toList())
+            );
             haveChanges = true;
         }
 

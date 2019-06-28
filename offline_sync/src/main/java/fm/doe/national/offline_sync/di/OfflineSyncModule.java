@@ -5,6 +5,7 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
+import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
@@ -26,12 +27,13 @@ public class OfflineSyncModule {
 
     @Provides
     @OfflineSyncScope
-    OfflineAccessor provideOfflineAccessor(Context context, GlobalPreferences globalPreferences) {
+    OfflineAccessor provideOfflineAccessor(Context context, GlobalPreferences globalPreferences, PicturesRepository picturesRepository) {
         return new BluetoothOfflineAccessor(
                 context,
                 globalPreferences,
                 accreditationCoreComponent.getDataSource(),
-                washCoreComponent.getDataSource()
+                washCoreComponent.getDataSource(),
+                picturesRepository
         );
     }
 

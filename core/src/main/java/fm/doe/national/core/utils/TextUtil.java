@@ -3,6 +3,8 @@ package fm.doe.national.core.utils;
 
 import androidx.annotation.NonNull;
 
+import java.io.File;
+
 
 public class TextUtil {
     private static final int ALPHABET_SIZE = 24;
@@ -24,7 +26,7 @@ public class TextUtil {
             fillBuilderWithCharNumbers(div - offset, builder);
         }
 
-        builder.append((char)('a' + mod));
+        builder.append((char) ('a' + mod));
     }
 
     public static boolean endsWith(String source, String ending) {
@@ -34,6 +36,11 @@ public class TextUtil {
 
         String sourceEnding = source.substring(source.length() - ending.length());
         return sourceEnding.equals(ending);
+    }
+
+    public static String getFileNameWithoutExtension(String path) {
+        File file = new File(path);
+        return file.getName().replaceFirst("[.][^.]+$", "");
     }
 
 }

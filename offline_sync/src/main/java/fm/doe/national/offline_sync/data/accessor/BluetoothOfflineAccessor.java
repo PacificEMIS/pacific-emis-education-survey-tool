@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Pair;
 
 import androidx.annotation.Nullable;
 
@@ -12,6 +13,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,11 +26,14 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.data_source.AccreditationDataSource;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
+import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.core.utils.VoidFunction;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Acceptor;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
@@ -79,12 +88,16 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final AccreditationDataSource accreditationDataSource;
     private final WashDataSource washDataSource;
+    private final PicturesRepository picturesRepository;
 
     @Nullable
     private SingleSubject<List<Survey>> requestSurveysSubject;
 
     @Nullable
     private SingleSubject<Survey> requestFilledSurveySubject;
+
+    @Nullable
+    private SingleSubject<byte[]> requestPhotoSubject;
 
     private ConnectionState connectionState = ConnectionState.NONE;
 
@@ -100,11 +113,13 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     public BluetoothOfflineAccessor(Context applicationContext,
                                     GlobalPreferences globalPreferences,
                                     AccreditationDataSource accreditationDataSource,
-                                    WashDataSource washDataSource) {
+                                    WashDataSource washDataSource,
+                                    PicturesRepository picturesRepository) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
         this.globalPreferences = globalPreferences;
         this.accreditationDataSource = accreditationDataSource;
         this.washDataSource = washDataSource;
+        this.picturesRepository = picturesRepository;
     }
 
     @Override
@@ -327,9 +342,15 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 case RESPONSE_FILLED_SURVEY:
                     handleFilledSurveyResponse(btMessage.getContent());
                     break;
+                case REQUEST_PHOTO:
+                    handlePhotoRequest(btMessage.getContent());
             }
         } catch (JsonSyntaxException ex) {
-            passErrorToMessageSubjects(ex);
+            try {
+                handlePhotoResponse(message.getBytes());
+            } catch (IllegalStateException illegalStateException) {
+                passErrorToMessageSubjects(ex);
+            }
         }
     }
 
@@ -492,6 +513,10 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         if (requestFilledSurveySubject != null) {
             requestFilledSurveySubject.onError(throwable);
         }
+
+        if (requestPhotoSubject != null) {
+            requestPhotoSubject.onError(throwable);
+        }
     }
 
     @Override
@@ -514,20 +539,91 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMapEager(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
-                                .toFlowable())
-                        .toList()
-                        .ignoreElement());
+                                .flattenAsFlowable(Answer::getPhotos)
+                                .concatMapEager(photo -> {
+                                            String path = photo.getLocalPath();
+                                            return requestPhoto(path)
+                                                    .map(photoBytes -> {
+                                                        requestPhotoSubject = null;
+                                                        return Pair.create(path, photoBytes);
+                                                    })
+                                                    .toFlowable();
+                                        }
+                                )
+                        )
+                        .flatMapCompletable(pair -> Completable.fromAction(() -> {
+                            if (pair.second.length == 0) {
+                                return;
+                            }
+                            savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(pair.first) , pair.second);
+                        })));
     }
 
-    private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey) {
+    private void savePhotoBytesToFile(String fileName, byte[] bytes) {
+        File photoFile;
+
+        try {
+            photoFile = picturesRepository.createEmptyFile(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(photoFile)) {
+            fos.write(bytes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurveyData) {
         return Single.fromCallable(() -> {
             MutableWashSurvey mutableTargetSurvey = (MutableWashSurvey) targetSurvey;
-            return mutableTargetSurvey.merge(externalSurvey);
+            return mutableTargetSurvey.merge(externalSurveyData);
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMapEager(index -> washDataSource.updateAnswer(changedAnswers.get(index))
                                 .toFlowable())
                         .toList()
                         .ignoreElement());
+    }
+
+    private Single<byte[]> requestPhoto(String path) {
+        if (transporter == null) {
+            return Single.just(new byte[]{});
+        }
+
+        requestPhotoSubject = SingleSubject.create();
+        return send(new BtMessage(BtMessage.Type.REQUEST_PHOTO, path))
+                .andThen(requestPhotoSubject);
+    }
+
+    private void handlePhotoResponse(byte[] bytes) {
+        if (requestPhotoSubject == null) {
+            throw new IllegalStateException();
+        }
+
+        requestPhotoSubject.onSuccess(bytes);
+    }
+
+    private void handlePhotoRequest(String path) {
+        if (transporter == null) {
+            return;
+        }
+
+        try {
+            RandomAccessFile file = new RandomAccessFile(path, "r");
+            byte[] bytes = new byte[(int) file.length()];
+            file.readFully(bytes);
+            transporter.write(new String(bytes));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            transporter.write(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            transporter.write(e.getMessage());
+        }
     }
 }
