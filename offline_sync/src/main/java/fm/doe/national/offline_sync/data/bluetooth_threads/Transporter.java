@@ -6,8 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.nio.ByteBuffer;
 
 import io.reactivex.schedulers.Schedulers;
 
@@ -15,6 +14,7 @@ public class Transporter {
 
     private static final String TAG = Transporter.class.getName();
     private static final String MARK_END = "MSG_END";
+    private static final int SIZE_MEMORY_BUFFER = 1024;
 
     private final Listener listener;
     private final BluetoothSocket bluetoothSocket;
@@ -42,8 +42,11 @@ public class Transporter {
 
     public void start() {
         Schedulers.newThread().scheduleDirect(() -> {
-            Scanner inputScanner = new Scanner(inputStream).useDelimiter(MARK_END);
             Runnable disconnectRunnable = listener::onConnectionLost;
+            ByteBuffer messageBuffer = null;
+            int bytesToRead;
+            int readBytesCount;
+
             while (connectionState == ConnectionState.CONNECTED) {
                 if (!bluetoothSocket.isConnected()) {
                     disconnectRunnable.run();
@@ -51,14 +54,46 @@ public class Transporter {
                 }
 
                 try {
-                    String message = inputScanner.next();
-                    Log.d(TAG, "<===\n" + message + "\n<===");
-                    listener.onMessageObtain(message);
-                } catch (NoSuchElementException noElementException) {
-                    Log.d(TAG, "<===\n" + "NoSuchElementException" + "\n<===");
-                    disconnectRunnable.run();
-                } catch (IllegalStateException illegalStateException) {
-                    Log.d(TAG, "<===\n" + "IllegalStateException" + "\n<===");
+                    while ((bytesToRead = inputStream.available()) > 0) {
+                        byte[] buffer = new byte[SIZE_MEMORY_BUFFER];
+
+                        if (messageBuffer == null) {
+                            messageBuffer = ByteBuffer.allocate(bytesToRead);
+                        }
+
+                        if (bytesToRead > SIZE_MEMORY_BUFFER) {
+                            readBytesCount = inputStream.read(buffer, 0, SIZE_MEMORY_BUFFER);
+                        } else {
+                            readBytesCount = inputStream.read(buffer, 0, bytesToRead);
+                        }
+
+                        int capacityDelta = readBytesCount - messageBuffer.remaining();
+
+                        if (capacityDelta > 0) {
+                            ByteBuffer extendedBuffer = ByteBuffer.allocate(messageBuffer.capacity() + capacityDelta);
+                            extendedBuffer.put(messageBuffer.array(), 0, messageBuffer.position());
+                            messageBuffer = extendedBuffer;
+                        }
+
+                        // TODO: send receiving count event
+                        Log.d(TAG, "<=== bytes count = " + readBytesCount);
+
+                        messageBuffer.put(buffer, 0, readBytesCount);
+                    }
+
+                    if (messageBuffer != null) {
+                        String chunk = new String(messageBuffer.array());
+
+                        if (chunk.contains(MARK_END)) {
+                            chunk = chunk.replace(MARK_END, "");
+                            Log.d(TAG, "<=== " + chunk);
+                            listener.onMessageObtain(chunk);
+
+                            messageBuffer = null;
+                        }
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "<===\n", e);
                     disconnectRunnable.run();
                 }
             }
@@ -69,7 +104,8 @@ public class Transporter {
         Schedulers.newThread().scheduleDirect(() -> {
             try {
                 String formattedMessage = message + MARK_END;
-                Log.d(TAG, "===>\n" + formattedMessage + "\n===>");
+                Log.d(TAG, "===>\n" + formattedMessage);
+                // TODO: send receiving count event
                 outputStream.write(formattedMessage.getBytes());
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
