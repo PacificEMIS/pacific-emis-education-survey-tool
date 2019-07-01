@@ -540,7 +540,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMapEager(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
                                 .flattenAsFlowable(Answer::getPhotos)
-                                .concatMapEager(photo -> {
+                                .concatMap(photo -> {
                                             String path = photo.getLocalPath();
                                             return requestPhoto(path)
                                                     .map(photoBytes -> {
@@ -555,6 +555,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                             if (pair.second.length == 0) {
                                 return;
                             }
+
                             savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(pair.first) , pair.second);
                         })));
     }

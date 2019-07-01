@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 public class Transporter {
 
     private static final String TAG = Transporter.class.getName();
-    private static final String MARK_END = "MSG_END";
+    private static final String MARK_END = "MARK_END";
     private static final int SIZE_MEMORY_BUFFER = 1024;
 
     private final Listener listener;
@@ -88,7 +88,6 @@ public class Transporter {
                             chunk = chunk.replace(MARK_END, "");
                             Log.d(TAG, "<=== " + chunk);
                             listener.onMessageObtain(chunk);
-
                             messageBuffer = null;
                         }
                     }
