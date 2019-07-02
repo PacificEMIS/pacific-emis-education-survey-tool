@@ -33,6 +33,7 @@ import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
@@ -42,6 +43,7 @@ import fm.doe.national.offline_sync.data.bluetooth_threads.Acceptor;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Connector;
 import fm.doe.national.offline_sync.data.bluetooth_threads.Transporter;
+import fm.doe.national.offline_sync.data.exceptions.BluetoothGenericException;
 import fm.doe.national.offline_sync.data.model.AccreditationResponseSurveyBody;
 import fm.doe.national.offline_sync.data.model.BluetoothDeviceWrapper;
 import fm.doe.national.offline_sync.data.model.BtMessage;
@@ -204,7 +206,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         Context appContext = applicationContextRef.get();
 
         if (appContext == null) {
-            return CompletableSubject.error(new IllegalStateException());
+            return CompletableSubject.error(new BluetoothGenericException(new IllegalStateException()));
         }
 
         setConnectionState(ConnectionState.CONNECTING);
@@ -246,7 +248,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private Completable send(BtMessage message) {
         return Completable.fromAction(() -> {
             if (transporter == null) {
-                passErrorToMessageSubjects(new IllegalStateException());
+                passErrorToMessageSubjects(new BluetoothGenericException(new IllegalStateException()));
                 return;
             }
 
@@ -512,16 +514,18 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     private void passErrorToMessageSubjects(Throwable throwable) {
+        Throwable error = new BluetoothGenericException(throwable);
+
         if (requestSurveysSubject != null) {
-            requestSurveysSubject.onError(throwable);
+            requestSurveysSubject.onError(error);
         }
 
         if (requestFilledSurveySubject != null) {
-            requestFilledSurveySubject.onError(throwable);
+            requestFilledSurveySubject.onError(error);
         }
 
         if (requestPhotoSubject != null) {
-            requestPhotoSubject.onError(throwable);
+            requestPhotoSubject.onError(error);
         }
     }
 
@@ -546,26 +550,44 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
                                 .flattenAsFlowable(Answer::getPhotos)
-                                .concatMap(photo -> {
-                                            String path = photo.getLocalPath();
-                                            return requestPhoto(path)
-                                                    .map(photoBytes -> {
-                                                        requestPhotoSubject = null;
-                                                        return Pair.create(path, photoBytes);
-                                                    })
-                                                    .flatMapCompletable(pair -> Completable.fromAction(() -> {
-                                                        if (pair.second.length == 0) {
-                                                            return;
-                                                        }
-
-                                                        savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(pair.first) , pair.second);
-                                                    }))
-                                                    .toFlowable();
-                                        }
-                                )
+                                .concatMap(this::acquirePhoto)
                         )
                         .ignoreElements()
                 );
+    }
+
+    private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey) {
+        return Single.fromCallable(() -> {
+            MutableWashSurvey mutableTargetSurvey = (MutableWashSurvey) targetSurvey;
+            return mutableTargetSurvey.merge(externalSurvey);
+        })
+                .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
+                        .concatMap(index -> washDataSource.updateAnswer(changedAnswers.get(index))
+                                .flattenAsFlowable(fm.doe.national.wash_core.data.model.Answer::getPhotos)
+                                .concatMap(this::acquirePhoto)
+                        )
+                        .ignoreElements()
+                );
+    }
+
+    private Flowable<Object> acquirePhoto(Photo photo) {
+        String path = photo.getLocalPath();
+        return requestPhoto(path)
+                .map(photoBytes -> {
+                    requestPhotoSubject = null;
+                    return Pair.create(path, photoBytes);
+                })
+                .flatMapCompletable(pair -> Completable.fromAction(() -> {
+                    if (pair.second.length == 0) {
+                        return;
+                    }
+
+                    savePhotoBytesToFile(
+                            TextUtil.getFileNameWithoutExtension(pair.first),
+                            pair.second
+                    );
+                }))
+                .toFlowable();
     }
 
     private void savePhotoBytesToFile(String fileName, byte[] bytes) {
@@ -575,7 +597,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             photoFile = picturesRepository.createEmptyFile(fileName);
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            throw new BluetoothGenericException(e);
         }
 
         if (photoFile == null) {
@@ -588,21 +610,11 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            throw new BluetoothGenericException(e);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new BluetoothGenericException(e);
         }
-    }
-
-    private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurveyData) {
-        return Single.fromCallable(() -> {
-            MutableWashSurvey mutableTargetSurvey = (MutableWashSurvey) targetSurvey;
-            return mutableTargetSurvey.merge(externalSurveyData);
-        })
-                .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
-                        .concatMapEager(index -> washDataSource.updateAnswer(changedAnswers.get(index))
-                                .toFlowable())
-                        .toList()
-                        .ignoreElement());
     }
 
     private Single<byte[]> requestPhoto(String path) {
@@ -617,7 +629,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     private void handlePhotoResponse(byte[] bytes) {
         if (requestPhotoSubject == null) {
-            throw new IllegalStateException();
+            throw new BluetoothGenericException(new IllegalStateException());
         }
 
         requestPhotoSubject.onSuccess(bytes);

@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import fm.doe.national.offline_sync.data.exceptions.BluetoothGenericException;
 import io.reactivex.schedulers.Schedulers;
 
 public class Transporter {
@@ -35,6 +36,7 @@ public class Transporter {
             tempOutputStream = socket.getOutputStream();
         } catch (IOException e) {
             Log.e(TAG, "temp streams not created", e);
+            throw new BluetoothGenericException(e);
         }
 
         inputStream = tempInputStream;
@@ -115,6 +117,7 @@ public class Transporter {
                 outputStream.write(TERMINATING_BYTES);
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
+                listener.onConnectionLost();
             }
         });
     }
@@ -130,6 +133,7 @@ public class Transporter {
             bluetoothSocket.close();
         } catch (IOException e) {
             Log.e(TAG, "close() of connect socket failed", e);
+            throw new BluetoothGenericException(e);
         }
     }
 
