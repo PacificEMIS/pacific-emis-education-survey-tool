@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
@@ -445,16 +444,6 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
             return null;
         }
 
-        if (this.isAnswered()) {
-            return null;
-        }
-
-        this.answer = new MutableAnswer(other.getAnswer());
-
-        if (this.answer.getPhotos() != null) {
-            this.answer.getPhotos().forEach(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID));
-        }
-
-        return this.answer;
+        return this.answer.merge(other.getAnswer());
     }
 }
