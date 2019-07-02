@@ -75,17 +75,20 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         }
 
         if (other.getPhotos() != null) {
-            if (this.photos == null) {
-                this.photos = new ArrayList<>();
+            List<MutablePhoto> otherUniquePhotos = other.getPhotos().stream()
+                    .map(MutablePhoto::new)
+                    .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.dataEquals(mutablePhoto)))
+                    .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
+                    .collect(Collectors.toList());
+
+            if (!otherUniquePhotos.isEmpty()) {
+                if (this.photos == null) {
+                    this.photos = new ArrayList<>();
+                }
+
+                this.photos.addAll(otherUniquePhotos);
+                haveChanges = true;
             }
-            this.photos.addAll(
-                    other.getPhotos().stream()
-                            .map(MutablePhoto::new)
-                            .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.equals(mutablePhoto)))
-                            .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
-                            .collect(Collectors.toList())
-            );
-            haveChanges = true;
         }
 
         return haveChanges ? this : null;

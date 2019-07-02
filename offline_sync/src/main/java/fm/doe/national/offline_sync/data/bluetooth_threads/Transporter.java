@@ -7,14 +7,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import io.reactivex.schedulers.Schedulers;
 
 public class Transporter {
 
     private static final String TAG = Transporter.class.getName();
-    private static final String MARK_END = "MARK_END";
-    private static final int SIZE_MEMORY_BUFFER = 1024;
+    private static final int SIZE_MEMORY_BUFFER = 8192;
+    private static final byte[] TERMINATING_BYTES = "MSG_END".getBytes();
 
     private final Listener listener;
     private final BluetoothSocket bluetoothSocket;
@@ -82,12 +83,19 @@ public class Transporter {
                     }
 
                     if (messageBuffer != null) {
-                        String chunk = new String(messageBuffer.array());
+                        byte[] bytes = messageBuffer.array();
 
-                        if (chunk.contains(MARK_END)) {
-                            chunk = chunk.replace(MARK_END, "");
-                            Log.d(TAG, "<=== " + chunk);
-                            listener.onMessageObtain(chunk);
+                        if (bytes.length > TERMINATING_BYTES.length &&
+                                Arrays.equals(
+                                        TERMINATING_BYTES,
+                                        Arrays.copyOfRange(
+                                                bytes,
+                                                bytes.length - TERMINATING_BYTES.length,
+                                                bytes.length
+                                        )
+                                )
+                        ) {
+                            listener.onMessageObtain(Arrays.copyOfRange(bytes, 0, bytes.length - TERMINATING_BYTES.length));
                             messageBuffer = null;
                         }
                     }
@@ -99,17 +107,20 @@ public class Transporter {
         });
     }
 
-    public void write(String message) {
+    public void write(byte[] bytes) {
         Schedulers.newThread().scheduleDirect(() -> {
             try {
-                String formattedMessage = message + MARK_END;
-                Log.d(TAG, "===>\n" + formattedMessage);
                 // TODO: send receiving count event
-                outputStream.write(formattedMessage.getBytes());
+                outputStream.write(bytes);
+                outputStream.write(TERMINATING_BYTES);
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
             }
         });
+    }
+
+    public void write(String message) {
+        write(message.getBytes());
     }
 
     public void end() {
@@ -127,7 +138,7 @@ public class Transporter {
     }
 
     public interface Listener {
-        void onMessageObtain(String message);
+        void onMessageObtain(byte[] message);
 
         void onConnectionLost();
     }

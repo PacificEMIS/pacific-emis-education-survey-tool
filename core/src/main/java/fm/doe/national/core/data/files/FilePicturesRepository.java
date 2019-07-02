@@ -3,6 +3,8 @@ package fm.doe.national.core.data.files;
 import android.content.Context;
 import android.os.Environment;
 
+import androidx.annotation.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -20,7 +22,7 @@ public class FilePicturesRepository implements PicturesRepository {
     @Override
     public File createEmptyFile() throws IOException {
         String imageFileName = String.format(Locale.getDefault(), PATTERN_FILENAME, new Date().getTime());
-        return createEmptyFile(imageFileName);
+        return File.createTempFile(imageFileName, EXT_PICTURE, externalPicturesDirectory);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -30,9 +32,10 @@ public class FilePicturesRepository implements PicturesRepository {
     }
 
     @Override
+    @Nullable
     public File createEmptyFile(String name) throws IOException {
-        File file;
-        file = File.createTempFile(name, EXT_PICTURE, externalPicturesDirectory);
-        return file;
+        File file = new File(externalPicturesDirectory, name + EXT_PICTURE);
+        boolean isCreated = file.createNewFile();
+        return isCreated ? file : null;
     }
 }

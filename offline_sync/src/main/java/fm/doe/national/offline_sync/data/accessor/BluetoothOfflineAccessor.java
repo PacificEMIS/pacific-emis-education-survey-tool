@@ -5,6 +5,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Pair;
 
 import androidx.annotation.Nullable;
@@ -13,11 +16,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,6 +68,8 @@ import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.SingleSubject;
 import io.reactivex.subjects.Subject;
+
+import static fm.doe.national.core.utils.ViewUtils.createBitmapOptions;
 
 public final class BluetoothOfflineAccessor implements OfflineAccessor, Transporter.Listener, Acceptor.OnSocketAcceptedListener {
 
@@ -326,9 +331,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     @Override
-    public void onMessageObtain(String message) {
+    public void onMessageObtain(byte[] bytes) {
         try {
-            BtMessage btMessage = gson.fromJson(message, BtMessage.class);
+            BtMessage btMessage = gson.fromJson(new String(bytes), BtMessage.class);
             switch (btMessage.getType()) {
                 case REQUEST_SURVEYS:
                     handleSurveysRequest(btMessage.getContent());
@@ -344,10 +349,11 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     break;
                 case REQUEST_PHOTO:
                     handlePhotoRequest(btMessage.getContent());
+                    break;
             }
         } catch (JsonSyntaxException ex) {
             try {
-                handlePhotoResponse(message.getBytes());
+                handlePhotoResponse(bytes);
             } catch (IllegalStateException illegalStateException) {
                 passErrorToMessageSubjects(ex);
             }
@@ -538,7 +544,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             return mutableTargetSurvey.merge(externalSurvey);
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
-                        .concatMapEager(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
+                        .concatMap(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
                                 .flattenAsFlowable(Answer::getPhotos)
                                 .concatMap(photo -> {
                                             String path = photo.getLocalPath();
@@ -547,17 +553,19 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                                                         requestPhotoSubject = null;
                                                         return Pair.create(path, photoBytes);
                                                     })
+                                                    .flatMapCompletable(pair -> Completable.fromAction(() -> {
+                                                        if (pair.second.length == 0) {
+                                                            return;
+                                                        }
+
+                                                        savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(pair.first) , pair.second);
+                                                    }))
                                                     .toFlowable();
                                         }
                                 )
                         )
-                        .flatMapCompletable(pair -> Completable.fromAction(() -> {
-                            if (pair.second.length == 0) {
-                                return;
-                            }
-
-                            savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(pair.first) , pair.second);
-                        })));
+                        .ignoreElements()
+                );
     }
 
     private void savePhotoBytesToFile(String fileName, byte[] bytes) {
@@ -570,8 +578,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             return;
         }
 
+        if (photoFile == null) {
+            return;
+        }
+
         try (FileOutputStream fos = new FileOutputStream(photoFile)) {
-            fos.write(bytes);
+            byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length, createBitmapOptions());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -614,17 +628,15 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             return;
         }
 
-        try {
-            RandomAccessFile file = new RandomAccessFile(path, "r");
-            byte[] bytes = new byte[(int) file.length()];
-            file.readFully(bytes);
-            transporter.write(new String(bytes));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            transporter.write(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            transporter.write(e.getMessage());
+        File file = new File(path);
+        if (file.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(path, createBitmapOptions());
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            transporter.write(Base64.encode(bytes, Base64.DEFAULT));
+        } else {
+            transporter.write("File not exist");
         }
     }
 }
