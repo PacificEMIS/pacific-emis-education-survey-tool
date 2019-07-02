@@ -77,7 +77,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         if (other.getPhotos() != null) {
             List<MutablePhoto> otherUniquePhotos = other.getPhotos().stream()
                     .map(MutablePhoto::new)
-                    .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.dataEquals(mutablePhoto)))
+                    .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.isDataEquals(mutablePhoto)))
                     .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
                     .collect(Collectors.toList());
 

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Pair;
 
 import androidx.annotation.Nullable;
 
@@ -573,19 +572,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private Flowable<Object> acquirePhoto(Photo photo) {
         String path = photo.getLocalPath();
         return requestPhoto(path)
-                .map(photoBytes -> {
+                .flatMapCompletable(photoBytes -> Completable.fromAction(() -> {
                     requestPhotoSubject = null;
-                    return Pair.create(path, photoBytes);
-                })
-                .flatMapCompletable(pair -> Completable.fromAction(() -> {
-                    if (pair.second.length == 0) {
+
+                    if (photoBytes.length == 0) {
                         return;
                     }
 
-                    savePhotoBytesToFile(
-                            TextUtil.getFileNameWithoutExtension(pair.first),
-                            pair.second
-                    );
+                    savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(path), photoBytes);
                 }))
                 .toFlowable();
     }

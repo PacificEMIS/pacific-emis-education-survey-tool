@@ -8,6 +8,8 @@ import java.io.File;
 
 public class TextUtil {
     private static final int ALPHABET_SIZE = 24;
+    private static final char FIRST_ALPHABET_CHAR = 'a';
+    private static final String REGEX_FILE_NAME = "[.][^.]+$";
 
     @NonNull
     public static String convertIntToCharsIcons(int position) {
@@ -26,7 +28,7 @@ public class TextUtil {
             fillBuilderWithCharNumbers(div - offset, builder);
         }
 
-        builder.append((char) ('a' + mod));
+        builder.append((char) (FIRST_ALPHABET_CHAR + mod));
     }
 
     public static boolean endsWith(String source, String ending) {
@@ -40,7 +42,7 @@ public class TextUtil {
 
     public static String getFileNameWithoutExtension(String path) {
         File file = new File(path);
-        return file.getName().replaceFirst("[.][^.]+$", "");
+        return file.getName().replaceFirst(REGEX_FILE_NAME, "");
     }
 
 }
