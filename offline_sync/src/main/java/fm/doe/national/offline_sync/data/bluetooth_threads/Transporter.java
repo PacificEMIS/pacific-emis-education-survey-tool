@@ -49,6 +49,7 @@ public class Transporter {
             ByteBuffer messageBuffer = null;
             int bytesToRead;
             int readBytesCount;
+            byte[] buffer = new byte[SIZE_MEMORY_BUFFER];
 
             while (connectionState == ConnectionState.CONNECTED) {
                 if (!bluetoothSocket.isConnected()) {
@@ -58,8 +59,6 @@ public class Transporter {
 
                 try {
                     while ((bytesToRead = inputStream.available()) > 0) {
-                        byte[] buffer = new byte[SIZE_MEMORY_BUFFER];
-
                         if (messageBuffer == null) {
                             messageBuffer = ByteBuffer.allocate(bytesToRead);
                         }
