@@ -4,9 +4,11 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -139,5 +141,94 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
 
     public void setInputText(@Nullable String inputText) {
         this.inputText = TextUtils.isEmpty(inputText) ? null : inputText;
+    }
+
+    public MutableAnswer merge(Answer other) {
+        boolean haveChanges =
+                mergeItems(other) ||
+                mergeInputText(other) ||
+                mergeVariants(other) ||
+                mergeLocation(other) ||
+                mergeBinaryAnswer(other) ||
+                mergeTernaryAnswer(other);
+
+        String externalComment = other.getComment();
+        if (externalComment != null) {
+            comment = (comment == null ? "" : (comment + "/n")) + externalComment;
+            haveChanges = true;
+        }
+
+        if (other.getPhotos() != null) {
+            List<MutablePhoto> otherUniquePhotos = other.getPhotos().stream()
+                    .map(MutablePhoto::new)
+                    .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.isDataEquals(mutablePhoto)))
+                    .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
+                    .collect(Collectors.toList());
+
+            if (!otherUniquePhotos.isEmpty()) {
+                if (this.photos == null) {
+                    this.photos = new ArrayList<>();
+                }
+
+                this.photos.addAll(otherUniquePhotos);
+                haveChanges = true;
+            }
+        }
+
+        return haveChanges ? this : null;
+    }
+
+    private boolean mergeItems(Answer answer) {
+        if (CollectionUtils.isEmpty(this.items) && !CollectionUtils.isEmpty(answer.getItems())) {
+            this.items = answer.getItems();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean mergeInputText(Answer answer) {
+        if (TextUtils.isEmpty(this.inputText) && !TextUtils.isEmpty(answer.getInputText())) {
+            this.inputText = answer.getInputText();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean mergeVariants(Answer answer) {
+        if (CollectionUtils.isEmpty(this.variants) && !CollectionUtils.isEmpty(answer.getVariants())) {
+            this.variants = answer.getVariants();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean mergeLocation(Answer answer) {
+        if (this.location == null && answer.getLocation() != null) {
+            this.location = answer.getLocation();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean mergeBinaryAnswer(Answer answer) {
+        if (this.binaryAnswerState == null && answer.getBinaryAnswerState() != null) {
+            this.binaryAnswerState = answer.getBinaryAnswerState();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean mergeTernaryAnswer(Answer answer) {
+        if (this.ternaryAnswerState == null && answer.getTernaryAnswerState() != null) {
+            this.ternaryAnswerState = answer.getTernaryAnswerState();
+            return true;
+        }
+
+        return false;
     }
 }

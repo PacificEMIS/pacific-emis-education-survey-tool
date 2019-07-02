@@ -127,16 +127,28 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
             Answer questionAnswer = question.getAnswer();
 
             if (questionAnswer != null) {
-                RoomAnswer roomAnswer = new RoomAnswer(questionAnswer);
-                roomAnswer.questionId = id;
-                long answerId = database.getAnswerDao().insert(roomAnswer);
-
-                if (questionAnswer.getPhotos() != null) {
-                    savePhotos(database, questionAnswer.getPhotos(), answerId);
-                }
+                saveAnswer(database, id, questionAnswer);
             } else if (shouldCreateAnswers) {
                 database.getAnswerDao().insert(new RoomAnswer(id));
             }
+        });
+    }
+
+    private void saveAnswer(WashDatabase database, long questionId, Answer answer) {
+        RoomAnswer roomAnswer = new RoomAnswer(answer);
+        roomAnswer.questionId = questionId;
+        long answerId = database.getAnswerDao().insert(roomAnswer);
+
+        if (answer.getPhotos() != null) {
+            savePhotos(database, answer.getPhotos(), answerId);
+        }
+    }
+
+    @Override
+    public Single<Answer> createAnswer(Answer answer, long questionId) {
+        return Single.fromCallable(() -> {
+            saveAnswer(database, questionId, answer);
+            return answer;
         });
     }
 

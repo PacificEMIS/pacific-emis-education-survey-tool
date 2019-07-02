@@ -6,15 +6,17 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
+import fm.doe.national.offline_sync.data.exceptions.BluetoothGenericException;
 import io.reactivex.schedulers.Schedulers;
 
 public class Transporter {
 
     private static final String TAG = Transporter.class.getName();
-    private static final String MARK_END = "MSG_END";
+    private static final int SIZE_MEMORY_BUFFER = 8192;
+    private static final byte[] TERMINATING_BYTES = "MSG_END".getBytes();
 
     private final Listener listener;
     private final BluetoothSocket bluetoothSocket;
@@ -34,6 +36,7 @@ public class Transporter {
             tempOutputStream = socket.getOutputStream();
         } catch (IOException e) {
             Log.e(TAG, "temp streams not created", e);
+            throw new BluetoothGenericException(e);
         }
 
         inputStream = tempInputStream;
@@ -42,8 +45,12 @@ public class Transporter {
 
     public void start() {
         Schedulers.newThread().scheduleDirect(() -> {
-            Scanner inputScanner = new Scanner(inputStream).useDelimiter(MARK_END);
             Runnable disconnectRunnable = listener::onConnectionLost;
+            ByteBuffer messageBuffer = null;
+            int bytesToRead;
+            int readBytesCount;
+            byte[] buffer = new byte[SIZE_MEMORY_BUFFER];
+
             while (connectionState == ConnectionState.CONNECTED) {
                 if (!bluetoothSocket.isConnected()) {
                     disconnectRunnable.run();
@@ -51,30 +58,71 @@ public class Transporter {
                 }
 
                 try {
-                    String message = inputScanner.next();
-                    Log.d(TAG, "<===\n" + message + "\n<===");
-                    listener.onMessageObtain(message);
-                } catch (NoSuchElementException noElementException) {
-                    Log.d(TAG, "<===\n" + "NoSuchElementException" + "\n<===");
-                    disconnectRunnable.run();
-                } catch (IllegalStateException illegalStateException) {
-                    Log.d(TAG, "<===\n" + "IllegalStateException" + "\n<===");
+                    while ((bytesToRead = inputStream.available()) > 0) {
+                        if (messageBuffer == null) {
+                            messageBuffer = ByteBuffer.allocate(bytesToRead);
+                        }
+
+                        if (bytesToRead > SIZE_MEMORY_BUFFER) {
+                            readBytesCount = inputStream.read(buffer, 0, SIZE_MEMORY_BUFFER);
+                        } else {
+                            readBytesCount = inputStream.read(buffer, 0, bytesToRead);
+                        }
+
+                        int capacityDelta = readBytesCount - messageBuffer.remaining();
+
+                        if (capacityDelta > 0) {
+                            ByteBuffer extendedBuffer = ByteBuffer.allocate(messageBuffer.capacity() + capacityDelta);
+                            extendedBuffer.put(messageBuffer.array(), 0, messageBuffer.position());
+                            messageBuffer = extendedBuffer;
+                        }
+
+                        // TODO: send receiving count event
+                        Log.d(TAG, "<=== bytes count = " + readBytesCount);
+
+                        messageBuffer.put(buffer, 0, readBytesCount);
+                    }
+
+                    if (messageBuffer != null) {
+                        byte[] bytes = messageBuffer.array();
+
+                        if (bytes.length > TERMINATING_BYTES.length &&
+                                Arrays.equals(
+                                        TERMINATING_BYTES,
+                                        Arrays.copyOfRange(
+                                                bytes,
+                                                bytes.length - TERMINATING_BYTES.length,
+                                                bytes.length
+                                        )
+                                )
+                        ) {
+                            listener.onMessageObtain(Arrays.copyOfRange(bytes, 0, bytes.length - TERMINATING_BYTES.length));
+                            messageBuffer = null;
+                        }
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "<===\n", e);
                     disconnectRunnable.run();
                 }
             }
         });
     }
 
-    public void write(String message) {
+    public void write(byte[] bytes) {
         Schedulers.newThread().scheduleDirect(() -> {
             try {
-                String formattedMessage = message + MARK_END;
-                Log.d(TAG, "===>\n" + formattedMessage + "\n===>");
-                outputStream.write(formattedMessage.getBytes());
+                // TODO: send receiving count event
+                outputStream.write(bytes);
+                outputStream.write(TERMINATING_BYTES);
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
+                listener.onConnectionLost();
             }
         });
+    }
+
+    public void write(String message) {
+        write(message.getBytes());
     }
 
     public void end() {
@@ -84,6 +132,7 @@ public class Transporter {
             bluetoothSocket.close();
         } catch (IOException e) {
             Log.e(TAG, "close() of connect socket failed", e);
+            throw new BluetoothGenericException(e);
         }
     }
 
@@ -92,7 +141,7 @@ public class Transporter {
     }
 
     public interface Listener {
-        void onMessageObtain(String message);
+        void onMessageObtain(byte[] message);
 
         void onConnectionLost();
     }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import fm.doe.national.offline_sync.R;
+import fm.doe.national.offline_sync.data.exceptions.BluetoothGenericException;
 import io.reactivex.schedulers.Schedulers;
 
 public class Acceptor {
@@ -30,6 +31,7 @@ public class Acceptor {
             );
         } catch (IOException ex) {
             Log.e(TAG, "Socket's listen() method failed", ex);
+            throw new BluetoothGenericException(ex);
         }
 
         serverSocket = tempSocket;
@@ -61,6 +63,7 @@ public class Acceptor {
             serverSocket.close();
         } catch (IOException e) {
             Log.e(TAG, "Could not close the connect socket", e);
+            throw new BluetoothGenericException(e);
         }
     }
 

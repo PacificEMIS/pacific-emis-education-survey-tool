@@ -15,7 +15,7 @@ import fm.doe.national.wash_core.data.model.BinaryAnswerState;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.TernaryAnswerState;
 import fm.doe.national.wash_core.data.model.Variant;
-import fm.doe.national.wash_core.data.serialization.BaseSerializableIdentifiedObject;
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 
 @Root(name = "answer")
 public class SerializableAnswer extends BaseSerializableIdentifiedObject implements Answer {

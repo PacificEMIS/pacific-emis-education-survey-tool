@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import fm.doe.national.offline_sync.R;
+import fm.doe.national.offline_sync.data.exceptions.BluetoothGenericException;
 import io.reactivex.Single;
 
 public class Connector {
@@ -29,6 +30,7 @@ public class Connector {
             tmp = device.createRfcommSocketToServiceRecord(UUID.fromString(context.getString(R.string.rfcomm_uuid)));
         } catch (IOException e) {
             Log.e(TAG, "Socket's create() method failed", e);
+            throw new BluetoothGenericException(e);
         }
 
         bluetoothSocket = tmp;
@@ -48,6 +50,7 @@ public class Connector {
             bluetoothSocket.close();
         } catch (IOException e) {
             Log.e(TAG, "Could not close the client socket", e);
+            throw new BluetoothGenericException(e);
         }
     }
 

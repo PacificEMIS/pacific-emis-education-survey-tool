@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.SubGroup;
-import fm.doe.national.wash_core.data.serialization.BaseSerializableIdentifiedObject;
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 
 @Root(name = "group")
 public class SerializableGroup extends BaseSerializableIdentifiedObject implements Group {

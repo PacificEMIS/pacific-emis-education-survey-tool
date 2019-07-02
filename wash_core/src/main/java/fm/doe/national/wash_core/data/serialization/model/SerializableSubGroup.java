@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.SubGroup;
-import fm.doe.national.wash_core.data.serialization.BaseSerializableIdentifiedObject;
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 
 @Root(name = "subgroup")
 public class SerializableSubGroup extends BaseSerializableIdentifiedObject implements SubGroup {

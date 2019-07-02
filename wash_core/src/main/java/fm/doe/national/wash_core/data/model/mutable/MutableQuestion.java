@@ -444,11 +444,6 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
             return null;
         }
 
-        if (this.isAnswered()) {
-            return null;
-        }
-
-        this.answer = new MutableAnswer(other.getAnswer());
-        return this.answer;
+        return this.answer.merge(other.getAnswer());
     }
 }

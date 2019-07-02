@@ -8,4 +8,6 @@ public interface WashDataSource extends DataSource {
 
     Single<Answer> updateAnswer(Answer answer);
 
+    Single<Answer> createAnswer(Answer answer, long questionId);
+
 }

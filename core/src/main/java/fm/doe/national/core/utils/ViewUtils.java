@@ -2,6 +2,7 @@ package fm.doe.national.core.utils;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -48,7 +49,7 @@ public class ViewUtils {
         int targetW = Constants.SIZE_THUMB_PICTURE;
         int targetH = Constants.SIZE_THUMB_PICTURE;
 
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        BitmapFactory.Options bmOptions = createBitmapOptions();
         bmOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imagePath, bmOptions);
         int photoW = bmOptions.outWidth;
@@ -62,8 +63,14 @@ public class ViewUtils {
         imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath, bmOptions));
     }
 
+    public static BitmapFactory.Options createBitmapOptions() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        return options;
+    }
+
     public static void setImageTo(ImageView imageView, String imagePath) {
-        imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+        imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath, createBitmapOptions()));
     }
 
     public static void setTintedBackgroundDrawable(View targetView, @DrawableRes int drawableRes, @ColorRes int colorRes) {
