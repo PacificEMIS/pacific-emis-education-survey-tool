@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
 import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 
@@ -60,10 +61,10 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
     }
 
     @Nullable
-    public MutableAnswer merge(Answer other) {
+    public MutableAnswer merge(Answer other, ConflictResolveStrategy strategy) {
         boolean haveChanges = false;
 
-        if (answerState == AnswerState.NOT_ANSWERED) {
+        if (answerState == AnswerState.NOT_ANSWERED || strategy == ConflictResolveStrategy.THEIRS) {
             haveChanges = answerState != other.getState();
             answerState = other.getState();
         }

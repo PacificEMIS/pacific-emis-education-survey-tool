@@ -8,7 +8,7 @@ import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.ui.devices.PairedDevicesActivity;
 import io.reactivex.Completable;
 
-public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase {
+public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase, OfflineAccessor.SyncUseCase {
 
     private final LifecycleListener lifecycleListener;
     private final OfflineAccessor offlineAccessor;
@@ -18,6 +18,7 @@ public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase {
     public OfflineSyncUseCaseImpl(LifecycleListener lifecycleListener, OfflineAccessor offlineAccessor) {
         this.lifecycleListener = lifecycleListener;
         this.offlineAccessor = offlineAccessor;
+        this.offlineAccessor.setSyncUseCase(this);
     }
 
     @Override
@@ -46,6 +47,7 @@ public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase {
         return targetSurvey;
     }
 
+    @Override
     public void setTargetSurvey(Survey targetSurvey) {
         this.targetSurvey = targetSurvey;
     }
@@ -56,5 +58,6 @@ public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase {
         offlineAccessor.stopDiscoverDevices();
         offlineAccessor.becomeUnavailableToConnect();
     }
+
 
 }

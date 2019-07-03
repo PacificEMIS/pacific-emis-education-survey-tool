@@ -4,6 +4,7 @@ import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.cloud.model.uploader.CloudUploader;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
@@ -32,7 +33,12 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
     public void onSurveyPressed(Survey survey) {
         addDisposable(
                 offlineAccessor.requestFilledSurvey(survey.getId())
-                        .flatMapCompletable(externalSurvey -> offlineAccessor.mergeSurveys(targetSurvey, externalSurvey))
+                        .flatMap(externalSurvey -> offlineAccessor.mergeSurveys(
+                                targetSurvey,
+                                externalSurvey,
+                                ConflictResolveStrategy.MINE)
+                        )
+                        .flatMapCompletable(offlineAccessor::pushSurvey)
                         .andThen(Completable.fromAction(() -> {
                             uploader.scheduleUploading(targetSurvey.getId());
                             useCase.finish();

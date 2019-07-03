@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -83,7 +84,7 @@ public class MutableSubGroup extends BaseMutableEntity implements SubGroup {
         this.progress = progress;
     }
 
-    public List<MutableAnswer> merge(SubGroup other) {
+    public List<MutableAnswer> merge(SubGroup other, ConflictResolveStrategy strategy) {
         List<? extends Question> externalQuestions = other.getQuestions();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 
@@ -91,7 +92,7 @@ public class MutableSubGroup extends BaseMutableEntity implements SubGroup {
             for (Question question : externalQuestions) {
                 for (MutableQuestion mutableQuestion : getQuestions()) {
                     if (mutableQuestion.getPrefix().equals(question.getPrefix())) {
-                        MutableAnswer changedAnswer = mutableQuestion.merge(question);
+                        MutableAnswer changedAnswer = mutableQuestion.merge(question, strategy);
 
                         if (changedAnswer != null) {
                             changedAnswers.add(changedAnswer);

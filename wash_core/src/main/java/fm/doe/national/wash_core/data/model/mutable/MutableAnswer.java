@@ -6,9 +6,11 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -143,14 +145,26 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.inputText = TextUtils.isEmpty(inputText) ? null : inputText;
     }
 
-    public MutableAnswer merge(Answer other) {
-        boolean haveChanges =
-                mergeItems(other) ||
-                mergeInputText(other) ||
-                mergeVariants(other) ||
-                mergeLocation(other) ||
-                mergeBinaryAnswer(other) ||
-                mergeTernaryAnswer(other);
+    public MutableAnswer merge(Answer other, ConflictResolveStrategy strategy) {
+        boolean haveChanges = false;
+        switch (strategy) {
+            case MINE:
+                haveChanges = mergeItemsMine(other) ||
+                        mergeInputTextMine(other) ||
+                        mergeVariantsMine(other) ||
+                        mergeLocationMine(other) ||
+                        mergeBinaryAnswerMine(other) ||
+                        mergeTernaryAnswerMine(other);
+                break;
+            case THEIRS:
+                haveChanges = mergeItemsTheirs(other) ||
+                        mergeInputTextTheirs(other) ||
+                        mergeVariantsTheirs(other) ||
+                        mergeLocationTheirs(other) ||
+                        mergeBinaryAnswerTheirs(other) ||
+                        mergeTernaryAnswerTheirs(other);
+                break;
+        }
 
         String externalComment = other.getComment();
         if (externalComment != null) {
@@ -178,7 +192,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         return haveChanges ? this : null;
     }
 
-    private boolean mergeItems(Answer answer) {
+    private boolean mergeItemsMine(Answer answer) {
         if (CollectionUtils.isEmpty(this.items) && !CollectionUtils.isEmpty(answer.getItems())) {
             this.items = answer.getItems();
             return true;
@@ -187,7 +201,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         return false;
     }
 
-    private boolean mergeInputText(Answer answer) {
+    private boolean mergeInputTextMine(Answer answer) {
         if (TextUtils.isEmpty(this.inputText) && !TextUtils.isEmpty(answer.getInputText())) {
             this.inputText = answer.getInputText();
             return true;
@@ -196,7 +210,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         return false;
     }
 
-    private boolean mergeVariants(Answer answer) {
+    private boolean mergeVariantsMine(Answer answer) {
         if (CollectionUtils.isEmpty(this.variants) && !CollectionUtils.isEmpty(answer.getVariants())) {
             this.variants = answer.getVariants();
             return true;
@@ -205,7 +219,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         return false;
     }
 
-    private boolean mergeLocation(Answer answer) {
+    private boolean mergeLocationMine(Answer answer) {
         if (this.location == null && answer.getLocation() != null) {
             this.location = answer.getLocation();
             return true;
@@ -214,7 +228,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         return false;
     }
 
-    private boolean mergeBinaryAnswer(Answer answer) {
+    private boolean mergeBinaryAnswerMine(Answer answer) {
         if (this.binaryAnswerState == null && answer.getBinaryAnswerState() != null) {
             this.binaryAnswerState = answer.getBinaryAnswerState();
             return true;
@@ -223,12 +237,66 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         return false;
     }
 
-    private boolean mergeTernaryAnswer(Answer answer) {
+    private boolean mergeTernaryAnswerMine(Answer answer) {
         if (this.ternaryAnswerState == null && answer.getTernaryAnswerState() != null) {
             this.ternaryAnswerState = answer.getTernaryAnswerState();
             return true;
         }
 
         return false;
+    }
+
+    private boolean mergeItemsTheirs(Answer answer) {
+        if (Objects.equals(this.items, answer.getItems())) {
+            return false;
+        }
+
+        this.items = answer.getItems();
+        return true;
+    }
+
+    private boolean mergeInputTextTheirs(Answer answer) {
+        if (Objects.equals(this.inputText, answer.getInputText())) {
+            return false;
+        }
+
+        this.inputText = answer.getInputText();
+        return true;
+    }
+
+    private boolean mergeVariantsTheirs(Answer answer) {
+        if (Objects.equals(this.variants, answer.getVariants())) {
+            return false;
+        }
+
+        this.variants = answer.getVariants();
+        return true;
+    }
+
+    private boolean mergeLocationTheirs(Answer answer) {
+        if (Objects.equals(this.location, answer.getLocation())) {
+            return false;
+        }
+
+        this.location = answer.getLocation();
+        return true;
+    }
+
+    private boolean mergeBinaryAnswerTheirs(Answer answer) {
+        if (Objects.equals(this.binaryAnswerState, answer.getBinaryAnswerState())) {
+            return false;
+        }
+
+        this.binaryAnswerState = answer.getBinaryAnswerState();
+        return true;
+    }
+
+    private boolean mergeTernaryAnswerTheirs(Answer answer) {
+        if (Objects.equals(this.ternaryAnswerState, answer.getTernaryAnswerState())) {
+            return false;
+        }
+
+        this.ternaryAnswerState = answer.getTernaryAnswerState();
+        return true;
     }
 }

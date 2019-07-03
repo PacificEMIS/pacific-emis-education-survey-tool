@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import java.util.List;
 
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.model.Device;
@@ -41,5 +42,17 @@ public interface OfflineAccessor {
 
     void onBroadcastReceive(Context context, Intent intent);
 
-    Completable mergeSurveys(Survey targetSurvey, Survey externalSurvey);
+    Single<Survey> mergeSurveys(Survey targetSurvey, Survey externalSurvey, ConflictResolveStrategy strategy);
+
+    Completable pushSurvey(Survey mergedSurvey);
+
+    void setSyncUseCase(SyncUseCase syncUseCase);
+
+    interface SyncUseCase {
+
+        Survey getTargetSurvey();
+
+        void setTargetSurvey(Survey survey);
+
+    }
 }

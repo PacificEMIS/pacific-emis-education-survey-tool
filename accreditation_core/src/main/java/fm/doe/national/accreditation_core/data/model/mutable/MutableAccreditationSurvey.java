@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Category;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.preferences.entities.AppRegion;
@@ -128,7 +129,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.appRegion = appRegion;
     }
 
-    public List<MutableAnswer> merge(AccreditationSurvey other) {
+    public List<MutableAnswer> merge(AccreditationSurvey other, ConflictResolveStrategy strategy) {
         List<? extends Category> externalCategories = other.getCategories();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 
@@ -136,7 +137,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
             for (Category category : externalCategories) {
                 for (MutableCategory mutableCategory : getCategories()) {
                     if (mutableCategory.getTitle().equals(category.getTitle())) {
-                        changedAnswers.addAll(mutableCategory.merge(category));
+                        changedAnswers.addAll(mutableCategory.merge(category, strategy));
                         break;
                     }
                 }

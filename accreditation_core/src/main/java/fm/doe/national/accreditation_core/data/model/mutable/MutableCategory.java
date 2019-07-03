@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -67,7 +68,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         this.evaluationForm = evaluationForm;
     }
 
-    public List<MutableAnswer> merge(Category other) {
+    public List<MutableAnswer> merge(Category other, ConflictResolveStrategy strategy) {
         List<? extends Standard> externalStandards = other.getStandards();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 
@@ -75,7 +76,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
             for (Standard standard : externalStandards) {
                 for (MutableStandard mutableStandard : getStandards()) {
                     if (mutableStandard.getSuffix().equals(standard.getSuffix())) {
-                        changedAnswers.addAll(mutableStandard.merge(standard));
+                        changedAnswers.addAll(mutableStandard.merge(standard, strategy));
                         break;
                     }
                 }

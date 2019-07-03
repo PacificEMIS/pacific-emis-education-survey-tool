@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -68,7 +69,7 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
         this.progress = progress;
     }
 
-    public List<MutableAnswer> merge(Criteria other) {
+    public List<MutableAnswer> merge(Criteria other, ConflictResolveStrategy strategy) {
         List<? extends SubCriteria> externalSubCriterias = other.getSubCriterias();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 
@@ -76,7 +77,7 @@ public class MutableCriteria extends BaseMutableEntity implements Criteria {
             for (SubCriteria subCriteria : externalSubCriterias) {
                 for (MutableSubCriteria mutableSubCriteria : getSubCriterias()) {
                     if (mutableSubCriteria.getSuffix().equals(subCriteria.getSuffix())) {
-                        MutableAnswer changedAnswer = mutableSubCriteria.merge(subCriteria);
+                        MutableAnswer changedAnswer = mutableSubCriteria.merge(subCriteria, strategy);
 
                         if (changedAnswer != null) {
                             changedAnswers.add(changedAnswer);
