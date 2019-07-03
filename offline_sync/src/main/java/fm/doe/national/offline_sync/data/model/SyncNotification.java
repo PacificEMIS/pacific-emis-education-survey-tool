@@ -27,9 +27,10 @@ public class SyncNotification {
         DID_SEND_SURVEY,
         WILL_SEND_PHOTOS,
         DID_SEND_PHOTO,
-        DID_SAVE_SURVEY,
+        WILL_SAVE_PHOTOS,
         DID_SAVE_PHOTO,
         RECEIVE_BYTES,
-        DID_FINISH_SYNC
+        DID_FINISH_SYNC,
+        DID_GET_EXTERNAL_SURVEY
     }
 }

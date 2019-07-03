@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.data_source.AccreditationDataSource;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
-import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.PicturesRepository;
@@ -585,12 +584,21 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
-                                .flattenAsFlowable(Answer::getPhotos)
+                                .flattenAsFlowable(a -> getPhotosWithNotification(a.getPhotos()))
                                 .concatMap(this::acquirePhoto)
                         )
                         .ignoreElements()
                 )
                 .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()));
+    }
+
+    private List<? extends Photo> getPhotosWithNotification(List<? extends Photo> photos) {
+        if (photos == null) {
+            photos = new ArrayList<>();
+        }
+
+        syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photos.size()));
+        return photos;
     }
 
     private Single<Survey> mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey, ConflictResolveStrategy strategy) {
@@ -600,7 +608,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> washDataSource.updateAnswer(changedAnswers.get(index))
-                                .flattenAsFlowable(fm.doe.national.wash_core.data.model.Answer::getPhotos)
+                                .flattenAsFlowable(a -> getPhotosWithNotification(a.getPhotos()))
                                 .concatMap(this::acquirePhoto)
                         )
                         .ignoreElements()
