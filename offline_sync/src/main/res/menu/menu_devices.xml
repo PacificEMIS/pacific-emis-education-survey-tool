@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_open_settings"
-        android:icon="@drawable/ic_settings_white"
+        android:icon="@drawable/ic_settings"
         android:title="@string/action_open_bt_settings"
         app:showAsAction="always" />
 
