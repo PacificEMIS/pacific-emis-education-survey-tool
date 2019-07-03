@@ -33,7 +33,10 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
         addDisposable(
                 offlineAccessor.requestFilledSurvey(survey.getId())
                         .flatMapCompletable(externalSurvey -> offlineAccessor.mergeSurveys(targetSurvey, externalSurvey))
-                        .andThen(Completable.fromAction(() -> uploader.scheduleUploading(targetSurvey.getId())))
+                        .andThen(Completable.fromAction(() -> {
+                            uploader.scheduleUploading(targetSurvey.getId());
+                            useCase.finish();
+                        }))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().showWaiting())

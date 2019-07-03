@@ -17,12 +17,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.SurveyType;
-import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
+import fm.doe.national.ui.dialogs.merge_progress.MergeProgressDialogFragment;
 import fm.doe.national.ui.screens.settings.SettingsActivity;
 import fm.doe.national.ui.screens.surveys.SurveysActivity;
 
-public class MainMenuActivity extends BaseActivity implements MainMenuView {
+public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuView {
+
+    private static final String TAG_PROGRESS_FRAGMENT = "TAG_PROGRESS_FRAGMENT";
 
     @InjectPresenter
     MainMenuPresenter presenter;
@@ -73,6 +76,11 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView {
         presenter.onWashPressed();
     }
 
+    @OnClick(R.id.textview_merge)
+    void onMergePressed() {
+        presenter.onMergePressed();
+    }
+
     @Override
     public void setIcon(Image image) {
         image.applyImage(iconImageView, R.drawable.ic_default_logo);
@@ -121,5 +129,10 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView {
     @Override
     protected BasePresenter getPresenter() {
         return presenter;
+    }
+
+    @Override
+    public void showMergeProgress() {
+        MergeProgressDialogFragment.create().show(getSupportFragmentManager(), TAG_PROGRESS_FRAGMENT);
     }
 }

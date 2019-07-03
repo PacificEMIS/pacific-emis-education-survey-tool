@@ -22,7 +22,6 @@ import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
 import fm.doe.national.survey.ui.SurveyActivity;
 import fm.doe.national.ui.screens.menu.MainMenuActivity;
@@ -42,9 +41,6 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
     @BindView(R.id.fab_new_accreditation)
     FloatingActionButton newAccreditationFab;
-
-    private MenuItem becomeAvailableItem;
-    private MenuItem becomeUnavailableItem;
 
     @Nullable
     private Runnable delayedMenuInit;
@@ -91,14 +87,6 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_surveys, menu);
-        becomeAvailableItem = menu.findItem(R.id.action_become_available_for_sync);
-        becomeUnavailableItem = menu.findItem(R.id.action_become_unavailable_for_sync);
-
-        if (delayedMenuInit != null) {
-            delayedMenuInit.run();
-            delayedMenuInit = null;
-        }
-
         return true;
     }
 
@@ -107,12 +95,6 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         switch (item.getItemId()) {
             case R.id.action_export_all:
                 presenter.onExportAllPressed();
-                return true;
-            case R.id.action_become_available_for_sync:
-                presenter.onBecomeAvailableForSyncPressed();
-                return true;
-            case R.id.action_become_unavailable_for_sync:
-                presenter.onBecomeUnavailableForSyncPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -175,27 +157,4 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         presenter.onLoadPartiallySavedSurveyPressed();
     }
 
-    @Override
-    public void setConnectionState(ConnectionState connectionState) {
-        delayedMenuInit = () -> {
-            switch (connectionState) {
-                case NONE:
-                case CONNECTING:
-                    becomeAvailableItem.setVisible(true);
-                    becomeUnavailableItem.setVisible(false);
-                    break;
-                case CONNECTED:
-                case LISTENING:
-                    becomeAvailableItem.setVisible(false);
-                    becomeUnavailableItem.setVisible(true);
-                    break;
-            }
-        };
-
-        if (becomeUnavailableItem != null) {
-            delayedMenuInit.run();
-            delayedMenuInit = null;
-        }
-
-    }
 }

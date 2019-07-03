@@ -4,7 +4,10 @@ import fm.doe.national.core.data.model.Survey;
 import io.reactivex.Completable;
 
 public interface OfflineSyncUseCase {
-    Completable execute(Survey survey);
+
+    void executeAsInitiator(Survey survey);
+
+    Completable executeAsReceiver();
 
     void finish();
 

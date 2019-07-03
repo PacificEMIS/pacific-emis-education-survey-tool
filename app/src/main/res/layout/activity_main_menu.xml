@@ -25,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:src="@drawable/ic_default_logo"
-        app:layout_heightPercent="32%"
-        app:layout_marginTopPercent="4%"
+        app:layout_heightPercent="26.4%"
+        app:layout_marginTopPercent="3.2%"
         tools:ignore="ContentDescription" />
 
     <com.omega_r.libs.layouts.percent.PercentLinearLayout
@@ -37,7 +37,7 @@
         android:orientation="horizontal"
         android:padding="2dp"
         app:layout_heightPercent="12.8%"
-        app:layout_marginTopPercent="8.8%"
+        app:layout_marginTopPercent="5.6%"
         app:layout_widthPercent="75%">
 
         <Button
@@ -59,11 +59,39 @@
 
     </com.omega_r.libs.layouts.percent.PercentLinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="4.8%"
+        app:layout_marginLeftPercent="14%"
+        app:layout_marginRightPercent="14%"
+        app:layout_marginTopPercent="5.6%">
+
+        <TextView
+            android:id="@+id/textview_auth_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/ic_user"
+            android:drawablePadding="24dp"
+            android:gravity="center_vertical"
+            android:text="@string/coming_soon"
+            android:textAppearance="@style/Text.Title4" />
+
+        <TextView
+            android:id="@+id/textview_auth"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:text="@string/label_sign_in"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/textview_settings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="48"
         android:background="?selectableItemBackground"
         android:clickable="true"
         android:drawableStart="@drawable/ic_lock"
@@ -75,7 +103,7 @@
         app:layout_heightPercent="4.8%"
         app:layout_marginLeftPercent="14%"
         app:layout_marginRightPercent="14%"
-        app:layout_marginTopPercent="8%" />
+        app:layout_marginTopPercent="1.6%" />
 
     <TextView
         android:id="@+id/textview_credits"
@@ -90,9 +118,37 @@
         android:text="@string/label_credits"
         android:textAppearance="@style/Text.Title4"
         app:layout_heightPercent="4.8%"
-        app:layout_marginBottomPercent="9.2%"
         app:layout_marginLeftPercent="14%"
         app:layout_marginRightPercent="14%"
         app:layout_marginTopPercent="1.6%" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="4.8%"
+        app:layout_marginLeftPercent="14%"
+        app:layout_marginRightPercent="14%"
+        app:layout_marginTopPercent="1.6%"
+        app:layout_marginBottomPercent="8.4%">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/ic_bluetooth"
+            android:drawablePadding="24dp"
+            android:gravity="center_vertical"
+            android:text="@string/label_merge_survey"
+            android:textAppearance="@style/Text.Title4" />
+
+        <TextView
+            android:id="@+id/textview_merge"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:text="@string/label_start_session"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
 
 </com.omega_r.libs.layouts.percent.PercentLinearLayout>

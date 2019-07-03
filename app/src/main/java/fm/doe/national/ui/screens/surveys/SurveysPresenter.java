@@ -36,12 +36,6 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public SurveysPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
-        addDisposable(
-                offlineAccessor.getConnectionStateObservable()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(getViewState()::setConnectionState, this::handleError)
-        );
     }
 
     @Override
@@ -68,7 +62,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     public void onSurveyMergePressed(Survey survey) {
-        offlineSyncUseCase.execute(survey);
+        offlineSyncUseCase.executeAsInitiator(survey);
     }
 
     public void onSurveyExportToExcelPressed(Survey survey) {
@@ -84,14 +78,6 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     public void onExportAllPressed() {
         // TODO: not implemented
         getViewState().showToast(Text.from(R.string.coming_soon));
-    }
-
-    public void onBecomeAvailableForSyncPressed() {
-        offlineAccessor.becomeAvailableToConnect();
-    }
-
-    public void onBecomeUnavailableForSyncPressed() {
-        offlineAccessor.becomeUnavailableToConnect();
     }
 
     public void onLoadPartiallySavedSurveyPressed() {

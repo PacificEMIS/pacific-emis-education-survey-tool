@@ -9,10 +9,10 @@ import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import fm.doe.national.core.preferences.entities.SurveyType;
-import fm.doe.national.core.ui.screens.base.BaseView;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothView;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface MainMenuView extends BaseView {
+public interface MainMenuView extends BaseBluetoothView {
 
     void setIcon(Image icon);
 
@@ -29,4 +29,6 @@ public interface MainMenuView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToCredits();
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showMergeProgress();
 }

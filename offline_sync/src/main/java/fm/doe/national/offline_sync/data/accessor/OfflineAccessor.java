@@ -27,7 +27,7 @@ public interface OfflineAccessor {
 
     void stopDiscoverDevices();
 
-    void becomeAvailableToConnect();
+    Completable becomeAvailableToConnect();
 
     void becomeUnavailableToConnect();
 

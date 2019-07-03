@@ -7,14 +7,4 @@
         android:title="@string/action_export_all"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/action_become_available_for_sync"
-        android:title="@string/action_become_available_for_sync"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/action_become_unavailable_for_sync"
-        android:title="@string/action_become_unavailable_for_sync"
-        app:showAsAction="never"/>
-
 </menu>

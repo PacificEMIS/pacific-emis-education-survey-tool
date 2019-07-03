@@ -11,4 +11,11 @@ public interface WashSurvey extends Survey {
     @Nullable
     List<? extends Group> getGroups();
 
+    default int getPhotosCount() {
+        return (int) getGroups().parallelStream()
+                .flatMap(g -> g.getSubGroups().parallelStream())
+                .flatMap(sg -> sg.getQuestions().parallelStream())
+                .flatMap(q -> q.getAnswer().getPhotos().parallelStream())
+                .count();
+    }
 }

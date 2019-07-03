@@ -12,6 +12,7 @@ import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCaseImpl;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
+import fm.doe.national.offline_sync.domain.SyncNotifier;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
@@ -27,13 +28,17 @@ public class OfflineSyncModule {
 
     @Provides
     @OfflineSyncScope
-    OfflineAccessor provideOfflineAccessor(Context context, GlobalPreferences globalPreferences, PicturesRepository picturesRepository) {
+    OfflineAccessor provideOfflineAccessor(Context context,
+                                           GlobalPreferences globalPreferences,
+                                           PicturesRepository picturesRepository,
+                                           SyncNotifier syncNotifier) {
         return new BluetoothOfflineAccessor(
                 context,
                 globalPreferences,
                 accreditationCoreComponent.getDataSource(),
                 washCoreComponent.getDataSource(),
-                picturesRepository
+                picturesRepository,
+                syncNotifier
         );
     }
 
@@ -41,5 +46,11 @@ public class OfflineSyncModule {
     @OfflineSyncScope
     OfflineSyncUseCase provideUseCase(LifecycleListener lifecycleListener, OfflineAccessor offlineAccessor) {
         return new OfflineSyncUseCaseImpl(lifecycleListener, offlineAccessor);
+    }
+
+    @Provides
+    @OfflineSyncScope
+    SyncNotifier provideSyncNotifier() {
+        return new SyncNotifier();
     }
 }

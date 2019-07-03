@@ -28,4 +28,12 @@
     <string name="title_confirm_the_master_password">Confirm the master password</string>
     <string name="error_passwords_not_match">Passwords not match</string>
     <string name="app_center_key">d424eec5-93ab-4dbd-aa21-ea1dd6b38eaa</string>
+    <string name="label_merge_survey">Merge survey</string>
+    <string name="label_start_session">Start session</string>
+    <string name="label_end_session">End session</string>
+    <string name="title_merge_progress">Getting a survey from another device</string>
+    <string name="hint_merge_successful">Merge finished successfully</string>
+    <string name="hint_merge_in_progress">Merging is in progress, please stay close to paired device</string>
+    <string name="hint_merge_failed">Merge failed. Finish current session and try again</string>
+    <string name="hint_merge_waiting">Waiting for initiator device</string>
 </resources>

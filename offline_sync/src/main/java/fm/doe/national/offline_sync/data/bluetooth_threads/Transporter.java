@@ -28,8 +28,8 @@ public class Transporter {
     public Transporter(BluetoothSocket socket, Listener listener) {
         this.bluetoothSocket = socket;
         this.listener = listener;
-        InputStream tempInputStream = null;
-        OutputStream tempOutputStream = null;
+        InputStream tempInputStream;
+        OutputStream tempOutputStream;
 
         try {
             tempInputStream = socket.getInputStream();
@@ -77,7 +77,7 @@ public class Transporter {
                             messageBuffer = extendedBuffer;
                         }
 
-                        // TODO: send receiving count event
+                        // TODO: notify receiving count event
                         Log.d(TAG, "<=== bytes count = " + readBytesCount);
 
                         messageBuffer.put(buffer, 0, readBytesCount);
@@ -111,7 +111,7 @@ public class Transporter {
     public void write(byte[] bytes) {
         Schedulers.newThread().scheduleDirect(() -> {
             try {
-                // TODO: send receiving count event
+                // TODO: notify receiving count event
                 outputStream.write(bytes);
                 outputStream.write(TERMINATING_BYTES);
             } catch (IOException e) {

@@ -53,7 +53,9 @@ import fm.doe.national.offline_sync.data.model.ResponseAccreditationSurveysBody;
 import fm.doe.national.offline_sync.data.model.ResponseSurveyBody;
 import fm.doe.national.offline_sync.data.model.ResponseSurveysBody;
 import fm.doe.national.offline_sync.data.model.ResponseWashSurveysBody;
+import fm.doe.national.offline_sync.data.model.SyncNotification;
 import fm.doe.national.offline_sync.data.model.WashResponseSurveyBody;
+import fm.doe.national.offline_sync.domain.SyncNotifier;
 import fm.doe.national.wash_core.data.data_source.WashDataSource;
 import fm.doe.national.wash_core.data.model.WashSurvey;
 import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
@@ -95,6 +97,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final AccreditationDataSource accreditationDataSource;
     private final WashDataSource washDataSource;
     private final PicturesRepository picturesRepository;
+    private final SyncNotifier syncNotifier;
 
     @Nullable
     private SingleSubject<List<Survey>> requestSurveysSubject;
@@ -120,12 +123,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                                     GlobalPreferences globalPreferences,
                                     AccreditationDataSource accreditationDataSource,
                                     WashDataSource washDataSource,
-                                    PicturesRepository picturesRepository) {
+                                    PicturesRepository picturesRepository,
+                                    SyncNotifier syncNotifier) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
         this.globalPreferences = globalPreferences;
         this.accreditationDataSource = accreditationDataSource;
         this.washDataSource = washDataSource;
         this.picturesRepository = picturesRepository;
+        this.syncNotifier = syncNotifier;
     }
 
     @Override
@@ -167,20 +172,25 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     @Override
-    public void becomeAvailableToConnect() {
+    public Completable becomeAvailableToConnect() {
         killAll();
 
         Context appContext = applicationContextRef.get();
 
         if (appContext == null) {
-            return;
+            return Completable.error(new IllegalStateException());
         }
+
+        CompletableSubject completableSubject = CompletableSubject.create();
 
         doWithBluetoothPermissions(() -> doInDiscoverableMode(() -> {
             acceptor = new Acceptor(appContext, bluetoothAdapter, this);
             acceptor.start();
             setConnectionState(ConnectionState.LISTENING);
+            completableSubject.onComplete();
         }));
+
+        return completableSubject;
     }
 
     private void doWithBluetoothPermissions(Action action) {
@@ -370,6 +380,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             VoidFunction<ResponseSurveysBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(v));
                 transporter.write(gson.toJson(message));
+                syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_AVAILABLE_SURVEYS));
             };
 
             switch (request.getSurveyType()) {
@@ -430,6 +441,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             VoidFunction<ResponseSurveyBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_FILLED_SURVEY, gson.toJson(v));
                 transporter.write(gson.toJson(message));
+                syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_SURVEY));
+                syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SEND_PHOTOS, v.getSurvey().getPhotosCount()));
             };
 
             switch (request.getSurveyType()) {
@@ -644,5 +657,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         } else {
             transporter.write("File not exist");
         }
+
+        syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_PHOTO));
     }
 }
