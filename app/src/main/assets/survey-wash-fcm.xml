@@ -1203,7 +1203,7 @@
             </question>
             <question>
                 <id>SW.OM.6</id>
-                <name>Are members of the school community supportive in the operation of the school such as the maintenance of environment for learning, WASH facilities and provision of soap</name>
+                <name>Are members of the school community supportive in the operation of the school such as the maintenance of environment for learning, WASH facilities and provision of soap?</name>
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.OM.2</id>
@@ -1239,7 +1239,7 @@
             </question>
             <question>
                 <id>SW.OM.9</id>
-                <name>How would you rate the community involvement and participation in school activities?</name>
+                <name>What are some of the activities that the community participate in?</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.OM.6</id>
