@@ -20,8 +20,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 @InjectViewState
 public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
 
-    private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().
-            getOfflineSyncComponent()
+    private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection()
+            .getOfflineSyncComponent()
             .getUseCase();
 
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection()
