@@ -121,4 +121,8 @@
     <string name="message_invalid_password">Invalid password</string>
     <string name="message_delete_password_prompt">Confirm survey removal with master password</string>
     <string name="message_settings_password_prompt">Enter Master Password to access Settings</string>
+    <string name="hint_merge_successful">Merge finished successfully</string>
+    <string name="hint_merge_in_progress">Merging is in progress, please stay close to paired device</string>
+    <string name="hint_merge_failed">Merge failed. Finish current session and try again</string>
+    <string name="hint_merge_waiting">Waiting for initiator device</string>
 </resources>
