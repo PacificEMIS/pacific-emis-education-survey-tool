@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.surveys.SyncSurveysActivity">
+    android:orientation="vertical">
 
-    <include layout="@layout/include_appbar" />
+    <include
+        android:id="@+id/include_appbar"
+        layout="@layout/include_appbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include_appbar">
 
         <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_sync_survey" />
+            android:clipToPadding="false"
+            android:paddingBottom="96dp"
+            tools:listitem="@layout/item_bluetooth_device" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+    <fm.doe.national.core.ui.views.IconButton
+        android:id="@+id/iconbutton_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="32dp"
+        app:icon="@drawable/ic_check"
+        app:text="@string/label_select_survey" />
+
+</RelativeLayout>

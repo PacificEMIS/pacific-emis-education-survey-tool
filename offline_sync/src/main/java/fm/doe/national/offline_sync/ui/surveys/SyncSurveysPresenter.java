@@ -21,8 +21,10 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
     private final OfflineSyncUseCase useCase;
     private final CloudUploader uploader;
     private Survey targetSurvey;
+    private Survey selectedSurvey;
 
     public SyncSurveysPresenter(OfflineSyncComponent component, CloudComponent cloudComponent) {
+        getViewState().setNextButtonEnabled(false);
         offlineAccessor = component.getAccessor();
         useCase = component.getUseCase();
         targetSurvey = useCase.getTargetSurvey();
@@ -31,8 +33,28 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
     }
 
     public void onSurveyPressed(Survey survey) {
+        selectedSurvey = survey;
+        getViewState().setNextButtonEnabled(true);
+    }
+
+    public void onRefresh() {
         addDisposable(
-                offlineAccessor.requestFilledSurvey(survey.getId())
+                offlineAccessor.requestSurveys(targetSurvey.getSchoolId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> getViewState().setListLoadingVisible(true))
+                        .doFinally(() -> getViewState().setListLoadingVisible(false))
+                        .subscribe(getViewState()::setSurveys, this::handleError)
+        );
+    }
+
+    public void onNextPressed() {
+        if (selectedSurvey == null) {
+            return;
+        }
+
+        addDisposable(
+                offlineAccessor.requestFilledSurvey(selectedSurvey.getId())
                         .flatMap(externalSurvey -> offlineAccessor.mergeSurveys(
                                 targetSurvey,
                                 externalSurvey,
@@ -48,17 +70,6 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
                         .doOnSubscribe(d -> getViewState().showWaiting())
                         .doFinally(getViewState()::hideWaiting)
                         .subscribe(getViewState()::close, this::handleError)
-        );
-    }
-
-    public void onRefresh() {
-        addDisposable(
-                offlineAccessor.requestSurveys(targetSurvey.getSchoolId())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(d -> getViewState().setListLoadingVisible(true))
-                        .doFinally(() -> getViewState().setListLoadingVisible(false))
-                        .subscribe(getViewState()::setSurveys, this::handleError)
         );
     }
 }

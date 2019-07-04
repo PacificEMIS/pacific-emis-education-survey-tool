@@ -5,4 +5,5 @@
     <string name="action_open_bt_settings">Open Bluetooth Settings</string>
     <string name="rfcomm_uuid">5c8b28e9-fe2e-4cff-8da1-054a77377894</string>
     <string name="label_choose_device">Choose device</string>
+    <string name="label_select_survey">Select survey</string>
 </resources>
