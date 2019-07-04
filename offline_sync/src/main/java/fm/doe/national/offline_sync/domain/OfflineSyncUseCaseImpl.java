@@ -14,6 +14,7 @@ public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase, OfflineAccess
     private final OfflineAccessor offlineAccessor;
 
     private Survey targetSurvey;
+    private Survey externalSurvey;
 
     public OfflineSyncUseCaseImpl(LifecycleListener lifecycleListener, OfflineAccessor offlineAccessor) {
         this.lifecycleListener = lifecycleListener;
@@ -59,5 +60,13 @@ public class OfflineSyncUseCaseImpl implements OfflineSyncUseCase, OfflineAccess
         offlineAccessor.becomeUnavailableToConnect();
     }
 
+    @Override
+    public void setExternalSurvey(Survey survey) {
+        this.externalSurvey = survey;
+    }
 
+    @Override
+    public Survey getExternalSurvey() {
+        return externalSurvey;
+    }
 }

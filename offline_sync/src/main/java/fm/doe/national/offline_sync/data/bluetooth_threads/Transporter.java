@@ -1,5 +1,6 @@
 package fm.doe.national.offline_sync.data.bluetooth_threads;
 
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
@@ -138,6 +139,10 @@ public class Transporter {
 
     public synchronized void setState(ConnectionState connectionState) {
         this.connectionState = connectionState;
+    }
+
+    public BluetoothDevice getDevice() {
+        return bluetoothSocket.getRemoteDevice();
     }
 
     public interface Listener {

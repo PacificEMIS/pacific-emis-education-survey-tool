@@ -3,6 +3,8 @@ package fm.doe.national.offline_sync.data.accessor;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
@@ -47,6 +49,9 @@ public interface OfflineAccessor {
     Completable pushSurvey(Survey mergedSurvey);
 
     void setSyncUseCase(SyncUseCase syncUseCase);
+
+    @Nullable
+    Device getCurrentConnectedDevice();
 
     interface SyncUseCase {
 

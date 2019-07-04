@@ -2,15 +2,11 @@ package fm.doe.national.offline_sync.ui.surveys;
 
 import com.omegar.mvp.InjectViewState;
 
-import fm.doe.national.cloud.di.CloudComponent;
-import fm.doe.national.cloud.model.uploader.CloudUploader;
-import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
-import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -19,16 +15,14 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
 
     private final OfflineAccessor offlineAccessor;
     private final OfflineSyncUseCase useCase;
-    private final CloudUploader uploader;
     private Survey targetSurvey;
     private Survey selectedSurvey;
 
-    public SyncSurveysPresenter(OfflineSyncComponent component, CloudComponent cloudComponent) {
+    public SyncSurveysPresenter(OfflineSyncComponent component) {
         getViewState().setNextButtonEnabled(false);
         offlineAccessor = component.getAccessor();
         useCase = component.getUseCase();
         targetSurvey = useCase.getTargetSurvey();
-        uploader = cloudComponent.getCloudUploader();
         onRefresh();
     }
 
@@ -53,23 +47,8 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
             return;
         }
 
-        addDisposable(
-                offlineAccessor.requestFilledSurvey(selectedSurvey.getId())
-                        .flatMap(externalSurvey -> offlineAccessor.mergeSurveys(
-                                targetSurvey,
-                                externalSurvey,
-                                ConflictResolveStrategy.MINE)
-                        )
-                        .flatMapCompletable(offlineAccessor::pushSurvey)
-                        .andThen(Completable.fromAction(() -> {
-                            uploader.scheduleUploading(targetSurvey.getId());
-                            useCase.finish();
-                        }))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(d -> getViewState().showWaiting())
-                        .doFinally(getViewState()::hideWaiting)
-                        .subscribe(getViewState()::close, this::handleError)
-        );
+        useCase.setExternalSurvey(selectedSurvey);
+        getViewState().navigateToProgress();
+        getViewState().close();
     }
 }

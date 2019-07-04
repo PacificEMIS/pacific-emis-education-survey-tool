@@ -12,4 +12,8 @@ public interface OfflineSyncUseCase {
     void finish();
 
     Survey getTargetSurvey();
+
+    void setExternalSurvey(Survey survey);
+
+    Survey getExternalSurvey();
 }
