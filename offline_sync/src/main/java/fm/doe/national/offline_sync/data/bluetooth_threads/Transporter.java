@@ -78,7 +78,6 @@ public class Transporter {
                             messageBuffer = extendedBuffer;
                         }
 
-                        // TODO: notify receiving count event
                         Log.d(TAG, "<=== bytes count = " + readBytesCount);
 
                         messageBuffer.put(buffer, 0, readBytesCount);
@@ -112,7 +111,6 @@ public class Transporter {
     public void write(byte[] bytes) {
         Schedulers.newThread().scheduleDirect(() -> {
             try {
-                // TODO: notify receiving count event
                 outputStream.write(bytes);
                 outputStream.write(TERMINATING_BYTES);
             } catch (IOException e) {

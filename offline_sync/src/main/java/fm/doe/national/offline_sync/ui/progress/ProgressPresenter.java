@@ -11,7 +11,6 @@ import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
-import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.model.SyncNotification;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
@@ -64,13 +63,6 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
         );
 
         addDisposable(
-                offlineAccessor.getConnectionStateObservable()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onConnectionStateChanged, this::handleError)
-        );
-
-        addDisposable(
                 notifier.getNotificationsObservable()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -81,10 +73,6 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
     public void onEndSessionPressed() {
         useCase.finish();
         getViewState().close();
-    }
-
-    private void onConnectionStateChanged(ConnectionState state) {
-
     }
 
     private void handleNotification(SyncNotification notification) {
