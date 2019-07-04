@@ -2,6 +2,7 @@ package fm.doe.national.offline_sync.ui.devices;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ public class PairedDevicesAdapter extends BaseListAdapter<Device> {
 
         private final TextView nameTextView = findViewById(R.id.textview_name);
         private final TextView macTextView = findViewById(R.id.textview_mac);
+        private final RadioButton radioButton = findViewById(R.id.radiobutton);
 
         ItemViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_bluetooth_device);
@@ -40,6 +42,7 @@ public class PairedDevicesAdapter extends BaseListAdapter<Device> {
             macTextView.setText(item.getAddress());
 
             itemView.setActivated(isSelected());
+            radioButton.setChecked(isSelected());
         }
 
         private boolean isSelected() {
@@ -50,10 +53,7 @@ public class PairedDevicesAdapter extends BaseListAdapter<Device> {
         public void onClick(View v) {
             super.onClick(v);
 
-            if (isSelected()) {
-                selectedPosition = RecyclerView.NO_POSITION;
-                notifyItemChanged(getAdapterPosition());
-            } else {
+            if (selectedPosition != getAdapterPosition()) {
                 int oldSelectedPosition = selectedPosition;
                 selectedPosition = getAdapterPosition();
                 notifyItemChanged(oldSelectedPosition);

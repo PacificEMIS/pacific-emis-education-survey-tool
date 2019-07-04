@@ -12,5 +12,11 @@
         <attr name="nextText" format="string" />
         <attr name="hintText" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="IconButton">
+        <attr name="text" format="string" />
+        <attr name="icon" format="reference" />
+        <attr name="textColor" format="color" />
+    </declare-styleable>
     
 </resources>

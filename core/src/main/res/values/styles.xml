@@ -25,11 +25,11 @@
         <item name="colorControlNormal">@color/white</item>
         <item name="checkboxStyle">@style/CheckBox</item>
         <item name="textInputStyle">@style/TextInputLayout</item>
-        <item name="buttonBarButtonStyle">@style/Button</item>
+        <item name="buttonBarButtonStyle">@style/BarButton</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
     </style>
 
-    <style name="Button" parent="Widget.MaterialComponents.Button">
+    <style name="BarButton" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/button_selector</item>
         <item name="android:textColor">@color/button_text_selector</item>
         <item name="android:textAppearance">@style/Text.Button</item>
@@ -44,6 +44,8 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/noto_sans_medium</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">

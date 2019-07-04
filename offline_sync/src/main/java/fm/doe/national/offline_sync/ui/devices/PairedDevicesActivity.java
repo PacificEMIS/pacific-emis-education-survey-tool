@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import fm.doe.national.core.ui.views.IconButton;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.model.Device;
@@ -29,7 +31,8 @@ import fm.doe.national.offline_sync.ui.surveys.SyncSurveysActivity;
 public class PairedDevicesActivity extends BaseBluetoothActivity implements
         PairedDevicesView,
         BaseListAdapter.OnItemClickListener<Device>,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        View.OnClickListener {
 
     private static final int REQUEST_CODE_SYNC = 888;
 
@@ -46,6 +49,7 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private IconButton nextIconButton;
 
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, PairedDevicesActivity.class);
@@ -89,6 +93,8 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
+        nextIconButton = findViewById(R.id.iconbutton_next);
+        nextIconButton.setOnClickListener(this);
     }
 
     @Override
@@ -151,5 +157,17 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
     @Override
     public void navigateToSurveys() {
         startActivityForResult(SyncSurveysActivity.createIntent(this), REQUEST_CODE_SYNC);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == nextIconButton.getId()) {
+            presenter.onNextPressed();
+        }
+    }
+
+    @Override
+    public void setNextButtonEnabled(boolean enabled) {
+        nextIconButton.setEnabled(enabled);
     }
 }
