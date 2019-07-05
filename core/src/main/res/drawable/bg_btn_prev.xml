@@ -4,7 +4,7 @@
     android:viewportWidth="160"
     android:viewportHeight="56">
     <path
-        android:fillColor="@color/navigation_button"
+        android:fillColor="?colorPrimary"
         android:fillType="evenOdd"
         android:pathData="M18.321,0C16.886,0 15.561,0.769 14.848,2.015L1.134,26.015C0.431,27.245 0.431,28.755 1.134,29.985L14.848,53.985C15.561,55.231 16.886,56 18.321,56H156C158.209,56 160,54.209 160,52V27.5V4C160,1.791 158.209,0 156,0H18.321Z" />
 </vector>
