@@ -3,12 +3,16 @@ package fm.doe.national.wash_core.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash_core.data.model.Group;
+import fm.doe.national.wash_core.data.model.SubGroup;
 
 public class MutableGroup extends BaseMutableEntity implements Group {
 
@@ -78,5 +82,23 @@ public class MutableGroup extends BaseMutableEntity implements Group {
 
     public void setProgress(@NonNull MutableProgress progress) {
         this.progress = progress;
+    }
+
+    public List<MutableAnswer> merge(Group other, ConflictResolveStrategy strategy) {
+        List<? extends SubGroup> externalSubGroups = other.getSubGroups();
+        List<MutableAnswer> changedAnswers = new ArrayList<>();
+
+        if (!CollectionUtils.isEmpty(externalSubGroups)) {
+            for (SubGroup subGroup : externalSubGroups) {
+                for (MutableSubGroup mutableSubGroup : getSubGroups()) {
+                    if (mutableSubGroup.getPrefix().equals(subGroup.getPrefix())) {
+                        changedAnswers.addAll(mutableSubGroup.merge(subGroup, strategy));
+                        break;
+                    }
+                }
+            }
+        }
+
+        return changedAnswers;
     }
 }

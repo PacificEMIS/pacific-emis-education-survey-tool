@@ -80,8 +80,12 @@
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAppearance">@style/Text.Body1</item>
         <item name="android:fontFamily">@string/font_light</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="CapitalizedTextButton" parent="TextButton">

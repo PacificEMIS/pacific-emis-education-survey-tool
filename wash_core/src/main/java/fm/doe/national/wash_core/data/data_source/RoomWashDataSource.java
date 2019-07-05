@@ -15,6 +15,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.wash_core.BuildConfig;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.Group;
@@ -126,16 +127,28 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
             Answer questionAnswer = question.getAnswer();
 
             if (questionAnswer != null) {
-                RoomAnswer roomAnswer = new RoomAnswer(questionAnswer);
-                roomAnswer.questionId = id;
-                long answerId = database.getAnswerDao().insert(roomAnswer);
-
-                if (questionAnswer.getPhotos() != null) {
-                    savePhotos(database, questionAnswer.getPhotos(), answerId);
-                }
+                saveAnswer(database, id, questionAnswer);
             } else if (shouldCreateAnswers) {
                 database.getAnswerDao().insert(new RoomAnswer(id));
             }
+        });
+    }
+
+    private void saveAnswer(WashDatabase database, long questionId, Answer answer) {
+        RoomAnswer roomAnswer = new RoomAnswer(answer);
+        roomAnswer.questionId = questionId;
+        long answerId = database.getAnswerDao().insert(roomAnswer);
+
+        if (answer.getPhotos() != null) {
+            savePhotos(database, answer.getPhotos(), answerId);
+        }
+    }
+
+    @Override
+    public Single<Answer> createAnswer(Answer answer, long questionId) {
+        return Single.fromCallable(() -> {
+            saveAnswer(database, questionId, answer);
+            return answer;
         });
     }
 
@@ -171,6 +184,15 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     }
 
     @Override
+    public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion) {
+        return Single.fromCallable(() -> database.getSurveyDao().getBySchoolIdAndRegion(schoolId, appRegion))
+                .flatMapObservable(Observable::fromIterable)
+                .map(MutableWashSurvey::new)
+                .toList()
+                .map(list -> new ArrayList<>(list));
+    }
+
+    @Override
     public Single<Survey> createSurvey(String schoolId, String schoolName, Date date) {
         return getTemplateSurvey()
                 .flatMap(survey -> {
@@ -190,9 +212,9 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     }
 
     @Override
-    public Single<Answer> updateAnswer(Answer answer, long questionId) {
+    public Single<Answer> updateAnswer(Answer answer) {
         return Single.fromCallable(() -> {
-            RoomAnswer existingAnswer = answerDao.getAllForQuestionWithId(questionId).get(0);
+            RoomAnswer existingAnswer = answerDao.getById(answer.getId());
             existingAnswer.comment = answer.getComment();
             existingAnswer.binaryAnswerState = answer.getBinaryAnswerState();
             existingAnswer.ternaryAnswerState = answer.getTernaryAnswerState();

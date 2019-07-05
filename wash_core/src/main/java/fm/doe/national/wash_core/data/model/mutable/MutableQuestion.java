@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
@@ -437,5 +438,13 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
         }
 
         return false;
+    }
+
+    public MutableAnswer merge(Question other, ConflictResolveStrategy strategy) {
+        if (other.getAnswer() == null || !other.getAnswer().isAnsweredForQuestionType(other.getType())) {
+            return null;
+        }
+
+        return this.answer.merge(other.getAnswer(), strategy);
     }
 }

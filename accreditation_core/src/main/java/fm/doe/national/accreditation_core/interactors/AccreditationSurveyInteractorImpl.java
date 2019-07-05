@@ -130,7 +130,7 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     @SuppressLint("CheckResult")
     @Override
     public Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId) {
-        return accreditationDataSource.updateAnswer(answer, subCriteriaId)
+        return accreditationDataSource.updateAnswer(answer)
                 .flatMapCompletable(updatedAnswer -> Completable.fromAction(() -> notifyProgressChanged(
                         new MutableAnswer(updatedAnswer),
                         categoryId,

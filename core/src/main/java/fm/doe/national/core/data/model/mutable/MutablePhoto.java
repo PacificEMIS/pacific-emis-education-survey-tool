@@ -54,7 +54,10 @@ public class MutablePhoto extends BaseMutableEntity implements Photo {
     @Override
     public boolean equals(Object o) {
         if (!super.equals(o)) return false;
-        MutablePhoto that = (MutablePhoto) o;
+        return isDataEquals((MutablePhoto) o);
+    }
+
+    public boolean isDataEquals(MutablePhoto that) {
         if (localPath == null) {
             return that.getLocalPath() == null;
         }

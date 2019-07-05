@@ -58,7 +58,7 @@ public class ChooseRegionActivity extends BaseActivity implements
 
     @Override
     public void navigateToMenu() {
-        startActivity(MainMenuActivity.createIntent(this, false));
+        startActivity(MainMenuActivity.createIntent(this));
     }
 
     @Override

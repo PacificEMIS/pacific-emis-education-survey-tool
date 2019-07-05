@@ -6,6 +6,7 @@ import java.util.List;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -22,6 +23,8 @@ public interface DataSource {
     Single<Survey> loadSurvey(long surveyId);
 
     Single<List<Survey>> loadAllSurveys();
+
+    Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion);
 
     Single<Survey> createSurvey(String schoolId, String schoolName, Date date);
 

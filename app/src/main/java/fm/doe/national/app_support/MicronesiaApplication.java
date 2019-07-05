@@ -19,6 +19,8 @@ import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponentProvider;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportComponentProvider;
+import fm.doe.national.offline_sync.di.OfflineSyncComponent;
+import fm.doe.national.offline_sync.di.OfflineSyncComponentProvider;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportComponentProvider;
 import fm.doe.national.rmi_report.di.RmiReportComponent;
@@ -39,7 +41,8 @@ import fm.doe.national.wash_core.di.WashCoreComponentProvider;
         "fm.doe.national.cloud",
         "fm.doe.national.survey_core",
         "fm.doe.national.survey",
-        "fm.doe.national.wash"
+        "fm.doe.national.wash",
+        "fm.doe.national.offline_sync",
 })
 public class MicronesiaApplication extends MultiDexApplication implements
         CoreComponentProvider,
@@ -51,7 +54,8 @@ public class MicronesiaApplication extends MultiDexApplication implements
         CloudComponentProvider,
         AccreditationCoreComponentProvider,
         DataSourceComponentProvider,
-        WashCoreComponentProvider {
+        WashCoreComponentProvider,
+        OfflineSyncComponentProvider {
 
     private static final Injection injection = new Injection();
 
@@ -114,5 +118,10 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public WashCoreComponent provideWashCoreComponent() {
         return injection.getWashCoreComponent();
+    }
+
+    @Override
+    public OfflineSyncComponent provideOfflineSyncComponent() {
+        return injection.getOfflineSyncComponent();
     }
 }

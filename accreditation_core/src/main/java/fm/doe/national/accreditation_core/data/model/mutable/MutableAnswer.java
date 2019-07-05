@@ -3,11 +3,14 @@ package fm.doe.national.accreditation_core.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 
@@ -55,5 +58,40 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
 
     public void setPhotos(List<MutablePhoto> photos) {
         this.photos = photos;
+    }
+
+    @Nullable
+    public MutableAnswer merge(Answer other, ConflictResolveStrategy strategy) {
+        boolean haveChanges = false;
+
+        if (answerState == AnswerState.NOT_ANSWERED || strategy == ConflictResolveStrategy.THEIRS) {
+            haveChanges = answerState != other.getState();
+            answerState = other.getState();
+        }
+
+        String externalComment = other.getComment();
+        if (externalComment != null) {
+            comment = (comment == null ? "" : (comment + "/n")) + externalComment;
+            haveChanges = true;
+        }
+
+        if (other.getPhotos() != null) {
+            List<MutablePhoto> otherUniquePhotos = other.getPhotos().stream()
+                    .map(MutablePhoto::new)
+                    .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.isDataEquals(mutablePhoto)))
+                    .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
+                    .collect(Collectors.toList());
+
+            if (!otherUniquePhotos.isEmpty()) {
+                if (this.photos == null) {
+                    this.photos = new ArrayList<>();
+                }
+
+                this.photos.addAll(otherUniquePhotos);
+                haveChanges = true;
+            }
+        }
+
+        return haveChanges ? this : null;
     }
 }
