@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 
 public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria {
@@ -88,13 +89,13 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
     }
 
     @Nullable
-    public MutableAnswer merge(SubCriteria other) {
+    public MutableAnswer merge(SubCriteria other, ConflictResolveStrategy strategy) {
         Answer externalAnswer = other.getAnswer();
 
         if (externalAnswer == null) {
             return null;
         }
 
-        return answer.merge(externalAnswer);
+        return answer.merge(externalAnswer, strategy);
     }
 }

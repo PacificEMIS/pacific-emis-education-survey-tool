@@ -27,4 +27,6 @@ public interface Survey extends Progressable, IdentifiedObject {
     @NonNull
     AppRegion getAppRegion();
 
+    int getPhotosCount();
+
 }

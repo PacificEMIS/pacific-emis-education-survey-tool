@@ -1,9 +1,10 @@
 package fm.doe.national.offline_sync.ui.surveys;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -14,13 +15,13 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
-import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentInjector;
+import fm.doe.national.offline_sync.ui.progress.ProgressActivity;
 
-public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView, BaseListAdapter.OnItemClickListener<Survey>, SwipeRefreshLayout.OnRefreshListener {
+public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView, BaseListAdapter.OnItemClickListener<Survey>, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private final SyncSurveysAdapter adapter = new SyncSurveysAdapter(this);
 
@@ -29,6 +30,7 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Button buttonNext;
 
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, SyncSurveysActivity.class);
@@ -36,11 +38,7 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
 
     @ProvidePresenter
     SyncSurveysPresenter providePresenter() {
-        Application application = getApplication();
-        return new SyncSurveysPresenter(
-                OfflineSyncComponentInjector.getComponent(application),
-                CloudComponentInjector.getComponent(application)
-        );
+        return new SyncSurveysPresenter(OfflineSyncComponentInjector.getComponent(getApplication()));
     }
 
     @Override
@@ -51,6 +49,8 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        buttonNext = findViewById(R.id.button_next);
+        buttonNext.setOnClickListener(this);
     }
 
     @Override
@@ -82,5 +82,22 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
     @Override
     public void onRefresh() {
         presenter.onRefresh();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == buttonNext) {
+            presenter.onNextPressed();
+        }
+    }
+
+    @Override
+    public void setNextEnabled(boolean enabled) {
+        buttonNext.setEnabled(enabled);
+    }
+
+    @Override
+    public void navigateToProgress() {
+        startActivity(ProgressActivity.createIntent(this));
     }
 }

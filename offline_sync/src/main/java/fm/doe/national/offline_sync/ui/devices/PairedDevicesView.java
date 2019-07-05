@@ -21,4 +21,6 @@ public interface PairedDevicesView extends BaseBluetoothView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSurveys();
+
+    void setNextEnabled(boolean enabled);
 }

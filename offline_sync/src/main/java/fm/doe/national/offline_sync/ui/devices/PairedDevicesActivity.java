@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +31,8 @@ import fm.doe.national.offline_sync.ui.surveys.SyncSurveysActivity;
 public class PairedDevicesActivity extends BaseBluetoothActivity implements
         PairedDevicesView,
         BaseListAdapter.OnItemClickListener<Device>,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        View.OnClickListener {
 
     private static final int REQUEST_CODE_SYNC = 888;
 
@@ -46,6 +49,7 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Button nextButton;
 
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, PairedDevicesActivity.class);
@@ -89,6 +93,8 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
+        nextButton = findViewById(R.id.button_next);
+        nextButton.setOnClickListener(this);
     }
 
     @Override
@@ -151,5 +157,17 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
     @Override
     public void navigateToSurveys() {
         startActivityForResult(SyncSurveysActivity.createIntent(this), REQUEST_CODE_SYNC);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == nextButton) {
+            presenter.onNextPressed();
+        }
+    }
+
+    @Override
+    public void setNextEnabled(boolean enabled) {
+        nextButton.setEnabled(enabled);
     }
 }

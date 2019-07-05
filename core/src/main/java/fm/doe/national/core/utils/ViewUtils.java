@@ -2,6 +2,7 @@ package fm.doe.national.core.utils;
 
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -85,6 +86,10 @@ public class ViewUtils {
             );
             targetView.setBackground(backgroundDrawable);
         }
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
 }

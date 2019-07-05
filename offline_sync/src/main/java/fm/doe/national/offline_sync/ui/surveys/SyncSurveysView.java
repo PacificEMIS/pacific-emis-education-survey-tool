@@ -19,4 +19,9 @@ public interface SyncSurveysView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void close();
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToProgress();
+
+    void setNextEnabled(boolean enabled);
+
 }

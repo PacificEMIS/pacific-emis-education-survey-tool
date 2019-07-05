@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -70,7 +71,7 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         this.progress = progress;
     }
 
-    public List<MutableAnswer> merge(Standard other) {
+    public List<MutableAnswer> merge(Standard other, ConflictResolveStrategy strategy) {
         List<? extends Criteria> externalCriterias = other.getCriterias();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 
@@ -78,7 +79,7 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
             for (Criteria criteria : externalCriterias) {
                 for (MutableCriteria mutableCriteria : getCriterias()) {
                     if (mutableCriteria.getSuffix().equals(criteria.getSuffix())) {
-                        changedAnswers.addAll(mutableCriteria.merge(criteria));
+                        changedAnswers.addAll(mutableCriteria.merge(criteria, strategy));
                         break;
                     }
                 }

@@ -3,6 +3,8 @@ package fm.doe.national.offline_sync.ui.devices;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
+
 import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.offline_sync.data.model.Device;
@@ -14,8 +16,13 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class PairedDevicesPresenter extends BaseBluetoothPresenter<PairedDevicesView> {
 
+    @Nullable
+    private Device selectedDevice;
+
     public PairedDevicesPresenter(OfflineSyncComponent component) {
         super(component.getAccessor());
+        getViewState().setNextEnabled(false);
+
         addDisposable(
                 offlineAccessor.getDevicesObservable()
                         .subscribeOn(Schedulers.io())
@@ -42,15 +49,8 @@ public class PairedDevicesPresenter extends BaseBluetoothPresenter<PairedDevices
     }
 
     public void onDevicePressed(Device device) {
-        offlineAccessor.disconnect();
-        addDisposable(
-                offlineAccessor.connect(device)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(d -> getViewState().showWaiting())
-                        .doFinally(getViewState()::hideWaiting)
-                        .subscribe(getViewState()::navigateToSurveys, this::handleError)
-        );
+        selectedDevice = device;
+        getViewState().setNextEnabled(true);
     }
 
     public void onOpenSettingsPressed() {
@@ -63,5 +63,21 @@ public class PairedDevicesPresenter extends BaseBluetoothPresenter<PairedDevices
 
     public void onBroadcastReceive(Context context, Intent intent) {
         offlineAccessor.onBroadcastReceive(context, intent);
+    }
+
+    public void onNextPressed() {
+        if (selectedDevice == null) {
+            return;
+        }
+
+        offlineAccessor.disconnect();
+        addDisposable(
+                offlineAccessor.connect(selectedDevice)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> getViewState().showWaiting())
+                        .doFinally(getViewState()::hideWaiting)
+                        .subscribe(getViewState()::navigateToSurveys, this::handleError)
+        );
     }
 }

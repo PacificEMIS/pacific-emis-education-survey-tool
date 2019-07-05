@@ -13,17 +13,23 @@ import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.SurveyType;
-import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
+import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @InjectViewState
-public class MainMenuPresenter extends BasePresenter<MainMenuView> {
+public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
+
+    private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection()
+            .getOfflineSyncComponent()
+            .getUseCase();
 
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection()
             .getCoreComponent()
             .getGlobalPreferences();
 
     public MainMenuPresenter() {
-        getViewState().setCurrentSurveyType(globalPreferences.getSurveyType());
+        super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
     }
 
     @Override
@@ -75,4 +81,12 @@ public class MainMenuPresenter extends BasePresenter<MainMenuView> {
         getViewState().navigateToSurveys();
     }
 
+    public void onMergePressed() {
+        addDisposable(
+                offlineSyncUseCase.executeAsReceiver()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(getViewState()::showMergeProgress, this::handleError)
+        );
+
+    }
 }

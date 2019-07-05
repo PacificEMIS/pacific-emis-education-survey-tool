@@ -4,6 +4,7 @@ import dagger.Component;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
+import fm.doe.national.offline_sync.domain.SyncNotifier;
 
 @OfflineSyncScope
 @Component(modules = {
@@ -16,5 +17,7 @@ public interface OfflineSyncComponent {
     OfflineSyncUseCase getUseCase();
 
     OfflineAccessor getAccessor();
+
+    SyncNotifier getNotifier();
 
 }

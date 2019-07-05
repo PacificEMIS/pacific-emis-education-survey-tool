@@ -62,5 +62,4 @@ public abstract class BaseBluetoothPresenter<T extends BaseBluetoothView> extend
         }
     }
 
-
 }

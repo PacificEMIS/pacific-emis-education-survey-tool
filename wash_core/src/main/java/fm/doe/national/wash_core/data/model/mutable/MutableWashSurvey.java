@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.preferences.entities.AppRegion;
@@ -140,7 +141,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         this.progress = progress;
     }
 
-    public List<MutableAnswer> merge(WashSurvey other) {
+    public List<MutableAnswer> merge(WashSurvey other, ConflictResolveStrategy strategy) {
         List<? extends Group> externalGroups = other.getGroups();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 
@@ -148,7 +149,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
             for (Group group : externalGroups) {
                 for (MutableGroup mutableGroup : getGroups()) {
                     if (mutableGroup.getPrefix().equals(group.getPrefix())) {
-                        changedAnswers.addAll(mutableGroup.merge(group));
+                        changedAnswers.addAll(mutableGroup.merge(group, strategy));
                         break;
                     }
                 }

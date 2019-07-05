@@ -23,15 +23,17 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.data_source.AccreditationDataSource;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
-import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.GlobalPreferences;
@@ -53,7 +55,9 @@ import fm.doe.national.offline_sync.data.model.ResponseAccreditationSurveysBody;
 import fm.doe.national.offline_sync.data.model.ResponseSurveyBody;
 import fm.doe.national.offline_sync.data.model.ResponseSurveysBody;
 import fm.doe.national.offline_sync.data.model.ResponseWashSurveysBody;
+import fm.doe.national.offline_sync.data.model.SyncNotification;
 import fm.doe.national.offline_sync.data.model.WashResponseSurveyBody;
+import fm.doe.national.offline_sync.domain.SyncNotifier;
 import fm.doe.national.wash_core.data.data_source.WashDataSource;
 import fm.doe.national.wash_core.data.model.WashSurvey;
 import fm.doe.national.wash_core.data.model.mutable.MutableWashSurvey;
@@ -95,6 +99,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final AccreditationDataSource accreditationDataSource;
     private final WashDataSource washDataSource;
     private final PicturesRepository picturesRepository;
+    private final SyncNotifier syncNotifier;
+
+    private SyncUseCase syncUseCase;
 
     @Nullable
     private SingleSubject<List<Survey>> requestSurveysSubject;
@@ -104,6 +111,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     @Nullable
     private SingleSubject<byte[]> requestPhotoSubject;
+
+    @Nullable
+    private CompletableSubject pushSurveySubject;
 
     private ConnectionState connectionState = ConnectionState.NONE;
 
@@ -120,12 +130,19 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                                     GlobalPreferences globalPreferences,
                                     AccreditationDataSource accreditationDataSource,
                                     WashDataSource washDataSource,
-                                    PicturesRepository picturesRepository) {
+                                    PicturesRepository picturesRepository,
+                                    SyncNotifier syncNotifier) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
         this.globalPreferences = globalPreferences;
         this.accreditationDataSource = accreditationDataSource;
         this.washDataSource = washDataSource;
         this.picturesRepository = picturesRepository;
+        this.syncNotifier = syncNotifier;
+    }
+
+    @Override
+    public void setSyncUseCase(SyncUseCase syncUseCase) {
+        this.syncUseCase = syncUseCase;
     }
 
     @Override
@@ -167,20 +184,25 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     @Override
-    public void becomeAvailableToConnect() {
+    public Completable becomeAvailableToConnect() {
         killAll();
 
         Context appContext = applicationContextRef.get();
 
         if (appContext == null) {
-            return;
+            return Completable.error(new IllegalStateException());
         }
+
+        CompletableSubject completableSubject = CompletableSubject.create();
 
         doWithBluetoothPermissions(() -> doInDiscoverableMode(() -> {
             acceptor = new Acceptor(appContext, bluetoothAdapter, this);
             acceptor.start();
             setConnectionState(ConnectionState.LISTENING);
+            completableSubject.onComplete();
         }));
+
+        return completableSubject;
     }
 
     private void doWithBluetoothPermissions(Action action) {
@@ -247,8 +269,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private Completable send(BtMessage message) {
         return Completable.fromAction(() -> {
             if (transporter == null) {
-                passErrorToMessageSubjects(new BluetoothGenericException(new IllegalStateException()));
-                return;
+                throw new BluetoothGenericException(new IllegalStateException());
             }
 
             transporter.write(gson.toJson(message));
@@ -351,6 +372,16 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 case REQUEST_PHOTO:
                     handlePhotoRequest(btMessage.getContent());
                     break;
+                case PUSH_SURVEY:
+                    handlePushSurvey(btMessage.getContent());
+                    break;
+                case END:
+                    if (pushSurveySubject != null) {
+                        pushSurveySubject.onComplete();
+                    }
+
+                    syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_FINISH_SYNC));
+                    break;
             }
         } catch (JsonSyntaxException ex) {
             try {
@@ -370,6 +401,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             VoidFunction<ResponseSurveysBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(v));
                 transporter.write(gson.toJson(message));
+                syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_AVAILABLE_SURVEYS));
             };
 
             switch (request.getSurveyType()) {
@@ -430,6 +462,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             VoidFunction<ResponseSurveyBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_FILLED_SURVEY, gson.toJson(v));
                 transporter.write(gson.toJson(message));
+                syncUseCase.setTargetSurvey(v.getSurvey());
+                syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_SURVEY));
+                syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SEND_PHOTOS, v.getSurvey().getPhotosCount()));
             };
 
             switch (request.getSurveyType()) {
@@ -529,44 +564,59 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     @Override
-    public Completable mergeSurveys(Survey targetSurvey, Survey externalSurvey) {
+    public Single<Survey> mergeSurveys(Survey targetSurvey, Survey externalSurvey, ConflictResolveStrategy strategy) {
         if (targetSurvey instanceof AccreditationSurvey && externalSurvey instanceof AccreditationSurvey) {
-            return mergeAccreditationSurveys((AccreditationSurvey) targetSurvey, (AccreditationSurvey) externalSurvey);
+            return mergeAccreditationSurveys((AccreditationSurvey) targetSurvey, (AccreditationSurvey) externalSurvey, strategy);
         }
 
         if (targetSurvey instanceof WashSurvey && externalSurvey instanceof WashSurvey) {
-            return mergeWashSurveys((WashSurvey) targetSurvey, (WashSurvey) externalSurvey);
+            return mergeWashSurveys((WashSurvey) targetSurvey, (WashSurvey) externalSurvey, strategy);
         }
 
-        return Completable.error(new NotImplementedException());
+        return Single.error(new NotImplementedException());
     }
 
-    private Completable mergeAccreditationSurveys(AccreditationSurvey targetSurvey, AccreditationSurvey externalSurvey) {
+    private Single<Survey> mergeAccreditationSurveys(AccreditationSurvey targetSurvey,
+                                                     AccreditationSurvey externalSurvey,
+                                                     ConflictResolveStrategy strategy) {
         return Single.fromCallable(() -> {
             MutableAccreditationSurvey mutableTargetSurvey = (MutableAccreditationSurvey) targetSurvey;
-            return mutableTargetSurvey.merge(externalSurvey);
+            List<MutableAnswer> answers = mutableTargetSurvey.merge(externalSurvey, strategy);
+            int photosCount = (int) answers.stream().mapToLong(a -> a.getPhotos().size()).sum();
+            syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
+            return answers;
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
-                                .flattenAsFlowable(Answer::getPhotos)
+                                .flattenAsFlowable(a -> nonNullWrapPhotos(a.getPhotos()))
                                 .concatMap(this::acquirePhoto)
                         )
                         .ignoreElements()
-                );
+                )
+                .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()));
     }
 
-    private Completable mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey) {
+    private Single<Survey> mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey, ConflictResolveStrategy strategy) {
         return Single.fromCallable(() -> {
             MutableWashSurvey mutableTargetSurvey = (MutableWashSurvey) targetSurvey;
-            return mutableTargetSurvey.merge(externalSurvey);
+            List<fm.doe.national.wash_core.data.model.mutable.MutableAnswer> answers =
+                    mutableTargetSurvey.merge(externalSurvey, strategy);
+            int photosCount = (int) answers.stream().mapToLong(a -> nonNullWrapPhotos(a.getPhotos()).size()).sum();
+            syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
+            return answers;
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> washDataSource.updateAnswer(changedAnswers.get(index))
-                                .flattenAsFlowable(fm.doe.national.wash_core.data.model.Answer::getPhotos)
+                                .flattenAsFlowable(a -> nonNullWrapPhotos(a.getPhotos()))
                                 .concatMap(this::acquirePhoto)
                         )
                         .ignoreElements()
-                );
+                )
+                .andThen(washDataSource.loadSurvey(targetSurvey.getId()));
+    }
+
+    private List<? extends Photo> nonNullWrapPhotos(@Nullable List<? extends Photo> photos) {
+        return photos == null ? Collections.emptyList() : photos;
     }
 
     private Flowable<Object> acquirePhoto(Photo photo) {
@@ -580,6 +630,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     }
 
                     savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(path), photoBytes);
+                    syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SAVE_PHOTO));
                 }))
                 .toFlowable();
     }
@@ -644,5 +695,66 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         } else {
             transporter.write("File not exist");
         }
+
+        syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_PHOTO));
+    }
+
+    @Override
+    public Completable pushSurvey(Survey mergedSurvey) {
+        pushSurveySubject = CompletableSubject.create();
+        return Completable.fromAction(() -> {
+            if (transporter == null) {
+                throw new BluetoothGenericException(new IllegalStateException());
+            }
+            BtMessage message = new BtMessage(BtMessage.Type.PUSH_SURVEY, gson.toJson(mergedSurvey));
+            transporter.write(gson.toJson(message));
+            syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_PUSH_SURVEY));
+        })
+                .andThen(pushSurveySubject);
+
+    }
+
+    private void handlePushSurvey(String content) {
+        if (transporter == null) {
+            return;
+        }
+
+        Survey externalSurvey = tryParseSurveyBodyJson(content);
+
+        if (externalSurvey == null) {
+            return;
+        }
+
+        compositeDisposable.add(
+                mergeSurveys(syncUseCase.getTargetSurvey(), externalSurvey, ConflictResolveStrategy.THEIRS)
+                        .subscribe(survey -> {
+                            transporter.write(gson.toJson(new BtMessage(BtMessage.Type.END, null)));
+                            syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_FINISH_SYNC));
+                        }, Throwable::printStackTrace)
+        );
+
+    }
+
+    @Nullable
+    private Survey tryParseSurveyBodyJson(String json) {
+        try {
+            return gson.fromJson(json, MutableAccreditationSurvey.class);
+        } catch (JsonSyntaxException ex) {
+            try {
+                return gson.fromJson(json, MutableWashSurvey.class);
+            } catch (JsonSyntaxException otherEx) {
+                return null;
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public Device getCurrentConnectedDevice() {
+        if (transporter == null) {
+            return null;
+        }
+
+        return new BluetoothDeviceWrapper(transporter.getDevice());
     }
 }

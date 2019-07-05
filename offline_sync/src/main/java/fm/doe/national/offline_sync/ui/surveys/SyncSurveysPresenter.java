@@ -2,14 +2,11 @@ package fm.doe.national.offline_sync.ui.surveys;
 
 import com.omegar.mvp.InjectViewState;
 
-import fm.doe.national.cloud.di.CloudComponent;
-import fm.doe.national.cloud.model.uploader.CloudUploader;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
-import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -18,28 +15,20 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
 
     private final OfflineAccessor offlineAccessor;
     private final OfflineSyncUseCase useCase;
-    private final CloudUploader uploader;
     private Survey targetSurvey;
+    private Survey selectedSurvey;
 
-    public SyncSurveysPresenter(OfflineSyncComponent component, CloudComponent cloudComponent) {
+    public SyncSurveysPresenter(OfflineSyncComponent component) {
+        getViewState().setNextEnabled(false);
         offlineAccessor = component.getAccessor();
         useCase = component.getUseCase();
         targetSurvey = useCase.getTargetSurvey();
-        uploader = cloudComponent.getCloudUploader();
         onRefresh();
     }
 
     public void onSurveyPressed(Survey survey) {
-        addDisposable(
-                offlineAccessor.requestFilledSurvey(survey.getId())
-                        .flatMapCompletable(externalSurvey -> offlineAccessor.mergeSurveys(targetSurvey, externalSurvey))
-                        .andThen(Completable.fromAction(() -> uploader.scheduleUploading(targetSurvey.getId())))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(d -> getViewState().showWaiting())
-                        .doFinally(getViewState()::hideWaiting)
-                        .subscribe(getViewState()::close, this::handleError)
-        );
+        selectedSurvey = survey;
+        getViewState().setNextEnabled(true);
     }
 
     public void onRefresh() {
@@ -51,5 +40,15 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
                         .doFinally(() -> getViewState().setListLoadingVisible(false))
                         .subscribe(getViewState()::setSurveys, this::handleError)
         );
+    }
+
+    public void onNextPressed() {
+        if (selectedSurvey == null) {
+            return;
+        }
+
+        useCase.setExternalSurvey(selectedSurvey);
+        getViewState().navigateToProgress();
+        getViewState().close();
     }
 }
