@@ -21,7 +21,7 @@ public class PairedDevicesPresenter extends BaseBluetoothPresenter<PairedDevices
 
     public PairedDevicesPresenter(OfflineSyncComponent component) {
         super(component.getAccessor());
-        getViewState().setNextButtonEnabled(false);
+        getViewState().setNextEnabled(false);
 
         addDisposable(
                 offlineAccessor.getDevicesObservable()
@@ -50,7 +50,7 @@ public class PairedDevicesPresenter extends BaseBluetoothPresenter<PairedDevices
 
     public void onDevicePressed(Device device) {
         selectedDevice = device;
-        getViewState().setNextButtonEnabled(true);
+        getViewState().setNextEnabled(true);
     }
 
     public void onOpenSettingsPressed() {

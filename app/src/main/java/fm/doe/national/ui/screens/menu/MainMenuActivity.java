@@ -16,7 +16,6 @@ import com.omegar.mvp.presenter.InjectPresenter;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
 import fm.doe.national.ui.dialogs.merge_progress.MergeProgressDialogFragment;
@@ -89,25 +88,6 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     @Override
     public void setTitle(Text title) {
         title.applyTo(titleTextView);
-    }
-
-    @Override
-    public void setCurrentSurveyType(@Nullable SurveyType surveyType) {
-        accreditationButton.setActivated(false);
-        washButton.setActivated(false);
-
-        if (surveyType != null) {
-            switch (surveyType) {
-                case SCHOOL_ACCREDITATION:
-                    accreditationButton.setActivated(true);
-                    washButton.setActivated(false);
-                    break;
-                case WASH:
-                    accreditationButton.setActivated(false);
-                    washButton.setActivated(true);
-                    break;
-            }
-        }
     }
 
     @Override

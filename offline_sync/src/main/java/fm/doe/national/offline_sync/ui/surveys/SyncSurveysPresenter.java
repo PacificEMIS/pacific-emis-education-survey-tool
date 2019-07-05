@@ -19,7 +19,7 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
     private Survey selectedSurvey;
 
     public SyncSurveysPresenter(OfflineSyncComponent component) {
-        getViewState().setNextButtonEnabled(false);
+        getViewState().setNextEnabled(false);
         offlineAccessor = component.getAccessor();
         useCase = component.getUseCase();
         targetSurvey = useCase.getTargetSurvey();
@@ -28,7 +28,7 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
 
     public void onSurveyPressed(Survey survey) {
         selectedSurvey = survey;
-        getViewState().setNextButtonEnabled(true);
+        getViewState().setNextEnabled(true);
     }
 
     public void onRefresh() {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -16,7 +17,6 @@ import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
-import fm.doe.national.core.ui.views.IconButton;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentInjector;
 import fm.doe.national.offline_sync.ui.progress.ProgressActivity;
@@ -30,7 +30,7 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private IconButton iconButtonNext;
+    private Button buttonNext;
 
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, SyncSurveysActivity.class);
@@ -49,8 +49,8 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        iconButtonNext = findViewById(R.id.iconbutton_next);
-        iconButtonNext.setOnClickListener(this);
+        buttonNext = findViewById(R.id.button_next);
+        buttonNext.setOnClickListener(this);
     }
 
     @Override
@@ -86,14 +86,14 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == iconButtonNext.getId()) {
+        if (v == buttonNext) {
             presenter.onNextPressed();
         }
     }
 
     @Override
-    public void setNextButtonEnabled(boolean enabled) {
-        iconButtonNext.setEnabled(enabled);
+    public void setNextEnabled(boolean enabled) {
+        buttonNext.setEnabled(enabled);
     }
 
     @Override

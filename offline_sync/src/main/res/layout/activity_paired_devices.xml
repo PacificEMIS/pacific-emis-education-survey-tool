@@ -27,15 +27,16 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <fm.doe.national.core.ui.views.IconButton
-        android:id="@+id/iconbutton_next"
+    <com.omega_r.libs.OmegaCenterIconButton
+        android:id="@+id/button_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="32dp"
-        app:icon="@drawable/ic_check"
-        app:text="@string/label_choose_device" />
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="16dp"
+        android:text="@string/label_choose_device" />
 
 </RelativeLayout>

@@ -102,7 +102,7 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
         getViewState().setMergeProgress(currentProgress);
 
         if (progress >= PERCENTAGE_ALL) {
-            getViewState().showContinueButton();
+            getViewState().showContinue();
         }
     }
 

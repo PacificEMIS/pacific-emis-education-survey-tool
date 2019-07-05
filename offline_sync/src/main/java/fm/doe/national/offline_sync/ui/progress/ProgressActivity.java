@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,7 +16,6 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
-import fm.doe.national.core.ui.views.IconButton;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.data.model.Device;
@@ -26,14 +26,14 @@ public class ProgressActivity extends BaseActivity implements ProgressView, View
     @InjectPresenter
     ProgressPresenter presenter;
 
-    private TextView desciptionTextView;
+    private TextView descriptionTextView;
     private ProgressBar progressBar;
     private TextView deviceNameTextView;
     private TextView schoolNameTextView;
     private TextView macNameTextView;
     private TextView surveyDateTextView;
-    private IconButton tryAgainButton;
-    private IconButton okButton;
+    private Button tryAgainButton;
+    private Button okButton;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, ProgressActivity.class);
@@ -52,14 +52,14 @@ public class ProgressActivity extends BaseActivity implements ProgressView, View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.title_merge_progress);
-        desciptionTextView = findViewById(R.id.textview_description);
+        descriptionTextView = findViewById(R.id.textview_description);
         progressBar = findViewById(R.id.progressbar);
         deviceNameTextView = findViewById(R.id.textview_device_name);
         schoolNameTextView = findViewById(R.id.textview_school_name);
         macNameTextView = findViewById(R.id.textview_mac);
         surveyDateTextView = findViewById(R.id.textview_survey_date);
-        tryAgainButton = findViewById(R.id.iconbutton_try_again);
-        okButton = findViewById(R.id.iconbutton_ok);
+        tryAgainButton = findViewById(R.id.button_try_again);
+        okButton = findViewById(R.id.button_ok);
         tryAgainButton.setOnClickListener(this);
         okButton.setOnClickListener(this);
     }
@@ -76,7 +76,7 @@ public class ProgressActivity extends BaseActivity implements ProgressView, View
 
     @Override
     public void setDescription(Text text) {
-        text.applyTo(desciptionTextView);
+        text.applyTo(descriptionTextView);
     }
 
     @Override
@@ -97,20 +97,20 @@ public class ProgressActivity extends BaseActivity implements ProgressView, View
     }
 
     @Override
-    public void showTryAgainButton() {
+    public void showTryAgain() {
         tryAgainButton.setVisibility(View.VISIBLE);
         okButton.setVisibility(View.GONE);
     }
 
     @Override
-    public void showContinueButton() {
+    public void showContinue() {
         tryAgainButton.setVisibility(View.GONE);
         okButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == tryAgainButton.getId() || v.getId() == okButton.getId()) {
+        if (v == tryAgainButton || v == okButton) {
             presenter.onEndSessionPressed();
         }
     }

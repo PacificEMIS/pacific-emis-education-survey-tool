@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +21,6 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
-import fm.doe.national.core.ui.views.IconButton;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.model.Device;
@@ -49,7 +49,7 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private IconButton nextIconButton;
+    private Button nextButton;
 
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, PairedDevicesActivity.class);
@@ -93,8 +93,8 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
-        nextIconButton = findViewById(R.id.iconbutton_next);
-        nextIconButton.setOnClickListener(this);
+        nextButton = findViewById(R.id.button_next);
+        nextButton.setOnClickListener(this);
     }
 
     @Override
@@ -161,13 +161,13 @@ public class PairedDevicesActivity extends BaseBluetoothActivity implements
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == nextIconButton.getId()) {
+        if (v == nextButton) {
             presenter.onNextPressed();
         }
     }
 
     @Override
-    public void setNextButtonEnabled(boolean enabled) {
-        nextIconButton.setEnabled(enabled);
+    public void setNextEnabled(boolean enabled) {
+        nextButton.setEnabled(enabled);
     }
 }

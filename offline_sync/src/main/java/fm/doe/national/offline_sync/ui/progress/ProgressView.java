@@ -20,9 +20,9 @@ public interface ProgressView extends BaseView {
 
     void setDescription(Text text);
 
-    void showTryAgainButton();
+    void showTryAgain();
 
-    void showContinueButton();
+    void showContinue();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void close();

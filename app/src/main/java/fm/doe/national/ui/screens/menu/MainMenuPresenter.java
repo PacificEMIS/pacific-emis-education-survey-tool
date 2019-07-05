@@ -30,7 +30,6 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
 
     public MainMenuPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
-        getViewState().setCurrentSurveyType(globalPreferences.getSurveyType());
     }
 
     @Override

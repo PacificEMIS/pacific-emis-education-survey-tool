@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -615,7 +616,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     private List<? extends Photo> nonNullWrapPhotos(@Nullable List<? extends Photo> photos) {
-        return photos == null ? new ArrayList<>() : photos;
+        return photos == null ? Collections.emptyList() : photos;
     }
 
     private Flowable<Object> acquirePhoto(Photo photo) {
