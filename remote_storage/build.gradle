@@ -28,7 +28,13 @@ android {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
     }
-
+    configurations {
+        all {
+            exclude group: 'com.google.guava', module: 'listenablefuture'
+            exclude module: 'httpclient'
+            exclude module: 'commons-logging'
+        }
+    }
 }
 
 dependencies {
@@ -54,10 +60,15 @@ dependencies {
     implementation "androidx.work:work-runtime:${Deps.work}"
     implementation "androidx.work:work-rxjava2:${Deps.work}"
 
-    // Firebase
-    implementation 'com.google.firebase:firebase-storage:18.0.0'
-    implementation 'com.google.firebase:firebase-auth:18.0.0'
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    // Drive
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.http-client:google-http-client-gson:1.29.1'
+    implementation('com.google.api-client:google-api-client-android:1.26.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
 
     // Moxy
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"

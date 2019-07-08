@@ -47,11 +47,11 @@ public class SettingsInteractor {
     }
 
     public Completable signIn() {
-        return remoteStorageAccessor.signIn();
+        return remoteStorageAccessor.signInAsUser();
     }
 
     public void signOut() {
-        remoteStorageAccessor.signOut();
+        remoteStorageAccessor.signOutAsUser();
     }
 
     public Completable importSchools() {

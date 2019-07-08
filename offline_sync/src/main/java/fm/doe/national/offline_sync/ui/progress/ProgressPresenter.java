@@ -5,8 +5,6 @@ import android.util.Log;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
-import fm.doe.national.cloud.di.CloudComponent;
-import fm.doe.national.cloud.model.uploader.CloudUploader;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.R;
@@ -15,6 +13,8 @@ import fm.doe.national.offline_sync.data.model.SyncNotification;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.domain.SyncNotifier;
+import fm.doe.national.remote_storage.data.storage.RemoteStorage;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -31,16 +31,16 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
     private final OfflineAccessor offlineAccessor;
     private final OfflineSyncUseCase useCase;
     private final SyncNotifier notifier;
-    private final CloudUploader uploader;
+    private final RemoteStorage remoteStorage;
 
     private int oneIncomePhotoPercentValue;
     private int currentProgress;
 
-    public ProgressPresenter(OfflineSyncComponent component, CloudComponent cloudComponent) {
+    public ProgressPresenter(OfflineSyncComponent component, RemoteStorageComponent remoteStorageComponent) {
         this.offlineAccessor = component.getAccessor();
         this.useCase = component.getUseCase();
         this.notifier = component.getNotifier();
-        this.uploader = cloudComponent.getCloudUploader();
+        this.remoteStorage = remoteStorageComponent.getRemoteStorage();
 
         getViewState().setSurvey(useCase.getExternalSurvey());
         getViewState().setDescription(Text.from(R.string.hint_merge_in_progress));
@@ -57,7 +57,8 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(() -> {
-                            uploader.scheduleUploading(useCase.getTargetSurvey().getId());
+                            // TODO: upload to cloud
+//                            uploader.scheduleUploading(useCase.getTargetSurvey().getId());
                             useCase.finish();
                         }, this::handleError)
         );

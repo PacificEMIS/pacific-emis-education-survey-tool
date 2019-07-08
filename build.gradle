@@ -39,10 +39,10 @@ ext {
             java      : '1.8.0',
             appVersion: "2.0"]
     Deps = [
-            dagger          : '2.23.1',
+            dagger          : '2.23.2',
             butterknife     : '10.1.0',
             moxy            : '1.5.7',
-            appcompat       : '1.1.0-beta01',
+            appcompat       : '1.1.0-rc01',
             junit           : '4.13-beta-3',
             androidJUnit    : '1.1.1',
             espresso        : '3.2.0',

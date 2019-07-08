@@ -1,12 +1,15 @@
 package fm.doe.national.remote_storage.data.storage;
 
+import java.util.List;
+
+import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public final class FirebaseRemoteStorage implements RemoteStorage {
+public final class DriveRemoteStorage implements RemoteStorage {
 
     @Override
-    public Single<Object> requestStorageFileTree() {
+    public Single<List<GoogleDriveFileHolder>> requestStorageFileTree() {
         return null;
     }
 

@@ -44,10 +44,10 @@ public class GoogleAuthActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                accessor.onGoogleSignInAccountReceived(account);
+//                accessor.onGoogleSignInAccountReceived(account);
             } catch (ApiException e) {
                 e.printStackTrace();
-                accessor.onGoogleSignInAccountReceived(null);
+//                accessor.onGoogleSignInAccountReceived(null);
             }
         }
     }

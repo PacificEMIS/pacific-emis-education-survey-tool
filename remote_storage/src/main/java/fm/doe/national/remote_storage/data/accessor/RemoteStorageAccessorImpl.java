@@ -1,24 +1,28 @@
 package fm.doe.national.remote_storage.data.accessor;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 
-import androidx.annotation.Nullable;
-
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.core.data.exceptions.AuthenticationException;
-import fm.doe.national.core.utils.Constants;
 import fm.doe.national.core.utils.LifecycleListener;
+import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
-import fm.doe.national.remote_storage.ui.auth.GoogleAuthActivity;
 import fm.doe.national.remote_storage.ui.default_storage.DefaultStorageActivity;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -33,42 +37,73 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     private final LifecycleListener lifecycleListener;
     private final RemoteUploader uploader;
     private final RemoteStorage remoteStorage;
-    private final FirebaseAuth firebaseAuth;
 
     private SingleSubject<String> contentSubject;
     private CompletableSubject authSubject;
+    private GoogleSignInAccount account;
+    private DriveServiceHelper driveServiceHelper;
 
-    public RemoteStorageAccessorImpl(LifecycleListener lifecycleListener, RemoteUploader uploader, RemoteStorage remoteStorage) {
+    public RemoteStorageAccessorImpl(LifecycleListener lifecycleListener,
+                                     Context appContext,
+                                     RemoteUploader uploader,
+                                     RemoteStorage remoteStorage) {
         this.lifecycleListener = lifecycleListener;
         this.uploader = uploader;
         this.remoteStorage = remoteStorage;
-        this.firebaseAuth = FirebaseAuth.getInstance();
-    }
+        try {
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            GsonFactory gsonFactory = new GsonFactory();
+            GoogleCredential credential = GoogleCredential.fromStream(
+                    appContext.getAssets().open("Micronesia-b9acf9c6198e.json"),
+                    transport,
+                    gsonFactory)
+                    .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE_METADATA));
+            Drive drive = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
+                    .setApplicationName(appContext.getString(R.string.app_name))
+                    .build();
+            driveServiceHelper = new DriveServiceHelper(drive);
 
-    @Override
-    public Completable signIn() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if (firebaseUser == null) {
-            authSubject = CompletableSubject.create();
-            return Completable.fromAction(() -> {
-                Activity currentActivity = lifecycleListener.getCurrentActivity();
-
-                if (currentActivity == null) {
-                    authSubject.onComplete();
-                    return;
-                }
-
-                currentActivity.startActivity(GoogleAuthActivity.createIntent(currentActivity));
-            }).andThen(authSubject);
-        } else {
-            return Completable.complete();
+            driveServiceHelper.queryFiles().addOnSuccessListener(files -> {
+                Gson gson = new Gson();
+                Log.d("RemoteStorageAccessorImpl", "onSuccess: " + gson.toJson(files));
+                driveServiceHelper.createTextFile("some.xml", "<tag></tag>", "1POKajwPmPflbTz9nuVf3-cCiuJsZrKp2")
+                        .addOnSuccessListener(file -> {
+                            Log.d("RemoteStorageAccessorImpl", "onSuccess: " + gson.toJson(file));
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.d("RemoteStorageAccessorImpl", "onFailure: " + e.getMessage());
+                        });
+            })
+            .addOnFailureListener(e -> {
+                Log.d("RemoteStorageAccessorImpl", "onFailure: " + e.getMessage());
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void signOut() {
-        firebaseAuth.signOut();
+    public Completable signInAsUser() {
+        if (account != null) {
+            return Completable.complete();
+        }
+
+        Activity currentActivity = lifecycleListener.getCurrentActivity();
+
+        if (currentActivity == null) {
+            authSubject.onComplete();
+            return Completable.error(new AuthenticationException("No activity"));
+        }
+
+        return Completable.fromAction(() -> {
+            account = GoogleSignIn.getLastSignedInAccount(currentActivity);
+        });
+    }
+
+    @Override
+    public void signOutAsUser() {
+
     }
 
     @Override
@@ -111,38 +146,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
         }
     }
 
-    @Override
-    public void onGoogleSignInAccountReceived(@Nullable GoogleSignInAccount account) {
-        UnaryFunction<AuthResult> successHandler = r -> {
-            if (authSubject != null) {
-                authSubject.onComplete();
-                authSubject = null;
-            }
-        };
-        UnaryFunction<Throwable> failureHandler = t -> {
-            if (authSubject != null) {
-                authSubject.onError(t);
-                authSubject = null;
-            }
-        };
-
-        if (account == null) {
-            failureHandler.apply(new AuthenticationException(Constants.Errors.AUTH_FAILED));
-        }
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        successHandler.apply(task.getResult());
-                    } else {
-                        failureHandler.apply(new AuthenticationException(Constants.Errors.AUTH_FAILED));
-                    }
-                })
-                .addOnFailureListener(failureHandler::apply);
-    }
-
-    private interface UnaryFunction<T>  {
+    private interface UnaryFunction<T> {
         void apply(T obj);
     }
 }
