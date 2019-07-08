@@ -12,7 +12,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,6 +25,7 @@ import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
 import fm.doe.national.remote_storage.ui.default_storage.DefaultStorageActivity;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.SingleSubject;
@@ -37,6 +37,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     private final LifecycleListener lifecycleListener;
     private final RemoteUploader uploader;
     private final RemoteStorage remoteStorage;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private SingleSubject<String> contentSubject;
     private CompletableSubject authSubject;
@@ -63,21 +64,15 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                     .build();
             driveServiceHelper = new DriveServiceHelper(drive);
 
+            compositeDisposable.add(driveServiceHelper.queryFiles(null)
+                    .flatMap(files -> driveServiceHelper.createOrUpdateFile("example.xml", "other content", "1POKajwPmPflbTz9nuVf3-cCiuJsZrKp2"))
+                    .flatMap(fileId -> driveServiceHelper.queryFiles("1POKajwPmPflbTz9nuVf3-cCiuJsZrKp2"))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(fileId -> {
+                        Log.d("RemoteStorageAccessorImpl", "onSuccess");
+                    }, Throwable::printStackTrace));
 
-            driveServiceHelper.queryFiles().addOnSuccessListener(files -> {
-                Gson gson = new Gson();
-                Log.d("RemoteStorageAccessorImpl", "onSuccess: " + gson.toJson(files));
-                driveServiceHelper.createTextFile("some.xml", "<tag></tag>", "1POKajwPmPflbTz9nuVf3-cCiuJsZrKp2")
-                        .addOnSuccessListener(file -> {
-                            Log.d("RemoteStorageAccessorImpl", "onSuccess: " + gson.toJson(file));
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.d("RemoteStorageAccessorImpl", "onFailure: " + e.getMessage());
-                        });
-            })
-            .addOnFailureListener(e -> {
-                Log.d("RemoteStorageAccessorImpl", "onFailure: " + e.getMessage());
-            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,7 +98,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
 
     @Override
     public void signOutAsUser() {
-
+        compositeDisposable.dispose();
     }
 
     @Override
