@@ -25,7 +25,7 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
 
     @Override
     public void navigateToRegionChoose() {
-        startActivity(new Intent(this, ChooseRegionActivity.class));
+        startActivity(ChooseRegionActivity.createIntent(this));
         finish();
     }
 }

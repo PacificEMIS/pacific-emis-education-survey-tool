@@ -35,6 +35,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -190,6 +191,15 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
+    public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion) {
+        return Single.fromCallable(() -> surveyDao.getBySchoolIdAndRegion(schoolId, appRegion))
+                .flatMapObservable(Observable::fromIterable)
+                .map(MutableAccreditationSurvey::new)
+                .toList()
+                .map(list -> new ArrayList<>(list));
+    }
+
+    @Override
     public Single<Survey> createSurvey(String schoolId, String schoolName, Date date) {
         return getTemplateSurvey()
                 .flatMap(survey -> {
@@ -209,9 +219,9 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Single<Answer> updateAnswer(Answer answer, long subCriteriaId) {
+    public Single<Answer> updateAnswer(Answer answer) {
         return Single.fromCallable(() -> {
-            RoomAnswer existingAnswer = answerDao.getAllForSubCriteriaWithId(subCriteriaId).get(0);
+            RoomAnswer existingAnswer = answerDao.getById(answer.getId());
             existingAnswer.comment = answer.getComment();
             existingAnswer.state = answer.getState();
             answerDao.update(existingAnswer);

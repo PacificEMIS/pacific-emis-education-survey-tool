@@ -19,7 +19,7 @@ import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.WashSurvey;
-import fm.doe.national.wash_core.data.serialization.BaseSerializableIdentifiedObject;
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 
 @Root(name = "survey")
 public class SerializableWashSurvey extends BaseSerializableIdentifiedObject implements WashSurvey {

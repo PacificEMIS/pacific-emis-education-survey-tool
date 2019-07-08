@@ -3,6 +3,8 @@ package fm.doe.national.core.data.files;
 import android.content.Context;
 import android.os.Environment;
 
+import androidx.annotation.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -27,5 +29,13 @@ public class FilePicturesRepository implements PicturesRepository {
     @Override
     public void delete(File file) {
         file.delete();
+    }
+
+    @Override
+    @Nullable
+    public File createEmptyFile(String name) throws IOException {
+        File file = new File(externalPicturesDirectory, name + EXT_PICTURE);
+        boolean isCreated = file.createNewFile();
+        return isCreated ? file : null;
     }
 }

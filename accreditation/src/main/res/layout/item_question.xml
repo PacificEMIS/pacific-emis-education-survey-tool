@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="5dp"
-            android:src="@drawable/ic_wallpaper"
+            android:src="@drawable/ic_photo_more"
             tools:ignore="ContentDescription" />
 
         <ImageButton

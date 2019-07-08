@@ -30,6 +30,9 @@
     <string name="title_recent_surveys">Recent Surveys</string>
     <string name="header_choose_category">Choose category</string>
     <string name="header_choose_standard">Choose standard</string>
+    <string name="action_export_all">Export all Surveys Data to Excel</string>
+    <string name="action_become_available_for_sync">Become available for sync</string>
+    <string name="action_become_unavailable_for_sync">Become unavailable for sync</string>
     <string name="action_search">Search</string>
     <string name="write_school">Enter the school</string>
     <string name="label_question_hint">For detailed information, make a long touch on interested item</string>
@@ -118,4 +121,8 @@
     <string name="message_invalid_password">Invalid password</string>
     <string name="message_delete_password_prompt">Confirm survey removal with master password</string>
     <string name="message_settings_password_prompt">Enter Master Password to access Settings</string>
+    <string name="hint_merge_successful">Merge finished successfully</string>
+    <string name="hint_merge_in_progress">Merging is in progress, please stay close to paired device</string>
+    <string name="hint_merge_failed">Merge failed. Finish current session and try again</string>
+    <string name="hint_merge_waiting">Waiting for initiator device</string>
 </resources>

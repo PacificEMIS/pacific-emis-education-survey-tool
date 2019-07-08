@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="48dp"
+    android:layout_marginEnd="48dp"
+    android:background="@drawable/bg_popup"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/textview_merge"
+        style="@style/TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="@string/label_end_session" />
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/textview_merge"
+        android:drawableStart="@drawable/ic_bluetooth"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/title_merge_progress"
+        android:textAppearance="@style/Text.Title4" />
+
+    <fm.doe.national.core.ui.views.StateProgressBar
+        android:id="@+id/progressbar"
+        style="@style/HorizontalProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_progress_bar"
+        android:layout_below="@+id/textview_title"
+        android:layout_marginTop="12dp"
+        tools:progress="50" />
+
+    <TextView
+        android:id="@+id/textview_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressbar"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:textAppearance="@style/Text.Small2"
+        tools:text="Merging is in process, please stay close to the paired device" />
+
+</RelativeLayout>

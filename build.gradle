@@ -6,9 +6,9 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath 'io.fabric.tools:gradle:1.28.1'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.0'
     }
     subprojects {
         project.configurations.all {
@@ -48,7 +48,7 @@ ext {
             espresso        : '3.2.0',
             omegaTypes      : '1.0.0',
             rxJava          : '2.2.5',
-            rxAndroid       : '2.1.0',
+            rxAndroid       : '2.1.1',
             room            : '2.1.0',
             omegaRecycler   : '1.9.6',
             material        : '1.1.0-alpha07',
@@ -56,5 +56,6 @@ ext {
             omegaViews      : '1.0.2',
             constraintLayout: '2.0.0-beta1',
             work            : '2.0.1',
+            appCenter       : '2.1.0',
             gson            : '2.8.5']
 }

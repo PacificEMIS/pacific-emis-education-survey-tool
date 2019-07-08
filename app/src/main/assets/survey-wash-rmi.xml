@@ -196,14 +196,14 @@
                 <id>SW.W.1</id>
                 <name>What is the main water source of Drinking water for the school?</name>
                 <flags>CHOOSE|SINGLE</flags>
-                <item>Piped water into school buildings (reticulated - treated)</item>
-                <item>Piped water into school buildings (reticulated - untreated)</item>
-                <item>Piped to school compound/yard. Plot outside (reticulated - untreated)</item>
+                <item>Piped water into school building (reticulated - treated)</item>
+                <item>Piped water into school building (reticulated - untreated)</item>
+                <item>Piped to school compound/yard.plot outside (reticulated - untreated)</item>
                 <item>Public tap or standpipe (reticulated - treated)</item>
                 <item>Public tap or standpipe (reticulated - untreated)</item>
                 <item>Covered well (protected)</item>
                 <item>Uncovered well (unprotected)</item>
-                <item>Rainwater Harvester collection (Tank)</item>
+                <item>Rainwater Harvesting collection (Tank)</item>
                 <item>Cart with small tank/drum</item>
                 <item>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</item>
                 <item>Bottled water</item>
@@ -466,6 +466,7 @@
                     <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
                     <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
                     <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Uncovered well (unprotected)</relationAnswer>
                     <relationAnswer>Rainwater Harvester collection (Tank)</relationAnswer>
                     <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
                 </relation>
@@ -482,6 +483,7 @@
                     <relationAnswer>Public tap or standpipe (reticulated - treated)</relationAnswer>
                     <relationAnswer>Public tap or standpipe (reticulated - untreated)</relationAnswer>
                     <relationAnswer>Covered well (protected)</relationAnswer>
+                    <relationAnswer>Uncovered well (unprotected)</relationAnswer>
                     <relationAnswer>Rainwater Harvester collection (Tank)</relationAnswer>
                     <relationAnswer>Surface water (river, stream, dam, lake, pond, canal, irrigation channel)</relationAnswer>
                 </relation>
@@ -1201,7 +1203,7 @@
             </question>
             <question>
                 <id>SW.OM.6</id>
-                <name>Are members of the school community supportive in the operation of the school such as the maintenance of environment for learning, WASH facilities and provision of soap</name>
+                <name>Are members of the school community supportive in the operation of the school such as the maintenance of environment for learning, WASH facilities and provision of soap?</name>
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.OM.2</id>
@@ -1213,7 +1215,7 @@
                 <name>Indicate with the tick the members of the school community that supports the school in improving learning environment, repair WASH facilities tanks, tippy taps and toilets</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
-                    <id>SW.OM.7</id>
+                    <id>SW.OM.6</id>
                     <relationAnswer>Yes</relationAnswer>
                 </relation>
                 <item>Parents volunteers</item>
@@ -1226,7 +1228,7 @@
                 <name>How would you rate the community involvement and participation in school activities?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
-                    <id>SW.OM.7</id>
+                    <id>SW.OM.6</id>
                     <relationAnswer>Yes</relationAnswer>
                 </relation>
                 <item>Non-existent</item>
@@ -1237,10 +1239,10 @@
             </question>
             <question>
                 <id>SW.OM.9</id>
-                <name>How would you rate the community involvement and participation in school activities?</name>
+                <name>What are some of the activities that the community participate in?</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
-                    <id>SW.OM.7</id>
+                    <id>SW.OM.6</id>
                     <relationAnswer>Yes</relationAnswer>
                 </relation>
                 <item>Fundraising</item>
@@ -1255,7 +1257,7 @@
                 <name>Why do you think, communities do not support school activities?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
-                    <id>SW.OM.7</id>
+                    <id>SW.OM.6</id>
                     <relationAnswer>No</relationAnswer>
                 </relation>
                 <item>No interest</item>
@@ -1267,7 +1269,7 @@
                 <name>Is there a budget or funding available for repairs and maintenance intended for WASH facilities?</name>
                 <flags>BINARY</flags>
                 <relation>
-                    <id>SW.OM.7</id>
+                    <id>SW.OM.6</id>
                     <relationAnswer>Yes</relationAnswer>
                 </relation>
             </question>
