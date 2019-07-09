@@ -16,7 +16,9 @@ import com.omegar.mvp.presenter.InjectPresenter;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
+import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.ui.screens.base.BaseDialogFragment;
+import fm.doe.national.core.utils.ViewUtils;
 
 public class MergeProgressDialogFragment extends BaseDialogFragment implements MergeProgressView {
 
@@ -52,7 +54,7 @@ public class MergeProgressDialogFragment extends BaseDialogFragment implements M
 
     @Override
     public void setProgress(int progress) {
-        progressBar.setProgress(progress, true);
+        ViewUtils.rebindProgress(new MutableProgress(100, progress), null, progressBar);
     }
 
     @Override
