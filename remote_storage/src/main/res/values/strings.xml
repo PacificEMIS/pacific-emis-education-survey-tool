@@ -1,4 +1,3 @@
 <resources>
-    <string name="bucket">gs://micronesia-215412.appspot.com/dev</string>
-    <string name="auth_client_id">826097993041-krb3m87jo758pbi69g3dh85tlfrh84uk.apps.googleusercontent.com</string>
+    <string name="title_drive">Drive</string>
 </resources>

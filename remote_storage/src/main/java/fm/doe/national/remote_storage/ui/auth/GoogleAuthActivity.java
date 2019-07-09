@@ -55,7 +55,6 @@ public class GoogleAuthActivity extends AppCompatActivity {
     private void signIn() {
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestIdToken(getString(R.string.auth_client_id))
                 .build();
         GoogleSignInClient client = GoogleSignIn.getClient(this, options);
         startActivityForResult(client.getSignInIntent(), REQUEST_CODE_SIGN_IN);

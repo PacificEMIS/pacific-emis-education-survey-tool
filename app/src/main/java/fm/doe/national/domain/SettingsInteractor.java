@@ -69,8 +69,7 @@ public class SettingsInteractor {
     }
 
     public Completable selectExportFolder() {
-        return Completable.complete();
-//        return cloudRepository.chooseExportFolder(type);
+        return remoteStorageAccessor.requestContentFromRemoteStorage().ignoreElement();
     }
 
     public Completable loadDataFromAssets() {

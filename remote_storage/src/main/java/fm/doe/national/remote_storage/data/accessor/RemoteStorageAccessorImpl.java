@@ -2,7 +2,6 @@ package fm.doe.national.remote_storage.data.accessor;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,12 +19,12 @@ import java.util.concurrent.TimeUnit;
 import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.remote_storage.R;
-import fm.doe.national.remote_storage.data.storage.RemoteStorage;
+import fm.doe.national.remote_storage.data.storage.DriveRemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
 import fm.doe.national.remote_storage.ui.default_storage.DefaultStorageActivity;
+import fm.doe.national.remote_storage.ui.remote_storage.DriveStorageActivity;
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.SingleSubject;
@@ -36,21 +35,20 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
 
     private final LifecycleListener lifecycleListener;
     private final RemoteUploader uploader;
-    private final RemoteStorage remoteStorage;
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final DriveRemoteStorage driveRemoteStorage;
 
     private SingleSubject<String> contentSubject;
     private CompletableSubject authSubject;
     private GoogleSignInAccount account;
-    private DriveServiceHelper driveServiceHelper;
 
     public RemoteStorageAccessorImpl(LifecycleListener lifecycleListener,
                                      Context appContext,
                                      RemoteUploader uploader,
-                                     RemoteStorage remoteStorage) {
+                                     DriveRemoteStorage driveRemoteStorage) {
         this.lifecycleListener = lifecycleListener;
         this.uploader = uploader;
-        this.remoteStorage = remoteStorage;
+        this.driveRemoteStorage = driveRemoteStorage;
+
         try {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             GsonFactory gsonFactory = new GsonFactory();
@@ -62,17 +60,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
             Drive drive = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
                     .setApplicationName(appContext.getString(R.string.app_name))
                     .build();
-            driveServiceHelper = new DriveServiceHelper(drive);
-
-            compositeDisposable.add(driveServiceHelper.queryFiles(null)
-                    .flatMap(files -> driveServiceHelper.createOrUpdateFile("example.xml", "other content", "1POKajwPmPflbTz9nuVf3-cCiuJsZrKp2"))
-                    .flatMap(fileId -> driveServiceHelper.queryFiles("1POKajwPmPflbTz9nuVf3-cCiuJsZrKp2"))
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(fileId -> {
-                        Log.d("RemoteStorageAccessorImpl", "onSuccess");
-                    }, Throwable::printStackTrace));
-
-
+            this.driveRemoteStorage.init(drive);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,14 +79,11 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
             return Completable.error(new AuthenticationException("No activity"));
         }
 
-        return Completable.fromAction(() -> {
-            account = GoogleSignIn.getLastSignedInAccount(currentActivity);
-        });
+        return Completable.fromAction(() -> account = GoogleSignIn.getLastSignedInAccount(currentActivity));
     }
 
     @Override
     public void signOutAsUser() {
-        compositeDisposable.dispose();
     }
 
     @Override
@@ -129,8 +114,19 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
 
     @Override
     public Single<String> requestContentFromRemoteStorage() {
-        scheduleEmptyEmit();
-        return contentSubject;
+        contentSubject = SingleSubject.create();
+
+        return Completable.fromAction(() -> {
+            Activity currentActivity = lifecycleListener.getCurrentActivity();
+
+            if (currentActivity == null) {
+                scheduleEmptyEmit();
+                return;
+            }
+
+            currentActivity.startActivity(DriveStorageActivity.createIntent(currentActivity));
+        })
+                .andThen(contentSubject);
     }
 
     @Override
@@ -139,9 +135,5 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
             contentSubject.onSuccess(content);
             contentSubject = null;
         }
-    }
-
-    private interface UnaryFunction<T> {
-        void apply(T obj);
     }
 }

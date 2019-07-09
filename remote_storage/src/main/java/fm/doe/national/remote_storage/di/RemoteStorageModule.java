@@ -14,10 +14,17 @@ import fm.doe.national.remote_storage.data.uploader.WorkerRemoteUploader;
 
 @Module
 public class RemoteStorageModule {
+
     @Provides
     @RemoteStorageScope
-    RemoteStorage provideRemoteStorage() {
-        return new DriveRemoteStorage();
+    DriveRemoteStorage provideDriveRemoteStorage(Context context) {
+        return new DriveRemoteStorage(context);
+    }
+
+    @Provides
+    @RemoteStorageScope
+    RemoteStorage provideRemoteStorage(DriveRemoteStorage driveRemoteStorage) {
+        return driveRemoteStorage;
     }
 
     @Provides
@@ -30,8 +37,8 @@ public class RemoteStorageModule {
     @RemoteStorageScope
     RemoteStorageAccessor provideRemoteStorageAccsessor(LifecycleListener lifecycleListener,
                                                         Context context,
-                                                        RemoteStorage remoteStorage,
-                                                        RemoteUploader uploader) {
-        return new RemoteStorageAccessorImpl(lifecycleListener, context, uploader, remoteStorage);
+                                                        RemoteUploader uploader,
+                                                        DriveRemoteStorage driveRemoteStorage) {
+        return new RemoteStorageAccessorImpl(lifecycleListener, context, uploader, driveRemoteStorage);
     }
 }

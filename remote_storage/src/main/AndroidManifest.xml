@@ -3,8 +3,15 @@
     package="fm.doe.national.remote_storage">
 
     <application>
-        <activity android:name=".ui.auth.GoogleAuthActivity"></activity>
-        <activity android:name=".ui.default_storage.DefaultStorageActivity" />
+        <activity
+            android:name=".ui.auth.GoogleAuthActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.default_storage.DefaultStorageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.remote_storage.DriveStorageActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -43,6 +43,7 @@ dependencies {
     implementation project(path: ':data_source_injector')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
+    implementation "com.google.android.material:material:${Deps.material}"
     testImplementation "junit:junit:${Deps.junit}"
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
@@ -76,5 +77,6 @@ dependencies {
 
     // Omega
     implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
 
 }
