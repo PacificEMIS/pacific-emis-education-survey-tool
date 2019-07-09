@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -78,6 +79,8 @@ import static fm.doe.national.core.utils.ViewUtils.createBitmapOptions;
 
 public final class BluetoothOfflineAccessor implements OfflineAccessor, Transporter.Listener, Acceptor.OnSocketAcceptedListener {
 
+    private static final String TAG = BluetoothOfflineAccessor.class.getName();
+
     public static final List<String> sReceiverActionsToRegister = Arrays.asList(
             BluetoothDevice.ACTION_FOUND,
             BluetoothAdapter.ACTION_DISCOVERY_STARTED,
@@ -95,7 +98,6 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final Subject<Action> btPermissionsRequestSubject = PublishSubject.create();
     private final List<BluetoothDevice> devicesCache = new ArrayList<>();
     private final GlobalPreferences globalPreferences;
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final AccreditationDataSource accreditationDataSource;
     private final WashDataSource washDataSource;
     private final PicturesRepository picturesRepository;
@@ -125,6 +127,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     @Nullable
     private Transporter transporter;
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public BluetoothOfflineAccessor(Context applicationContext,
                                     GlobalPreferences globalPreferences,
@@ -240,6 +244,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     public void disconnect() {
         onDisconnect();
         compositeDisposable.dispose();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -321,6 +326,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     private void killAll() {
+        Log.d(TAG, "killAll");
         killTransporter();
         killAcceptor();
         killConnector();
@@ -394,13 +400,16 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     private void handleSurveysRequest(String body) {
         if (transporter != null) {
+            Log.d(TAG, "handleSurveysRequest - " + body);
             RequestSurveysBody request = gson.fromJson(body, RequestSurveysBody.class);
             String schoolId = request.getSchoolId();
             AppRegion region = request.getAppRegion();
 
             VoidFunction<ResponseSurveysBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(v));
-                transporter.write(gson.toJson(message));
+                String messageJson = gson.toJson(message);
+                Log.d(TAG, "handleSurveysRequest send - " + messageJson);
+                transporter.write(messageJson);
                 syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_AVAILABLE_SURVEYS));
             };
 
@@ -443,6 +452,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     private void handleSurveysResponse(String response) {
         if (requestSurveysSubject != null) {
+            Log.d(TAG, "handleSurveysResponse - " + response);
             ResponseSurveysBody body = tryParseResponseSurveysBodyJson(response);
 
             if (body != null) {
@@ -457,11 +467,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     private void handleFilledSurveyRequest(String body) {
         if (transporter != null) {
+            Log.d(TAG, "handleFilledSurveyRequest - " + body);
             RequestSurveyBody request = gson.fromJson(body, RequestSurveyBody.class);
 
             VoidFunction<ResponseSurveyBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_FILLED_SURVEY, gson.toJson(v));
-                transporter.write(gson.toJson(message));
+                String messageJson = gson.toJson(message);
+                Log.d(TAG, "handleFilledSurveyRequest send - " + messageJson);
+                transporter.write(messageJson);
                 syncUseCase.setTargetSurvey(v.getSurvey());
                 syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_SURVEY));
                 syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SEND_PHOTOS, v.getSurvey().getPhotosCount()));
@@ -502,6 +515,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     private void handleFilledSurveyResponse(String response) {
         if (requestFilledSurveySubject != null) {
+            Log.d(TAG, "handleFilledSurveyResponse - " + response);
             ResponseSurveyBody body = tryParseResponseSurveyBodyJson(response);
 
             if (body != null) {
@@ -561,6 +575,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         if (requestPhotoSubject != null) {
             requestPhotoSubject.onError(error);
         }
+        Log.d(TAG, "passErrorToMessageSubjects - " + throwable.getMessage());
     }
 
     @Override
@@ -584,6 +599,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             List<MutableAnswer> answers = mutableTargetSurvey.merge(externalSurvey, strategy);
             int photosCount = (int) answers.stream().mapToLong(a -> a.getPhotos().size()).sum();
             syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
+            Log.d(TAG, "did merge accreditation with photos = " + photosCount);
             return answers;
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
@@ -603,6 +619,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     mutableTargetSurvey.merge(externalSurvey, strategy);
             int photosCount = (int) answers.stream().mapToLong(a -> nonNullWrapPhotos(a.getPhotos()).size()).sum();
             syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
+            Log.d(TAG, "did merge wash with photos = " + photosCount);
             return answers;
         })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
@@ -706,7 +723,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             if (transporter == null) {
                 throw new BluetoothGenericException(new IllegalStateException());
             }
-            BtMessage message = new BtMessage(BtMessage.Type.PUSH_SURVEY, gson.toJson(mergedSurvey));
+            String messageJson = gson.toJson(mergedSurvey);
+            Log.d(TAG, "pushSurvey - " + messageJson);
+            BtMessage message = new BtMessage(BtMessage.Type.PUSH_SURVEY, messageJson);
             transporter.write(gson.toJson(message));
             syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_PUSH_SURVEY));
         })
@@ -715,6 +734,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     private void handlePushSurvey(String content) {
+        Log.d(TAG, "handlePushSurvey - " + content);
         if (transporter == null) {
             return;
         }
@@ -725,6 +745,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             return;
         }
 
+        Log.d(TAG, "handlePushSurvey will merge");
         compositeDisposable.add(
                 mergeSurveys(syncUseCase.getTargetSurvey(), externalSurvey, ConflictResolveStrategy.THEIRS)
                         .subscribe(survey -> {
@@ -738,7 +759,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     @Nullable
     private Survey tryParseSurveyBodyJson(String json) {
         try {
-            return gson.fromJson(json, MutableAccreditationSurvey.class);
+            MutableAccreditationSurvey accreditationSurvey = gson.fromJson(json, MutableAccreditationSurvey.class);
+
+            // fix for https://github.com/google/gson/issues/61
+            if (accreditationSurvey.getCategories() == null) {
+                throw new JsonSyntaxException("Required field not present");
+            }
+
+            return accreditationSurvey;
         } catch (JsonSyntaxException ex) {
             try {
                 return gson.fromJson(json, MutableWashSurvey.class);
