@@ -1,5 +1,6 @@
 package fm.doe.national.remote_storage.ui.remote_storage;
 
+import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ public class DriveStorageAdapter extends BaseListAdapter<GoogleDriveFileHolder> 
 
     class ItemViewHolder extends ViewHolder {
 
+        private final Drawable folderDrawable = getResources().getDrawable(R.drawable.ic_folder, getContext().getTheme());
+        private final Drawable fileDrawable = getResources().getDrawable(R.drawable.ic_file, getContext().getTheme());
         private final TextView nameTextView = findViewById(R.id.textview_name);
         private final ImageView iconImageView = findViewById(R.id.imageview_icon);
 
@@ -42,11 +45,11 @@ public class DriveStorageAdapter extends BaseListAdapter<GoogleDriveFileHolder> 
             nameTextView.setText(item.getName());
             switch (item.getMimeType()) {
                 case FOLDER:
-                    iconImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_folder, getContext().getTheme()));
+                    iconImageView.setImageDrawable(folderDrawable);
                     break;
                 case PLAIN_TEXT:
                 case FILE:
-                    iconImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_file, getContext().getTheme()));
+                    iconImageView.setImageDrawable(fileDrawable);
                     break;
             }
         }

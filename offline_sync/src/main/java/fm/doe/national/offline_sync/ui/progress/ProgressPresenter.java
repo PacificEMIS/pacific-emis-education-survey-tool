@@ -13,7 +13,7 @@ import fm.doe.national.offline_sync.data.model.SyncNotification;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.domain.SyncNotifier;
-import fm.doe.national.remote_storage.data.storage.RemoteStorage;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -31,7 +31,7 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
     private final OfflineAccessor offlineAccessor;
     private final OfflineSyncUseCase useCase;
     private final SyncNotifier notifier;
-    private final RemoteStorage remoteStorage;
+    private final RemoteStorageAccessor remoteStorageAccessor;
 
     private int oneIncomePhotoPercentValue;
     private int currentProgress;
@@ -40,7 +40,7 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
         this.offlineAccessor = component.getAccessor();
         this.useCase = component.getUseCase();
         this.notifier = component.getNotifier();
-        this.remoteStorage = remoteStorageComponent.getRemoteStorage();
+        this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
 
         getViewState().setSurvey(useCase.getExternalSurvey());
         getViewState().setDescription(Text.from(R.string.hint_merge_in_progress));
@@ -57,8 +57,7 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(() -> {
-                            // TODO: upload to cloud
-//                            uploader.scheduleUploading(useCase.getTargetSurvey().getId());
+                            remoteStorageAccessor.scheduleUploading(useCase.getTargetSurvey().getId());
                             useCase.finish();
                         }, this::handleError)
         );

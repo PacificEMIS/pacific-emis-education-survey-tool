@@ -6,6 +6,7 @@
     <string name="label_load_survey">Load partially saved Survey</string>
     <string name="label_choose">Choose</string>
     <string name="title_choose_context">Choose context</string>
+    <string name="title_choose_op_mode">Choose operating mode</string>
     <string name="title_main_menu">Pacific EMIS Education\nSurvey Tool</string>
     <string name="label_credits">Credits and Software License</string>
     <string name="label_settings">Settings</string>

@@ -136,7 +136,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onOperatingModePressed() {
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        getViewState().showOpModeSelector((opMode) -> {
+            globalPreferences.setOperatingMode(opMode);
+            refresh();
+        });
     }
 
     private void onImportSchoolsPressed() {
