@@ -98,7 +98,6 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final Subject<Action> btPermissionsRequestSubject = PublishSubject.create();
     private final List<BluetoothDevice> devicesCache = new ArrayList<>();
     private final GlobalPreferences globalPreferences;
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final AccreditationDataSource accreditationDataSource;
     private final WashDataSource washDataSource;
     private final PicturesRepository picturesRepository;
@@ -128,6 +127,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     @Nullable
     private Transporter transporter;
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public BluetoothOfflineAccessor(Context applicationContext,
                                     GlobalPreferences globalPreferences,
@@ -243,6 +244,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     public void disconnect() {
         onDisconnect();
         compositeDisposable.dispose();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -405,8 +407,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
             VoidFunction<ResponseSurveysBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(v));
-                Log.d(TAG, "handleSurveysRequest send - " + gson.toJson(message));
-                transporter.write(gson.toJson(message));
+                String messageJson = gson.toJson(message);
+                Log.d(TAG, "handleSurveysRequest send - " + messageJson);
+                transporter.write(messageJson);
                 syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_AVAILABLE_SURVEYS));
             };
 
@@ -469,8 +472,9 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
             VoidFunction<ResponseSurveyBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_FILLED_SURVEY, gson.toJson(v));
-                transporter.write(gson.toJson(message));
-                Log.d(TAG, "handleFilledSurveyRequest send - " + gson.toJson(message));
+                String messageJson = gson.toJson(message);
+                Log.d(TAG, "handleFilledSurveyRequest send - " + messageJson);
+                transporter.write(messageJson);
                 syncUseCase.setTargetSurvey(v.getSurvey());
                 syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_SURVEY));
                 syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SEND_PHOTOS, v.getSurvey().getPhotosCount()));
@@ -714,13 +718,14 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     @Override
     public Completable pushSurvey(Survey mergedSurvey) {
-        Log.d(TAG, "pushSurvey - " + gson.toJson(mergedSurvey));
         pushSurveySubject = CompletableSubject.create();
         return Completable.fromAction(() -> {
             if (transporter == null) {
                 throw new BluetoothGenericException(new IllegalStateException());
             }
-            BtMessage message = new BtMessage(BtMessage.Type.PUSH_SURVEY, gson.toJson(mergedSurvey));
+            String messageJson = gson.toJson(mergedSurvey);
+            Log.d(TAG, "pushSurvey - " + messageJson);
+            BtMessage message = new BtMessage(BtMessage.Type.PUSH_SURVEY, messageJson);
             transporter.write(gson.toJson(message));
             syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_PUSH_SURVEY));
         })
