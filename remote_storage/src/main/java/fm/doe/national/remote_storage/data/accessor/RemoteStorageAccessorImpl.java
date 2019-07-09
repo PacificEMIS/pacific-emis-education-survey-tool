@@ -34,6 +34,9 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
 
     private static final long EMPTY_EMIT_DELAY_MS = 500;
 
+    // TODO: get credentials from server
+    private static final String FILENAME_TEMP_CREDENTIAL = "Micronesia-b9acf9c6198e.json";
+
     private final LifecycleListener lifecycleListener;
     private final RemoteUploader uploader;
     private final DriveRemoteStorage driveRemoteStorage;
@@ -54,7 +57,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             GsonFactory gsonFactory = new GsonFactory();
             GoogleCredential credential = GoogleCredential.fromStream(
-                    appContext.getAssets().open("Micronesia-b9acf9c6198e.json"),
+                    appContext.getAssets().open(FILENAME_TEMP_CREDENTIAL),
                     transport,
                     gsonFactory)
                     .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE_METADATA));

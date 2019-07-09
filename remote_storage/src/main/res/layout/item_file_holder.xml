@@ -14,8 +14,8 @@
 
     <ImageView
         android:id="@+id/imageview_icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_arrow_back_white_24dp"
         android:tint="?colorPrimary" />

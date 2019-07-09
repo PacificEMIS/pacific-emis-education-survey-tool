@@ -10,8 +10,11 @@ import com.omegar.mvp.InjectViewState;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.files.PicturesRepository;
@@ -36,9 +39,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void refresh() {
-        String googleEmail = null;
-        String exportFolder = null;
-
         Image logoImage = null;
         String logoPath = globalPreferences.getLogoPath();
 
@@ -46,7 +46,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             logoImage = UrlImageExtensionsKt.from(Image.Companion, logoPath);
         }
 
-        getViewState().setItems(Arrays.asList(
+        List<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(logoImage),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
                 itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
@@ -54,9 +54,13 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
                 itemFactory.createTemplatesItem(),
-                itemFactory.createPasswordItem(),
-                itemFactory.createDebugStorageItem()
-        ));
+                itemFactory.createPasswordItem()));
+
+        if (BuildConfig.DEBUG) {
+            items.add(itemFactory.createDebugStorageItem());
+        }
+
+        getViewState().setItems(items);
     }
 
     public void onItemPressed(Item item) {
