@@ -16,8 +16,10 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.Parser;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
+import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -25,21 +27,29 @@ import io.reactivex.schedulers.Schedulers;
 public class SettingsInteractor {
 
     private final RemoteStorageAccessor remoteStorageAccessor;
+    private final RemoteStorage remoteStorage;
     private final Parser<List<School>> schoolsParser;
     private final AssetManager assetManager;
     private final GlobalPreferences globalPreferences;
     private final SurveyAccessor accessor;
 
     public SettingsInteractor(RemoteStorageAccessor remoteStorageAccessor,
+                              RemoteStorage remoteStorage,
                               Parser<List<School>> schoolsParser,
                               AssetManager assetManager,
                               GlobalPreferences globalPreferences,
                               SurveyAccessor accessor) {
         this.remoteStorageAccessor = remoteStorageAccessor;
+        this.remoteStorage = remoteStorage;
         this.accessor = accessor;
         this.schoolsParser = schoolsParser;
         this.assetManager = assetManager;
         this.globalPreferences = globalPreferences;
+    }
+
+    public void setOperatingMode(OperatingMode mode) {
+        globalPreferences.setOperatingMode(mode);
+        remoteStorage.init();
     }
 
     private DataSource getCurrentDataSource() {

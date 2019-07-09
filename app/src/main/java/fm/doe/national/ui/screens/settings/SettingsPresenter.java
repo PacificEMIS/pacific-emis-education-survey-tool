@@ -137,7 +137,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onOperatingModePressed() {
         getViewState().showOpModeSelector((opMode) -> {
-            globalPreferences.setOperatingMode(opMode);
+            interactor.setOperatingMode(opMode);
             refresh();
         });
     }

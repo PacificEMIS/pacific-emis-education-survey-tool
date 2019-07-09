@@ -37,6 +37,7 @@ public class InteractorsModule {
                                                  GlobalPreferences globalPreferences) {
         return new SettingsInteractor(
                 remoteStorageComponent.getRemoteStorageAccessor(),
+                remoteStorageComponent.getRemoteStorage(),
                 schoolsParser,
                 assetManager,
                 globalPreferences,

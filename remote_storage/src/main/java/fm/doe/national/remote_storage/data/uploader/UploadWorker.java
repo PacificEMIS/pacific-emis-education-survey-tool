@@ -9,8 +9,6 @@ import androidx.work.WorkerParameters;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.SurveySerializer;
-import fm.doe.national.core.di.CoreComponentInjector;
-import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponentInjector;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
@@ -27,7 +25,6 @@ public class UploadWorker extends RxWorker {
     private DataSource dataSource;
     private SurveySerializer surveySerializer;
     private RemoteStorage remoteStorage;
-    private GlobalPreferences globalPreferences;
 
     public UploadWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -35,7 +32,6 @@ public class UploadWorker extends RxWorker {
         dataSource = dataSourceComponent.getDataSource();
         surveySerializer = dataSourceComponent.getSurveySerializer();
         remoteStorage = RemoteStorageComponentInjector.getComponent(context).getRemoteStorage();
-        globalPreferences = CoreComponentInjector.getComponent(context).getGlobalPreferences();
     }
 
     @Override
@@ -49,8 +45,7 @@ public class UploadWorker extends RxWorker {
                 .flatMapCompletable(survey -> remoteStorage.uploadContent(
                         surveySerializer.serialize(survey),
                         createFilePath(survey),
-                        survey.getAppRegion(),
-                        globalPreferences.getOperatingMode())
+                        survey.getAppRegion())
                 )
                 .andThen(Single.fromCallable(Result::success));
     }

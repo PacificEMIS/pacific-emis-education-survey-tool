@@ -1,27 +1,16 @@
 package fm.doe.national.remote_storage.data.accessor;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.DriveScopes;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.remote_storage.BuildConfig;
-import fm.doe.national.remote_storage.R;
-import fm.doe.national.remote_storage.data.storage.DriveRemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
 import fm.doe.national.remote_storage.ui.remote_storage.DriveStorageActivity;
 import io.reactivex.Completable;
@@ -34,40 +23,17 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
 
     private static final long EMPTY_EMIT_DELAY_MS = 500;
 
-    // TODO: get credentials from server
-    private static final String FILENAME_TEMP_CREDENTIAL = "Micronesia-b9acf9c6198e.json";
-
     private final LifecycleListener lifecycleListener;
     private final RemoteUploader uploader;
-    private final DriveRemoteStorage driveRemoteStorage;
 
     private SingleSubject<String> contentSubject;
     private CompletableSubject authSubject;
     private GoogleSignInAccount account;
 
     public RemoteStorageAccessorImpl(LifecycleListener lifecycleListener,
-                                     Context appContext,
-                                     RemoteUploader uploader,
-                                     DriveRemoteStorage driveRemoteStorage) {
+                                     RemoteUploader uploader) {
         this.lifecycleListener = lifecycleListener;
         this.uploader = uploader;
-        this.driveRemoteStorage = driveRemoteStorage;
-
-        try {
-            HttpTransport transport = AndroidHttp.newCompatibleTransport();
-            GsonFactory gsonFactory = new GsonFactory();
-            GoogleCredential credential = GoogleCredential.fromStream(
-                    appContext.getAssets().open(FILENAME_TEMP_CREDENTIAL),
-                    transport,
-                    gsonFactory)
-                    .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE_METADATA));
-            Drive drive = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
-                    .setApplicationName(appContext.getString(R.string.app_name))
-                    .build();
-            this.driveRemoteStorage.init(drive);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
+import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessorImpl;
@@ -17,14 +18,8 @@ public class RemoteStorageModule {
 
     @Provides
     @RemoteStorageScope
-    DriveRemoteStorage provideDriveRemoteStorage(Context context) {
-        return new DriveRemoteStorage(context);
-    }
-
-    @Provides
-    @RemoteStorageScope
-    RemoteStorage provideRemoteStorage(DriveRemoteStorage driveRemoteStorage) {
-        return driveRemoteStorage;
+    RemoteStorage provideRemoteStorage(Context context, GlobalPreferences globalPreferences) {
+        return new DriveRemoteStorage(context, globalPreferences);
     }
 
     @Provides
@@ -35,10 +30,8 @@ public class RemoteStorageModule {
 
     @Provides
     @RemoteStorageScope
-    RemoteStorageAccessor provideRemoteStorageAccsessor(LifecycleListener lifecycleListener,
-                                                        Context context,
-                                                        RemoteUploader uploader,
-                                                        DriveRemoteStorage driveRemoteStorage) {
-        return new RemoteStorageAccessorImpl(lifecycleListener, context, uploader, driveRemoteStorage);
+    RemoteStorageAccessor provideRemoteStorageAccessor(LifecycleListener lifecycleListener,
+                                                       RemoteUploader uploader) {
+        return new RemoteStorageAccessorImpl(lifecycleListener, uploader);
     }
 }

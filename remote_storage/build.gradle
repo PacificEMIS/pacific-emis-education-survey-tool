@@ -16,6 +16,9 @@ android {
                 arguments = [moxyReflectorPackage: 'fm.doe.national.remote_storage']
             }
         }
+
+        buildConfigField "String", "CREDENTIALS_DEV", "\"c_dev.json\""
+        buildConfigField "String", "CREDENTIALS_PROD", "\"Micronesia-b9acf9c6198e.json\""
     }
 
     buildTypes {
