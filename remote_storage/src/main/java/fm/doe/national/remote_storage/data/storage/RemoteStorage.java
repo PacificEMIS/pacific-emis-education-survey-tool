@@ -17,4 +17,5 @@ public interface RemoteStorage {
 
     Single<String> loadContent(String fileId);
 
+    Completable delete(String fileId);
 }

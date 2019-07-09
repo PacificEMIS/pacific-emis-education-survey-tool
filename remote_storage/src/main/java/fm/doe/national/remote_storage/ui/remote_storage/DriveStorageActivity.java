@@ -19,9 +19,12 @@ import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 
-public class DriveStorageActivity extends BaseActivity implements DriveStorageView, BaseListAdapter.OnItemClickListener<GoogleDriveFileHolder> {
+public class DriveStorageActivity extends BaseActivity implements
+        DriveStorageView,
+        BaseListAdapter.OnItemClickListener<GoogleDriveFileHolder>,
+        BaseListAdapter.OnItemLongClickListener<GoogleDriveFileHolder> {
 
-    private final DriveStorageAdapter adapter = new DriveStorageAdapter(this);
+    private static final String EXTRA_IS_DEBUG_VIEWER = "EXTRA_IS_DEBUG_VIEWER";
 
     @InjectPresenter
     DriveStoragePresenter presenter;
@@ -29,15 +32,23 @@ public class DriveStorageActivity extends BaseActivity implements DriveStorageVi
     private RecyclerView recyclerView;
     private View contentView;
     private TextView contentTextView;
+    private DriveStorageAdapter adapter;
+    private Boolean isDebugViewer = null;
 
-    public static Intent createIntent(Context context) {
-        return new Intent(context, DriveStorageActivity.class);
+    public static Intent createIntent(Context context, boolean isDebugViewer) {
+        return new Intent(context, DriveStorageActivity.class).putExtra(EXTRA_IS_DEBUG_VIEWER, isDebugViewer);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.title_drive);
+
+        if (isDebugViewer()) {
+            adapter = new DriveStorageAdapter(this, this);
+        } else {
+            adapter = new DriveStorageAdapter(this);
+        }
+
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
         contentTextView = findViewById(R.id.textview_content);
@@ -46,8 +57,20 @@ public class DriveStorageActivity extends BaseActivity implements DriveStorageVi
 
     @ProvidePresenter
     DriveStoragePresenter providePresenter() {
-        return new DriveStoragePresenter(RemoteStorageComponentInjector.getComponent(getApplication()));
+        return new DriveStoragePresenter(
+                RemoteStorageComponentInjector.getComponent(getApplication()),
+                isDebugViewer()
+        );
     }
+
+    private boolean isDebugViewer() {
+        if (isDebugViewer == null) {
+            isDebugViewer = getIntent().getBooleanExtra(EXTRA_IS_DEBUG_VIEWER, false);
+        }
+
+        return isDebugViewer;
+    }
+
 
     @Override
     protected int getContentView() {
@@ -69,7 +92,36 @@ public class DriveStorageActivity extends BaseActivity implements DriveStorageVi
     }
 
     @Override
+    public void onHomePressed() {
+        presenter.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
+    }
+
+    @Override
     public void onItemClick(GoogleDriveFileHolder item) {
         presenter.onItemPressed(item);
+    }
+
+    @Override
+    public void close() {
+        finish();
+    }
+
+    @Override
+    public void onItemLongClick(GoogleDriveFileHolder item) {
+        presenter.onItemLongPressed(item);
+    }
+
+    @Override
+    public void setParentName(String currentParentName) {
+        if (currentParentName == null) {
+            setTitle(R.string.title_drive);
+        } else {
+            setTitle(currentParentName);
+        }
     }
 }

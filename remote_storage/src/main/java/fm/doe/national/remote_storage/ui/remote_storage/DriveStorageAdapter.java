@@ -13,6 +13,12 @@ import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 
 public class DriveStorageAdapter extends BaseListAdapter<GoogleDriveFileHolder> {
 
+
+    public DriveStorageAdapter(@Nullable OnItemClickListener<GoogleDriveFileHolder> clickListener,
+                               @Nullable OnItemLongClickListener<GoogleDriveFileHolder> longClickListener) {
+        super(clickListener, longClickListener);
+    }
+
     public DriveStorageAdapter(@Nullable OnItemClickListener<GoogleDriveFileHolder> clickListener) {
         super(clickListener);
     }
@@ -33,20 +39,15 @@ public class DriveStorageAdapter extends BaseListAdapter<GoogleDriveFileHolder> 
 
         @Override
         protected void onBind(GoogleDriveFileHolder item) {
-            if (item.getId() == null) {
-                nameTextView.setText(null);
-                iconImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp, getContext().getTheme()));
-            } else {
-                nameTextView.setText(item.getName());
-                switch (item.getMimeType()) {
-                    case FOLDER:
-                        iconImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_folder, getContext().getTheme()));
-                        break;
-                    case PLAIN_TEXT:
-                    case FILE:
-                        iconImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_file, getContext().getTheme()));
-                        break;
-                }
+            nameTextView.setText(item.getName());
+            switch (item.getMimeType()) {
+                case FOLDER:
+                    iconImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_folder, getContext().getTheme()));
+                    break;
+                case PLAIN_TEXT:
+                case FILE:
+                    iconImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_file, getContext().getTheme()));
+                    break;
             }
         }
     }

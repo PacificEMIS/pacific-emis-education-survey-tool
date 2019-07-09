@@ -17,11 +17,12 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.core.data.exceptions.AuthenticationException;
+import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.utils.LifecycleListener;
+import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.storage.DriveRemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
-import fm.doe.national.remote_storage.ui.default_storage.DefaultStorageActivity;
 import fm.doe.national.remote_storage.ui.remote_storage.DriveStorageActivity;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -91,29 +92,12 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
         uploader.scheduleUploading(surveyId);
     }
 
-    @Override
-    public Single<String> requestContentFromDefaultStorage() {
-        contentSubject = SingleSubject.create();
-
-        return Completable.fromAction(() -> {
-            Activity currentActivity = lifecycleListener.getCurrentActivity();
-
-            if (currentActivity == null) {
-                scheduleEmptyEmit();
-                return;
-            }
-
-            currentActivity.startActivity(DefaultStorageActivity.createIntent(currentActivity));
-        })
-                .andThen(contentSubject);
-    }
-
     private void scheduleEmptyEmit() {
         Schedulers.io().scheduleDirect(() -> onContentReceived(EMPTY_CONTENT), EMPTY_EMIT_DELAY_MS, TimeUnit.MILLISECONDS);
     }
 
     @Override
-    public Single<String> requestContentFromRemoteStorage() {
+    public Single<String> requestContentFromStorage() {
         contentSubject = SingleSubject.create();
 
         return Completable.fromAction(() -> {
@@ -124,7 +108,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                 return;
             }
 
-            currentActivity.startActivity(DriveStorageActivity.createIntent(currentActivity));
+            currentActivity.startActivity(DriveStorageActivity.createIntent(currentActivity, false));
         })
                 .andThen(contentSubject);
     }
@@ -135,5 +119,29 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
             contentSubject.onSuccess(content);
             contentSubject = null;
         }
+    }
+
+    @Override
+    public void onContentNotReceived() {
+        if (contentSubject != null) {
+            contentSubject.onError(new PickerDeclinedException());
+            contentSubject = null;
+        }
+    }
+
+    @Override
+    public void showDebugStorage() {
+        if (!BuildConfig.DEBUG) {
+            throw new IllegalStateException();
+        }
+
+        Activity currentActivity = lifecycleListener.getCurrentActivity();
+
+        if (currentActivity == null) {
+            scheduleEmptyEmit();
+            return;
+        }
+
+        currentActivity.startActivity(DriveStorageActivity.createIntent(currentActivity, true));
     }
 }

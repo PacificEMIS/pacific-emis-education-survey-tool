@@ -13,10 +13,12 @@ public interface RemoteStorageAccessor {
 
     void scheduleUploading(long surveyId);
 
-    Single<String> requestContentFromDefaultStorage();
-
-    Single<String> requestContentFromRemoteStorage();
+    Single<String> requestContentFromStorage();
 
     void onContentReceived(String content);
+
+    void onContentNotReceived();
+
+    void showDebugStorage();
 
 }

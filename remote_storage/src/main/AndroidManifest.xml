@@ -7,9 +7,6 @@
             android:name=".ui.auth.GoogleAuthActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.default_storage.DefaultStorageActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.remote_storage.DriveStorageActivity"
             android:screenOrientation="portrait" />
     </application>

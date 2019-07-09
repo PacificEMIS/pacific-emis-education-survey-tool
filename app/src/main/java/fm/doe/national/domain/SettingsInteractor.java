@@ -55,7 +55,7 @@ public class SettingsInteractor {
     }
 
     public Completable importSchools() {
-        return remoteStorageAccessor.requestContentFromDefaultStorage()
+        return remoteStorageAccessor.requestContentFromStorage()
                 .observeOn(Schedulers.io())
                 .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
                         schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
@@ -63,13 +63,17 @@ public class SettingsInteractor {
     }
 
     public Completable importSurvey() {
-        return Completable.complete();
-//        return cloudRepository.requestContent(type)
-//                .flatMapCompletable(accessor::rewriteTemplateSurvey);
+        return remoteStorageAccessor.requestContentFromStorage()
+                .observeOn(Schedulers.io())
+                .flatMapCompletable(accessor::rewriteTemplateSurvey);
     }
 
     public Completable selectExportFolder() {
-        return remoteStorageAccessor.requestContentFromRemoteStorage().ignoreElement();
+        return Completable.complete();
+    }
+
+    public void showDebugStorage() {
+        remoteStorageAccessor.showDebugStorage();
     }
 
     public Completable loadDataFromAssets() {
@@ -140,9 +144,9 @@ public class SettingsInteractor {
     }
 
     public Completable createFilledSurveyFromCloud() {
-        return Completable.complete();
-//        return cloudRepository.requestContent(cloudType)
-//                .flatMapCompletable(accessor::createPartiallySavedSurvey);
+        return remoteStorageAccessor.requestContentFromStorage()
+                .observeOn(Schedulers.io())
+                .flatMapCompletable(accessor::createPartiallySavedSurvey);
     }
 
     public static class SurveyAccessor {

@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.utils.DriveQueryBuilder;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
@@ -144,5 +145,9 @@ public class DriveServiceHelper {
 
             return googleDriveFileHolderList;
         }).subscribeOn(Schedulers.io());
+    }
+
+    public Completable delete(String fileId) {
+        return Completable.fromAction(() -> drive.files().delete(fileId).execute());
     }
 }

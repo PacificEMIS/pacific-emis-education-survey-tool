@@ -39,12 +39,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         String googleEmail = null;
         String exportFolder = null;
 
-//        if (!interactor.getConnectedAccounts().isEmpty()) {
-//            CloudAccountData accountData = interactor.getConnectedAccounts().get(0);
-//            googleEmail = accountData.getEmail();
-//            exportFolder = accountData.getExportPath();
-//        }
-
         Image logoImage = null;
         String logoPath = globalPreferences.getLogoPath();
 
@@ -54,22 +48,21 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
         getViewState().setItems(Arrays.asList(
                 itemFactory.createLogoItem(logoImage),
-                itemFactory.createAccountItem(googleEmail == null ? Text.from(R.string.label_sign_in) : Text.from(googleEmail)),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
                 itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
                 itemFactory.createContactItem(Text.from(globalPreferences.getContactName())),
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createExportFolderItem(exportFolder == null ? Text.empty() : Text.from(exportFolder)),
                 itemFactory.createTemplatesItem(),
-                itemFactory.createPasswordItem()
+                itemFactory.createPasswordItem(),
+                itemFactory.createDebugStorageItem()
         ));
     }
 
     public void onItemPressed(Item item) {
         switch (item.getType()) {
-            case ACCOUNT:
-                // nothing
+            case DEBUG_STORAGE:
+                onDebugStoragePressed();
                 break;
             case CONTACT:
                 onContactPressed();
@@ -99,6 +92,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 onTemplatesPressed();
                 break;
         }
+    }
+
+    private void onDebugStoragePressed() {
+        interactor.showDebugStorage();
     }
 
     private void onLogoPressed() {

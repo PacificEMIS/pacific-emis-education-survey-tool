@@ -51,4 +51,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private String unwrap(@NonNull Text text) {
         return text.getString(contextWeakReference.get());
     }
+
+    @Override
+    public Completable delete(String fileId) {
+        return driveServiceHelper.delete(fileId);
+    }
 }

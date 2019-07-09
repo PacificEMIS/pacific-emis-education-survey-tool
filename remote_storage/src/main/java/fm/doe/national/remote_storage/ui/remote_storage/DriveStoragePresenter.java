@@ -4,12 +4,12 @@ import androidx.annotation.Nullable;
 
 import com.omegar.mvp.InjectViewState;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
@@ -21,54 +21,43 @@ import io.reactivex.schedulers.Schedulers;
 public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
 
     private final RemoteStorage storage;
-    private final Stack<String> parentsStack = new Stack<>();
+    private final RemoteStorageAccessor accessor;
+    private final Stack<GoogleDriveFileHolder> parentsStack = new Stack<>();
+    private final boolean isDebugViewer;
 
-    public DriveStoragePresenter(RemoteStorageComponent component) {
-        storage = component.getRemoteStorage();
+    public DriveStoragePresenter(RemoteStorageComponent component, boolean isDebugViewer) {
+        this.isDebugViewer = isDebugViewer;
+        this.storage = component.getRemoteStorage();
+        this.accessor = component.getRemoteStorageAccessor();
         updateFileHolders();
     }
 
     public void onItemPressed(GoogleDriveFileHolder item) {
-        String itemId = item.getId();
-
-        if (itemId == null) {
-            parentsStack.pop();
-            updateFileHolders();
-            return;
-        }
-
         switch (item.getMimeType()) {
             case FOLDER:
-                parentsStack.push(itemId);
+                parentsStack.push(item);
                 updateFileHolders();
                 break;
             case FILE:
             case PLAIN_TEXT:
-                requestContent(itemId);
+                requestContent(item.getId());
                 break;
         }
     }
 
     private void updateFileHolders() {
+        getViewState().setParentName(getCurrentParentName());
         addDisposable(
-                storage.requestStorageFiles(getCurrentParent())
+                storage.requestStorageFiles(getCurrentParentId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().showWaiting())
                         .doFinally(getViewState()::hideWaiting)
                         .subscribe(items -> {
-                            List<GoogleDriveFileHolder> itemsToShow = new ArrayList<>();
-
-                            if (getCurrentParent() != null) {
-                                itemsToShow.add(new GoogleDriveFileHolder());
-                            }
-
-                            itemsToShow.addAll(
-                                    items.stream()
-                                            .filter(f -> f.getMimeType() != DriveType.OTHER)
-                                            .sorted((lv, rv) -> lv.getMimeType().compareTo(rv.getMimeType()))
-                                            .collect(Collectors.toList())
-                            );
+                            List<GoogleDriveFileHolder> itemsToShow = items.stream()
+                                    .filter(f -> f.getMimeType() != DriveType.OTHER)
+                                    .sorted((lv, rv) -> lv.getMimeType().compareTo(rv.getMimeType()))
+                                    .collect(Collectors.toList());
 
                             getViewState().setItems(itemsToShow);
                         }, this::handleError)
@@ -76,8 +65,13 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
     }
 
     @Nullable
-    private String getCurrentParent() {
-        return parentsStack.isEmpty() ? null : parentsStack.peek();
+    private String getCurrentParentId() {
+        return parentsStack.isEmpty() ? null : parentsStack.peek().getId();
+    }
+
+    @Nullable
+    private String getCurrentParentName() {
+        return parentsStack.isEmpty() ? null : parentsStack.peek().getName();
     }
 
     private void requestContent(String fileId) {
@@ -87,7 +81,34 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().showWaiting())
                         .doFinally(getViewState()::hideWaiting)
-                        .subscribe(getViewState()::setContent, this::handleError)
+                        .subscribe(content -> {
+                            if (isDebugViewer) {
+                                getViewState().setContent(content);
+                            } else {
+                                accessor.onContentReceived(content);
+                                getViewState().close();
+                            }
+                        }, this::handleError)
+        );
+    }
+
+    public void onBackPressed() {
+        if (parentsStack.isEmpty()) {
+            getViewState().close();
+        } else {
+            parentsStack.pop();
+            updateFileHolders();
+        }
+    }
+
+    public void onItemLongPressed(GoogleDriveFileHolder item) {
+        addDisposable(
+                storage.delete(item.getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> getViewState().showWaiting())
+                        .doFinally(getViewState()::hideWaiting)
+                        .subscribe(this::updateFileHolders, this::handleError)
         );
     }
 }
