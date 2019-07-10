@@ -28,6 +28,7 @@
         <item name="buttonBarButtonStyle">@style/BarButton</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
         <item name="buttonStyle">@style/Button</item>
+        <item name="dialogCornerRadius">8dp</item>
     </style>
 
     <style name="BarButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
@@ -51,15 +52,20 @@
     </style>
 
     <style name="DialogTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textAppearance">@style/Text.Button</item>
+        <item name="android:textAppearance">@style/Text.Button.Dialog</item>
     </style>
 
     <style name="Text.Button">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/noto_sans_medium</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/noto_sans_bold</item>
         <item name="android:textSize">18sp</item>
         <item name="android:letterSpacing">0.05</item>
         <item name="android:textColor">@color/button_text_selector</item>
+    </style>
+
+    <style name="Text.Button.Dialog">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?colorPrimary</item>
     </style>
 
     <style name="Text.Button.Bar">

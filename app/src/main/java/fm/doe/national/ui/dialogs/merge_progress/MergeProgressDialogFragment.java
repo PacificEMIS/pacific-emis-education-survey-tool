@@ -42,7 +42,7 @@ public class MergeProgressDialogFragment extends BaseDialogFragment implements M
         return inflater.inflate(R.layout.dialog_merge_progress, container, false);
     }
 
-    @OnClick(R.id.textview_merge)
+    @OnClick(R.id.button_end_session)
     void onEndSessionPressed() {
         presenter.onEndSessionPressed();
     }
