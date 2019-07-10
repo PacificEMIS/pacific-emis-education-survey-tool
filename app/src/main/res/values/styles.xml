@@ -1,69 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-
-    <style name="TextViewBaseDrawerScreen" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/blue_grey_700</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="BaseThemeRecyclerView" parent="AppTheme">
-        <item name="android:divider">@color/grey_400</item>
-        <item name="android:dividerHeight">1dp</item>
-    </style>
-
-    <style name="ThemeRecyclerViewSplashMenu" parent="BaseThemeRecyclerView">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="ThemeRecyclerViewNavigationDrawer" parent="BaseThemeRecyclerView">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:gravity">start</item>
-    </style>
-
-    <style name="TextViewNavigationDrawerHeader" parent="TextViewBaseDrawerScreen">
-        <item name="android:textAllCaps">true</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@string/font_light</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">36sp</item>
-    </style>
-
-    <style name="TextViewNavigationDrawerFooter" parent="TextViewBaseDrawerScreen">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:fontFamily">@string/font_medium</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:lineSpacingExtra">10sp</item>
-    </style>
-
-    <style name="TextViewStandardsNavigationDrawerFooter" parent="AppTheme">
-        <item name="android:fontFamily">@string/font_black</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="ListText" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/blue_grey_700</item>
-        <item name="android:fontFamily">@string/font_light</item>
-    </style>
-
-    <style name="GreyedListText" parent="ListText">
-        <item name="android:textColor">@color/blue_grey_300</item>
-    </style>
-
-    <style name="ClickableListText" parent="ListText">
-        <item name="android:background">?selectableItemBackground</item>
-        <item name="android:paddingStart">24dp</item>
-        <item name="android:paddingEnd">24dp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+    
+    <style name="SplashTheme" parent="AppTheme" >
+        <item name="android:windowBackground">@drawable/layer_splash</item>
     </style>
 
     <style name="Subtitle" parent="TextAppearance.AppCompat">
@@ -88,33 +26,8 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="CapitalizedTextButton" parent="TextButton">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:fontFamily">@string/font_medium</item>
-    </style>
-
-    <style name="AccountTextButton" parent="TextButton">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/color_default</item>
-        <item name="android:fontFamily">@string/font_normal</item>
-    </style>
-
-    <style name="SettingsDelimeter" parent="AppTheme">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginStart">24dp</item>
-        <item name="android:layout_marginEnd">24dp</item>
-        <item name="android:background">@color/grey_600</item>
-        <item name="android:alpha">0.25</item>
-    </style>
-
     <style name="Selectable" parent="AppTheme">
         <item name="android:background">?selectableItemBackground</item>
-    </style>
-
-    <style name="SelectableBorderless" parent="Selectable">
-        <item name="android:background">?selectableItemBackgroundBorderless</item>
     </style>
 
 </resources>
