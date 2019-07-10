@@ -10,7 +10,6 @@ import com.omegar.mvp.InjectViewState;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             logoImage = UrlImageExtensionsKt.from(Image.Companion, logoPath);
         }
 
-        List<Item> items = new ArrayList<>(Arrays.asList(
+        List<Item> items = Arrays.asList(
                 itemFactory.createLogoItem(logoImage),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
                 itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
@@ -54,7 +53,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
                 itemFactory.createTemplatesItem(),
-                itemFactory.createPasswordItem()));
+                itemFactory.createPasswordItem()
+        );
 
         if (BuildConfig.DEBUG) {
             items.add(itemFactory.createDebugStorageItem());
@@ -136,8 +136,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onOperatingModePressed() {
-        getViewState().showOpModeSelector((opMode) -> {
-            interactor.setOperatingMode(opMode);
+        getViewState().showOperatingModeSelector(mode -> {
+            interactor.setOperatingMode(mode);
             refresh();
         });
     }

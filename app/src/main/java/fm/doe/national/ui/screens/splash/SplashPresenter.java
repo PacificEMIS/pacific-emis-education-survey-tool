@@ -18,8 +18,6 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     private void navigateToNextScreen() {
         if (!interactor.isMasterPasswordSaved()) {
             getViewState().navigateToMasterPassword();
-//        } else if (interactor.getConnectedAccounts().isEmpty()) {
-//            getViewState().navigateToSignIn();
         } else if (interactor.getAppRegion() == null) {
             getViewState().navigateToRegionChoose();
         } else {

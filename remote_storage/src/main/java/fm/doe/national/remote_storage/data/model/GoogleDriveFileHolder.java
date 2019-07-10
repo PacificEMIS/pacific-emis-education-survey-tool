@@ -14,9 +14,6 @@ public class GoogleDriveFileHolder {
         this.mimeType = DriveType.of(driveFile.getMimeType());
     }
 
-    public GoogleDriveFileHolder() {
-    }
-
     public String getId() {
         return id;
     }

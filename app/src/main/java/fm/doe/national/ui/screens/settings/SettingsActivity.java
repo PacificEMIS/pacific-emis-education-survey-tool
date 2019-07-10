@@ -131,19 +131,19 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
     }
 
     @Override
-    public void showOpModeSelector(OperatingModeListener listener) {
+    public void showOperatingModeSelector(OperatingModeListener listener) {
         selectorDialog = new BottomSheetDialog(this);
-        View sheetView = getLayoutInflater().inflate(R.layout.sheet_op_mode, null);
+        View sheetView = getLayoutInflater().inflate(R.layout.sheet_operating_mode, null);
         View prodItemView = sheetView.findViewById(R.id.textview_prod);
         View devItemView = sheetView.findViewById(R.id.textview_dev);
         TextView titleTextView = sheetView.findViewById(R.id.textview_title);
         titleTextView.setText(R.string.title_choose_op_mode);
         prodItemView.setOnClickListener(v -> {
-            listener.onOpModeSelected(OperatingMode.PROD);
+            listener.onOperatingModeSelected(OperatingMode.PROD);
             safeDismiss(selectorDialog);
         });
         devItemView.setOnClickListener(v -> {
-            listener.onOpModeSelected(OperatingMode.DEV);
+            listener.onOperatingModeSelected(OperatingMode.DEV);
             safeDismiss(selectorDialog);
         });
         selectorDialog.setContentView(sheetView);

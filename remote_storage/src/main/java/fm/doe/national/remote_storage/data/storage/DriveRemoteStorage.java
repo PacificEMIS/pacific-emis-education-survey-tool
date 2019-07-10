@@ -13,7 +13,6 @@ import com.google.api.services.drive.DriveScopes;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -32,26 +31,27 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
 
-    private final WeakReference<Context> contextWeakReference;
+    private final Context appContext;
     private final GlobalPreferences globalPreferences;
 
     private DriveServiceHelper driveServiceHelper;
 
     public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences) {
-        this.contextWeakReference = new WeakReference<>(appContext);
+        this.appContext = appContext;
         this.globalPreferences = globalPreferences;
-        init();
+        refreshCredentials();
     }
 
-    public void init() {
+    @Override
+    public void refreshCredentials() {
         try {
             GoogleCredential credential = GoogleCredential.fromStream(
-                    contextWeakReference.get().getAssets().open(getCredentialsFileName()),
+                    appContext.getAssets().open(getCredentialsFileName()),
                     sTransport,
                     sGsonFactory)
                     .createScoped(sDriveScopes);
             Drive drive = new Drive.Builder(sTransport, sGsonFactory, credential)
-                    .setApplicationName(contextWeakReference.get().getString(R.string.app_name))
+                    .setApplicationName(appContext.getString(R.string.app_name))
                     .build();
             driveServiceHelper = new DriveServiceHelper(drive);
         } catch (IOException e) {
@@ -65,8 +65,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 return BuildConfig.CREDENTIALS_DEV;
             case PROD:
                 return BuildConfig.CREDENTIALS_PROD;
+            default:
+                return BuildConfig.CREDENTIALS_DEV;
         }
-        return BuildConfig.CREDENTIALS_DEV;
     }
 
     @Override
@@ -87,7 +88,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     private String unwrap(@NonNull Text text) {
-        return text.getString(contextWeakReference.get());
+        return text.getString(appContext);
     }
 
     @Override
