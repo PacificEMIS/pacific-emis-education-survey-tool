@@ -65,8 +65,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 return BuildConfig.CREDENTIALS_DEV;
             case PROD:
                 return BuildConfig.CREDENTIALS_PROD;
+            default:
+                return BuildConfig.CREDENTIALS_DEV;
         }
-        return BuildConfig.CREDENTIALS_DEV;
     }
 
     @Override
