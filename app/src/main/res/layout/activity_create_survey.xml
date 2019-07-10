@@ -61,7 +61,7 @@
 
     </RelativeLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -76,14 +76,19 @@
             android:paddingBottom="86dp"
             tools:listitem="@layout/item_school" />
 
-        <fm.doe.national.core.ui.views.BottomNavigatorView
-            android:id="@+id/bottomnavigatorview"
-            android:layout_width="match_parent"
+        <com.omega_r.libs.OmegaCenterIconButton
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:nextText="@string/label_choose" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="56dp"
+            android:layout_marginBottom="32dp"
+            android:drawableStart="@drawable/ic_check"
+            android:drawablePadding="16dp"
+            android:text="@string/label_choose" />
 
-    </FrameLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

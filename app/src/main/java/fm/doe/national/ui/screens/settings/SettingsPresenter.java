@@ -10,6 +10,7 @@ import com.omegar.mvp.InjectViewState;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             logoImage = UrlImageExtensionsKt.from(Image.Companion, logoPath);
         }
 
-        List<Item> items = Arrays.asList(
+        List<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(logoImage),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
                 itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
@@ -54,7 +55,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createImportSchoolsItem(),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createPasswordItem()
-        );
+        ));
 
         if (BuildConfig.DEBUG) {
             items.add(itemFactory.createDebugStorageItem());
