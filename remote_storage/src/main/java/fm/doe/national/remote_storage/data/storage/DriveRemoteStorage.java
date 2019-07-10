@@ -43,6 +43,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         init();
     }
 
+    @Override
     public void init() {
         try {
             GoogleCredential credential = GoogleCredential.fromStream(

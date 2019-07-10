@@ -26,7 +26,7 @@ public interface SettingsView extends BaseView {
 
     void showRegionSelector(RegionListener listener);
 
-    void showOpModeSelector(OperatingModeListener listener);
+    void showOperatingModeSelector(OperatingModeListener listener);
 
     void navigateToChangePassword();
 
@@ -39,7 +39,7 @@ public interface SettingsView extends BaseView {
     }
 
     interface OperatingModeListener {
-        void onOpModeSelected(OperatingMode opMode);
+        void onOperatingModeSelected(OperatingMode opMode);
     }
 
 }

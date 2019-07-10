@@ -36,7 +36,8 @@ public class DriveStorageActivity extends BaseActivity implements
     private Boolean isDebugViewer = null;
 
     public static Intent createIntent(Context context, boolean isDebugViewer) {
-        return new Intent(context, DriveStorageActivity.class).putExtra(EXTRA_IS_DEBUG_VIEWER, isDebugViewer);
+        return new Intent(context, DriveStorageActivity.class)
+                .putExtra(EXTRA_IS_DEBUG_VIEWER, isDebugViewer);
     }
 
     @Override

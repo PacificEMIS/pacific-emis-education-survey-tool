@@ -24,8 +24,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class DriveServiceHelper {
 
-    private static String FOLDER_ROOT = "root";
-    private static String SPACE_DRIVE = "drive";
+    private static final String FOLDER_ROOT = "root";
+    private static final String SPACE_DRIVE = "drive";
 
     private final Drive drive;
 
@@ -51,7 +51,8 @@ public class DriveServiceHelper {
                     .mimeType(DriveType.PLAIN_TEXT.getValue())
                     .name(fileName)
                     .build();
-            FileList existingFiles = drive.files().list()
+            FileList existingFiles = drive.files()
+                    .list()
                     .setQ(query)
                     .setSpaces(SPACE_DRIVE)
                     .execute();
