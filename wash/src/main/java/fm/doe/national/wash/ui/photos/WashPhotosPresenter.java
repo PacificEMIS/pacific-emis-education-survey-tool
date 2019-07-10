@@ -5,11 +5,11 @@ import com.omegar.mvp.InjectViewState;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.ui.photos.PhotosPresenter;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.di.WashCoreComponent;
@@ -27,9 +27,9 @@ public class WashPhotosPresenter extends PhotosPresenter {
     private MutableAnswer answer;
 
     public WashPhotosPresenter(CoreComponent coreComponent,
-                               CloudComponent cloudComponent,
+                               RemoteStorageComponent remoteStorageComponent,
                                WashCoreComponent accreditationCoreComponent) {
-        super(coreComponent, cloudComponent);
+        super(coreComponent, remoteStorageComponent);
         interactor = accreditationCoreComponent.getWashSurveyInteractor();
         afterInit();
     }

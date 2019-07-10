@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -62,12 +63,12 @@ dependencies {
     implementation project(path: ':fcm_report')
     implementation project(path: ':rmi_report')
     implementation project(path: ':accreditation')
-    implementation project(path: ':cloud')
     implementation project(path: ':survey')
     implementation project(path: ':survey_core')
     implementation project(path: ':data_source_injector')
     implementation project(path: ':wash_core')
     implementation project(path: ':wash')
+    implementation project(path: ':remote_storage')
     implementation project(path: ':offline_sync')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"

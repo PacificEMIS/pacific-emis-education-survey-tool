@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context=".ui.screens.splash.SplashActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/imageview_logo"
         android:layout_width="320dp"
         android:layout_height="320dp"

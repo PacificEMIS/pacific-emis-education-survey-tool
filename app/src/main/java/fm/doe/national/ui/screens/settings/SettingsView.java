@@ -10,6 +10,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.ui.screens.settings.items.Item;
 
@@ -25,6 +26,8 @@ public interface SettingsView extends BaseView {
 
     void showRegionSelector(RegionListener listener);
 
+    void showOperatingModeSelector(OperatingModeListener listener);
+
     void navigateToChangePassword();
 
     interface InputListener {
@@ -33,6 +36,10 @@ public interface SettingsView extends BaseView {
 
     interface RegionListener {
         void onRegionSelected(AppRegion region);
+    }
+
+    interface OperatingModeListener {
+        void onOperatingModeSelected(OperatingMode opMode);
     }
 
 }

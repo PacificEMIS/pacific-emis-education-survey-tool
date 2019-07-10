@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import fm.doe.national.R;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.InputDialog;
 import fm.doe.national.ui.screens.password.PasswordsActivity;
@@ -117,12 +118,32 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
         View rmiItemView = sheetView.findViewById(R.id.textview_rmi);
         TextView titleTextView = sheetView.findViewById(R.id.textview_title);
         titleTextView.setText(R.string.title_choose_context);
-        fcmItemView.setOnClickListener((v) -> {
+        fcmItemView.setOnClickListener(v -> {
             listener.onRegionSelected(AppRegion.FCM);
             safeDismiss(selectorDialog);
         });
-        rmiItemView.setOnClickListener((v) -> {
+        rmiItemView.setOnClickListener(v -> {
             listener.onRegionSelected(AppRegion.RMI);
+            safeDismiss(selectorDialog);
+        });
+        selectorDialog.setContentView(sheetView);
+        selectorDialog.show();
+    }
+
+    @Override
+    public void showOperatingModeSelector(OperatingModeListener listener) {
+        selectorDialog = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.sheet_operating_mode, null);
+        View prodItemView = sheetView.findViewById(R.id.textview_prod);
+        View devItemView = sheetView.findViewById(R.id.textview_dev);
+        TextView titleTextView = sheetView.findViewById(R.id.textview_title);
+        titleTextView.setText(R.string.title_choose_op_mode);
+        prodItemView.setOnClickListener(v -> {
+            listener.onOperatingModeSelected(OperatingMode.PROD);
+            safeDismiss(selectorDialog);
+        });
+        devItemView.setOnClickListener(v -> {
+            listener.onOperatingModeSelected(OperatingMode.DEV);
             safeDismiss(selectorDialog);
         });
         selectorDialog.setContentView(sheetView);

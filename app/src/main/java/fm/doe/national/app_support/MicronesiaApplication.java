@@ -11,14 +11,14 @@ import fm.doe.national.R;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentProvider;
 import fm.doe.national.app_support.di.Injection;
-import fm.doe.national.cloud.di.CloudComponent;
-import fm.doe.national.cloud.di.CloudComponentProvider;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.CoreComponentProvider;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponentProvider;
 import fm.doe.national.fcm_report.di.FcmReportComponent;
 import fm.doe.national.fcm_report.di.FcmReportComponentProvider;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
+import fm.doe.national.remote_storage.di.RemoteStorageComponentProvider;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentProvider;
 import fm.doe.national.report.di.ReportComponent;
@@ -38,7 +38,7 @@ import fm.doe.national.wash_core.di.WashCoreComponentProvider;
         "fm.doe.national.report_core",
         "fm.doe.national.report",
         "fm.doe.national.accreditation",
-        "fm.doe.national.cloud",
+        "fm.doe.national.remote_storage",
         "fm.doe.national.survey_core",
         "fm.doe.national.survey",
         "fm.doe.national.wash",
@@ -51,7 +51,7 @@ public class MicronesiaApplication extends MultiDexApplication implements
         ReportComponentProvider,
         SurveyComponentProvider,
         SurveyCoreComponentProvider,
-        CloudComponentProvider,
+        RemoteStorageComponentProvider,
         AccreditationCoreComponentProvider,
         DataSourceComponentProvider,
         WashCoreComponentProvider,
@@ -91,8 +91,8 @@ public class MicronesiaApplication extends MultiDexApplication implements
     }
 
     @Override
-    public CloudComponent provideCloudComponent() {
-        return injection.getCloudComponent();
+    public RemoteStorageComponent provideRemoteStorageComponent() {
+        return injection.getRemoteStorageComponent();
     }
 
     @Override

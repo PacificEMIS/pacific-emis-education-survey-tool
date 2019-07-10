@@ -13,7 +13,6 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
-import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
@@ -22,6 +21,7 @@ import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.data.model.Device;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentInjector;
+import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 
 public class ProgressActivity extends BaseActivity implements ProgressView, View.OnClickListener {
 
@@ -46,7 +46,7 @@ public class ProgressActivity extends BaseActivity implements ProgressView, View
         Application application = getApplication();
         return new ProgressPresenter(
                 OfflineSyncComponentInjector.getComponent(application),
-                CloudComponentInjector.getComponent(application)
+                RemoteStorageComponentInjector.getComponent(application)
         );
     }
 

@@ -9,9 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import fm.doe.national.BuildConfig;
-import fm.doe.national.cloud.model.CloudAccountData;
-import fm.doe.national.cloud.model.CloudRepository;
-import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.ParseException;
 import fm.doe.national.core.data.model.School;
@@ -19,59 +16,74 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.Parser;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
+import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public class SettingsInteractor {
 
-    private final CloudRepository cloudRepository;
+    private final RemoteStorageAccessor remoteStorageAccessor;
+    private final RemoteStorage remoteStorage;
     private final Parser<List<School>> schoolsParser;
     private final AssetManager assetManager;
     private final GlobalPreferences globalPreferences;
     private final SurveyAccessor accessor;
 
-    public SettingsInteractor(CloudRepository cloudRepository,
+    public SettingsInteractor(RemoteStorageAccessor remoteStorageAccessor,
+                              RemoteStorage remoteStorage,
                               Parser<List<School>> schoolsParser,
                               AssetManager assetManager,
                               GlobalPreferences globalPreferences,
                               SurveyAccessor accessor) {
-        this.cloudRepository = cloudRepository;
+        this.remoteStorageAccessor = remoteStorageAccessor;
+        this.remoteStorage = remoteStorage;
         this.accessor = accessor;
         this.schoolsParser = schoolsParser;
         this.assetManager = assetManager;
         this.globalPreferences = globalPreferences;
     }
 
-    public Completable auth(CloudType type) {
-        return cloudRepository.auth(type);
+    public void setOperatingMode(OperatingMode mode) {
+        globalPreferences.setOperatingMode(mode);
+        remoteStorage.refreshCredentials();
     }
 
     private DataSource getCurrentDataSource() {
         return accessor.getDataSource(globalPreferences.getSurveyTypeOrDefault());
     }
 
-    public Completable importSchools(CloudType type) {
-        return cloudRepository.requestContent(type)
-                .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
-                        schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
+    public Completable signIn() {
+        return remoteStorageAccessor.signInAsUser();
     }
 
-    public Completable importSurvey(CloudType type) {
-        return cloudRepository.requestContent(type)
+    public void signOut() {
+        remoteStorageAccessor.signOutAsUser();
+    }
+
+    public Completable importSchools() {
+        return remoteStorageAccessor.requestContentFromStorage()
+                .observeOn(Schedulers.io())
+                .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
+                        schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
+
+    }
+
+    public Completable importSurvey() {
+        return remoteStorageAccessor.requestContentFromStorage()
+                .observeOn(Schedulers.io())
                 .flatMapCompletable(accessor::rewriteTemplateSurvey);
     }
 
-    public Completable selectExportFolder(CloudType type) {
-        return cloudRepository.chooseExportFolder(type);
+    public Completable selectExportFolder() {
+        return Completable.complete();
     }
 
-    public void setDefaultCloudForExport(CloudType type) {
-        cloudRepository.setPrimary(type);
-    }
-
-    public List<CloudAccountData> getConnectedAccounts() {
-        return cloudRepository.getUsedAccounts();
+    public void showDebugStorage() {
+        remoteStorageAccessor.showDebugStorage();
     }
 
     public Completable loadDataFromAssets() {
@@ -141,8 +153,9 @@ public class SettingsInteractor {
         return globalPreferences.isMasterPasswordSaved();
     }
 
-    public Completable createFilledSurveyFromCloud(CloudType cloudType) {
-        return cloudRepository.requestContent(cloudType)
+    public Completable createFilledSurveyFromCloud() {
+        return remoteStorageAccessor.requestContentFromStorage()
+                .observeOn(Schedulers.io())
                 .flatMapCompletable(accessor::createPartiallySavedSurvey);
     }
 

@@ -14,10 +14,10 @@
             <option value="$PROJECT_DIR$/accreditation" />
             <option value="$PROJECT_DIR$/accreditation_core" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/cloud" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/data_source_injector" />
             <option value="$PROJECT_DIR$/fcm_report" />
+            <option value="$PROJECT_DIR$/remote_storage" />
             <option value="$PROJECT_DIR$/report" />
             <option value="$PROJECT_DIR$/report_core" />
             <option value="$PROJECT_DIR$/rmi_report" />

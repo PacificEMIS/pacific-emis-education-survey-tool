@@ -36,8 +36,8 @@ dependencies {
 
     implementation project(path: ':core')
     implementation project(path: ':wash_core')
-    implementation project(path: ':cloud')
     implementation project(path: ':survey_core')
+    implementation project(path: ':remote_storage')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"

@@ -21,10 +21,9 @@ import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.photos.AccreditationPhotosActivity;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
-import fm.doe.national.cloud.di.CloudComponentInjector;
-import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
+import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 
 public class QuestionsFragment extends BaseFragment implements
@@ -49,8 +48,7 @@ public class QuestionsFragment extends BaseFragment implements
         Application application = getActivity().getApplication();
         Bundle args = getArguments();
         return new QuestionsPresenter(
-                CoreComponentInjector.getComponent(application),
-                CloudComponentInjector.getComponent(application),
+                RemoteStorageComponentInjector.getComponent(application),
                 SurveyCoreComponentInjector.getComponent(application),
                 AccreditationCoreComponentInjector.getComponent(application),
                 args.getLong(ARG_CATEGORY_ID),

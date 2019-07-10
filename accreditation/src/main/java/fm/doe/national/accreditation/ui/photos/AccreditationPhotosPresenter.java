@@ -8,10 +8,10 @@ import java.util.List;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
-import fm.doe.national.cloud.di.CloudComponent;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.di.CoreComponent;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.ui.photos.PhotosPresenter;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -26,9 +26,9 @@ public class AccreditationPhotosPresenter extends PhotosPresenter {
     private MutableAnswer answer;
 
     public AccreditationPhotosPresenter(CoreComponent coreComponent,
-                                 CloudComponent cloudComponent,
+                                 RemoteStorageComponent remoteStorageComponent,
                                  AccreditationCoreComponent accreditationCoreComponent) {
-        super(coreComponent, cloudComponent);
+        super(coreComponent, remoteStorageComponent);
         interactor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         afterInit();
     }

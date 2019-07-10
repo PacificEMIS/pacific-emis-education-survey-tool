@@ -11,11 +11,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
+import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.cloud.model.CloudAccountData;
-import fm.doe.national.cloud.model.CloudType;
 import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
@@ -28,8 +28,6 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SettingsPresenter extends BasePresenter<SettingsView> {
 
-    private static final CloudType CLOUD_TYPE = CloudType.DRIVE;
-
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
     private final PicturesRepository picturesRepository = MicronesiaApplication.getInjection().getCoreComponent().getPicturesRepository();
@@ -40,15 +38,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void refresh() {
-        String googleEmail = null;
-        String exportFolder = null;
-
-        if (!interactor.getConnectedAccounts().isEmpty()) {
-            CloudAccountData accountData = interactor.getConnectedAccounts().get(0);
-            googleEmail = accountData.getEmail();
-            exportFolder = accountData.getExportPath();
-        }
-
         Image logoImage = null;
         String logoPath = globalPreferences.getLogoPath();
 
@@ -56,24 +45,28 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             logoImage = UrlImageExtensionsKt.from(Image.Companion, logoPath);
         }
 
-        getViewState().setItems(Arrays.asList(
+        List<Item> items = Arrays.asList(
                 itemFactory.createLogoItem(logoImage),
-                itemFactory.createAccountItem(googleEmail == null ? Text.from(R.string.label_sign_in) : Text.from(googleEmail)),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
                 itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
                 itemFactory.createContactItem(Text.from(globalPreferences.getContactName())),
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createExportFolderItem(exportFolder == null ? Text.empty() : Text.from(exportFolder)),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createPasswordItem()
-        ));
+        );
+
+        if (BuildConfig.DEBUG) {
+            items.add(itemFactory.createDebugStorageItem());
+        }
+
+        getViewState().setItems(items);
     }
 
     public void onItemPressed(Item item) {
         switch (item.getType()) {
-            case ACCOUNT:
-                // nothing
+            case DEBUG_STORAGE:
+                onDebugStoragePressed();
                 break;
             case CONTACT:
                 onContactPressed();
@@ -103,6 +96,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 onTemplatesPressed();
                 break;
         }
+    }
+
+    private void onDebugStoragePressed() {
+        interactor.showDebugStorage();
     }
 
     private void onLogoPressed() {
@@ -139,11 +136,14 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onOperatingModePressed() {
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        getViewState().showOperatingModeSelector(mode -> {
+            interactor.setOperatingMode(mode);
+            refresh();
+        });
     }
 
     private void onImportSchoolsPressed() {
-        addDisposable(interactor.importSchools(CLOUD_TYPE)
+        addDisposable(interactor.importSchools()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -152,7 +152,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onChooseFolderPressed() {
-        addDisposable(interactor.selectExportFolder(CLOUD_TYPE)
+        addDisposable(interactor.selectExportFolder()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())

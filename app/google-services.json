@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "826097993041",
+    "firebase_url": "https://micronesia-215412.firebaseio.com",
+    "project_id": "micronesia-215412",
+    "storage_bucket": "micronesia-215412.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826097993041:android:57b1110d31aaee5a",
+        "android_client_info": {
+          "package_name": "fm.doe.national"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826097993041-8hankq17jk9iamc3aj74rt3n3dlliffc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fm.doe.national",
+            "certificate_hash": "89d2893f9c379f0d42c4d47af4a4a8a22bbf4158"
+          }
+        },
+        {
+          "client_id": "826097993041-krb3m87jo758pbi69g3dh85tlfrh84uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf9LTXGkV89iD8-20IYw9Ec4sHPTg9Flg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826097993041-krb3m87jo758pbi69g3dh85tlfrh84uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,10 +21,9 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
-import fm.doe.national.cloud.di.CloudComponentInjector;
-import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
+import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 import fm.doe.national.wash.R;
 import fm.doe.national.wash.ui.custom_views.CommentDialogFragment;
@@ -76,8 +75,7 @@ public class QuestionsFragment extends BaseFragment implements
         Application application = getActivity().getApplication();
         Bundle args = getArguments();
         return new QuestionsPresenter(
-                CoreComponentInjector.getComponent(application),
-                CloudComponentInjector.getComponent(application),
+                RemoteStorageComponentInjector.getComponent(application),
                 SurveyCoreComponentInjector.getComponent(application),
                 WashCoreComponentInjector.getComponent(application),
                 args.getLong(ARG_GROUP_ID),

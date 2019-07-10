@@ -7,10 +7,8 @@ import fm.doe.national.R;
 
 public class OptionsItemFactory {
 
-    public Item createAccountItem(Text displayName) {
-        Item item = new Item(Text.from(R.string.label_account), Image.from(R.drawable.ic_user), Item.Type.ACCOUNT, Item.IconType.VALUE);
-        item.setValue(displayName);
-        return item;
+    public Item createDebugStorageItem() {
+        return new Item(Text.from(R.string.label_debug_storage), null, Item.Type.DEBUG_STORAGE, Item.IconType.NAV);
     }
 
     public Item createContactItem(Text displayName) {
@@ -22,12 +20,6 @@ public class OptionsItemFactory {
     public Item createContextItem(Text contextName) {
         Item item = new Item(Text.from(R.string.label_context), null, Item.Type.CONTEXT, Item.IconType.VALUE);
         item.setValue(contextName);
-        return item;
-    }
-
-    public Item createExportFolderItem(Text currentFolderName) {
-        Item item = new Item(Text.from(R.string.label_export_folder), Image.from(R.drawable.ic_folder), Item.Type.EXPORT_FOLDER, Item.IconType.VALUE);
-        item.setValue(currentFolderName);
         return item;
     }
 

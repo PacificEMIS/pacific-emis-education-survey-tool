@@ -17,11 +17,10 @@ import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
-import fm.doe.national.cloud.di.CloudComponent;
-import fm.doe.national.cloud.model.uploader.CloudUploader;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
@@ -33,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
-    private final CloudUploader cloudUploader;
+    private final RemoteStorageAccessor remoteStorageAccessor;
     private final SurveyNavigator navigator;
     private final long standardId;
     private final long categoryId;
@@ -41,14 +40,13 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     @Nullable
     private Question selectedQuestion;
 
-    QuestionsPresenter(CoreComponent coreComponent,
-                       CloudComponent cloudComponent,
+    QuestionsPresenter(RemoteStorageComponent remoteStorageComponent,
                        SurveyCoreComponent surveyCoreComponent,
                        AccreditationCoreComponent accreditationCoreComponent,
                        long categoryId,
                        long standardId) {
         this.accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
-        this.cloudUploader = cloudComponent.getCloudUploader();
+        this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.standardId = standardId;
         this.categoryId = categoryId;
@@ -143,7 +141,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         addDisposable(accreditationSurveyInteractor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> cloudUploader.scheduleUploading(accreditationSurveyInteractor.getCurrentSurvey().getId()), this::handleError)
+                .subscribe(() -> remoteStorageAccessor.scheduleUploading(accreditationSurveyInteractor.getCurrentSurvey().getId()), this::handleError)
         );
     }
 

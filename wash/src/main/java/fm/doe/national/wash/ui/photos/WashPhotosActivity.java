@@ -7,8 +7,8 @@ import android.content.Intent;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
-import fm.doe.national.cloud.di.CloudComponentInjector;
 import fm.doe.national.core.di.CoreComponentInjector;
+import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.ui.photos.PhotosActivity;
 import fm.doe.national.survey_core.ui.photos.PhotosPresenter;
 import fm.doe.national.wash_core.di.WashCoreComponentInjector;
@@ -27,7 +27,7 @@ public class WashPhotosActivity extends PhotosActivity {
         Application application = getApplication();
         return new WashPhotosPresenter(
                 CoreComponentInjector.getComponent(application),
-                CloudComponentInjector.getComponent(application),
+                RemoteStorageComponentInjector.getComponent(application),
                 WashCoreComponentInjector.getComponent(application)
         );
     }
