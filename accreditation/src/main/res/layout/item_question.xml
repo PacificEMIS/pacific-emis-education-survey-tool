@@ -46,41 +46,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="56dp"
-        android:gravity="end"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/imagebutton_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="5dp"
-            android:src="@drawable/ic_photo_more"
-            tools:ignore="ContentDescription" />
-
-        <ImageButton
-            android:id="@+id/imagebutton_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="5dp"
-            android:src="@drawable/ic_comment"
-            tools:ignore="ContentDescription" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="56dp"
-        android:background="@color/grey_300" />
+    <include layout="@layout/include_question_footer" />
 
 </LinearLayout>

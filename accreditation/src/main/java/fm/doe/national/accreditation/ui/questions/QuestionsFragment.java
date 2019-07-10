@@ -21,16 +21,18 @@ import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.photos.AccreditationPhotosActivity;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
+import fm.doe.national.core.data.model.Answerable;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
+import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 
 public class QuestionsFragment extends BaseFragment implements
         QuestionsView,
         QuestionsAdapter.QuestionsListener,
         CommentDialogFragment.OnCommentSubmitListener,
-        BottomNavigatorView.Listener {
+        BottomNavigatorView.Listener, BaseQuestionsAdapter.Listener {
 
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
     private static final String ARG_STANDARD_ID = "ARG_STANDARD_ID";
@@ -38,7 +40,7 @@ public class QuestionsFragment extends BaseFragment implements
 
     private RecyclerView recyclerView;
     private BottomNavigatorView bottomNavigatorView;
-    private final QuestionsAdapter questionsAdapter = new QuestionsAdapter(this);
+    private final QuestionsAdapter questionsAdapter = new QuestionsAdapter(this, this);
 
     @InjectPresenter
     QuestionsPresenter presenter;
@@ -93,16 +95,6 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void onPhotoPressed(Question question) {
-        presenter.onPhotosPressed(question);
-    }
-
-    @Override
-    public void onCommentPressed(Question question) {
-        presenter.onCommentPressed(question);
-    }
-
-    @Override
     public void onAnswerStateChanged(Question question) {
         presenter.onAnswerChanged(question);
     }
@@ -152,5 +144,25 @@ public class QuestionsFragment extends BaseFragment implements
     @Override
     public void setHintTextVisible(boolean isVisible) {
         bottomNavigatorView.setHintTextVisible(isVisible);
+    }
+
+    @Override
+    public void onCommentPressed(Answerable item, int position) {
+        presenter.onCommentPressed((Question) item, position);
+    }
+
+    @Override
+    public void onPhotosPressed(Answerable item, int position) {
+        presenter.onPhotosPressed((Question) item, position);
+    }
+
+    @Override
+    public void onDeleteCommentPressed(Answerable item, int position) {
+        presenter.onCommentDeletePressed((Question) item, position);
+    }
+
+    @Override
+    public void refreshQuestionAtPosition(int selectedQuestionPosition) {
+        questionsAdapter.notifyItemChanged(selectedQuestionPosition);
     }
 }

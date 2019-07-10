@@ -5,13 +5,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import com.omega_r.libs.omegatypes.Text;
 import com.omega_r.libs.views.OmegaTextView;
 
@@ -21,15 +19,17 @@ import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
+import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 
-public class QuestionsAdapter extends BaseListAdapter<Question> {
+public class QuestionsAdapter extends BaseQuestionsAdapter<Question> {
 
     private static final int VIEW_TYPE_CRITERIA = 0;
     private static final int VIEW_TYPE_SUB_CRITERIA = 1;
 
     private QuestionsListener questionsListener;
 
-    public QuestionsAdapter(QuestionsListener questionsListener) {
+    public QuestionsAdapter(BaseQuestionsAdapter.Listener baseListener, QuestionsListener questionsListener) {
+        super(baseListener);
         this.questionsListener = questionsListener;
     }
 
@@ -56,7 +56,7 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
         return null;
     }
 
-    class QuestionViewHolder extends ViewHolder implements BinaryAnswerSelectorView.StateChangedListener {
+    class QuestionViewHolder extends BaseQuestionViewHolder implements BinaryAnswerSelectorView.StateChangedListener {
 
         private final View popupView;
         private final TextView hintView;
@@ -65,16 +65,12 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
         private TextView titleTextView;
         private TextView questionTextView;
         private BinaryAnswerSelectorView binaryAnswerSelectorView;
-        private ImageButton photosButton;
-        private ImageButton commentButton;
 
         QuestionViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_question);
             popupView = LayoutInflater.from(parent.getContext()).inflate(R.layout.popup_hint, parent, false);
             hintView = popupView.findViewById(R.id.textview_hint);
             bindViews();
-            photosButton.setOnClickListener(this);
-            commentButton.setOnClickListener(this);
             binaryAnswerSelectorView.setListener(this);
             titleTextView.setOnLongClickListener(this);
         }
@@ -84,12 +80,11 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
             titleTextView = findViewById(R.id.textview_title);
             questionTextView = findViewById(R.id.textview_question);
             binaryAnswerSelectorView = findViewById(R.id.binaryanswerselectorview);
-            photosButton = findViewById(R.id.imagebutton_photo);
-            commentButton = findViewById(R.id.imagebutton_comment);
         }
 
         @Override
         protected void onBind(Question item) {
+            super.onBind(item);
             SubCriteria subCriteria = item.getSubCriteria();
             prefixTextView.setText(getString(R.string.format_subcriteria, subCriteria.getSuffix()));
             titleTextView.setText(subCriteria.getTitle());
@@ -128,18 +123,6 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
                     0,
                     -titleTextView.getMeasuredHeight() - popupView.getMeasuredHeight(),
                     Gravity.TOP);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if (id == R.id.imagebutton_photo) {
-                questionsListener.onPhotoPressed(getItem());
-            } else if (id == R.id.imagebutton_comment) {
-                questionsListener.onCommentPressed(getItem());
-            } else {
-                super.onClick(v);
-            }
         }
 
         @Override
@@ -192,10 +175,6 @@ public class QuestionsAdapter extends BaseListAdapter<Question> {
     }
 
     public interface QuestionsListener {
-
-        void onPhotoPressed(Question question);
-
-        void onCommentPressed(Question question);
 
         void onAnswerStateChanged(Question question);
 

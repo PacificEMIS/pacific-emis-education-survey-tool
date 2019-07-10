@@ -29,4 +29,5 @@ public interface QuestionsView extends BaseView {
 
     void setHintTextVisible(boolean isVisible);
 
+    void refreshQuestionAtPosition(int selectedQuestionPosition);
 }

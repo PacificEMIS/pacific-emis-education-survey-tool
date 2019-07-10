@@ -21,10 +21,12 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import fm.doe.national.core.data.model.Answerable;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
+import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 import fm.doe.national.wash.R;
 import fm.doe.national.wash.ui.custom_views.CommentDialogFragment;
 import fm.doe.national.wash.ui.photos.WashPhotosActivity;
@@ -37,14 +39,14 @@ public class QuestionsFragment extends BaseFragment implements
         QuestionsView,
         BottomNavigatorView.Listener,
         QuestionsAdapter.QuestionsListener,
-        CommentDialogFragment.OnCommentSubmitListener {
+        CommentDialogFragment.OnCommentSubmitListener, BaseQuestionsAdapter.Listener {
 
     private static final String ARG_GROUP_ID = "ARG_GROUP_ID";
     private static final String ARG_SUB_GROUP_ID = "ARG_SUB_GROUP_ID";
     private static final String TAG_DIALOG = "TAG_DIALOG";
     private static final int REQUEST_LOCATION_PERMISSIONS = 999;
 
-    private final QuestionsAdapter questionsAdapter = new QuestionsAdapter(this);
+    private final QuestionsAdapter questionsAdapter = new QuestionsAdapter(this, this);
     private final String locationPermission = Manifest.permission.ACCESS_FINE_LOCATION;
 
     private RecyclerView recyclerView;
@@ -147,16 +149,6 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void onPhotoPressed(MutableQuestion question) {
-        presenter.onPhotosPressed(question);
-    }
-
-    @Override
-    public void onCommentPressed(MutableQuestion question) {
-        presenter.onCommentPressed(question);
-    }
-
-    @Override
     public void onAnswerStateChanged(MutableQuestion question) {
         presenter.onAnswerChanged(question);
     }
@@ -198,5 +190,25 @@ public class QuestionsFragment extends BaseFragment implements
     @Override
     public void onCommentSubmit(String comment) {
         presenter.onCommentEdit(comment);
+    }
+
+    @Override
+    public void onCommentPressed(Answerable item, int position) {
+        presenter.onCommentPressed((MutableQuestion) item, position);
+    }
+
+    @Override
+    public void onPhotosPressed(Answerable item, int position) {
+        presenter.onPhotosPressed((MutableQuestion) item, position);
+    }
+
+    @Override
+    public void onDeleteCommentPressed(Answerable item, int position) {
+        presenter.onDeleteCommentPressed((MutableQuestion) item, position);
+    }
+
+    @Override
+    public void refreshQuestionAtPosition(int selectedQuestionPosition) {
+        questionsAdapter.notifyItemChanged(selectedQuestionPosition);
     }
 }
