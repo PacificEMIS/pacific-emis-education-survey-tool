@@ -15,33 +15,38 @@
         android:layout_marginStart="56dp"
         android:layout_marginEnd="56dp">
 
-        <com.omega_r.libs.views.OmegaTextView
-            android:id="@+id/omegatextview_latitude"
-            style="@style/GeolocationText"
-            app:startText="@string/label_latitude"
-            app:startDelimiter=" "
-            tools:text="0.235636136" />
-
-        <com.omega_r.libs.views.OmegaTextView
-            android:id="@+id/omegatextview_longitude"
-            style="@style/GeolocationText"
-            android:layout_below="@+id/omegatextview_latitude"
-            android:layout_marginTop="8dp"
-            app:startText="@string/label_longitude"
-            app:startDelimiter=" "
-            tools:text="0.235636136" />
+        <TextView
+            android:id="@+id/textview_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/label_hint_position"
+            android:textAppearance="@style/Text.Small2" />
 
         <Button
             android:id="@+id/button_geo"
+            style="@style/Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/textview_hint"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
             android:text="@string/title_take_position"
-            android:textAppearance="@style/Text.Title1.NavigationButton"
-            android:textColor="@color/black"
             tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/textview_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/button_geo"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/button_geo"
+            android:fontFamily="@font/noto_sans_regular"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="0.235636136" />
 
     </RelativeLayout>
 

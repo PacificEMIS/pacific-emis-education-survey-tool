@@ -18,8 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
-import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.views.OmegaTextView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -136,8 +134,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implement
     class GeoLocationViewHolder extends QuestionViewHolder {
 
         private Button positionButton = findViewById(R.id.button_geo);
-        private OmegaTextView latitudeTextView = findViewById(R.id.omegatextview_latitude);
-        private OmegaTextView longitudeTextView = findViewById(R.id.omegatextview_longitude);
+        private TextView positionTextView = findViewById(R.id.textview_position);
 
         GeoLocationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_geolocation_question);
@@ -160,8 +157,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implement
                 return;
             }
 
-            latitudeTextView.setText(Text.from(String.valueOf(existingLocation.latitude)));
-            longitudeTextView.setText(Text.from(String.valueOf(existingLocation.longitude)));
+            positionTextView.setText(getString(R.string.format_position, existingLocation.latitude, existingLocation.longitude));
         }
 
         @Override
