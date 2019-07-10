@@ -18,5 +18,5 @@ public interface RemoteStorage {
 
     Completable delete(String fileId);
 
-    void init();
+    void refreshCredentials();
 }

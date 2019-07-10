@@ -49,7 +49,7 @@ public class SettingsInteractor {
 
     public void setOperatingMode(OperatingMode mode) {
         globalPreferences.setOperatingMode(mode);
-        remoteStorage.init();
+        remoteStorage.refreshCredentials();
     }
 
     private DataSource getCurrentDataSource() {
