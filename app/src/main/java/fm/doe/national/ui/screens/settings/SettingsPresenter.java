@@ -5,7 +5,6 @@ import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
@@ -30,7 +29,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void refresh() {
-        List<Item> items = new ArrayList<>(Arrays.asList(
+        ArrayList<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),

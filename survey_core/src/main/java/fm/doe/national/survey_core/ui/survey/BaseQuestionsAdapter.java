@@ -7,7 +7,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
@@ -51,7 +50,6 @@ public abstract class BaseQuestionsAdapter<T extends Answerable> extends BaseLis
             newCommentImageButton.setOnClickListener(this);
             commentView.setOnClickListener(this);
             photosRecyclerView.setAdapter(photosPreviewAdapter);
-            photosRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         }
 
         @CallSuper

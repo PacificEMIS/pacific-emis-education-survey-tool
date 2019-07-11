@@ -18,6 +18,8 @@ import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 
 public class LogoActivity extends BaseActivity implements LogoView {
+
+    private static final String MIME_TYPE_ANY_IMAGE = "image/*";
     private static final int REQUEST_CODE_GALLERY = 201;
 
     @InjectPresenter
@@ -48,9 +50,9 @@ public class LogoActivity extends BaseActivity implements LogoView {
 
     @Override
     public void pickImageFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(MIME_TYPE_ANY_IMAGE);
         startActivityForResult(intent, REQUEST_CODE_GALLERY);
     }
 
