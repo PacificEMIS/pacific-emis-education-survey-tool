@@ -28,7 +28,7 @@ import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 import fm.doe.national.wash.R;
-import fm.doe.national.wash.ui.custom_views.CommentDialogFragment;
+import fm.doe.national.survey_core.ui.custom_views.CommentDialogFragment;
 import fm.doe.national.wash.ui.photos.WashPhotosActivity;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.Question;
@@ -118,7 +118,12 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void showCommentEditor(Question question) {
-        CommentDialogFragment dialog = CommentDialogFragment.create(question);
+        CommentDialogFragment dialog = CommentDialogFragment.create(new CommentDialogFragment.ViewData(
+                getString(R.string.format_question, question.getPrefix()),
+                question.getTitle(),
+                null,
+                question.getAnswer().getComment()
+        ));
         dialog.setListener(this);
         dialog.show(getChildFragmentManager(), TAG_DIALOG);
     }

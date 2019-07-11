@@ -1,4 +1,4 @@
-package fm.doe.national.wash.ui.custom_views;
+package fm.doe.national.survey_core.ui.custom_views;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,27 +19,26 @@ import java.io.Serializable;
 
 import fm.doe.national.core.ui.screens.base.BaseDialogFragment;
 import fm.doe.national.core.utils.Constants;
-import fm.doe.national.wash.R;
-import fm.doe.national.wash_core.data.model.Question;
+import fm.doe.national.survey_core.R;
 
 public class CommentDialogFragment extends BaseDialogFragment implements View.OnClickListener {
 
     private static final String ARG_DATA = "ARG_DATA";
 
     private TextView nameTextView;
+    private TextView titleTextView;
     private TextView interviewTextView;
-    private TextView hintTextView;
     private EditText commentEditText;
     private Button submitButton;
+    private Button cancelButton;
+    private String oldComment;
 
     @Nullable
     private OnCommentSubmitListener listener;
 
-    public static CommentDialogFragment create(Question question) {
+    public static CommentDialogFragment create(ViewData viewData) {
         CommentDialogFragment dialog = new CommentDialogFragment();
         Bundle args = new Bundle();
-        String comment = question.getAnswer() == null ? "" : question.getAnswer().getComment();
-        ViewData viewData = new ViewData(question.getTitle(), comment);
         args.putSerializable(ARG_DATA, viewData);
         dialog.setArguments(args);
         return dialog;
@@ -80,14 +79,16 @@ public class CommentDialogFragment extends BaseDialogFragment implements View.On
         view.setOnClickListener(v -> dismiss());
         parseArgs();
         submitButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
     }
 
     private void bindViews(View view) {
+        titleTextView = view.findViewById(R.id.textview_title);
         nameTextView = view.findViewById(R.id.textview_subcriteria_name);
         interviewTextView = view.findViewById(R.id.textview_interview_question);
-        hintTextView = view.findViewById(R.id.textview_hint);
         commentEditText = view.findViewById(R.id.edittext_comment);
-        submitButton = view.findViewById(R.id.button_submit);
+        submitButton = view.findViewById(R.id.button_ok);
+        cancelButton = view.findViewById(R.id.button_cancel);
     }
 
     private void parseArgs() {
@@ -96,16 +97,20 @@ public class CommentDialogFragment extends BaseDialogFragment implements View.On
         ViewData data = (ViewData) bundle.getSerializable(ARG_DATA);
         if (data == null) throw new RuntimeException(Constants.Errors.WRONG_FRAGMENT_ARGS);
 
+        oldComment = data.comment;
+        titleTextView.setText(data.id);
         nameTextView.setText(data.name);
-        interviewTextView.setVisibility(View.GONE);
-        hintTextView.setVisibility(View.GONE);
+        interviewTextView.setText(data.interviewQuestions);
         commentEditText.setText(data.comment);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.button_submit) {
+        if (v == submitButton) {
             if (listener != null) listener.onCommentSubmit(commentEditText.getText().toString());
+            dismiss();
+        } else if (v == cancelButton) {
+            if (listener != null) listener.onCommentSubmit(oldComment);
             dismiss();
         }
     }
@@ -114,13 +119,33 @@ public class CommentDialogFragment extends BaseDialogFragment implements View.On
         void onCommentSubmit(String comment);
     }
 
-    private static class ViewData implements Serializable {
-        public final String name;
-        public final String comment;
+    public static class ViewData implements Serializable {
+        private final String name;
+        private final String id;
+        private final String interviewQuestions;
+        private final String comment;
 
-        ViewData(String name, String comment) {
+        public ViewData(String id, String name, String interviewQuestions, String comment) {
             this.name = name;
+            this.id = id;
+            this.interviewQuestions = interviewQuestions;
             this.comment = comment;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getInterviewQuestions() {
+            return interviewQuestions;
+        }
+
+        public String getComment() {
+            return comment;
         }
     }
 }

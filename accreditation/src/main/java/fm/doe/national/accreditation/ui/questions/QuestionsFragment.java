@@ -26,6 +26,7 @@ import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
+import fm.doe.national.survey_core.ui.custom_views.CommentDialogFragment;
 import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 
 public class QuestionsFragment extends BaseFragment implements
@@ -101,7 +102,12 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void showCommentEditor(SubCriteria subCriteria) {
-        CommentDialogFragment dialog = CommentDialogFragment.create(subCriteria);
+        CommentDialogFragment dialog = CommentDialogFragment.create(new CommentDialogFragment.ViewData(
+                getString(R.string.format_subcriteria, subCriteria.getSuffix()),
+                subCriteria.getTitle(),
+                subCriteria.getInterviewQuestions(),
+                subCriteria.getAnswer().getComment()
+        ));
         dialog.setListener(this);
         dialog.show(getChildFragmentManager(), TAG_DIALOG);
     }
