@@ -8,7 +8,8 @@ import android.widget.ImageView;
 
 import androidx.core.view.ViewCompat;
 
-import com.bumptech.glide.Glide;
+import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
 
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.utils.Constants;
@@ -44,10 +45,7 @@ public class FullscreenImageActivity extends BaseActivity {
         contentImageView.setOnClickListener(this::onImageClick);
 
         ViewCompat.setTransitionName(contentImageView, transitionName);
-
-        Glide.with(this)
-                .load(imagePath)
-                .into(contentImageView);
+        UrlImageExtensionsKt.from(Image.Companion, imagePath).applyImage(contentImageView, 0);
     }
 
     public void onImageClick(View v) {
