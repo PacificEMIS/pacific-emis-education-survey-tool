@@ -17,7 +17,7 @@ public class TextUtil {
         return convertSurveyTypeToExportPrefix(survey.getSurveyType()) + "-" +
                 survey.getSchoolName() + "-" +
                 survey.getSchoolId() + "-" +
-                DateUtils.formatUiText(survey.getDate()) + ".xml";
+                DateUtils.formatUi(survey.getDate()) + ".xml";
     }
 
     private static String convertSurveyTypeToExportPrefix(SurveyType surveyType) {

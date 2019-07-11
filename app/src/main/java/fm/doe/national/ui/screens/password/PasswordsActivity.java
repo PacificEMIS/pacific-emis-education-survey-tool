@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.omegar.mvp.presenter.InjectPresenter;
 
 import fm.doe.national.R;
@@ -68,10 +68,10 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
             navigatorView.setListener(this);
         }
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        Button confirmButton = findViewById(R.id.button_confirm);
 
-        if (fab != null) {
-            fab.setOnClickListener(v -> presenter.onConfirmPressed());
+        if (confirmButton != null) {
+            confirmButton.setOnClickListener(v -> presenter.onConfirmPressed());
         }
     }
 

@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.omega_r.libs.omegatypes.Image;
+
 import fm.doe.national.core.R;
 import fm.doe.national.core.data.model.Progress;
 
@@ -46,32 +48,16 @@ public class ViewUtils {
         }
     }
 
-    public static void setScaledDownImageTo(ImageView imageView, String imagePath) {
-        int targetW = Constants.SIZE_THUMB_PICTURE;
-        int targetH = Constants.SIZE_THUMB_PICTURE;
-
-        BitmapFactory.Options bmOptions = createBitmapOptions();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-
-        imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath, bmOptions));
-    }
-
     public static BitmapFactory.Options createBitmapOptions() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return options;
     }
 
-    public static void setImageTo(ImageView imageView, String imagePath) {
-        imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath, createBitmapOptions()));
+    public static void setImageTo(ImageView imageView, @Nullable Image image) {
+        if (image != null) {
+            image.applyImage(imageView, 0);
+        }
     }
 
     public static void setTintedBackgroundDrawable(View targetView, @DrawableRes int drawableRes, @ColorRes int colorRes) {

@@ -17,13 +17,4 @@
         <item name="android:layout_marginStart">48dp</item>
         <item name="android:layout_marginEnd">48dp</item>
     </style>
-
-    <style name="GeolocationText" parent="AppTheme">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAppearance">@style/Text.Body1</item>
-        <item name="startTextColor">@color/blue_grey_900</item>
-        <item name="startTextFontFamily">@font/noto_sans_regular</item>
-        <item name="startTextSize">20sp</item>
-    </style>
 </resources>

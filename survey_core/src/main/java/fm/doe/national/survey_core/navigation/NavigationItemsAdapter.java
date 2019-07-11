@@ -101,7 +101,6 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         private TextView progressTextView;
         private ProgressBar progressBar;
         private OmegaTextView titleOmegaTextView;
-        private View backgroundView;
 
         QuestionGroupViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_navigation_group);
@@ -112,13 +111,12 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
             progressTextView = findViewById(R.id.textview_progress);
             progressBar = findViewById(R.id.progressbar);
             titleOmegaTextView = findViewById(R.id.omegatextview_title);
-            backgroundView = findViewById(R.id.view_background);
         }
 
         @Override
         protected void onBind(NavigationItem item) {
             titleOmegaTextView.setText(item.getTitle());
-            backgroundView.setActivated(isSelected());
+            itemView.setActivated(isSelected());
 
             if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
                 ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;

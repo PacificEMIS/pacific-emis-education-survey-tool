@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -23,14 +24,14 @@ import fm.doe.national.R;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.survey.ui.SurveyActivity;
 
 public class CreateSurveyActivity extends BaseActivity implements
         CreateSurveyView,
         BaseAdapter.OnItemClickListener<School>,
-        SearchView.OnQueryTextListener, DatePickerDialog.OnDateSetListener, BottomNavigatorView.Listener {
+        SearchView.OnQueryTextListener,
+        DatePickerDialog.OnDateSetListener {
 
     private final SchoolsListAdapter adapter = new SchoolsListAdapter(this);
 
@@ -40,8 +41,8 @@ public class CreateSurveyActivity extends BaseActivity implements
     @BindView(R.id.recyclerview_schools)
     RecyclerView schoolsRecycler;
 
-    @BindView(R.id.bottomnavigatorview)
-    BottomNavigatorView bottomNavigatorView;
+    @BindView(R.id.button_next)
+    Button nextButton;
 
     @InjectPresenter
     CreateSurveyPresenter presenter;
@@ -60,7 +61,6 @@ public class CreateSurveyActivity extends BaseActivity implements
         setTitle(R.string.label_create_survey);
 
         schoolsRecycler.setAdapter(adapter);
-        bottomNavigatorView.setListener(this);
     }
 
     @Override
@@ -132,15 +132,10 @@ public class CreateSurveyActivity extends BaseActivity implements
 
     @Override
     public void setContinueEnabled(boolean isEnabled) {
-        bottomNavigatorView.setNextButtonEnabled(isEnabled);
+        nextButton.setEnabled(isEnabled);
     }
 
-    @Override
-    public void onPrevPressed() {
-        // nothing
-    }
-
-    @Override
+    @OnClick(R.id.button_next)
     public void onNextPressed() {
         presenter.onContinuePressed();
     }

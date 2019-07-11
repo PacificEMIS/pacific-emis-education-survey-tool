@@ -39,6 +39,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     @Nullable
     private Question selectedQuestion;
+    private int selectedQuestionPosition;
 
     QuestionsPresenter(RemoteStorageComponent remoteStorageComponent,
                        SurveyCoreComponent surveyCoreComponent,
@@ -106,13 +107,15 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         view.setHintTextVisible(!isFinished);
     }
 
-    void onCommentPressed(Question question) {
+    void onCommentPressed(Question question, int position) {
         selectedQuestion = question;
+        selectedQuestionPosition = position;
         getViewState().showCommentEditor(selectedQuestion.getSubCriteria());
     }
 
-    void onPhotosPressed(Question question) {
+    void onPhotosPressed(Question question, int position) {
         selectedQuestion = question;
+        selectedQuestionPosition = position;
         accreditationSurveyInteractor.setCurrentCategoryId(categoryId);
         accreditationSurveyInteractor.setCurrentStandardId(standardId);
         accreditationSurveyInteractor.setCurrentCriteriaId(selectedQuestion.getCriteria().getId());
@@ -135,6 +138,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                 selectedQuestion.getSubCriteria().getAnswer()
         );
         selectedQuestion = null;
+        getViewState().refreshQuestionAtPosition(selectedQuestionPosition);
     }
 
     private void update(long subCriteriaId, long criteriaId, Answer answer) {
@@ -151,5 +155,20 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     void onNextPressed() {
         navigator.selectNext();
+    }
+
+    public void onCommentDeletePressed(Question question, int selectedQuestionPosition) {
+        MutableAnswer answer = (MutableAnswer) question.getSubCriteria().getAnswer();
+        answer.setComment(null);
+        update(
+                question.getSubCriteria().getId(),
+                question.getCriteria().getId(),
+                question.getSubCriteria().getAnswer()
+        );
+        getViewState().refreshQuestionAtPosition(selectedQuestionPosition);
+    }
+
+    public void onReturnFromPhotos() {
+        getViewState().refreshQuestionAtPosition(selectedQuestionPosition);
     }
 }

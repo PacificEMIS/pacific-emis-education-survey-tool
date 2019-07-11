@@ -8,9 +8,11 @@ import android.widget.ImageView;
 
 import androidx.core.view.ViewCompat;
 
+import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
+
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.utils.Constants;
-import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.survey_core.R;
 
 public class FullscreenImageActivity extends BaseActivity {
@@ -43,8 +45,7 @@ public class FullscreenImageActivity extends BaseActivity {
         contentImageView.setOnClickListener(this::onImageClick);
 
         ViewCompat.setTransitionName(contentImageView, transitionName);
-
-        ViewUtils.setImageTo(contentImageView, imagePath);
+        UrlImageExtensionsKt.from(Image.Companion, imagePath).applyImage(contentImageView, 0);
     }
 
     public void onImageClick(View v) {

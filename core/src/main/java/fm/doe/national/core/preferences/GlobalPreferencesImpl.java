@@ -5,7 +5,12 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
+
 import fm.doe.national.core.BuildConfig;
+import fm.doe.national.core.R;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
@@ -27,6 +32,9 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.PROD;
+
+    private static final Image sDefaultIconFcm = Image.from(R.drawable.ic_fcm);
+    private static final Image sDefaultIconRmi = Image.from(R.drawable.ic_rmi);
 
     private final SharedPreferences sharedPreferences;
 
@@ -56,10 +64,22 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
         sharedPreferences.edit().putInt(PREF_KEY_APP_REGION, appRegion.getValue()).apply();
     }
 
-    @Nullable
     @Override
-    public String getLogoPath() {
-        return sharedPreferences.getString(PREF_KEY_LOGO_PATH, null);
+    public Image getLogo() {
+        String logoPath = sharedPreferences.getString(PREF_KEY_LOGO_PATH, null);
+
+        if (logoPath != null) {
+            return UrlImageExtensionsKt.from(Image.Companion, logoPath);
+        }
+
+        switch (getAppRegion()) {
+            case FCM:
+                return sDefaultIconFcm;
+            case RMI:
+                return sDefaultIconRmi;
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     @Override

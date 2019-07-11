@@ -18,13 +18,13 @@
     <string name="title_input_name">Input Name</string>
     <string name="label_contact">Contact</string>
     <string name="title_input_contact">Input Contact</string>
-    <string name="label_mode">Operating Mode</string>
-    <string name="label_import_schools">Import Schools</string>
+    <string name="label_mode">Operating mode</string>
+    <string name="label_import_schools">Import schools</string>
     <string name="label_export_folder">Export Folder</string>
-    <string name="label_templates">Templates of Survey</string>
-    <string name="label_change_password">Change Master Password</string>
+    <string name="label_templates">Templates of surveys</string>
+    <string name="label_change_password">Change master password</string>
     <string name="label_sign_in">Sign In</string>
-    <string name="label_passwords">New Master Password</string>
+    <string name="label_passwords">Master Password</string>
     <string name="title_enter_the_master_password">Enter the master password</string>
     <string name="title_confirm_the_master_password">Confirm the master password</string>
     <string name="error_passwords_not_match">Passwords not match</string>
@@ -32,5 +32,10 @@
     <string name="label_merge_survey">Merge survey</string>
     <string name="label_start_session">Start session</string>
     <string name="label_end_session">End session</string>
-    <string name="title_merge_progress">Getting a survey from another device</string>
+    <string name="title_merge_progress">Get a survey from another device</string>
+    <string name="label_set_default_logo">Set default logo</string>
+    <string name="label_change_logo">Change logo</string>
+    <string name="label_change_master_password">Change master password</string>
+    <string name="hint_master_password">Enter master password to open settings</string>
+    <string name="hint_app_context">Choose the Context to start survey</string>
 </resources>

@@ -1,2 +1,4 @@
 <resources>
+    <string name="label_ok">ok</string>
+    <string name="label_cancel">Cancel</string>
 </resources>

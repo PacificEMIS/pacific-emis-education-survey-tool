@@ -5,10 +5,11 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import fm.doe.national.core.data.model.Answerable;
 import fm.doe.national.core.data.model.IdentifiedObject;
 import fm.doe.national.wash_core.data.serialization.model.Relation;
 
-public interface Question extends IdentifiedObject {
+public interface Question extends IdentifiedObject, Answerable {
 
     @NonNull
     String getTitle();

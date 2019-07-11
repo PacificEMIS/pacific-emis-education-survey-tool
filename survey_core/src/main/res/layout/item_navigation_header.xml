@@ -9,6 +9,5 @@
     android:paddingTop="24dp"
     android:paddingEnd="40dp"
     android:paddingBottom="24dp"
-    android:textAllCaps="true"
     android:textAppearance="@style/Text.Title1.Large"
     tools:text="school evaluation (school checklist)" />

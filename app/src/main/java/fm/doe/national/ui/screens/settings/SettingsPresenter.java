@@ -1,22 +1,14 @@
 package fm.doe.national.ui.screens.settings;
 
-import android.graphics.Bitmap;
-
-import com.omega_r.libs.omegatypes.Image;
 import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
 import com.omegar.mvp.InjectViewState;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.core.data.files.PicturesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
@@ -30,7 +22,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
-    private final PicturesRepository picturesRepository = MicronesiaApplication.getInjection().getCoreComponent().getPicturesRepository();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
 
     public SettingsPresenter() {
@@ -38,23 +29,16 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void refresh() {
-        Image logoImage = null;
-        String logoPath = globalPreferences.getLogoPath();
-
-        if (logoPath != null) {
-            logoImage = UrlImageExtensionsKt.from(Image.Companion, logoPath);
-        }
-
-        List<Item> items = Arrays.asList(
-                itemFactory.createLogoItem(logoImage),
+        ArrayList<Item> items = new ArrayList<>(Arrays.asList(
+                itemFactory.createLogoItem(),
+                itemFactory.createPasswordItem(),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
                 itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
                 itemFactory.createContactItem(Text.from(globalPreferences.getContactName())),
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createTemplatesItem(),
-                itemFactory.createPasswordItem()
-        );
+                itemFactory.createTemplatesItem()
+        ));
 
         if (BuildConfig.DEBUG) {
             items.add(itemFactory.createDebugStorageItem());
@@ -83,7 +67,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             case LOGO:
                 onLogoPressed();
                 break;
-            case OP_MODE:
+            case OPERATING_MODE:
                 onOperatingModePressed();
                 break;
             case NAME:
@@ -103,7 +87,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onLogoPressed() {
-        getViewState().pickPhotoFromGallery();
+        getViewState().navigateToChangeLogo();
     }
 
     private void onContextPressed() {
@@ -166,21 +150,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onChangeMasterPasswordPressed() {
         getViewState().navigateToChangePassword();
-    }
-
-    public void onImagePicked(Bitmap bitmap) {
-        try {
-            File pictureFile = picturesRepository.createEmptyFile();
-            FileOutputStream fos = new FileOutputStream(pictureFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            bitmap.recycle();
-            String filePath = pictureFile.getPath();
-            globalPreferences.setLogoPath(filePath);
-            refresh();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.error_save_logo));
-        }
     }
 
 }

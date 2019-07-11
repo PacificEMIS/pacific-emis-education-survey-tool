@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/include_appbar" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
+
+        <include layout="@layout/include_appbar" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,12 +49,12 @@
         <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
             android:id="@+id/recyclerview_categories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
             tools:listitem="@layout/item_survey" />
 
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_new_accreditation"
@@ -66,8 +65,6 @@
         android:layout_marginBottom="24dp"
         android:scaleType="center"
         android:src="@drawable/ic_plus"
-        app:backgroundTint="@color/deep_orange_600"
-        app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior"
         app:tint="@color/white" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

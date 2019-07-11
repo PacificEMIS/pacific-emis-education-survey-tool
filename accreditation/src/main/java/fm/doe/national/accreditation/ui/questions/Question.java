@@ -4,9 +4,11 @@ import androidx.annotation.Nullable;
 
 import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
+import fm.doe.national.core.data.model.Answerable;
+import fm.doe.national.core.data.model.BaseAnswer;
 
 
-public class Question {
+public class Question implements Answerable {
 
     @Nullable
     private SubCriteria subCriteria;
@@ -34,4 +36,13 @@ public class Question {
         return criteria;
     }
 
+    @Nullable
+    @Override
+    public BaseAnswer getAnswer() {
+        if (subCriteria == null) {
+            return null;
+        }
+
+        return subCriteria.getAnswer();
+    }
 }

@@ -25,5 +25,6 @@ public interface QuestionsView extends BaseView {
 
     void setNextButtonVisible(boolean isVisible);
 
+    void refreshQuestionAtPosition(int selectedQuestionPosition);
 
 }

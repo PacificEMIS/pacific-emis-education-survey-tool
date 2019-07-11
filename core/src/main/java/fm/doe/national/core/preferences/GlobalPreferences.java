@@ -3,6 +3,8 @@ package fm.doe.national.core.preferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.omega_r.libs.omegatypes.Image;
+
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
@@ -24,8 +26,7 @@ public interface GlobalPreferences {
 
     void setSurveyType(SurveyType surveyType);
 
-    @Nullable
-    String getLogoPath();
+    Image getLogo();
 
     void setLogoPath(@Nullable String path);
 

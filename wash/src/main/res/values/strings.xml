@@ -1,5 +1,8 @@
 <resources>
     <string name="label_latitude">Latitude:</string>
     <string name="label_longitude">Longitude:</string>
-    <string name="title_take_position">Take position</string>
+    <string name="title_take_position">Fix position</string>
+    <string name="label_hint_position">Click on the “Fix position” button when you are directly near the school. The application will record the geolocation of the school.</string>
+    <string name="format_position">%1$.6f %2$.6f</string>
+    <string name="format_question">Question %1$s:</string>
 </resources>

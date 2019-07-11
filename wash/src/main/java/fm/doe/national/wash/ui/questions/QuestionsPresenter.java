@@ -30,6 +30,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     @Nullable
     private MutableQuestion selectedQuestion;
+    private int selectedQuestionPosition;
 
     QuestionsPresenter(RemoteStorageComponent remoteStorageComponent,
                        SurveyCoreComponent surveyCoreComponent,
@@ -61,13 +62,15 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         view.setPrevButtonVisible(navigationItem.getPreviousItem() != null);
     }
 
-    void onCommentPressed(MutableQuestion question) {
+    void onCommentPressed(MutableQuestion question, int position) {
         selectedQuestion = question;
+        selectedQuestionPosition = position;
         getViewState().showCommentEditor(selectedQuestion);
     }
 
-    void onPhotosPressed(MutableQuestion question) {
+    void onPhotosPressed(MutableQuestion question, int position) {
         selectedQuestion = question;
+        selectedQuestionPosition = position;
         washSurveyInteractor.setCurrentGroupId(groupId);
         washSurveyInteractor.setCurrentSubGroupId(subGroupId);
         washSurveyInteractor.setCurrentQuestionId(selectedQuestion.getId());
@@ -87,6 +90,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         answer.setComment(comment);
         update(selectedQuestion.getId(), answer);
         selectedQuestion = null;
+        getViewState().refreshQuestionAtPosition(selectedQuestionPosition);
     }
 
     private void update(long questionId, Answer answer) {
@@ -112,5 +116,16 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
             answer.setLocation(location);
             onAnswerChanged(question);
         }
+    }
+
+    public void onDeleteCommentPressed(MutableQuestion question, int position) {
+        MutableAnswer answer = question.getAnswer();
+        answer.setComment(null);
+        update(question.getId(), answer);
+        getViewState().refreshQuestionAtPosition(position);
+    }
+
+    public void onReturnFromPhotos() {
+        getViewState().refreshQuestionAtPosition(selectedQuestionPosition);
     }
 }

@@ -17,16 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
-import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.views.OmegaTextView;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
+import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 import fm.doe.national.wash.R;
 import fm.doe.national.wash.ui.custom_views.answer_selector_view.AnswerSelectorView;
 import fm.doe.national.wash_core.data.model.BinaryAnswerState;
@@ -36,12 +33,13 @@ import fm.doe.national.wash_core.data.model.TernaryAnswerState;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 
-public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implements QuestionRelationsHelper.Listener {
+public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> implements QuestionRelationsHelper.Listener {
 
     private QuestionsListener questionsListener;
     private QuestionRelationsHelper relationsHelper;
 
-    public QuestionsAdapter(QuestionsListener questionsListener) {
+    public QuestionsAdapter(BaseQuestionsAdapter.Listener baseListener, QuestionsListener questionsListener) {
+        super(baseListener);
         this.questionsListener = questionsListener;
     }
 
@@ -136,8 +134,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implement
     class GeoLocationViewHolder extends QuestionViewHolder {
 
         private Button positionButton = findViewById(R.id.button_geo);
-        private OmegaTextView latitudeTextView = findViewById(R.id.omegatextview_latitude);
-        private OmegaTextView longitudeTextView = findViewById(R.id.omegatextview_longitude);
+        private TextView positionTextView = findViewById(R.id.textview_position);
 
         GeoLocationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_geolocation_question);
@@ -160,8 +157,7 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implement
                 return;
             }
 
-            latitudeTextView.setText(Text.from(String.valueOf(existingLocation.latitude)));
-            longitudeTextView.setText(Text.from(String.valueOf(existingLocation.longitude)));
+            positionTextView.setText(getString(R.string.format_position, existingLocation.latitude, existingLocation.longitude));
         }
 
         @Override
@@ -408,52 +404,31 @@ public class QuestionsAdapter extends BaseListAdapter<MutableQuestion> implement
         }
     }
 
-    private abstract class QuestionViewHolder extends ViewHolder {
+    private abstract class QuestionViewHolder extends BaseQuestionViewHolder {
 
         private TextView prefixTextView;
         private TextView titleTextView;
-        private ImageButton photosButton;
-        private ImageButton commentButton;
 
         QuestionViewHolder(ViewGroup parent, int res) {
             super(parent, res);
             bindViews();
-            photosButton.setOnClickListener(this);
-            commentButton.setOnClickListener(this);
             titleTextView.setOnLongClickListener(this);
         }
 
         protected void bindViews() {
             prefixTextView = findViewById(R.id.textview_prefix);
             titleTextView = findViewById(R.id.textview_title);
-            photosButton = findViewById(R.id.imagebutton_photo);
-            commentButton = findViewById(R.id.imagebutton_comment);
         }
 
         @Override
         protected void onBind(MutableQuestion item) {
+            super.onBind(item);
             prefixTextView.setText(item.getPrefix());
             titleTextView.setText(item.getTitle());
-        }
-
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if (id == R.id.imagebutton_photo) {
-                questionsListener.onPhotoPressed(getItem());
-            } else if (id == R.id.imagebutton_comment) {
-                questionsListener.onCommentPressed(getItem());
-            } else {
-                super.onClick(v);
-            }
         }
     }
 
     public interface QuestionsListener {
-
-        void onPhotoPressed(MutableQuestion question);
-
-        void onCommentPressed(MutableQuestion question);
 
         void onAnswerStateChanged(MutableQuestion question);
 

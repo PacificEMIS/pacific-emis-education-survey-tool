@@ -6,17 +6,14 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import fm.doe.national.core.data.model.BaseAnswer;
 import fm.doe.national.core.data.model.IdentifiedObject;
-import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.utils.CollectionUtils;
 
-public interface Answer extends IdentifiedObject {
+public interface Answer extends IdentifiedObject, BaseAnswer {
 
     @Nullable
     List<String> getItems();
-
-    @Nullable
-    String getComment();
 
     @Nullable
     String getInputText();
@@ -26,9 +23,6 @@ public interface Answer extends IdentifiedObject {
 
     @Nullable
     Location getLocation();
-
-    @Nullable
-    List<? extends Photo> getPhotos();
 
     @Nullable
     BinaryAnswerState getBinaryAnswerState();

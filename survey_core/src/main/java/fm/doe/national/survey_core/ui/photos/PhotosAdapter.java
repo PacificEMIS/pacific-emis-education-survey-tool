@@ -7,8 +7,6 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 
-import java.io.File;
-
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.ViewUtils;
@@ -41,9 +39,7 @@ public class PhotosAdapter extends BaseAdapter<Photo> {
 
         @Override
         protected void onBind(Photo item) {
-            File imgFile = new File(item.getLocalPath());
-            if (imgFile.exists()) ViewUtils.setScaledDownImageTo(photoImageView, imgFile.getAbsolutePath());
-
+            ViewUtils.setImageTo(photoImageView, item.getImage());
             ViewCompat.setTransitionName(photoImageView, item.getLocalPath()); // using photo path as unique transition name
         }
 
