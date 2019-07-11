@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="level_1">#FF6060</color>
+    <color name="level_1">#F85454</color>
     <color name="level_2">#FFBA0A</color>
-    <color name="level_3">#00FF00</color>
-    <color name="level_4">#24C765</color>
+    <color name="level_3">#94DC39</color>
+    <color name="level_4">#0DD35C</color>
     <color name="grey_100">#F5F5F5</color>
 </resources>
