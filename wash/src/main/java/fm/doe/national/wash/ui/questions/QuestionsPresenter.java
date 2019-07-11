@@ -124,4 +124,8 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         update(question.getId(), answer);
         getViewState().refreshQuestionAtPosition(position);
     }
+
+    public void onReturnFromPhotos() {
+        getViewState().refreshQuestionAtPosition(selectedQuestionPosition);
+    }
 }

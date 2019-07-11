@@ -7,11 +7,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import fm.doe.national.core.data.model.Answerable;
 import fm.doe.national.core.data.model.BaseAnswer;
+import fm.doe.national.core.data.model.Photo;
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.survey_core.R;
 
 public abstract class BaseQuestionsAdapter<T extends Answerable> extends BaseListAdapter<T> {
@@ -25,19 +32,26 @@ public abstract class BaseQuestionsAdapter<T extends Answerable> extends BaseLis
     public class BaseQuestionViewHolder extends ViewHolder {
 
         private final View commentView = findViewById(R.id.layout_comment);
+        private final View photosView = findViewById(R.id.layout_photos);
         private final TextView commentTextView = findViewById(R.id.textview_comment);
         private final ImageButton deleteCommentImageButton = findViewById(R.id.imagebutton_delete_comment);
         private final ImageButton editCommentImageButton = findViewById(R.id.imagebutton_edit_comment);
         private final ImageButton newPhotoImageButton = findViewById(R.id.imagebutton_new_photo);
+        private final ImageButton photosImageButton = findViewById(R.id.imagebutton_photos);
         private final ImageButton newCommentImageButton = findViewById(R.id.imagebutton_new_comment);
+        private final RecyclerView photosRecyclerView = findViewById(R.id.recyclerview_photos);
+        private final PhotosPreviewAdapter photosPreviewAdapter = new PhotosPreviewAdapter();
 
         public BaseQuestionViewHolder(ViewGroup parent, int res) {
             super(parent, res);
             deleteCommentImageButton.setOnClickListener(this);
             editCommentImageButton.setOnClickListener(this);
             newPhotoImageButton.setOnClickListener(this);
+            photosImageButton.setOnClickListener(this);
             newCommentImageButton.setOnClickListener(this);
             commentView.setOnClickListener(this);
+            photosRecyclerView.setAdapter(photosPreviewAdapter);
+            photosRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         }
 
         @CallSuper
@@ -61,6 +75,16 @@ public abstract class BaseQuestionsAdapter<T extends Answerable> extends BaseLis
                 newCommentImageButton.setVisibility(View.GONE);
                 commentTextView.setText(comment);
             }
+
+            List<? extends Photo> photos = answer.getPhotos();
+            if (CollectionUtils.isEmpty(photos)) {
+                photosView.setVisibility(View.GONE);
+                newPhotoImageButton.setVisibility(View.VISIBLE);
+            } else {
+                photosView.setVisibility(View.VISIBLE);
+                newPhotoImageButton.setVisibility(View.GONE);
+                photosPreviewAdapter.setItems(photos.stream().map(p -> (Photo) p).collect(Collectors.toList()));
+            }
         }
 
         @Override
@@ -72,7 +96,7 @@ public abstract class BaseQuestionsAdapter<T extends Answerable> extends BaseLis
                 listener.onDeleteCommentPressed(item, position);
             } else if (v == editCommentImageButton || v == newCommentImageButton || v == commentView) {
                 listener.onCommentPressed(item, position);
-            } else if (v == newPhotoImageButton) {
+            } else if (v == newPhotoImageButton || v == photosImageButton) {
                 listener.onPhotosPressed(item, position);
             } else {
                 super.onClick(v);
@@ -82,7 +106,9 @@ public abstract class BaseQuestionsAdapter<T extends Answerable> extends BaseLis
 
     public interface Listener<T extends Answerable> {
         void onCommentPressed(T item, int position);
+
         void onPhotosPressed(T item, int position);
+
         void onDeleteCommentPressed(T item, int position);
     }
 }

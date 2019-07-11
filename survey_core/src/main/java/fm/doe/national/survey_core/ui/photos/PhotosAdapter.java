@@ -7,11 +7,12 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.survey_core.R;
 
 public class PhotosAdapter extends BaseAdapter<Photo> {
@@ -42,7 +43,16 @@ public class PhotosAdapter extends BaseAdapter<Photo> {
         @Override
         protected void onBind(Photo item) {
             File imgFile = new File(item.getLocalPath());
-            if (imgFile.exists()) ViewUtils.setScaledDownImageTo(photoImageView, imgFile.getAbsolutePath());
+
+            if (imgFile.exists()) {
+                Glide.with(getContext())
+                        .load(imgFile)
+                        .into(photoImageView);
+            } else if (item.getRemotePath() != null) {
+                Glide.with(getContext())
+                        .load(item.getRemotePath())
+                        .into(photoImageView);
+            }
 
             ViewCompat.setTransitionName(photoImageView, item.getLocalPath()); // using photo path as unique transition name
         }

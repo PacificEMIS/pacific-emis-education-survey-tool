@@ -2,6 +2,7 @@ package fm.doe.national.accreditation.ui.questions;
 
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class QuestionsFragment extends BaseFragment implements
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
     private static final String ARG_STANDARD_ID = "ARG_STANDARD_ID";
     private static final String TAG_DIALOG = "TAG_DIALOG";
+    private static final int REQUEST_CODE_PHOTOS = 999;
 
     private RecyclerView recyclerView;
     private BottomNavigatorView bottomNavigatorView;
@@ -119,7 +121,19 @@ public class QuestionsFragment extends BaseFragment implements
 
     @Override
     public void navigateToPhotos() {
-        startActivity(AccreditationPhotosActivity.createIntent(getContext()));
+        startActivityForResult(AccreditationPhotosActivity.createIntent(getContext()), REQUEST_CODE_PHOTOS);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_PHOTOS:
+                presenter.onReturnFromPhotos();
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
     }
 
     @Override

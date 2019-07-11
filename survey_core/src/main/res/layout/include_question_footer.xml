@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -56,6 +57,40 @@
             tools:ignore="ContentDescription" />
 
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_photos"
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/bg_outline">
+
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+            android:id="@+id/recyclerview_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="4dp"
+            android:paddingStart="4dp"
+            android:paddingBottom="4dp"
+            android:paddingEnd="48dp"
+            app:itemSpace="4dp" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_photos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            android:src="@drawable/ic_wallpaper"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/layout_new_buttons"

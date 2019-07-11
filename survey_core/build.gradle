@@ -62,4 +62,8 @@ dependencies {
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
     annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
 
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
 }

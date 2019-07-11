@@ -8,9 +8,10 @@ import android.widget.ImageView;
 
 import androidx.core.view.ViewCompat;
 
+import com.bumptech.glide.Glide;
+
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.utils.Constants;
-import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.survey_core.R;
 
 public class FullscreenImageActivity extends BaseActivity {
@@ -44,7 +45,9 @@ public class FullscreenImageActivity extends BaseActivity {
 
         ViewCompat.setTransitionName(contentImageView, transitionName);
 
-        ViewUtils.setImageTo(contentImageView, imagePath);
+        Glide.with(this)
+                .load(imagePath)
+                .into(contentImageView);
     }
 
     public void onImageClick(View v) {

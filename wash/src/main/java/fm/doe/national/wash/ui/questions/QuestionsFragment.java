@@ -4,6 +4,7 @@ package fm.doe.national.wash.ui.questions;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,9 +27,9 @@ import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
+import fm.doe.national.survey_core.ui.custom_views.CommentDialogFragment;
 import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 import fm.doe.national.wash.R;
-import fm.doe.national.survey_core.ui.custom_views.CommentDialogFragment;
 import fm.doe.national.wash.ui.photos.WashPhotosActivity;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.Question;
@@ -45,6 +46,7 @@ public class QuestionsFragment extends BaseFragment implements
     private static final String ARG_SUB_GROUP_ID = "ARG_SUB_GROUP_ID";
     private static final String TAG_DIALOG = "TAG_DIALOG";
     private static final int REQUEST_LOCATION_PERMISSIONS = 999;
+    private static final int REQUEST_CODE_PHOTOS = 998;
 
     private final QuestionsAdapter questionsAdapter = new QuestionsAdapter(this, this);
     private final String locationPermission = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -129,11 +131,6 @@ public class QuestionsFragment extends BaseFragment implements
     }
 
     @Override
-    public void navigateToPhotos() {
-        startActivity(WashPhotosActivity.createIntent(getContext()));
-    }
-
-    @Override
     public void setPrevButtonVisible(boolean isVisible) {
         bottomNavigatorView.setPrevButtonVisible(isVisible);
     }
@@ -205,6 +202,23 @@ public class QuestionsFragment extends BaseFragment implements
     @Override
     public void onPhotosPressed(Answerable item, int position) {
         presenter.onPhotosPressed((MutableQuestion) item, position);
+    }
+
+    @Override
+    public void navigateToPhotos() {
+        startActivityForResult(WashPhotosActivity.createIntent(getContext()), REQUEST_CODE_PHOTOS);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_PHOTOS:
+                presenter.onReturnFromPhotos();
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
     }
 
     @Override
