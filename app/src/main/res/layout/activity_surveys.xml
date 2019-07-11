@@ -65,7 +65,6 @@
         android:layout_marginBottom="24dp"
         android:scaleType="center"
         android:src="@drawable/ic_plus"
-        app:backgroundTint="@color/deep_orange_600"
         app:tint="@color/white" />
 
 </FrameLayout>
