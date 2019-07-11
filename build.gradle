@@ -14,7 +14,7 @@ buildscript {
         project.configurations.all {
             resolutionStrategy.eachDependency { details ->
                 if (details.requested.group == 'androidx.arch.core'
-                        && !details.requested.name.contains('androidx') ) {
+                        && !details.requested.name.contains('androidx')) {
                     details.useVersion "2.0.1"
                 }
             }
@@ -39,23 +39,24 @@ ext {
             java      : '1.8.0',
             appVersion: "2.0"]
     Deps = [
-            dagger          : '2.23.2',
-            butterknife     : '10.1.0',
-            moxy            : '1.5.7',
-            appcompat       : '1.1.0-rc01',
-            junit           : '4.13-beta-3',
-            androidJUnit    : '1.1.1',
-            espresso        : '3.2.0',
-            omegaTypes      : '1.0.0',
-            rxJava          : '2.2.5',
-            rxAndroid       : '2.1.1',
-            room            : '2.1.0',
-            omegaRecycler   : '1.9.6',
-            material        : '1.1.0-alpha07',
-            dropbox         : '3.1.0',
-            omegaViews      : '1.0.2',
-            constraintLayout: '2.0.0-beta2',
-            work            : '2.0.1',
-            appCenter       : '2.1.0',
-            gson            : '2.8.5']
+            dagger               : '2.23.2',
+            butterknife          : '10.1.0',
+            moxy                 : '1.5.7',
+            appcompat            : '1.1.0-rc01',
+            junit                : '4.13-beta-3',
+            androidJUnit         : '1.1.1',
+            espresso             : '3.2.0',
+            omegaTypes           : '1.0.0',
+            omegaCenterIconButton: '0.0.4',
+            rxJava               : '2.2.5',
+            rxAndroid            : '2.1.1',
+            room                 : '2.1.0',
+            omegaRecycler        : '1.9.6',
+            material             : '1.1.0-alpha07',
+            dropbox              : '3.1.0',
+            omegaViews           : '1.0.2',
+            constraintLayout     : '2.0.0-beta2',
+            work                 : '2.0.1',
+            appCenter            : '2.1.0',
+            gson                 : '2.8.5']
 }

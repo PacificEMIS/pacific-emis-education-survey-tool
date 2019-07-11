@@ -96,6 +96,7 @@ dependencies {
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
     implementation 'com.github.Omega-R:OmegaLayouts:0.0.1'
+    implementation "com.github.Omega-R:OmegaCenterIconButton:${Deps.omegaCenterIconButton}@aar"
 
     // Butterknife
     implementation "com.jakewharton:butterknife:${Deps.butterknife}"

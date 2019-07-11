@@ -33,4 +33,6 @@
     <string name="label_start_session">Start session</string>
     <string name="label_end_session">End session</string>
     <string name="title_merge_progress">Get a survey from another device</string>
+    <string name="label_set_default_logo">Set default logo</string>
+    <string name="label_change_logo">Change logo</string>
 </resources>

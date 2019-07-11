@@ -59,6 +59,10 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.screens.logo.LogoActivity"
+            android:label="@string/label_logo"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

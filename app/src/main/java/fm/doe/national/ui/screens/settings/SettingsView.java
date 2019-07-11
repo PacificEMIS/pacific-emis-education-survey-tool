@@ -17,8 +17,6 @@ import fm.doe.national.ui.screens.settings.items.Item;
 @StateStrategyType(OneExecutionStateStrategy.class)
 public interface SettingsView extends BaseView {
 
-    void pickPhotoFromGallery();
-
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setItems(List<Item> options);
 
@@ -29,6 +27,8 @@ public interface SettingsView extends BaseView {
     void showOperatingModeSelector(OperatingModeListener listener);
 
     void navigateToChangePassword();
+
+    void navigateToChangeLogo();
 
     interface InputListener {
         void onInput(String string);
