@@ -2,9 +2,7 @@ package fm.doe.national.ui.screens.settings;
 
 import android.graphics.Bitmap;
 
-import com.omega_r.libs.omegatypes.Image;
 import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
 import com.omegar.mvp.InjectViewState;
 
 import java.io.File;
@@ -39,22 +37,15 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void refresh() {
-        Image logoImage = null;
-        String logoPath = globalPreferences.getLogoPath();
-
-        if (logoPath != null) {
-            logoImage = UrlImageExtensionsKt.from(Image.Companion, logoPath);
-        }
-
         List<Item> items = new ArrayList<>(Arrays.asList(
-                itemFactory.createLogoItem(logoImage),
+                itemFactory.createLogoItem(),
+                itemFactory.createPasswordItem(),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
                 itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
                 itemFactory.createContactItem(Text.from(globalPreferences.getContactName())),
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createTemplatesItem(),
-                itemFactory.createPasswordItem()
+                itemFactory.createTemplatesItem()
         ));
 
         if (BuildConfig.DEBUG) {
@@ -84,7 +75,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             case LOGO:
                 onLogoPressed();
                 break;
-            case OP_MODE:
+            case OPERATING_MODE:
                 onOperatingModePressed();
                 break;
             case NAME:

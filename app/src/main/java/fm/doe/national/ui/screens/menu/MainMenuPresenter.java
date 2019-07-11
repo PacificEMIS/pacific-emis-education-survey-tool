@@ -4,9 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.omega_r.libs.omegatypes.Image;
 import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
 import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.R;
@@ -35,13 +33,7 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
     @Override
     public void attachView(MainMenuView view) {
         super.attachView(view);
-
-        String logoPath = globalPreferences.getLogoPath();
-
-        if (logoPath != null) {
-            getViewState().setIcon(UrlImageExtensionsKt.from(Image.Companion, logoPath));
-        }
-
+        getViewState().setIcon(globalPreferences.getLogo());
         String appName = globalPreferences.getAppName();
         getViewState().setTitle(TextUtils.isEmpty(appName) ? Text.from(R.string.app_name) : Text.from(appName));
     }

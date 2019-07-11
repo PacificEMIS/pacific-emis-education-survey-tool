@@ -10,9 +10,6 @@ public final class Item {
     private final Text title;
 
     @Nullable
-    private final Image icon;
-
-    @Nullable
     private Image customImage;
 
     @Nullable
@@ -22,20 +19,14 @@ public final class Item {
 
     private final IconType iconType;
 
-    public Item(Text title, @Nullable Image icon, Type type, IconType iconType) {
+    public Item(Text title, Type type, IconType iconType) {
         this.title = title;
-        this.icon = icon;
         this.type = type;
         this.iconType = iconType;
     }
 
     public Text getTitle() {
         return title;
-    }
-
-    @Nullable
-    public Image getIcon() {
-        return icon;
     }
 
     @Nullable
@@ -65,10 +56,10 @@ public final class Item {
     }
 
     public enum Type {
-        DEBUG_STORAGE, CONTACT, CONTEXT, EXPORT_FOLDER, IMPORT_SCHOOLS, LOGO, OP_MODE, NAME, PASSWORD, TEMPLATES
+        DEBUG_STORAGE, CONTACT, CONTEXT, EXPORT_FOLDER, IMPORT_SCHOOLS, LOGO, OPERATING_MODE, NAME, PASSWORD, TEMPLATES
     }
 
     public enum IconType {
-        NAV, VALUE
+        NAV, VALUE, RECEIVE
     }
 }
