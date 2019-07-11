@@ -6,12 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.screens.region.ChooseRegionActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:drawableStart="@drawable/ic_alert"
+        android:drawablePadding="16dp"
+        android:text="@string/hint_app_context"
+        android:textAppearance="@style/Text.Small2" />
+
     <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="132dp"
         android:layout_marginEnd="48dp"
         tools:listitem="@layout/item_region">
 
