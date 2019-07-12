@@ -2,16 +2,19 @@ package fm.doe.national.remote_storage.data.accessor;
 
 import android.app.Activity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nullable;
 
 import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.remote_storage.BuildConfig;
+import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
+import fm.doe.national.remote_storage.ui.auth.GoogleAuthActivity;
 import fm.doe.national.remote_storage.ui.remote_storage.DriveStorageActivity;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -25,35 +28,39 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
 
     private final LifecycleListener lifecycleListener;
     private final RemoteUploader uploader;
+    private final RemoteStorage storage;
 
     private SingleSubject<String> contentSubject;
     private CompletableSubject authSubject;
-    private GoogleSignInAccount account;
 
     public RemoteStorageAccessorImpl(LifecycleListener lifecycleListener,
-                                     RemoteUploader uploader) {
+                                     RemoteUploader uploader,
+                                     RemoteStorage storage) {
         this.lifecycleListener = lifecycleListener;
         this.uploader = uploader;
+        this.storage = storage;
     }
 
     @Override
     public Completable signInAsUser() {
-        if (account != null) {
+        if (storage.getUserAccount() != null) {
             return Completable.complete();
         }
 
         Activity currentActivity = lifecycleListener.getCurrentActivity();
 
         if (currentActivity == null) {
-            authSubject.onComplete();
             return Completable.error(new AuthenticationException("No activity"));
         }
 
-        return Completable.fromAction(() -> account = GoogleSignIn.getLastSignedInAccount(currentActivity));
+        authSubject = CompletableSubject.create();
+        return Completable.fromAction(() -> currentActivity.startActivity(GoogleAuthActivity.createIntent(currentActivity)))
+                .andThen(authSubject);
     }
 
     @Override
     public void signOutAsUser() {
+        storage.setUserAccount(null);
     }
 
     @Override
@@ -112,5 +119,26 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
         }
 
         currentActivity.startActivity(DriveStorageActivity.createIntent(currentActivity, true));
+    }
+
+    @Override
+    public void onGoogleSignInAccountReceived(GoogleSignInAccount account) {
+        storage.setUserAccount(account);
+
+        if (authSubject != null) {
+            if (account == null) {
+                authSubject.onError(new AuthenticationException("Auth failed"));
+            } else {
+                authSubject.onComplete();
+            }
+            authSubject = null;
+        }
+    }
+
+    @Nullable
+    @Override
+    public String getUserEmail() {
+        GoogleSignInAccount account = storage.getUserAccount();
+        return account == null ? null : account.getEmail();
     }
 }

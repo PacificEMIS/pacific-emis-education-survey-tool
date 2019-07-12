@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
@@ -16,6 +18,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
@@ -36,10 +40,14 @@ public final class DriveRemoteStorage implements RemoteStorage {
 
     private DriveServiceHelper driveServiceHelper;
 
+    @Nullable
+    private GoogleSignInAccount userAccount;
+
     public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences) {
         this.appContext = appContext;
         this.globalPreferences = globalPreferences;
         refreshCredentials();
+        userAccount = GoogleSignIn.getLastSignedInAccount(appContext);
     }
 
     @Override
@@ -94,5 +102,16 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public Completable delete(String fileId) {
         return driveServiceHelper.delete(fileId);
+    }
+
+    @Nullable
+    @Override
+    public GoogleSignInAccount getUserAccount() {
+        return userAccount;
+    }
+
+    @Override
+    public void setUserAccount(@Nullable GoogleSignInAccount account) {
+        this.userAccount = account;
     }
 }

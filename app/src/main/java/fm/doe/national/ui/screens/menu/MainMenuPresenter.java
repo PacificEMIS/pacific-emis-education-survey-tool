@@ -3,6 +3,7 @@ package fm.doe.national.ui.screens.menu;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
@@ -13,7 +14,9 @@ import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
@@ -26,8 +29,16 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
             .getCoreComponent()
             .getGlobalPreferences();
 
+    private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
+            .getRemoteStorageComponent()
+            .getRemoteStorageAccessor();
+
+    @Nullable
+    private String userEmail;
+
     public MainMenuPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
+        updateUserData();
     }
 
     @Override
@@ -80,5 +91,24 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
                         .subscribe(getViewState()::showMergeProgress, this::handleError)
         );
 
+    }
+
+    public void onAuthButtonPressed() {
+        if (userEmail == null) {
+            addDisposable(
+                    remoteStorageAccessor.signInAsUser()
+                            .observeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(this::updateUserData, t -> {}) // silence errors
+            );
+        } else {
+            remoteStorageAccessor.signOutAsUser();
+            updateUserData();
+        }
+    }
+
+    private void updateUserData() {
+        userEmail = remoteStorageAccessor.getUserEmail();
+        getViewState().setAccountName(userEmail);
     }
 }

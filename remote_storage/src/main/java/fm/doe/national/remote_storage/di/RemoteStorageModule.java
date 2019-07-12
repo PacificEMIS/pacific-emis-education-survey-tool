@@ -31,7 +31,8 @@ public class RemoteStorageModule {
     @Provides
     @RemoteStorageScope
     RemoteStorageAccessor provideRemoteStorageAccessor(LifecycleListener lifecycleListener,
-                                                       RemoteUploader uploader) {
-        return new RemoteStorageAccessorImpl(lifecycleListener, uploader);
+                                                       RemoteUploader uploader,
+                                                       RemoteStorage storage) {
+        return new RemoteStorageAccessorImpl(lifecycleListener, uploader, storage);
     }
 }

@@ -1,7 +1,11 @@
 package fm.doe.national.remote_storage.data.storage;
 
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
@@ -19,4 +23,9 @@ public interface RemoteStorage {
     Completable delete(String fileId);
 
     void refreshCredentials();
+
+    @Nullable
+    GoogleSignInAccount getUserAccount();
+
+    void setUserAccount(@Nullable GoogleSignInAccount account);
 }

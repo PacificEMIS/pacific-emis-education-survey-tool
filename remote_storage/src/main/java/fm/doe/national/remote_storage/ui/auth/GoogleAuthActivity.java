@@ -18,8 +18,6 @@ import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 
-// TODO: may need this activity on next big feature
-@Deprecated
 public class GoogleAuthActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SIGN_IN = 987;
@@ -46,13 +44,12 @@ public class GoogleAuthActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-// TODO: may need this activity on next big feature
-//                accessor.onGoogleSignInAccountReceived(account);
+                accessor.onGoogleSignInAccountReceived(account);
             } catch (ApiException e) {
                 e.printStackTrace();
-// TODO: may need this activity on next big feature
-//                accessor.onGoogleSignInAccountReceived(null);
+                accessor.onGoogleSignInAccountReceived(null);
             }
+            finish();
         }
     }
 
