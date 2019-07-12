@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -151,6 +152,12 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
                         })
         );
         survey.setProgress(updatedProgress);
+
+        if (!survey.isCompleted() && survey.getProgress().isFinished()) {
+            survey.setCompleteDate(new Date());
+            washDataSource.updateSurvey(survey);
+        }
+
         surveyPublishSubject.onNext(survey);
     }
 
@@ -216,17 +223,17 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     }
 
     @Override
-    public PublishSubject<Survey> getSurveyProgressSubject() {
+    public Observable<Survey> getSurveyProgressObservable() {
         return surveyPublishSubject;
     }
 
     @Override
-    public PublishSubject<MutableGroup> getGroupProgressSubject() {
+    public Observable<MutableGroup> getGroupProgressObservable() {
         return groupPublishSubject;
     }
 
     @Override
-    public PublishSubject<MutableSubGroup> getSubGroupProgressSubject() {
+    public Observable<MutableSubGroup> getSubGroupProgressObservable() {
         return subGroupPublishSubject;
     }
 

@@ -22,7 +22,13 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
     public long uid;
 
     @ColumnInfo(name = "start_date")
-    public Date startDate;
+    public Date createDate;
+
+    @ColumnInfo(name = "survey_date")
+    public Date surveyDate;
+
+    @ColumnInfo(name = "complete_date")
+    public Date completeDate;
 
     @ColumnInfo(name = "version")
     public int version;
@@ -44,12 +50,14 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
                                    AppRegion appRegion,
                                    @Nullable String schoolName,
                                    @Nullable String schoolId,
-                                   @Nullable Date startDate) {
+                                   @Nullable Date createDate,
+                                   @Nullable Date surveyDate) {
         this.version = version;
         this.type = type;
         this.schoolName = schoolName;
         this.schoolId = schoolId;
-        this.startDate = startDate;
+        this.createDate = createDate;
+        this.surveyDate = surveyDate;
         this.appRegion = appRegion;
     }
 
@@ -57,7 +65,9 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
         this.uid = other.getId();
         this.version = other.getVersion();
         this.type = other.getSurveyType();
-        this.startDate = other.getDate();
+        this.createDate = other.getCreateDate();
+        this.surveyDate = other.getSurveyDate();
+        this.completeDate = other.getCompleteDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
         this.appRegion = other.getAppRegion();
@@ -76,8 +86,20 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
 
     @Nullable
     @Override
-    public Date getDate() {
-        return startDate;
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    @Nullable
+    @Override
+    public Date getSurveyDate() {
+        return surveyDate;
+    }
+
+    @Nullable
+    @Override
+    public Date getCompleteDate() {
+        return completeDate;
     }
 
     @Nullable

@@ -26,7 +26,7 @@ public interface DataSource {
 
     Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion);
 
-    Single<Survey> createSurvey(String schoolId, String schoolName, Date date);
+    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, Date surveyDate);
 
     Completable deleteSurvey(long surveyId);
 
@@ -38,4 +38,5 @@ public interface DataSource {
 
     Completable createPartiallySavedSurvey(Survey survey);
 
+    void updateSurvey(Survey survey);
 }

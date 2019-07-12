@@ -27,8 +27,11 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     @NonNull
     private SurveyType surveyType;
 
+    private Date createDate;
+    private Date surveyDate;
+
     @Nullable
-    private Date date;
+    private Date completeDate;
 
     @Nullable
     private String schoolName;
@@ -46,7 +49,9 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         this(other.getVersion(), other.getSurveyType(), other.getAppRegion());
 
         this.id = other.getId();
-        this.date = other.getDate();
+        this.createDate = other.getCreateDate();
+        this.surveyDate = other.getSurveyDate();
+        this.completeDate = other.getCompleteDate();
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();
 
@@ -81,8 +86,8 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
 
     @Nullable
     @Override
-    public Date getDate() {
-        return date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
     @Nullable
@@ -103,6 +108,26 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         return appRegion;
     }
 
+    @Nullable
+    @Override
+    public Date getSurveyDate() {
+        return surveyDate;
+    }
+
+    @Nullable
+    @Override
+    public Date getCompleteDate() {
+        return completeDate;
+    }
+
+    public void setSurveyDate(Date surveyDate) {
+        this.surveyDate = surveyDate;
+    }
+
+    public void setCompleteDate(Date completeDate) {
+        this.completeDate = completeDate;
+    }
+
     @NonNull
     @Override
     public MutableProgress getProgress() {
@@ -121,8 +146,8 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         this.surveyType = surveyType;
     }
 
-    public void setDate(@Nullable Date date) {
-        this.date = date;
+    public void setCreateDate(@Nullable Date createDate) {
+        this.createDate = createDate;
     }
 
     public void setSchoolName(@Nullable String schoolName) {

@@ -193,14 +193,15 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date date) {
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, Date surveyDate) {
         return getTemplateSurvey()
                 .flatMap(survey -> {
                     MutableWashSurvey mutableSurvey = new MutableWashSurvey((WashSurvey) survey);
                     mutableSurvey.setId(0);
                     mutableSurvey.setSchoolName(schoolName);
                     mutableSurvey.setSchoolId(schoolId);
-                    mutableSurvey.setDate(date);
+                    mutableSurvey.setCreateDate(createDate);
+                    mutableSurvey.setSurveyDate(surveyDate);
                     long id = saveSurvey(database, mutableSurvey, true);
                     return loadSurvey(id);
                 });
@@ -315,5 +316,10 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     @Override
     public Completable createPartiallySavedSurvey(Survey survey) {
         return Completable.fromAction(() -> saveSurvey(database, (WashSurvey) survey, true));
+    }
+
+    @Override
+    public void updateSurvey(Survey survey) {
+        database.getSurveyDao().update(new RoomWashSurvey((WashSurvey) survey));
     }
 }

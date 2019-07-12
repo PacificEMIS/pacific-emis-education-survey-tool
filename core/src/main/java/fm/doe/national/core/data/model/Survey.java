@@ -16,7 +16,17 @@ public interface Survey extends Progressable, IdentifiedObject {
     SurveyType getSurveyType();
 
     @Nullable
-    Date getDate();
+    Date getCreateDate();
+
+    @Nullable
+    Date getSurveyDate();
+
+    @Nullable
+    Date getCompleteDate();
+
+    default boolean isCompleted() {
+        return getCompleteDate() != null;
+    }
 
     @Nullable
     String getSchoolName();

@@ -106,7 +106,6 @@ public class DriveServiceHelper {
             }
 
             return googleFile.getId();
-
         }).subscribeOn(Schedulers.io());
     }
 

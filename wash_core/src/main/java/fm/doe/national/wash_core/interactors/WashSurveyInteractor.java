@@ -8,8 +8,8 @@ import fm.doe.national.wash_core.data.model.mutable.MutableGroup;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 import fm.doe.national.wash_core.data.model.mutable.MutableSubGroup;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.subjects.PublishSubject;
 
 public interface WashSurveyInteractor extends SurveyInteractor {
 
@@ -23,9 +23,9 @@ public interface WashSurveyInteractor extends SurveyInteractor {
 
     Completable updateAnswer(Answer answer);
 
-    PublishSubject<MutableGroup> getGroupProgressSubject();
+    Observable<MutableGroup> getGroupProgressObservable();
 
-    PublishSubject<MutableSubGroup> getSubGroupProgressSubject();
+    Observable<MutableSubGroup> getSubGroupProgressObservable();
 
     long getCurrentGroupId();
 

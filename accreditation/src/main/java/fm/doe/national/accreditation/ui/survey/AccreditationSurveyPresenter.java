@@ -41,7 +41,7 @@ public class AccreditationSurveyPresenter extends SurveyPresenter {
     @Override
     protected void subscribeOnEditingEvents() {
         addDisposable(
-                accreditationSurveyInteractor.getStandardProgressSubject()
+                accreditationSurveyInteractor.getStandardProgressObservable()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(updatedStandard ->

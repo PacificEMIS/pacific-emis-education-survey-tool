@@ -21,11 +21,13 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
+import fm.doe.national.remote_storage.utils.TextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -34,6 +36,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final Collection<String> sDriveScopes = Arrays.asList(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE_METADATA);
     private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
+    private final SurveySerializer surveySerializer;
 
     private final Context appContext;
     private final GlobalPreferences globalPreferences;
@@ -43,9 +46,10 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Nullable
     private GoogleSignInAccount userAccount;
 
-    public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences) {
+    public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences, SurveySerializer surveySerializer) {
         this.appContext = appContext;
         this.globalPreferences = globalPreferences;
+        this.surveySerializer = surveySerializer;
         refreshCredentials();
         userAccount = GoogleSignIn.getLastSignedInAccount(appContext);
     }
@@ -84,9 +88,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Completable uploadContent(String content, String filename, AppRegion appRegion) {
-        return driveServiceHelper.createFolderIfNotExist(unwrap(appRegion.getName()), null)
-                .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(filename, content, regionFolderId))
+    public Completable upload(Survey survey) {
+        return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
+                .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(TextUtil.createSurveyFileName(survey), surveySerializer.serialize(survey), regionFolderId))
                 .ignoreElement();
     }
 
