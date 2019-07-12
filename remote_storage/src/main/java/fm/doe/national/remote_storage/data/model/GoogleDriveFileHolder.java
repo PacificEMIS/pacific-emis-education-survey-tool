@@ -4,14 +4,16 @@ import com.google.api.services.drive.model.File;
 
 public class GoogleDriveFileHolder {
 
-    private String id;
-    private String name;
-    private DriveType mimeType;
+    private final String id;
+    private final String name;
+    private final DriveType mimeType;
+    private final NdoeMetadata ndoeMetadata;
 
     public GoogleDriveFileHolder(File driveFile) {
         this.id = driveFile.getId();
         this.name = driveFile.getName();
         this.mimeType = DriveType.of(driveFile.getMimeType());
+        this.ndoeMetadata = NdoeMetadata.extract(driveFile);
     }
 
     public String getId() {
@@ -24,5 +26,9 @@ public class GoogleDriveFileHolder {
 
     public DriveType getMimeType() {
         return mimeType;
+    }
+
+    public NdoeMetadata getNdoeMetadata() {
+        return ndoeMetadata;
     }
 }

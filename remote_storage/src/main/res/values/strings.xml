@@ -1,3 +1,4 @@
 <resources>
     <string name="title_drive">Drive</string>
+    <string name="drive_app_name">drive_app_name</string>
 </resources>

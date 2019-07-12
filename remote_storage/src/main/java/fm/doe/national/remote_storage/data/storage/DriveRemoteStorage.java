@@ -27,6 +27,7 @@ import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
+import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.utils.TextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -63,7 +64,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                     sGsonFactory)
                     .createScoped(sDriveScopes);
             Drive drive = new Drive.Builder(sTransport, sGsonFactory, credential)
-                    .setApplicationName(appContext.getString(R.string.app_name))
+                    .setApplicationName(appContext.getString(R.string.drive_app_name))
                     .build();
             driveServiceHelper = new DriveServiceHelper(drive);
         } catch (IOException e) {
@@ -89,8 +90,16 @@ public final class DriveRemoteStorage implements RemoteStorage {
 
     @Override
     public Completable upload(Survey survey) {
+        if (userAccount == null) {
+            return Completable.error(new IllegalStateException());
+        }
+
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
-                .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(TextUtil.createSurveyFileName(survey), surveySerializer.serialize(survey), regionFolderId))
+                .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(
+                        TextUtil.createSurveyFileName(survey),
+                        surveySerializer.serialize(survey),
+                        new NdoeMetadata(survey, userAccount.getEmail()),
+                        regionFolderId))
                 .ignoreElement();
     }
 

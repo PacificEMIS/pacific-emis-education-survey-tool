@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
+import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.utils.DriveQueryBuilder;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -26,6 +27,7 @@ public class DriveServiceHelper {
 
     private static final String FOLDER_ROOT = "root";
     private static final String SPACE_DRIVE = "drive";
+    private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, appProperties)";
 
     private final Drive drive;
 
@@ -35,6 +37,7 @@ public class DriveServiceHelper {
 
     public Single<String> createOrUpdateFile(final String fileName,
                                              final String content,
+                                             final NdoeMetadata ndoeMetadata,
                                              @Nullable final String folderId) {
         return Single.fromCallable(() -> {
             ByteArrayContent contentStream = ByteArrayContent.fromString(DriveType.PLAIN_TEXT.getValue(), content);
@@ -51,22 +54,21 @@ public class DriveServiceHelper {
                     .mimeType(DriveType.PLAIN_TEXT.getValue())
                     .name(fileName)
                     .build();
-            FileList existingFiles = drive.files()
-                    .list()
-                    .setQ(query)
-                    .setSpaces(SPACE_DRIVE)
-                    .execute();
+            FileList existingFiles = requestFiles(query);
 
             if (!existingFiles.getFiles().isEmpty()) {
-                String fileId = existingFiles.getFiles().get(0).getId();
-                drive.files().update(fileId, new File().setName(fileName), contentStream).execute();
+                File existingFile = existingFiles.getFiles().get(0);
+                String fileId = existingFile.getId();
+                drive.files().update(fileId, ndoeMetadata.applyToDriveFile(existingFile), contentStream).execute();
                 return fileId;
             }
 
-            File metadata = new File()
-                    .setParents(root)
-                    .setMimeType(DriveType.PLAIN_TEXT.getValue())
-                    .setName(fileName);
+            File metadata = ndoeMetadata.applyToDriveFile(
+                    new File()
+                            .setParents(root)
+                            .setMimeType(DriveType.PLAIN_TEXT.getValue())
+                            .setName(fileName)
+            );
             File googleFile = drive.files().create(metadata, contentStream).execute();
 
             if (googleFile == null) {
@@ -86,10 +88,7 @@ public class DriveServiceHelper {
                     .mimeType(DriveType.FOLDER.getValue())
                     .name(folderName)
                     .build();
-            FileList result = drive.files().list()
-                    .setQ(query)
-                    .setSpaces(SPACE_DRIVE)
-                    .execute();
+            FileList result = requestFiles(query);
 
             if (!result.getFiles().isEmpty()) {
                 return result.getFiles().get(0).getId();
@@ -133,11 +132,7 @@ public class DriveServiceHelper {
             String query = new DriveQueryBuilder()
                     .parentId(parent)
                     .build();
-            FileList result = drive.files().list()
-                    .setQ(query)
-                    .setFields("files(id, name, size, createdTime, modifiedTime, starred, mimeType)")
-                    .setSpaces(SPACE_DRIVE)
-                    .execute();
+            FileList result = requestFiles(query);
 
             for (File file : result.getFiles()) {
                 googleDriveFileHolderList.add(new GoogleDriveFileHolder(file));
@@ -150,4 +145,13 @@ public class DriveServiceHelper {
     public Completable delete(String fileId) {
         return Completable.fromAction(() -> drive.files().delete(fileId).execute());
     }
+
+    private FileList requestFiles(String query) throws IOException {
+        return drive.files().list()
+                .setQ(query)
+                .setFields(FIELDS_TO_QUERY)
+                .setSpaces(SPACE_DRIVE)
+                .execute();
+    }
+
 }
