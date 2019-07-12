@@ -3,8 +3,8 @@ package fm.doe.national.core.domain;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Survey;
+import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.subjects.Subject;
 
 public interface SurveyInteractor {
     Single<List<Survey>> getAllSurveys();
@@ -15,5 +15,5 @@ public interface SurveyInteractor {
 
     Survey getCurrentSurvey();
 
-    Subject<Survey> getSurveyProgressSubject();
+    Observable<Survey> getSurveyProgressObservable();
 }

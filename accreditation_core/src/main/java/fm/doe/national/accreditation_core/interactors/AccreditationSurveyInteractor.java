@@ -8,8 +8,8 @@ import fm.doe.national.accreditation_core.data.model.mutable.MutableCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
 import fm.doe.national.core.domain.SurveyInteractor;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.subjects.PublishSubject;
 
 public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
@@ -23,11 +23,11 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
     Completable updateAnswer(Answer answer);
 
-    PublishSubject<MutableCategory> getCategoryProgressSubject();
+    Observable<MutableCategory> getCategoryProgressObservable();
 
-    PublishSubject<MutableStandard> getStandardProgressSubject();
+    Observable<MutableStandard> getStandardProgressObservable();
 
-    PublishSubject<MutableCriteria> getCriteriaProgressSubject();
+    Observable<MutableCriteria> getCriteriaProgressObservable();
 
     long getCurrentCategoryId();
 

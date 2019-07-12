@@ -39,7 +39,7 @@ public class WashSurveyPresenter extends SurveyPresenter {
     @Override
     protected void subscribeOnEditingEvents() {
         addDisposable(
-                washSurveyInteractor.getSubGroupProgressSubject()
+                washSurveyInteractor.getSubGroupProgressObservable()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(updatedSubGroup ->

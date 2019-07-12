@@ -22,7 +22,9 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     private int version;
     private SurveyType surveyType;
     private AppRegion appRegion;
-    private Date date;
+    private Date createDate;
+    private Date surveyDate;
+    private Date completeDate;
     private String schoolName;
     private String schoolId;
     private List<MutableCategory> categories;
@@ -42,7 +44,9 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.id = other.getId();
         this.version = other.getVersion();
         this.surveyType = other.getSurveyType();
-        this.date = other.getDate();
+        this.createDate = other.getCreateDate();
+        this.surveyDate = other.getSurveyDate();
+        this.completeDate = other.getCompleteDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
         this.appRegion = other.getAppRegion();
@@ -64,8 +68,8 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
 
     @Nullable
     @Override
-    public Date getDate() {
-        return date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
     @Nullable
@@ -94,8 +98,8 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.surveyType = surveyType;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public void setSchoolName(String schoolName) {
@@ -127,6 +131,25 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
 
     public void setAppRegion(AppRegion appRegion) {
         this.appRegion = appRegion;
+    }
+
+    @Override
+    public Date getSurveyDate() {
+        return surveyDate;
+    }
+
+    @Nullable
+    @Override
+    public Date getCompleteDate() {
+        return completeDate;
+    }
+
+    public void setSurveyDate(Date surveyDate) {
+        this.surveyDate = surveyDate;
+    }
+
+    public void setCompleteDate(Date completeDate) {
+        this.completeDate = completeDate;
     }
 
     public List<MutableAnswer> merge(AccreditationSurvey other, ConflictResolveStrategy strategy) {

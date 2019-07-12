@@ -7,13 +7,13 @@ import androidx.work.RxWorker;
 import androidx.work.WorkerParameters;
 
 import fm.doe.national.core.data.data_source.DataSource;
-import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponentInjector;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
-import fm.doe.national.remote_storage.utils.TextUtil;
+import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -23,40 +23,36 @@ public class UploadWorker extends RxWorker {
     private static final long VALUE_ID_NOT_FOUND = -1;
 
     private DataSource dataSource;
-    private SurveySerializer surveySerializer;
     private RemoteStorage remoteStorage;
+    private RemoteStorageAccessor remoteStorageAccessor;
 
     public UploadWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         DataSourceComponent dataSourceComponent = DataSourceComponentInjector.getComponent(context);
         dataSource = dataSourceComponent.getDataSource();
-        surveySerializer = dataSourceComponent.getSurveySerializer();
-        remoteStorage = RemoteStorageComponentInjector.getComponent(context).getRemoteStorage();
+        RemoteStorageComponent remoteStorageComponent = RemoteStorageComponentInjector.getComponent(context);
+        remoteStorage = remoteStorageComponent.getRemoteStorage();
+        remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
     }
 
     @Override
     public Single<Result> createWork() {
+        final long surveyId = getInputData().getLong(DATA_PASSING_ID, VALUE_ID_NOT_FOUND);
         return Single.fromCallable(() -> {
-            long passingId = getInputData().getLong(DATA_PASSING_ID, VALUE_ID_NOT_FOUND);
-            if (passingId == VALUE_ID_NOT_FOUND) throw new IllegalStateException("passingId == VALUE_ID_NOT_FOUND");
-            return passingId;
+            if (surveyId == VALUE_ID_NOT_FOUND) throw new IllegalStateException("surveyId == VALUE_ID_NOT_FOUND");
+            return surveyId;
         })
                 .flatMap(dataSource::loadSurvey)
-                .flatMapCompletable(survey -> remoteStorage.uploadContent(
-                        surveySerializer.serialize(survey),
-                        createFilePath(survey),
-                        survey.getAppRegion())
-                )
-                .andThen(Single.fromCallable(Result::success));
+                .flatMapCompletable(survey -> remoteStorage.upload(survey))
+                .onErrorResumeNext(t -> {
+                    remoteStorageAccessor.scheduleUploading(surveyId);
+                    return Completable.complete();
+                })
+                .andThen(Single.just(Result.success()));
     }
 
     @Override
     protected Scheduler getBackgroundScheduler() {
         return Schedulers.io();
-    }
-
-    @NonNull
-    private String createFilePath(Survey survey) {
-        return TextUtil.createSurveyFileName(survey);
     }
 }

@@ -69,10 +69,10 @@ public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
     }
 
     private void subscribeToSurveyProgress() {
-        addDisposable(getSurveyInteractor().getSurveyProgressSubject()
+        addDisposable(getSurveyInteractor().getSurveyProgressObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(survey -> getViewState().setReportEnabled(survey.getProgress().isFinished()), this::handleError));
+                .subscribe(survey -> getViewState().setReportEnabled(survey.isCompleted()), this::handleError));
 
     }
 

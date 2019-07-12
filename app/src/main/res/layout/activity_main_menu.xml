@@ -22,9 +22,11 @@
 
     <ImageView
         android:id="@+id/imageview_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/ic_default_logo"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_fcm"
         app:layout_heightPercent="26.4%"
         app:layout_marginTopPercent="3.2%"
         tools:ignore="ContentDescription" />
@@ -59,13 +61,24 @@
 
     </com.omega_r.libs.layouts.percent.PercentLinearLayout>
 
+    <TextView
+        android:id="@+id/textview_hint_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hint_login_required"
+        android:textAppearance="@style/Text.Small2"
+        android:textColor="@color/red_400"
+        app:layout_marginLeftPercent="14.5%"
+        app:layout_marginRightPercent="14.5%"
+        app:layout_marginTopPercent="0.8%" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="4.8%"
         app:layout_marginLeftPercent="14%"
         app:layout_marginRightPercent="14%"
-        app:layout_marginTopPercent="5.6%">
+        app:layout_marginTopPercent="2.4%">
 
         <TextView
             android:id="@+id/textview_auth_name"
@@ -74,7 +87,7 @@
             android:drawableStart="@drawable/ic_user"
             android:drawablePadding="24dp"
             android:gravity="center_vertical"
-            android:text="@string/coming_soon"
+            android:text="@string/label_account"
             android:textAppearance="@style/Text.Title4" />
 
         <TextView
@@ -126,10 +139,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="4.8%"
+        app:layout_marginBottomPercent="8.4%"
         app:layout_marginLeftPercent="14%"
         app:layout_marginRightPercent="14%"
-        app:layout_marginTopPercent="1.6%"
-        app:layout_marginBottomPercent="8.4%">
+        app:layout_marginTopPercent="1.6%">
 
         <TextView
             android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package fm.doe.national.ui.screens.menu;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +41,15 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
 
     @BindView(R.id.button_wash)
     Button washButton;
+
+    @BindView(R.id.textview_hint_login)
+    View loginHintView;
+
+    @BindView(R.id.textview_auth_name)
+    TextView accountTextView;
+
+    @BindView(R.id.textview_auth)
+    TextView authTextView;
 
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, MainMenuActivity.class);
@@ -80,9 +90,14 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
         presenter.onMergePressed();
     }
 
+    @OnClick(R.id.textview_auth)
+    void onAuthButtonPressed() {
+        presenter.onAuthButtonPressed();
+    }
+
     @Override
     public void setIcon(Image image) {
-        image.applyImage(iconImageView, R.drawable.ic_default_logo);
+        image.applyImage(iconImageView, 0);
     }
 
     @Override
@@ -114,5 +129,23 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     @Override
     public void showMergeProgress() {
         MergeProgressDialogFragment.create().show(getSupportFragmentManager(), TAG_PROGRESS_FRAGMENT);
+    }
+
+    @Override
+    public void setAccountName(@Nullable String accountName) {
+        if (accountName == null) {
+            accountTextView.setText(R.string.label_account);
+            authTextView.setText(R.string.label_sign_in);
+            loginHintView.setVisibility(View.VISIBLE);
+            accreditationButton.setEnabled(false);
+            washButton.setEnabled(false);
+            return;
+        }
+
+        accountTextView.setText(accountName);
+        authTextView.setText(R.string.label_sign_out);
+        loginHintView.setVisibility(View.INVISIBLE);
+        accreditationButton.setEnabled(true);
+        washButton.setEnabled(true);
     }
 }

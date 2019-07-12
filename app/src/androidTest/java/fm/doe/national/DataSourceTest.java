@@ -124,7 +124,7 @@ public class DataSourceTest {
                 .subscribe(testObserver);
         testObserver.awaitTerminalEvent();
         testObserver.assertValue(TestUtil.check(survey -> {
-            assertNull(survey.getDate());
+            assertNull(survey.getCreateDate());
             assertNull(survey.getSchoolId());
             assertNull(survey.getSchoolName());
             assertEquals(SurveyType.SCHOOL_ACCREDITATION, survey.getSurveyType());
@@ -157,7 +157,7 @@ public class DataSourceTest {
             assertTrue(survey.getId() > 0);
             assertEquals("testCreateNewSurvey", survey.getSchoolName());
             assertEquals("CHK001", survey.getSchoolId());
-            assertEquals(creationDate, survey.getDate());
+            assertEquals(creationDate, survey.getCreateDate());
             assertEquals(SurveyType.SCHOOL_ACCREDITATION, survey.getSurveyType());
             assertEquals(1, survey.getVersion());
             assertEquals(4, survey.getCategories().size());
@@ -191,7 +191,7 @@ public class DataSourceTest {
             assertTrue(survey.getId() > 0);
             assertEquals("testCanGetCreatedSurvey", survey.getSchoolName());
             assertEquals("CHK001", survey.getSchoolId());
-            assertEquals(creationDate, survey.getDate());
+            assertEquals(creationDate, survey.getCreateDate());
             assertEquals(SurveyType.SCHOOL_ACCREDITATION, survey.getSurveyType());
             assertEquals(1, survey.getVersion());
             assertEquals(4, survey.getCategories().size());

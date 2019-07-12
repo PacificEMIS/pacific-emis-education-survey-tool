@@ -40,7 +40,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                 break;
             case FILE:
             case PLAIN_TEXT:
-                requestContent(item.getId());
+                requestContent(item);
                 break;
         }
     }
@@ -74,16 +74,16 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
         return parentsStack.isEmpty() ? null : parentsStack.peek().getName();
     }
 
-    private void requestContent(String fileId) {
+    private void requestContent(GoogleDriveFileHolder file) {
         addDisposable(
-                storage.loadContent(fileId)
+                storage.loadContent(file.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().showWaiting())
                         .doFinally(getViewState()::hideWaiting)
                         .subscribe(content -> {
                             if (isDebugViewer) {
-                                getViewState().setContent(content);
+                                getViewState().setContent(file.getNdoeMetadata().toString() + content);
                             } else {
                                 accessor.onContentReceived(content);
                                 getViewState().close();

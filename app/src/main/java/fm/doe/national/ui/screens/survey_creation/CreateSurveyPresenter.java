@@ -23,7 +23,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
     private final SurveyInteractor accreditationSurveyInteractor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
 
-    private Date surveyStartDate = new Date();
+    private Date surveyDate = new Date();
     private List<? extends School> schools;
 
     @Nullable
@@ -36,7 +36,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadDate() {
-        getViewState().setStartDate(surveyStartDate);
+        getViewState().setStartDate(surveyDate);
     }
 
     private void loadSchools() {
@@ -61,7 +61,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     void onContinuePressed() {
-        addDisposable(dataSource.createSurvey(selectedSchool.getId(), selectedSchool.getName(), surveyStartDate)
+        addDisposable(dataSource.createSurvey(selectedSchool.getId(), selectedSchool.getName(), new Date(), surveyDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -99,6 +99,6 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
         getViewState().setStartDate(surveyStartDate);
 
-        this.surveyStartDate = surveyStartDate;
+        this.surveyDate = surveyStartDate;
     }
 }

@@ -3,6 +3,7 @@ package fm.doe.national.accreditation_core.interactors;
 import android.annotation.SuppressLint;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.accreditation_core.data.data_source.AccreditationDataSource;
@@ -21,7 +22,6 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 
 public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInteractor {
 
@@ -154,6 +154,12 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
         }
 
         survey.getProgress().completed += delta;
+
+        if (!survey.isCompleted() && survey.getProgress().isFinished()) {
+            survey.setCompleteDate(new Date());
+            accreditationDataSource.updateSurvey(survey);
+        }
+
         surveyBehaviorSubject.onNext(survey);
     }
 
@@ -209,22 +215,22 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     }
 
     @Override
-    public Subject<Survey> getSurveyProgressSubject() {
+    public Observable<Survey> getSurveyProgressObservable() {
         return surveyBehaviorSubject;
     }
 
     @Override
-    public PublishSubject<MutableCategory> getCategoryProgressSubject() {
+    public Observable<MutableCategory> getCategoryProgressObservable() {
         return categoryPublishSubject;
     }
 
     @Override
-    public PublishSubject<MutableStandard> getStandardProgressSubject() {
+    public Observable<MutableStandard> getStandardProgressObservable() {
         return standardPublishSubject;
     }
 
     @Override
-    public PublishSubject<MutableCriteria> getCriteriaProgressSubject() {
+    public Observable<MutableCriteria> getCriteriaProgressObservable() {
         return criteriaPublishSubject;
     }
 

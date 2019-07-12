@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.utils.LifecycleListener;
+import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessorImpl;
 import fm.doe.national.remote_storage.data.storage.DriveRemoteStorage;
@@ -16,10 +17,16 @@ import fm.doe.national.remote_storage.data.uploader.WorkerRemoteUploader;
 @Module
 public class RemoteStorageModule {
 
+    private final DataSourceComponent dataSourceComponent;
+
+    public RemoteStorageModule(DataSourceComponent dataSourceComponent) {
+        this.dataSourceComponent = dataSourceComponent;
+    }
+
     @Provides
     @RemoteStorageScope
     RemoteStorage provideRemoteStorage(Context context, GlobalPreferences globalPreferences) {
-        return new DriveRemoteStorage(context, globalPreferences);
+        return new DriveRemoteStorage(context, globalPreferences, dataSourceComponent.getSurveySerializer());
     }
 
     @Provides
@@ -31,7 +38,8 @@ public class RemoteStorageModule {
     @Provides
     @RemoteStorageScope
     RemoteStorageAccessor provideRemoteStorageAccessor(LifecycleListener lifecycleListener,
-                                                       RemoteUploader uploader) {
-        return new RemoteStorageAccessorImpl(lifecycleListener, uploader);
+                                                       RemoteUploader uploader,
+                                                       RemoteStorage storage) {
+        return new RemoteStorageAccessorImpl(lifecycleListener, uploader, storage);
     }
 }

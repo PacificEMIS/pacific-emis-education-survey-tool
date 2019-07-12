@@ -94,7 +94,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     }
 
     private void subscribeOnProgressChanges() {
-        addDisposable(accreditationSurveyInteractor.getSurveyProgressSubject()
+        addDisposable(accreditationSurveyInteractor.getSurveyProgressObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateCompleteState));

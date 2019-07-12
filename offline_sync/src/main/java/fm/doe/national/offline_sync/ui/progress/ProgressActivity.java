@@ -90,7 +90,7 @@ public class ProgressActivity extends BaseActivity implements ProgressView, View
     @Override
     public void setSurvey(Survey survey) {
         schoolNameTextView.setText(survey.getSchoolName());
-        surveyDateTextView.setText(DateUtils.formatUi(survey.getDate()));
+        surveyDateTextView.setText(DateUtils.formatUi(survey.getCreateDate()));
     }
 
     @Override

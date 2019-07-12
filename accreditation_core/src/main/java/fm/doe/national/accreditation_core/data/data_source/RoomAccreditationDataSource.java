@@ -200,14 +200,15 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date date) {
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, Date surveyDate) {
         return getTemplateSurvey()
                 .flatMap(survey -> {
                     MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
                     mutableSurvey.setId(0);
                     mutableSurvey.setSchoolName(schoolName);
                     mutableSurvey.setSchoolId(schoolId);
-                    mutableSurvey.setDate(date);
+                    mutableSurvey.setCreateDate(createDate);
+                    mutableSurvey.setSurveyDate(surveyDate);
                     long id = saveSurvey(database, mutableSurvey, true);
                     return loadSurvey(id);
                 });
@@ -317,5 +318,10 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     @Override
     public Completable createPartiallySavedSurvey(Survey survey) {
         return Completable.fromAction(() -> saveSurvey(database, (AccreditationSurvey) survey, true));
+    }
+
+    @Override
+    public void updateSurvey(Survey survey) {
+        database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey));
     }
 }

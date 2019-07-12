@@ -20,6 +20,7 @@ import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.offline_sync.di.DaggerOfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncModule;
+import fm.doe.national.remote_storage.di.RemoteStorageModule;
 import fm.doe.national.report.di.DaggerReportComponent;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportModule;
@@ -78,6 +79,7 @@ public class Injection {
                 .build();
         remoteStorageComponent = DaggerRemoteStorageComponent.builder()
                 .coreComponent(coreComponent)
+                .remoteStorageModule(new RemoteStorageModule(dataSourceComponent))
                 .build();
         appComponent = DaggerAppComponent.builder()
                 .coreComponent(coreComponent)

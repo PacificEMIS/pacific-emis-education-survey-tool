@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
@@ -17,11 +19,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
+import fm.doe.national.remote_storage.data.model.NdoeMetadata;
+import fm.doe.national.remote_storage.utils.TextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -30,16 +37,22 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final Collection<String> sDriveScopes = Arrays.asList(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE_METADATA);
     private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
+    private final SurveySerializer surveySerializer;
 
     private final Context appContext;
     private final GlobalPreferences globalPreferences;
 
     private DriveServiceHelper driveServiceHelper;
 
-    public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences) {
+    @Nullable
+    private GoogleSignInAccount userAccount;
+
+    public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences, SurveySerializer surveySerializer) {
         this.appContext = appContext;
         this.globalPreferences = globalPreferences;
+        this.surveySerializer = surveySerializer;
         refreshCredentials();
+        userAccount = GoogleSignIn.getLastSignedInAccount(appContext);
     }
 
     @Override
@@ -51,7 +64,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                     sGsonFactory)
                     .createScoped(sDriveScopes);
             Drive drive = new Drive.Builder(sTransport, sGsonFactory, credential)
-                    .setApplicationName(appContext.getString(R.string.app_name))
+                    .setApplicationName(appContext.getString(R.string.drive_app_name))
                     .build();
             driveServiceHelper = new DriveServiceHelper(drive);
         } catch (IOException e) {
@@ -76,9 +89,17 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Completable uploadContent(String content, String filename, AppRegion appRegion) {
-        return driveServiceHelper.createFolderIfNotExist(unwrap(appRegion.getName()), null)
-                .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(filename, content, regionFolderId))
+    public Completable upload(Survey survey) {
+        if (userAccount == null) {
+            return Completable.error(new IllegalStateException());
+        }
+
+        return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
+                .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(
+                        TextUtil.createSurveyFileName(survey),
+                        surveySerializer.serialize(survey),
+                        new NdoeMetadata(survey, userAccount.getEmail()),
+                        regionFolderId))
                 .ignoreElement();
     }
 
@@ -94,5 +115,16 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public Completable delete(String fileId) {
         return driveServiceHelper.delete(fileId);
+    }
+
+    @Nullable
+    @Override
+    public GoogleSignInAccount getUserAccount() {
+        return userAccount;
+    }
+
+    @Override
+    public void setUserAccount(@Nullable GoogleSignInAccount account) {
+        this.userAccount = account;
     }
 }
