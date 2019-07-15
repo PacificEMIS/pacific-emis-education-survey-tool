@@ -45,7 +45,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                 updateFileHolders();
                 break;
             case FILE:
-            case PLAIN_TEXT:
+            case XML:
                 requestContent(item);
                 break;
         }
@@ -64,8 +64,8 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                                     globalPreferences.getSurveyTypeOrDefault()
                             );
                             List<GoogleDriveFileHolder> itemsToShow = items.stream()
-                                    .filter(f -> f.getMimeType() == DriveType.FOLDER ||
-                                            (f.getMimeType() == DriveType.PLAIN_TEXT &&
+                                    .filter(f -> isDebugViewer || f.getMimeType() == DriveType.FOLDER ||
+                                            (f.getMimeType() == DriveType.XML &&
                                                     TextUtil.startsWith(f.getName(), currentSurveyPrefix)))
                                     .sorted((lv, rv) -> lv.getMimeType().compareTo(rv.getMimeType()))
                                     .collect(Collectors.toList());

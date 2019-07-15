@@ -47,9 +47,12 @@ public class DriveStorageAdapter extends BaseListAdapter<GoogleDriveFileHolder> 
                 case FOLDER:
                     iconImageView.setImageDrawable(folderDrawable);
                     break;
-                case PLAIN_TEXT:
+                case XML:
                 case FILE:
                     iconImageView.setImageDrawable(fileDrawable);
+                    break;
+                default:
+                    iconImageView.setImageDrawable(null);
                     break;
             }
         }

@@ -40,7 +40,7 @@ public class DriveServiceHelper {
                                              final NdoeMetadata ndoeMetadata,
                                              @Nullable final String folderId) {
         return Single.fromCallable(() -> {
-            ByteArrayContent contentStream = ByteArrayContent.fromString(DriveType.PLAIN_TEXT.getValue(), content);
+            ByteArrayContent contentStream = ByteArrayContent.fromString(DriveType.XML.getValue(), content);
             List<String> root;
 
             if (folderId == null) {
@@ -51,7 +51,7 @@ public class DriveServiceHelper {
 
             String query = new DriveQueryBuilder()
                     .parentId(root.get(0))
-                    .mimeType(DriveType.PLAIN_TEXT.getValue())
+                    .mimeType(DriveType.XML.getValue())
                     .name(fileName)
                     .build();
             FileList existingFiles = requestFiles(query);
@@ -66,7 +66,7 @@ public class DriveServiceHelper {
             File metadata = ndoeMetadata.applyToDriveFile(
                     new File()
                             .setParents(root)
-                            .setMimeType(DriveType.PLAIN_TEXT.getValue())
+                            .setMimeType(DriveType.XML.getValue())
                             .setName(fileName)
             );
             File googleFile = drive.files().create(metadata, contentStream).execute();
