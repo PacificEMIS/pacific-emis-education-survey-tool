@@ -31,7 +31,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final String PREF_KEY_MASTER_PASSWORD = "PREF_KEY_MASTER_PASSWORD";
 
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
-    private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.PROD;
+    private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.DEV;
 
     private static final Image sDefaultIconFcm = Image.from(R.drawable.ic_fcm);
     private static final Image sDefaultIconRmi = Image.from(R.drawable.ic_rmi);
