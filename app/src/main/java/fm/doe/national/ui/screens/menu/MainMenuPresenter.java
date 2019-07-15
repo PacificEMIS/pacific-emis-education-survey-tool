@@ -1,7 +1,5 @@
 package fm.doe.national.ui.screens.menu;
 
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -45,8 +43,7 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
     public void attachView(MainMenuView view) {
         super.attachView(view);
         getViewState().setIcon(globalPreferences.getLogo());
-        String appName = globalPreferences.getAppName();
-        getViewState().setTitle(TextUtils.isEmpty(appName) ? Text.from(R.string.app_name) : Text.from(appName));
+        getViewState().setTitle(globalPreferences.getAppName());
     }
 
     public void onCreditsPressed() {

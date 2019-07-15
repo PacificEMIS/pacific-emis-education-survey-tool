@@ -3,7 +3,7 @@ package fm.doe.national.remote_storage.data.model;
 public enum DriveType {
     FOLDER("application/vnd.google-apps.folder"),
     FILE("application/vnd.google-apps.file"),
-    PLAIN_TEXT("text/plain"),
+    XML("text/xml"),
     OTHER("");
 
     public static DriveType of(String mimeType) {

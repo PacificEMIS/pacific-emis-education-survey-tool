@@ -33,7 +33,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
-                itemFactory.createNameItem(Text.from(globalPreferences.getAppName())),
+                itemFactory.createNameItem(globalPreferences.getAppName()),
                 itemFactory.createContactItem(Text.from(globalPreferences.getContactName())),
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
@@ -100,7 +100,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void onNamePressed() {
         getViewState().showInputDialog(
                 Text.from(R.string.title_input_name),
-                Text.from(globalPreferences.getAppName()),
+                globalPreferences.getAppName(),
                 (name) -> {
                     globalPreferences.setAppName(name);
                     refresh();

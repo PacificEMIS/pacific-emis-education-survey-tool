@@ -27,7 +27,7 @@ public class PasswordPresenter extends BasePresenter<PasswordView> {
     public void onConfirmPressed() {
         if (newPassword.equals(confirmPassword)) {
             settingsInteractor.setMasterPassword(newPassword);
-            getViewState().navigateToSignIn();
+            getViewState().navigateToRegion();
         } else {
             getViewState().setPasswordsNotMatchVisible(true);
         }

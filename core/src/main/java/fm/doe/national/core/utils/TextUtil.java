@@ -31,15 +31,6 @@ public class TextUtil {
         builder.append((char) (FIRST_ALPHABET_CHAR + mod));
     }
 
-    public static boolean endsWith(String source, String ending) {
-        if (source.length() < ending.length()) {
-            return false;
-        }
-
-        String sourceEnding = source.substring(source.length() - ending.length());
-        return sourceEnding.equals(ending);
-    }
-
     public static String getFileNameWithoutExtension(String path) {
         File file = new File(path);
         return file.getName().replaceFirst(REGEX_FILE_NAME, "");

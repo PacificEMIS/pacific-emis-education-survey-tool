@@ -44,7 +44,8 @@ public class UploadWorker extends RxWorker {
         })
                 .flatMap(dataSource::loadSurvey)
                 .flatMapCompletable(survey -> remoteStorage.upload(survey))
-                .onErrorResumeNext(t -> {
+                .onErrorResumeNext(throwable -> {
+                    throwable.printStackTrace();
                     remoteStorageAccessor.scheduleUploading(surveyId);
                     return Completable.complete();
                 })

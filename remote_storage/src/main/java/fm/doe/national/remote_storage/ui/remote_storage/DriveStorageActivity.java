@@ -1,5 +1,6 @@
 package fm.doe.national.remote_storage.ui.remote_storage;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import fm.doe.national.core.di.CoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
@@ -58,8 +60,10 @@ public class DriveStorageActivity extends BaseActivity implements
 
     @ProvidePresenter
     DriveStoragePresenter providePresenter() {
+        Application app = getApplication();
         return new DriveStoragePresenter(
-                RemoteStorageComponentInjector.getComponent(getApplication()),
+                RemoteStorageComponentInjector.getComponent(app),
+                CoreComponentInjector.getComponent(app),
                 isDebugViewer()
         );
     }

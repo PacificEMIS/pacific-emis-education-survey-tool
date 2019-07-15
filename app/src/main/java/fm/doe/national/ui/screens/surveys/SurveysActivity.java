@@ -12,6 +12,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 
 import java.util.List;
@@ -41,9 +42,6 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
     @BindView(R.id.fab_new_accreditation)
     FloatingActionButton newAccreditationFab;
-
-    @Nullable
-    private Runnable delayedMenuInit;
 
     private final SurveysAdapter surveysAdapter = new SurveysAdapter(this, this);
 
@@ -157,4 +155,8 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         presenter.onLoadPartiallySavedSurveyPressed();
     }
 
+    @Override
+    public void setTitle(Text title) {
+        this.setTitle(title.getString(this));
+    }
 }

@@ -1,17 +1,22 @@
 package fm.doe.national.remote_storage.data.storage;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Nullable;
 
@@ -21,7 +26,10 @@ import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.utils.DriveQueryBuilder;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.CompletableSubject;
+import io.reactivex.subjects.SingleSubject;
 
 public class DriveServiceHelper {
 
@@ -30,6 +38,7 @@ public class DriveServiceHelper {
     private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, appProperties)";
 
     private final Drive drive;
+    private final Executor executor = Executors.newCachedThreadPool();
 
     public DriveServiceHelper(Drive driveService) {
         drive = driveService;
@@ -39,73 +48,64 @@ public class DriveServiceHelper {
                                              final String content,
                                              final NdoeMetadata ndoeMetadata,
                                              @Nullable final String folderId) {
-        return Single.fromCallable(() -> {
-            ByteArrayContent contentStream = ByteArrayContent.fromString(DriveType.PLAIN_TEXT.getValue(), content);
-            List<String> root;
+        ByteArrayContent contentStream = ByteArrayContent.fromString(DriveType.XML.getValue(), content);
+        List<String> root = Collections.singletonList(folderId == null ? FOLDER_ROOT : folderId);
+        String query = new DriveQueryBuilder()
+                .parentId(root.get(0))
+                .mimeType(DriveType.XML.getValue())
+                .name(fileName)
+                .build();
 
-            if (folderId == null) {
-                root = Collections.singletonList(FOLDER_ROOT);
-            } else {
-                root = Collections.singletonList(folderId);
-            }
+        return requestFiles(query)
+                .flatMap(existingFiles -> {
+                    if (!existingFiles.getFiles().isEmpty()) {
+                        File existingFile = existingFiles.getFiles().get(0);
+                        String fileId = existingFile.getId();
 
-            String query = new DriveQueryBuilder()
-                    .parentId(root.get(0))
-                    .mimeType(DriveType.PLAIN_TEXT.getValue())
-                    .name(fileName)
-                    .build();
-            FileList existingFiles = requestFiles(query);
+                        return wrapWithSingleInThreadPool(
+                                () -> {
+                                    drive.files()
+                                            .update(fileId, ndoeMetadata.applyToDriveFile(existingFile), contentStream)
+                                            .execute();
+                                    return fileId;
+                                },
+                                fileId
+                        );
+                    }
 
-            if (!existingFiles.getFiles().isEmpty()) {
-                File existingFile = existingFiles.getFiles().get(0);
-                String fileId = existingFile.getId();
-                drive.files().update(fileId, ndoeMetadata.applyToDriveFile(existingFile), contentStream).execute();
-                return fileId;
-            }
+                    File metadata = ndoeMetadata.applyToDriveFile(
+                            new File()
+                                    .setParents(root)
+                                    .setMimeType(DriveType.XML.getValue())
+                                    .setName(fileName)
+                    );
 
-            File metadata = ndoeMetadata.applyToDriveFile(
-                    new File()
-                            .setParents(root)
-                            .setMimeType(DriveType.PLAIN_TEXT.getValue())
-                            .setName(fileName)
-            );
-            File googleFile = drive.files().create(metadata, contentStream).execute();
-
-            if (googleFile == null) {
-                throw new IOException("Null result when requesting file creation.");
-            }
-
-            return googleFile.getId();
-        }).subscribeOn(Schedulers.io());
+                    return wrapWithSingleInThreadPool(() -> drive.files().create(metadata, contentStream).execute().getId(), "");
+                });
     }
 
     public Single<String> createFolderIfNotExist(final String folderName, @Nullable final String parentFolderId) {
-        return Single.fromCallable(() -> {
-            List<String> root = Collections.singletonList(parentFolderId == null ? FOLDER_ROOT : parentFolderId);
+        List<String> root = Collections.singletonList(parentFolderId == null ? FOLDER_ROOT : parentFolderId);
 
-            String query = new DriveQueryBuilder()
-                    .parentId(root.get(0))
-                    .mimeType(DriveType.FOLDER.getValue())
-                    .name(folderName)
-                    .build();
-            FileList result = requestFiles(query);
+        String query = new DriveQueryBuilder()
+                .parentId(root.get(0))
+                .mimeType(DriveType.FOLDER.getValue())
+                .name(folderName)
+                .build();
 
-            if (!result.getFiles().isEmpty()) {
-                return result.getFiles().get(0).getId();
-            }
+        return requestFiles(query)
+                .flatMap(fileList -> {
+                    if (!fileList.getFiles().isEmpty()) {
+                        return Single.just(fileList.getFiles().get(0).getId());
+                    }
 
-            File metadata = new File()
-                    .setParents(root)
-                    .setMimeType(DriveType.FOLDER.getValue())
-                    .setName(folderName);
-            File googleFile = drive.files().create(metadata).execute();
+                    File metadata = new File()
+                            .setParents(root)
+                            .setMimeType(DriveType.FOLDER.getValue())
+                            .setName(folderName);
 
-            if (googleFile == null) {
-                throw new IOException("Null result when requesting file creation.");
-            }
-
-            return googleFile.getId();
-        }).subscribeOn(Schedulers.io());
+                    return wrapWithSingleInThreadPool(() -> drive.files().create(metadata).execute().getId(), "");
+                });
     }
 
     public Single<String> readFile(final String fileId) {
@@ -125,33 +125,65 @@ public class DriveServiceHelper {
     }
 
     public Single<List<GoogleDriveFileHolder>> queryFiles(@Nullable final String folderId) {
-        return Single.fromCallable(() -> {
-            List<GoogleDriveFileHolder> googleDriveFileHolderList = new ArrayList<>();
-            String parent = folderId == null ? FOLDER_ROOT : folderId;
+        List<GoogleDriveFileHolder> googleDriveFileHolderList = new ArrayList<>();
+        String parent = folderId == null ? FOLDER_ROOT : folderId;
 
-            String query = new DriveQueryBuilder()
-                    .parentId(parent)
-                    .build();
-            FileList result = requestFiles(query);
+        String query = new DriveQueryBuilder()
+                .parentId(parent)
+                .build();
 
-            for (File file : result.getFiles()) {
-                googleDriveFileHolderList.add(new GoogleDriveFileHolder(file));
-            }
+        return requestFiles(query)
+                .flatMap(fileList -> Single.fromCallable(() -> {
+                    for (File file : fileList.getFiles()) {
+                        googleDriveFileHolderList.add(new GoogleDriveFileHolder(file));
+                    }
 
-            return googleDriveFileHolderList;
-        }).subscribeOn(Schedulers.io());
+                    return googleDriveFileHolderList;
+                }));
     }
 
     public Completable delete(String fileId) {
-        return Completable.fromAction(() -> drive.files().delete(fileId).execute());
+        return wrapWithCompletableInThreadPool(() -> {
+            if (fileId != null) {
+                drive.files().delete(fileId).execute();
+            }
+        });
     }
 
-    private FileList requestFiles(String query) throws IOException {
-        return drive.files().list()
-                .setQ(query)
-                .setFields(FIELDS_TO_QUERY)
-                .setSpaces(SPACE_DRIVE)
-                .execute();
+    private Single<FileList> requestFiles(String query) {
+        return wrapWithSingleInThreadPool(
+                () -> drive.files().list()
+                        .setQ(query)
+                        .setFields(FIELDS_TO_QUERY)
+                        .setSpaces(SPACE_DRIVE)
+                        .execute(),
+                new FileList()
+        );
+    }
+
+    private <T> Single<T> wrapWithSingleInThreadPool(Callable<T> callable, @NonNull T valueIfError) {
+        SingleSubject<T> singleSubject = SingleSubject.create();
+        Tasks.call(executor, callable)
+                .addOnSuccessListener(singleSubject::onSuccess)
+                .addOnFailureListener(throwable -> {
+                    throwable.printStackTrace();
+                    singleSubject.onSuccess(valueIfError);
+                });
+        return singleSubject;
+    }
+
+    private Completable wrapWithCompletableInThreadPool(Action action) {
+        CompletableSubject subject = CompletableSubject.create();
+        Tasks.call(executor, () -> {
+            action.run();
+            return null;
+        })
+                .addOnSuccessListener(o -> subject.onComplete())
+                .addOnFailureListener(throwable -> {
+                    throwable.printStackTrace();
+                    subject.onComplete();
+                });
+        return subject;
     }
 
 }

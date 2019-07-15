@@ -18,7 +18,7 @@ import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.core.utils.TextWatcherAdapter;
-import fm.doe.national.ui.screens.authentication.AuthenticationActivity;
+import fm.doe.national.ui.screens.region.ChooseRegionActivity;
 
 public class PasswordsActivity extends BaseActivity implements PasswordView, BottomNavigatorView.Listener {
 
@@ -28,7 +28,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
     PasswordPresenter presenter;
 
     private View notMatchView;
-    private boolean isIsSettingsContext;
+    private boolean isInSettingsContext;
 
     private final TextWatcher newPassTextWatcher = new TextWatcherAdapter() {
         @Override
@@ -51,7 +51,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isIsSettingsContext = getIntent().getBooleanExtra(EXTRA_IS_SETTINGS, false);
+        isInSettingsContext = getIntent().getBooleanExtra(EXTRA_IS_SETTINGS, false);
         super.onCreate(savedInstanceState);
         setTitle(R.string.label_passwords);
         bindViews();
@@ -81,7 +81,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
 
     @Override
     protected int getContentView() {
-        return isIsSettingsContext ? R.layout.activity_password_settings : R.layout.activity_password_wizard;
+        return isInSettingsContext ? R.layout.activity_password_settings : R.layout.activity_password_wizard;
     }
 
     @Override
@@ -90,11 +90,11 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
     }
 
     @Override
-    public void navigateToSignIn() {
-        if (isIsSettingsContext) {
+    public void navigateToRegion() {
+        if (isInSettingsContext) {
             finish();
         } else {
-            startActivity(AuthenticationActivity.createIntent(this));
+            startActivity(ChooseRegionActivity.createIntent(this));
         }
     }
 

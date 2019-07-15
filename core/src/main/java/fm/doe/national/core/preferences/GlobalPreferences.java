@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;
@@ -38,7 +39,7 @@ public interface GlobalPreferences {
 
     String getFactoryPassword();
 
-    String getAppName();
+    Text getAppName();
 
     void setAppName(String name);
 
