@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Education Survey Tool</string>
     <string name="font_normal">sans-serif</string>
     <string name="font_medium">sans-serif-medium</string>
     <string name="font_light">sans-serif-light</string>

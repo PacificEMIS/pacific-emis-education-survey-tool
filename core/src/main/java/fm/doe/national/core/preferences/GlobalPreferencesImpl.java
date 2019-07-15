@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.Text;
 import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
 
 import fm.doe.national.core.BuildConfig;
@@ -132,8 +133,12 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     }
 
     @Override
-    public String getAppName() {
-        return sharedPreferences.getString(PREF_KEY_APP_NAME, "");
+    public Text getAppName() {
+        String savedName = sharedPreferences.getString(PREF_KEY_APP_NAME, null);
+        if (savedName == null) {
+            return Text.from(R.string.app_name);
+        }
+        return Text.from(savedName);
     }
 
     @Override
