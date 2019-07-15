@@ -94,6 +94,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
 
     public void onBackPressed() {
         if (parentsStack.isEmpty()) {
+            accessor.onContentNotReceived();
             getViewState().close();
         } else {
             parentsStack.pop();
