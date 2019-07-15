@@ -7,7 +7,7 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.utils.DateUtils;
 
-public class TextUtil {
+public class SurveyTextUtil {
 
     private static final String PREFIX_SCHOOL_ACCREDITATION = "SA";
     private static final String PREFIX_WASH = "WASH";
@@ -20,7 +20,7 @@ public class TextUtil {
                 DateUtils.formatUi(survey.getSurveyDate()) + ".xml";
     }
 
-    private static String convertSurveyTypeToExportPrefix(SurveyType surveyType) {
+    public static String convertSurveyTypeToExportPrefix(SurveyType surveyType) {
         switch (surveyType) {
             case SCHOOL_ACCREDITATION:
                 return PREFIX_SCHOOL_ACCREDITATION;

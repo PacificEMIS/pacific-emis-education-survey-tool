@@ -28,7 +28,7 @@ import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
-import fm.doe.national.remote_storage.utils.TextUtil;
+import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -96,7 +96,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
 
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(
-                        TextUtil.createSurveyFileName(survey),
+                        SurveyTextUtil.createSurveyFileName(survey),
                         surveySerializer.serialize(survey),
                         new NdoeMetadata(survey, userAccount.getEmail()),
                         regionFolderId))
