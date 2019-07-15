@@ -1,5 +1,7 @@
 package fm.doe.national.remote_storage.data.storage;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.services.drive.Drive;
@@ -12,6 +14,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -23,6 +26,7 @@ import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.utils.DriveQueryBuilder;
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.SingleSubject;
@@ -54,24 +58,19 @@ public class DriveServiceHelper {
 
         return requestFiles(query)
                 .flatMap(existingFiles -> {
-                    SingleSubject<String> singleSubject = SingleSubject.create();
-
                     if (!existingFiles.getFiles().isEmpty()) {
                         File existingFile = existingFiles.getFiles().get(0);
                         String fileId = existingFile.getId();
 
-                        Tasks.call(executor, () ->
-                                drive.files()
-                                        .update(fileId, ndoeMetadata.applyToDriveFile(existingFile), contentStream)
-                                        .execute()
-                        )
-                                .addOnSuccessListener(file -> singleSubject.onSuccess(fileId))
-                                .addOnFailureListener(th -> {
-                                    th.printStackTrace();
-                                    singleSubject.onSuccess(fileId);
-                                });
-
-                        return singleSubject;
+                        return wrapWithSingleInThreadPool(
+                                () -> {
+                                    drive.files()
+                                            .update(fileId, ndoeMetadata.applyToDriveFile(existingFile), contentStream)
+                                            .execute();
+                                    return fileId;
+                                },
+                                fileId
+                        );
                     }
 
                     File metadata = ndoeMetadata.applyToDriveFile(
@@ -81,14 +80,7 @@ public class DriveServiceHelper {
                                     .setName(fileName)
                     );
 
-                    Tasks.call(executor, () -> drive.files().create(metadata, contentStream).execute())
-                            .addOnSuccessListener(file -> singleSubject.onSuccess(file.getId()))
-                            .addOnFailureListener(th -> {
-                                th.printStackTrace();
-                                singleSubject.onSuccess("");
-                            });
-
-                    return singleSubject;
+                    return wrapWithSingleInThreadPool(() -> drive.files().create(metadata, contentStream).execute().getId(), "");
                 });
     }
 
@@ -112,14 +104,7 @@ public class DriveServiceHelper {
                             .setMimeType(DriveType.FOLDER.getValue())
                             .setName(folderName);
 
-                    SingleSubject<String> singleSubject = SingleSubject.create();
-                    Tasks.call(executor, () -> drive.files().create(metadata).execute())
-                            .addOnSuccessListener(file -> singleSubject.onSuccess(file.getId()))
-                            .addOnFailureListener(th -> {
-                                th.printStackTrace();
-                                singleSubject.onSuccess("");
-                            });
-                    return singleSubject;
+                    return wrapWithSingleInThreadPool(() -> drive.files().create(metadata).execute().getId(), "");
                 });
     }
 
@@ -158,35 +143,47 @@ public class DriveServiceHelper {
     }
 
     public Completable delete(String fileId) {
-        CompletableSubject subject = CompletableSubject.create();
-        Tasks.call(executor, () -> {
+        return wrapWithCompletableInThreadPool(() -> {
             if (fileId != null) {
                 drive.files().delete(fileId).execute();
             }
-            return null;
-        })
-                .addOnSuccessListener(o -> subject.onComplete())
-                .addOnFailureListener(th -> {
-                    th.printStackTrace();
-                    subject.onComplete();
-                });
-        return subject;
+        });
     }
 
     private Single<FileList> requestFiles(String query) {
-        SingleSubject<FileList> singleSubject = SingleSubject.create();
-        Tasks.call(executor, () -> drive.files().list()
-                .setQ(query)
-                .setFields(FIELDS_TO_QUERY)
-                .setSpaces(SPACE_DRIVE)
-                .execute()
-        )
+        return wrapWithSingleInThreadPool(
+                () -> drive.files().list()
+                        .setQ(query)
+                        .setFields(FIELDS_TO_QUERY)
+                        .setSpaces(SPACE_DRIVE)
+                        .execute(),
+                new FileList()
+        );
+    }
+
+    private <T> Single<T> wrapWithSingleInThreadPool(Callable<T> callable, @NonNull T valueIfError) {
+        SingleSubject<T> singleSubject = SingleSubject.create();
+        Tasks.call(executor, callable)
                 .addOnSuccessListener(singleSubject::onSuccess)
-                .addOnFailureListener(th -> {
-                    th.printStackTrace();
-                    singleSubject.onSuccess(new FileList());
+                .addOnFailureListener(throwable -> {
+                    throwable.printStackTrace();
+                    singleSubject.onSuccess(valueIfError);
                 });
         return singleSubject;
+    }
+
+    private Completable wrapWithCompletableInThreadPool(Action action) {
+        CompletableSubject subject = CompletableSubject.create();
+        Tasks.call(executor, () -> {
+            action.run();
+            return null;
+        })
+                .addOnSuccessListener(o -> subject.onComplete())
+                .addOnFailureListener(throwable -> {
+                    throwable.printStackTrace();
+                    subject.onComplete();
+                });
+        return subject;
     }
 
 }
