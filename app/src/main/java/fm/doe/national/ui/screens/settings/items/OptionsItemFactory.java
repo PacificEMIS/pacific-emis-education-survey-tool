@@ -47,6 +47,6 @@ public class OptionsItemFactory {
     }
 
     public Item createTemplatesItem() {
-        return new Item(Text.from(R.string.label_templates), Item.Type.PASSWORD, Item.IconType.NAV);
+        return new Item(Text.from(R.string.label_templates), Item.Type.TEMPLATES, Item.IconType.NAV);
     }
 }
