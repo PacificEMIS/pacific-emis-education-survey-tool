@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Education Survey Tool</string>
-    <string name="font_normal">sans-serif</string>
-    <string name="font_medium">sans-serif-medium</string>
-    <string name="font_light">sans-serif-light</string>
-    <string name="font_black">sans-serif-black</string>
     <string name="evaluation_form_school_evaluation">School Evaluation</string>
     <string name="evaluation_form_classroom_observation">Classroom Observation</string>
     <string name="criteria_progress">%1$d/%2$d</string>

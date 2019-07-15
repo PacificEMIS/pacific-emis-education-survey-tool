@@ -28,7 +28,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
     PasswordPresenter presenter;
 
     private View notMatchView;
-    private boolean isIsSettingsContext;
+    private boolean isInSettingsContext;
 
     private final TextWatcher newPassTextWatcher = new TextWatcherAdapter() {
         @Override
@@ -51,7 +51,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isIsSettingsContext = getIntent().getBooleanExtra(EXTRA_IS_SETTINGS, false);
+        isInSettingsContext = getIntent().getBooleanExtra(EXTRA_IS_SETTINGS, false);
         super.onCreate(savedInstanceState);
         setTitle(R.string.label_passwords);
         bindViews();
@@ -81,7 +81,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
 
     @Override
     protected int getContentView() {
-        return isIsSettingsContext ? R.layout.activity_password_settings : R.layout.activity_password_wizard;
+        return isInSettingsContext ? R.layout.activity_password_settings : R.layout.activity_password_wizard;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
 
     @Override
     public void navigateToRegion() {
-        if (isIsSettingsContext) {
+        if (isInSettingsContext) {
             finish();
         } else {
             startActivity(ChooseRegionActivity.createIntent(this));

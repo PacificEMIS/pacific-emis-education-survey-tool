@@ -11,6 +11,7 @@ import java.util.List;
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.preferences.GlobalPreferences;
@@ -35,6 +36,17 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public SurveysPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
+
+        switch (globalPreferences.getSurveyTypeOrDefault()) {
+            case SCHOOL_ACCREDITATION:
+                getViewState().setTitle(Text.from(R.string.title_school_accreditation));
+                break;
+            case WASH:
+                getViewState().setTitle(Text.from(R.string.title_wash));
+                break;
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     @Override

@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
@@ -65,8 +64,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                             );
                             List<GoogleDriveFileHolder> itemsToShow = items.stream()
                                     .filter(f -> isDebugViewer || f.getMimeType() == DriveType.FOLDER ||
-                                            (f.getMimeType() == DriveType.XML &&
-                                                    TextUtil.startsWith(f.getName(), currentSurveyPrefix)))
+                                            (f.getMimeType() == DriveType.XML && f.getName().startsWith(currentSurveyPrefix)))
                                     .sorted((lv, rv) -> lv.getMimeType().compareTo(rv.getMimeType()))
                                     .collect(Collectors.toList());
 
