@@ -12,6 +12,6 @@ public interface PasswordView extends BaseView {
     void setPasswordsNotMatchVisible(boolean visible);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToSignIn();
+    void navigateToRegion();
 
 }

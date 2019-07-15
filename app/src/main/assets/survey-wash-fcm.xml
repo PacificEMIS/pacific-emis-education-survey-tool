@@ -28,17 +28,17 @@
                 <flags>INPUT</flags>
             </question>
             <question>
-                <id>BS.S.3</id>
+                <id>BS.S.2</id>
                 <name>What is the Head Teacher's Mobile Number</name>
                 <flags>INPUT|PHONE</flags>
             </question>
             <question>
-                <id>BS.S.4</id>
+                <id>BS.S.3</id>
                 <name>Take photo of the water source</name>
                 <flags>PHOTO</flags>
             </question>
             <question>
-                <id>BS.S.5</id>
+                <id>BS.S.4</id>
                 <name>Take Geolocation</name>
                 <flags>GEO</flags>
             </question>

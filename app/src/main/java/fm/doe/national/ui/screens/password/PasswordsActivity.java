@@ -18,7 +18,7 @@ import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.core.utils.TextWatcherAdapter;
-import fm.doe.national.ui.screens.authentication.AuthenticationActivity;
+import fm.doe.national.ui.screens.region.ChooseRegionActivity;
 
 public class PasswordsActivity extends BaseActivity implements PasswordView, BottomNavigatorView.Listener {
 
@@ -90,11 +90,11 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
     }
 
     @Override
-    public void navigateToSignIn() {
+    public void navigateToRegion() {
         if (isIsSettingsContext) {
             finish();
         } else {
-            startActivity(AuthenticationActivity.createIntent(this));
+            startActivity(ChooseRegionActivity.createIntent(this));
         }
     }
 

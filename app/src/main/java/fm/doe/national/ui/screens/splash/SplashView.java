@@ -11,8 +11,6 @@ public interface SplashView extends BaseView {
 
     void navigateToMasterPassword();
 
-    void navigateToSignIn();
-
     void navigateToRegionChoose();
 
     void navigateToMenu();
