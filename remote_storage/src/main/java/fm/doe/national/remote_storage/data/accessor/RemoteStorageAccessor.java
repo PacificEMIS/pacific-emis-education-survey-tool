@@ -4,6 +4,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.core.data.model.Survey;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -29,4 +30,6 @@ public interface RemoteStorageAccessor {
 
     @Nullable
     String getUserEmail();
+
+    Completable exportToExcel(Survey survey);
 }

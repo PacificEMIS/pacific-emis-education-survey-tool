@@ -20,6 +20,11 @@ public class SurveyTextUtil {
                 DateUtils.formatUi(survey.getSurveyDate()) + ".xml";
     }
 
+    @NonNull
+    public static String createSurveySheetName(Survey survey) {
+        return survey.getSchoolId() + "-" + DateUtils.formatNumericMonthYear(survey.getSurveyDate());
+    }
+
     public static String convertSurveyTypeToExportPrefix(SurveyType surveyType) {
         switch (surveyType) {
             case SCHOOL_ACCREDITATION:

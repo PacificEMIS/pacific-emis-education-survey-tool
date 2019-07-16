@@ -1,8 +1,5 @@
 package fm.doe.national.remote_storage.data.storage;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -14,7 +11,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -26,12 +22,9 @@ import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.utils.DriveQueryBuilder;
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.CompletableSubject;
-import io.reactivex.subjects.SingleSubject;
 
-public class DriveServiceHelper {
+public class DriveServiceHelper extends TasksRxWrapper {
 
     private static final String FOLDER_ROOT = "root";
     private static final String SPACE_DRIVE = "drive";
@@ -159,31 +152,6 @@ public class DriveServiceHelper {
                         .execute(),
                 new FileList()
         );
-    }
-
-    private <T> Single<T> wrapWithSingleInThreadPool(Callable<T> callable, @NonNull T valueIfError) {
-        SingleSubject<T> singleSubject = SingleSubject.create();
-        Tasks.call(executor, callable)
-                .addOnSuccessListener(singleSubject::onSuccess)
-                .addOnFailureListener(throwable -> {
-                    throwable.printStackTrace();
-                    singleSubject.onSuccess(valueIfError);
-                });
-        return singleSubject;
-    }
-
-    private Completable wrapWithCompletableInThreadPool(Action action) {
-        CompletableSubject subject = CompletableSubject.create();
-        Tasks.call(executor, () -> {
-            action.run();
-            return null;
-        })
-                .addOnSuccessListener(o -> subject.onComplete())
-                .addOnFailureListener(throwable -> {
-                    throwable.printStackTrace();
-                    subject.onComplete();
-                });
-        return subject;
     }
 
 }

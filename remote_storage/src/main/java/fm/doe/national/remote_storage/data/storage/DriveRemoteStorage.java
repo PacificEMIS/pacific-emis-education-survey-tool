@@ -12,6 +12,8 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.SheetsScopes;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.IOException;
@@ -21,9 +23,11 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
@@ -34,7 +38,12 @@ import io.reactivex.Single;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
-    private static final Collection<String> sDriveScopes = Arrays.asList(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE_METADATA);
+    private static final Collection<String> sScopes = Arrays.asList(
+            DriveScopes.DRIVE_FILE,
+            DriveScopes.DRIVE_METADATA,
+            SheetsScopes.SPREADSHEETS,
+            SheetsScopes.SPREADSHEETS_READONLY
+    );
     private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
     private final SurveySerializer surveySerializer;
@@ -43,6 +52,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private final GlobalPreferences globalPreferences;
 
     private DriveServiceHelper driveServiceHelper;
+    private SheetsServiceHelper sheetsServiceHelper;
 
     @Nullable
     private GoogleSignInAccount userAccount;
@@ -62,11 +72,15 @@ public final class DriveRemoteStorage implements RemoteStorage {
                     appContext.getAssets().open(getCredentialsFileName()),
                     sTransport,
                     sGsonFactory)
-                    .createScoped(sDriveScopes);
+                    .createScoped(sScopes);
             Drive drive = new Drive.Builder(sTransport, sGsonFactory, credential)
-                    .setApplicationName(appContext.getString(R.string.drive_app_name))
+                    .setApplicationName(appContext.getString(R.string.app_name))
+                    .build();
+            Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, credential)
+                    .setApplicationName(appContext.getString(R.string.app_name))
                     .build();
             driveServiceHelper = new DriveServiceHelper(drive);
+            sheetsServiceHelper = new SheetsServiceHelper(sheets);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,5 +140,18 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public void setUserAccount(@Nullable GoogleSignInAccount account) {
         this.userAccount = account;
+    }
+
+    @Override
+    public Completable exportToExcel(AccreditationSurvey survey) {
+        return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
+                .flatMap(regionFolderId -> sheetsServiceHelper.getSpreadsheet(BuildConfig.SPREADSHEET_ID_PROD_FCM))
+                .flatMapCompletable(sh -> sheetsServiceHelper.updateSurveyInfo(
+                        BuildConfig.SPREADSHEET_ID_PROD_FCM,
+                        "SCHNO-MM-YYYY",
+                        survey.getSchoolId(),
+                        survey.getSchoolName(),
+                        DateUtils.formatUi(survey.getSurveyDate())
+                ));
     }
 }

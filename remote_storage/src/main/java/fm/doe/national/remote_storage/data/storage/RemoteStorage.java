@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import io.reactivex.Completable;
@@ -28,4 +29,7 @@ public interface RemoteStorage {
     GoogleSignInAccount getUserAccount();
 
     void setUserAccount(@Nullable GoogleSignInAccount account);
+
+    Completable exportToExcel(AccreditationSurvey survey);
+    
 }

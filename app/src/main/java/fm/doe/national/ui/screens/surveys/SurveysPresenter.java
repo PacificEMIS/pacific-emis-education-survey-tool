@@ -18,6 +18,7 @@ import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -29,6 +30,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
+    private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection().getRemoteStorageComponent().getRemoteStorageAccessor();
 
     private List<Survey> surveys = new ArrayList<>();
 
@@ -79,8 +81,14 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     public void onSurveyExportToExcelPressed(Survey survey) {
-        // TODO: not implemented
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        addDisposable(
+                remoteStorageAccessor.exportToExcel(survey)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> getViewState().showWaiting())
+                        .doFinally(getViewState()::hideWaiting)
+                        .subscribe()
+        );
     }
 
     public void onSurveyRemovePressed(Survey survey) {

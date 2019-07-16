@@ -8,8 +8,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
@@ -140,5 +142,10 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     public String getUserEmail() {
         GoogleSignInAccount account = storage.getUserAccount();
         return account == null ? null : account.getEmail();
+    }
+
+    @Override
+    public Completable exportToExcel(Survey survey) {
+        return storage.exportToExcel((AccreditationSurvey) survey);
     }
 }
