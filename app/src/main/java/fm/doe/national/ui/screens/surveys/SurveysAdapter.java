@@ -8,6 +8,8 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.MenuRes;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
@@ -17,6 +19,8 @@ import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.ViewUtils;
 
 public class SurveysAdapter extends BaseAdapter<Survey> {
+
+    private boolean isExportEnabled;
 
     private MenuItemClickListener menuItemClickListener;
 
@@ -28,6 +32,11 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
     @Override
     protected SchoolAccreditationViewHolder provideViewHolder(ViewGroup parent) {
         return new SchoolAccreditationViewHolder(parent);
+    }
+
+    public void setExportEnabled(boolean exportEnabled) {
+        isExportEnabled = exportEnabled;
+        notifyDataSetChanged();
     }
 
     protected class SchoolAccreditationViewHolder extends ViewHolder implements PopupMenu.OnMenuItemClickListener {
@@ -50,12 +59,16 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @BindView(R.id.button_more)
         ImageButton moreButton;
 
+        @MenuRes
+        private int menuRes;
+
         SchoolAccreditationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_survey);
         }
 
         @Override
         public void onBind(Survey item) {
+            menuRes = isExportEnabled ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export;
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
             creationDateTextView.setText(DateUtils.formatUiText(item.getSurveyDate()));
@@ -66,7 +79,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @OnClick(R.id.button_more)
         void onMoreButtonClick() {
             PopupMenu popupMenu = new PopupMenu(getContext(), moreButton, Gravity.END);
-            popupMenu.inflate(R.menu.menu_survey);
+            popupMenu.inflate(menuRes);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
         }
