@@ -165,6 +165,6 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                                 reportInteractor.getRecommendationsObservable().firstOrError(),
                                 (lv, rv) -> new ReportWrapper(lv.first, lv.second, rv)
                         ))
-                .flatMapCompletable(storage::exportToExcel);
+                .flatMapCompletable(it -> storage.exportToExcel(survey, it));
     }
 }

@@ -30,6 +30,6 @@ public interface RemoteStorage {
 
     void setUserAccount(@Nullable GoogleSignInAccount account);
 
-    Completable exportToExcel(ReportWrapper reportWrapper);
+    Completable exportToExcel(Survey survey, ReportWrapper reportWrapper);
     
 }
