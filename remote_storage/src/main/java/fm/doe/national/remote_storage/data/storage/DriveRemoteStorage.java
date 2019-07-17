@@ -81,7 +81,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                     .setApplicationName(appContext.getString(R.string.app_name))
                     .build();
             driveServiceHelper = new DriveServiceHelper(drive);
-            sheetsServiceHelper = new SheetsServiceHelper(sheets);
+            sheetsServiceHelper = new SheetsServiceHelper(sheets, appContext);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,7 +160,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
             default:
                 throw new NotImplementedException();
         }
-        return sheetsServiceHelper.createSheetIfNeeded(spreadsheetId, SurveyTextUtil.createSurveySheetName(survey));
-//        return sheetsServiceHelper.updateSurveyHeader(spreadsheetId, "SCHNO-MM-YYYY", reportWrapper.getHeader());
+        String sheetName = SurveyTextUtil.createSurveySheetName(survey);
+        return sheetsServiceHelper.createSheetIfNeeded(spreadsheetId, sheetName)
+                .andThen(sheetsServiceHelper.fillReportSheet(spreadsheetId, sheetName, reportWrapper));
     }
+
 }

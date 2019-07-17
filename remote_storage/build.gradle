@@ -51,6 +51,8 @@ dependencies {
     implementation project(path: ':accreditation_core')
     implementation project(path: ':report_core')
     implementation project(path: ':report')
+    implementation project(path: ':fcm_report')
+    implementation project(path: ':rmi_report')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
