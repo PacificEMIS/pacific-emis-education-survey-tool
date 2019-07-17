@@ -10,15 +10,13 @@ import fm.doe.national.report_core.domain.BaseReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;
 import fm.doe.national.rmi_report.model.SchoolAccreditationTallyLevel;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
 
 public class RmiReportInteractorImpl extends BaseReportInteractor implements RmiReportInteractor {
 
-    private static final SchoolAccreditationTallyLevel EMPTY_LEVELS = SchoolAccreditationTallyLevel.empty();
-
-    private final BehaviorSubject<SchoolAccreditationTallyLevel> levelSubject = BehaviorSubject.createDefault(EMPTY_LEVELS);
+    private BehaviorSubject<SchoolAccreditationTallyLevel> levelSubject = BehaviorSubject.create();
 
     @Override
     public void requestReports(AccreditationSurvey survey) {
@@ -29,7 +27,8 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
     @Override
     protected void clearSubjectsHistory() {
         super.clearSubjectsHistory();
-        levelSubject.onNext(EMPTY_LEVELS);
+        levelSubject.onComplete();
+        levelSubject = BehaviorSubject.create();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
     }
 
     @Override
-    public Subject<SchoolAccreditationTallyLevel> getLevelSubject() {
+    public Observable<SchoolAccreditationTallyLevel> getLevelObservable() {
         return levelSubject;
     }
 

@@ -23,15 +23,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
+import fm.doe.national.remote_storage.data.model.ReportWrapper;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -143,15 +142,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Completable exportToExcel(AccreditationSurvey survey) {
-        return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
-                .flatMap(regionFolderId -> sheetsServiceHelper.getSpreadsheet(BuildConfig.SPREADSHEET_ID_PROD_FCM))
-                .flatMapCompletable(sh -> sheetsServiceHelper.updateSurveyInfo(
-                        BuildConfig.SPREADSHEET_ID_PROD_FCM,
-                        "SCHNO-MM-YYYY",
-                        survey.getSchoolId(),
-                        survey.getSchoolName(),
-                        DateUtils.formatUi(survey.getSurveyDate())
-                ));
+    public Completable exportToExcel(ReportWrapper reportWrapper) {
+        return sheetsServiceHelper.updateSurveyHeader(BuildConfig.SPREADSHEET_ID_PROD_FCM, "SCHNO-MM-YYYY", reportWrapper.getHeader());
     }
 }

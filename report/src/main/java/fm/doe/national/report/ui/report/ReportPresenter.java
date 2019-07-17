@@ -20,7 +20,7 @@ public class ReportPresenter extends BasePresenter<ReportView> {
         reportInteractor = component.getReportInteractor();
         getViewState().setReportPages(reportsProvider.getPages());
         reportsProvider.requestReports();
-        addDisposable(reportInteractor.getHeaderItemSubject()
+        addDisposable(reportInteractor.getHeaderItemObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item -> {

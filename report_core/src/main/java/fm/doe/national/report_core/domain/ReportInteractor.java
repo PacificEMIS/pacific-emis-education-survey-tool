@@ -6,17 +6,17 @@ import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
-import io.reactivex.subjects.Subject;
+import io.reactivex.Observable;
 
 
 public interface ReportInteractor {
 
     void requestReports(AccreditationSurvey survey);
 
-    Subject<List<Recommendation>> getRecommendationsSubject();
+    Observable<List<Recommendation>> getRecommendationsObservable();
 
-    Subject<List<SummaryViewData>> getSummarySubject();
+    Observable<List<SummaryViewData>> getSummarySubjectObservable();
 
-    Subject<LevelLegendView.Item> getHeaderItemSubject();
+    Observable<LevelLegendView.Item> getHeaderItemObservable();
 
 }

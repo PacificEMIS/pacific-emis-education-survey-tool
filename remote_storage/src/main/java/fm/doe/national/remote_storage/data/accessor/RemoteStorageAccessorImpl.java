@@ -1,6 +1,7 @@
 package fm.doe.national.remote_storage.data.accessor;
 
 import android.app.Activity;
+import android.util.Pair;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -11,13 +12,15 @@ import javax.annotation.Nullable;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
-import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.remote_storage.BuildConfig;
+import fm.doe.national.remote_storage.data.model.ReportWrapper;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
 import fm.doe.national.remote_storage.ui.auth.GoogleAuthActivity;
 import fm.doe.national.remote_storage.ui.remote_storage.DriveStorageActivity;
+import fm.doe.national.report.di.ReportComponentInjector;
+import fm.doe.national.report_core.domain.ReportInteractor;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -145,7 +148,23 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     }
 
     @Override
-    public Completable exportToExcel(Survey survey) {
-        return storage.exportToExcel((AccreditationSurvey) survey);
+    public Completable exportToExcel(AccreditationSurvey survey) {
+        return Single.fromCallable(() -> {
+            ReportInteractor reportInteractor = ReportComponentInjector
+                    .getComponent(lifecycleListener.getCurrentActivity().getApplication())
+                    .getReportInteractor();
+            reportInteractor.requestReports(survey);
+            return reportInteractor;
+        })
+                .flatMap(reportInteractor -> reportInteractor.getHeaderItemObservable().firstOrError()
+                        .zipWith(
+                                reportInteractor.getSummarySubjectObservable().firstOrError(),
+                                Pair::create
+                        )
+                        .zipWith(
+                                reportInteractor.getRecommendationsObservable().firstOrError(),
+                                (lv, rv) -> new ReportWrapper(lv.first, lv.second, rv)
+                        ))
+                .flatMapCompletable(storage::exportToExcel);
     }
 }

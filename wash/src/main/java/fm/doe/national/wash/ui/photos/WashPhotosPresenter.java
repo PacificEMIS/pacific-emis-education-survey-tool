@@ -9,6 +9,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.ui.photos.PhotosPresenter;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
@@ -23,15 +24,22 @@ import io.reactivex.schedulers.Schedulers;
 public class WashPhotosPresenter extends PhotosPresenter {
 
     private final WashSurveyInteractor interactor;
+    private final RemoteStorageAccessor remoteStorageAccessor;
 
     private MutableAnswer answer;
 
     public WashPhotosPresenter(CoreComponent coreComponent,
                                RemoteStorageComponent remoteStorageComponent,
                                WashCoreComponent accreditationCoreComponent) {
-        super(coreComponent, remoteStorageComponent);
+        super(coreComponent);
         interactor = accreditationCoreComponent.getWashSurveyInteractor();
+        remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         afterInit();
+    }
+
+    @Override
+    protected void scheduleUploading(long surveyId) {
+        remoteStorageAccessor.scheduleUploading(surveyId);
     }
 
     @Override

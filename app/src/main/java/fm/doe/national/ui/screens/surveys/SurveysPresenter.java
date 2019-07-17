@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.R;
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
@@ -81,14 +82,16 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     public void onSurveyExportToExcelPressed(Survey survey) {
-        addDisposable(
-                remoteStorageAccessor.exportToExcel(survey)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(d -> getViewState().showWaiting())
-                        .doFinally(getViewState()::hideWaiting)
-                        .subscribe()
-        );
+        if (survey instanceof AccreditationSurvey) {
+            addDisposable(
+                    remoteStorageAccessor.exportToExcel((AccreditationSurvey) survey)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSubscribe(d -> getViewState().showWaiting())
+                            .doFinally(getViewState()::hideWaiting)
+                            .subscribe()
+            );
+        }
     }
 
     public void onSurveyRemovePressed(Survey survey) {

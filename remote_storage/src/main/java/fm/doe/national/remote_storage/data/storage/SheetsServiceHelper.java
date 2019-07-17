@@ -3,14 +3,13 @@ package fm.doe.national.remote_storage.data.storage;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.Sheet;
 import com.google.api.services.sheets.v4.model.SheetProperties;
-import com.google.api.services.sheets.v4.model.Spreadsheet;
-import com.google.api.services.sheets.v4.model.SpreadsheetProperties;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.util.Arrays;
 
+import fm.doe.national.core.utils.DateUtils;
+import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Completable;
-import io.reactivex.Single;
 
 public class SheetsServiceHelper extends TasksRxWrapper {
 
@@ -22,16 +21,7 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         this.sheetsApi = sheetsApi;
     }
 
-    public Single<Spreadsheet> getSpreadsheet(String spreadsheetId) {
-        return wrapWithSingleInThreadPool(() -> {
-                    ValueRange response = sheetsApi.spreadsheets().values().get(spreadsheetId, "'SCHNO-MM-YYYY'!B11:D13").execute();
-                    return Factory.createSpreadsheet("NONE");
-                },
-                Factory.createSpreadsheet("NONE")
-        );
-    }
-
-    public Completable updateSurveyInfo(String spreadsheetId, String tableName, String schoolCode, String schoolName, String date) {
+    public Completable updateSurveyHeader(String spreadsheetId, String tableName, LevelLegendView.Item header) {
         return wrapWithCompletableInThreadPool(() -> {
             String targetRange = "'" + tableName + "'!A3:B4";
             ValueRange existingValues = sheetsApi.spreadsheets()
@@ -40,11 +30,11 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                     .execute();
             ValueRange updateValues = new ValueRange().setValues(Arrays.asList(
                     Arrays.asList(
-                            existingValues.getValues().get(0).get(0) + " " + schoolCode,
-                            existingValues.getValues().get(0).get(1) + " " + schoolName
+                            existingValues.getValues().get(0).get(0) + " " + header.getSchoolId(),
+                            existingValues.getValues().get(0).get(1) + " " + header.getSchoolName()
                     ),
                     Arrays.asList(
-                            existingValues.getValues().get(1).get(0) + " " + date,
+                            existingValues.getValues().get(1).get(0) + " " + DateUtils.formatNumericMonthYear(header.getDate()),
                             existingValues.getValues().get(1).get(1)
                     )
             ));
@@ -57,14 +47,6 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     }
 
     private static class Factory {
-
-        static Spreadsheet createSpreadsheet(String title) {
-            Spreadsheet spreadsheet = new Spreadsheet();
-            SpreadsheetProperties properties = new SpreadsheetProperties();
-            properties.setTitle(title);
-            spreadsheet.setProperties(properties);
-            return spreadsheet;
-        }
 
         static Sheet createSheet(String title) {
             Sheet sheet = new Sheet();

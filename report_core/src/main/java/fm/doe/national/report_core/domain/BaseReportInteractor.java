@@ -2,7 +2,6 @@ package fm.doe.national.report_core.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,35 +22,29 @@ import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
 import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
 
 public abstract class BaseReportInteractor implements ReportInteractor {
 
-    private static final List<Recommendation> EMPTY_RECOMMENDATIONS = Collections.emptyList();
-    private static final List<SummaryViewData> EMPTY_SUMMARY = Collections.emptyList();
-    private static final LevelLegendView.Item EMPTY_HEADER = LevelLegendView.Item.empty();
     private static final int CLASSROOM_OBSERVATIONS_TO_TRIGGER_FILTER = 2;
 
-    private final BehaviorSubject<List<Recommendation>> recommendationsSubject =
-            BehaviorSubject.createDefault(EMPTY_RECOMMENDATIONS);
+    private BehaviorSubject<List<Recommendation>> recommendationsSubject = BehaviorSubject.create();
 
-    private final BehaviorSubject<List<SummaryViewData>> summarySubject =
-            BehaviorSubject.createDefault(EMPTY_SUMMARY);
+    private BehaviorSubject<List<SummaryViewData>> summarySubject = BehaviorSubject.create();
 
-    protected final BehaviorSubject<LevelLegendView.Item> headerSubject =
-            BehaviorSubject.createDefault(EMPTY_HEADER);
+    protected BehaviorSubject<LevelLegendView.Item> headerSubject = BehaviorSubject.create();
 
     protected abstract Level createLevel(int completed, int total);
 
     @Override
-    public Subject<List<Recommendation>> getRecommendationsSubject() {
+    public Observable<List<Recommendation>> getRecommendationsObservable() {
         return recommendationsSubject;
     }
 
     @Override
-    public Subject<List<SummaryViewData>> getSummarySubject() {
+    public Observable<List<SummaryViewData>> getSummarySubjectObservable() {
         return summarySubject;
     }
 
@@ -64,9 +57,12 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     }
 
     protected void clearSubjectsHistory() {
-        recommendationsSubject.onNext(EMPTY_RECOMMENDATIONS);
-        summarySubject.onNext(EMPTY_SUMMARY);
-        headerSubject.onNext(EMPTY_HEADER);
+        recommendationsSubject.onComplete();
+        recommendationsSubject = BehaviorSubject.create();
+        summarySubject.onComplete();
+        summarySubject = BehaviorSubject.create();
+        headerSubject.onComplete();
+        headerSubject = BehaviorSubject.create();
     }
 
     protected AccreditationSurvey getSurveyWithWorstClassroomObservation(AccreditationSurvey survey) {
@@ -76,7 +72,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                 .filter(cat -> cat.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
                 .collect(Collectors.toList());
 
-        List<MutableCategory> otherCategories =otherSurvey.getCategories().stream()
+        List<MutableCategory> otherCategories = otherSurvey.getCategories().stream()
                 .filter(cat -> cat.getEvaluationForm() != EvaluationForm.CLASSROOM_OBSERVATION)
                 .collect(Collectors.toList());
 
@@ -211,7 +207,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     }
 
     protected void requestHeader(AccreditationSurvey survey) {
-        Schedulers.computation().scheduleDirect(() -> headerSubject.onNext(
+        headerSubject.onNext(
                 new LevelLegendView.Item(
                         survey.getSchoolId(),
                         survey.getSchoolName(),
@@ -219,11 +215,11 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                         null, // TODO: not implemented
                         Arrays.asList(ReportLevel.values())
                 )
-        ));
+        );
     }
 
     @Override
-    public Subject<LevelLegendView.Item> getHeaderItemSubject() {
+    public Observable<LevelLegendView.Item> getHeaderItemObservable() {
         return headerSubject;
     }
 }

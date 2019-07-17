@@ -11,6 +11,7 @@ import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInterac
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.di.CoreComponent;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.ui.photos.PhotosPresenter;
 import io.reactivex.Completable;
@@ -22,15 +23,22 @@ import io.reactivex.schedulers.Schedulers;
 public class AccreditationPhotosPresenter extends PhotosPresenter {
 
     private final AccreditationSurveyInteractor interactor;
+    private final RemoteStorageAccessor remoteStorageAccessor;
 
     private MutableAnswer answer;
 
     public AccreditationPhotosPresenter(CoreComponent coreComponent,
-                                 RemoteStorageComponent remoteStorageComponent,
-                                 AccreditationCoreComponent accreditationCoreComponent) {
-        super(coreComponent, remoteStorageComponent);
+                                        RemoteStorageComponent remoteStorageComponent,
+                                        AccreditationCoreComponent accreditationCoreComponent) {
+        super(coreComponent);
         interactor = accreditationCoreComponent.getAccreditationSurveyInteractor();
+        remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         afterInit();
+    }
+
+    @Override
+    protected void scheduleUploading(long surveyId) {
+        remoteStorageAccessor.scheduleUploading(surveyId);
     }
 
     @Override
