@@ -1,6 +1,7 @@
 package fm.doe.national.remote_storage.data.storage;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
@@ -21,6 +22,7 @@ import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.ReportWrapper;
+import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Completable;
 
@@ -39,12 +41,37 @@ public class SheetsServiceHelper extends TasksRxWrapper {
 
     public Completable fillReportSheet(String spreadsheetId, String sheetName, ReportWrapper reportWrapper) {
         return wrapWithCompletableInThreadPool(() -> updateValues(
-                spreadsheetId, Arrays.asList(
+                spreadsheetId,
+                Arrays.asList(
                         createInfoValueRange(sheetName, reportWrapper.getHeader()),
                         createLevelsValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()),
-                        createLevelDeterminationValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel())
+                        createLevelDeterminationValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()),
+                        createSchoolEvaluationScoresValueRange(sheetName, reportWrapper.getSummary())
                 )
         ));
+    }
+
+    private ValueRange createSchoolEvaluationScoresValueRange(String sheetName, List<SummaryViewData> summary) {
+        Log.d("DAS", "DA");
+        createSchoolEvaluationStandardsValueRanges(sheetName, summary);
+        return new ValueRange()
+                .setRange(makeRange(sheetName, "B21:E25"));
+    }
+
+    private List<ValueRange> createSchoolEvaluationStandardsValueRanges(String sheetName, List<SummaryViewData> summary) {
+//        List<SummaryViewData> schoolEvaluationSummaryViewData = summary.stream()
+//                .filter(it -> it.getCategory().getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
+//                .collect(Collectors.toList());
+//
+//        Map<String, List<SummaryViewData>> standardsGrouping = schoolEvaluationSummaryViewData.stream()
+//                .collect(Collectors.groupingBy(it -> it.getStandard().getTitle()));
+//
+//        List<SummaryViewData> mergedSummaryData = standardsGrouping.entrySet().stream()
+//                .map(entry -> SummaryViewData.merge(entry.getValue()))
+//                .sorted(Comparator.comparing(it -> it.getStandard().getTitle()))
+//                .collect(Collectors.toList());
+
+        return Collections.emptyList();
     }
 
     private ValueRange createInfoValueRange(String sheetName, LevelLegendView.Item header) {

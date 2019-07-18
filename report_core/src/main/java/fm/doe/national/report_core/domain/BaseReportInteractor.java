@@ -2,7 +2,10 @@ package fm.doe.national.report_core.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
@@ -14,6 +17,9 @@ import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableCriteria;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.report_core.model.Level;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
@@ -23,6 +29,7 @@ import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
 import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -107,31 +114,35 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     private void requestSummary(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
             AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
-            List<SummaryViewData> summaryViewDataList = new ArrayList<>();
-            for (Category category : clearedSurvey.getCategories()) {
-                for (Standard standard : category.getStandards()) {
-                    List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
-                    int totalByStandard = 0;
-                    int totalQuestions = 0;
-
-                    for (Criteria criteria : standard.getCriterias()) {
-                        SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
-                        totalByStandard += data.getTotal();
-                        totalQuestions += data.getAnswerStates().length;
-                        criteriaSummaryViewDataList.add(data);
-                    }
-
-                    summaryViewDataList.add(new SummaryViewData(
-                            category,
-                            standard,
-                            totalByStandard,
-                            criteriaSummaryViewDataList,
-                            createLevel(totalByStandard, totalQuestions)
-                    ));
-                }
-            }
-            summarySubject.onNext(summaryViewDataList);
+            summarySubject.onNext(getSurveySummary(clearedSurvey));
         });
+    }
+
+    private List<SummaryViewData> getSurveySummary(AccreditationSurvey survey) {
+        List<SummaryViewData> summaryViewDataList = new ArrayList<>();
+        for (Category category : survey.getCategories()) {
+            for (Standard standard : category.getStandards()) {
+                List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
+                int totalByStandard = 0;
+                int totalQuestions = 0;
+
+                for (Criteria criteria : standard.getCriterias()) {
+                    SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
+                    totalByStandard += data.getTotal();
+                    totalQuestions += data.getAnswerStates().length;
+                    criteriaSummaryViewDataList.add(data);
+                }
+
+                summaryViewDataList.add(new SummaryViewData(
+                        category,
+                        standard,
+                        totalByStandard,
+                        criteriaSummaryViewDataList,
+                        createLevel(totalByStandard, totalQuestions)
+                ));
+            }
+        }
+        return summaryViewDataList;
     }
 
     protected SummaryViewData.CriteriaSummaryViewData createCriteriaSummaryViewData(Criteria criteria) {
@@ -222,4 +233,93 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     public Observable<LevelLegendView.Item> getHeaderItemObservable() {
         return headerSubject;
     }
+
+    @Override
+    public Single<List<SummaryViewData>> requestFlattenSummary(AccreditationSurvey survey) {
+        return Single.fromCallable(() -> {
+            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
+            AccreditationSurvey flattenSurvey = getFlattenSurvey(clearedSurvey);
+            return getSurveySummary(flattenSurvey);
+        });
+    }
+
+    private AccreditationSurvey getFlattenSurvey(AccreditationSurvey survey) {
+        MutableAccreditationSurvey otherSurvey = new MutableAccreditationSurvey(survey);
+
+        MutableCategory classroomObservation = otherSurvey.getCategories().stream()
+                .filter(cat -> cat.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
+                .collect(Collectors.toList()).get(0);
+
+        List<MutableCategory> schoolEvaluations = otherSurvey.getCategories().stream()
+                .filter(cat -> cat.getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
+                .collect(Collectors.toList());
+
+        ArrayList<MutableCategory> resultCategories = new ArrayList<>();
+
+        Map<String, List<MutableStandard>> groupedStandards = schoolEvaluations.stream()
+                .flatMap(c -> c.getStandards().stream())
+                .collect(Collectors.groupingBy(MutableStandard::getSuffix));
+
+
+        ArrayList<MutableStandard> schoolEvaluationStandards = new ArrayList<>();
+        for (Map.Entry<String, List<MutableStandard>> entry : groupedStandards.entrySet()) {
+            List<MutableStandard> standardsToMerge = entry.getValue();
+            if (standardsToMerge.size() == 1) {
+                schoolEvaluationStandards.add(standardsToMerge.get(0));
+            } else if (standardsToMerge.size() > 0) {
+                MutableStandard mergedStandard = new MutableStandard(standardsToMerge.get(0));
+                mergeStandards(mergedStandard, standardsToMerge.subList(1, standardsToMerge.size()));
+                schoolEvaluationStandards.add(mergedStandard);
+            }
+        }
+        schoolEvaluationStandards.sort(Comparator.comparing(MutableStandard::getSuffix));
+
+        MutableCategory schoolEvaluationCategory = new MutableCategory(schoolEvaluations.get(0));
+        schoolEvaluationCategory.setStandards(schoolEvaluationStandards);
+
+        resultCategories.add(schoolEvaluationCategory);
+        resultCategories.add(classroomObservation);
+        otherSurvey.setCategories(resultCategories);
+        return otherSurvey;
+    }
+
+    private void mergeStandards(MutableStandard source, List<MutableStandard> values) {
+        if (values.isEmpty()) {
+            return;
+        }
+
+        ArrayList<MutableCriteria> criterias = new ArrayList<>();
+        MutableStandard mergingStandard = values.get(0);
+
+        for (MutableCriteria criteria : source.getCriterias()) {
+            Optional<MutableCriteria> sameCriteria = mergingStandard.getCriterias()
+                    .stream()
+                    .filter(c -> c.getSuffix().equals(criteria.getSuffix()))
+                    .findFirst();
+
+            if (!sameCriteria.isPresent()) {
+                criterias.add(criteria);
+                continue;
+            }
+
+            criterias.add(mergeCriterias(criteria, sameCriteria.get()));
+            mergingStandard.getCriterias().remove(sameCriteria.get());
+        }
+
+        criterias.addAll(mergingStandard.getCriterias());
+        criterias.sort(Comparator.comparing(MutableCriteria::getSuffix));
+        source.setCriterias(criterias);
+        mergeStandards(source, values.subList(1, values.size()));
+    }
+
+    private MutableCriteria mergeCriterias(MutableCriteria source, MutableCriteria other) {
+        MutableCriteria result = new MutableCriteria(source);
+        ArrayList<MutableSubCriteria> subCriterias = new ArrayList<>();
+        subCriterias.addAll(source.getSubCriterias());
+        subCriterias.addAll(other.getSubCriterias());
+        subCriterias.sort(Comparator.comparing(MutableSubCriteria::getSuffix));
+        result.setSubCriterias(subCriterias);
+        return result;
+    }
+
 }

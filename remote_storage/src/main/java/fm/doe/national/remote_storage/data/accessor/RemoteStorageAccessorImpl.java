@@ -162,7 +162,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                 .flatMap(reportInteractor -> {
                             Single<ReportWrapper> single = reportInteractor.getHeaderItemObservable().firstOrError()
                                     .zipWith(
-                                            reportInteractor.getSummarySubjectObservable().firstOrError(),
+                                            reportInteractor.requestFlattenSummary(survey),
                                             Pair::create
                                     )
                                     .zipWith(

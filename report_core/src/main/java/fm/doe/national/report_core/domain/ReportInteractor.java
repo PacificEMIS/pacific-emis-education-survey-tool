@@ -7,6 +7,7 @@ import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 
 public interface ReportInteractor {
@@ -18,5 +19,7 @@ public interface ReportInteractor {
     Observable<List<SummaryViewData>> getSummarySubjectObservable();
 
     Observable<LevelLegendView.Item> getHeaderItemObservable();
+
+    Single<List<SummaryViewData>> requestFlattenSummary(AccreditationSurvey survey);
 
 }
