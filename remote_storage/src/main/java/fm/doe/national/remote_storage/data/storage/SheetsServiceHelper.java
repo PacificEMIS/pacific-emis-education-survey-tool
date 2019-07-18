@@ -1,7 +1,6 @@
 package fm.doe.national.remote_storage.data.storage;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
@@ -13,11 +12,14 @@ import com.google.api.services.sheets.v4.model.Spreadsheet;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.remote_storage.R;
@@ -40,38 +42,88 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     }
 
     public Completable fillReportSheet(String spreadsheetId, String sheetName, ReportWrapper reportWrapper) {
-        return wrapWithCompletableInThreadPool(() -> updateValues(
-                spreadsheetId,
-                Arrays.asList(
-                        createInfoValueRange(sheetName, reportWrapper.getHeader()),
-                        createLevelsValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()),
-                        createLevelDeterminationValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()),
-                        createSchoolEvaluationScoresValueRange(sheetName, reportWrapper.getSummary())
-                )
-        ));
+        return wrapWithCompletableInThreadPool(() -> {
+            List<ValueRange> rangesToUpdate = new ArrayList<>();
+            rangesToUpdate.add(createInfoValueRange(sheetName, reportWrapper.getHeader()));
+            rangesToUpdate.add(createLevelsValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()));
+            rangesToUpdate.add(createLevelDeterminationValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()));
+            rangesToUpdate.addAll(createSchoolEvaluationScoresValueRanges(sheetName, reportWrapper.getSummary()));
+
+            updateValues(spreadsheetId, rangesToUpdate);
+        });
     }
 
-    private ValueRange createSchoolEvaluationScoresValueRange(String sheetName, List<SummaryViewData> summary) {
-        Log.d("DAS", "DA");
-        createSchoolEvaluationStandardsValueRanges(sheetName, summary);
+    private List<ValueRange> createSchoolEvaluationScoresValueRanges(String sheetName, List<SummaryViewData> summary) {
+        List<SummaryViewData> schoolEvaluationSummary = summary.stream()
+                .filter(it -> it.getCategory().getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
+                .collect(Collectors.toList());
+        ArrayList<ValueRange> ranges = new ArrayList<>();
+        final List<List<String>> columnsOfStandardCells = Arrays.asList(
+                Arrays.asList("B", "C", "D", "E"),
+                Arrays.asList("F", "G", "H", "I"),
+                Arrays.asList("J", "K", "L", "M"),
+                Arrays.asList("N", "O", "P", "Q"),
+                Arrays.asList("R", "S", "T", "U"),
+                Arrays.asList("V", "W", "X", "Y")
+        );
+        final List<Integer> rowsOfSubCriteriaCells = Arrays.asList(21, 22, 23, 24);
+        final int totalByCriteriaRow = 25;
+        final int totalByStandardRow = 26;
+        final int levelRow = 27;
+
+        for (int standardIndex = 0; standardIndex < schoolEvaluationSummary.size(); standardIndex++) {
+            SummaryViewData data = schoolEvaluationSummary.get(standardIndex);
+
+            ranges.add(
+                    createSingleCellValueRange(
+                            sheetName,
+                            columnsOfStandardCells.get(standardIndex).get(0),
+                            totalByStandardRow,
+                            data.getTotalByStandard()
+                    )
+            );
+
+            ranges.add(
+                    createSingleCellValueRange(
+                            sheetName,
+                            columnsOfStandardCells.get(standardIndex).get(0),
+                            levelRow,
+                            data.getLevel().getName().getString(appContext)
+                    )
+            );
+
+            for (int criteriaIndex = 0; criteriaIndex < data.getCriteriaSummaryViewDataList().size(); criteriaIndex++) {
+                SummaryViewData.CriteriaSummaryViewData criteriaData = data.getCriteriaSummaryViewDataList().get(criteriaIndex);
+
+                ranges.add(
+                        createSingleCellValueRange(
+                                sheetName,
+                                columnsOfStandardCells.get(standardIndex).get(criteriaIndex),
+                                totalByCriteriaRow,
+                                criteriaData.getTotal()
+                        )
+                );
+
+                for (int subCriteriaIndex = 0; subCriteriaIndex < criteriaData.getAnswerStates().length; subCriteriaIndex++) {
+                    ranges.add(
+                            createSingleCellValueRange(
+                                    sheetName,
+                                    columnsOfStandardCells.get(standardIndex).get(criteriaIndex),
+                                    rowsOfSubCriteriaCells.get(subCriteriaIndex),
+                                    criteriaData.getAnswerStates()[subCriteriaIndex] ? 1 : 0
+                            )
+                    );
+                }
+            }
+        }
+
+        return ranges;
+    }
+
+    private ValueRange createSingleCellValueRange(String sheetName, String row, int column, Object value) {
         return new ValueRange()
-                .setRange(makeRange(sheetName, "B21:E25"));
-    }
-
-    private List<ValueRange> createSchoolEvaluationStandardsValueRanges(String sheetName, List<SummaryViewData> summary) {
-//        List<SummaryViewData> schoolEvaluationSummaryViewData = summary.stream()
-//                .filter(it -> it.getCategory().getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
-//                .collect(Collectors.toList());
-//
-//        Map<String, List<SummaryViewData>> standardsGrouping = schoolEvaluationSummaryViewData.stream()
-//                .collect(Collectors.groupingBy(it -> it.getStandard().getTitle()));
-//
-//        List<SummaryViewData> mergedSummaryData = standardsGrouping.entrySet().stream()
-//                .map(entry -> SummaryViewData.merge(entry.getValue()))
-//                .sorted(Comparator.comparing(it -> it.getStandard().getTitle()))
-//                .collect(Collectors.toList());
-
-        return Collections.emptyList();
+                .setRange(makeRange(sheetName, row + column))
+                .setValues(Collections.singletonList(Collections.singletonList(value)));
     }
 
     private ValueRange createInfoValueRange(String sheetName, LevelLegendView.Item header) {
