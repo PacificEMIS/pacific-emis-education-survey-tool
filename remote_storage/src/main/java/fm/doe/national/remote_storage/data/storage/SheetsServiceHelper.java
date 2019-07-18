@@ -47,32 +47,64 @@ public class SheetsServiceHelper extends TasksRxWrapper {
             rangesToUpdate.add(createInfoValueRange(sheetName, reportWrapper.getHeader()));
             rangesToUpdate.add(createLevelsValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()));
             rangesToUpdate.add(createLevelDeterminationValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()));
-            rangesToUpdate.addAll(createSchoolEvaluationScoresValueRanges(sheetName, reportWrapper.getSummary()));
-
+            rangesToUpdate.addAll(createSchoolEvaluationScoreValueRanges(sheetName, reportWrapper.getSummary()));
+            rangesToUpdate.addAll(createClassroomObservationScoreValueRanges(sheetName, reportWrapper.getSummary()));
             updateValues(spreadsheetId, rangesToUpdate);
         });
     }
 
-    private List<ValueRange> createSchoolEvaluationScoresValueRanges(String sheetName, List<SummaryViewData> summary) {
-        List<SummaryViewData> schoolEvaluationSummary = summary.stream()
-                .filter(it -> it.getCategory().getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
-                .collect(Collectors.toList());
-        ArrayList<ValueRange> ranges = new ArrayList<>();
-        final List<List<String>> columnsOfStandardCells = Arrays.asList(
-                Arrays.asList("B", "C", "D", "E"),
-                Arrays.asList("F", "G", "H", "I"),
-                Arrays.asList("J", "K", "L", "M"),
-                Arrays.asList("N", "O", "P", "Q"),
-                Arrays.asList("R", "S", "T", "U"),
-                Arrays.asList("V", "W", "X", "Y")
+    private List<ValueRange> createSchoolEvaluationScoreValueRanges(String sheetName, List<SummaryViewData> summary) {
+        return createSummaryValueRange(
+                sheetName,
+                summary.stream()
+                        .filter(it -> it.getCategory().getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
+                        .collect(Collectors.toList()),
+                Arrays.asList(
+                        Arrays.asList("B", "C", "D", "E"),
+                        Arrays.asList("F", "G", "H", "I"),
+                        Arrays.asList("J", "K", "L", "M"),
+                        Arrays.asList("N", "O", "P", "Q"),
+                        Arrays.asList("R", "S", "T", "U"),
+                        Arrays.asList("V", "W", "X", "Y")
+                ),
+                Arrays.asList(21, 22, 23, 24),
+                25,
+                26,
+                27
         );
-        final List<Integer> rowsOfSubCriteriaCells = Arrays.asList(21, 22, 23, 24);
-        final int totalByCriteriaRow = 25;
-        final int totalByStandardRow = 26;
-        final int levelRow = 27;
+    }
 
-        for (int standardIndex = 0; standardIndex < schoolEvaluationSummary.size(); standardIndex++) {
-            SummaryViewData data = schoolEvaluationSummary.get(standardIndex);
+    private List<ValueRange> createClassroomObservationScoreValueRanges(String sheetName, List<SummaryViewData> summary) {
+        return createSummaryValueRange(
+                sheetName,
+                summary.stream()
+                        .filter(it -> it.getCategory().getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
+                        .collect(Collectors.toList()),
+                Arrays.asList(
+                        Arrays.asList("B", "C"),
+                        Arrays.asList("D", "E", "F", "G"),
+                        Arrays.asList("H", "I", "J", "K"),
+                        Collections.singletonList("L"),
+                        Collections.singletonList("M")
+                ),
+                Arrays.asList(33, 34, 35, 36, 37),
+                38,
+                39,
+                40
+        );
+    }
+
+    private List<ValueRange> createSummaryValueRange(String sheetName,
+                                                     List<SummaryViewData> summary,
+                                                     List<List<String>> columnsOfStandardCells,
+                                                     List<Integer> rowsOfSubCriteriaCells,
+                                                     int totalByCriteriaRow,
+                                                     int totalByStandardRow,
+                                                     int levelRow) {
+        ArrayList<ValueRange> ranges = new ArrayList<>();
+
+        for (int standardIndex = 0; standardIndex < summary.size(); standardIndex++) {
+            SummaryViewData data = summary.get(standardIndex);
 
             ranges.add(
                     createSingleCellValueRange(
@@ -165,13 +197,12 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     }
 
     private ValueRange createLevelDeterminationValueRange(String sheetName, SchoolAccreditationLevel level) {
-        return new ValueRange()
-                .setRange(makeRange(sheetName, "D14"))
-                .setValues(Collections.singletonList(
-                        Collections.singletonList(
-                                level.getReportLevel().getName().getString(appContext)
-                        )
-                ));
+        return createSingleCellValueRange(
+                sheetName,
+                "D",
+                14,
+                level.getReportLevel().getName().getString(appContext)
+        );
     }
 
     public Completable createSheetIfNeeded(String spreadsheetId, String sheetName) {
