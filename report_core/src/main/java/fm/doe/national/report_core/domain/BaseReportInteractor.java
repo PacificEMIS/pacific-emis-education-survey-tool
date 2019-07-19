@@ -24,6 +24,7 @@ import fm.doe.national.report_core.model.Level;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
 import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;
+import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsWrapper;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
 import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
@@ -322,4 +323,13 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         return result;
     }
 
+    @Override
+    public Single<FlattenRecommendationsWrapper> requestFlattenRecommendations(AccreditationSurvey survey) {
+        return Single.fromCallable(() -> {
+            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
+            AccreditationSurvey flattenSurvey = getFlattenSurvey(clearedSurvey);
+            List<Recommendation> recommendations = generateCategoryRecommendations(flattenSurvey.getCategories());
+            return new FlattenRecommendationsWrapper(recommendations, flattenSurvey);
+        });
+    }
 }

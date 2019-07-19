@@ -166,7 +166,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                                             Pair::create
                                     )
                                     .zipWith(
-                                            reportInteractor.getRecommendationsObservable().firstOrError(),
+                                            reportInteractor.requestFlattenRecommendations(survey),
                                             (lv, rv) -> new ReportWrapper(lv.first, lv.second, rv)
                                     );
 

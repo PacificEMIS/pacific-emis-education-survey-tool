@@ -4,7 +4,7 @@ import java.util.List;
 
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.report_core.model.SummaryViewData;
-import fm.doe.national.report_core.model.recommendations.Recommendation;
+import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsWrapper;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import fm.doe.national.rmi_report.model.SchoolAccreditationTallyLevel;
 
@@ -12,11 +12,11 @@ public class ReportWrapper {
 
     private LevelLegendView.Item header;
     private List<SummaryViewData> summary;
-    private List<Recommendation> recommendations;
+    private FlattenRecommendationsWrapper recommendations;
     private SchoolAccreditationLevel schoolAccreditationLevel;
     private SchoolAccreditationTallyLevel schoolAccreditationTallyLevel;
 
-    public ReportWrapper(LevelLegendView.Item header, List<SummaryViewData> summary, List<Recommendation> recommendations) {
+    public ReportWrapper(LevelLegendView.Item header, List<SummaryViewData> summary, FlattenRecommendationsWrapper recommendations) {
         this.header = header;
         this.summary = summary;
         this.recommendations = recommendations;
@@ -30,7 +30,7 @@ public class ReportWrapper {
         return summary;
     }
 
-    public List<Recommendation> getRecommendations() {
+    public FlattenRecommendationsWrapper getRecommendations() {
         return recommendations;
     }
 

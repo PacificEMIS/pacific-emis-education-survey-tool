@@ -20,26 +20,28 @@ public abstract class TasksRxWrapper {
 
     protected <T> Single<T> wrapWithSingleInThreadPool(Callable<T> callable, @NonNull T valueIfError) {
         SingleSubject<T> singleSubject = SingleSubject.create();
-        Tasks.call(executor, callable)
+        return Completable.fromAction(() -> Tasks.call(executor, callable)
                 .addOnSuccessListener(singleSubject::onSuccess)
                 .addOnFailureListener(throwable -> {
                     throwable.printStackTrace();
                     singleSubject.onSuccess(valueIfError);
-                });
-        return singleSubject;
+                }))
+                .andThen(singleSubject);
     }
 
     protected Completable wrapWithCompletableInThreadPool(Action action) {
         CompletableSubject subject = CompletableSubject.create();
-        Tasks.call(executor, () -> {
-            action.run();
-            return null;
+        return Completable.fromAction(() -> {
+            Tasks.call(executor, () -> {
+                action.run();
+                return null;
+            })
+                    .addOnSuccessListener(o -> subject.onComplete())
+                    .addOnFailureListener(throwable -> {
+                        throwable.printStackTrace();
+                        subject.onComplete();
+                    });
         })
-                .addOnSuccessListener(o -> subject.onComplete())
-                .addOnFailureListener(throwable -> {
-                    throwable.printStackTrace();
-                    subject.onComplete();
-                });
-        return subject;
+                .andThen(subject);
     }
 }

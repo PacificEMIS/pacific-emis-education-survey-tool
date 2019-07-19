@@ -22,12 +22,21 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
+import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.ReportWrapper;
 import fm.doe.national.report_core.model.SummaryViewData;
+import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
+import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;
+import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsWrapper;
+import fm.doe.national.report_core.model.recommendations.Recommendation;
+import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
+import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Completable;
 
@@ -37,9 +46,10 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     private static final String SHEET_NAME_TEMPLATE = "template";
     private static final String RANGE_INFO = "A3:B4";
     private static final String RANGE_LEVELS = "B11:D13";
-    private static final Map<EvaluationForm, SummaryCellsInfo> MAP_EVALUATION_FORM_SUMMARY_CELLS_INFO;
     private final Sheets sheetsApi;
     private final Context appContext;
+
+    private static final Map<EvaluationForm, SummaryCellsInfo> MAP_EVALUATION_FORM_SUMMARY_CELLS_INFO;
 
     static {
         Map<EvaluationForm, SummaryCellsInfo> cellsInfoMap = new HashMap<>();
@@ -77,6 +87,21 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         MAP_EVALUATION_FORM_SUMMARY_CELLS_INFO = cellsInfoMap;
     }
 
+    private static final Map<EvaluationForm, RecommendationCellsInfo> MAP_RECOMMENDATION_CELLS_INFO;
+
+    static {
+        Map<EvaluationForm, RecommendationCellsInfo> cellsInfoMap = new HashMap<>();
+        cellsInfoMap.put(EvaluationForm.SCHOOL_EVALUATION, new RecommendationCellsInfo(
+                "A",
+                56
+        ));
+        cellsInfoMap.put(EvaluationForm.CLASSROOM_OBSERVATION, new RecommendationCellsInfo(
+                "K",
+                54
+        ));
+        MAP_RECOMMENDATION_CELLS_INFO = cellsInfoMap;
+    }
+
     public SheetsServiceHelper(Sheets sheetsApi, Context appContext) {
         this.sheetsApi = sheetsApi;
         this.appContext = appContext;
@@ -90,8 +115,83 @@ public class SheetsServiceHelper extends TasksRxWrapper {
             rangesToUpdate.add(createLevelDeterminationValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()));
             rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportWrapper.getSummary(), EvaluationForm.SCHOOL_EVALUATION));
             rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportWrapper.getSummary(), EvaluationForm.CLASSROOM_OBSERVATION));
+            rangesToUpdate.addAll(createEvaluationRecommendationsValueRange(sheetName, reportWrapper.getRecommendations(), EvaluationForm.SCHOOL_EVALUATION));
+            rangesToUpdate.addAll(createEvaluationRecommendationsValueRange(sheetName, reportWrapper.getRecommendations(), EvaluationForm.CLASSROOM_OBSERVATION));
             updateValues(spreadsheetId, rangesToUpdate);
         });
+    }
+
+    private List<ValueRange> createEvaluationRecommendationsValueRange(String sheetName,
+                                                                       FlattenRecommendationsWrapper recommendationsWrapper,
+                                                                       EvaluationForm evaluationForm) {
+        RecommendationCellsInfo cellsInfo = Objects.requireNonNull(MAP_RECOMMENDATION_CELLS_INFO.get(evaluationForm));
+        ArrayList<ValueRange> ranges = new ArrayList<>();
+
+        List<? extends Standard> standards = recommendationsWrapper.getFlattenSurvey().getCategories()
+                .stream()
+                .filter(c -> c.getEvaluationForm() == evaluationForm)
+                .flatMap(c -> c.getStandards().stream())
+                .collect(Collectors.toList());
+
+        List<Recommendation> filteredRecommendations = filterRecommendations(recommendationsWrapper, evaluationForm);
+        int currentTextRow = cellsInfo.textStartRow;
+
+        for (Recommendation recommendation : filteredRecommendations) {
+
+            if (recommendation instanceof StandardRecommendation) {
+                Standard standard = ((StandardRecommendation) recommendation).getObject();
+                ranges.add(createSingleCellValueRange(
+                        sheetName,
+                        cellsInfo.textStartColumn,
+                        currentTextRow,
+                        appContext.getString(R.string.format_export_standard, standard.getSuffix(), standard.getTitle())
+                ));
+                currentTextRow++;
+                continue;
+            }
+
+            if (recommendation instanceof CriteriaRecommendation) {
+                Criteria criteria = ((CriteriaRecommendation) recommendation).getObject();
+                ranges.add(createSingleCellValueRange(
+                        sheetName,
+                        cellsInfo.textStartColumn,
+                        currentTextRow,
+                        appContext.getString(R.string.format_export_criteria, criteria.getSuffix(), criteria.getTitle())
+                ));
+                currentTextRow++;
+                continue;
+            }
+
+            if (recommendation instanceof SubCriteriaRecommendation) {
+                SubCriteria subCriteria = ((SubCriteriaRecommendation) recommendation).getObject();
+                ranges.add(createSingleCellValueRange(
+                        sheetName,
+                        cellsInfo.textStartColumn,
+                        currentTextRow,
+                        appContext.getString(R.string.format_export_sub_criteria, subCriteria.getSuffix(), subCriteria.getTitle())
+                ));
+                currentTextRow++;
+            }
+
+        }
+
+        return ranges;
+    }
+
+    private List<Recommendation> filterRecommendations(FlattenRecommendationsWrapper recommendationsWrapper, EvaluationForm evaluationForm) {
+        ArrayList<Recommendation> filteredRecommendations = new ArrayList<>();
+        boolean isInCurrentRecommendationsBlock = false;
+        for (Recommendation recommendation : recommendationsWrapper.getRecommendations()) {
+            if (recommendation instanceof CategoryRecommendation) {
+                isInCurrentRecommendationsBlock = ((CategoryRecommendation) recommendation).getObject().getEvaluationForm() == evaluationForm;
+                continue;
+            }
+
+            if (isInCurrentRecommendationsBlock) {
+                filteredRecommendations.add(recommendation);
+            }
+        }
+        return filteredRecommendations;
     }
 
     private List<ValueRange> createEvaluationScoreValueRanges(String sheetName,
@@ -323,6 +423,16 @@ public class SheetsServiceHelper extends TasksRxWrapper {
             this.levelRow = levelRow;
             this.totalByEvaluationColumn = totalByEvaluationColumn;
             this.totalByEvaluationRow = totalByEvaluationRow;
+        }
+    }
+
+    private static class RecommendationCellsInfo {
+        private String textStartColumn;
+        private int textStartRow;
+
+        public RecommendationCellsInfo(String textStartColumn, int textStartRow) {
+            this.textStartColumn = textStartColumn;
+            this.textStartRow = textStartRow;
         }
     }
 }

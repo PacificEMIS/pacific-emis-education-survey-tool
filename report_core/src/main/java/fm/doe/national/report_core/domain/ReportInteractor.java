@@ -4,6 +4,7 @@ import java.util.List;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.report_core.model.SummaryViewData;
+import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsWrapper;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Observable;
@@ -21,5 +22,7 @@ public interface ReportInteractor {
     Observable<LevelLegendView.Item> getHeaderItemObservable();
 
     Single<List<SummaryViewData>> requestFlattenSummary(AccreditationSurvey survey);
+
+    Single<FlattenRecommendationsWrapper> requestFlattenRecommendations(AccreditationSurvey survey);
 
 }
