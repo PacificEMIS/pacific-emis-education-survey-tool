@@ -51,4 +51,6 @@ public interface GlobalPreferences {
 
     void setOperatingMode(OperatingMode mode);
 
+    String getSpreadsheetId();
+
 }

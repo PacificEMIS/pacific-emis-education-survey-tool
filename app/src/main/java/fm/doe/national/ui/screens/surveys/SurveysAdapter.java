@@ -8,8 +8,6 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.MenuRes;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
@@ -23,9 +21,6 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
     private boolean isExportEnabled;
     private MenuItemClickListener menuItemClickListener;
 
-    @MenuRes
-    private int menuRes;
-
     public SurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
         super(clickListener);
         this.menuItemClickListener = menuItemClickListener;
@@ -38,7 +33,6 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
 
     public void setExportEnabled(boolean exportEnabled) {
         isExportEnabled = exportEnabled;
-        menuRes = isExportEnabled ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export;
         notifyDataSetChanged();
     }
 
@@ -78,7 +72,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @OnClick(R.id.button_more)
         void onMoreButtonClick() {
             PopupMenu popupMenu = new PopupMenu(getContext(), moreButton, Gravity.END);
-            popupMenu.inflate(menuRes);
+            popupMenu.inflate(isExportEnabled ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
         }

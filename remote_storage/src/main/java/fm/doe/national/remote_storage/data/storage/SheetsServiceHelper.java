@@ -31,7 +31,7 @@ import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.remote_storage.R;
-import fm.doe.national.remote_storage.data.model.ReportWrapper;
+import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
 import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;
@@ -51,49 +51,57 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     private static final String RANGE_LEVELS = "B11:D13";
     private static final String MARK_RECOMMENDATION = "√";
     private static final int OFFSET_RECOMMENDATION = 4;
-    private static final ScoresSummaryCellsInfo CELLS_INFO_SCORES_SUMMARY = new ScoresSummaryCellsInfo(
-            "A1:C",
-            0,
-            1,
-            2,
-            3
-    );
+    private static final String COLUMN_LEVEL_DETERMINATION = "D";
+    private static final int ROW_LEVEL_DETERMINATION = 14;
+    private static final ScoresSummaryCellsInfo CELLS_INFO_SCORES_SUMMARY = new ScoresSummaryCellsInfo.Builder()
+            .setNamingRange("A1:C")
+            .setSchoolIdColumnNumber(0)
+            .setSchoolNameColumnNumber(1)
+            .setDateColumnNumber(2)
+            .setFirstNumericColumnNumber(3)
+            .build();
 
     private static final Map<EvaluationForm, SummaryCellsInfo> MAP_EVALUATION_FORM_SUMMARY_CELLS_INFO;
 
     static {
         Map<EvaluationForm, SummaryCellsInfo> cellsInfoMap = new HashMap<>();
-        cellsInfoMap.put(EvaluationForm.SCHOOL_EVALUATION, new SummaryCellsInfo(
-                Arrays.asList(
-                        Arrays.asList("B", "C", "D", "E"),
-                        Arrays.asList("F", "G", "H", "I"),
-                        Arrays.asList("J", "K", "L", "M"),
-                        Arrays.asList("N", "O", "P", "Q"),
-                        Arrays.asList("R", "S", "T", "U"),
-                        Arrays.asList("V", "W", "X", "Y")
-                ),
-                Arrays.asList(21, 22, 23, 24),
-                25,
-                26,
-                27,
-                "Z",
-                25
-        ));
-        cellsInfoMap.put(EvaluationForm.CLASSROOM_OBSERVATION, new SummaryCellsInfo(
-                Arrays.asList(
-                        Arrays.asList("B", "C"),
-                        Arrays.asList("D", "E", "F", "G"),
-                        Arrays.asList("H", "I", "J", "K"),
-                        Collections.singletonList("L"),
-                        Collections.singletonList("M")
-                ),
-                Arrays.asList(33, 34, 35, 36, 37),
-                38,
-                39,
-                40,
-                "N",
-                38
-        ));
+        cellsInfoMap.put(
+                EvaluationForm.SCHOOL_EVALUATION,
+                new SummaryCellsInfo.Builder()
+                        .setColumnsOfStandardCells(Arrays.asList(
+                                Arrays.asList("B", "C", "D", "E"),
+                                Arrays.asList("F", "G", "H", "I"),
+                                Arrays.asList("J", "K", "L", "M"),
+                                Arrays.asList("N", "O", "P", "Q"),
+                                Arrays.asList("R", "S", "T", "U"),
+                                Arrays.asList("V", "W", "X", "Y")
+                        ))
+                        .setRowsOfSubCriteriaCells(Arrays.asList(21, 22, 23, 24))
+                        .setTotalByCriteriaRow(25)
+                        .setTotalByStandardRow(26)
+                        .setLevelRow(27)
+                        .setTotalByEvaluationColumn("Z")
+                        .setTotalByEvaluationRow(25)
+                        .build()
+        );
+        cellsInfoMap.put(
+                EvaluationForm.CLASSROOM_OBSERVATION,
+                new SummaryCellsInfo.Builder()
+                        .setColumnsOfStandardCells(Arrays.asList(
+                                Arrays.asList("B", "C"),
+                                Arrays.asList("D", "E", "F", "G"),
+                                Arrays.asList("H", "I", "J", "K"),
+                                Collections.singletonList("L"),
+                                Collections.singletonList("M")
+                        ))
+                        .setRowsOfSubCriteriaCells(Arrays.asList(33, 34, 35, 36, 37))
+                        .setTotalByCriteriaRow(38)
+                        .setTotalByStandardRow(39)
+                        .setLevelRow(40)
+                        .setTotalByEvaluationColumn("N")
+                        .setTotalByEvaluationRow(38)
+                        .build()
+        );
         MAP_EVALUATION_FORM_SUMMARY_CELLS_INFO = cellsInfoMap;
     }
 
@@ -101,18 +109,20 @@ public class SheetsServiceHelper extends TasksRxWrapper {
 
     static {
         Map<EvaluationForm, RecommendationCellsInfo> cellsInfoMap = new HashMap<>();
-        cellsInfoMap.put(EvaluationForm.SCHOOL_EVALUATION, new RecommendationCellsInfo(
-                "A",
-                56,
-                Arrays.asList("B", "C", "D", "E", "F", "G", "H", "I"),
-                Arrays.asList(47, 48, 49, 50, 51, 52)
-        ));
-        cellsInfoMap.put(EvaluationForm.CLASSROOM_OBSERVATION, new RecommendationCellsInfo(
-                "K",
-                54,
-                Arrays.asList("L", "M", "N", "O", "P", "Q", "R", "S"),
-                Arrays.asList(47, 48, 49, 50, 51)
-        ));
+        cellsInfoMap.put(EvaluationForm.SCHOOL_EVALUATION, new RecommendationCellsInfo.Builder()
+                .setTextStartColumn("A")
+                .setTextStartRow(56)
+                .setTableColumns(Arrays.asList("B", "C", "D", "E", "F", "G", "H", "I"))
+                .setTableRows(Arrays.asList(47, 48, 49, 50, 51, 52))
+                .build()
+        );
+        cellsInfoMap.put(EvaluationForm.CLASSROOM_OBSERVATION, new RecommendationCellsInfo.Builder()
+                .setTextStartColumn("K")
+                .setTextStartRow(54)
+                .setTableColumns(Arrays.asList("L", "M", "N", "O", "P", "Q", "R", "S"))
+                .setTableRows(Arrays.asList(47, 48, 49, 50, 51))
+                .build()
+        );
         MAP_RECOMMENDATION_CELLS_INFO = cellsInfoMap;
     }
 
@@ -124,10 +134,10 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         this.appContext = appContext;
     }
 
-    public Completable updateSummarySheet(String spreadsheetId, ReportWrapper reportWrapper) {
+    public Completable updateSummarySheet(String spreadsheetId, ReportBundle reportBundle) {
         return wrapWithCompletableInThreadPool(() -> {
-            String schoolId = reportWrapper.getHeader().getSchoolId();
-            String dateAsString = DateUtils.formatNumericMonthYear(reportWrapper.getHeader().getDate());
+            String schoolId = reportBundle.getHeader().getSchoolId();
+            String dateAsString = DateUtils.formatNumericMonthYear(reportBundle.getHeader().getDate());
             int row = findSummaryRowToUpdate(spreadsheetId, schoolId, dateAsString);
             List<ValueRange> ranges = new ArrayList<>();
 
@@ -142,7 +152,7 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                     SHEET_NAME_SUMMARY,
                     TextUtil.convertIntToCharsIcons(CELLS_INFO_SCORES_SUMMARY.schoolNameColumnNumber),
                     row,
-                    reportWrapper.getHeader().getSchoolName()
+                    reportBundle.getHeader().getSchoolName()
             ));
 
             ranges.add(createSingleCellValueRange(
@@ -153,7 +163,7 @@ public class SheetsServiceHelper extends TasksRxWrapper {
             ));
 
             int column = CELLS_INFO_SCORES_SUMMARY.firstNumericColumnNumber;
-            for (SummaryViewData summaryViewData : reportWrapper.getSummary()) {
+            for (SummaryViewData summaryViewData : reportBundle.getSummary()) {
                 for (SummaryViewData.CriteriaSummaryViewData criteriaSummaryViewData : summaryViewData.getCriteriaSummaryViewDataList()) {
                     ranges.add(createSingleCellValueRange(
                             SHEET_NAME_SUMMARY,
@@ -193,16 +203,16 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         return rowToUpdate;
     }
 
-    public Completable fillReportSheet(String spreadsheetId, String sheetName, ReportWrapper reportWrapper) {
+    public Completable fillReportSheet(String spreadsheetId, String sheetName, ReportBundle reportBundle) {
         return wrapWithCompletableInThreadPool(() -> {
             List<ValueRange> rangesToUpdate = new ArrayList<>();
-            rangesToUpdate.add(createInfoValueRange(sheetName, reportWrapper.getHeader()));
-            rangesToUpdate.add(createLevelsValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()));
-            rangesToUpdate.add(createLevelDeterminationValueRange(sheetName, reportWrapper.getSchoolAccreditationLevel()));
-            rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportWrapper.getSummary(), EvaluationForm.SCHOOL_EVALUATION));
-            rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportWrapper.getSummary(), EvaluationForm.CLASSROOM_OBSERVATION));
-            rangesToUpdate.addAll(createEvaluationRecommendationsValueRange(sheetName, reportWrapper.getRecommendations(), EvaluationForm.SCHOOL_EVALUATION));
-            rangesToUpdate.addAll(createEvaluationRecommendationsValueRange(sheetName, reportWrapper.getRecommendations(), EvaluationForm.CLASSROOM_OBSERVATION));
+            rangesToUpdate.add(createInfoValueRange(sheetName, reportBundle.getHeader()));
+            rangesToUpdate.add(createLevelsValueRange(sheetName, reportBundle.getSchoolAccreditationLevel()));
+            rangesToUpdate.add(createLevelDeterminationValueRange(sheetName, reportBundle.getSchoolAccreditationLevel()));
+            rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.SCHOOL_EVALUATION));
+            rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.CLASSROOM_OBSERVATION));
+            rangesToUpdate.addAll(createEvaluationRecommendationsValueRange(sheetName, reportBundle.getRecommendations(), EvaluationForm.SCHOOL_EVALUATION));
+            rangesToUpdate.addAll(createEvaluationRecommendationsValueRange(sheetName, reportBundle.getRecommendations(), EvaluationForm.CLASSROOM_OBSERVATION));
             updateValues(spreadsheetId, rangesToUpdate);
         });
     }
@@ -465,13 +475,13 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     private ValueRange createLevelDeterminationValueRange(String sheetName, SchoolAccreditationLevel level) {
         return createSingleCellValueRange(
                 sheetName,
-                "D",
-                14,
+                COLUMN_LEVEL_DETERMINATION,
+                ROW_LEVEL_DETERMINATION,
                 level.getReportLevel().getName().getString(appContext)
         );
     }
 
-    public Completable recreateSheeet(String spreadsheetId, String sheetName) {
+    public Completable recreateSheet(String spreadsheetId, String sheetName) {
         return wrapWithCompletableInThreadPool(() -> {
             Sheet templateSheet = findTemplateSheet(spreadsheetId);
             Optional<Sheet> existingSheet = findSheet(spreadsheetId, sheetName);
@@ -543,20 +553,56 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         private String totalByEvaluationColumn;
         private int totalByEvaluationRow;
 
-        public SummaryCellsInfo(List<List<String>> columnsOfStandardCells,
-                                List<Integer> rowsOfSubCriteriaCells,
-                                int totalByCriteriaRow,
-                                int totalByStandardRow,
-                                int levelRow,
-                                String totalByEvaluationColumn,
-                                int totalByEvaluationRow) {
-            this.columnsOfStandardCells = columnsOfStandardCells;
-            this.rowsOfSubCriteriaCells = rowsOfSubCriteriaCells;
-            this.totalByCriteriaRow = totalByCriteriaRow;
-            this.totalByStandardRow = totalByStandardRow;
-            this.levelRow = levelRow;
-            this.totalByEvaluationColumn = totalByEvaluationColumn;
-            this.totalByEvaluationRow = totalByEvaluationRow;
+        private SummaryCellsInfo() {
+            // private constructor
+        }
+
+        public static class Builder {
+            private SummaryCellsInfo cellsInfo = new SummaryCellsInfo();
+
+            public Builder setColumnsOfStandardCells(List<List<String>> columnsOfStandardCells) {
+                cellsInfo.columnsOfStandardCells = columnsOfStandardCells;
+                return this;
+            }
+
+            public Builder setRowsOfSubCriteriaCells(List<Integer> rowsOfSubCriteriaCells) {
+                cellsInfo.rowsOfSubCriteriaCells = rowsOfSubCriteriaCells;
+                return this;
+            }
+
+            public Builder setTotalByCriteriaRow(int totalByCriteriaRow) {
+                cellsInfo.totalByCriteriaRow = totalByCriteriaRow;
+                return this;
+            }
+
+            public Builder setTotalByStandardRow(int totalByStandardRow) {
+                cellsInfo.totalByStandardRow = totalByStandardRow;
+                return this;
+            }
+
+            public Builder setLevelRow(int levelRow) {
+                cellsInfo.levelRow = levelRow;
+                return this;
+            }
+
+            public Builder setTotalByEvaluationColumn(String totalByEvaluationColumn) {
+                cellsInfo.totalByEvaluationColumn = totalByEvaluationColumn;
+                return this;
+            }
+
+            public Builder setTotalByEvaluationRow(int totalByEvaluationRow) {
+                cellsInfo.totalByEvaluationRow = totalByEvaluationRow;
+                return this;
+            }
+
+            public SummaryCellsInfo build() {
+                if (cellsInfo.columnsOfStandardCells == null ||
+                        cellsInfo.rowsOfSubCriteriaCells == null ||
+                        cellsInfo.totalByEvaluationColumn == null) {
+                    throw new IllegalStateException();
+                }
+                return cellsInfo;
+            }
         }
     }
 
@@ -566,11 +612,39 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         private List<String> tableColumns;
         private List<Integer> tableRows;
 
-        public RecommendationCellsInfo(String textStartColumn, int textStartRow, List<String> tableColumns, List<Integer> tableRows) {
-            this.textStartColumn = textStartColumn;
-            this.textStartRow = textStartRow;
-            this.tableColumns = tableColumns;
-            this.tableRows = tableRows;
+        private RecommendationCellsInfo() {
+            // private constructor
+        }
+
+        public static class Builder {
+            private RecommendationCellsInfo cellsInfo = new RecommendationCellsInfo();
+
+            public Builder setTextStartColumn(String textStartColumn) {
+                cellsInfo.textStartColumn = textStartColumn;
+                return this;
+            }
+
+            public Builder setTextStartRow(int textStartRow) {
+                cellsInfo.textStartRow = textStartRow;
+                return this;
+            }
+
+            public Builder setTableColumns(List<String> tableColumns) {
+                cellsInfo.tableColumns = tableColumns;
+                return this;
+            }
+
+            public Builder setTableRows(List<Integer> tableRows) {
+                cellsInfo.tableRows = tableRows;
+                return this;
+            }
+
+            public RecommendationCellsInfo build() {
+                if (cellsInfo.textStartColumn == null || cellsInfo.tableColumns == null || cellsInfo.tableRows == null) {
+                    throw new IllegalStateException();
+                }
+                return cellsInfo;
+            }
         }
 
     }
@@ -582,16 +656,44 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         private int dateColumnNumber;
         private int firstNumericColumnNumber;
 
-        public ScoresSummaryCellsInfo(String namingRange,
-                                      int schoolIdColumnNumber,
-                                      int schoolNameColumnNumber,
-                                      int dateColumnNumber,
-                                      int firstNumericColumnNumber) {
-            this.namingRange = namingRange;
-            this.schoolIdColumnNumber = schoolIdColumnNumber;
-            this.schoolNameColumnNumber = schoolNameColumnNumber;
-            this.dateColumnNumber = dateColumnNumber;
-            this.firstNumericColumnNumber = firstNumericColumnNumber;
+        private ScoresSummaryCellsInfo() {
+            // private constructor
+        }
+
+        public static class Builder {
+            private ScoresSummaryCellsInfo cellsInfo = new ScoresSummaryCellsInfo();
+
+            public Builder setNamingRange(String namingRange) {
+                cellsInfo.namingRange = namingRange;
+                return this;
+            }
+
+            public Builder setSchoolIdColumnNumber(int schoolIdColumnNumber) {
+                cellsInfo.schoolIdColumnNumber = schoolIdColumnNumber;
+                return this;
+            }
+
+            public Builder setSchoolNameColumnNumber(int schoolNameColumnNumber) {
+                cellsInfo.schoolNameColumnNumber = schoolNameColumnNumber;
+                return this;
+            }
+
+            public Builder setDateColumnNumber(int dateColumnNumber) {
+                cellsInfo.dateColumnNumber = dateColumnNumber;
+                return this;
+            }
+
+            public Builder setFirstNumericColumnNumber(int firstNumericColumnNumber) {
+                cellsInfo.firstNumericColumnNumber = firstNumericColumnNumber;
+                return this;
+            }
+
+            public ScoresSummaryCellsInfo build() {
+                if (cellsInfo.namingRange == null) {
+                    throw new IllegalStateException();
+                }
+                return cellsInfo;
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.fcm_report.domain.FcmReportInteractor;
 import fm.doe.national.remote_storage.BuildConfig;
-import fm.doe.national.remote_storage.data.model.ReportWrapper;
+import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
 import fm.doe.national.remote_storage.ui.auth.GoogleAuthActivity;
@@ -160,25 +160,25 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
             return reportInteractor;
         })
                 .flatMap(reportInteractor -> {
-                            Single<ReportWrapper> single = reportInteractor.getHeaderItemObservable().firstOrError()
+                            Single<ReportBundle> single = reportInteractor.getHeaderItemObservable().firstOrError()
                                     .zipWith(
                                             reportInteractor.requestFlattenSummary(survey),
                                             Pair::create
                                     )
                                     .zipWith(
                                             reportInteractor.requestFlattenRecommendations(survey),
-                                            (lv, rv) -> new ReportWrapper(lv.first, lv.second, rv)
+                                            (lv, rv) -> new ReportBundle(lv.first, lv.second, rv)
                                     );
 
                             if (reportInteractor instanceof FcmReportInteractor) {
                                 return single.zipWith(
                                         ((FcmReportInteractor) reportInteractor).getLevelObservable().firstOrError(),
-                                        ReportWrapper::setSchoolAccreditationLevel
+                                        ReportBundle::setSchoolAccreditationLevel
                                 );
                             } else if (reportInteractor instanceof RmiReportInteractor) {
                                 return single.zipWith(
                                         ((RmiReportInteractor) reportInteractor).getLevelObservable().firstOrError(),
-                                        ReportWrapper::setSchoolAccreditationTallyLevel
+                                        ReportBundle::setSchoolAccreditationTallyLevel
                                 );
                             } else {
                                 throw new NotImplementedException();

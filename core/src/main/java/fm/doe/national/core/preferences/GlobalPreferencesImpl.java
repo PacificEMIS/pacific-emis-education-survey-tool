@@ -165,4 +165,20 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     public void setOperatingMode(OperatingMode mode) {
         sharedPreferences.edit().putInt(PREF_KEY_OPERATING_MODE, mode.getValue()).apply();
     }
+
+    @Override
+    public String getSpreadsheetId() {
+        switch (getAppRegion()) {
+            case FCM:
+                return getOperatingMode() == OperatingMode.PROD
+                        ? BuildConfig.SPREADSHEET_ID_PROD_FCM
+                        : BuildConfig.SPREADSHEET_ID_DEV_FCM;
+            case RMI:
+                return getOperatingMode() == OperatingMode.PROD
+                        ? BuildConfig.SPREADSHEET_ID_PROD_RMI
+                        : BuildConfig.SPREADSHEET_ID_DEV_RMI;
+            default:
+                throw new NotImplementedException();
+        }
+    }
 }

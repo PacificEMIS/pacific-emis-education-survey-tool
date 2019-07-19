@@ -19,10 +19,6 @@ android {
 
         buildConfigField "String", "CREDENTIALS_DEV", "\"c_dev.json\""
         buildConfigField "String", "CREDENTIALS_PROD", "\"Micronesia-b9acf9c6198e.json\""
-        buildConfigField "String", "SPREADSHEET_ID_PROD_FCM", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
-        buildConfigField "String", "SPREADSHEET_ID_DEV_FCM", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
-        buildConfigField "String", "SPREADSHEET_ID_PROD_RMI", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
-        buildConfigField "String", "SPREADSHEET_ID_DEV_RMI", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
     }
 
     buildTypes {

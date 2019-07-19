@@ -23,16 +23,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
-import fm.doe.national.remote_storage.data.model.ReportWrapper;
+import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -144,26 +142,12 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Completable exportToExcel(Survey survey, ReportWrapper reportWrapper) {
-        String spreadsheetId;
-        switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                spreadsheetId = globalPreferences.getOperatingMode() == OperatingMode.PROD
-                        ? BuildConfig.SPREADSHEET_ID_PROD_FCM
-                        : BuildConfig.SPREADSHEET_ID_DEV_FCM;
-                break;
-            case RMI:
-                spreadsheetId = globalPreferences.getOperatingMode() == OperatingMode.PROD
-                        ? BuildConfig.SPREADSHEET_ID_PROD_RMI
-                        : BuildConfig.SPREADSHEET_ID_DEV_RMI;
-                break;
-            default:
-                throw new NotImplementedException();
-        }
+    public Completable exportToExcel(Survey survey, ReportBundle reportBundle) {
+        String spreadsheetId = globalPreferences.getSpreadsheetId();
         String sheetName = SurveyTextUtil.createSurveySheetName(survey);
-        return sheetsServiceHelper.recreateSheeet(spreadsheetId, sheetName)
-                .andThen(sheetsServiceHelper.fillReportSheet(spreadsheetId, sheetName, reportWrapper))
-                .andThen(sheetsServiceHelper.updateSummarySheet(spreadsheetId, reportWrapper));
+        return sheetsServiceHelper.recreateSheet(spreadsheetId, sheetName)
+                .andThen(sheetsServiceHelper.fillReportSheet(spreadsheetId, sheetName, reportBundle))
+                .andThen(sheetsServiceHelper.updateSummarySheet(spreadsheetId, reportBundle));
     }
 
 }
