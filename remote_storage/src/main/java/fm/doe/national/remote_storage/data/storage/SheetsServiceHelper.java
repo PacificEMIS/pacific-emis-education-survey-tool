@@ -76,7 +76,7 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                                 Arrays.asList("R", "S", "T", "U"),
                                 Arrays.asList("V", "W", "X", "Y")
                         ))
-                        .setRowsOfSubCriteriaCells(Arrays.asList(21, 22, 23, 24))
+                        .setRowsOfSubCriteriaCells(21, 22, 23, 24)
                         .setTotalByCriteriaRow(25)
                         .setTotalByStandardRow(26)
                         .setLevelRow(27)
@@ -94,7 +94,7 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                                 Collections.singletonList("L"),
                                 Collections.singletonList("M")
                         ))
-                        .setRowsOfSubCriteriaCells(Arrays.asList(33, 34, 35, 36, 37))
+                        .setRowsOfSubCriteriaCells(33, 34, 35, 36, 37)
                         .setTotalByCriteriaRow(38)
                         .setTotalByStandardRow(39)
                         .setLevelRow(40)
@@ -112,15 +112,15 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         cellsInfoMap.put(EvaluationForm.SCHOOL_EVALUATION, new RecommendationCellsInfo.Builder()
                 .setTextStartColumn("A")
                 .setTextStartRow(56)
-                .setTableColumns(Arrays.asList("B", "C", "D", "E", "F", "G", "H", "I"))
-                .setTableRows(Arrays.asList(47, 48, 49, 50, 51, 52))
+                .setTableColumns("B", "C", "D", "E", "F", "G", "H", "I")
+                .setTableRows(47, 48, 49, 50, 51, 52)
                 .build()
         );
         cellsInfoMap.put(EvaluationForm.CLASSROOM_OBSERVATION, new RecommendationCellsInfo.Builder()
                 .setTextStartColumn("K")
                 .setTextStartRow(54)
-                .setTableColumns(Arrays.asList("L", "M", "N", "O", "P", "Q", "R", "S"))
-                .setTableRows(Arrays.asList(47, 48, 49, 50, 51))
+                .setTableColumns("L", "M", "N", "O", "P", "Q", "R", "S")
+                .setTableRows(47, 48, 49, 50, 51)
                 .build()
         );
         MAP_RECOMMENDATION_CELLS_INFO = cellsInfoMap;
@@ -565,8 +565,8 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                 return this;
             }
 
-            public Builder setRowsOfSubCriteriaCells(List<Integer> rowsOfSubCriteriaCells) {
-                cellsInfo.rowsOfSubCriteriaCells = rowsOfSubCriteriaCells;
+            public Builder setRowsOfSubCriteriaCells(Integer... rowsOfSubCriteriaCells) {
+                cellsInfo.rowsOfSubCriteriaCells = Arrays.asList(rowsOfSubCriteriaCells);
                 return this;
             }
 
@@ -629,13 +629,13 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                 return this;
             }
 
-            public Builder setTableColumns(List<String> tableColumns) {
-                cellsInfo.tableColumns = tableColumns;
+            public Builder setTableColumns(String... tableColumns) {
+                cellsInfo.tableColumns = Arrays.asList(tableColumns);
                 return this;
             }
 
-            public Builder setTableRows(List<Integer> tableRows) {
-                cellsInfo.tableRows = tableRows;
+            public Builder setTableRows(Integer... tableRows) {
+                cellsInfo.tableRows = Arrays.asList(tableRows);
                 return this;
             }
 
