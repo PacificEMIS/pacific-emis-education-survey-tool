@@ -21,8 +21,10 @@ import fm.doe.national.core.utils.ViewUtils;
 public class SurveysAdapter extends BaseAdapter<Survey> {
 
     private boolean isExportEnabled;
-
     private MenuItemClickListener menuItemClickListener;
+
+    @MenuRes
+    private int menuRes;
 
     public SurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
         super(clickListener);
@@ -36,6 +38,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
 
     public void setExportEnabled(boolean exportEnabled) {
         isExportEnabled = exportEnabled;
+        menuRes = isExportEnabled ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export;
         notifyDataSetChanged();
     }
 
@@ -59,16 +62,12 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @BindView(R.id.button_more)
         ImageButton moreButton;
 
-        @MenuRes
-        private int menuRes;
-
         SchoolAccreditationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_survey);
         }
 
         @Override
         public void onBind(Survey item) {
-            menuRes = isExportEnabled ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export;
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
             creationDateTextView.setText(DateUtils.formatUiText(item.getSurveyDate()));
