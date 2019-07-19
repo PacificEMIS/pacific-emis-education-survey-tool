@@ -46,6 +46,8 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     private static final String SHEET_NAME_TEMPLATE = "template";
     private static final String RANGE_INFO = "A3:B4";
     private static final String RANGE_LEVELS = "B11:D13";
+    private static final String MARK_RECOMMENDATION = "√";
+    private static final int OFFSET_RECOMMENDATION = 4;
     private final Sheets sheetsApi;
     private final Context appContext;
 
@@ -93,11 +95,15 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         Map<EvaluationForm, RecommendationCellsInfo> cellsInfoMap = new HashMap<>();
         cellsInfoMap.put(EvaluationForm.SCHOOL_EVALUATION, new RecommendationCellsInfo(
                 "A",
-                56
+                56,
+                Arrays.asList("B", "C", "D", "E", "F", "G", "H", "I"),
+                Arrays.asList(47, 48, 49, 50, 51, 52)
         ));
         cellsInfoMap.put(EvaluationForm.CLASSROOM_OBSERVATION, new RecommendationCellsInfo(
                 "K",
-                54
+                54,
+                Arrays.asList("L", "M", "N", "O", "P", "Q", "R", "S"),
+                Arrays.asList(47, 48, 49, 50, 51)
         ));
         MAP_RECOMMENDATION_CELLS_INFO = cellsInfoMap;
     }
@@ -126,16 +132,56 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                                                                        EvaluationForm evaluationForm) {
         RecommendationCellsInfo cellsInfo = Objects.requireNonNull(MAP_RECOMMENDATION_CELLS_INFO.get(evaluationForm));
         ArrayList<ValueRange> ranges = new ArrayList<>();
-
-        List<? extends Standard> standards = recommendationsWrapper.getFlattenSurvey().getCategories()
+        List<? extends Standard> filteredStandards = recommendationsWrapper.getFlattenSurvey().getCategories()
                 .stream()
                 .filter(c -> c.getEvaluationForm() == evaluationForm)
                 .flatMap(c -> c.getStandards().stream())
                 .collect(Collectors.toList());
-
         List<Recommendation> filteredRecommendations = filterRecommendations(recommendationsWrapper, evaluationForm);
-        int currentTextRow = cellsInfo.textStartRow;
+        ranges.addAll(createRecommendationTableValueRanges(sheetName, cellsInfo, filteredStandards, filteredRecommendations));
+        ranges.addAll(createRecommendationTextValueRanges(sheetName, cellsInfo, filteredRecommendations));
+        return ranges;
+    }
 
+    private List<ValueRange> createRecommendationTableValueRanges(String sheetName,
+                                                                  RecommendationCellsInfo cellsInfo,
+                                                                  List<? extends Standard> standards,
+                                                                  List<Recommendation> recommendations) {
+        ArrayList<ValueRange> ranges = new ArrayList<>();
+        for (int standardIndex = 0; standardIndex < standards.size(); standardIndex++) {
+            final Standard standard = standards.get(standardIndex);
+            for (int criteriaIndex = 0; criteriaIndex < standard.getCriterias().size(); criteriaIndex++) {
+                final Criteria criteria = standard.getCriterias().get(criteriaIndex);
+                Optional<Recommendation> existingRecommendation = recommendations.stream()
+                        .filter(r -> (r instanceof CriteriaRecommendation) &&
+                                ((CriteriaRecommendation) r).getObject().getSuffix().equals(criteria.getSuffix()))
+                        .findFirst();
+
+                if (existingRecommendation.isPresent()) {
+                    ranges.add(createSingleCellValueRange(
+                            sheetName,
+                            cellsInfo.tableColumns.get(criteriaIndex + OFFSET_RECOMMENDATION),
+                            cellsInfo.tableRows.get(standardIndex),
+                            MARK_RECOMMENDATION
+                    ));
+                } else {
+                    ranges.add(createSingleCellValueRange(
+                            sheetName,
+                            cellsInfo.tableColumns.get(criteriaIndex),
+                            cellsInfo.tableRows.get(standardIndex),
+                            MARK_RECOMMENDATION
+                    ));
+                }
+            }
+        }
+        return ranges;
+    }
+
+    private List<ValueRange> createRecommendationTextValueRanges(String sheetName,
+                                                                 RecommendationCellsInfo cellsInfo,
+                                                                 List<Recommendation> filteredRecommendations) {
+        ArrayList<ValueRange> ranges = new ArrayList<>();
+        int currentTextRow = cellsInfo.textStartRow;
         for (Recommendation recommendation : filteredRecommendations) {
 
             if (recommendation instanceof StandardRecommendation) {
@@ -172,9 +218,7 @@ public class SheetsServiceHelper extends TasksRxWrapper {
                 ));
                 currentTextRow++;
             }
-
         }
-
         return ranges;
     }
 
@@ -429,10 +473,15 @@ public class SheetsServiceHelper extends TasksRxWrapper {
     private static class RecommendationCellsInfo {
         private String textStartColumn;
         private int textStartRow;
+        private List<String> tableColumns;
+        private List<Integer> tableRows;
 
-        public RecommendationCellsInfo(String textStartColumn, int textStartRow) {
+        public RecommendationCellsInfo(String textStartColumn, int textStartRow, List<String> tableColumns, List<Integer> tableRows) {
             this.textStartColumn = textStartColumn;
             this.textStartRow = textStartRow;
+            this.tableColumns = tableColumns;
+            this.tableRows = tableRows;
         }
+
     }
 }
