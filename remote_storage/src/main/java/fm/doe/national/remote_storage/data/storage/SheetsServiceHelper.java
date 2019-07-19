@@ -28,6 +28,7 @@ import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.core.utils.DateUtils;
+import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.ReportWrapper;
@@ -45,12 +46,18 @@ public class SheetsServiceHelper extends TasksRxWrapper {
 
     private static final String VALUE_INPUT_OPTION_USER = "USER_ENTERED";
     private static final String SHEET_NAME_TEMPLATE = "template";
+    private static final String SHEET_NAME_SUMMARY = "Standard Scores Summary";
     private static final String RANGE_INFO = "A3:B4";
     private static final String RANGE_LEVELS = "B11:D13";
     private static final String MARK_RECOMMENDATION = "√";
     private static final int OFFSET_RECOMMENDATION = 4;
-    private final Sheets sheetsApi;
-    private final Context appContext;
+    private static final ScoresSummaryCellsInfo CELLS_INFO_SCORES_SUMMARY = new ScoresSummaryCellsInfo(
+            "A1:C",
+            0,
+            1,
+            2,
+            3
+    );
 
     private static final Map<EvaluationForm, SummaryCellsInfo> MAP_EVALUATION_FORM_SUMMARY_CELLS_INFO;
 
@@ -109,9 +116,81 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         MAP_RECOMMENDATION_CELLS_INFO = cellsInfoMap;
     }
 
+    private final Sheets sheetsApi;
+    private final Context appContext;
+
     public SheetsServiceHelper(Sheets sheetsApi, Context appContext) {
         this.sheetsApi = sheetsApi;
         this.appContext = appContext;
+    }
+
+    public Completable updateSummarySheet(String spreadsheetId, ReportWrapper reportWrapper) {
+        return wrapWithCompletableInThreadPool(() -> {
+            String schoolId = reportWrapper.getHeader().getSchoolId();
+            String dateAsString = DateUtils.formatNumericMonthYear(reportWrapper.getHeader().getDate());
+            int row = findSummaryRowToUpdate(spreadsheetId, schoolId, dateAsString);
+            List<ValueRange> ranges = new ArrayList<>();
+
+            ranges.add(createSingleCellValueRange(
+                    SHEET_NAME_SUMMARY,
+                    TextUtil.convertIntToCharsIcons(CELLS_INFO_SCORES_SUMMARY.schoolIdColumnNumber),
+                    row,
+                    schoolId
+            ));
+
+            ranges.add(createSingleCellValueRange(
+                    SHEET_NAME_SUMMARY,
+                    TextUtil.convertIntToCharsIcons(CELLS_INFO_SCORES_SUMMARY.schoolNameColumnNumber),
+                    row,
+                    reportWrapper.getHeader().getSchoolName()
+            ));
+
+            ranges.add(createSingleCellValueRange(
+                    SHEET_NAME_SUMMARY,
+                    TextUtil.convertIntToCharsIcons(CELLS_INFO_SCORES_SUMMARY.dateColumnNumber),
+                    row,
+                    dateAsString
+            ));
+
+            int column = CELLS_INFO_SCORES_SUMMARY.firstNumericColumnNumber;
+            for (SummaryViewData summaryViewData : reportWrapper.getSummary()) {
+                for (SummaryViewData.CriteriaSummaryViewData criteriaSummaryViewData : summaryViewData.getCriteriaSummaryViewDataList()) {
+                    ranges.add(createSingleCellValueRange(
+                            SHEET_NAME_SUMMARY,
+                            TextUtil.convertIntToCharsIcons(column),
+                            row,
+                            criteriaSummaryViewData.getTotal()
+                    ));
+                    column++;
+                }
+            }
+
+            updateValues(spreadsheetId, ranges);
+        });
+    }
+
+    private int findSummaryRowToUpdate(String spreadsheetId, String schoolId, String dateAsString) throws IOException {
+        ValueRange existingValues = sheetsApi.spreadsheets()
+                .values()
+                .get(spreadsheetId, makeRange(SHEET_NAME_SUMMARY, CELLS_INFO_SCORES_SUMMARY.namingRange))
+                .execute();
+        String targetUniqueId = schoolId + dateAsString;
+        int rowToUpdate = 1;
+
+        for (int rowNumber = 0; rowNumber < existingValues.getValues().size(); rowNumber++) {
+            List<Object> row = existingValues.getValues().get(rowNumber);
+            if (row.size() >= CELLS_INFO_SCORES_SUMMARY.dateColumnNumber) {
+                String rowUniqueId = (String) row.get(CELLS_INFO_SCORES_SUMMARY.schoolIdColumnNumber) +
+                        (String) row.get(CELLS_INFO_SCORES_SUMMARY.dateColumnNumber);
+
+                if (targetUniqueId.equals(rowUniqueId)) {
+                    break;
+                }
+            }
+            rowToUpdate++;
+        }
+
+        return rowToUpdate;
     }
 
     public Completable fillReportSheet(String spreadsheetId, String sheetName, ReportWrapper reportWrapper) {
@@ -339,9 +418,9 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         return ranges;
     }
 
-    private ValueRange createSingleCellValueRange(String sheetName, String row, int column, Object value) {
+    private ValueRange createSingleCellValueRange(String sheetName, String column, int row, Object value) {
         return new ValueRange()
-                .setRange(makeRange(sheetName, row + column))
+                .setRange(makeRange(sheetName, column + row))
                 .setValues(Collections.singletonList(Collections.singletonList(value)));
     }
 
@@ -494,5 +573,25 @@ public class SheetsServiceHelper extends TasksRxWrapper {
             this.tableRows = tableRows;
         }
 
+    }
+
+    private static class ScoresSummaryCellsInfo {
+        private String namingRange;
+        private int schoolIdColumnNumber;
+        private int schoolNameColumnNumber;
+        private int dateColumnNumber;
+        private int firstNumericColumnNumber;
+
+        public ScoresSummaryCellsInfo(String namingRange,
+                                      int schoolIdColumnNumber,
+                                      int schoolNameColumnNumber,
+                                      int dateColumnNumber,
+                                      int firstNumericColumnNumber) {
+            this.namingRange = namingRange;
+            this.schoolIdColumnNumber = schoolIdColumnNumber;
+            this.schoolNameColumnNumber = schoolNameColumnNumber;
+            this.dateColumnNumber = dateColumnNumber;
+            this.firstNumericColumnNumber = firstNumericColumnNumber;
+        }
     }
 }

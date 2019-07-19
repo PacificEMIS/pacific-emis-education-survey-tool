@@ -162,7 +162,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
         String sheetName = SurveyTextUtil.createSurveySheetName(survey);
         return sheetsServiceHelper.recreateSheeet(spreadsheetId, sheetName)
-                .andThen(sheetsServiceHelper.fillReportSheet(spreadsheetId, sheetName, reportWrapper));
+                .andThen(sheetsServiceHelper.fillReportSheet(spreadsheetId, sheetName, reportWrapper))
+                .andThen(sheetsServiceHelper.updateSummarySheet(spreadsheetId, reportWrapper));
     }
 
 }
