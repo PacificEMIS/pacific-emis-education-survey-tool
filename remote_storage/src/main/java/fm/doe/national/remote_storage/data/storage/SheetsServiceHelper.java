@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
 import com.google.api.services.sheets.v4.model.BatchUpdateValuesRequest;
+import com.google.api.services.sheets.v4.model.DeleteSheetRequest;
 import com.google.api.services.sheets.v4.model.DuplicateSheetRequest;
 import com.google.api.services.sheets.v4.model.Request;
 import com.google.api.services.sheets.v4.model.Sheet;
@@ -391,17 +392,27 @@ public class SheetsServiceHelper extends TasksRxWrapper {
         );
     }
 
-    public Completable createSheetIfNeeded(String spreadsheetId, String sheetName) {
+    public Completable recreateSheeet(String spreadsheetId, String sheetName) {
         return wrapWithCompletableInThreadPool(() -> {
             Sheet templateSheet = findTemplateSheet(spreadsheetId);
             Optional<Sheet> existingSheet = findSheet(spreadsheetId, sheetName);
 
             if (existingSheet.isPresent()) {
-                return;
+                deleteSheet(spreadsheetId, existingSheet.get().getProperties().getSheetId());
             }
 
             duplicateSheet(spreadsheetId, templateSheet.getProperties().getSheetId(), sheetName);
         });
+    }
+
+    private void deleteSheet(String spreadsheetId, Integer sheetId) throws IOException {
+        DeleteSheetRequest requestBody = new DeleteSheetRequest()
+                .setSheetId(sheetId);
+        BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest()
+                .setRequests(Collections.singletonList(new Request().setDeleteSheet(requestBody)));
+        sheetsApi.spreadsheets()
+                .batchUpdate(spreadsheetId, batchUpdateSpreadsheetRequest)
+                .execute();
     }
 
     private void duplicateSheet(String spreadsheetId, Integer sourceSheetId, String newSheetName) throws IOException {
