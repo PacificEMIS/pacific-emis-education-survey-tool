@@ -9,7 +9,7 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class BaseReportPresenter<T extends BaseReportView> extends BasePresenter<T> {
 
     public BaseReportPresenter(ReportInteractor interactor) {
-        addDisposable(interactor.getHeaderItemSubject()
+        addDisposable(interactor.getHeaderItemObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item -> {

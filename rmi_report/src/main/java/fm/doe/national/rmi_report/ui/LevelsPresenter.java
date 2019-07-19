@@ -20,7 +20,7 @@ public class LevelsPresenter extends BaseReportPresenter<LevelsView> {
     }
 
     private void loadSchoolAccreditationLevel() {
-        addDisposable(interactor.getLevelSubject()
+        addDisposable(interactor.getLevelObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> {

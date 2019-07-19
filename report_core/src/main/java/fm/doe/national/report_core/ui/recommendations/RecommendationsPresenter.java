@@ -24,7 +24,7 @@ public class RecommendationsPresenter extends BasePresenter<RecommendationsView>
     }
 
     private void loadRecommendations() {
-        addDisposable(interactor.getRecommendationsSubject()
+        addDisposable(interactor.getRecommendationsObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().setRecommendationsLoadingVisibility(true))

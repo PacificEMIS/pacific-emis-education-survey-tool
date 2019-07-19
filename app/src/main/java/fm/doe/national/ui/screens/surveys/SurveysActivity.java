@@ -45,6 +45,9 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
     private final SurveysAdapter surveysAdapter = new SurveysAdapter(this, this);
 
+    private MenuItem exportAllMenuItem;
+    private boolean isExportEnabled;
+
     public static Intent createIntent(Context context) {
         return new Intent(context, SurveysActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -85,6 +88,8 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_surveys, menu);
+        exportAllMenuItem = menu.findItem(R.id.action_export_all);
+        updateMenu();
         return true;
     }
 
@@ -158,5 +163,18 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     @Override
     public void setTitle(Text title) {
         this.setTitle(title.getString(this));
+    }
+
+    @Override
+    public void setExportEnabled(boolean isEnabled) {
+        this.isExportEnabled = isEnabled;
+        updateMenu();
+        surveysAdapter.setExportEnabled(isExportEnabled);
+    }
+
+    private void updateMenu() {
+        if (exportAllMenuItem != null) {
+            exportAllMenuItem.setVisible(isExportEnabled);
+        }
     }
 }

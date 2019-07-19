@@ -7,7 +7,7 @@ import java.io.File;
 
 
 public class TextUtil {
-    private static final int ALPHABET_SIZE = 24;
+    private static final int ALPHABET_SIZE = 26;
     private static final char FIRST_ALPHABET_CHAR = 'a';
     private static final String REGEX_FILE_NAME = "[.][^.]+$";
 

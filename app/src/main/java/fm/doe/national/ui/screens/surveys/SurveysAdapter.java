@@ -18,6 +18,7 @@ import fm.doe.national.core.utils.ViewUtils;
 
 public class SurveysAdapter extends BaseAdapter<Survey> {
 
+    private boolean isExportEnabled;
     private MenuItemClickListener menuItemClickListener;
 
     public SurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
@@ -28,6 +29,11 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
     @Override
     protected SchoolAccreditationViewHolder provideViewHolder(ViewGroup parent) {
         return new SchoolAccreditationViewHolder(parent);
+    }
+
+    public void setExportEnabled(boolean exportEnabled) {
+        isExportEnabled = exportEnabled;
+        notifyDataSetChanged();
     }
 
     protected class SchoolAccreditationViewHolder extends ViewHolder implements PopupMenu.OnMenuItemClickListener {
@@ -66,7 +72,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @OnClick(R.id.button_more)
         void onMoreButtonClick() {
             PopupMenu popupMenu = new PopupMenu(getContext(), moreButton, Gravity.END);
-            popupMenu.inflate(R.menu.menu_survey);
+            popupMenu.inflate(isExportEnabled ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
         }

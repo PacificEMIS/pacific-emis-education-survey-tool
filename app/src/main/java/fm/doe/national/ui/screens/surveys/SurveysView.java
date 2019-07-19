@@ -22,4 +22,6 @@ interface SurveysView extends BaseBluetoothView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void removeSurvey(Survey passing);
+
+    void setExportEnabled(boolean isEnabled);
 }

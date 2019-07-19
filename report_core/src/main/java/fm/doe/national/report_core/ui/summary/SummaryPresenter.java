@@ -19,7 +19,7 @@ public class SummaryPresenter extends BaseReportPresenter<SummaryView> {
     }
 
     private void loadSummary() {
-        addDisposable(interactor.getSummarySubject()
+        addDisposable(interactor.getSummarySubjectObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().setLoadingVisibility(true))

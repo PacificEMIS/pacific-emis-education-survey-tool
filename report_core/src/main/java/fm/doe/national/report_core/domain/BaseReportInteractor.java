@@ -2,8 +2,10 @@ package fm.doe.national.report_core.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
@@ -15,43 +17,42 @@ import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableCriteria;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.report_core.model.Level;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
 import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;
+import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsWrapper;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
 import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
 
 public abstract class BaseReportInteractor implements ReportInteractor {
 
-    private static final List<Recommendation> EMPTY_RECOMMENDATIONS = Collections.emptyList();
-    private static final List<SummaryViewData> EMPTY_SUMMARY = Collections.emptyList();
-    private static final LevelLegendView.Item EMPTY_HEADER = LevelLegendView.Item.empty();
     private static final int CLASSROOM_OBSERVATIONS_TO_TRIGGER_FILTER = 2;
 
-    private final BehaviorSubject<List<Recommendation>> recommendationsSubject =
-            BehaviorSubject.createDefault(EMPTY_RECOMMENDATIONS);
+    private BehaviorSubject<List<Recommendation>> recommendationsSubject = BehaviorSubject.create();
 
-    private final BehaviorSubject<List<SummaryViewData>> summarySubject =
-            BehaviorSubject.createDefault(EMPTY_SUMMARY);
+    private BehaviorSubject<List<SummaryViewData>> summarySubject = BehaviorSubject.create();
 
-    protected final BehaviorSubject<LevelLegendView.Item> headerSubject =
-            BehaviorSubject.createDefault(EMPTY_HEADER);
+    protected BehaviorSubject<LevelLegendView.Item> headerSubject = BehaviorSubject.create();
 
     protected abstract Level createLevel(int completed, int total);
 
     @Override
-    public Subject<List<Recommendation>> getRecommendationsSubject() {
+    public Observable<List<Recommendation>> getRecommendationsObservable() {
         return recommendationsSubject;
     }
 
     @Override
-    public Subject<List<SummaryViewData>> getSummarySubject() {
+    public Observable<List<SummaryViewData>> getSummarySubjectObservable() {
         return summarySubject;
     }
 
@@ -64,9 +65,12 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     }
 
     protected void clearSubjectsHistory() {
-        recommendationsSubject.onNext(EMPTY_RECOMMENDATIONS);
-        summarySubject.onNext(EMPTY_SUMMARY);
-        headerSubject.onNext(EMPTY_HEADER);
+        recommendationsSubject.onComplete();
+        recommendationsSubject = BehaviorSubject.create();
+        summarySubject.onComplete();
+        summarySubject = BehaviorSubject.create();
+        headerSubject.onComplete();
+        headerSubject = BehaviorSubject.create();
     }
 
     protected AccreditationSurvey getSurveyWithWorstClassroomObservation(AccreditationSurvey survey) {
@@ -76,7 +80,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                 .filter(cat -> cat.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
                 .collect(Collectors.toList());
 
-        List<MutableCategory> otherCategories =otherSurvey.getCategories().stream()
+        List<MutableCategory> otherCategories = otherSurvey.getCategories().stream()
                 .filter(cat -> cat.getEvaluationForm() != EvaluationForm.CLASSROOM_OBSERVATION)
                 .collect(Collectors.toList());
 
@@ -111,31 +115,35 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     private void requestSummary(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
             AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
-            List<SummaryViewData> summaryViewDataList = new ArrayList<>();
-            for (Category category : clearedSurvey.getCategories()) {
-                for (Standard standard : category.getStandards()) {
-                    List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
-                    int totalByStandard = 0;
-                    int totalQuestions = 0;
-
-                    for (Criteria criteria : standard.getCriterias()) {
-                        SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
-                        totalByStandard += data.getTotal();
-                        totalQuestions += data.getAnswerStates().length;
-                        criteriaSummaryViewDataList.add(data);
-                    }
-
-                    summaryViewDataList.add(new SummaryViewData(
-                            category,
-                            standard,
-                            totalByStandard,
-                            criteriaSummaryViewDataList,
-                            createLevel(totalByStandard, totalQuestions)
-                    ));
-                }
-            }
-            summarySubject.onNext(summaryViewDataList);
+            summarySubject.onNext(getSurveySummary(clearedSurvey));
         });
+    }
+
+    private List<SummaryViewData> getSurveySummary(AccreditationSurvey survey) {
+        List<SummaryViewData> summaryViewDataList = new ArrayList<>();
+        for (Category category : survey.getCategories()) {
+            for (Standard standard : category.getStandards()) {
+                List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
+                int totalByStandard = 0;
+                int totalQuestions = 0;
+
+                for (Criteria criteria : standard.getCriterias()) {
+                    SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
+                    totalByStandard += data.getTotal();
+                    totalQuestions += data.getAnswerStates().length;
+                    criteriaSummaryViewDataList.add(data);
+                }
+
+                summaryViewDataList.add(new SummaryViewData(
+                        category,
+                        standard,
+                        totalByStandard,
+                        criteriaSummaryViewDataList,
+                        createLevel(totalByStandard, totalQuestions)
+                ));
+            }
+        }
+        return summaryViewDataList;
     }
 
     protected SummaryViewData.CriteriaSummaryViewData createCriteriaSummaryViewData(Criteria criteria) {
@@ -211,7 +219,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     }
 
     protected void requestHeader(AccreditationSurvey survey) {
-        Schedulers.computation().scheduleDirect(() -> headerSubject.onNext(
+        headerSubject.onNext(
                 new LevelLegendView.Item(
                         survey.getSchoolId(),
                         survey.getSchoolName(),
@@ -219,11 +227,109 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                         null, // TODO: not implemented
                         Arrays.asList(ReportLevel.values())
                 )
-        ));
+        );
     }
 
     @Override
-    public Subject<LevelLegendView.Item> getHeaderItemSubject() {
+    public Observable<LevelLegendView.Item> getHeaderItemObservable() {
         return headerSubject;
+    }
+
+    @Override
+    public Single<List<SummaryViewData>> requestFlattenSummary(AccreditationSurvey survey) {
+        return Single.fromCallable(() -> {
+            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
+            AccreditationSurvey flattenSurvey = getFlattenSurvey(clearedSurvey);
+            return getSurveySummary(flattenSurvey);
+        });
+    }
+
+    private AccreditationSurvey getFlattenSurvey(AccreditationSurvey survey) {
+        MutableAccreditationSurvey otherSurvey = new MutableAccreditationSurvey(survey);
+
+        MutableCategory classroomObservation = otherSurvey.getCategories().stream()
+                .filter(cat -> cat.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
+                .collect(Collectors.toList()).get(0);
+
+        List<MutableCategory> schoolEvaluations = otherSurvey.getCategories().stream()
+                .filter(cat -> cat.getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
+                .collect(Collectors.toList());
+
+        ArrayList<MutableCategory> resultCategories = new ArrayList<>();
+
+        Map<String, List<MutableStandard>> groupedStandards = schoolEvaluations.stream()
+                .flatMap(c -> c.getStandards().stream())
+                .collect(Collectors.groupingBy(MutableStandard::getSuffix));
+
+
+        ArrayList<MutableStandard> schoolEvaluationStandards = new ArrayList<>();
+        for (Map.Entry<String, List<MutableStandard>> entry : groupedStandards.entrySet()) {
+            List<MutableStandard> standardsToMerge = entry.getValue();
+            if (standardsToMerge.size() == 1) {
+                schoolEvaluationStandards.add(standardsToMerge.get(0));
+            } else if (standardsToMerge.size() > 0) {
+                MutableStandard mergedStandard = new MutableStandard(standardsToMerge.get(0));
+                mergeStandards(mergedStandard, standardsToMerge.subList(1, standardsToMerge.size()));
+                schoolEvaluationStandards.add(mergedStandard);
+            }
+        }
+        schoolEvaluationStandards.sort(Comparator.comparing(MutableStandard::getSuffix));
+
+        MutableCategory schoolEvaluationCategory = new MutableCategory(schoolEvaluations.get(0));
+        schoolEvaluationCategory.setStandards(schoolEvaluationStandards);
+
+        resultCategories.add(schoolEvaluationCategory);
+        resultCategories.add(classroomObservation);
+        otherSurvey.setCategories(resultCategories);
+        return otherSurvey;
+    }
+
+    private void mergeStandards(MutableStandard source, List<MutableStandard> values) {
+        if (values.isEmpty()) {
+            return;
+        }
+
+        ArrayList<MutableCriteria> criterias = new ArrayList<>();
+        MutableStandard mergingStandard = values.get(0);
+
+        for (MutableCriteria criteria : source.getCriterias()) {
+            Optional<MutableCriteria> sameCriteria = mergingStandard.getCriterias()
+                    .stream()
+                    .filter(c -> c.getSuffix().equals(criteria.getSuffix()))
+                    .findFirst();
+
+            if (!sameCriteria.isPresent()) {
+                criterias.add(criteria);
+                continue;
+            }
+
+            criterias.add(mergeCriterias(criteria, sameCriteria.get()));
+            mergingStandard.getCriterias().remove(sameCriteria.get());
+        }
+
+        criterias.addAll(mergingStandard.getCriterias());
+        criterias.sort(Comparator.comparing(MutableCriteria::getSuffix));
+        source.setCriterias(criterias);
+        mergeStandards(source, values.subList(1, values.size()));
+    }
+
+    private MutableCriteria mergeCriterias(MutableCriteria source, MutableCriteria other) {
+        MutableCriteria result = new MutableCriteria(source);
+        ArrayList<MutableSubCriteria> subCriterias = new ArrayList<>();
+        subCriterias.addAll(source.getSubCriterias());
+        subCriterias.addAll(other.getSubCriterias());
+        subCriterias.sort(Comparator.comparing(MutableSubCriteria::getSuffix));
+        result.setSubCriterias(subCriterias);
+        return result;
+    }
+
+    @Override
+    public Single<FlattenRecommendationsWrapper> requestFlattenRecommendations(AccreditationSurvey survey) {
+        return Single.fromCallable(() -> {
+            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
+            AccreditationSurvey flattenSurvey = getFlattenSurvey(clearedSurvey);
+            List<Recommendation> recommendations = generateCategoryRecommendations(flattenSurvey.getCategories());
+            return new FlattenRecommendationsWrapper(recommendations, flattenSurvey);
+        });
     }
 }

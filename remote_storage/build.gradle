@@ -44,6 +44,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':core')
     implementation project(path: ':data_source_injector')
+    implementation project(path: ':accreditation_core')
+    implementation project(path: ':report_core')
+    implementation project(path: ':report')
+    implementation project(path: ':fcm_report')
+    implementation project(path: ':rmi_report')
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
@@ -64,13 +69,20 @@ dependencies {
     implementation "androidx.work:work-runtime:${Deps.work}"
     implementation "androidx.work:work-rxjava2:${Deps.work}"
 
-    // Drive
+    // Google API Util
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.http-client:google-http-client-gson:1.29.1'
     implementation('com.google.api-client:google-api-client-android:1.26.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+
+    // Drive
     implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    // Sheets
+    implementation('com.google.apis:google-api-services-sheets:v4-rev505-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
 

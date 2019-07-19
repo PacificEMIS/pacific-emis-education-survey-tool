@@ -1,6 +1,7 @@
 package fm.doe.national.remote_storage.data.accessor;
 
 import android.app.Activity;
+import android.util.Pair;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -8,14 +9,21 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.core.data.exceptions.AuthenticationException;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.utils.LifecycleListener;
+import fm.doe.national.fcm_report.domain.FcmReportInteractor;
 import fm.doe.national.remote_storage.BuildConfig;
+import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
 import fm.doe.national.remote_storage.ui.auth.GoogleAuthActivity;
 import fm.doe.national.remote_storage.ui.remote_storage.DriveStorageActivity;
+import fm.doe.national.report.di.ReportComponentInjector;
+import fm.doe.national.report_core.domain.ReportInteractor;
+import fm.doe.national.rmi_report.domain.RmiReportInteractor;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -140,5 +148,43 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     public String getUserEmail() {
         GoogleSignInAccount account = storage.getUserAccount();
         return account == null ? null : account.getEmail();
+    }
+
+    @Override
+    public Completable exportToExcel(AccreditationSurvey survey) {
+        return Single.fromCallable(() -> {
+            ReportInteractor reportInteractor = ReportComponentInjector
+                    .getComponent(lifecycleListener.getCurrentActivity().getApplication())
+                    .getReportInteractor();
+            reportInteractor.requestReports(survey);
+            return reportInteractor;
+        })
+                .flatMap(reportInteractor -> {
+                            Single<ReportBundle> single = reportInteractor.getHeaderItemObservable().firstOrError()
+                                    .zipWith(
+                                            reportInteractor.requestFlattenSummary(survey),
+                                            Pair::create
+                                    )
+                                    .zipWith(
+                                            reportInteractor.requestFlattenRecommendations(survey),
+                                            (lv, rv) -> new ReportBundle(lv.first, lv.second, rv)
+                                    );
+
+                            if (reportInteractor instanceof FcmReportInteractor) {
+                                return single.zipWith(
+                                        ((FcmReportInteractor) reportInteractor).getLevelObservable().firstOrError(),
+                                        ReportBundle::setSchoolAccreditationLevel
+                                );
+                            } else if (reportInteractor instanceof RmiReportInteractor) {
+                                return single.zipWith(
+                                        ((RmiReportInteractor) reportInteractor).getLevelObservable().firstOrError(),
+                                        ReportBundle::setSchoolAccreditationTallyLevel
+                                );
+                            } else {
+                                throw new NotImplementedException();
+                            }
+                        }
+                )
+                .flatMapCompletable(it -> storage.exportToExcel(survey, it));
     }
 }

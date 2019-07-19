@@ -15,16 +15,13 @@ import fm.doe.national.report_core.domain.BaseReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;
 import fm.doe.national.report_core.model.SummaryViewData;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
 
 public class FcmReportInteractorImpl extends BaseReportInteractor implements FcmReportInteractor {
 
-    private static final SchoolAccreditationLevel EMPTY_LEVELS = SchoolAccreditationLevel.empty();
-
-    private final BehaviorSubject<SchoolAccreditationLevel> levelSubject =
-            BehaviorSubject.createDefault(EMPTY_LEVELS);
+    private BehaviorSubject<SchoolAccreditationLevel> levelSubject = BehaviorSubject.create();
 
     @Override
     public void requestReports(AccreditationSurvey survey) {
@@ -74,7 +71,8 @@ public class FcmReportInteractorImpl extends BaseReportInteractor implements Fcm
     @Override
     protected void clearSubjectsHistory() {
         super.clearSubjectsHistory();
-        levelSubject.onNext(EMPTY_LEVELS);
+        levelSubject.onComplete();
+        levelSubject = BehaviorSubject.create();
     }
 
     @Override
@@ -83,7 +81,7 @@ public class FcmReportInteractorImpl extends BaseReportInteractor implements Fcm
     }
 
     @Override
-    public Subject<SchoolAccreditationLevel> getLevelSubject() {
+    public Observable<SchoolAccreditationLevel> getLevelObservable() {
         return levelSubject;
     }
 

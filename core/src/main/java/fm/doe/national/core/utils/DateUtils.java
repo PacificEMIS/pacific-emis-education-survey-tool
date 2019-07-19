@@ -25,6 +25,9 @@ public class DateUtils {
     private static final DateFormat monthYearDateFormat = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
     @SuppressLint("ConstantLocale")
+    private static final DateFormat numericMonthYearDateFormat = new SimpleDateFormat("MM-yyyy", Locale.getDefault());
+
+    @SuppressLint("ConstantLocale")
     private static final DateFormat utcDateFormat = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.000Z", Locale.getDefault());
 
     public static String format(Date date) {
@@ -41,6 +44,10 @@ public class DateUtils {
 
     public static String formatMonthYear(Date date) {
         return monthYearDateFormat.format(date);
+    }
+
+    public static String formatNumericMonthYear(Date date) {
+        return numericMonthYearDateFormat.format(date);
     }
 
     public static String formatUtc(Date date) {
