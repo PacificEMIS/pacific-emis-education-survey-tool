@@ -11,4 +11,7 @@ public interface ExcelExporter {
 
     Completable updateSummarySheet(String fileId, String sheetName, ReportBundle reportBundle);
 
+    // every chain method must call this after any work
+    Completable recycle();
+
 }

@@ -95,6 +95,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 excelExporter = new FcmSheetsExcelExporter(sheets, appContext);
                 break;
             case RMI:
+//                excelExporter = new RmiSheetsExcelExporter(sheets, appContext);
                 break;
         }
     }

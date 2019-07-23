@@ -1,6 +1,8 @@
 package fm.doe.national.remote_storage.data.export;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
@@ -16,24 +18,40 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.TextUtil;
-import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.data.storage.TasksRxWrapper;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Completable;
 
+@SuppressLint("DefaultLocale")
 public abstract class SheetsExcelExporter extends TasksRxWrapper implements ExcelExporter {
 
+    private static final String TAG = SheetsExcelExporter.class.getName();
+    private static final String PREFIX_UPDATABLE_CELL = "$";
+    private static final String FORMAT_CELL_SUMMARY_STANDARD_TOTAL = "$%sSummaryStandardTotal-%d";
+    private static final String FORMAT_CELL_SUMMARY_STANDARD_LEVEL = "$%sSummaryStandardLevel-%d";
+    private static final String FORMAT_CELL_SUMMARY_TOTAL = "$%sSummaryTotal";
+    private static final String FORMAT_CELL_SUMMARY_CRITERIA_TOTAL = "$%sSummaryCriteriaTotal-%d.%d";
+    private static final String FORMAT_CELL_SUMMARY_SUB_CRITERIA_TOTAL = "$%sSummary-%d.%d.%d";
+    private static final String CELL_SCHOOL_ID = "$schNo";
+    private static final String CELL_SCHOOL_NAME = "$schName";
+    private static final String CELL_DATE = "$date";
+    private static final String CELL_PRINCIPAL = "$principal";
+
     private static final String VALUE_INPUT_OPTION_USER = "USER_ENTERED";
-    private static final String RANGE_INFO = "A3:B4";
+    private final Sheets sheetsApi;
+    protected final Context appContext;
+    protected final Map<String, CellInfo> updatableCells = new HashMap<>();
     private static final ScoresSummaryCellsInfo CELLS_INFO_SCORES_SUMMARY = new ScoresSummaryCellsInfo.Builder()
             .setNamingRange("A1:C")
             .setSchoolIdColumnNumber(0)
@@ -42,12 +60,38 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             .setFirstNumericColumnNumber(3)
             .build();
 
-    private final Sheets sheetsApi;
-    protected final Context appContext;
 
     public SheetsExcelExporter(Sheets sheetsApi, Context appContext) {
         this.sheetsApi = sheetsApi;
         this.appContext = appContext;
+    }
+
+    @Override
+    public Completable recreateSheet(String spreadsheetId, String sheetName, String templateSheetName) {
+        return wrapWithCompletableInThreadPool(() -> {
+            Sheet templateSheet = findTemplateSheet(spreadsheetId, templateSheetName);
+            Optional<Sheet> existingSheet = findSheet(spreadsheetId, sheetName);
+
+            if (existingSheet.isPresent()) {
+                deleteSheet(spreadsheetId, existingSheet.get().getProperties().getSheetId());
+            }
+
+            duplicateSheet(spreadsheetId, templateSheet.getProperties().getSheetId(), sheetName);
+
+            List<List<Object>> values = sheetsApi.spreadsheets().values().get(spreadsheetId, sheetName).execute().getValues();
+            for (int rowIndex = 0; rowIndex < values.size(); rowIndex++) {
+                List<Object> row = values.get(rowIndex);
+                for (int columnIndex = 0; columnIndex < row.size(); columnIndex++) {
+                    String value = (String) row.get(columnIndex);
+
+                    if (value.startsWith(PREFIX_UPDATABLE_CELL)) {
+                        updatableCells.put(value, new CellInfo(rowIndex, columnIndex));
+                    }
+                }
+            }
+
+            Log.d(TAG, "recreateSheet: ");
+        });
     }
 
     @Override
@@ -96,6 +140,11 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
         });
     }
 
+    @Override
+    public Completable recycle() {
+        return Completable.fromAction(updatableCells::clear);
+    }
+
     private int findSummaryRowToUpdate(String spreadsheetId, String schoolId, String dateAsString, String sheetName) throws IOException {
         ValueRange existingValues = sheetsApi.spreadsheets()
                 .values()
@@ -132,11 +181,22 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
         );
     }
 
+    protected String getEvaluationFormPrefix(EvaluationForm evaluationForm) {
+        switch (evaluationForm) {
+            case SCHOOL_EVALUATION:
+                return "se";
+            case CLASSROOM_OBSERVATION:
+                return "co";
+            default:
+                return "";
+        }
+    }
+
     private List<ValueRange> createSummaryValueRange(String sheetName,
                                                      List<SummaryViewData> summary,
                                                      EvaluationForm evaluationForm) {
-        SummaryCellsInfo cellsInfo = getSummaryCellsInfo(evaluationForm);
         ArrayList<ValueRange> ranges = new ArrayList<>();
+        final String cellPrefix = getEvaluationFormPrefix(evaluationForm);
         int totalByEvaluation = 0;
 
         for (int standardIndex = 0; standardIndex < summary.size(); standardIndex++) {
@@ -146,8 +206,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             ranges.add(
                     createSingleCellValueRange(
                             sheetName,
-                            cellsInfo.columnsOfStandardCells.get(standardIndex).get(0),
-                            cellsInfo.totalByStandardRow,
+                            getCellRange(FORMAT_CELL_SUMMARY_STANDARD_TOTAL, cellPrefix, standardIndex + 1),
                             data.getTotalByStandard()
                     )
             );
@@ -155,20 +214,18 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             ranges.add(
                     createSingleCellValueRange(
                             sheetName,
-                            cellsInfo.columnsOfStandardCells.get(standardIndex).get(0),
-                            cellsInfo.levelRow,
+                            getCellRange(FORMAT_CELL_SUMMARY_STANDARD_LEVEL, cellPrefix, standardIndex + 1),
                             data.getLevel().getName().getString(appContext)
                     )
             );
 
-            ranges.addAll(createCriteriasValueRanges(sheetName, cellsInfo, cellsInfo.columnsOfStandardCells.get(standardIndex), data));
+            ranges.addAll(createCriteriasValueRanges(sheetName, data, cellPrefix, standardIndex));
         }
 
         ranges.add(
                 createSingleCellValueRange(
                         sheetName,
-                        cellsInfo.totalByEvaluationColumn,
-                        cellsInfo.totalByEvaluationRow,
+                        getCellRange(FORMAT_CELL_SUMMARY_TOTAL, cellPrefix),
                         totalByEvaluation
                 )
         );
@@ -176,12 +233,24 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
         return ranges;
     }
 
-    protected abstract SummaryCellsInfo getSummaryCellsInfo(EvaluationForm evaluationForm);
+    protected String getCellRange(String cellKey) {
+        CellInfo cellInfo = updatableCells.get(cellKey);
+        if (cellInfo == null) {
+            Log.w(TAG, "getCellRange: cell not found(" + cellKey + ")");
+            return "";
+        }
+
+        return cellInfo.getRange();
+    }
+
+    protected String getCellRange(String format, Object... args) {
+        return getCellRange(String.format(format, args));
+    }
 
     private List<ValueRange> createCriteriasValueRanges(String sheetName,
-                                                        SummaryCellsInfo cellsInfo,
-                                                        List<String> criteriaColumns,
-                                                        SummaryViewData data) {
+                                                        SummaryViewData data,
+                                                        String cellPrefix,
+                                                        int standardIndex) {
         ArrayList<ValueRange> ranges = new ArrayList<>();
 
         for (int criteriaIndex = 0; criteriaIndex < data.getCriteriaSummaryViewDataList().size(); criteriaIndex++) {
@@ -190,30 +259,29 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             ranges.add(
                     createSingleCellValueRange(
                             sheetName,
-                            criteriaColumns.get(criteriaIndex),
-                            cellsInfo.totalByCriteriaRow,
+                            getCellRange(FORMAT_CELL_SUMMARY_CRITERIA_TOTAL, cellPrefix, standardIndex, criteriaIndex),
                             criteriaData.getTotal()
                     )
             );
 
-            ranges.addAll(createSubCriteriasValueRanges(sheetName, cellsInfo, criteriaColumns.get(criteriaIndex), criteriaData));
+            ranges.addAll(createSubCriteriasValueRanges(sheetName, criteriaData, cellPrefix, standardIndex, criteriaIndex));
         }
 
         return ranges;
     }
 
     private List<ValueRange> createSubCriteriasValueRanges(String sheetName,
-                                                           SummaryCellsInfo cellsInfo,
-                                                           String column,
-                                                           SummaryViewData.CriteriaSummaryViewData criteriaData) {
+                                                           SummaryViewData.CriteriaSummaryViewData criteriaData,
+                                                           String cellPrefix,
+                                                           int standardIndex,
+                                                           int criteriaIndex) {
         ArrayList<ValueRange> ranges = new ArrayList<>();
 
         for (int subCriteriaIndex = 0; subCriteriaIndex < criteriaData.getAnswerStates().length; subCriteriaIndex++) {
             ranges.add(
                     createSingleCellValueRange(
                             sheetName,
-                            column,
-                            cellsInfo.rowsOfSubCriteriaCells.get(subCriteriaIndex),
+                            getCellRange(FORMAT_CELL_SUMMARY_SUB_CRITERIA_TOTAL, cellPrefix, standardIndex, criteriaIndex, subCriteriaIndex),
                             criteriaData.getAnswerStates()[subCriteriaIndex] ? 1 : 0
                     )
             );
@@ -223,39 +291,22 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
     }
 
     protected ValueRange createSingleCellValueRange(String sheetName, String column, int row, Object value) {
+        return createSingleCellValueRange(sheetName, column + row, value);
+    }
+
+    protected ValueRange createSingleCellValueRange(String sheetName, String a1Range, Object value) {
         return new ValueRange()
-                .setRange(makeRange(sheetName, column + row))
+                .setRange(makeRange(sheetName, a1Range))
                 .setValues(Collections.singletonList(Collections.singletonList(value)));
     }
 
-    protected ValueRange createInfoValueRange(String sheetName, LevelLegendView.Item header) {
-        return new ValueRange()
-                .setRange(makeRange(sheetName, RANGE_INFO))
-                .setValues(Arrays.asList(
-                        Arrays.asList(
-                                appContext.getString(R.string.label_school_code) + " " + header.getSchoolId(),
-                                appContext.getString(R.string.label_school_name) + " " + header.getSchoolName()
-                        ),
-                        Arrays.asList(
-                                appContext.getString(R.string.label_date_of_accreditation) + " " +
-                                        DateUtils.formatUi(header.getDate()),
-                                appContext.getString(R.string.label_principal_name)
-                        )
-                ));
-    }
-
-    @Override
-    public Completable recreateSheet(String spreadsheetId, String sheetName, String templateSheetName) {
-        return wrapWithCompletableInThreadPool(() -> {
-            Sheet templateSheet = findTemplateSheet(spreadsheetId, templateSheetName);
-            Optional<Sheet> existingSheet = findSheet(spreadsheetId, sheetName);
-
-            if (existingSheet.isPresent()) {
-                deleteSheet(spreadsheetId, existingSheet.get().getProperties().getSheetId());
-            }
-
-            duplicateSheet(spreadsheetId, templateSheet.getProperties().getSheetId(), sheetName);
-        });
+    protected List<ValueRange> createInfoValueRanges(String sheetName, LevelLegendView.Item header) {
+        return Arrays.asList(
+                createSingleCellValueRange(sheetName, getCellRange(CELL_SCHOOL_ID), header.getSchoolId()),
+                createSingleCellValueRange(sheetName, getCellRange(CELL_SCHOOL_NAME), header.getSchoolName()),
+                createSingleCellValueRange(sheetName, getCellRange(CELL_DATE), header.getDate()),
+                createSingleCellValueRange(sheetName, getCellRange(CELL_PRINCIPAL), header.getPrincipalName())
+        );
     }
 
     private void deleteSheet(String spreadsheetId, Integer sheetId) throws IOException {
@@ -307,68 +358,6 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
         return "'" + sheetName + "'!" + a1Range;
     }
 
-    protected static class SummaryCellsInfo {
-        private List<List<String>> columnsOfStandardCells;
-        private List<Integer> rowsOfSubCriteriaCells;
-        private int totalByCriteriaRow;
-        private int totalByStandardRow;
-        private int levelRow;
-        private String totalByEvaluationColumn;
-        private int totalByEvaluationRow;
-
-        private SummaryCellsInfo() {
-            // private constructor
-        }
-
-        public static class Builder {
-            private SummaryCellsInfo cellsInfo = new SummaryCellsInfo();
-
-            public Builder setColumnsOfStandardCells(List<List<String>> columnsOfStandardCells) {
-                cellsInfo.columnsOfStandardCells = columnsOfStandardCells;
-                return this;
-            }
-
-            public Builder setRowsOfSubCriteriaCells(Integer... rowsOfSubCriteriaCells) {
-                cellsInfo.rowsOfSubCriteriaCells = Arrays.asList(rowsOfSubCriteriaCells);
-                return this;
-            }
-
-            public Builder setTotalByCriteriaRow(int totalByCriteriaRow) {
-                cellsInfo.totalByCriteriaRow = totalByCriteriaRow;
-                return this;
-            }
-
-            public Builder setTotalByStandardRow(int totalByStandardRow) {
-                cellsInfo.totalByStandardRow = totalByStandardRow;
-                return this;
-            }
-
-            public Builder setLevelRow(int levelRow) {
-                cellsInfo.levelRow = levelRow;
-                return this;
-            }
-
-            public Builder setTotalByEvaluationColumn(String totalByEvaluationColumn) {
-                cellsInfo.totalByEvaluationColumn = totalByEvaluationColumn;
-                return this;
-            }
-
-            public Builder setTotalByEvaluationRow(int totalByEvaluationRow) {
-                cellsInfo.totalByEvaluationRow = totalByEvaluationRow;
-                return this;
-            }
-
-            public SummaryCellsInfo build() {
-                if (cellsInfo.columnsOfStandardCells == null ||
-                        cellsInfo.rowsOfSubCriteriaCells == null ||
-                        cellsInfo.totalByEvaluationColumn == null) {
-                    throw new IllegalStateException();
-                }
-                return cellsInfo;
-            }
-        }
-    }
-
     protected static class ScoresSummaryCellsInfo {
         private String namingRange;
         private int schoolIdColumnNumber;
@@ -415,5 +404,21 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
                 return cellsInfo;
             }
         }
+    }
+
+    protected static class CellInfo {
+
+        private int row;
+        private int column;
+
+        public CellInfo(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+
+        public String getRange() {
+            return TextUtil.convertIntToCharsIcons(column) + (row + 1);
+        }
+
     }
 }

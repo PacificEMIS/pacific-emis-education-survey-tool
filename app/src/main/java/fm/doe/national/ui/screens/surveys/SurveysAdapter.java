@@ -72,7 +72,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @OnClick(R.id.button_more)
         void onMoreButtonClick() {
             PopupMenu popupMenu = new PopupMenu(getContext(), moreButton, Gravity.END);
-            popupMenu.inflate(isExportEnabled ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
+            popupMenu.inflate(needToShowExport() ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
         }
@@ -80,6 +80,10 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             return menuItemClickListener.onMenuItemClick(item, getItem());
+        }
+
+        private boolean needToShowExport() {
+            return isExportEnabled && getItem().isCompleted();
         }
     }
 
