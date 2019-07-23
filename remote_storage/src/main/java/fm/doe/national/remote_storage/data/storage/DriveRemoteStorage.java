@@ -28,6 +28,8 @@ import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
+import fm.doe.national.remote_storage.data.export.ExcelExporter;
+import fm.doe.national.remote_storage.data.export.FcmSheetsExcelExporter;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
@@ -43,6 +45,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
             SheetsScopes.SPREADSHEETS,
             SheetsScopes.SPREADSHEETS_READONLY
     );
+    private static final String SHEET_NAME_SUMMARY = "Standard Scores Summary";
+    private static final String SHEET_NAME_TEMPLATE = "template";
     private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
     private final SurveySerializer surveySerializer;
@@ -51,7 +55,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private final GlobalPreferences globalPreferences;
 
     private DriveServiceHelper driveServiceHelper;
-    private SheetsServiceHelper sheetsServiceHelper;
+    private ExcelExporter excelExporter;
 
     @Nullable
     private GoogleSignInAccount userAccount;
@@ -75,13 +79,23 @@ public final class DriveRemoteStorage implements RemoteStorage {
             Drive drive = new Drive.Builder(sTransport, sGsonFactory, credential)
                     .setApplicationName(appContext.getString(R.string.app_name))
                     .build();
-            Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, credential)
-                    .setApplicationName(appContext.getString(R.string.app_name))
-                    .build();
             driveServiceHelper = new DriveServiceHelper(drive);
-            sheetsServiceHelper = new SheetsServiceHelper(sheets, appContext);
+            configureExcelExporter(credential);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void configureExcelExporter(GoogleCredential credential) {
+        Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, credential)
+                .setApplicationName(appContext.getString(R.string.app_name))
+                .build();
+        switch (globalPreferences.getAppRegion()) {
+            case FCM:
+                excelExporter = new FcmSheetsExcelExporter(sheets, appContext);
+                break;
+            case RMI:
+                break;
         }
     }
 
@@ -145,9 +159,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
     public Completable exportToExcel(Survey survey, ReportBundle reportBundle) {
         String spreadsheetId = globalPreferences.getSpreadsheetId();
         String sheetName = SurveyTextUtil.createSurveySheetName(survey);
-        return sheetsServiceHelper.recreateSheet(spreadsheetId, sheetName)
-                .andThen(sheetsServiceHelper.fillReportSheet(spreadsheetId, sheetName, reportBundle))
-                .andThen(sheetsServiceHelper.updateSummarySheet(spreadsheetId, reportBundle));
+        return excelExporter.recreateSheet(spreadsheetId, sheetName, SHEET_NAME_TEMPLATE)
+                .andThen(excelExporter.fillReportSheet(spreadsheetId, sheetName, reportBundle))
+                .andThen(excelExporter.updateSummarySheet(spreadsheetId, SHEET_NAME_SUMMARY, reportBundle));
     }
 
 }
