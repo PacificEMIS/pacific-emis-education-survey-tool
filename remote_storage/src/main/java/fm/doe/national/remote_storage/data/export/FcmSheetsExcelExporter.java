@@ -39,8 +39,8 @@ public class FcmSheetsExcelExporter extends SheetsExcelExporter {
     private static final String CELL_TOTAL_FINAL_SCORE = "$totalScore";
     private static final String CELL_LEVEL_DETERMINATION = "$levelDet";
 
-    public FcmSheetsExcelExporter(Sheets sheetsApi, Context appContext) {
-        super(sheetsApi, appContext);
+    public FcmSheetsExcelExporter(Context appContext, Sheets sheetsApi) {
+        super(appContext, sheetsApi);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class FcmSheetsExcelExporter extends SheetsExcelExporter {
                                                                   List<? extends Standard> standards,
                                                                   List<Recommendation> recommendations,
                                                                   String cellPrefix) {
-        ArrayList<ValueRange> ranges = new ArrayList<>();
+        List<ValueRange> ranges = new ArrayList<>();
         for (int standardIndex = 0; standardIndex < standards.size(); standardIndex++) {
             final Standard standard = standards.get(standardIndex);
             for (int criteriaIndex = 0; criteriaIndex < standard.getCriterias().size(); criteriaIndex++) {
@@ -101,7 +101,7 @@ public class FcmSheetsExcelExporter extends SheetsExcelExporter {
     }
 
     private List<Recommendation> filterRecommendations(FlattenRecommendationsWrapper recommendationsWrapper, EvaluationForm evaluationForm) {
-        ArrayList<Recommendation> filteredRecommendations = new ArrayList<>();
+        List<Recommendation> filteredRecommendations = new ArrayList<>();
         boolean isInCurrentRecommendationsBlock = false;
         for (Recommendation recommendation : recommendationsWrapper.getRecommendations()) {
             if (recommendation instanceof CategoryRecommendation) {

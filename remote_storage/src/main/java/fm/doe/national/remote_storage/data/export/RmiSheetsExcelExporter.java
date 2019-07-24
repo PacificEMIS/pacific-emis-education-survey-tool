@@ -9,8 +9,8 @@ import io.reactivex.Completable;
 
 public class RmiSheetsExcelExporter extends SheetsExcelExporter {
 
-    public RmiSheetsExcelExporter(Sheets sheetsApi, Context appContext) {
-        super(sheetsApi, appContext);
+    public RmiSheetsExcelExporter(Context appContext, Sheets sheetsApi) {
+        super(appContext, sheetsApi);
     }
 
     @Override

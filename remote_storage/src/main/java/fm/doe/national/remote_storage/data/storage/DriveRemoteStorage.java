@@ -93,10 +93,10 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 .build();
         switch (globalPreferences.getAppRegion()) {
             case FCM:
-                excelExporter = new FcmSheetsExcelExporter(sheets, appContext);
+                excelExporter = new FcmSheetsExcelExporter(appContext, sheets);
                 break;
             case RMI:
-                excelExporter = new RmiSheetsExcelExporter(sheets, appContext);
+                excelExporter = new RmiSheetsExcelExporter(appContext, sheets);
                 break;
         }
     }

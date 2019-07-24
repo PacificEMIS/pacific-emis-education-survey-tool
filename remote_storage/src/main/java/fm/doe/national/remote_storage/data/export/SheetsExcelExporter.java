@@ -62,7 +62,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             .build();
 
 
-    public SheetsExcelExporter(Sheets sheetsApi, Context appContext) {
+    public SheetsExcelExporter(Context appContext, Sheets sheetsApi) {
         this.sheetsApi = sheetsApi;
         this.appContext = appContext;
     }
@@ -198,7 +198,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
     private List<ValueRange> createSummaryValueRange(String sheetName,
                                                      List<SummaryViewData> summary,
                                                      EvaluationForm evaluationForm) {
-        ArrayList<ValueRange> ranges = new ArrayList<>();
+        List<ValueRange> ranges = new ArrayList<>();
         final String cellPrefix = getEvaluationFormPrefix(evaluationForm);
         int totalByEvaluation = 0;
 
@@ -254,7 +254,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
                                                         SummaryViewData data,
                                                         String cellPrefix,
                                                         int standardIndex) {
-        ArrayList<ValueRange> ranges = new ArrayList<>();
+        List<ValueRange> ranges = new ArrayList<>();
 
         for (int criteriaIndex = 0; criteriaIndex < data.getCriteriaSummaryViewDataList().size(); criteriaIndex++) {
             SummaryViewData.CriteriaSummaryViewData criteriaData = data.getCriteriaSummaryViewDataList().get(criteriaIndex);
@@ -278,7 +278,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
                                                            String cellPrefix,
                                                            int standardIndex,
                                                            int criteriaIndex) {
-        ArrayList<ValueRange> ranges = new ArrayList<>();
+        List<ValueRange> ranges = new ArrayList<>();
 
         for (int subCriteriaIndex = 0; subCriteriaIndex < criteriaData.getAnswerStates().length; subCriteriaIndex++) {
             ranges.add(
