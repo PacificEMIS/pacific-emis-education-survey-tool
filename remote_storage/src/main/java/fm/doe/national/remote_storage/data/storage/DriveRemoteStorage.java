@@ -186,32 +186,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(appContext, sScopes);
                 credential.setSelectedAccount(userAccount.getAccount());
                 excelExporter = getExcelExporter(credential);
-                Drive drive = getDriveService(credential);
-                String templateName = getTemplateFileName();
-                String templateExtension = BuildConfig.EXTENSION_REPORT_TEMPLATE;
-                fileIdStep = Single.fromCallable(() ->
-                        filesRepository.createTmpFile(
-                                templateName,
-                                templateExtension,
-                                appContext.getAssets().open(templateName + "." + templateExtension)
-                        )
-                )
-                        .flatMap(file ->
-                                driveServiceHelper.uploadFileFromSource(
-                                        drive,
-                                        file,
-                                        SheetsExcelExporter.MIME_TYPE_MS_EXCEL,
-                                        SheetsExcelExporter.MIME_TYPE_GOOGLE_SHEETS,
-                                        templateName
-                                )
-                        )
-                        .flatMap(file -> {
-                            if (TextUtils.isEmpty(file.getId())) {
-                                return Single.error(new FileExportException("File not created"));
-                            } else {
-                                return Single.just(file.getId());
-                            }
-                        });
+                fileIdStep = copyTemplateReportToUserDrive(credential);
                 break;
             default:
                 throw new NotImplementedException();
@@ -227,6 +202,35 @@ public final class DriveRemoteStorage implements RemoteStorage {
                                                 .andThen(Single.just(url))
                                 )
                 );
+    }
+
+    private Single<String> copyTemplateReportToUserDrive(HttpRequestInitializer initializer) {
+        Drive drive = getDriveService(initializer);
+        String templateName = getTemplateFileName();
+        String templateExtension = BuildConfig.EXTENSION_REPORT_TEMPLATE;
+        return Single.fromCallable(() ->
+                filesRepository.createTmpFile(
+                        templateName,
+                        templateExtension,
+                        appContext.getAssets().open(templateName + "." + templateExtension)
+                )
+        )
+                .flatMap(file ->
+                        driveServiceHelper.uploadFileFromSource(
+                                drive,
+                                file,
+                                SheetsExcelExporter.MIME_TYPE_MS_EXCEL,
+                                SheetsExcelExporter.MIME_TYPE_GOOGLE_SHEETS,
+                                templateName
+                        )
+                )
+                .flatMap(file -> {
+                    if (TextUtils.isEmpty(file.getId())) {
+                        return Single.error(new FileExportException("File not created"));
+                    } else {
+                        return Single.just(file.getId());
+                    }
+                });
     }
 
     private String getTemplateFileName() {
