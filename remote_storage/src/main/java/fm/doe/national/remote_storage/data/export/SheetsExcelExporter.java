@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.TextUtil;
+import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.data.storage.TasksRxWrapper;
 import fm.doe.national.report_core.model.SummaryViewData;
@@ -77,21 +78,23 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             }
 
             duplicateSheet(spreadsheetId, templateSheet.getProperties().getSheetId(), sheetName);
+            updateCellsInfo(spreadsheetId, sheetName);
+        });
+    }
 
-            List<List<Object>> values = sheetsApi.spreadsheets().values().get(spreadsheetId, sheetName).execute().getValues();
-            for (int rowIndex = 0; rowIndex < values.size(); rowIndex++) {
-                List<Object> row = values.get(rowIndex);
-                for (int columnIndex = 0; columnIndex < row.size(); columnIndex++) {
-                    String value = (String) row.get(columnIndex);
+    private void updateCellsInfo(String spreadsheetId, String sheetName) throws IOException {
+        updatableCells.clear();
+        List<List<Object>> values = sheetsApi.spreadsheets().values().get(spreadsheetId, sheetName).execute().getValues();
+        for (int rowIndex = 0; rowIndex < values.size(); rowIndex++) {
+            List<Object> row = values.get(rowIndex);
+            for (int columnIndex = 0; columnIndex < row.size(); columnIndex++) {
+                String value = (String) row.get(columnIndex);
 
-                    if (value.startsWith(PREFIX_UPDATABLE_CELL)) {
-                        updatableCells.put(value, new CellInfo(rowIndex, columnIndex));
-                    }
+                if (value.startsWith(PREFIX_UPDATABLE_CELL)) {
+                    updatableCells.put(value, new CellInfo(rowIndex, columnIndex));
                 }
             }
-
-            Log.d(TAG, "recreateSheet: ");
-        });
+        }
     }
 
     @Override
@@ -219,7 +222,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
                     )
             );
 
-            ranges.addAll(createCriteriasValueRanges(sheetName, data, cellPrefix, standardIndex));
+            ranges.addAll(createCriteriasValueRanges(sheetName, data, cellPrefix, standardIndex + 1));
         }
 
         ranges.add(
@@ -259,12 +262,12 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             ranges.add(
                     createSingleCellValueRange(
                             sheetName,
-                            getCellRange(FORMAT_CELL_SUMMARY_CRITERIA_TOTAL, cellPrefix, standardIndex, criteriaIndex),
+                            getCellRange(FORMAT_CELL_SUMMARY_CRITERIA_TOTAL, cellPrefix, standardIndex, criteriaIndex + 1),
                             criteriaData.getTotal()
                     )
             );
 
-            ranges.addAll(createSubCriteriasValueRanges(sheetName, criteriaData, cellPrefix, standardIndex, criteriaIndex));
+            ranges.addAll(createSubCriteriasValueRanges(sheetName, criteriaData, cellPrefix, standardIndex, criteriaIndex + 1));
         }
 
         return ranges;
@@ -281,7 +284,13 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
             ranges.add(
                     createSingleCellValueRange(
                             sheetName,
-                            getCellRange(FORMAT_CELL_SUMMARY_SUB_CRITERIA_TOTAL, cellPrefix, standardIndex, criteriaIndex, subCriteriaIndex),
+                            getCellRange(
+                                    FORMAT_CELL_SUMMARY_SUB_CRITERIA_TOTAL,
+                                    cellPrefix,
+                                    standardIndex,
+                                    criteriaIndex,
+                                    subCriteriaIndex + 1
+                            ),
                             criteriaData.getAnswerStates()[subCriteriaIndex] ? 1 : 0
                     )
             );
@@ -302,10 +311,26 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
 
     protected List<ValueRange> createInfoValueRanges(String sheetName, LevelLegendView.Item header) {
         return Arrays.asList(
-                createSingleCellValueRange(sheetName, getCellRange(CELL_SCHOOL_ID), header.getSchoolId()),
-                createSingleCellValueRange(sheetName, getCellRange(CELL_SCHOOL_NAME), header.getSchoolName()),
-                createSingleCellValueRange(sheetName, getCellRange(CELL_DATE), header.getDate()),
-                createSingleCellValueRange(sheetName, getCellRange(CELL_PRINCIPAL), header.getPrincipalName())
+                createSingleCellValueRange(
+                        sheetName,
+                        getCellRange(CELL_SCHOOL_ID),
+                        appContext.getString(R.string.label_school_code) + " " + header.getSchoolId()
+                ),
+                createSingleCellValueRange(
+                        sheetName,
+                        getCellRange(CELL_SCHOOL_NAME),
+                        appContext.getString(R.string.label_school_name) + " " + header.getSchoolName()
+                ),
+                createSingleCellValueRange(
+                        sheetName,
+                        getCellRange(CELL_DATE),
+                        appContext.getString(R.string.label_date_of_accreditation) + " " + DateUtils.formatUi(header.getDate())
+                ),
+                createSingleCellValueRange(
+                        sheetName,
+                        getCellRange(CELL_PRINCIPAL),
+                        appContext.getString(R.string.label_principal_name)
+                )
         );
     }
 

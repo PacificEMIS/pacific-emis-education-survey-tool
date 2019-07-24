@@ -25,7 +25,7 @@ import io.reactivex.Completable;
 public class FcmSheetsExcelExporter extends SheetsExcelExporter {
 
     private static final String MARK_RECOMMENDATION = "√";
-    private static final String MARK_NOT_RECOMMENDATION = "";
+    private static final String MARK_NOT_RECOMMENDATION = " ";
     private static final String FORMAT_CELL_RECOMMENDATION = "$%sRec%s-%d.%d";
     private static final String SUFFIX_POSITIVE = "Pos";
     private static final String SUFFIX_NEGATIVE = "Neg";
@@ -61,7 +61,6 @@ public class FcmSheetsExcelExporter extends SheetsExcelExporter {
     private List<ValueRange> createEvaluationRecommendationsValueRange(String sheetName,
                                                                        FlattenRecommendationsWrapper recommendationsWrapper,
                                                                        EvaluationForm evaluationForm) {
-        ArrayList<ValueRange> ranges = new ArrayList<>();
         String cellPrefix = getEvaluationFormPrefix(evaluationForm);
         List<? extends Standard> filteredStandards = recommendationsWrapper.getFlattenSurvey().getCategories()
                 .stream()
@@ -69,9 +68,7 @@ public class FcmSheetsExcelExporter extends SheetsExcelExporter {
                 .flatMap(c -> c.getStandards().stream())
                 .collect(Collectors.toList());
         List<Recommendation> filteredRecommendations = filterRecommendations(recommendationsWrapper, evaluationForm);
-        ranges.addAll(createRecommendationTableValueRanges(sheetName, filteredStandards, filteredRecommendations, cellPrefix));
-        ranges.addAll(createRecommendationTextValueRanges(sheetName, filteredRecommendations, cellPrefix));
-        return ranges;
+        return createRecommendationTableValueRanges(sheetName, filteredStandards, filteredRecommendations, cellPrefix);
     }
 
     private List<ValueRange> createRecommendationTableValueRanges(String sheetName,
@@ -90,61 +87,16 @@ public class FcmSheetsExcelExporter extends SheetsExcelExporter {
 
                 ranges.add(createSingleCellValueRange(
                         sheetName,
-                        getCellRange(FORMAT_CELL_RECOMMENDATION, cellPrefix, SUFFIX_POSITIVE, standardIndex, criteriaIndex),
+                        getCellRange(FORMAT_CELL_RECOMMENDATION, cellPrefix, SUFFIX_POSITIVE, standardIndex + 1, criteriaIndex + 1),
                         existingRecommendation.isPresent() ? MARK_NOT_RECOMMENDATION : MARK_RECOMMENDATION
                 ));
                 ranges.add(createSingleCellValueRange(
                         sheetName,
-                        getCellRange(FORMAT_CELL_RECOMMENDATION, cellPrefix, SUFFIX_NEGATIVE, standardIndex, criteriaIndex),
+                        getCellRange(FORMAT_CELL_RECOMMENDATION, cellPrefix, SUFFIX_NEGATIVE, standardIndex + 1, criteriaIndex + 1),
                         existingRecommendation.isPresent() ? MARK_RECOMMENDATION : MARK_NOT_RECOMMENDATION
                 ));
             }
         }
-        return ranges;
-    }
-
-    private List<ValueRange> createRecommendationTextValueRanges(String sheetName,
-                                                                 List<Recommendation> filteredRecommendations,
-                                                                 String cellPrefix) {
-        ArrayList<ValueRange> ranges = new ArrayList<>();
-//        int currentTextRow = updatableCells.get(String.format());
-//        for (Recommendation recommendation : filteredRecommendations) {
-//
-//            if (recommendation instanceof StandardRecommendation) {
-//                Standard standard = ((StandardRecommendation) recommendation).getObject();
-//                ranges.add(createSingleCellValueRange(
-//                        sheetName,
-//                        cellsInfo.textStartColumn,
-//                        currentTextRow,
-//                        appContext.getString(R.string.format_export_standard, standard.getSuffix(), standard.getTitle())
-//                ));
-//                currentTextRow++;
-//                continue;
-//            }
-//
-//            if (recommendation instanceof CriteriaRecommendation) {
-//                Criteria criteria = ((CriteriaRecommendation) recommendation).getObject();
-//                ranges.add(createSingleCellValueRange(
-//                        sheetName,
-//                        cellsInfo.textStartColumn,
-//                        currentTextRow,
-//                        appContext.getString(R.string.format_export_criteria, criteria.getSuffix(), criteria.getTitle())
-//                ));
-//                currentTextRow++;
-//                continue;
-//            }
-//
-//            if (recommendation instanceof SubCriteriaRecommendation) {
-//                SubCriteria subCriteria = ((SubCriteriaRecommendation) recommendation).getObject();
-//                ranges.add(createSingleCellValueRange(
-//                        sheetName,
-//                        cellsInfo.textStartColumn,
-//                        currentTextRow,
-//                        appContext.getString(R.string.format_export_sub_criteria, subCriteria.getSuffix(), subCriteria.getTitle())
-//                ));
-//                currentTextRow++;
-//            }
-//        }
         return ranges;
     }
 

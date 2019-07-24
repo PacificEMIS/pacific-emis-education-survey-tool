@@ -162,7 +162,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
         String sheetName = SurveyTextUtil.createSurveySheetName(survey);
         return excelExporter.recreateSheet(spreadsheetId, sheetName, SHEET_NAME_TEMPLATE)
                 .andThen(excelExporter.fillReportSheet(spreadsheetId, sheetName, reportBundle))
-                .andThen(excelExporter.updateSummarySheet(spreadsheetId, SHEET_NAME_SUMMARY, reportBundle));
+                .andThen(excelExporter.updateSummarySheet(spreadsheetId, SHEET_NAME_SUMMARY, reportBundle))
+                .andThen(excelExporter.recycle());
     }
 
 }
