@@ -34,9 +34,9 @@ import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
-import fm.doe.national.remote_storage.data.export.ExcelExporter;
 import fm.doe.national.remote_storage.data.export.FcmSheetsExcelExporter;
 import fm.doe.national.remote_storage.data.export.RmiSheetsExcelExporter;
+import fm.doe.national.remote_storage.data.export.SheetsExcelExporter;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
@@ -103,7 +103,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 .build();
     }
 
-    private ExcelExporter getExcelExporter(HttpRequestInitializer initializer) {
+    private SheetsExcelExporter getExcelExporter(HttpRequestInitializer initializer) {
         Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, initializer)
                 .setApplicationName(appContext.getString(R.string.app_name))
                 .build();
@@ -174,9 +174,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Completable exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType) {
+    public Single<String> exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType) {
         Single<String> fileIdStep;
-        ExcelExporter excelExporter;
+        SheetsExcelExporter excelExporter;
         switch (exportType) {
             case GLOBAL:
                 fileIdStep = Single.just(globalPreferences.getSpreadsheetId());
@@ -187,15 +187,24 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 credential.setSelectedAccount(userAccount.getAccount());
                 excelExporter = getExcelExporter(credential);
                 Drive drive = getDriveService(credential);
-                fileIdStep = Single.fromCallable(() -> filesRepository.createTmpFile("report_fcm", "xlsx", appContext.getAssets().open("report_fcm.xlsx")))
-                        .flatMap(file -> driveServiceHelper.uploadFileFromSource(
-                                drive,
-                                file,
-                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                "application/vnd.google-apps.spreadsheet",
-                                "report_fcm"
-
-                        ))
+                String templateName = getTemplateFileName();
+                String templateExtension = BuildConfig.EXTENSION_REPORT_TEMPLATE;
+                fileIdStep = Single.fromCallable(() ->
+                        filesRepository.createTmpFile(
+                                templateName,
+                                templateExtension,
+                                appContext.getAssets().open(templateName + "." + templateExtension)
+                        )
+                )
+                        .flatMap(file ->
+                                driveServiceHelper.uploadFileFromSource(
+                                        drive,
+                                        file,
+                                        SheetsExcelExporter.MIME_TYPE_MS_EXCEL,
+                                        SheetsExcelExporter.MIME_TYPE_GOOGLE_SHEETS,
+                                        templateName
+                                )
+                        )
                         .flatMap(file -> {
                             if (TextUtils.isEmpty(file.getId())) {
                                 return Single.error(new FileExportException("File not created"));
@@ -210,12 +219,25 @@ public final class DriveRemoteStorage implements RemoteStorage {
 
         String sheetName = SurveyTextUtil.createSurveySheetName(survey);
         return fileIdStep
-                .flatMapCompletable(spreadsheetId ->
+                .flatMap(spreadsheetId ->
                         excelExporter.recreateSheet(spreadsheetId, sheetName, SHEET_NAME_TEMPLATE)
-                                .andThen(excelExporter.fillReportSheet(spreadsheetId, sheetName, reportBundle))
-                                .andThen(excelExporter.updateSummarySheet(spreadsheetId, SHEET_NAME_SUMMARY, reportBundle))
-                                .andThen(excelExporter.recycle())
+                                .flatMap(url ->
+                                        excelExporter.fillReportSheet(spreadsheetId, sheetName, reportBundle)
+                                                .andThen(excelExporter.updateSummarySheet(spreadsheetId, SHEET_NAME_SUMMARY, reportBundle))
+                                                .andThen(Single.just(url))
+                                )
                 );
+    }
+
+    private String getTemplateFileName() {
+        switch (globalPreferences.getAppRegion()) {
+            case FCM:
+                return BuildConfig.NAME_REPORT_TEMPLATE_FCM;
+            case RMI:
+                return BuildConfig.NAME_REPORT_TEMPLATE_RMI;
+            default:
+                throw new NotImplementedException();
+        }
     }
 
 }

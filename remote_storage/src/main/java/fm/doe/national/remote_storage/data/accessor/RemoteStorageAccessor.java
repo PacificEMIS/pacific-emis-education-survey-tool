@@ -32,5 +32,5 @@ public interface RemoteStorageAccessor {
     @Nullable
     String getUserEmail();
 
-    Completable exportToExcel(AccreditationSurvey survey, ExportType exportType);
+    Single<String> exportToExcel(AccreditationSurvey survey, ExportType exportType);
 }

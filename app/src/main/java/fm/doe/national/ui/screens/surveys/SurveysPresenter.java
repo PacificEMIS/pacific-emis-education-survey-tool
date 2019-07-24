@@ -91,8 +91,10 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnSubscribe(d -> getViewState().showWaiting())
                             .doFinally(getViewState()::hideWaiting)
-                            .subscribe(() -> {
-                                // do nothing
+                            .subscribe(url -> {
+                                if (!url.isEmpty()) {
+                                    getViewState().openInExternalApp(url);
+                                }
                             }, this::handleError)
             );
         }
@@ -109,12 +111,12 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                         .flatMapObservable(Observable::fromIterable)
                         .filter(Survey::isCompleted)
                         .cast(AccreditationSurvey.class)
-                        .concatMapCompletable(survey -> remoteStorageAccessor.exportToExcel(survey, ExportType.GLOBAL))
+                        .concatMapSingle(survey -> remoteStorageAccessor.exportToExcel(survey, ExportType.GLOBAL))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> getViewState().showWaiting())
                         .doFinally(() -> getViewState().hideWaiting())
-                        .subscribe(() -> {
+                        .subscribe(urls -> {
                             // do nothing
                         }, this::handleError)
         );

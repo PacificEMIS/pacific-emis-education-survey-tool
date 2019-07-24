@@ -152,7 +152,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     }
 
     @Override
-    public Completable exportToExcel(AccreditationSurvey survey, ExportType exportType) {
+    public Single<String> exportToExcel(AccreditationSurvey survey, ExportType exportType) {
         return Single.fromCallable(() -> {
             ReportInteractor reportInteractor = ReportComponentInjector
                     .getComponent(lifecycleListener.getCurrentActivity().getApplication())
@@ -186,6 +186,6 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                             }
                         }
                 )
-                .flatMapCompletable(it -> storage.exportToExcel(survey, it, exportType));
+                .flatMap(it -> storage.exportToExcel(survey, it, exportType));
     }
 }

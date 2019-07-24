@@ -40,4 +40,5 @@
     <string name="hint_app_context">Choose the Context to start survey</string>
     <string name="label_account">Account</string>
     <string name="hint_login_required">Login with Google account to create a survey</string>
+    <string name="title_choose_app_to_open">Choose an application to open with:</string>
 </resources>

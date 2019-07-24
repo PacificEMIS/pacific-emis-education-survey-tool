@@ -31,6 +31,6 @@ public interface RemoteStorage {
 
     void setUserAccount(@Nullable GoogleSignInAccount account);
 
-    Completable exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType);
+    Single<String> exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType);
     
 }
