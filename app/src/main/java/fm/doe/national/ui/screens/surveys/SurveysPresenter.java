@@ -20,6 +20,7 @@ import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -100,8 +101,20 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     public void onExportAllPressed() {
-        // TODO: not implemented
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        addDisposable(
+                interactor.getAllSurveys()
+                        .flatMapObservable(Observable::fromIterable)
+                        .filter(Survey::isCompleted)
+                        .cast(AccreditationSurvey.class)
+                        .concatMapCompletable(remoteStorageAccessor::exportToExcel)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> getViewState().showWaiting())
+                        .doFinally(() -> getViewState().hideWaiting())
+                        .subscribe(() -> {
+                            // do nothing
+                        }, this::handleError)
+        );
     }
 
     public void onLoadPartiallySavedSurveyPressed() {
