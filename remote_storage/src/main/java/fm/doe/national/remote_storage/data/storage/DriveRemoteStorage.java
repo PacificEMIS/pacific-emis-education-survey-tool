@@ -225,10 +225,11 @@ public final class DriveRemoteStorage implements RemoteStorage {
                         )
                 )
                 .flatMap(file -> {
-                    if (TextUtils.isEmpty(file.getId())) {
+                    String fileId = file.getId();
+                    if (TextUtils.isEmpty(fileId)) {
                         return Single.error(new FileExportException("File not created"));
                     } else {
-                        return Single.just(file.getId());
+                        return Single.just(fileId);
                     }
                 });
     }
