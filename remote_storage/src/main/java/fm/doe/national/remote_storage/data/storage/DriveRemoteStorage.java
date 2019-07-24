@@ -1,6 +1,7 @@
 package fm.doe.national.remote_storage.data.storage;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -8,6 +9,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
@@ -23,6 +26,9 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.core.data.exceptions.FileExportException;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
+import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
@@ -31,6 +37,7 @@ import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.export.ExcelExporter;
 import fm.doe.national.remote_storage.data.export.FcmSheetsExcelExporter;
 import fm.doe.national.remote_storage.data.export.RmiSheetsExcelExporter;
+import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
@@ -51,20 +58,26 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
     private final SurveySerializer surveySerializer;
+    private final FilesRepository filesRepository;
 
     private final Context appContext;
     private final GlobalPreferences globalPreferences;
 
     private DriveServiceHelper driveServiceHelper;
-    private ExcelExporter excelExporter;
 
     @Nullable
     private GoogleSignInAccount userAccount;
 
-    public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences, SurveySerializer surveySerializer) {
+    private GoogleCredential serviceCredentials;
+
+    public DriveRemoteStorage(Context appContext,
+                              GlobalPreferences globalPreferences,
+                              SurveySerializer surveySerializer,
+                              FilesRepository filesRepository) {
         this.appContext = appContext;
         this.globalPreferences = globalPreferences;
         this.surveySerializer = surveySerializer;
+        this.filesRepository = filesRepository;
         refreshCredentials();
         userAccount = GoogleSignIn.getLastSignedInAccount(appContext);
     }
@@ -72,32 +85,35 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public void refreshCredentials() {
         try {
-            GoogleCredential credential = GoogleCredential.fromStream(
+            serviceCredentials = GoogleCredential.fromStream(
                     appContext.getAssets().open(getCredentialsFileName()),
                     sTransport,
                     sGsonFactory)
                     .createScoped(sScopes);
-            Drive drive = new Drive.Builder(sTransport, sGsonFactory, credential)
-                    .setApplicationName(appContext.getString(R.string.app_name))
-                    .build();
+            Drive drive = getDriveService(serviceCredentials);
             driveServiceHelper = new DriveServiceHelper(drive);
-            configureExcelExporter(credential);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void configureExcelExporter(GoogleCredential credential) {
-        Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, credential)
+    private Drive getDriveService(HttpRequestInitializer initializer) {
+        return new Drive.Builder(sTransport, sGsonFactory, initializer)
+                .setApplicationName(appContext.getString(R.string.app_name))
+                .build();
+    }
+
+    private ExcelExporter getExcelExporter(HttpRequestInitializer initializer) {
+        Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, initializer)
                 .setApplicationName(appContext.getString(R.string.app_name))
                 .build();
         switch (globalPreferences.getAppRegion()) {
             case FCM:
-                excelExporter = new FcmSheetsExcelExporter(appContext, sheets);
-                break;
+                return new FcmSheetsExcelExporter(appContext, sheets);
             case RMI:
-                excelExporter = new RmiSheetsExcelExporter(appContext, sheets);
-                break;
+                return new RmiSheetsExcelExporter(appContext, sheets);
+            default:
+                throw new NotImplementedException();
         }
     }
 
@@ -158,13 +174,48 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Completable exportToExcel(Survey survey, ReportBundle reportBundle) {
-        String spreadsheetId = globalPreferences.getSpreadsheetId();
+    public Completable exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType) {
+        Single<String> fileIdStep;
+        ExcelExporter excelExporter;
+        switch (exportType) {
+            case GLOBAL:
+                fileIdStep = Single.just(globalPreferences.getSpreadsheetId());
+                excelExporter = getExcelExporter(serviceCredentials);
+                break;
+            case PRIVATE:
+                GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(appContext, sScopes);
+                credential.setSelectedAccount(userAccount.getAccount());
+                excelExporter = getExcelExporter(credential);
+                Drive drive = getDriveService(credential);
+                fileIdStep = Single.fromCallable(() -> filesRepository.createTmpFile("report_fcm", "xlsx", appContext.getAssets().open("report_fcm.xlsx")))
+                        .flatMap(file -> driveServiceHelper.uploadFileFromSource(
+                                drive,
+                                file,
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "application/vnd.google-apps.spreadsheet",
+                                "report_fcm"
+
+                        ))
+                        .flatMap(file -> {
+                            if (TextUtils.isEmpty(file.getId())) {
+                                return Single.error(new FileExportException("File not created"));
+                            } else {
+                                return Single.just(file.getId());
+                            }
+                        });
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+
         String sheetName = SurveyTextUtil.createSurveySheetName(survey);
-        return excelExporter.recreateSheet(spreadsheetId, sheetName, SHEET_NAME_TEMPLATE)
-                .andThen(excelExporter.fillReportSheet(spreadsheetId, sheetName, reportBundle))
-                .andThen(excelExporter.updateSummarySheet(spreadsheetId, SHEET_NAME_SUMMARY, reportBundle))
-                .andThen(excelExporter.recycle());
+        return fileIdStep
+                .flatMapCompletable(spreadsheetId ->
+                        excelExporter.recreateSheet(spreadsheetId, sheetName, SHEET_NAME_TEMPLATE)
+                                .andThen(excelExporter.fillReportSheet(spreadsheetId, sheetName, reportBundle))
+                                .andThen(excelExporter.updateSummarySheet(spreadsheetId, SHEET_NAME_SUMMARY, reportBundle))
+                                .andThen(excelExporter.recycle())
+                );
     }
 
 }

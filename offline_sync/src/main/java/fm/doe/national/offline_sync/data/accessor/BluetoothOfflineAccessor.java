@@ -33,7 +33,7 @@ import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
-import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
@@ -100,7 +100,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final GlobalPreferences globalPreferences;
     private final AccreditationDataSource accreditationDataSource;
     private final WashDataSource washDataSource;
-    private final PicturesRepository picturesRepository;
+    private final FilesRepository filesRepository;
     private final SyncNotifier syncNotifier;
 
     private SyncUseCase syncUseCase;
@@ -134,13 +134,13 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                                     GlobalPreferences globalPreferences,
                                     AccreditationDataSource accreditationDataSource,
                                     WashDataSource washDataSource,
-                                    PicturesRepository picturesRepository,
+                                    FilesRepository filesRepository,
                                     SyncNotifier syncNotifier) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
         this.globalPreferences = globalPreferences;
         this.accreditationDataSource = accreditationDataSource;
         this.washDataSource = washDataSource;
-        this.picturesRepository = picturesRepository;
+        this.filesRepository = filesRepository;
         this.syncNotifier = syncNotifier;
     }
 
@@ -656,7 +656,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         File photoFile;
 
         try {
-            photoFile = picturesRepository.createEmptyFile(fileName);
+            photoFile = filesRepository.createEmptyImageFile(fileName);
         } catch (IOException e) {
             e.printStackTrace();
             throw new BluetoothGenericException(e);

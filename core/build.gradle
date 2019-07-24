@@ -84,4 +84,9 @@ dependencies {
     implementation("org.simpleframework:simple-xml:2.7.1") {
         exclude group: 'xpp3', module: 'xpp3'
     }
+
+    // Google API Util
+    implementation("com.google.api-client:google-api-client-android:${Deps.googleApi}") {
+        exclude group: 'org.apache.httpcomponents'
+    }
 }

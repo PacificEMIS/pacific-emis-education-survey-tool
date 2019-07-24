@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.di.CoreComponent;
@@ -22,13 +22,13 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
 
-    private final PicturesRepository picturesRepository;
+    private final FilesRepository filesRepository;
 
     @Nullable
     private File takenPictureFile;
 
     protected PhotosPresenter(CoreComponent coreComponent) {
-        picturesRepository = coreComponent.getPicturesRepository();
+        filesRepository = coreComponent.getPicturesRepository();
     }
 
     // Call this in subclass constructor
@@ -69,7 +69,7 @@ public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
 
     public void onAddPhotoPressed() {
         try {
-            takenPictureFile = picturesRepository.createEmptyFile();
+            takenPictureFile = filesRepository.createEmptyImageFile();
             if (takenPictureFile != null) getViewState().takePictureTo(takenPictureFile);
         } catch (IOException ex) {
             getViewState().showMessage(Text.from(R.string.title_warning), Text.from(R.string.error_take_picture));
@@ -87,7 +87,7 @@ public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
     }
 
     public void onTakePhotoFailure() {
-        picturesRepository.delete(takenPictureFile);
+        filesRepository.delete(takenPictureFile);
         takenPictureFile = null;
     }
 }

@@ -16,6 +16,7 @@ import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.fcm_report.domain.FcmReportInteractor;
 import fm.doe.national.remote_storage.BuildConfig;
+import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.data.uploader.RemoteUploader;
@@ -151,7 +152,7 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     }
 
     @Override
-    public Completable exportToExcel(AccreditationSurvey survey) {
+    public Completable exportToExcel(AccreditationSurvey survey, ExportType exportType) {
         return Single.fromCallable(() -> {
             ReportInteractor reportInteractor = ReportComponentInjector
                     .getComponent(lifecycleListener.getCurrentActivity().getApplication())
@@ -185,6 +186,6 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                             }
                         }
                 )
-                .flatMapCompletable(it -> storage.exportToExcel(survey, it));
+                .flatMapCompletable(it -> storage.exportToExcel(survey, it, exportType));
     }
 }

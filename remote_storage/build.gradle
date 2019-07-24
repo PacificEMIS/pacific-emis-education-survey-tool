@@ -70,9 +70,9 @@ dependencies {
     implementation "androidx.work:work-rxjava2:${Deps.work}"
 
     // Google API Util
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation "com.google.android.gms:play-services-auth:${Deps.playServicesAuth}"
     implementation 'com.google.http-client:google-http-client-gson:1.29.1'
-    implementation('com.google.api-client:google-api-client-android:1.26.0') {
+    implementation("com.google.api-client:google-api-client-android:${Deps.googleApi}") {
         exclude group: 'org.apache.httpcomponents'
     }
 

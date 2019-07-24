@@ -20,6 +20,7 @@ import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
+import fm.doe.national.remote_storage.data.model.ExportType;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -85,12 +86,14 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     public void onSurveyExportToExcelPressed(Survey survey) {
         if (survey instanceof AccreditationSurvey) {
             addDisposable(
-                    remoteStorageAccessor.exportToExcel((AccreditationSurvey) survey)
+                    remoteStorageAccessor.exportToExcel((AccreditationSurvey) survey, ExportType.PRIVATE)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnSubscribe(d -> getViewState().showWaiting())
                             .doFinally(getViewState()::hideWaiting)
-                            .subscribe()
+                            .subscribe(() -> {
+                                // do nothing
+                            }, this::handleError)
             );
         }
     }
@@ -106,7 +109,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                         .flatMapObservable(Observable::fromIterable)
                         .filter(Survey::isCompleted)
                         .cast(AccreditationSurvey.class)
-                        .concatMapCompletable(remoteStorageAccessor::exportToExcel)
+                        .concatMapCompletable(survey -> remoteStorageAccessor.exportToExcel(survey, ExportType.GLOBAL))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> getViewState().showWaiting())

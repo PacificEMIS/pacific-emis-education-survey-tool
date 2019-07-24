@@ -6,6 +6,8 @@ import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
+import fm.doe.national.core.data.exceptions.GmsUserRecoverableException;
+
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface BaseView extends MvpView {
@@ -20,4 +22,7 @@ public interface BaseView extends MvpView {
     void hideWaiting();
 
     void promptMasterPassword(Text title);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void handleGmsRecoverableException(GmsUserRecoverableException throwable);
 }

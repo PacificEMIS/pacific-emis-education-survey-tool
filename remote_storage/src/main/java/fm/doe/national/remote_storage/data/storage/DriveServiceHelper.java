@@ -1,6 +1,7 @@
 package fm.doe.national.remote_storage.data.storage;
 
 import com.google.api.client.http.ByteArrayContent;
+import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
@@ -29,6 +30,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
     private static final String FOLDER_ROOT = "root";
     private static final String SPACE_DRIVE = "drive";
     private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, appProperties)";
+    private static final String FIELD_ID = "id";
 
     private final Drive drive;
     private final Executor executor = Executors.newCachedThreadPool();
@@ -154,4 +156,20 @@ public class DriveServiceHelper extends TasksRxWrapper {
         );
     }
 
+    public Single<File> uploadFileFromSource(Drive service,
+                                             java.io.File source,
+                                             String sourceMimeType,
+                                             String targetMimeType,
+                                             String targetName) {
+        return Single.fromCallable(() -> {
+            File fileMetadata = new File();
+            fileMetadata.setName(targetName);
+            fileMetadata.setMimeType(targetMimeType);
+
+            FileContent mediaContent = new FileContent(sourceMimeType, source);
+            return service.files().create(fileMetadata, mediaContent)
+                    .setFields(FIELD_ID)
+                    .execute();
+        });
+    }
 }

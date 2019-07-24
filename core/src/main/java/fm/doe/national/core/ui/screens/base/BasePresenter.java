@@ -3,12 +3,14 @@ package fm.doe.national.core.ui.screens.base;
 import androidx.annotation.NonNull;
 
 import com.dropbox.core.NetworkIOException;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.core.R;
 import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.data.exceptions.FileExportException;
 import fm.doe.national.core.data.exceptions.FileImportException;
+import fm.doe.national.core.data.exceptions.GmsUserRecoverableException;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.exceptions.ParseException;
 import fm.doe.national.core.data.exceptions.PickException;
@@ -36,6 +38,9 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
             getViewState().showMessage(errorTitle, Text.from(R.string.error_parse));
         } else if (throwable instanceof OnErrorNotImplementedException) {
             getViewState().showMessage(errorTitle, Text.from(R.string.error_any));
+        } else if (throwable instanceof UserRecoverableAuthIOException) {
+            getViewState().handleGmsRecoverableException(
+                    new GmsUserRecoverableException(((UserRecoverableAuthIOException) throwable).getIntent()));
         } else if (throwable instanceof RuntimeException) {
             throw (RuntimeException) throwable;
         } else {
