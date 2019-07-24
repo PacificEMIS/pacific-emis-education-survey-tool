@@ -30,6 +30,7 @@ import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.export.ExcelExporter;
 import fm.doe.national.remote_storage.data.export.FcmSheetsExcelExporter;
+import fm.doe.national.remote_storage.data.export.RmiSheetsExcelExporter;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
@@ -95,7 +96,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 excelExporter = new FcmSheetsExcelExporter(sheets, appContext);
                 break;
             case RMI:
-//                excelExporter = new RmiSheetsExcelExporter(sheets, appContext);
+                excelExporter = new RmiSheetsExcelExporter(sheets, appContext);
                 break;
         }
     }
