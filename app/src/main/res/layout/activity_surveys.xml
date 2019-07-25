@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -60,11 +60,26 @@
         android:id="@+id/fab_new_accreditation"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_gravity="end|bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:scaleType="center"
         android:src="@drawable/ic_plus"
         app:tint="@color/white" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textview_creation_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/fab_new_accreditation"
+        android:layout_alignBottom="@+id/fab_new_accreditation"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@+id/fab_new_accreditation"
+        android:gravity="center_vertical|end"
+        android:text="@string/label_creation_hint"
+        android:textAppearance="@style/Text.Small1"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+</RelativeLayout>
