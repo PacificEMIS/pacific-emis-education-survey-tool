@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
@@ -120,7 +121,6 @@ public class DriveServiceHelper extends TasksRxWrapper {
     }
 
     public Single<List<GoogleDriveFileHolder>> queryFiles(@Nullable final String folderId) {
-        List<GoogleDriveFileHolder> googleDriveFileHolderList = new ArrayList<>();
         String parent = folderId == null ? FOLDER_ROOT : folderId;
 
         String query = new DriveQueryBuilder()
@@ -129,7 +129,14 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
         return requestFiles(query)
                 .flatMap(fileList -> Single.fromCallable(() -> {
-                    for (File file : fileList.getFiles()) {
+                    List<File> files = fileList.getFiles();
+                    List<GoogleDriveFileHolder> googleDriveFileHolderList = new ArrayList<>();
+
+                    if (CollectionUtils.isEmpty(files)) {
+                        return googleDriveFileHolderList;
+                    }
+
+                    for (File file : files) {
                         googleDriveFileHolderList.add(new GoogleDriveFileHolder(file));
                     }
 
