@@ -41,4 +41,5 @@
     <string name="label_account">Account</string>
     <string name="hint_login_required">Login with Google account to create a survey</string>
     <string name="title_choose_app_to_open">Choose an application to open with:</string>
+    <string name="label_creation_hint">No existing surveys yet\nTo create a Survey, click on the button on the right</string>
 </resources>

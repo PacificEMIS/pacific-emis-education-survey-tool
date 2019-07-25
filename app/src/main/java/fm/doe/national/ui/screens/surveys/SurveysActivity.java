@@ -44,6 +44,9 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     @BindView(R.id.fab_new_accreditation)
     FloatingActionButton newAccreditationFab;
 
+    @BindView(R.id.textview_creation_hint)
+    View creationHintView;
+
     private final SurveysAdapter surveysAdapter = new SurveysAdapter(this, this);
 
     private MenuItem exportAllMenuItem;
@@ -111,6 +114,7 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
     @Override
     public void setSurveys(List<Survey> accreditations) {
+        creationHintView.setVisibility(accreditations.isEmpty() ? View.VISIBLE : View.GONE);
         surveysAdapter.setItems(accreditations);
     }
 
