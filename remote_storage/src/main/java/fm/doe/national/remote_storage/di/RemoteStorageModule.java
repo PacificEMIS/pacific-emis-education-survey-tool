@@ -27,7 +27,7 @@ public class RemoteStorageModule {
     @Provides
     @RemoteStorageScope
     RemoteStorage provideRemoteStorage(Context context, GlobalPreferences globalPreferences, FilesRepository filesRepository) {
-        return new DriveRemoteStorage(context, globalPreferences, dataSourceComponent.getSurveySerializer(), filesRepository);
+        return new DriveRemoteStorage(context, globalPreferences, dataSourceComponent, filesRepository);
     }
 
     @Provides

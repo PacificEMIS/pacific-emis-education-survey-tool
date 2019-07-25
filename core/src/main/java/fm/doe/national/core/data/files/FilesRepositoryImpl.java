@@ -12,13 +12,13 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Locale;
 
-public class FileFilesRepository implements FilesRepository {
+public class FilesRepositoryImpl implements FilesRepository {
     private static final String EXT_PICTURE = ".jpg";
     private static final String PATTERN_IMAGE_FILENAME = "IMG_%d";
     private final File externalPicturesDirectory;
     private final File cacheDirectory;
 
-    public FileFilesRepository(Context context) {
+    public FilesRepositoryImpl(Context context) {
         externalPicturesDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         cacheDirectory = context.getCacheDir();
     }
