@@ -24,8 +24,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.data.serialization.SurveySerializer;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.export.ExcelExporter;
@@ -50,7 +50,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final String SHEET_NAME_TEMPLATE = "template";
     private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
-    private final SurveySerializer surveySerializer;
+    private final DataSourceComponent dataSourceComponent;
 
     private final Context appContext;
     private final GlobalPreferences globalPreferences;
@@ -61,10 +61,10 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Nullable
     private GoogleSignInAccount userAccount;
 
-    public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences, SurveySerializer surveySerializer) {
+    public DriveRemoteStorage(Context appContext, GlobalPreferences globalPreferences, DataSourceComponent dataSourceComponent) {
         this.appContext = appContext;
         this.globalPreferences = globalPreferences;
-        this.surveySerializer = surveySerializer;
+        this.dataSourceComponent = dataSourceComponent;
         refreshCredentials();
         userAccount = GoogleSignIn.getLastSignedInAccount(appContext);
     }
@@ -126,7 +126,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(
                         SurveyTextUtil.createSurveyFileName(survey),
-                        surveySerializer.serialize(survey),
+                        dataSourceComponent.getSurveySerializer().serialize(survey),
                         new NdoeMetadata(survey, userAccount.getEmail()),
                         regionFolderId))
                 .ignoreElement();
