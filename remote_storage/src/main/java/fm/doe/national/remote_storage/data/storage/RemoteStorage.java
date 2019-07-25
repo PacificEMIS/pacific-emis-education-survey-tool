@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import io.reactivex.Completable;
@@ -30,6 +31,6 @@ public interface RemoteStorage {
 
     void setUserAccount(@Nullable GoogleSignInAccount account);
 
-    Completable exportToExcel(Survey survey, ReportBundle reportBundle);
+    Single<String> exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType);
     
 }

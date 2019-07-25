@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 
@@ -22,7 +22,7 @@ public class LogoPresenter extends BasePresenter<LogoView> {
             .getCoreComponent()
             .getGlobalPreferences();
 
-    private final PicturesRepository picturesRepository = MicronesiaApplication.getInjection()
+    private final FilesRepository filesRepository = MicronesiaApplication.getInjection()
             .getCoreComponent()
             .getPicturesRepository();
 
@@ -45,7 +45,7 @@ public class LogoPresenter extends BasePresenter<LogoView> {
 
     public void onImagePicked(Bitmap bitmap) {
         try {
-            File pictureFile = picturesRepository.createEmptyFile();
+            File pictureFile = filesRepository.createEmptyImageFile();
             FileOutputStream fos = new FileOutputStream(pictureFile);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             bitmap.recycle();

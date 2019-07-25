@@ -20,6 +20,8 @@ import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
+import fm.doe.national.remote_storage.data.model.ExportType;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,7 +45,17 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         switch (globalPreferences.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 getViewState().setTitle(Text.from(R.string.title_school_accreditation));
-                getViewState().setExportEnabled(true);
+
+                // TODO: this is a temporary disabling of export feature for RMI (reason: not implemented)
+                switch (globalPreferences.getAppRegion()) {
+                    case FCM:
+                        getViewState().setExportEnabled(true);
+                        break;
+                    case RMI:
+                        getViewState().setExportEnabled(false);
+                        break;
+                }
+
                 break;
             case WASH:
                 getViewState().setTitle(Text.from(R.string.title_wash));
@@ -84,12 +96,16 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     public void onSurveyExportToExcelPressed(Survey survey) {
         if (survey instanceof AccreditationSurvey) {
             addDisposable(
-                    remoteStorageAccessor.exportToExcel((AccreditationSurvey) survey)
+                    remoteStorageAccessor.exportToExcel((AccreditationSurvey) survey, ExportType.PRIVATE)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnSubscribe(d -> getViewState().showWaiting())
                             .doFinally(getViewState()::hideWaiting)
-                            .subscribe()
+                            .subscribe(url -> {
+                                if (!url.isEmpty()) {
+                                    getViewState().openInExternalApp(url);
+                                }
+                            }, this::handleError)
             );
         }
     }
@@ -100,8 +116,20 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     public void onExportAllPressed() {
-        // TODO: not implemented
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        addDisposable(
+                interactor.getAllSurveys()
+                        .flatMapObservable(Observable::fromIterable)
+                        .filter(Survey::isCompleted)
+                        .cast(AccreditationSurvey.class)
+                        .concatMapSingle(survey -> remoteStorageAccessor.exportToExcel(survey, ExportType.GLOBAL))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> getViewState().showWaiting())
+                        .doFinally(() -> getViewState().hideWaiting())
+                        .subscribe(urls -> {
+                            // do nothing
+                        }, this::handleError)
+        );
     }
 
     public void onLoadPartiallySavedSurveyPressed() {

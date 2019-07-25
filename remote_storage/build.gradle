@@ -19,6 +19,9 @@ android {
 
         buildConfigField "String", "CREDENTIALS_DEV", "\"c_dev.json\""
         buildConfigField "String", "CREDENTIALS_PROD", "\"Micronesia-b9acf9c6198e.json\""
+        buildConfigField "String", "NAME_REPORT_TEMPLATE_FCM", "\"report_fcm\""
+        buildConfigField "String", "NAME_REPORT_TEMPLATE_RMI", "\"report_rmi\""
+        buildConfigField "String", "EXTENSION_REPORT_TEMPLATE", "\"xlsx\""
     }
 
     buildTypes {
@@ -70,9 +73,9 @@ dependencies {
     implementation "androidx.work:work-rxjava2:${Deps.work}"
 
     // Google API Util
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation "com.google.android.gms:play-services-auth:${Deps.playServicesAuth}"
     implementation 'com.google.http-client:google-http-client-gson:1.29.1'
-    implementation('com.google.api-client:google-api-client-android:1.26.0') {
+    implementation("com.google.api-client:google-api-client-android:${Deps.googleApi}") {
         exclude group: 'org.apache.httpcomponents'
     }
 

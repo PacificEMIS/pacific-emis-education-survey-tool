@@ -10,6 +10,7 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.MvpAppCompatDialogFragment;
 
 import butterknife.ButterKnife;
+import fm.doe.national.core.data.exceptions.GmsUserRecoverableException;
 
 public class BaseDialogFragment extends MvpAppCompatDialogFragment implements BaseView {
     @Override
@@ -41,5 +42,10 @@ public class BaseDialogFragment extends MvpAppCompatDialogFragment implements Ba
     @Override
     public void promptMasterPassword(Text title) {
         // nothing
+    }
+
+    @Override
+    public void handleGmsRecoverableException(GmsUserRecoverableException throwable) {
+        ((BaseActivity) getActivity()).handleGmsRecoverableException(throwable);
     }
 }

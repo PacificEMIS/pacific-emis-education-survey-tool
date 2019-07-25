@@ -8,7 +8,7 @@ import org.simpleframework.xml.core.Persister;
 import java.util.List;
 
 import dagger.Component;
-import fm.doe.national.core.data.files.PicturesRepository;
+import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.serialization.Parser;
 import fm.doe.national.core.di.modules.ContextModule;
@@ -31,7 +31,7 @@ public interface CoreComponent {
 
     Context getContext();
 
-    PicturesRepository getPicturesRepository();
+    FilesRepository getPicturesRepository();
 
     GlobalPreferences getGlobalPreferences();
 

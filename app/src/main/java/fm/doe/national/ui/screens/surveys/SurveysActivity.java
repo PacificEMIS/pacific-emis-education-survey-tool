@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.surveys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -176,5 +177,10 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         if (exportAllMenuItem != null) {
             exportAllMenuItem.setVisible(isExportEnabled);
         }
+    }
+
+    @Override
+    public void openInExternalApp(String url) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 }

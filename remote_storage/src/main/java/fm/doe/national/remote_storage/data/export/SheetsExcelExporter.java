@@ -33,9 +33,13 @@ import fm.doe.national.remote_storage.data.storage.TasksRxWrapper;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Completable;
+import io.reactivex.Single;
 
 @SuppressLint("DefaultLocale")
-public abstract class SheetsExcelExporter extends TasksRxWrapper implements ExcelExporter {
+public abstract class SheetsExcelExporter extends TasksRxWrapper {
+
+    public static final String MIME_TYPE_MS_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    public static final String MIME_TYPE_GOOGLE_SHEETS = "application/vnd.google-apps.spreadsheet";
 
     private static final String TAG = SheetsExcelExporter.class.getName();
     private static final String PREFIX_UPDATABLE_CELL = "$";
@@ -67,9 +71,10 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
         this.appContext = appContext;
     }
 
-    @Override
-    public Completable recreateSheet(String spreadsheetId, String sheetName, String templateSheetName) {
-        return wrapWithCompletableInThreadPool(() -> {
+    public abstract Completable fillReportSheet(String fileId, String sheetName, ReportBundle reportBundle);
+
+    public Single<String> recreateSheet(String spreadsheetId, String sheetName, String templateSheetName) {
+        return wrapWithSingleInThreadPool(() -> {
             Sheet templateSheet = findTemplateSheet(spreadsheetId, templateSheetName);
             Optional<Sheet> existingSheet = findSheet(spreadsheetId, sheetName);
 
@@ -79,7 +84,9 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
 
             duplicateSheet(spreadsheetId, templateSheet.getProperties().getSheetId(), sheetName);
             updateCellsInfo(spreadsheetId, sheetName);
-        });
+            String spreadsheetUrl = sheetsApi.spreadsheets().get(spreadsheetId).execute().getSpreadsheetUrl();
+            return spreadsheetUrl == null ? "" : spreadsheetUrl;
+        }, "");
     }
 
     private void updateCellsInfo(String spreadsheetId, String sheetName) throws IOException {
@@ -97,7 +104,6 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
         }
     }
 
-    @Override
     public Completable updateSummarySheet(String spreadsheetId, String sheetName, ReportBundle reportBundle) {
         return wrapWithCompletableInThreadPool(() -> {
             String schoolId = reportBundle.getHeader().getSchoolId();
@@ -141,11 +147,6 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper implements Exce
 
             updateValues(spreadsheetId, ranges);
         });
-    }
-
-    @Override
-    public Completable recycle() {
-        return Completable.fromAction(updatableCells::clear);
     }
 
     private int findSummaryRowToUpdate(String spreadsheetId, String schoolId, String dateAsString, String sheetName) throws IOException {

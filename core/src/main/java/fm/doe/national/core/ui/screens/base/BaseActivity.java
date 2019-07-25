@@ -25,6 +25,7 @@ import java.io.Serializable;
 
 import butterknife.ButterKnife;
 import fm.doe.national.core.R;
+import fm.doe.national.core.data.exceptions.GmsUserRecoverableException;
 import fm.doe.national.core.ui.views.InputDialog;
 import fm.doe.national.core.ui.views.ProgressDialogFragment;
 
@@ -195,5 +196,10 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         masterPasswordDialog = InputDialog.create(this, title, null)
                 .setListener(getPresenter()::onMasterPasswordSubmit);
         masterPasswordDialog.show();
+    }
+
+    @Override
+    public void handleGmsRecoverableException(GmsUserRecoverableException ex) {
+        startActivity(ex.getIntent());
     }
 }
