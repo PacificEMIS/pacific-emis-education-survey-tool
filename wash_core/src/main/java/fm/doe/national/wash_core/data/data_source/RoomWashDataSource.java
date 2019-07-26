@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.data_source.DataSourceImpl;
+import fm.doe.national.core.data.exceptions.WrongAppRegionException;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
@@ -315,7 +316,14 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
 
     @Override
     public Completable createPartiallySavedSurvey(Survey survey) {
-        return Completable.fromAction(() -> saveSurvey(database, (WashSurvey) survey, true));
+        return Completable.fromAction(() -> {
+            WashSurvey washSurvey = (WashSurvey) survey;
+            if (globalPreferences.getAppRegion() == washSurvey.getAppRegion()) {
+                saveSurvey(database, washSurvey, true);
+            } else {
+                throw new WrongAppRegionException();
+            }
+        });
     }
 
     @Override
