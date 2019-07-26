@@ -35,16 +35,14 @@
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.authentication.AuthenticationActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.screens.menu.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.screens.survey_creation.CreateSurveyActivity"
             android:label="@string/label_create_survey"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SearchToolbar" />
         <activity
             android:name=".ui.screens.surveys.SurveysActivity"
             android:label="@string/label_school_accreditation"
