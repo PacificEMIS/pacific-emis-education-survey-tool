@@ -28,4 +28,13 @@
         <item name="android:background">?selectableItemBackground</item>
     </style>
 
+    <style name="AppTheme.SearchToolbar">
+        <item name="android:editTextColor">@color/white</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextView</item>
+    </style>
+
+    <style name="AutoCompleteTextView" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+    </style>
+
 </resources>
