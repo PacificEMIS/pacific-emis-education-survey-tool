@@ -30,7 +30,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
     private static final String FOLDER_ROOT = "root";
     private static final String SPACE_DRIVE = "drive";
-    private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, appProperties)";
+    private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, properties)";
     private static final String FIELD_ID = "id";
 
     private final Drive drive;

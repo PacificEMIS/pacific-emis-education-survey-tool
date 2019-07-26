@@ -14,25 +14,25 @@ import java.util.TimeZone;
 public class DateUtils {
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
+    private static final DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat uiDateFormat = new SimpleDateFormat("MM.dd.yyyy", Locale.getDefault());
+    private static final DateFormat uiDateFormat = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat uiTextDateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.getDefault());
+    private static final DateFormat uiTextDateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat monthYearDateFormat = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+    private static final DateFormat monthYearDateFormat = new SimpleDateFormat("yyyy-MM", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat numericMonthYearDateFormat = new SimpleDateFormat("MM-yyyy", Locale.getDefault());
+    private static final DateFormat numericMonthYearDateFormat = new SimpleDateFormat("MM-yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat utcDateFormat;
 
     static {
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'", Locale.getDefault());
+        DateFormat df = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'", Locale.US);
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         utcDateFormat = df;
     }
@@ -64,6 +64,11 @@ public class DateUtils {
     @Nullable
     public static Date parseUi(String dateAsString) {
         return parse(uiDateFormat, dateAsString);
+    }
+
+    @Nullable
+    public static Date parseMonthYear(String dateAsString) {
+        return parse(monthYearDateFormat, dateAsString);
     }
 
     @Nullable
