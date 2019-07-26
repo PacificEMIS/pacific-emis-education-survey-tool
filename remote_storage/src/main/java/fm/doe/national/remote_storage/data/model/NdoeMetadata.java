@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.utils.DateUtils;
 
 public class NdoeMetadata {
@@ -16,11 +17,12 @@ public class NdoeMetadata {
     private static final String KEY_SCHOOL_ID = "schoolNo";
     private static final String KEY_COMPLETION = "surveyCompleted";
     private static final String KEY_COMPLETION_DATE = "surveyCompletedDateTime";
-    private static final String KEY_SURVEY_DATE = "surveyDate";
+    private static final String KEY_SURVEY_DATE = "surveyTag";
     private static final String KEY_CREATION_DATE = "createDateTime";
     private static final String KEY_CREATION_USER = "createUser";
     private static final String KEY_LAST_EDIT_DATE = "lastEditedDateTime";
     private static final String KEY_LAST_EDIT_USER = "lastEditedUser";
+    private static final String KEY_TYPE = "type";
 
     private static final String VALUE_TRUE = "POSITIVE";
     private static final String VALUE_FALSE = "NEGATIVE";
@@ -32,39 +34,41 @@ public class NdoeMetadata {
     private Date lastEditedDate;
     private Date surveyDate;
     private Date creationDate;
+    private SurveyType surveyType;
 
     @Nullable
     private Date completionDate;
 
     public static NdoeMetadata extract(File file) {
         NdoeMetadata metadata = new NdoeMetadata();
-        Map<String, String> appProperties = file.getAppProperties();
+        Map<String, String> properties = file.getProperties();
 
-        if (appProperties == null) {
+        if (properties == null) {
             return metadata;
         }
 
-        metadata.schoolId = appProperties.get(KEY_SCHOOL_ID);
-        metadata.lastEditedUser = appProperties.get(KEY_LAST_EDIT_USER);
-        metadata.isSurveyCompleted = convertMetadataToBoolean(appProperties.get(KEY_COMPLETION));
-        metadata.creator = appProperties.get(KEY_CREATION_USER);
+        metadata.schoolId = properties.get(KEY_SCHOOL_ID);
+        metadata.lastEditedUser = properties.get(KEY_LAST_EDIT_USER);
+        metadata.isSurveyCompleted = convertMetadataToBoolean(properties.get(KEY_COMPLETION));
+        metadata.creator = properties.get(KEY_CREATION_USER);
+        metadata.surveyType = SurveyType.valueOf(properties.get(KEY_TYPE));
 
-        String editDateString = appProperties.get(KEY_LAST_EDIT_DATE);
+        String editDateString = properties.get(KEY_LAST_EDIT_DATE);
         if (editDateString != null) {
             metadata.lastEditedDate = DateUtils.parseUtc(editDateString);
         }
 
-        String surveyDateString = appProperties.get(KEY_SURVEY_DATE);
+        String surveyDateString = properties.get(KEY_SURVEY_DATE);
         if (surveyDateString != null) {
-            metadata.surveyDate = DateUtils.parseUi(surveyDateString);
+            metadata.surveyDate = DateUtils.parseMonthYear(surveyDateString);
         }
 
-        String createDateString = appProperties.get(KEY_CREATION_DATE);
+        String createDateString = properties.get(KEY_CREATION_DATE);
         if (createDateString != null) {
             metadata.creationDate = DateUtils.parseUtc(createDateString);
         }
 
-        String completionDateString = appProperties.get(KEY_COMPLETION_DATE);
+        String completionDateString = properties.get(KEY_COMPLETION_DATE);
         if (completionDateString != null) {
             metadata.completionDate = DateUtils.parseUtc(completionDateString);
         }
@@ -89,6 +93,7 @@ public class NdoeMetadata {
         creator = user;
         lastEditedDate = new Date();
         lastEditedUser = user;
+        surveyType = survey.getSurveyType();
     }
 
     public File applyToDriveFile(File file) {
@@ -96,8 +101,13 @@ public class NdoeMetadata {
         updatedFile.setName(file.getName());
         updatedFile.setParents(file.getParents());
         updatedFile.setMimeType(file.getMimeType());
+        Map<String, String> properties = createMetadataProperties(file);
+        updatedFile.setProperties(properties);
+        return updatedFile;
+    }
 
-        Map<String, String> properties = file.getAppProperties();
+    private Map<String, String> createMetadataProperties(File file) {
+        Map<String, String> properties = file.getProperties();
 
         if (properties == null) {
             properties = new HashMap<>();
@@ -109,6 +119,7 @@ public class NdoeMetadata {
 
         properties.put(KEY_LAST_EDIT_DATE, DateUtils.formatUtc(lastEditedDate));
         properties.put(KEY_LAST_EDIT_USER, lastEditedUser);
+        properties.put(KEY_TYPE, surveyType.name());
 
         boolean wasCompleted = convertMetadataToBoolean(properties.get(KEY_COMPLETION));
         if (!wasCompleted) {
@@ -120,7 +131,7 @@ public class NdoeMetadata {
 
         String existingSurveyDate = properties.get(KEY_SURVEY_DATE);
         if (existingSurveyDate == null) {
-            properties.put(KEY_SURVEY_DATE, DateUtils.formatUi(surveyDate));
+            properties.put(KEY_SURVEY_DATE, DateUtils.formatMonthYear(surveyDate));
         }
 
         String existingCreationDate = properties.get(KEY_CREATION_DATE);
@@ -133,8 +144,7 @@ public class NdoeMetadata {
             properties.put(KEY_CREATION_USER, creator);
         }
 
-        updatedFile.setAppProperties(properties);
-        return updatedFile;
+        return properties;
     }
 
     private static String convertBoolToMetadata(boolean bool) {
@@ -147,15 +157,6 @@ public class NdoeMetadata {
 
     @Override
     public String toString() {
-        return "NdoeMetadata{" +
-                "schoolId='" + schoolId + '\'' +
-                ", lastEditedUser='" + lastEditedUser + '\'' +
-                ", isSurveyCompleted=" + isSurveyCompleted +
-                ", creator='" + creator + '\'' +
-                ", lastEditedDate=" + lastEditedDate +
-                ", surveyDate=" + surveyDate +
-                ", creationDate=" + creationDate +
-                ", completionDate=" + completionDate +
-                '}';
+        return "NdoeMetadata{ " + createMetadataProperties(new File()) + " }";
     }
 }
