@@ -30,6 +30,8 @@ public interface SettingsView extends BaseView {
 
     void navigateToChangeLogo();
 
+    void navigateToTemplates();
+
     interface InputListener {
         void onInput(String string);
     }

@@ -145,7 +145,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onTemplatesPressed() {
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        getViewState().navigateToTemplates();
     }
 
     private void onChangeMasterPasswordPressed() {

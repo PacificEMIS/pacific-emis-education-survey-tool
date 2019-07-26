@@ -42,5 +42,6 @@
     <string name="hint_login_required">Login with Google account to create a survey</string>
     <string name="title_choose_app_to_open">Choose an application to open with:</string>
     <string name="label_creation_hint">No existing surveys yet\nTo create a Survey, click on the button on the right</string>
-    <string name="title_templates">Survey Templates</string>
+    <string name="label_load_sa_template">Load School Accreditation Template of survey</string>
+    <string name="label_load_wash_template">Load Water, Sanitation and Hygiene Template of survey</string>
 </resources>

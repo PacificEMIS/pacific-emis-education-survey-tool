@@ -62,7 +62,7 @@
             android:label="@string/label_logo"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.screens.templates.SurveyTemplatesActivity"
-            android:label="@string/title_templates"
+            android:label="@string/label_templates"
             android:screenOrientation="portrait" />
 
         <meta-data

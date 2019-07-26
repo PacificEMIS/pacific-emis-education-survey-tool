@@ -26,6 +26,7 @@ import fm.doe.national.core.ui.views.InputDialog;
 import fm.doe.national.ui.screens.logo.LogoActivity;
 import fm.doe.national.ui.screens.password.PasswordsActivity;
 import fm.doe.national.ui.screens.settings.items.Item;
+import fm.doe.national.ui.screens.templates.SurveyTemplatesActivity;
 
 public class SettingsActivity extends BaseActivity implements SettingsView, BaseListAdapter.OnItemClickListener<Item> {
 
@@ -143,5 +144,10 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
     @Override
     public void navigateToChangeLogo() {
         startActivity(LogoActivity.createIntent(this));
+    }
+
+    @Override
+    public void navigateToTemplates() {
+        startActivity(SurveyTemplatesActivity.createIntent(this));
     }
 }

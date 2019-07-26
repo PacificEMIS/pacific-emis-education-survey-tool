@@ -121,9 +121,11 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
             if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
                 ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
                 titleOmegaTextView.setStartText(navigationItem.getTitlePrefix());
-                progressTextView.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
-                ViewUtils.rebindProgress(navigationItem.getProgress(), progressTextView, progressBar);
+                Progress progress = navigationItem.getProgress();
+                int progressVisibility = progress.getTotal() == 0 ? View.GONE : View.VISIBLE;
+                progressTextView.setVisibility(progressVisibility);
+                progressBar.setVisibility(progressVisibility);
+                ViewUtils.rebindProgress(progress, progressTextView, progressBar);
             } else {
                 titleOmegaTextView.setStartText(null);
                 progressTextView.setVisibility(View.GONE);

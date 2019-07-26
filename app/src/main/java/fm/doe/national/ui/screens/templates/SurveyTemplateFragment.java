@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.omega_r.libs.omegatypes.Text;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,8 +34,8 @@ public abstract class SurveyTemplateFragment extends BaseFragment implements
 
     private NavigationItemsAdapter itemsAdapter = new NavigationItemsAdapter(this);
 
-    public abstract String getPageTitle();
-    public abstract String getLoadText();
+    public abstract Text getPageTitle();
+    public abstract Text getLoadText();
 
     @Nullable
     @Override
@@ -47,6 +49,7 @@ public abstract class SurveyTemplateFragment extends BaseFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setAdapter(itemsAdapter);
+        getLoadText().applyTo(titleTextView);
     }
 
     @Override
