@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateUtils {
 
@@ -28,7 +29,13 @@ public class DateUtils {
     private static final DateFormat numericMonthYearDateFormat = new SimpleDateFormat("MM-yyyy", Locale.getDefault());
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat utcDateFormat = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.000Z", Locale.getDefault());
+    private static final DateFormat utcDateFormat;
+
+    static {
+        DateFormat df = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'", Locale.getDefault());
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        utcDateFormat = df;
+    }
 
     public static String format(Date date) {
         return dateFormat.format(date);
@@ -72,5 +79,5 @@ public class DateUtils {
             return null;
         }
     }
-    
+
 }
