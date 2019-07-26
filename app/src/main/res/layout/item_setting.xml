@@ -23,7 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="56dp"
+        android:layout_toEndOf="@+id/textview_title"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
         android:textAppearance="@style/Text.Body1"
         android:textColor="?colorPrimary"
         tools:text="person.name@email.com" />
