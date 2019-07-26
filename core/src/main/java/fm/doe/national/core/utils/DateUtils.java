@@ -29,12 +29,10 @@ public class DateUtils {
     private static final DateFormat numericMonthYearDateFormat = new SimpleDateFormat("MM-yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat utcDateFormat;
+    private static final DateFormat utcDateFormat = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'", Locale.US);
 
     static {
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'", Locale.US);
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        utcDateFormat = df;
+        utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     public static String format(Date date) {
