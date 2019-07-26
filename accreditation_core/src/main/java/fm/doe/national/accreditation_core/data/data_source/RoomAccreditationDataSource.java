@@ -31,6 +31,7 @@ import fm.doe.national.accreditation_core.data.persistence.entity.RoomStandard;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomSubCriteria;
 import fm.doe.national.accreditation_core.data.persistence.entity.relative.RelativeRoomSurvey;
 import fm.doe.national.core.data.data_source.DataSourceImpl;
+import fm.doe.national.core.data.exceptions.WrongAppRegionException;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
@@ -317,7 +318,14 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public Completable createPartiallySavedSurvey(Survey survey) {
-        return Completable.fromAction(() -> saveSurvey(database, (AccreditationSurvey) survey, true));
+        return Completable.fromAction(() -> {
+            AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
+            if (globalPreferences.getAppRegion() == accreditationSurvey.getAppRegion()) {
+                saveSurvey(database, accreditationSurvey, true);
+            } else {
+                throw new WrongAppRegionException();
+            }
+        });
     }
 
     @Override

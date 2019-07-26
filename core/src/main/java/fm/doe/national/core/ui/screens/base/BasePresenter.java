@@ -15,6 +15,7 @@ import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.exceptions.ParseException;
 import fm.doe.national.core.data.exceptions.PickException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
+import fm.doe.national.core.data.exceptions.WrongAppRegionException;
 import io.reactivex.exceptions.OnErrorNotImplementedException;
 
 public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T> {
@@ -22,6 +23,8 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
         Text errorTitle = Text.from(R.string.title_error);
         if (throwable instanceof NotImplementedException) {
             getViewState().showMessage(errorTitle, Text.from(R.string.coming_soon));
+        } else if (throwable instanceof WrongAppRegionException) {
+            getViewState().showMessage(errorTitle, Text.from(R.string.error_wrong_region));
         } else if (throwable instanceof NetworkIOException) {
             getViewState().showMessage(errorTitle, Text.from(R.string.error_network));
         } else if (throwable instanceof AuthenticationException) {
