@@ -1,9 +1,9 @@
-package fm.doe.national.fcm_report.data.model;
+package fm.doe.national.fsm_report.model;
 
 import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
-import fm.doe.national.fcm_report.BuildConfig;
+import fm.doe.national.fsm_report.BuildConfig;
 
 public class AccreditationForm {
 

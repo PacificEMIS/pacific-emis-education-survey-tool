@@ -1,1 +1,1 @@
-include ':app', ':core', ':fcm_report', ':report', ':report_core', ':rmi_report', ':accreditation', ':remote_storage', ':survey_core', ':survey', ':accreditation_core', ':data_source_injector', ':wash_core', ':wash', ':offline_sync'
+include ':app', ':core', ':report', ':report_core', ':rmi_report', ':accreditation', ':remote_storage', ':survey_core', ':survey', ':accreditation_core', ':data_source_injector', ':wash_core', ':wash', ':offline_sync', ':fsm_report'

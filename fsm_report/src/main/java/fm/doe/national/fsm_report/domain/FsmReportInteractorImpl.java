@@ -1,4 +1,4 @@
-package fm.doe.national.fcm_report.domain;
+package fm.doe.national.fsm_report.domain;
 
 
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.Standard;
-import fm.doe.national.fcm_report.data.model.AccreditationForm;
-import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
+import fm.doe.national.fsm_report.model.AccreditationForm;
+import fm.doe.national.fsm_report.model.SchoolAccreditationLevel;
 import fm.doe.national.report_core.domain.BaseReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.model.Level;

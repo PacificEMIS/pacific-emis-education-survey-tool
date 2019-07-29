@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.Standard;
-import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
+import fm.doe.national.fsm_report.model.SchoolAccreditationLevel;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
 import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;

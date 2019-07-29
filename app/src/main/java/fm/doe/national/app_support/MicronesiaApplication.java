@@ -15,12 +15,12 @@ import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.CoreComponentProvider;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponentProvider;
-import fm.doe.national.fcm_report.di.FsmReportComponent;
-import fm.doe.national.fcm_report.di.FsmReportComponentProvider;
-import fm.doe.national.remote_storage.di.RemoteStorageComponent;
-import fm.doe.national.remote_storage.di.RemoteStorageComponentProvider;
+import fm.doe.national.fsm_report.di.FsmReportComponent;
+import fm.doe.national.fsm_report.di.FsmReportComponentProvider;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentProvider;
+import fm.doe.national.remote_storage.di.RemoteStorageComponent;
+import fm.doe.national.remote_storage.di.RemoteStorageComponentProvider;
 import fm.doe.national.report.di.ReportComponent;
 import fm.doe.national.report.di.ReportComponentProvider;
 import fm.doe.national.rmi_report.di.RmiReportComponent;
@@ -33,7 +33,7 @@ import fm.doe.national.wash_core.di.WashCoreComponent;
 import fm.doe.national.wash_core.di.WashCoreComponentProvider;
 
 @RegisterMoxyReflectorPackages({
-        "fm.doe.national.fcm_report",
+        "fm.doe.national.fsm_report",
         "fm.doe.national.rmi_report",
         "fm.doe.national.report_core",
         "fm.doe.national.report",

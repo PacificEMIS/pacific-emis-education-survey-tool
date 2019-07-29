@@ -1,12 +1,12 @@
-package fm.doe.national.fcm_report.di;
+package fm.doe.national.fsm_report.di;
 
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
-import fm.doe.national.fcm_report.domain.FsmReportInteractor;
-import fm.doe.national.fcm_report.domain.FsmReportInteractorImpl;
-import fm.doe.national.fcm_report.domain.FsmReportsProvider;
-import fm.doe.national.fcm_report.domain.FsmReportsProviderImpl;
+import fm.doe.national.fsm_report.domain.FsmReportInteractor;
+import fm.doe.national.fsm_report.domain.FsmReportInteractorImpl;
+import fm.doe.national.fsm_report.domain.FsmReportsProvider;
+import fm.doe.national.fsm_report.domain.FsmReportsProviderImpl;
 
 @Module
 public class FsmReportModule {

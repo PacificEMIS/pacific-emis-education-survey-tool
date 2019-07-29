@@ -3,7 +3,7 @@ package fm.doe.national.report.di;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.fcm_report.di.FsmReportComponent;
+import fm.doe.national.fsm_report.di.FsmReportComponent;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportsProvider;
 import fm.doe.national.rmi_report.di.RmiReportComponent;

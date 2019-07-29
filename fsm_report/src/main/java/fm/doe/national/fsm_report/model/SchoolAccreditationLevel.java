@@ -1,4 +1,4 @@
-package fm.doe.national.fcm_report.data.model;
+package fm.doe.national.fsm_report.model;
 
 import androidx.annotation.NonNull;
 

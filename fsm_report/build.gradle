@@ -17,7 +17,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moxyReflectorPackage : 'fm.doe.national.fcm_report' ]
+                arguments = [ moxyReflectorPackage : 'fm.doe.national.fsm_report' ]
             }
         }
     }

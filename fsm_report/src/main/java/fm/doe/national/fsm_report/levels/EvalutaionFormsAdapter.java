@@ -1,12 +1,12 @@
-package fm.doe.national.fcm_report.ui.levels;
+package fm.doe.national.fsm_report.levels;
 
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
-import fm.doe.national.fcm_report.R;
-import fm.doe.national.fcm_report.data.model.AccreditationForm;
+import fm.doe.national.fsm_report.R;
+import fm.doe.national.fsm_report.model.AccreditationForm;
 
 public class EvalutaionFormsAdapter extends BaseListAdapter<AccreditationForm> {
 

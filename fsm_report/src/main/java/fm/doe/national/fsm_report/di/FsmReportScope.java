@@ -1,4 +1,4 @@
-package fm.doe.national.fcm_report.di;
+package fm.doe.national.fsm_report.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

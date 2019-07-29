@@ -1,4 +1,4 @@
-package fm.doe.national.fcm_report.ui.levels;
+package fm.doe.national.fsm_report.levels;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,9 +15,9 @@ import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
 import fm.doe.national.core.utils.ViewUtils;
-import fm.doe.national.fcm_report.R;
-import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
-import fm.doe.national.fcm_report.di.FsmReportComponentInjector;
+import fm.doe.national.fsm_report.R;
+import fm.doe.national.fsm_report.di.FsmReportComponentInjector;
+import fm.doe.national.fsm_report.model.SchoolAccreditationLevel;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;

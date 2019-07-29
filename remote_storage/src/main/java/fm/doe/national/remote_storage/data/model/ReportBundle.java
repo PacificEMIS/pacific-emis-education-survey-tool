@@ -2,7 +2,7 @@ package fm.doe.national.remote_storage.data.model;
 
 import java.util.List;
 
-import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
+import fm.doe.national.fsm_report.model.SchoolAccreditationLevel;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsWrapper;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;

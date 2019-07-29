@@ -1,11 +1,11 @@
-package fm.doe.national.fcm_report.domain;
+package fm.doe.national.fsm_report.domain;
 
 import java.util.Arrays;
 import java.util.List;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
-import fm.doe.national.fcm_report.ui.levels.LevelsFragment;
+import fm.doe.national.fsm_report.levels.LevelsFragment;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.model.ReportPage;
 import fm.doe.national.report_core.ui.recommendations.RecommendationsFragment;
