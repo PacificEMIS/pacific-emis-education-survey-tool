@@ -11,6 +11,6 @@
     <string name="label_mac_address">Mac address</string>
     <string name="label_survey_date">Survey date</string>
     <string name="label_try_again">Try again</string>
-    <string name="ok">Ok</string>
-    <string name="title_merge_progress">Merge progress</string>
+    <string name="ok">OK</string>
+    <string name="title_merge_progress">Merge process</string>
 </resources>

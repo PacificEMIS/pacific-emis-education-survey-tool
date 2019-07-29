@@ -118,7 +118,7 @@
     <com.omega_r.libs.OmegaCenterIconButton
         android:id="@+id/button_try_again"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="56dp"
@@ -132,7 +132,7 @@
     <com.omega_r.libs.OmegaCenterIconButton
         android:id="@+id/button_ok"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="56dp"
