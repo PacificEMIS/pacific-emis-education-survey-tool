@@ -32,7 +32,7 @@
     <string name="label_merge_survey">Merge survey</string>
     <string name="label_start_session">Start session</string>
     <string name="label_end_session">End session</string>
-    <string name="title_merge_progress">Get a survey from another device</string>
+    <string name="title_get_remote_survey">Get a survey from another device</string>
     <string name="label_set_default_logo">Set default logo</string>
     <string name="label_change_logo">Change logo</string>
     <string name="label_change_master_password">Change master password</string>
