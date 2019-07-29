@@ -2,6 +2,7 @@ package fm.doe.national.ui.screens.settings.items;
 
 import com.omega_r.libs.omegatypes.Text;
 
+import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 
 public class OptionsItemFactory {
@@ -48,5 +49,13 @@ public class OptionsItemFactory {
 
     public Item createTemplatesItem() {
         return new Item(Text.from(R.string.label_templates), Item.Type.TEMPLATES, Item.IconType.NAV);
+    }
+
+    public Item createDebugBuildInfoItem() {
+        return new Item(
+                Text.from(R.string.label_format_debug_info, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE),
+                Item.Type.DEBUG_BUILD_INFO,
+                Item.IconType.VALUE
+        );
     }
 }
