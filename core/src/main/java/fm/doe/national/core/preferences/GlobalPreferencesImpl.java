@@ -19,7 +19,7 @@ import fm.doe.national.core.preferences.entities.SurveyType;
 public class GlobalPreferencesImpl implements GlobalPreferences {
 
     private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
-    private static final AppRegion DEFAULT_APP_REGION = AppRegion.FCM;
+    private static final AppRegion DEFAULT_APP_REGION = AppRegion.FSM;
     private static final int NO_APP_CONTEXT_VALUE = -1;
 
     private static final String PREF_KEY_SURVEY_TYPE = "PREF_KEY_SURVEY_TYPE";
@@ -34,7 +34,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.DEV;
 
-    private static final Image sDefaultIconFcm = Image.from(R.drawable.ic_fcm);
+    private static final Image sDefaultIconFsm = Image.from(R.drawable.ic_fsm);
     private static final Image sDefaultIconRmi = Image.from(R.drawable.ic_rmi);
 
     private final SharedPreferences sharedPreferences;
@@ -74,8 +74,8 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
         }
 
         switch (getAppRegion()) {
-            case FCM:
-                return sDefaultIconFcm;
+            case FSM:
+                return sDefaultIconFsm;
             case RMI:
                 return sDefaultIconRmi;
             default:
@@ -169,10 +169,10 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     @Override
     public String getSpreadsheetId() {
         switch (getAppRegion()) {
-            case FCM:
+            case FSM:
                 return getOperatingMode() == OperatingMode.PROD
-                        ? BuildConfig.SPREADSHEET_ID_PROD_FCM
-                        : BuildConfig.SPREADSHEET_ID_DEV_FCM;
+                        ? BuildConfig.SPREADSHEET_ID_PROD_FSM
+                        : BuildConfig.SPREADSHEET_ID_DEV_FSM;
             case RMI:
                 return getOperatingMode() == OperatingMode.PROD
                         ? BuildConfig.SPREADSHEET_ID_PROD_RMI

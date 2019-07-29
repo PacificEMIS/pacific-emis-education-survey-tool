@@ -22,7 +22,7 @@ import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsW
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 import io.reactivex.Completable;
 
-public class FcmSheetsExcelExporter extends SheetsExcelExporter {
+public class FsmSheetsExcelExporter extends SheetsExcelExporter {
 
     private static final String MARK_RECOMMENDATION = "√";
     private static final String MARK_NOT_RECOMMENDATION = " ";
@@ -39,7 +39,7 @@ public class FcmSheetsExcelExporter extends SheetsExcelExporter {
     private static final String CELL_TOTAL_FINAL_SCORE = "$totalScore";
     private static final String CELL_LEVEL_DETERMINATION = "$levelDet";
 
-    public FcmSheetsExcelExporter(Context appContext, Sheets sheetsApi) {
+    public FsmSheetsExcelExporter(Context appContext, Sheets sheetsApi) {
         super(appContext, sheetsApi);
     }
 

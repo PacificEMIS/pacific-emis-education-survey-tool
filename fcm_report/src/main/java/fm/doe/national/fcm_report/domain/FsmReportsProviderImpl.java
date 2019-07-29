@@ -11,13 +11,13 @@ import fm.doe.national.report_core.model.ReportPage;
 import fm.doe.national.report_core.ui.recommendations.RecommendationsFragment;
 import fm.doe.national.report_core.ui.summary.SummaryFragment;
 
-public class FcmReportsProviderImpl implements FcmReportsProvider {
+public class FsmReportsProviderImpl implements FsmReportsProvider {
 
     private final List<ReportPage> pages;
     private final ReportInteractor reportInteractor;
     private final AccreditationSurveyInteractor surveyInteractor;
 
-    public FcmReportsProviderImpl(ReportInteractor reportInteractor, AccreditationSurveyInteractor surveyInteractor) {
+    public FsmReportsProviderImpl(ReportInteractor reportInteractor, AccreditationSurveyInteractor surveyInteractor) {
         this.reportInteractor = reportInteractor;
         this.surveyInteractor = surveyInteractor;
         pages = Arrays.asList(

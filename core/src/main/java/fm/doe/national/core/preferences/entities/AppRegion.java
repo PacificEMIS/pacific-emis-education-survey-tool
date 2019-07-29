@@ -9,7 +9,7 @@ import java.io.Serializable;
 import fm.doe.national.core.R;
 
 public enum AppRegion implements Serializable {
-    FCM(0, Text.from(R.string.region_fcm)),
+    FSM(0, Text.from(R.string.region_fsm)),
     RMI(1, Text.from(R.string.region_rmi));
 
     private final int value;

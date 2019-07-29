@@ -19,7 +19,7 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
-public class FcmReportInteractorImpl extends BaseReportInteractor implements FcmReportInteractor {
+public class FsmReportInteractorImpl extends BaseReportInteractor implements FsmReportInteractor {
 
     private BehaviorSubject<SchoolAccreditationLevel> levelSubject = BehaviorSubject.create();
 

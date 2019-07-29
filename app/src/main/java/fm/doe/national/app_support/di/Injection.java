@@ -12,9 +12,9 @@ import fm.doe.national.data_source_injector.di.DaggerDataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.modules.DataSourceModule;
 import fm.doe.national.data_source_injector.di.modules.SerializersModule;
-import fm.doe.national.fcm_report.di.DaggerFcmReportComponent;
-import fm.doe.national.fcm_report.di.FcmReportComponent;
-import fm.doe.national.fcm_report.di.FcmReportModule;
+import fm.doe.national.fcm_report.di.DaggerFsmReportComponent;
+import fm.doe.national.fcm_report.di.FsmReportComponent;
+import fm.doe.national.fcm_report.di.FsmReportModule;
 import fm.doe.national.remote_storage.di.DaggerRemoteStorageComponent;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.offline_sync.di.DaggerOfflineSyncComponent;
@@ -39,7 +39,7 @@ public class Injection {
 
     private CoreComponent coreComponent;
     private AppComponent appComponent;
-    private FcmReportComponent fcmReportComponent;
+    private FsmReportComponent fsmReportComponent;
     private RmiReportComponent rmiReportComponent;
     private ReportComponent reportComponent;
     private SurveyComponent surveyComponent;
@@ -89,15 +89,15 @@ public class Injection {
                         accreditationCoreComponent,
                         washCoreComponent))
                 .build();
-        fcmReportComponent = DaggerFcmReportComponent.builder()
-                .fcmReportModule(new FcmReportModule(accreditationCoreComponent))
+        fsmReportComponent = DaggerFsmReportComponent.builder()
+                .fsmReportModule(new FsmReportModule(accreditationCoreComponent))
                 .build();
         rmiReportComponent = DaggerRmiReportComponent.builder()
                 .rmiReportModule(new RmiReportModule(accreditationCoreComponent))
                 .build();
         reportComponent = DaggerReportComponent.builder()
                 .coreComponent(coreComponent)
-                .reportModule(new ReportModule(fcmReportComponent, rmiReportComponent))
+                .reportModule(new ReportModule(fsmReportComponent, rmiReportComponent))
                 .build();
         offlineSyncComponent = DaggerOfflineSyncComponent.builder()
                 .coreComponent(coreComponent)
@@ -109,8 +109,8 @@ public class Injection {
         return coreComponent;
     }
 
-    public FcmReportComponent getFcmReportComponent() {
-        return fcmReportComponent;
+    public FsmReportComponent getFsmReportComponent() {
+        return fsmReportComponent;
     }
 
     public RmiReportComponent getRmiReportComponent() {

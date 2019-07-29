@@ -15,8 +15,8 @@ import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.CoreComponentProvider;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponentProvider;
-import fm.doe.national.fcm_report.di.FcmReportComponent;
-import fm.doe.national.fcm_report.di.FcmReportComponentProvider;
+import fm.doe.national.fcm_report.di.FsmReportComponent;
+import fm.doe.national.fcm_report.di.FsmReportComponentProvider;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentProvider;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
@@ -46,7 +46,7 @@ import fm.doe.national.wash_core.di.WashCoreComponentProvider;
 })
 public class MicronesiaApplication extends MultiDexApplication implements
         CoreComponentProvider,
-        FcmReportComponentProvider,
+        FsmReportComponentProvider,
         RmiReportComponentProvider,
         ReportComponentProvider,
         SurveyComponentProvider,
@@ -76,8 +76,8 @@ public class MicronesiaApplication extends MultiDexApplication implements
     }
 
     @Override
-    public FcmReportComponent provideFcmReportComponent() {
-        return injection.getFcmReportComponent();
+    public FsmReportComponent provideFsmReportComponent() {
+        return injection.getFsmReportComponent();
     }
 
     @Override

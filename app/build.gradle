@@ -15,12 +15,12 @@ android {
 
         ext.betaDistributionGroupAliases = "testaccounts"
 
-        buildConfigField "String", "SURVEY_FCM_FILE_NAME", "\"survey-fcm.xml\""
-        buildConfigField "String", "SURVEY_RMI_FILE_NAME", "\"survey-rmi.xml\""
-        buildConfigField "String", "SURVEY_WASH_FCM_FILE_NAME", "\"survey-wash-fcm.xml\""
-        buildConfigField "String", "SURVEY_WASH_RMI_FILE_NAME", "\"survey-wash-rmi.xml\""
-        buildConfigField "String", "SCHOOLS_FCM_FILE_NAME", "\"schools.csv\""
-        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools-rmi.csv\""
+        buildConfigField "String", "SURVEY_SA_FSM_FILE_NAME", "\"survey_sa_fsm.xml\""
+        buildConfigField "String", "SURVEY_SA_RMI_FILE_NAME", "\"survey_sa_rmi.xml\""
+        buildConfigField "String", "SURVEY_WASH_FSM_FILE_NAME", "\"survey_wash_fsm.xml\""
+        buildConfigField "String", "SURVEY_WASH_RMI_FILE_NAME", "\"survey_wash_rmi.xml\""
+        buildConfigField "String", "SCHOOLS_FSM_FILE_NAME", "\"schools_fsm.csv\""
+        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools_rmi.csv\""
     }
     signingConfigs {
         release {

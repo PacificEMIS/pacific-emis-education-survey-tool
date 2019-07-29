@@ -17,7 +17,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.fcm_report.R;
 import fm.doe.national.fcm_report.data.model.SchoolAccreditationLevel;
-import fm.doe.national.fcm_report.di.FcmReportComponentInjector;
+import fm.doe.national.fcm_report.di.FsmReportComponentInjector;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
 import fm.doe.national.report_core.ui.base.BaseReportFragment;
@@ -41,7 +41,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
 
     @ProvidePresenter
     LevelsPresenter providePresenter() {
-        return new LevelsPresenter(FcmReportComponentInjector.getComponent(getActivity().getApplication()));
+        return new LevelsPresenter(FsmReportComponentInjector.getComponent(getActivity().getApplication()));
     }
 
     public LevelsFragment(ReportInteractor interactor) {
@@ -51,7 +51,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_fcm_levels, container, false);
+        return inflater.inflate(R.layout.fragment_fsm_levels, container, false);
     }
 
     @Override
