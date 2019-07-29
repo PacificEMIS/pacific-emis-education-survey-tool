@@ -1,6 +1,8 @@
 package fm.doe.national.core.ui.screens.base;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,6 +18,8 @@ import fm.doe.national.core.ui.views.InputDialog;
 
 public class BaseFragment extends MvpAppCompatFragment implements BaseView {
 
+    private static final int REQUEST_EXTERNAL_DOCUMENT = 100;
+
     @Nullable
     private Dialog masterPasswordDialog;
 
@@ -23,6 +27,23 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_DOCUMENT:
+                if (resultCode == Activity.RESULT_OK) {
+                    BasePresenter presenter = getPresenter();
+                    if (data != null && presenter != null) {
+                        presenter.onExternalDocumentPicked(getActivity().getContentResolver(), data.getData());
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -73,5 +94,13 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView {
     @Override
     public void handleGmsRecoverableException(GmsUserRecoverableException throwable) {
         ((BaseActivity) getActivity()).handleGmsRecoverableException(throwable);
+    }
+
+    @Override
+    public void openExternalDocumentsPicker(String mimeType) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(mimeType);
+        startActivityForResult(intent, REQUEST_EXTERNAL_DOCUMENT);
     }
 }

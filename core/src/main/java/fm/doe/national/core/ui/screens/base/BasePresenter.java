@@ -1,5 +1,8 @@
 package fm.doe.national.core.ui.screens.base;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.dropbox.core.NetworkIOException;
@@ -71,5 +74,9 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
         } else {
             getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.message_invalid_password));
         }
+    }
+
+    public void onExternalDocumentPicked(ContentResolver contentResolver, Uri uri) {
+        // do nothing
     }
 }

@@ -1,19 +1,15 @@
 package fm.doe.national.ui.screens.templates.wash;
 
-import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;
 import fm.doe.national.ui.screens.templates.SurveyTemplatePresenter;
 import fm.doe.national.wash.navigation.GroupNavigationItem;
 import fm.doe.national.wash.navigation.SubGroupNavigationItem;
-import fm.doe.national.wash_core.data.data_source.WashDataSource;
 import fm.doe.national.wash_core.data.model.mutable.MutableGroup;
 import fm.doe.national.wash_core.data.model.mutable.MutableSubGroup;
 import fm.doe.national.wash_core.interactors.WashSurveyInteractor;
@@ -28,23 +24,24 @@ public class WashSurveyTemplatePresenter extends SurveyTemplatePresenter {
             .getWashCoreComponent()
             .getWashSurveyInteractor();
 
-    private final WashDataSource washDataSource = MicronesiaApplication.getInjection().getWashCoreComponent().getDataSource();
-
     public WashSurveyTemplatePresenter() {
+        super(
+                MicronesiaApplication.getInjection().getWashCoreComponent().getDataSource(),
+                MicronesiaApplication.getInjection().getWashCoreComponent().getSurveyParser()
+        );
         loadItems();
     }
 
     @Override
     protected void loadItems() {
         addDisposable(
-                washDataSource.getTemplateSurvey()
+                dataSource.getTemplateSurvey()
                         .flatMap(survey -> {
                             washSurveyInteractor.setCurrentSurvey(survey);
                             return washSurveyInteractor.requestGroups();
                         })
                         .flatMap(groups -> Single.fromCallable(() -> {
                             List<NavigationItem> navigationItems = new ArrayList<>();
-                            BuildableNavigationItem prevBuildableNavigationItem = null;
 
                             for (MutableGroup group : groups) {
                                 navigationItems.add(new GroupNavigationItem(group));
@@ -52,13 +49,6 @@ public class WashSurveyTemplatePresenter extends SurveyTemplatePresenter {
                                 if (group.getSubGroups() != null) {
                                     for (MutableSubGroup subGroup : group.getSubGroups()) {
                                         SubGroupNavigationItem subGroupNavigationItem = new SubGroupNavigationItem(group, subGroup);
-                                        subGroupNavigationItem.setPreviousItem(prevBuildableNavigationItem);
-
-                                        if (prevBuildableNavigationItem != null) {
-                                            prevBuildableNavigationItem.setNextItem(subGroupNavigationItem);
-                                        }
-
-                                        prevBuildableNavigationItem = subGroupNavigationItem;
                                         navigationItems.add(subGroupNavigationItem);
                                     }
                                 }
@@ -70,10 +60,5 @@ public class WashSurveyTemplatePresenter extends SurveyTemplatePresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(getViewState()::setItems, this::handleError)
         );
-    }
-
-    @Override
-    protected void onLoadPressed() {
-        getViewState().showToast(Text.from(R.string.coming_soon));
     }
 }

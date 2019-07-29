@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import fm.doe.national.R;
+import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.ui.screens.templates.accreditation.AccreditationSurveyTemplateFragment;
 import fm.doe.national.ui.screens.templates.wash.WashSurveyTemplateFragment;
@@ -27,6 +29,10 @@ public class SurveyTemplatesActivity extends BaseActivity {
     private final SurveyTemplatesFragmentStatePagerAdapter tabsPagerAdapter =
             new SurveyTemplatesFragmentStatePagerAdapter(this);
 
+    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection()
+            .getCoreComponent()
+            .getGlobalPreferences();
+
     public static Intent createIntent(Context context) {
         return new Intent(context, SurveyTemplatesActivity.class);
     }
@@ -34,7 +40,7 @@ public class SurveyTemplatesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.label_templates);
+        setTitle(getString(R.string.title_format_templates, globalPreferences.getAppRegion().getName().getString(this)));
         viewPager.setAdapter(tabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
