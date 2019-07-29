@@ -1,10 +1,19 @@
 package fm.doe.national.core.ui.screens.base;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dropbox.core.NetworkIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.omega_r.libs.omegatypes.Text;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 import fm.doe.national.core.R;
 import fm.doe.national.core.data.exceptions.AuthenticationException;
@@ -71,5 +80,23 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
         } else {
             getViewState().showMessage(Text.from(R.string.title_error), Text.from(R.string.message_invalid_password));
         }
+    }
+
+    public void onExternalDocumentPicked(ContentResolver contentResolver, Uri uri) {
+        // do nothing
+    }
+
+    @Nullable
+    protected String readExternalUriToString(ContentResolver contentResolver, Uri uri) {
+        try {
+            InputStream inputStream = contentResolver.openInputStream(uri);
+            Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name());
+            String text = scanner.useDelimiter("\\A").next();
+            scanner.close();
+            return text;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

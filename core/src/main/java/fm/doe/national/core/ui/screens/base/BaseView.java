@@ -25,4 +25,8 @@ public interface BaseView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void handleGmsRecoverableException(GmsUserRecoverableException throwable);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void openExternalDocumentsPicker(String mimeType);
+
 }

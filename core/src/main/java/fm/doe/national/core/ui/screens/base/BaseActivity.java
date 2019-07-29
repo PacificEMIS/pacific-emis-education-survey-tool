@@ -1,5 +1,6 @@
 package fm.doe.national.core.ui.screens.base;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import fm.doe.national.core.ui.views.ProgressDialogFragment;
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     private static final String TAG_PROGRESS_DIALOG = "TAG_PROGRESS_DIALOG";
+    private static final int REQUEST_EXTERNAL_DOCUMENT = 100;
 
     @Nullable
     protected Toolbar toolbar;
@@ -50,6 +52,23 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
         ButterKnife.bind(this);
         bindToolbarViews();
         initToolbar();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_DOCUMENT:
+                if (resultCode == Activity.RESULT_OK) {
+                    BasePresenter presenter = getPresenter();
+                    if (data != null && presenter != null) {
+                        presenter.onExternalDocumentPicked(getContentResolver(), data.getData());
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -75,8 +94,8 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
 
             if (supportActionBar != null) {
                 supportActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP |
-                                ActionBar.DISPLAY_SHOW_HOME |
-                                ActionBar.DISPLAY_SHOW_CUSTOM);
+                        ActionBar.DISPLAY_SHOW_HOME |
+                        ActionBar.DISPLAY_SHOW_CUSTOM);
             }
 
             toolbar.setNavigationOnClickListener(v -> onHomePressed());
@@ -201,5 +220,13 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
     @Override
     public void handleGmsRecoverableException(GmsUserRecoverableException ex) {
         startActivity(ex.getIntent());
+    }
+
+    @Override
+    public void openExternalDocumentsPicker(String mimeType) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(mimeType);
+        startActivityForResult(intent, REQUEST_EXTERNAL_DOCUMENT);
     }
 }

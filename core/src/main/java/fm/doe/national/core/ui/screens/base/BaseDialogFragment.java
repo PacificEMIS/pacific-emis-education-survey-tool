@@ -48,4 +48,9 @@ public class BaseDialogFragment extends MvpAppCompatDialogFragment implements Ba
     public void handleGmsRecoverableException(GmsUserRecoverableException throwable) {
         ((BaseActivity) getActivity()).handleGmsRecoverableException(throwable);
     }
+
+    @Override
+    public void openExternalDocumentsPicker(String mimeType) {
+        // nothing
+    }
 }

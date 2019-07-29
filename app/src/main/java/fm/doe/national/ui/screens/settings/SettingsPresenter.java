@@ -1,5 +1,8 @@
 package fm.doe.national.ui.screens.settings;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
@@ -19,6 +22,8 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SettingsPresenter extends BasePresenter<SettingsView> {
+
+    private final static String MIME_TYPE_SCHOOLS = "text/csv";
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
@@ -127,12 +132,20 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onImportSchoolsPressed() {
-        addDisposable(interactor.importSchools()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_import_schools_success)), this::handleError));
+        getViewState().openExternalDocumentsPicker(MIME_TYPE_SCHOOLS);
+    }
+
+    @Override
+    public void onExternalDocumentPicked(ContentResolver contentResolver, Uri uri) {
+        String content = readExternalUriToString(contentResolver, uri);
+        if (content != null) {
+            addDisposable(interactor.importSchools(content)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(disposable -> getViewState().showWaiting())
+                    .doFinally(() -> getViewState().hideWaiting())
+                    .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_import_schools_success)), this::handleError));
+        }
     }
 
     private void onChooseFolderPressed() {
@@ -145,7 +158,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onTemplatesPressed() {
-        getViewState().showToast(Text.from(R.string.coming_soon));
+        getViewState().navigateToTemplates();
     }
 
     private void onChangeMasterPasswordPressed() {
