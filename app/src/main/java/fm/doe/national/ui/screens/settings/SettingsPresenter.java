@@ -47,6 +47,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
         if (BuildConfig.DEBUG) {
             items.add(itemFactory.createDebugStorageItem());
+            items.add(itemFactory.createDebugBuildInfoItem());
         }
 
         getViewState().setItems(items);

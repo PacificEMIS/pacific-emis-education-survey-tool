@@ -21,6 +21,7 @@
     <string name="label_import_schools">Import schools</string>
     <string name="label_export_folder">Export Folder</string>
     <string name="label_templates">Templates of surveys</string>
+    <string name="label_format_debug_info">Build %1$s(%2$d)</string>
     <string name="label_change_password">Change master password</string>
     <string name="label_sign_in">Log In with Google account</string>
     <string name="label_sign_out">Log out</string>
