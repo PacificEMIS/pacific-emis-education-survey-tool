@@ -37,6 +37,7 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView {
                     BasePresenter presenter = getPresenter();
                     if (data != null && presenter != null) {
                         presenter.onExternalDocumentPicked(getActivity().getContentResolver(), data.getData());
+                        return;
                     }
                 }
                 break;
