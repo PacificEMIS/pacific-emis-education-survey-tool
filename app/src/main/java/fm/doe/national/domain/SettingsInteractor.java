@@ -56,26 +56,10 @@ public class SettingsInteractor {
         return accessor.getDataSource(globalPreferences.getSurveyTypeOrDefault());
     }
 
-    public Completable signIn() {
-        return remoteStorageAccessor.signInAsUser();
-    }
+    public Completable importSchools(String content) {
+        return Single.fromCallable(() -> schoolsParser.parse(new ByteArrayInputStream(content.getBytes())))
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
 
-    public void signOut() {
-        remoteStorageAccessor.signOutAsUser();
-    }
-
-    public Completable importSchools() {
-        return remoteStorageAccessor.requestContentFromStorage()
-                .observeOn(Schedulers.io())
-                .flatMapCompletable(content -> getCurrentDataSource().rewriteAllSchools(
-                        schoolsParser.parse(new ByteArrayInputStream(content.getBytes()))));
-
-    }
-
-    public Completable importSurvey() {
-        return remoteStorageAccessor.requestContentFromStorage()
-                .observeOn(Schedulers.io())
-                .flatMapCompletable(accessor::rewriteTemplateSurvey);
     }
 
     public Completable selectExportFolder() {
@@ -197,22 +181,6 @@ public class SettingsInteractor {
                     return washSurveyParser;
             }
             throw new IllegalStateException();
-        }
-
-        public Completable rewriteTemplateSurvey(String content) throws ParseException {
-            Survey survey = tryParseAccreditation(content);
-
-            if (survey != null) {
-                return accreditationDataSource.rewriteTemplateSurvey(survey);
-            }
-
-            survey = tryParseWash(content);
-
-            if (survey != null) {
-                return washDataSource.rewriteTemplateSurvey(survey);
-            }
-
-            throw new ParseException();
         }
 
         public Completable createPartiallySavedSurvey(String content) throws ParseException {

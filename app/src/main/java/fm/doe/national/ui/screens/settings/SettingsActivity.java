@@ -150,4 +150,10 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
     public void navigateToTemplates() {
         startActivity(SurveyTemplatesActivity.createIntent(this));
     }
+
+    @Nullable
+    @Override
+    public SettingsPresenter getPresenter() {
+        return presenter;
+    }
 }
