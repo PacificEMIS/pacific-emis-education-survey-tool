@@ -90,7 +90,11 @@
         <item name="android:windowExitTransition" tools:targetApi="l">@null</item>
     </style>
 
-    <style name="AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert" />
+    <style name="AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert" >
+        <item name="buttonBarNegativeButtonStyle">@style/DialogTextButton</item>
+        <item name="buttonBarPositiveButtonStyle">@style/DialogTextButton</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
 
     <style name="ActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="textAllCaps">false</item>

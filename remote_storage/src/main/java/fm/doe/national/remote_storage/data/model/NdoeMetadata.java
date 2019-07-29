@@ -1,5 +1,6 @@
 package fm.doe.national.remote_storage.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.api.services.drive.model.File;
@@ -34,6 +35,8 @@ public class NdoeMetadata {
     private Date lastEditedDate;
     private Date surveyDate;
     private Date creationDate;
+
+    @Nullable
     private SurveyType surveyType;
 
     @Nullable
@@ -51,7 +54,11 @@ public class NdoeMetadata {
         metadata.lastEditedUser = properties.get(KEY_LAST_EDIT_USER);
         metadata.isSurveyCompleted = convertMetadataToBoolean(properties.get(KEY_COMPLETION));
         metadata.creator = properties.get(KEY_CREATION_USER);
-        metadata.surveyType = SurveyType.valueOf(properties.get(KEY_TYPE));
+
+        String surveyTypeString = properties.get(KEY_TYPE);
+        if (surveyTypeString != null) {
+            metadata.surveyType = SurveyType.valueOf(surveyTypeString);
+        }
 
         String editDateString = properties.get(KEY_LAST_EDIT_DATE);
         if (editDateString != null) {
@@ -119,7 +126,6 @@ public class NdoeMetadata {
 
         properties.put(KEY_LAST_EDIT_DATE, DateUtils.formatUtc(lastEditedDate));
         properties.put(KEY_LAST_EDIT_USER, lastEditedUser);
-        properties.put(KEY_TYPE, surveyType.name());
 
         boolean wasCompleted = convertMetadataToBoolean(properties.get(KEY_COMPLETION));
         if (!wasCompleted) {
@@ -144,6 +150,10 @@ public class NdoeMetadata {
             properties.put(KEY_CREATION_USER, creator);
         }
 
+        if (surveyType != null) {
+            properties.put(KEY_TYPE, surveyType.name());
+        }
+
         return properties;
     }
 
@@ -155,8 +165,9 @@ public class NdoeMetadata {
         return data != null && data.equals(VALUE_TRUE);
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return "NdoeMetadata{ " + createMetadataProperties(new File()) + " }";
+        return NdoeMetadata.class.getName() + " { " + createMetadataProperties(new File()) + " }";
     }
 }

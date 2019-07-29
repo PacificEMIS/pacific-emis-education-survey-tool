@@ -28,6 +28,7 @@
         android:layout_toEndOf="@+id/textview_title"
         android:ellipsize="end"
         android:gravity="end"
+        android:letterSpacing="0"
         android:maxLines="1"
         android:textAppearance="@style/Text.Body1"
         android:textColor="?colorPrimary"
