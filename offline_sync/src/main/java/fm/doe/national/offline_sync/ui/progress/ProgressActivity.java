@@ -16,7 +16,6 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.offline_sync.R;
 import fm.doe.national.offline_sync.data.model.Device;
@@ -90,7 +89,7 @@ public class ProgressActivity extends BaseActivity implements ProgressView, View
     @Override
     public void setSurvey(Survey survey) {
         schoolNameTextView.setText(survey.getSchoolName());
-        surveyDateTextView.setText(DateUtils.formatUi(survey.getCreateDate()));
+        surveyDateTextView.setText(survey.getSurveyTag());
     }
 
     @Override

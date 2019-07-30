@@ -72,8 +72,7 @@ public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
         addDisposable(getSurveyInteractor().getSurveyProgressObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(survey -> getViewState().setReportEnabled(survey.isCompleted()), this::handleError));
-
+                .subscribe(survey -> getViewState().setReportEnabled(survey.getProgress().isFinished()), this::handleError));
     }
 
     public void onNavigationItemPressed(BuildableNavigationItem item) {

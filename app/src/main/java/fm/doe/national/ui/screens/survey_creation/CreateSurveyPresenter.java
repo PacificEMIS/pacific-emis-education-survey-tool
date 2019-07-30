@@ -14,6 +14,7 @@ import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.DateUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -61,15 +62,22 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     void onContinuePressed() {
-        addDisposable(dataSource.createSurvey(selectedSchool.getId(), selectedSchool.getName(), new Date(), surveyDate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(survey -> {
-                    accreditationSurveyInteractor.setCurrentSurvey(survey, true);
-                    getViewState().navigateToSurvey();
-                }, this::handleError));
+        addDisposable(
+                dataSource.createSurvey(
+                        selectedSchool.getId(),
+                        selectedSchool.getName(),
+                        new Date(),
+                        DateUtils.formatDateTag(surveyDate)
+                )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> getViewState().showWaiting())
+                        .doFinally(() -> getViewState().hideWaiting())
+                        .subscribe(survey -> {
+                            accreditationSurveyInteractor.setCurrentSurvey(survey, true);
+                            getViewState().navigateToSurvey();
+                        }, this::handleError)
+        );
     }
 
     void onSearchQueryChanged(String query) {

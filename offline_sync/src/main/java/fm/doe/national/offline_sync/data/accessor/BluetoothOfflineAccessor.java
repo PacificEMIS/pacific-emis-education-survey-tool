@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.annotation.Nullable;
 
@@ -248,14 +249,15 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     @Override
-    public Single<List<Survey>> requestSurveys(String schoolId) {
+    public Single<List<Survey>> requestSurveys(String schoolId, String surveyTag) {
         requestSurveysSubject = SingleSubject.create();
         return send(new BtMessage(
                 BtMessage.Type.REQUEST_SURVEYS,
                 gson.toJson(new RequestSurveysBody(
                         schoolId,
                         globalPreferences.getAppRegion(),
-                        globalPreferences.getSurveyTypeOrDefault()
+                        globalPreferences.getSurveyTypeOrDefault(),
+                        surveyTag
                 ))
         ))
                 .andThen(requestSurveysSubject);
@@ -404,6 +406,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             RequestSurveysBody request = gson.fromJson(body, RequestSurveysBody.class);
             String schoolId = request.getSchoolId();
             AppRegion region = request.getAppRegion();
+            String surveyTag = request.getSurveyTag();
 
             VoidFunction<ResponseSurveysBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(v));
@@ -416,7 +419,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             switch (request.getSurveyType()) {
                 case SCHOOL_ACCREDITATION:
                     compositeDisposable.add(
-                            accreditationDataSource.loadSurveys(schoolId, region)
+                            accreditationDataSource.loadSurveys(schoolId, region, surveyTag)
                                     .flatMapObservable(Observable::fromIterable)
                                     .cast(AccreditationSurvey.class)
                                     .map(MutableAccreditationSurvey::new)
@@ -431,7 +434,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     break;
                 case WASH:
                     compositeDisposable.add(
-                            washDataSource.loadSurveys(schoolId, region)
+                            washDataSource.loadSurveys(schoolId, region, surveyTag)
                                     .flatMapObservable(Observable::fromIterable)
                                     .cast(WashSurvey.class)
                                     .map(MutableWashSurvey::new)
@@ -600,8 +603,12 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             int photosCount = (int) answers.stream().mapToLong(a -> a.getPhotos().size()).sum();
             syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
             Log.d(TAG, "did merge accreditation with photos = " + photosCount);
-            return answers;
+            return Pair.create(mutableTargetSurvey, answers);
         })
+                .flatMap(pair -> {
+                    accreditationDataSource.updateSurvey(pair.first);
+                    return Single.just(pair.second);
+                })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
                                 .flattenAsFlowable(a -> nonNullWrapPhotos(a.getPhotos()))
@@ -620,8 +627,12 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             int photosCount = (int) answers.stream().mapToLong(a -> nonNullWrapPhotos(a.getPhotos()).size()).sum();
             syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
             Log.d(TAG, "did merge wash with photos = " + photosCount);
-            return answers;
+            return Pair.create(mutableTargetSurvey, answers);
         })
+                .flatMap(pair -> {
+                    washDataSource.updateSurvey(pair.first);
+                    return Single.just(pair.second);
+                })
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> washDataSource.updateAnswer(changedAnswers.get(index))
                                 .flattenAsFlowable(a -> nonNullWrapPhotos(a.getPhotos()))

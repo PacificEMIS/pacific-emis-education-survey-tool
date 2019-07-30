@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +56,7 @@ public class LevelLegendView extends LinearLayout {
     public static class Item {
         private String schoolId;
         private String schoolName;
-        private Date date;
+        private String surveyTag;
         private String principalName;
         private List<Level> levels;
 
@@ -68,10 +67,10 @@ public class LevelLegendView extends LinearLayout {
         private Item() {
         }
 
-        public Item(String schoolId, String schoolName, Date date, String principalName, List<Level> levels) {
+        public Item(String schoolId, String schoolName, String surveyTag, String principalName, List<Level> levels) {
             this.schoolId = schoolId;
             this.schoolName = schoolName;
-            this.date = date;
+            this.surveyTag = surveyTag;
             this.principalName = principalName;
             this.levels = levels;
         }
@@ -84,8 +83,8 @@ public class LevelLegendView extends LinearLayout {
             return schoolName;
         }
 
-        public Date getDate() {
-            return date;
+        public String getSurveyTag() {
+            return surveyTag;
         }
 
         public String getPrincipalName() {

@@ -23,7 +23,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     private SurveyType surveyType;
     private AppRegion appRegion;
     private Date createDate;
-    private Date surveyDate;
+    private String surveyTag;
     private Date completeDate;
     private String schoolName;
     private String schoolId;
@@ -45,7 +45,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.version = other.getVersion();
         this.surveyType = other.getSurveyType();
         this.createDate = other.getCreateDate();
-        this.surveyDate = other.getSurveyDate();
+        this.surveyTag = other.getSurveyTag();
         this.completeDate = other.getCompleteDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
@@ -134,8 +134,8 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     }
 
     @Override
-    public Date getSurveyDate() {
-        return surveyDate;
+    public String getSurveyTag() {
+        return surveyTag;
     }
 
     @Nullable
@@ -144,8 +144,8 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         return completeDate;
     }
 
-    public void setSurveyDate(Date surveyDate) {
-        this.surveyDate = surveyDate;
+    public void setSurveyTag(String surveyTag) {
+        this.surveyTag = surveyTag;
     }
 
     public void setCompleteDate(Date completeDate) {
@@ -153,6 +153,12 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     }
 
     public List<MutableAnswer> merge(AccreditationSurvey other, ConflictResolveStrategy strategy) {
+        if (strategy == ConflictResolveStrategy.THEIRS) {
+            this.completeDate = other.getCompleteDate();
+            this.createDate = other.getCreateDate();
+            this.surveyTag = other.getSurveyTag();
+        }
+
         List<? extends Category> externalCategories = other.getCategories();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 

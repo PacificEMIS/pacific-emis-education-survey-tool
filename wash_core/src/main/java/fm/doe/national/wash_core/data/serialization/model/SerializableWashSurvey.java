@@ -12,14 +12,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.serialization.converters.AppRegionConverter;
 import fm.doe.national.core.data.serialization.converters.SurveyTypeConverter;
+import fm.doe.national.core.data.serialization.converters.UtcDateConverter;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.WashSurvey;
-import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 
 @Root(name = "survey")
 public class SerializableWashSurvey extends BaseSerializableIdentifiedObject implements WashSurvey {
@@ -28,7 +29,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Convert(SurveyTypeConverter.class)
     SurveyType type;
 
-    @Element
+    @Element(name = "country")
     @Convert(AppRegionConverter.class)
     AppRegion region;
 
@@ -37,18 +38,20 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
 
     @Nullable
     @Element(required = false)
+    @Convert(UtcDateConverter.class)
     Date createDate;
 
     @Nullable
     @Element(required = false)
-    Date surveyDate;
+    String surveyTag;
 
     @Nullable
     @Element(required = false)
+    @Convert(UtcDateConverter.class)
     Date completeDate;
 
     @Nullable
-    @Element(required = false)
+    @Element(required = false, name = "schoolNo")
     String schoolId;
 
     @Nullable
@@ -63,7 +66,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
         this.region = other.getAppRegion();
         this.version = other.getVersion();
         this.createDate = other.getCreateDate();
-        this.surveyDate = other.getSurveyDate();
+        this.surveyTag = other.getSurveyTag();
         this.completeDate = other.getCompleteDate();
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();
@@ -102,8 +105,8 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
 
     @Nullable
     @Override
-    public Date getSurveyDate() {
-        return surveyDate;
+    public String getSurveyTag() {
+        return surveyTag;
     }
 
     @Nullable

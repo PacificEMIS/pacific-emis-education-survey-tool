@@ -139,11 +139,12 @@ public final class DriveRemoteStorage implements RemoteStorage {
             return Completable.error(new IllegalStateException());
         }
 
+        String userEmail = userAccount.getEmail();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(
-                        SurveyTextUtil.createSurveyFileName(survey),
+                        SurveyTextUtil.createSurveyFileName(survey, userEmail),
                         dataSourceComponent.getSurveySerializer().serialize(survey),
-                        new NdoeMetadata(survey, userAccount.getEmail()),
+                        new NdoeMetadata(survey, userEmail),
                         regionFolderId))
                 .ignoreElement();
     }

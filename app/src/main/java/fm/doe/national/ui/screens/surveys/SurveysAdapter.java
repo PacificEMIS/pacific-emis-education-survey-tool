@@ -13,7 +13,6 @@ import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.ViewUtils;
 
 public class SurveysAdapter extends BaseAdapter<Survey> {
@@ -64,7 +63,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         public void onBind(Survey item) {
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
-            creationDateTextView.setText(DateUtils.formatUiText(item.getSurveyDate()));
+            creationDateTextView.setText(item.getSurveyTag());
 
             ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
         }

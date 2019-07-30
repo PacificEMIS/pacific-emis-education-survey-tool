@@ -145,7 +145,10 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         addDisposable(accreditationSurveyInteractor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> remoteStorageAccessor.scheduleUploading(accreditationSurveyInteractor.getCurrentSurvey().getId()), this::handleError)
+                .subscribe(
+                        () -> remoteStorageAccessor.scheduleUploading(accreditationSurveyInteractor.getCurrentSurvey().getId()),
+                        this::handleError
+                )
         );
     }
 
@@ -154,7 +157,17 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     }
 
     void onNextPressed() {
-        navigator.selectNext();
+        Runnable navigateToNext = navigator::selectNext;
+        if (navigator.getCurrentItem().getNextItem() instanceof ReportNavigationItem) {
+            addDisposable(
+                    accreditationSurveyInteractor.completeSurveyIfNeed()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(navigateToNext::run, this::handleError)
+            );
+        } else {
+            navigateToNext.run();
+        }
     }
 
     public void onCommentDeletePressed(Question question, int selectedQuestionPosition) {

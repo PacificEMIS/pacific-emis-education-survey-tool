@@ -19,7 +19,7 @@ public interface Survey extends Progressable, IdentifiedObject {
     Date getCreateDate();
 
     @Nullable
-    Date getSurveyDate();
+    String getSurveyTag();
 
     @Nullable
     Date getCompleteDate();

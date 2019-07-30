@@ -21,6 +21,7 @@ android {
         buildConfigField "String", "SURVEY_WASH_RMI_FILE_NAME", "\"survey_wash_rmi.xml\""
         buildConfigField "String", "SCHOOLS_FSM_FILE_NAME", "\"schools_fsm.csv\""
         buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools_rmi.csv\""
+        buildConfigField "String", "LICENSE_FILE_NAME", "\"license.txt\""
     }
     signingConfigs {
         release {

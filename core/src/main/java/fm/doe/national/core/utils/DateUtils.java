@@ -17,19 +17,13 @@ public class DateUtils {
     private static final DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat uiDateFormat = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
-
-    @SuppressLint("ConstantLocale")
-    private static final DateFormat uiTextDateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.US);
-
-    @SuppressLint("ConstantLocale")
-    private static final DateFormat monthYearDateFormat = new SimpleDateFormat("yyyy-MM", Locale.US);
+    private static final DateFormat dateTagDateFormat = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat numericMonthYearDateFormat = new SimpleDateFormat("MM-yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat utcDateFormat = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'", Locale.US);
+    private static final DateFormat utcDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'", Locale.US);
 
     static {
         utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -39,16 +33,8 @@ public class DateUtils {
         return dateFormat.format(date);
     }
 
-    public static String formatUi(Date date) {
-        return uiDateFormat.format(date);
-    }
-
-    public static String formatUiText(Date date) {
-        return uiTextDateFormat.format(date);
-    }
-
-    public static String formatMonthYear(Date date) {
-        return monthYearDateFormat.format(date);
+    public static String formatDateTag(Date date) {
+        return dateTagDateFormat.format(date);
     }
 
     public static String formatNumericMonthYear(Date date) {
@@ -60,13 +46,8 @@ public class DateUtils {
     }
 
     @Nullable
-    public static Date parseUi(String dateAsString) {
-        return parse(uiDateFormat, dateAsString);
-    }
-
-    @Nullable
-    public static Date parseMonthYear(String dateAsString) {
-        return parse(monthYearDateFormat, dateAsString);
+    public static Date parseDateTag(String dateAsString) {
+        return parse(dateTagDateFormat, dateAsString);
     }
 
     @Nullable

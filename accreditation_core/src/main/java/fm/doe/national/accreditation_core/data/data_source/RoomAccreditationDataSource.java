@@ -192,8 +192,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion) {
-        return Single.fromCallable(() -> surveyDao.getBySchoolIdAndRegion(schoolId, appRegion))
+    public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion, String surveyTag) {
+        return Single.fromCallable(() -> surveyDao.getSurveys(schoolId, appRegion, surveyTag))
                 .flatMapObservable(Observable::fromIterable)
                 .map(MutableAccreditationSurvey::new)
                 .toList()
@@ -201,7 +201,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, Date surveyDate) {
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag) {
         return getTemplateSurvey()
                 .flatMap(survey -> {
                     MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
@@ -209,7 +209,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
                     mutableSurvey.setSchoolName(schoolName);
                     mutableSurvey.setSchoolId(schoolId);
                     mutableSurvey.setCreateDate(createDate);
-                    mutableSurvey.setSurveyDate(surveyDate);
+                    mutableSurvey.setSurveyTag(surveyTag);
                     long id = saveSurvey(database, mutableSurvey, true);
                     return loadSurvey(id);
                 });

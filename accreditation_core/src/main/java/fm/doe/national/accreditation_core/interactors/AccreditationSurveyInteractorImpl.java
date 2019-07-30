@@ -154,13 +154,15 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
         }
 
         survey.getProgress().completed += delta;
+        markSurveyAsCompletedIfNeed();
+        surveyBehaviorSubject.onNext(survey);
+    }
 
+    private void markSurveyAsCompletedIfNeed() {
         if (!survey.isCompleted() && survey.getProgress().isFinished()) {
             survey.setCompleteDate(new Date());
             accreditationDataSource.updateSurvey(survey);
         }
-
-        surveyBehaviorSubject.onNext(survey);
     }
 
     private int findProgressDeltaAndNotify(MutableAnswer answer,
@@ -277,5 +279,10 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     @Override
     public long getCurrentSubCriteriaId() {
         return subCriteriaId;
+    }
+
+    @Override
+    public Completable completeSurveyIfNeed() {
+        return Completable.fromAction(this::markSurveyAsCompletedIfNeed);
     }
 }

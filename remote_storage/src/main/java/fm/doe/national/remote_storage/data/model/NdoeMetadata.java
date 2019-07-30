@@ -18,7 +18,7 @@ public class NdoeMetadata {
     private static final String KEY_SCHOOL_ID = "schoolNo";
     private static final String KEY_COMPLETION = "surveyCompleted";
     private static final String KEY_COMPLETION_DATE = "surveyCompletedDateTime";
-    private static final String KEY_SURVEY_DATE = "surveyTag";
+    private static final String KEY_SURVEY_TAG = "surveyTag";
     private static final String KEY_CREATION_DATE = "createDateTime";
     private static final String KEY_CREATION_USER = "createUser";
     private static final String KEY_LAST_EDIT_DATE = "lastEditedDateTime";
@@ -33,7 +33,7 @@ public class NdoeMetadata {
     private boolean isSurveyCompleted;
     private String creator;
     private Date lastEditedDate;
-    private Date surveyDate;
+    private String surveyTag;
     private Date creationDate;
 
     @Nullable
@@ -65,9 +65,9 @@ public class NdoeMetadata {
             metadata.lastEditedDate = DateUtils.parseUtc(editDateString);
         }
 
-        String surveyDateString = properties.get(KEY_SURVEY_DATE);
-        if (surveyDateString != null) {
-            metadata.surveyDate = DateUtils.parseMonthYear(surveyDateString);
+        String existingSurveyTag = properties.get(KEY_SURVEY_TAG);
+        if (existingSurveyTag != null) {
+            metadata.surveyTag = existingSurveyTag;
         }
 
         String createDateString = properties.get(KEY_CREATION_DATE);
@@ -95,7 +95,7 @@ public class NdoeMetadata {
             completionDate = survey.getCompleteDate();
         }
 
-        surveyDate = survey.getSurveyDate();
+        surveyTag = survey.getSurveyTag();
         creationDate = survey.getCreateDate();
         creator = user;
         lastEditedDate = new Date();
@@ -135,9 +135,9 @@ public class NdoeMetadata {
             }
         }
 
-        String existingSurveyDate = properties.get(KEY_SURVEY_DATE);
-        if (existingSurveyDate == null) {
-            properties.put(KEY_SURVEY_DATE, DateUtils.formatMonthYear(surveyDate));
+        String existingSurveyTag = properties.get(KEY_SURVEY_TAG);
+        if (existingSurveyTag == null) {
+            properties.put(KEY_SURVEY_TAG, surveyTag);
         }
 
         String existingCreationDate = properties.get(KEY_CREATION_DATE);
