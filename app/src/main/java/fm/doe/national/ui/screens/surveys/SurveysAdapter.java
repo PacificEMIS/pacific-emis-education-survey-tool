@@ -64,7 +64,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         public void onBind(Survey item) {
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
-            creationDateTextView.setText(DateUtils.formatUiText(item.getSurveyDate()));
+            creationDateTextView.setText(DateUtils.formatDateTag(item.getSurveyDate()));
 
             ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
         }

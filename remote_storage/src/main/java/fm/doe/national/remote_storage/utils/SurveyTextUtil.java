@@ -13,11 +13,12 @@ public class SurveyTextUtil {
     private static final String PREFIX_WASH = "WASH";
 
     @NonNull
-    public static String createSurveyFileName(Survey survey) {
+    public static String createSurveyFileName(Survey survey, String userEmail) {
         return convertSurveyTypeToExportPrefix(survey.getSurveyType()) + "-" +
+                userEmail + "-" +
                 survey.getSchoolName() + "-" +
                 survey.getSchoolId() + "-" +
-                DateUtils.formatUi(survey.getSurveyDate()) + ".xml";
+                DateUtils.formatDateTag(survey.getSurveyDate()) + ".xml";
     }
 
     @NonNull

@@ -67,7 +67,7 @@ public class NdoeMetadata {
 
         String surveyDateString = properties.get(KEY_SURVEY_DATE);
         if (surveyDateString != null) {
-            metadata.surveyDate = DateUtils.parseMonthYear(surveyDateString);
+            metadata.surveyDate = DateUtils.parseDateTag(surveyDateString);
         }
 
         String createDateString = properties.get(KEY_CREATION_DATE);
@@ -137,7 +137,7 @@ public class NdoeMetadata {
 
         String existingSurveyDate = properties.get(KEY_SURVEY_DATE);
         if (existingSurveyDate == null) {
-            properties.put(KEY_SURVEY_DATE, DateUtils.formatMonthYear(surveyDate));
+            properties.put(KEY_SURVEY_DATE, DateUtils.formatDateTag(surveyDate));
         }
 
         String existingCreationDate = properties.get(KEY_CREATION_DATE);

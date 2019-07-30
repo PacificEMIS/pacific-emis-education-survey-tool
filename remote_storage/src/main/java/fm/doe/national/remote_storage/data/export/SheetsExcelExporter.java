@@ -325,7 +325,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
                 createSingleCellValueRange(
                         sheetName,
                         getCellRange(CELL_DATE),
-                        appContext.getString(R.string.label_date_of_accreditation) + " " + DateUtils.formatUi(header.getDate())
+                        appContext.getString(R.string.label_date_of_accreditation) + " " + DateUtils.formatDateTag(header.getDate())
                 ),
                 createSingleCellValueRange(
                         sheetName,

@@ -87,7 +87,7 @@ public class ReportFragment extends BaseFragment implements ReportView {
         schoolIdTextView.setText(item.getSchoolId());
         schoolNameTextView.setText(item.getSchoolName());
         principalNameTextView.setText(item.getPrincipalName());
-        visitDateTextView.setText(DateUtils.formatUi(item.getDate()));
+        visitDateTextView.setText(DateUtils.formatDateTag(item.getDate()));
     }
 
 }

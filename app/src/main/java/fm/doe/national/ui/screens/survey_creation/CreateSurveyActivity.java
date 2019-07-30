@@ -75,7 +75,7 @@ public class CreateSurveyActivity extends BaseActivity implements
 
     @Override
     public void setStartDate(Date date) {
-        yearTextView.setText(DateUtils.formatMonthYear(date));
+        yearTextView.setText(DateUtils.formatDateTag(date));
     }
 
     @Override
