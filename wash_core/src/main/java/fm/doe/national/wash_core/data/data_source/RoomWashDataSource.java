@@ -186,7 +186,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
 
     @Override
     public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion, String surveyTag) {
-        return Single.fromCallable(() -> database.getSurveyDao().getBySchoolIdAndRegionAndTag(schoolId, appRegion, surveyTag))
+        return Single.fromCallable(() -> database.getSurveyDao().getSurveys(schoolId, appRegion, surveyTag))
                 .flatMapObservable(Observable::fromIterable)
                 .map(MutableWashSurvey::new)
                 .toList()

@@ -58,6 +58,6 @@ public interface SurveyDao {
     List<RelativeRoomSurvey> getAllFilled(AppRegion region);
 
     @Query("SELECT * FROM RoomWashSurvey WHERE school_id = :schoolId AND region = :region AND survey_tag = :tag")
-    List<RoomWashSurvey> getBySchoolIdAndRegionAndTag(String schoolId, AppRegion region, String tag);
+    List<RoomWashSurvey> getSurveys(String schoolId, AppRegion region, String tag);
 
 }

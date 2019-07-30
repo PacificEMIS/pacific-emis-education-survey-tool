@@ -67,7 +67,7 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     }
 
     @OnClick(R.id.textview_license)
-    void onCreditsPressed() {
+    void onLicensePressed() {
         presenter.onLicensePressed();
     }
 

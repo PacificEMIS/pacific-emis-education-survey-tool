@@ -193,7 +193,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion, String surveyTag) {
-        return Single.fromCallable(() -> surveyDao.getBySchoolIdAndRegionAndTag(schoolId, appRegion, surveyTag))
+        return Single.fromCallable(() -> surveyDao.getSurveys(schoolId, appRegion, surveyTag))
                 .flatMapObservable(Observable::fromIterable)
                 .map(MutableAccreditationSurvey::new)
                 .toList()
