@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.ui.screens.base.BaseFragment;
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.report.R;
 import fm.doe.national.report.di.ReportComponentInjector;
 import fm.doe.national.report_core.model.ReportPage;
@@ -87,7 +86,7 @@ public class ReportFragment extends BaseFragment implements ReportView {
         schoolIdTextView.setText(item.getSchoolId());
         schoolNameTextView.setText(item.getSchoolName());
         principalNameTextView.setText(item.getPrincipalName());
-        visitDateTextView.setText(DateUtils.formatDateTag(item.getDate()));
+        visitDateTextView.setText(item.getSurveyTag());
     }
 
 }

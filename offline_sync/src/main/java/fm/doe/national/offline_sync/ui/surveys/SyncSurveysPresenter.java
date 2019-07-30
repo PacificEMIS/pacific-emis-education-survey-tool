@@ -33,7 +33,7 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
 
     public void onRefresh() {
         addDisposable(
-                offlineAccessor.requestSurveys(targetSurvey.getSchoolId())
+                offlineAccessor.requestSurveys(targetSurvey.getSchoolId(), targetSurvey.getSurveyTag())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().setListLoadingVisible(true))

@@ -41,7 +41,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
 
     @Nullable
     @Element(required = false)
-    Date surveyDate;
+    String surveyTag;
 
     @Nullable
     @Element(required = false)
@@ -63,7 +63,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
         this.region = other.getAppRegion();
         this.version = other.getVersion();
         this.createDate = other.getCreateDate();
-        this.surveyDate = other.getSurveyDate();
+        this.surveyTag = other.getSurveyTag();
         this.completeDate = other.getCompleteDate();
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();
@@ -102,8 +102,8 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
 
     @Nullable
     @Override
-    public Date getSurveyDate() {
-        return surveyDate;
+    public String getSurveyTag() {
+        return surveyTag;
     }
 
     @Nullable

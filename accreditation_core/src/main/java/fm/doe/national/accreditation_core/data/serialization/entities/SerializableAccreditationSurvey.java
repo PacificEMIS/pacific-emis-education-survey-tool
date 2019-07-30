@@ -40,7 +40,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
 
     @Nullable
     @Element(required = false)
-    Date surveyDate;
+    String surveyTag;
 
     @Nullable
     @Element(required = false)
@@ -65,7 +65,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.type = other.getSurveyType();
         this.region = other.getAppRegion();
         this.createDate = other.getCreateDate();
-        this.surveyDate = other.getSurveyDate();
+        this.surveyTag = other.getSurveyTag();
         this.completeDate = other.getCompleteDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
@@ -93,8 +93,8 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
 
     @Nullable
     @Override
-    public Date getSurveyDate() {
-        return surveyDate;
+    public String getSurveyTag() {
+        return surveyTag;
     }
 
     @Nullable

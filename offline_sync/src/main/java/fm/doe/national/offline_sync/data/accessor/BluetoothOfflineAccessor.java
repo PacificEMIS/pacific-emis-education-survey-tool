@@ -249,14 +249,15 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     }
 
     @Override
-    public Single<List<Survey>> requestSurveys(String schoolId) {
+    public Single<List<Survey>> requestSurveys(String schoolId, String surveyTag) {
         requestSurveysSubject = SingleSubject.create();
         return send(new BtMessage(
                 BtMessage.Type.REQUEST_SURVEYS,
                 gson.toJson(new RequestSurveysBody(
                         schoolId,
                         globalPreferences.getAppRegion(),
-                        globalPreferences.getSurveyTypeOrDefault()
+                        globalPreferences.getSurveyTypeOrDefault(),
+                        surveyTag
                 ))
         ))
                 .andThen(requestSurveysSubject);
@@ -405,6 +406,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             RequestSurveysBody request = gson.fromJson(body, RequestSurveysBody.class);
             String schoolId = request.getSchoolId();
             AppRegion region = request.getAppRegion();
+            String surveyTag = request.getSurveyTag();
 
             VoidFunction<ResponseSurveysBody> onSuccess = v -> {
                 BtMessage message = new BtMessage(BtMessage.Type.RESPONSE_SURVEYS, gson.toJson(v));
@@ -417,7 +419,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             switch (request.getSurveyType()) {
                 case SCHOOL_ACCREDITATION:
                     compositeDisposable.add(
-                            accreditationDataSource.loadSurveys(schoolId, region)
+                            accreditationDataSource.loadSurveys(schoolId, region, surveyTag)
                                     .flatMapObservable(Observable::fromIterable)
                                     .cast(AccreditationSurvey.class)
                                     .map(MutableAccreditationSurvey::new)
@@ -432,7 +434,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     break;
                 case WASH:
                     compositeDisposable.add(
-                            washDataSource.loadSurveys(schoolId, region)
+                            washDataSource.loadSurveys(schoolId, region, surveyTag)
                                     .flatMapObservable(Observable::fromIterable)
                                     .cast(WashSurvey.class)
                                     .map(MutableWashSurvey::new)

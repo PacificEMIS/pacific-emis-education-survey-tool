@@ -223,7 +223,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                 new LevelLegendView.Item(
                         survey.getSchoolId(),
                         survey.getSchoolName(),
-                        survey.getSurveyDate(),
+                        survey.getSurveyTag(),
                         null, // TODO: not implemented
                         Arrays.asList(ReportLevel.values())
                 )

@@ -25,7 +25,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
@@ -107,8 +106,8 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
     public Completable updateSummarySheet(String spreadsheetId, String sheetName, ReportBundle reportBundle) {
         return wrapWithCompletableInThreadPool(() -> {
             String schoolId = reportBundle.getHeader().getSchoolId();
-            String dateAsString = DateUtils.formatNumericMonthYear(reportBundle.getHeader().getDate());
-            int row = findSummaryRowToUpdate(spreadsheetId, schoolId, dateAsString, sheetName);
+            String surveyTag = reportBundle.getHeader().getSurveyTag();
+            int row = findSummaryRowToUpdate(spreadsheetId, schoolId, surveyTag, sheetName);
             List<ValueRange> ranges = new ArrayList<>();
 
             ranges.add(createSingleCellValueRange(
@@ -129,7 +128,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
                     sheetName,
                     TextUtil.convertIntToCharsIcons(CELLS_INFO_SCORES_SUMMARY.dateColumnNumber),
                     row,
-                    dateAsString
+                    surveyTag
             ));
 
             int column = CELLS_INFO_SCORES_SUMMARY.firstNumericColumnNumber;
@@ -325,7 +324,7 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
                 createSingleCellValueRange(
                         sheetName,
                         getCellRange(CELL_DATE),
-                        appContext.getString(R.string.label_date_of_accreditation) + " " + DateUtils.formatDateTag(header.getDate())
+                        appContext.getString(R.string.label_date_of_accreditation) + " " + header.getSurveyTag()
                 ),
                 createSingleCellValueRange(
                         sheetName,

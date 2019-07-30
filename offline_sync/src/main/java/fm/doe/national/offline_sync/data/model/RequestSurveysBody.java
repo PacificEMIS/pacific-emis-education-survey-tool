@@ -10,15 +10,17 @@ public class RequestSurveysBody implements Serializable {
     private String schoolId;
     private AppRegion appRegion;
     private SurveyType surveyType;
+    private String surveyTag;
 
     public RequestSurveysBody() {
         // required for serialization
     }
 
-    public RequestSurveysBody(String schoolId, AppRegion appRegion, SurveyType surveyType) {
+    public RequestSurveysBody(String schoolId, AppRegion appRegion, SurveyType surveyType, String surveyTag) {
         this.schoolId = schoolId;
         this.appRegion = appRegion;
         this.surveyType = surveyType;
+        this.surveyTag = surveyTag;
     }
 
     public String getSchoolId() {
@@ -31,5 +33,9 @@ public class RequestSurveysBody implements Serializable {
 
     public SurveyType getSurveyType() {
         return surveyType;
+    }
+
+    public String getSurveyTag() {
+        return surveyTag;
     }
 }

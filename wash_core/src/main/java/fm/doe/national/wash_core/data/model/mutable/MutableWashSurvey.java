@@ -28,7 +28,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     private SurveyType surveyType;
 
     private Date createDate;
-    private Date surveyDate;
+    private String surveyTag;
 
     @Nullable
     private Date completeDate;
@@ -50,7 +50,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
 
         this.id = other.getId();
         this.createDate = other.getCreateDate();
-        this.surveyDate = other.getSurveyDate();
+        this.surveyTag = other.getSurveyTag();
         this.completeDate = other.getCompleteDate();
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();
@@ -110,8 +110,8 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
 
     @Nullable
     @Override
-    public Date getSurveyDate() {
-        return surveyDate;
+    public String getSurveyTag() {
+        return surveyTag;
     }
 
     @Nullable
@@ -120,8 +120,8 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         return completeDate;
     }
 
-    public void setSurveyDate(Date surveyDate) {
-        this.surveyDate = surveyDate;
+    public void setSurveyTag(String surveyTag) {
+        this.surveyTag = surveyTag;
     }
 
     public void setCompleteDate(Date completeDate) {
@@ -170,7 +170,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         if (strategy == ConflictResolveStrategy.THEIRS) {
             this.completeDate = other.getCompleteDate();
             this.createDate = other.getCreateDate();
-            this.surveyDate = other.getSurveyDate();
+            this.surveyTag = other.getSurveyTag();
         }
 
         List<? extends Group> externalGroups = other.getGroups();

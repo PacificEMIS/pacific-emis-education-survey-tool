@@ -24,8 +24,8 @@ public class RoomWashSurvey implements WashSurvey {
     @ColumnInfo(name = "create_date")
     public Date createDate;
 
-    @ColumnInfo(name = "survey_date")
-    public Date surveyDate;
+    @ColumnInfo(name = "survey_tag")
+    public String surveyTag;
 
     @ColumnInfo(name = "complete_date")
     public Date completeDate;
@@ -51,13 +51,13 @@ public class RoomWashSurvey implements WashSurvey {
                           @Nullable String schoolName,
                           @Nullable String schoolId,
                           @Nullable Date createDate,
-                          @Nullable Date surveyDate) {
+                          @Nullable String surveyTag) {
         this.version = version;
         this.type = type;
         this.schoolName = schoolName;
         this.schoolId = schoolId;
         this.createDate = createDate;
-        this.surveyDate = surveyDate;
+        this.surveyTag = surveyTag;
         this.appRegion = appRegion;
     }
 
@@ -66,7 +66,7 @@ public class RoomWashSurvey implements WashSurvey {
         this.version = other.getVersion();
         this.type = other.getSurveyType();
         this.createDate = other.getCreateDate();
-        this.surveyDate = other.getSurveyDate();
+        this.surveyTag = other.getSurveyTag();
         this.completeDate = other.getCompleteDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
@@ -92,8 +92,8 @@ public class RoomWashSurvey implements WashSurvey {
 
     @Nullable
     @Override
-    public Date getSurveyDate() {
-        return surveyDate;
+    public String getSurveyTag() {
+        return surveyTag;
     }
 
     @Nullable

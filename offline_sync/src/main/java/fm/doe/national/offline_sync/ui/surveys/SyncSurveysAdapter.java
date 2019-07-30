@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseSelectionListAdapter;
-import fm.doe.national.core.utils.DateUtils;
 import fm.doe.national.offline_sync.R;
 
 public class SyncSurveysAdapter extends BaseSelectionListAdapter<Survey> {
@@ -35,7 +34,7 @@ public class SyncSurveysAdapter extends BaseSelectionListAdapter<Survey> {
         public void onBind(Survey item) {
             super.onBind(item);
             nameSchoolTextView.setText(item.getSchoolName());
-            creationDateTextView.setText(DateUtils.formatDateTag(item.getSurveyDate()));
+            creationDateTextView.setText(item.getSurveyTag());
         }
 
     }

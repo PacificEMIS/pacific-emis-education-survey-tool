@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.entities.SurveyType;
-import fm.doe.national.core.utils.DateUtils;
 
 public class SurveyTextUtil {
 
@@ -18,12 +17,12 @@ public class SurveyTextUtil {
                 userEmail + "-" +
                 survey.getSchoolName() + "-" +
                 survey.getSchoolId() + "-" +
-                DateUtils.formatDateTag(survey.getSurveyDate()) + ".xml";
+                survey.getSurveyTag() + ".xml";
     }
 
     @NonNull
     public static String createSurveySheetName(Survey survey) {
-        return survey.getSchoolId() + "-" + DateUtils.formatNumericMonthYear(survey.getSurveyDate());
+        return survey.getSchoolId() + "-" + survey.getSurveyTag();
     }
 
     public static String convertSurveyTypeToExportPrefix(SurveyType surveyType) {
