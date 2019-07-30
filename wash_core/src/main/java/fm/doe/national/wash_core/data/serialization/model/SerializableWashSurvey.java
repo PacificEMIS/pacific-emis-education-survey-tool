@@ -28,7 +28,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Convert(SurveyTypeConverter.class)
     SurveyType type;
 
-    @Element
+    @Element(name = "country")
     @Convert(AppRegionConverter.class)
     AppRegion region;
 
@@ -48,7 +48,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     Date completeDate;
 
     @Nullable
-    @Element(required = false)
+    @Element(required = false, name = "schoolNo")
     String schoolId;
 
     @Nullable

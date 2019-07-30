@@ -1,6 +1,6 @@
 <survey>
     <type>SCHOOL_ACCREDITATION</type>
-    <region>FSM</region>
+    <country>FSM</country>
     <version>3</version>
     <category>
         <name>School Evaluation (Principal's interview)</name>

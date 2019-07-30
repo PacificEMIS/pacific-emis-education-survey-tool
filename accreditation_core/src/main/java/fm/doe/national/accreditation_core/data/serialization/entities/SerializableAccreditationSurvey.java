@@ -27,7 +27,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Convert(SurveyTypeConverter.class)
     SurveyType type;
 
-    @Element
+    @Element(name = "country")
     @Convert(AppRegionConverter.class)
     AppRegion region;
 
@@ -47,7 +47,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     Date completeDate;
 
     @Nullable
-    @Element(required = false)
+    @Element(required = false, name = "schoolNo")
     String schoolId;
 
     @Nullable
