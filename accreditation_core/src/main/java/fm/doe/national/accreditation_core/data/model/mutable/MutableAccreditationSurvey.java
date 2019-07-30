@@ -153,6 +153,12 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     }
 
     public List<MutableAnswer> merge(AccreditationSurvey other, ConflictResolveStrategy strategy) {
+        if (strategy == ConflictResolveStrategy.THEIRS) {
+            this.completeDate = other.getCompleteDate();
+            this.createDate = other.getCreateDate();
+            this.surveyDate = other.getSurveyDate();
+        }
+
         List<? extends Category> externalCategories = other.getCategories();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 

@@ -167,6 +167,12 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     }
 
     public List<MutableAnswer> merge(WashSurvey other, ConflictResolveStrategy strategy) {
+        if (strategy == ConflictResolveStrategy.THEIRS) {
+            this.completeDate = other.getCompleteDate();
+            this.createDate = other.getCreateDate();
+            this.surveyDate = other.getSurveyDate();
+        }
+
         List<? extends Group> externalGroups = other.getGroups();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 

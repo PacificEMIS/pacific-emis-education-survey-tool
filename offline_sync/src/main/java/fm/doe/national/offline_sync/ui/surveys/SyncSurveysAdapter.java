@@ -35,7 +35,7 @@ public class SyncSurveysAdapter extends BaseSelectionListAdapter<Survey> {
         public void onBind(Survey item) {
             super.onBind(item);
             nameSchoolTextView.setText(item.getSchoolName());
-            creationDateTextView.setText(DateUtils.formatUiText(item.getCreateDate()));
+            creationDateTextView.setText(DateUtils.formatUiText(item.getSurveyDate()));
         }
 
     }

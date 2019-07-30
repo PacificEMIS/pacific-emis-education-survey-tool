@@ -152,13 +152,15 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
                         })
         );
         survey.setProgress(updatedProgress);
+        markSurveyAsCompletedIfNeed();
+        surveyPublishSubject.onNext(survey);
+    }
 
+    private void markSurveyAsCompletedIfNeed() {
         if (!survey.isCompleted() && survey.getProgress().isFinished()) {
             survey.setCompleteDate(new Date());
             washDataSource.updateSurvey(survey);
         }
-
-        surveyPublishSubject.onNext(survey);
     }
 
     private void updateProgressAndNotify(MutableAnswer answer,
@@ -276,5 +278,10 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
         return (MutableProgress) stream
                 .map(Progressable::getProgress)
                 .reduce(MutableProgress.createEmptyProgress(), MutableProgress::plus);
+    }
+
+    @Override
+    public Completable completeSurveyIfNeed() {
+        return Completable.fromAction(this::markSurveyAsCompletedIfNeed);
     }
 }
