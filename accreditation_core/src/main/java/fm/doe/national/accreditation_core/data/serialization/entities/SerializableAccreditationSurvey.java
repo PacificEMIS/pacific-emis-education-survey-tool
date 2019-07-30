@@ -17,6 +17,7 @@ import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.serialization.converters.AppRegionConverter;
 import fm.doe.national.core.data.serialization.converters.SurveyTypeConverter;
+import fm.doe.national.core.data.serialization.converters.UtcDateConverter;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 
@@ -36,6 +37,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
 
     @Nullable
     @Element(required = false)
+    @Convert(UtcDateConverter.class)
     Date createDate;
 
     @Nullable
@@ -44,6 +46,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
 
     @Nullable
     @Element(required = false)
+    @Convert(UtcDateConverter.class)
     Date completeDate;
 
     @Nullable

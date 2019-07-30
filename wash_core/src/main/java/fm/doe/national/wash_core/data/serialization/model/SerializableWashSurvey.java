@@ -12,14 +12,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.serialization.converters.AppRegionConverter;
 import fm.doe.national.core.data.serialization.converters.SurveyTypeConverter;
+import fm.doe.national.core.data.serialization.converters.UtcDateConverter;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.WashSurvey;
-import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 
 @Root(name = "survey")
 public class SerializableWashSurvey extends BaseSerializableIdentifiedObject implements WashSurvey {
@@ -37,6 +38,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
 
     @Nullable
     @Element(required = false)
+    @Convert(UtcDateConverter.class)
     Date createDate;
 
     @Nullable
@@ -45,6 +47,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
 
     @Nullable
     @Element(required = false)
+    @Convert(UtcDateConverter.class)
     Date completeDate;
 
     @Nullable
