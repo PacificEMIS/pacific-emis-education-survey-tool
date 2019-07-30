@@ -20,6 +20,7 @@ import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
 import fm.doe.national.ui.dialogs.merge_progress.MergeProgressDialogFragment;
+import fm.doe.national.ui.screens.license.LicenseActivity;
 import fm.doe.national.ui.screens.settings.SettingsActivity;
 import fm.doe.national.ui.screens.surveys.SurveysActivity;
 
@@ -65,9 +66,9 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
         return R.layout.activity_main_menu;
     }
 
-    @OnClick(R.id.textview_credits)
+    @OnClick(R.id.textview_license)
     void onCreditsPressed() {
-        presenter.onCreditsPressed();
+        presenter.onLicensePressed();
     }
 
     @OnClick(R.id.textview_settings)
@@ -116,8 +117,8 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     }
 
     @Override
-    public void navigateToCredits() {
-        showToast(Text.from(R.string.coming_soon));
+    public void navigateToLicense() {
+        startActivity(LicenseActivity.createIntent(this));
     }
 
     @Nullable

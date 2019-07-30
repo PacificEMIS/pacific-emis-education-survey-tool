@@ -124,7 +124,7 @@
         app:layout_marginTopPercent="1.6%" />
 
     <TextView
-        android:id="@+id/textview_credits"
+        android:id="@+id/textview_license"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?selectableItemBackground"
@@ -133,7 +133,7 @@
         android:drawablePadding="24dp"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:text="@string/label_credits"
+        android:text="@string/label_license"
         android:textAppearance="@style/Text.Title4"
         app:layout_heightPercent="4.8%"
         app:layout_marginLeftPercent="14%"

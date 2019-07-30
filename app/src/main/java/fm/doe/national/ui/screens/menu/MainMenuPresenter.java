@@ -46,8 +46,8 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
         getViewState().setTitle(globalPreferences.getAppName());
     }
 
-    public void onCreditsPressed() {
-        getViewState().navigateToCredits();
+    public void onLicensePressed() {
+        getViewState().navigateToLicense();
     }
 
     public void onSettingsPressed() {
