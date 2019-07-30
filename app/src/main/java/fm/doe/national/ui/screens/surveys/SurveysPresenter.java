@@ -48,7 +48,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
                 // TODO: this is a temporary disabling of export feature for RMI (reason: not implemented)
                 switch (globalPreferences.getAppRegion()) {
-                    case FCM:
+                    case FSM:
                         getViewState().setExportEnabled(true);
                         break;
                     case RMI:

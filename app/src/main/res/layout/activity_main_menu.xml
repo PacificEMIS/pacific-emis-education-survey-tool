@@ -31,7 +31,7 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_fcm"
+        android:src="@drawable/ic_fsm"
         app:layout_heightPercent="26.4%"
         app:layout_marginTopPercent="2.4%"
         tools:ignore="ContentDescription" />

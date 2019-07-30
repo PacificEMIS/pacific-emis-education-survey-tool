@@ -71,16 +71,16 @@ public class SettingsInteractor {
     }
 
     public Completable loadDataFromAssets() {
-        return fetchFcmSchoolsFromAssets()
+        return fetchFsmSchoolsFromAssets()
                 .andThen(fetchRmiSchoolsFromAssets())
-                .andThen(fetchFcmAccreditationTemplateFromAssets())
+                .andThen(fetchFsmAccreditationTemplateFromAssets())
                 .andThen(fetchRmiAccreditationTemplateFromAssets())
-                .andThen(fetchFcmWashTemplateFromAssets())
+                .andThen(fetchFsmWashTemplateFromAssets())
                 .andThen(fetchRmiWashTemplateFromAssets());
     }
 
-    private Completable fetchFcmSchoolsFromAssets() {
-        return fetchSchoolsFromAssets(BuildConfig.SCHOOLS_FCM_FILE_NAME);
+    private Completable fetchFsmSchoolsFromAssets() {
+        return fetchSchoolsFromAssets(BuildConfig.SCHOOLS_FSM_FILE_NAME);
     }
 
     private Completable fetchRmiSchoolsFromAssets() {
@@ -92,16 +92,16 @@ public class SettingsInteractor {
                 .flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
     }
 
-    private Completable fetchFcmAccreditationTemplateFromAssets() {
-        return fetchAccreditationTemplateFromAssets(BuildConfig.SURVEY_FCM_FILE_NAME);
+    private Completable fetchFsmAccreditationTemplateFromAssets() {
+        return fetchAccreditationTemplateFromAssets(BuildConfig.SURVEY_SA_FSM_FILE_NAME);
     }
 
     private Completable fetchRmiAccreditationTemplateFromAssets() {
-        return fetchAccreditationTemplateFromAssets(BuildConfig.SURVEY_RMI_FILE_NAME);
+        return fetchAccreditationTemplateFromAssets(BuildConfig.SURVEY_SA_RMI_FILE_NAME);
     }
 
-    private Completable fetchFcmWashTemplateFromAssets() {
-        return fetchWashTemplateFromAssets(BuildConfig.SURVEY_WASH_FCM_FILE_NAME);
+    private Completable fetchFsmWashTemplateFromAssets() {
+        return fetchWashTemplateFromAssets(BuildConfig.SURVEY_WASH_FSM_FILE_NAME);
     }
 
     private Completable fetchRmiWashTemplateFromAssets() {

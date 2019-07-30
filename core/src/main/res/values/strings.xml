@@ -111,7 +111,7 @@
     <string name="button_next">Next</string>
     <string name="button_complete">Complete</string>
 
-    <string name="region_fcm">FedEMIS</string>
+    <string name="region_fsm">FedEMIS</string>
     <string name="region_rmi">MIEMIS</string>
 
     <string name="op_mode_dev">Development</string>

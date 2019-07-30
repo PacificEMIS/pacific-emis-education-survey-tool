@@ -7,9 +7,9 @@
     <include layout="@layout/include_sheet_header" />
 
     <TextView
-        android:id="@+id/textview_fcm"
+        android:id="@+id/textview_fsm"
         style="@style/SheetSelectorItem"
-        android:text="@string/region_fcm"
+        android:text="@string/region_fsm"
         android:textAppearance="@style/Text.Body1" />
 
     <TextView

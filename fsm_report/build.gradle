@@ -12,9 +12,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField "float", "SCHOOL_EVALUATION_LEVEL_MULTIPLIER", "90.0f"
+        buildConfigField "float", "CLASSROOM_OBSERVATION_LEVEL_MULTIPLIER", "10.0f"
+
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moxyReflectorPackage : 'fm.doe.national.report' ]
+                arguments = [ moxyReflectorPackage : 'fm.doe.national.fsm_report' ]
             }
         }
     }
@@ -36,8 +39,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':core')
-    implementation project(path: ':fsm_report')
-    implementation project(path: ':rmi_report')
     implementation project(path: ':report_core')
     implementation project(path: ':accreditation_core')
 
@@ -48,27 +49,21 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
 
-    // Omega
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
-    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
-    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
-
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"
     annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
 
+    // Omega
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
+    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
+
     // RxJava2
     implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
     implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
 
-    // Room
-    implementation "androidx.room:room-runtime:${Deps.room}"
-    annotationProcessor "androidx.room:room-compiler:${Deps.room}"
-    implementation "androidx.room:room-rxjava2:${Deps.room}"
-
     // Moxy
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
     annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
-
 }

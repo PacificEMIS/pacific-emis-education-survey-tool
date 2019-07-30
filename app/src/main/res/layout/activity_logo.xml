@@ -13,7 +13,7 @@
         android:layout_height="264dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="116dp"
-        android:src="@drawable/ic_fcm"
+        android:src="@drawable/ic_fsm"
         tools:ignore="ContentDescription" />
 
     <LinearLayout

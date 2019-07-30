@@ -87,12 +87,12 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
     public void showRegionSelector(RegionListener listener) {
         selectorDialog = new BottomSheetDialog(this);
         View sheetView = getLayoutInflater().inflate(R.layout.sheet_app_context, null);
-        View fcmItemView = sheetView.findViewById(R.id.textview_fcm);
+        View fsmItemView = sheetView.findViewById(R.id.textview_fsm);
         View rmiItemView = sheetView.findViewById(R.id.textview_rmi);
         TextView titleTextView = sheetView.findViewById(R.id.textview_title);
         titleTextView.setText(R.string.title_choose_context);
-        fcmItemView.setOnClickListener(v -> {
-            listener.onRegionSelected(AppRegion.FCM);
+        fsmItemView.setOnClickListener(v -> {
+            listener.onRegionSelected(AppRegion.FSM);
             safeDismiss(selectorDialog);
         });
         rmiItemView.setOnClickListener(v -> {

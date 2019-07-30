@@ -14,7 +14,7 @@ import fm.doe.national.core.data.exceptions.AuthenticationException;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.exceptions.PickerDeclinedException;
 import fm.doe.national.core.utils.LifecycleListener;
-import fm.doe.national.fcm_report.domain.FcmReportInteractor;
+import fm.doe.national.fsm_report.domain.FsmReportInteractor;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
@@ -171,9 +171,9 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                                             (lv, rv) -> new ReportBundle(lv.first, lv.second, rv)
                                     );
 
-                            if (reportInteractor instanceof FcmReportInteractor) {
+                            if (reportInteractor instanceof FsmReportInteractor) {
                                 return single.zipWith(
-                                        ((FcmReportInteractor) reportInteractor).getLevelObservable().firstOrError(),
+                                        ((FsmReportInteractor) reportInteractor).getLevelObservable().firstOrError(),
                                         ReportBundle::setSchoolAccreditationLevel
                                 );
                             } else if (reportInteractor instanceof RmiReportInteractor) {

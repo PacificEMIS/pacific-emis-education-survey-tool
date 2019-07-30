@@ -3,7 +3,7 @@ package fm.doe.national.report.di;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.core.preferences.GlobalPreferences;
-import fm.doe.national.fcm_report.di.FcmReportComponent;
+import fm.doe.national.fsm_report.di.FsmReportComponent;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportsProvider;
 import fm.doe.national.rmi_report.di.RmiReportComponent;
@@ -11,19 +11,19 @@ import fm.doe.national.rmi_report.di.RmiReportComponent;
 @Module
 public class ReportModule {
 
-    private final FcmReportComponent fcmReportComponent;
+    private final FsmReportComponent fsmReportComponent;
     private final RmiReportComponent rmiReportComponent;
 
-    public ReportModule(FcmReportComponent fcmReportComponent, RmiReportComponent rmiReportComponent) {
-        this.fcmReportComponent = fcmReportComponent;
+    public ReportModule(FsmReportComponent fsmReportComponent, RmiReportComponent rmiReportComponent) {
+        this.fsmReportComponent = fsmReportComponent;
         this.rmiReportComponent = rmiReportComponent;
     }
 
     @Provides
     public ReportsProvider provideReportsProvider(GlobalPreferences globalPreferences) {
         switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                return fcmReportComponent.getFcmReportsProvider();
+            case FSM:
+                return fsmReportComponent.getFsmReportsProvider();
             case RMI:
                 return rmiReportComponent.getRmiReportsProvider();
         }
@@ -33,8 +33,8 @@ public class ReportModule {
     @Provides
     public ReportInteractor provideReportInteractor(GlobalPreferences globalPreferences) {
         switch (globalPreferences.getAppRegion()) {
-            case FCM:
-                return fcmReportComponent.getFcmReportInteractor();
+            case FSM:
+                return fsmReportComponent.getFsmReportInteractor();
             case RMI:
                 return rmiReportComponent.getRmiReportInteractor();
         }
