@@ -1,5 +1,7 @@
 package fm.doe.national.remote_storage.data.storage;
 
+import androidx.core.util.Pair;
+
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
@@ -17,12 +19,14 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Nullable;
 
+import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.utils.DriveQueryBuilder;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,6 +36,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
     private static final String SPACE_DRIVE = "drive";
     private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, properties)";
     private static final String FIELD_ID = "id";
+    private static final String FOLDERNAME_PHOTOS = "photos";
 
     private final Drive drive;
     private final Executor executor = Executors.newCachedThreadPool();
@@ -179,4 +184,43 @@ public class DriveServiceHelper extends TasksRxWrapper {
                     .execute();
         });
     }
+
+    public Single<List<Pair<Photo, File>>> uploadPhotos(List<Photo> photos, String parentFolderId) {
+        return createFolderIfNotExist(FOLDERNAME_PHOTOS, parentFolderId)
+                .flatMapObservable(photosFolderId -> Observable.fromIterable(photos)
+                        .concatMapSingle(photo -> {
+                            List<String> root = Collections.singletonList(photosFolderId);
+
+                            java.io.File photoFile = new java.io.File(photo.getLocalPath());
+
+                            if (!photoFile.exists()) {
+                                return Single.just(Pair.create(photo, (File) null));
+                            }
+
+                            String fileName = photoFile.getName().split(".")[0];
+                            String query = new DriveQueryBuilder()
+                                    .parentId(root.get(0))
+                                    .mimeType(DriveType.FILE.getValue())
+                                    .name(fileName)
+                                    .build();
+
+                            return requestFiles(query)
+                                    .flatMap(fileList -> {
+                                        if (!fileList.getFiles().isEmpty()) {
+                                            return Single.just(Pair.create(photo, (File) null));
+                                        }
+
+                                        return wrapWithSingleInThreadPool(() -> {
+                                            FileContent mediaContent = new FileContent("image/jpeg", photoFile);
+                                            File metadata = new File()
+                                                    .setParents(root)
+                                                    .setMimeType("image/jpeg")
+                                                    .setName(fileName);
+                                            return Pair.create(photo, drive.files().create(metadata, mediaContent).execute());
+                                        }, Pair.create(photo, (File) null));
+                                    });
+                        }))
+                .toList();
+    }
+
 }

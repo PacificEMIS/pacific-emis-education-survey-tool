@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import fm.doe.national.accreditation_core.BuildConfig;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
@@ -37,6 +38,7 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.utils.CollectionUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -331,5 +333,30 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     @Override
     public void updateSurvey(Survey survey) {
         database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey));
+    }
+
+    @Override
+    public List<Photo> getPhotos(Survey survey) {
+        return ((AccreditationSurvey) survey).getCategories().stream()
+                .flatMap(c -> c.getStandards().stream())
+                .flatMap(s -> s.getCriterias().stream())
+                .flatMap(c -> c.getSubCriterias().stream())
+                .flatMap(sc -> {
+                    List<? extends Photo> photos = sc.getAnswer().getPhotos();
+                    if (CollectionUtils.isEmpty(photos)) {
+                        return Stream.empty();
+                    }
+                    return photos.stream();
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Completable updatePhotoWithRemote(Photo photo, String remoteFileId) {
+        return Completable.fromAction(() -> {
+            MutablePhoto mutablePhoto = new MutablePhoto(photo);
+            mutablePhoto.setRemotePath(remoteFileId);
+            photoDao.update(new RoomPhoto(photo));
+        });
     }
 }
