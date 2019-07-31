@@ -1,6 +1,7 @@
 package fm.doe.national.core.data.files;
 
 import android.content.Context;
+import android.media.MediaScannerConnection;
 import android.os.Environment;
 
 import androidx.annotation.Nullable;
@@ -12,21 +13,27 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Locale;
 
+import fm.doe.national.core.R;
+
 public class FilesRepositoryImpl implements FilesRepository {
     private static final String EXT_PICTURE = ".jpg";
     private static final String PATTERN_IMAGE_FILENAME = "IMG_%d";
     private final File externalPicturesDirectory;
     private final File cacheDirectory;
+    private final Context appContext;
 
     public FilesRepositoryImpl(Context context) {
-        externalPicturesDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        appContext = context;
+        externalPicturesDirectory = Environment.getExternalStoragePublicDirectory(appContext.getString(R.string.app_name));
         cacheDirectory = context.getCacheDir();
     }
 
     @Override
     public File createEmptyImageFile() throws IOException {
         String imageFileName = String.format(Locale.getDefault(), PATTERN_IMAGE_FILENAME, new Date().getTime());
-        return File.createTempFile(imageFileName, EXT_PICTURE, externalPicturesDirectory);
+        File file = File.createTempFile(imageFileName, EXT_PICTURE, externalPicturesDirectory);
+        notifyFileSystem();
+        return file;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -40,7 +47,24 @@ public class FilesRepositoryImpl implements FilesRepository {
     public File createEmptyImageFile(String name) throws IOException {
         File file = new File(externalPicturesDirectory, name + EXT_PICTURE);
         boolean isCreated = file.createNewFile();
-        return isCreated ? file : null;
+
+        if (isCreated) {
+            notifyFileSystem();
+            return file;
+        } else {
+            return null;
+        }
+    }
+
+    private void notifyFileSystem() {
+        MediaScannerConnection.scanFile(
+                appContext,
+                new String[]{externalPicturesDirectory.getAbsolutePath()},
+                null,
+                (path, uri) -> {
+                    // nothing
+                }
+        );
     }
 
     @Override

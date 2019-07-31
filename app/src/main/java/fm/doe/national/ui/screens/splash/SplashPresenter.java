@@ -12,6 +12,10 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
 
     SplashPresenter() {
+        getViewState().requestAppPermissions();
+    }
+
+    public void onPermissionsGranted() {
         navigateToNextScreen();
     }
 

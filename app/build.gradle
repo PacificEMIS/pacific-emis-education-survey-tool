@@ -114,4 +114,7 @@ dependencies {
     // AppCenter
     implementation "com.microsoft.appcenter:appcenter-analytics:${Deps.appCenter}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${Deps.appCenter}"
+
+    // Permissions
+    implementation 'com.karumi:dexter:5.0.0'
 }
