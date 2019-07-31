@@ -1,11 +1,17 @@
 package fm.doe.national.survey_core.ui.photos;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -14,6 +20,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.survey_core.R;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,8 +34,11 @@ public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
     @Nullable
     private File takenPictureFile;
 
+    private Context appContext;
+
     protected PhotosPresenter(CoreComponent coreComponent) {
         filesRepository = coreComponent.getPicturesRepository();
+        appContext = coreComponent.getContext();
     }
 
     // Call this in subclass constructor
@@ -78,12 +88,38 @@ public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
 
     public void onTakePhotoSuccess() {
         if (takenPictureFile == null) return;
-        MutablePhoto mutablePhoto = new MutablePhoto();
-        mutablePhoto.setLocalPath(takenPictureFile.getPath());
-        addPhoto(mutablePhoto);
-        update();
-        takenPictureFile = null;
-        onAnswerLoaded();
+        addDisposable(
+                Completable.fromAction(() -> {
+                    compressPhoto(takenPictureFile);
+                    MutablePhoto mutablePhoto = new MutablePhoto();
+                    mutablePhoto.setLocalPath(takenPictureFile.getPath());
+                    addPhoto(mutablePhoto);
+                    update();
+                    takenPictureFile = null;
+                })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> getViewState().showWaiting())
+                        .doFinally(getViewState()::hideWaiting)
+                        .subscribe(this::onAnswerLoaded, this::handleError)
+        );
+    }
+
+    private void compressPhoto(File file) {
+        try {
+            Bitmap bitmap = ViewUtils.handleSamplingAndRotationBitmap(appContext, Uri.fromFile(file));
+
+            if (bitmap != null) {
+                FileOutputStream fileOutputStream = new FileOutputStream(file, false);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
+                fileOutputStream.close();
+                bitmap.recycle();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onTakePhotoFailure() {
