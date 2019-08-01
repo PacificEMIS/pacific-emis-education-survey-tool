@@ -45,17 +45,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         switch (globalPreferences.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 getViewState().setTitle(Text.from(R.string.title_school_accreditation));
-
-                // TODO: this is a temporary disabling of export feature for RMI (reason: not implemented)
-                switch (globalPreferences.getAppRegion()) {
-                    case FSM:
-                        getViewState().setExportEnabled(true);
-                        break;
-                    case RMI:
-                        getViewState().setExportEnabled(false);
-                        break;
-                }
-
+                getViewState().setExportEnabled(true);
                 break;
             case WASH:
                 getViewState().setTitle(Text.from(R.string.title_wash));

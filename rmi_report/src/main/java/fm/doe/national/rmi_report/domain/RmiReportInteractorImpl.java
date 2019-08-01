@@ -1,14 +1,20 @@
 package fm.doe.national.rmi_report.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.report_core.domain.BaseReportInteractor;
 import fm.doe.national.report_core.domain.ReportLevel;
-import fm.doe.national.report_core.model.Level;
 import fm.doe.national.rmi_report.model.SchoolAccreditationTallyLevel;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
@@ -32,7 +38,7 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
     }
 
     @Override
-    protected Level createLevel(int completed, int total) {
+    protected ReportLevel createLevel(int completed, int total) {
         return ReportLevel.estimateLevel(completed, total);
     }
 
@@ -43,10 +49,23 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
 
     private void requestLevelReport(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
-            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
+            AccreditationSurvey flattenSurvey = getFlattenSurvey(survey);
+
+            List<Category> seCategories = flattenSurvey.getCategories().stream()
+                    .filter(it -> it.getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
+                    .collect(Collectors.toList());
+
+            Map<String, List<Category>> coCategoriesListByTitle = flattenSurvey.getCategories().stream()
+                    .filter(it -> it.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
+                    .collect(Collectors.groupingBy(Category::getTitle));
+
+            List<List<Category>> coCategoriesList = new ArrayList<>(coCategoriesListByTitle.values());
+
             int[] counts = new int[SchoolAccreditationTallyLevel.MAX_CRITERIA_SUM];
             int tallyScore = 0;
-            for (Category category : clearedSurvey.getCategories()) {
+
+            // populate Tally scores from School Evaluation results
+            for (Category category : seCategories) {
                 for (Standard standard : category.getStandards()) {
                     for (Criteria criteria : standard.getCriterias()) {
                         int criteriaSum = getPositiveAnswersCount(criteria);
@@ -57,8 +76,46 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
                     }
                 }
             }
+
+            // populate Tally scores from School Evaluation results
+            for (List<Category> coCategories : coCategoriesList) {
+                int answeredCount = 0;
+                int questionsCount = 0;
+                for (Category category : coCategories) {
+                    for (Standard standard : category.getStandards()) {
+                        for (Criteria criteria : standard.getCriterias()) {
+                            answeredCount += getPositiveAnswersCount(criteria);
+                            questionsCount += criteria.getSubCriterias().size();
+                        }
+                    }
+                }
+
+                ReportLevel categoryLevel = createLevel(answeredCount, questionsCount);
+                int tallyValue = reportLevelToTallyValue(categoryLevel);
+
+                if (tallyValue > 0 && tallyValue <= SchoolAccreditationTallyLevel.MAX_CRITERIA_SUM) {
+                    counts[tallyValue - 1]++;
+                    tallyScore += tallyValue;
+                }
+            }
+
             levelSubject.onNext(new SchoolAccreditationTallyLevel(counts, tallyScore));
         });
+    }
+
+    private int reportLevelToTallyValue(ReportLevel level) {
+        switch (level) {
+            case LEVEL_1:
+                return 1;
+            case LEVEL_2:
+                return 2;
+            case LEVEL_3:
+                return 3;
+            case LEVEL_4:
+                return 4;
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     private int getPositiveAnswersCount(Criteria criteria) {

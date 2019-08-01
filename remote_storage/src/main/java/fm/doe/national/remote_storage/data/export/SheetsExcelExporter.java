@@ -35,17 +35,13 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @SuppressLint("DefaultLocale")
-public abstract class SheetsExcelExporter extends TasksRxWrapper {
+public class SheetsExcelExporter extends TasksRxWrapper {
 
     public static final String MIME_TYPE_MS_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     public static final String MIME_TYPE_GOOGLE_SHEETS = "application/vnd.google-apps.spreadsheet";
 
     private static final String TAG = SheetsExcelExporter.class.getName();
     private static final String PREFIX_UPDATABLE_CELL = "$";
-    private static final String FORMAT_CELL_SUMMARY_STANDARD_TOTAL = "$%sSummaryStandardTotal-%d";
-    private static final String FORMAT_CELL_SUMMARY_STANDARD_LEVEL = "$%sSummaryStandardLevel-%d";
-    private static final String FORMAT_CELL_SUMMARY_TOTAL = "$%sSummaryTotal";
-    private static final String FORMAT_CELL_SUMMARY_CRITERIA_TOTAL = "$%sSummaryCriteriaTotal-%d.%d";
     private static final String FORMAT_CELL_SUMMARY_SUB_CRITERIA_TOTAL = "$%sSummary-%d.%d.%d";
     private static final String CELL_SCHOOL_ID = "$schNo";
     private static final String CELL_SCHOOL_NAME = "$schName";
@@ -70,7 +66,15 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
         this.appContext = appContext;
     }
 
-    public abstract Completable fillReportSheet(String fileId, String sheetName, ReportBundle reportBundle);
+    public Completable fillReportSheet(String spreadsheetId, String sheetName, ReportBundle reportBundle) {
+        return wrapWithCompletableInThreadPool(() -> {
+            List<ValueRange> rangesToUpdate = new ArrayList<>();
+            rangesToUpdate.addAll(createInfoValueRanges(sheetName, reportBundle.getHeader()));
+            rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.SCHOOL_EVALUATION));
+            rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.CLASSROOM_OBSERVATION));
+            updateValues(spreadsheetId, rangesToUpdate);
+        });
+    }
 
     public Single<String> recreateSheet(String spreadsheetId, String sheetName, String templateSheetName) {
         return wrapWithSingleInThreadPool(() -> {
@@ -175,13 +179,26 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
     protected List<ValueRange> createEvaluationScoreValueRanges(String sheetName,
                                                                 List<SummaryViewData> summary,
                                                                 EvaluationForm evaluationForm) {
-        return createSummaryValueRange(
-                sheetName,
-                summary.stream()
-                        .filter(it -> it.getCategory().getEvaluationForm() == evaluationForm)
-                        .collect(Collectors.toList()),
-                evaluationForm
-        );
+        List<ValueRange> values = new ArrayList<>();
+
+        Map<String, List<SummaryViewData>> dataByCategories = summary.stream()
+                .filter(it -> it.getCategory().getEvaluationForm() == evaluationForm)
+                .collect(Collectors.groupingBy(it -> it.getCategory().getTitle()));
+
+        List<List<SummaryViewData>> groupedSummary = new ArrayList<>(dataByCategories.values());
+
+        for (int i = 0; i < groupedSummary.size(); i++) {
+            values.addAll(
+                    createSummaryValueRange(
+                            sheetName,
+                            groupedSummary.get(i),
+                            evaluationForm,
+                            i
+                    )
+            );
+        }
+
+        return values;
     }
 
     protected String getEvaluationFormPrefix(EvaluationForm evaluationForm) {
@@ -197,41 +214,15 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
 
     private List<ValueRange> createSummaryValueRange(String sheetName,
                                                      List<SummaryViewData> summary,
-                                                     EvaluationForm evaluationForm) {
+                                                     EvaluationForm evaluationForm,
+                                                     int categoryIndex) {
         List<ValueRange> ranges = new ArrayList<>();
-        final String cellPrefix = getEvaluationFormPrefix(evaluationForm);
-        int totalByEvaluation = 0;
+        final String cellPrefix = getEvaluationFormPrefix(evaluationForm) + (categoryIndex + 1);
 
         for (int standardIndex = 0; standardIndex < summary.size(); standardIndex++) {
             SummaryViewData data = summary.get(standardIndex);
-            totalByEvaluation += data.getTotalByStandard();
-
-            ranges.add(
-                    createSingleCellValueRange(
-                            sheetName,
-                            getCellRange(FORMAT_CELL_SUMMARY_STANDARD_TOTAL, cellPrefix, standardIndex + 1),
-                            data.getTotalByStandard()
-                    )
-            );
-
-            ranges.add(
-                    createSingleCellValueRange(
-                            sheetName,
-                            getCellRange(FORMAT_CELL_SUMMARY_STANDARD_LEVEL, cellPrefix, standardIndex + 1),
-                            data.getLevel().getName().getString(appContext)
-                    )
-            );
-
             ranges.addAll(createCriteriasValueRanges(sheetName, data, cellPrefix, standardIndex + 1));
         }
-
-        ranges.add(
-                createSingleCellValueRange(
-                        sheetName,
-                        getCellRange(FORMAT_CELL_SUMMARY_TOTAL, cellPrefix),
-                        totalByEvaluation
-                )
-        );
 
         return ranges;
     }
@@ -258,15 +249,6 @@ public abstract class SheetsExcelExporter extends TasksRxWrapper {
 
         for (int criteriaIndex = 0; criteriaIndex < data.getCriteriaSummaryViewDataList().size(); criteriaIndex++) {
             SummaryViewData.CriteriaSummaryViewData criteriaData = data.getCriteriaSummaryViewDataList().get(criteriaIndex);
-
-            ranges.add(
-                    createSingleCellValueRange(
-                            sheetName,
-                            getCellRange(FORMAT_CELL_SUMMARY_CRITERIA_TOTAL, cellPrefix, standardIndex, criteriaIndex + 1),
-                            criteriaData.getTotal()
-                    )
-            );
-
             ranges.addAll(createSubCriteriasValueRanges(sheetName, criteriaData, cellPrefix, standardIndex, criteriaIndex + 1));
         }
 
