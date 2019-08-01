@@ -46,8 +46,6 @@ public interface OfflineAccessor {
 
     Single<Survey> mergeSurveys(Survey targetSurvey, Survey externalSurvey, ConflictResolveStrategy strategy);
 
-    Completable pushSurvey(Survey mergedSurvey);
-
     void setSyncUseCase(SyncUseCase syncUseCase);
 
     @Nullable

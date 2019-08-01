@@ -19,17 +19,14 @@ public class MergeProgressPresenter extends BasePresenter<MergeProgressView> {
 
     private static final int PERCENTAGE_ALL = 100;
     private static final int PERCENTAGE_SEND_AVAILABLE_SURVEYS = 10;
-    private static final int PERCENTAGE_SEND_SURVEY = 30;
+    private static final int PERCENTAGE_SEND_SURVEY = 50;
     private static final int PERCENTAGE_PART_SEND_ALL_PHOTOS = 50;
-    private static final int PERCENTAGE_PUSH_SURVEY = 80;
-    private static final int PERCENTAGE_PART_GET_ALL_PHOTOS = 20;
 
     private final OfflineAccessor offlineAccessor = MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor();
     private final OfflineSyncUseCase useCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
     private final SyncNotifier notifier = MicronesiaApplication.getInjection().getOfflineSyncComponent().getNotifier();
 
     private int oneOutcomePhotoPercentValue;
-    private int oneIncomePhotoPercentValue;
     private int currentProgress;
 
     public MergeProgressPresenter() {
@@ -76,14 +73,6 @@ public class MergeProgressPresenter extends BasePresenter<MergeProgressView> {
                 break;
             case DID_SEND_PHOTO:
                 addProgress(oneOutcomePhotoPercentValue);
-                break;
-            case WILL_SAVE_PHOTOS:
-                oneIncomePhotoPercentValue = notification.getValue() == 0 ?
-                    PERCENTAGE_PART_GET_ALL_PHOTOS :
-                    (PERCENTAGE_PART_GET_ALL_PHOTOS / notification.getValue());
-                break;
-            case DID_SAVE_PHOTO:
-                addProgress(oneIncomePhotoPercentValue);
                 break;
             case DID_FINISH_SYNC:
                 setProgress(PERCENTAGE_ALL);
