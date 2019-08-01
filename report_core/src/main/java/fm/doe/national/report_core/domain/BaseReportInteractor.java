@@ -242,7 +242,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         });
     }
 
-    private AccreditationSurvey getFlattenSurvey(AccreditationSurvey survey) {
+    protected AccreditationSurvey getFlattenSurvey(AccreditationSurvey survey) {
         MutableAccreditationSurvey otherSurvey = new MutableAccreditationSurvey(survey);
 
         List<MutableCategory> classroomObservations = otherSurvey.getCategories().stream()
