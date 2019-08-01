@@ -34,8 +34,6 @@ import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
-import fm.doe.national.remote_storage.data.export.FsmSheetsExcelExporter;
-import fm.doe.national.remote_storage.data.export.RmiSheetsExcelExporter;
 import fm.doe.national.remote_storage.data.export.SheetsExcelExporter;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
@@ -107,14 +105,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, initializer)
                 .setApplicationName(appContext.getString(R.string.app_name))
                 .build();
-        switch (globalPreferences.getAppRegion()) {
-            case FSM:
-                return new FsmSheetsExcelExporter(appContext, sheets);
-            case RMI:
-                return new RmiSheetsExcelExporter(appContext, sheets);
-            default:
-                throw new NotImplementedException();
-        }
+        return new SheetsExcelExporter(appContext, sheets);
     }
 
     private String getCredentialsFileName() {

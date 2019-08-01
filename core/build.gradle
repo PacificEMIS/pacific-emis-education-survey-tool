@@ -18,10 +18,10 @@ android {
         }
 
         buildConfigField "String", "FACTORY_PASSWORD", "\"XzFY8x8m\""
-        buildConfigField "String", "SPREADSHEET_ID_PROD_FSM", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
-        buildConfigField "String", "SPREADSHEET_ID_DEV_FSM", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
-        buildConfigField "String", "SPREADSHEET_ID_PROD_RMI", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
-        buildConfigField "String", "SPREADSHEET_ID_DEV_RMI", "\"1GbzCoJI2DI3QBLcrODbfhDEydynQp64hsM5RenVcJdI\""
+        buildConfigField "String", "SPREADSHEET_ID_PROD_FSM", "\"10Hyg2oMBzcMl8IsFGh1NQLdZwVUvVcatRfSvo0nU2mQ\""
+        buildConfigField "String", "SPREADSHEET_ID_DEV_FSM", "\"10Hyg2oMBzcMl8IsFGh1NQLdZwVUvVcatRfSvo0nU2mQ\""
+        buildConfigField "String", "SPREADSHEET_ID_PROD_RMI", "\"1v044Ri8UZzbTrrkLNna6Glozf8ns0EyQsJqp1m1XBHU\""
+        buildConfigField "String", "SPREADSHEET_ID_DEV_RMI", "\"1v044Ri8UZzbTrrkLNna6Glozf8ns0EyQsJqp1m1XBHU\""
     }
 
     buildTypes {
