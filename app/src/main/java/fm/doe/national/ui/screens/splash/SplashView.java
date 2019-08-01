@@ -15,4 +15,5 @@ public interface SplashView extends BaseView {
 
     void navigateToMenu();
 
+    void requestAppPermissions();
 }

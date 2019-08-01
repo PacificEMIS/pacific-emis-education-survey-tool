@@ -1,8 +1,17 @@
 package fm.doe.national.ui.screens.splash;
 
+import android.content.pm.PackageManager;
 import android.widget.ImageView;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import fm.doe.national.R;
@@ -38,5 +47,35 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     public void navigateToMenu() {
         startActivity(MainMenuActivity.createIntent(this));
+    }
+
+    @Override
+    public void requestAppPermissions() {
+        try {
+            String[] permissions = getPackageManager()
+                    .getPackageInfo(getPackageName(), PackageManager.GET_PERMISSIONS)
+                    .requestedPermissions;
+
+            Dexter.withActivity(this)
+                    .withPermissions(permissions)
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            if (report.areAllPermissionsGranted()) {
+                                splashPresenter.onPermissionsGranted();
+                            } else {
+                                showMessage(Text.from(R.string.title_error), Text.from(R.string.error_permissions));
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    })
+                    .check();
+        } catch (PackageManager.NameNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 }
