@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.ui.screens.base.BaseAdapter;
 import fm.doe.national.core.utils.ViewUtils;
 
@@ -82,7 +83,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         }
 
         private boolean needToShowExport() {
-            return isExportEnabled && getItem().isCompleted();
+            return isExportEnabled && getItem().getState() == SurveyState.COMPLETED;
         }
     }
 

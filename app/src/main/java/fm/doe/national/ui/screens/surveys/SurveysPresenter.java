@@ -14,6 +14,7 @@ import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.domain.SettingsInteractor;
@@ -109,7 +110,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         addDisposable(
                 interactor.getAllSurveys()
                         .flatMapObservable(Observable::fromIterable)
-                        .filter(Survey::isCompleted)
+                        .filter(s -> s.getState() == SurveyState.COMPLETED)
                         .cast(AccreditationSurvey.class)
                         .concatMapSingle(survey -> remoteStorageAccessor.exportToExcel(survey, ExportType.GLOBAL))
                         .subscribeOn(Schedulers.io())

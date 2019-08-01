@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.core.utils.ObjectUtils;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.WashSurvey;
 
@@ -45,6 +47,9 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     @NonNull
     private MutableProgress progress;
 
+    @NonNull
+    private SurveyState state;
+
     public MutableWashSurvey(WashSurvey other) {
         this(other.getVersion(), other.getSurveyType(), other.getAppRegion());
 
@@ -54,6 +59,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         this.completeDate = other.getCompleteDate();
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();
+        this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(MutableGroup::new).collect(Collectors.toList());
@@ -188,5 +194,14 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         }
 
         return changedAnswers;
+    }
+
+    @Override
+    public SurveyState getState() {
+        return state;
+    }
+
+    public void setState(SurveyState state) {
+        this.state = state;
     }
 }
