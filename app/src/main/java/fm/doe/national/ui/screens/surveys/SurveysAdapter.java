@@ -82,7 +82,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         }
 
         private boolean needToShowExport() {
-            return isExportEnabled && getItem().isCompleted();
+            return isExportEnabled;
         }
     }
 

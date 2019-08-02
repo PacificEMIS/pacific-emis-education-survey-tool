@@ -15,11 +15,14 @@ import java.util.stream.Collectors;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.data.serialization.converters.AppRegionConverter;
+import fm.doe.national.core.data.serialization.converters.SurveyStateConverter;
 import fm.doe.national.core.data.serialization.converters.SurveyTypeConverter;
 import fm.doe.national.core.data.serialization.converters.UtcDateConverter;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
+import fm.doe.national.core.utils.ObjectUtils;
 
 @Root(name = "survey")
 public class SerializableAccreditationSurvey implements AccreditationSurvey {
@@ -57,6 +60,11 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Element(required = false)
     String schoolName;
 
+    @Nullable
+    @Element(required = false, name = "surveyCompleted")
+    @Convert(SurveyStateConverter.class)
+    SurveyState state;
+
     @ElementList(inline = true)
     List<SerializableCategory> categories;
 
@@ -72,6 +80,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.completeDate = other.getCompleteDate();
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
+        this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(SerializableCategory::new).collect(Collectors.toList());
         }
@@ -139,5 +148,10 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Override
     public AppRegion getAppRegion() {
         return region;
+    }
+
+    @Override
+    public SurveyState getState() {
+        return state;
     }
 }

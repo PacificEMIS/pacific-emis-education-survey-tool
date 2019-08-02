@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.utils.DateUtils;
 
@@ -25,12 +26,9 @@ public class NdoeMetadata {
     private static final String KEY_LAST_EDIT_USER = "lastEditedUser";
     private static final String KEY_TYPE = "type";
 
-    private static final String VALUE_TRUE = "POSITIVE";
-    private static final String VALUE_FALSE = "NEGATIVE";
-
     private String schoolId;
     private String lastEditedUser;
-    private boolean isSurveyCompleted;
+    private SurveyState surveyState;
     private String creator;
     private Date lastEditedDate;
     private String surveyTag;
@@ -52,7 +50,6 @@ public class NdoeMetadata {
 
         metadata.schoolId = properties.get(KEY_SCHOOL_ID);
         metadata.lastEditedUser = properties.get(KEY_LAST_EDIT_USER);
-        metadata.isSurveyCompleted = convertMetadataToBoolean(properties.get(KEY_COMPLETION));
         metadata.creator = properties.get(KEY_CREATION_USER);
 
         String surveyTypeString = properties.get(KEY_TYPE);
@@ -80,6 +77,11 @@ public class NdoeMetadata {
             metadata.completionDate = DateUtils.parseUtc(completionDateString);
         }
 
+        String surveyStateAsString = properties.get(KEY_COMPLETION);
+        if (surveyStateAsString != null) {
+            metadata.surveyState = SurveyState.fromValue(surveyStateAsString);
+        }
+
         return metadata;
     }
 
@@ -89,12 +91,8 @@ public class NdoeMetadata {
 
     public NdoeMetadata(Survey survey, String user) {
         schoolId = survey.getSchoolId();
-        isSurveyCompleted = survey.isCompleted();
-
-        if (isSurveyCompleted) {
-            completionDate = survey.getCompleteDate();
-        }
-
+        surveyState = survey.getState();
+        completionDate = survey.getCompleteDate();
         surveyTag = survey.getSurveyTag();
         creationDate = survey.getCreateDate();
         creator = user;
@@ -127,12 +125,15 @@ public class NdoeMetadata {
         properties.put(KEY_LAST_EDIT_DATE, DateUtils.formatUtc(lastEditedDate));
         properties.put(KEY_LAST_EDIT_USER, lastEditedUser);
 
-        boolean wasCompleted = convertMetadataToBoolean(properties.get(KEY_COMPLETION));
-        if (!wasCompleted) {
-            properties.put(KEY_COMPLETION, convertBoolToMetadata(isSurveyCompleted));
-            if (isSurveyCompleted) {
-                properties.put(KEY_COMPLETION_DATE, DateUtils.formatUtc(completionDate));
-            }
+        String existingSurveyStateAsString = properties.get(KEY_COMPLETION);
+        if (existingSurveyStateAsString == null ||
+                SurveyState.fromValue(existingSurveyStateAsString) == SurveyState.NOT_COMPLETED) {
+            properties.put(KEY_COMPLETION, surveyState.getValue());
+        }
+
+        String existingCompletionDateAsString = properties.get(KEY_COMPLETION_DATE);
+        if (existingCompletionDateAsString == null && completionDate != null && surveyState == SurveyState.COMPLETED) {
+            properties.put(KEY_COMPLETION_DATE, DateUtils.formatUtc(completionDate));
         }
 
         String existingSurveyTag = properties.get(KEY_SURVEY_TAG);
@@ -155,14 +156,6 @@ public class NdoeMetadata {
         }
 
         return properties;
-    }
-
-    private static String convertBoolToMetadata(boolean bool) {
-        return bool ? VALUE_TRUE : VALUE_FALSE;
-    }
-
-    private static boolean convertMetadataToBoolean(@Nullable String data) {
-        return data != null && data.equals(VALUE_TRUE);
     }
 
     @NonNull

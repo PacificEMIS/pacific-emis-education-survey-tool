@@ -9,13 +9,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.AnswerState;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.core.utils.ObjectUtils;
 
 public class MutableAccreditationSurvey extends BaseMutableEntity implements AccreditationSurvey {
 
@@ -29,6 +32,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     private String schoolId;
     private List<MutableCategory> categories;
     private MutableProgress progress = MutableProgress.createEmptyProgress();
+    private SurveyState state;
 
     public static MutableAccreditationSurvey toMutable(@NonNull AccreditationSurvey accreditationSurvey) {
         if (accreditationSurvey instanceof MutableAccreditationSurvey) {
@@ -50,6 +54,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
         this.appRegion = other.getAppRegion();
+        this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(MutableCategory::new).collect(Collectors.toList());
         }
@@ -119,6 +124,26 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         return progress;
     }
 
+    public MutableProgress calculateProgress() {
+        int answerCount = 0;
+        int questionsCount = 0;
+        for (MutableCategory category : getCategories()) {
+            for (MutableStandard standard : category.getStandards()) {
+                for (MutableCriteria criteria : standard.getCriterias()) {
+                    for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
+                        questionsCount++;
+
+                        if (subCriteria.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
+                            answerCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return new MutableProgress(questionsCount, answerCount);
+    }
+
     public void setProgress(MutableProgress progress) {
         this.progress = progress;
     }
@@ -174,5 +199,14 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         }
 
         return changedAnswers;
+    }
+
+    @Override
+    public SurveyState getState() {
+        return state;
+    }
+
+    public void setState(SurveyState state) {
+        this.state = state;
     }
 }

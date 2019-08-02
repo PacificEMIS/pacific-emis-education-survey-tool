@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import fm.doe.national.core.data.model.Progressable;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.data.model.mutable.MutableProgress;
 import fm.doe.national.wash_core.data.data_source.WashDataSource;
 import fm.doe.national.wash_core.data.model.Answer;
@@ -157,8 +158,9 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     }
 
     private void markSurveyAsCompletedIfNeed() {
-        if (!survey.isCompleted() && survey.getProgress().isFinished()) {
+        if (survey.getState() == SurveyState.NOT_COMPLETED && survey.getProgress().isFinished()) {
             survey.setCompleteDate(new Date());
+            survey.setState(SurveyState.COMPLETED);
             washDataSource.updateSurvey(survey);
         }
     }
