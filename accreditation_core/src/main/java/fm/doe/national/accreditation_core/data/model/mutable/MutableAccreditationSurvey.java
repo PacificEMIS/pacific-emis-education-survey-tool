@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.AnswerState;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.SurveyState;
@@ -121,6 +122,26 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     @NonNull
     public MutableProgress getProgress() {
         return progress;
+    }
+
+    public MutableProgress calculateProgress() {
+        int answerCount = 0;
+        int questionsCount = 0;
+        for (MutableCategory category : getCategories()) {
+            for (MutableStandard standard : category.getStandards()) {
+                for (MutableCriteria criteria : standard.getCriterias()) {
+                    for (MutableSubCriteria subCriteria : criteria.getSubCriterias()) {
+                        questionsCount++;
+
+                        if (subCriteria.getAnswer().getState() != AnswerState.NOT_ANSWERED) {
+                            answerCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return new MutableProgress(questionsCount, answerCount);
     }
 
     public void setProgress(MutableProgress progress) {

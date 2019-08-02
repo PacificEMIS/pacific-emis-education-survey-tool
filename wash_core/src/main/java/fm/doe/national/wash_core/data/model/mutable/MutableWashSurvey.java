@@ -204,4 +204,22 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     public void setState(SurveyState state) {
         this.state = state;
     }
+
+    public MutableProgress calculateProgress() {
+        int answerCount = 0;
+        int questionsCount = 0;
+
+        for (MutableGroup group : getGroups()) {
+            for (MutableSubGroup subGroup : group.getSubGroups()) {
+                for (MutableQuestion question : subGroup.getQuestions()) {
+                    questionsCount++;
+                    if (question.isAnswered()) {
+                        answerCount++;
+                    }
+                }
+            }
+        }
+
+        return new MutableProgress(questionsCount, answerCount);
+    }
 }

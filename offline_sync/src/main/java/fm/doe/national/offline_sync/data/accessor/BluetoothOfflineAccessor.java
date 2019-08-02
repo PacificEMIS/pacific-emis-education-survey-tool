@@ -37,7 +37,9 @@ import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.Photo;
+import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.TextUtil;
@@ -379,7 +381,21 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     handlePhotoRequest(btMessage.getContent());
                     break;
                 case END:
-                    syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_FINISH_SYNC));
+                    Schedulers.io().scheduleDirect(() -> {
+                        Survey survey = syncUseCase.getTargetSurvey();
+
+                        if (survey instanceof AccreditationSurvey) {
+                            MutableAccreditationSurvey mutableAccreditationSurvey = new MutableAccreditationSurvey((AccreditationSurvey)survey);
+                            mutableAccreditationSurvey.setState(SurveyState.MERGED);
+                            accreditationDataSource.updateSurvey(mutableAccreditationSurvey);
+                        } else if (survey instanceof WashSurvey) {
+                            MutableWashSurvey mutableWashSurvey = new MutableWashSurvey((WashSurvey) survey);
+                            mutableWashSurvey.setState(SurveyState.MERGED);
+                            washDataSource.updateSurvey(mutableWashSurvey);
+                        }
+
+                        syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_FINISH_SYNC));
+                    });
                     break;
             }
         } catch (JsonSyntaxException ex) {
@@ -620,7 +636,18 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                         )
                         .ignoreElements()
                 )
-                .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()));
+                .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()))
+                .cast(MutableAccreditationSurvey.class)
+                .flatMap(this::updateAccreditationSurveyState);
+    }
+
+    private Single<MutableAccreditationSurvey> updateAccreditationSurveyState(MutableAccreditationSurvey mutableAccreditationSurvey) {
+        return Single.fromCallable(() -> {
+            Progress progress = mutableAccreditationSurvey.calculateProgress();
+            mutableAccreditationSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
+            accreditationDataSource.updateSurvey(mutableAccreditationSurvey);
+            return mutableAccreditationSurvey;
+        });
     }
 
     private Single<Survey> mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey, ConflictResolveStrategy strategy) {
@@ -644,7 +671,18 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                         )
                         .ignoreElements()
                 )
-                .andThen(washDataSource.loadSurvey(targetSurvey.getId()));
+                .andThen(washDataSource.loadSurvey(targetSurvey.getId()))
+                .cast(MutableWashSurvey.class)
+                .flatMap(this::updateWashSurveyState);
+    }
+
+    private Single<MutableWashSurvey> updateWashSurveyState(MutableWashSurvey mutableWashSurvey) {
+        return Single.fromCallable(() -> {
+            Progress progress = mutableWashSurvey.calculateProgress();
+            mutableWashSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
+            washDataSource.updateSurvey(mutableWashSurvey);
+            return mutableWashSurvey;
+        });
     }
 
     private List<? extends Photo> nonNullWrapPhotos(@Nullable List<? extends Photo> photos) {
