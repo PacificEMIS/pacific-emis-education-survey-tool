@@ -50,7 +50,7 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
                         .flatMap(externalSurvey -> offlineAccessor.mergeSurveys(
                                 useCase.getTargetSurvey(),
                                 externalSurvey,
-                                ConflictResolveStrategy.MINE)
+                                ConflictResolveStrategy.THEIRS)
                         )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
