@@ -13,7 +13,9 @@ public final class Item {
     private Image customImage;
 
     @Nullable
-    private Text value;
+    private Text textValue;
+
+    private boolean booleanValue;
 
     private final Type type;
 
@@ -35,8 +37,8 @@ public final class Item {
     }
 
     @Nullable
-    public Text getValue() {
-        return value;
+    public Text getTextValue() {
+        return textValue;
     }
 
     public Type getType() {
@@ -51,15 +53,34 @@ public final class Item {
         this.customImage = customImage;
     }
 
-    public void setValue(@Nullable Text value) {
-        this.value = value;
+    public void setTextValue(@Nullable Text value) {
+        this.textValue = value;
+    }
+
+    public boolean getBooleanValue() {
+        return booleanValue;
+    }
+
+    public void setBooleanValue(boolean booleanValue) {
+        this.booleanValue = booleanValue;
     }
 
     public enum Type {
-        DEBUG_STORAGE, CONTACT, CONTEXT, EXPORT_FOLDER, IMPORT_SCHOOLS, LOGO, OPERATING_MODE, NAME, PASSWORD, TEMPLATES, DEBUG_BUILD_INFO
+        DEBUG_STORAGE,
+        CONTACT,
+        CONTEXT,
+        EXPORT_FOLDER,
+        IMPORT_SCHOOLS,
+        LOGO,
+        OPERATING_MODE,
+        NAME,
+        PASSWORD,
+        TEMPLATES,
+        DEBUG_BUILD_INFO,
+        EXPORT_TO_EXCEL
     }
 
     public enum IconType {
-        NAV, VALUE, RECEIVE
+        NAV, VALUE, RECEIVE, BOOL
     }
 }

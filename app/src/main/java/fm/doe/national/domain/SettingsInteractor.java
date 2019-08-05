@@ -143,6 +143,14 @@ public class SettingsInteractor {
                 .flatMapCompletable(accessor::createPartiallySavedSurvey);
     }
 
+    public void setExportToExcelEnabled(boolean enabled) {
+        globalPreferences.setExportToExcelEnabled(enabled);
+    }
+
+    public boolean isExportToExcelEnabled() {
+        return globalPreferences.isExportToExcelEnabled();
+    }
+
     public static class SurveyAccessor {
 
         private final DataSource accreditationDataSource;
