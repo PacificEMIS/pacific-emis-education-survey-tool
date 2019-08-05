@@ -81,6 +81,6 @@ public final class Item {
     }
 
     public enum IconType {
-        NAV, VALUE, RECEIVE, BOOL
+        NAV, VALUE, RECEIVE, BOOLEAN
     }
 }

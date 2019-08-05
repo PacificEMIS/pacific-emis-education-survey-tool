@@ -21,7 +21,7 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
     private static final int VIEW_TYPE_VALUE = 0;
     private static final int VIEW_TYPE_NAV = 1;
     private static final int VIEW_TYPE_RECEIVE = 2;
-    private static final int VIEW_TYPE_BOOL = 3;
+    private static final int VIEW_TYPE_BOOLEAN = 3;
 
     private final OnBooleanValueChangedListener onBooleanValueChangedListener;
 
@@ -39,8 +39,8 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
                 return VIEW_TYPE_VALUE;
             case RECEIVE:
                 return VIEW_TYPE_RECEIVE;
-            case BOOL:
-                return VIEW_TYPE_BOOL;
+            case BOOLEAN:
+                return VIEW_TYPE_BOOLEAN;
             default:
                 throw new NotImplementedException();
         }
@@ -56,8 +56,8 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
                 return new NavViewHolder(parent);
             case VIEW_TYPE_RECEIVE:
                 return new ReceiveViewHolder(parent);
-            case VIEW_TYPE_BOOL:
-                return new BoolViewHolder(parent);
+            case VIEW_TYPE_BOOLEAN:
+                return new BooleanViewHolder(parent);
             default:
                 throw new IllegalStateException();
         }
@@ -68,20 +68,20 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
         return null;
     }
 
-    class BoolViewHolder extends ViewHolder implements CompoundButton.OnCheckedChangeListener {
+    class BooleanViewHolder extends ViewHolder implements CompoundButton.OnCheckedChangeListener {
 
-        TextView titleTextView = findViewById(R.id.textview_title);
-        Switch valueSwitch = findViewById(R.id.switch_value);
+        private TextView titleTextView = findViewById(R.id.textview_title);
+        private Switch valueSwitch = findViewById(R.id.switch_value);
 
-        public BoolViewHolder(ViewGroup parent) {
+        public BooleanViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_setting_bool);
             itemView.setOnClickListener(null);
-            valueSwitch.setOnCheckedChangeListener(null);
         }
 
         @Override
         protected void onBind(Item item) {
             item.getTitle().applyTo(titleTextView);
+            valueSwitch.setOnCheckedChangeListener(null);
             valueSwitch.setChecked(item.getBooleanValue());
             valueSwitch.setOnCheckedChangeListener(this);
         }

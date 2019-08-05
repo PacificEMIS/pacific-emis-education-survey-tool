@@ -63,7 +63,7 @@ public class OptionsItemFactory {
         Item item = new Item(
                 Text.from(R.string.label_ability_to_export),
                 Item.Type.EXPORT_TO_EXCEL,
-                Item.IconType.BOOL
+                Item.IconType.BOOLEAN
         );
         item.setBooleanValue(enabled);
         return item;
