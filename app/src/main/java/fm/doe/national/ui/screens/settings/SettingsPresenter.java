@@ -38,6 +38,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
                 itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
+                itemFactory.createExportToExcelItem(globalPreferences.isExportToExcelEnabled()),
                 itemFactory.createNameItem(globalPreferences.getAppName()),
                 itemFactory.createContactItem(Text.from(globalPreferences.getContactName())),
                 itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
@@ -84,6 +85,14 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 break;
             case TEMPLATES:
                 onTemplatesPressed();
+                break;
+        }
+    }
+
+    public void onBooleanValueChanged(Item item, boolean value) {
+        switch (item.getType()) {
+            case EXPORT_TO_EXCEL:
+                globalPreferences.setExportToExcelEnabled(value);
                 break;
         }
     }

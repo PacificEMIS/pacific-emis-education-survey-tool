@@ -37,6 +37,8 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final Image sDefaultIconFsm = Image.from(R.drawable.ic_fsm);
     private static final Image sDefaultIconRmi = Image.from(R.drawable.ic_rmi);
 
+    private static final String PREF_KEY_EXCEL_EXPORT = "PREF_KEY_EXCEL_EXPORT";
+
     private final SharedPreferences sharedPreferences;
 
     public GlobalPreferencesImpl(SharedPreferences sharedPreferences) {
@@ -180,5 +182,15 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    @Override
+    public boolean isExportToExcelEnabled() {
+        return sharedPreferences.getBoolean(PREF_KEY_EXCEL_EXPORT, false);
+    }
+
+    @Override
+    public void setExportToExcelEnabled(boolean enabled) {
+        sharedPreferences.edit().putBoolean(PREF_KEY_EXCEL_EXPORT, enabled).apply();
     }
 }

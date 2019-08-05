@@ -53,4 +53,7 @@ public interface GlobalPreferences {
 
     String getSpreadsheetId();
 
+    boolean isExportToExcelEnabled();
+
+    void setExportToExcelEnabled(boolean enabled);
 }
