@@ -89,4 +89,6 @@ dependencies {
     implementation("com.google.api-client:google-api-client-android:${Deps.googleApi}") {
         exclude group: 'org.apache.httpcomponents'
     }
+
+    api 'com.github.bumptech.glide:glide:4.9.0'
 }

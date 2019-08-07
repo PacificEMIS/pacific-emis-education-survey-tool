@@ -9,6 +9,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -98,8 +99,9 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
         return requestFiles(query)
                 .flatMap(fileList -> {
-                    if (!fileList.getFiles().isEmpty()) {
-                        return Single.just(fileList.getFiles().get(0).getId());
+                    List<File> foundedFiles = fileList.getFiles();
+                    if (!CollectionUtils.isEmpty(foundedFiles)) {
+                        return Single.just(foundedFiles.get(0).getId());
                     }
 
                     File metadata = new File()
@@ -111,9 +113,13 @@ public class DriveServiceHelper extends TasksRxWrapper {
                 });
     }
 
+    public InputStream getFileContentStream(String fileId) throws IOException {
+        return drive.files().get(fileId).executeMediaAsInputStream();
+    }
+
     public Single<String> readFile(final String fileId) {
         return Single.fromCallable(() -> {
-            try (InputStream is = drive.files().get(fileId).executeMediaAsInputStream();
+            try (InputStream is = getFileContentStream(fileId);
                  BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
@@ -208,7 +214,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
                             return requestFiles(query)
                                     .flatMap(fileList -> {
-                                        if (!fileList.getFiles().isEmpty()) {
+                                        if (!CollectionUtils.isEmpty(fileList.getFiles())) {
                                             return Single.just(Pair.create(photo, (File) null));
                                         }
 

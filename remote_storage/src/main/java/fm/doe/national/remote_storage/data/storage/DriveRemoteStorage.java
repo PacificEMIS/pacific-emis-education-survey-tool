@@ -20,6 +20,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -255,4 +256,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
     }
 
+    @Override
+    public InputStream getFileContentStream(String fileId) throws IOException {
+        return driveServiceHelper.getFileContentStream(fileId);
+    }
 }
