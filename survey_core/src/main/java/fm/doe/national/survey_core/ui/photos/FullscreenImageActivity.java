@@ -48,9 +48,7 @@ public class FullscreenImageActivity extends BaseActivity {
 
         ViewCompat.setTransitionName(contentImageView, transitionName);
 
-        Glide.with(this).load(new ImageModel(imagePath)).into(contentImageView);
-
-//        UrlImageExtensionsKt.from(Image.Companion, imagePath).applyImage(contentImageView, 0);
+        UrlImageExtensionsKt.from(Image.Companion, imagePath).applyImage(contentImageView, 0);
     }
 
     public void onImageClick(View v) {

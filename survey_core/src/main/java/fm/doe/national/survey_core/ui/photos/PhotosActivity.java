@@ -83,7 +83,7 @@ public abstract class PhotosActivity extends BaseActivity implements
     public void onPhotoClick(View v, Photo photo) {
         String transitionName = ViewCompat.getTransitionName(v);
 
-        Intent intent = FullscreenImageActivity.createIntent(this, photo.getRemotePath(), transitionName);
+        Intent intent = FullscreenImageActivity.createIntent(this, photo.getUsablePath(), transitionName);
         ActivityOptionsCompat optionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this, v, transitionName);
         startActivity(intent, optionsCompat.toBundle());

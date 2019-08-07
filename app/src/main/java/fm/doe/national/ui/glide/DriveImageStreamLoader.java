@@ -16,8 +16,9 @@ import java.io.InputStream;
 import fm.doe.national.core.ui.glide.ImageModel;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 
-public class DriveImageStreamLoader implements ModelLoader<ImageModel, InputStream> {
+public class DriveImageStreamLoader implements ModelLoader<String, InputStream> {
 
+    private static final String REGEX_LOADER_FORMAT = "^[^/.]+$";
     private final RemoteStorage remoteStorage;
 
     public DriveImageStreamLoader(RemoteStorage remoteStorage) {
@@ -26,23 +27,22 @@ public class DriveImageStreamLoader implements ModelLoader<ImageModel, InputStre
 
     @Nullable
     @Override
-    public LoadData<InputStream> buildLoadData(@NonNull ImageModel imageModel,
+    public LoadData<InputStream> buildLoadData(@NonNull String imageModel,
                                                int width,
                                                int height,
                                                @NonNull Options options) {
-        String fileId = imageModel.getFileId();
         return new ModelLoader.LoadData<>(
-                new ObjectKey(fileId),
-                new ImageStreamFetcher(remoteStorage, fileId)
+                new ObjectKey(imageModel),
+                new ImageStreamFetcher(remoteStorage, imageModel)
         );
     }
 
     @Override
-    public boolean handles(@NonNull ImageModel imageModel) {
-        return true;
+    public boolean handles(@NonNull String imageModel) {
+        return imageModel.matches(REGEX_LOADER_FORMAT);
     }
 
-    public static class Factory implements ModelLoaderFactory<ImageModel, InputStream> {
+    public static class Factory implements ModelLoaderFactory<String, InputStream> {
 
         private final RemoteStorage remoteStorage;
 
@@ -52,7 +52,7 @@ public class DriveImageStreamLoader implements ModelLoader<ImageModel, InputStre
 
         @NonNull
         @Override
-        public ModelLoader<ImageModel, InputStream> build(@NonNull MultiModelLoaderFactory multiFactory) {
+        public ModelLoader<String, InputStream> build(@NonNull MultiModelLoaderFactory multiFactory) {
             return new DriveImageStreamLoader(remoteStorage);
         }
 

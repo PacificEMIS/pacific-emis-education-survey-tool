@@ -23,7 +23,7 @@ public class DriveGlideModule extends AppGlideModule {
                                    @NonNull Glide glide,
                                    @NonNull Registry registry) {
         registry.append(
-                ImageModel.class,
+                String.class,
                 InputStream.class,
                 new DriveImageStreamLoader.Factory(
                         RemoteStorageComponentInjector.getComponent(context.getApplicationContext())
