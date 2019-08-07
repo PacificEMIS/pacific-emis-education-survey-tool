@@ -64,7 +64,7 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
     public MutableAnswer merge(Answer other, ConflictResolveStrategy strategy) {
         boolean haveChanges = false;
 
-        if (answerState == AnswerState.NOT_ANSWERED || strategy == ConflictResolveStrategy.THEIRS) {
+        if (strategy == ConflictResolveStrategy.THEIRS && other.getState() != AnswerState.NOT_ANSWERED) {
             haveChanges = answerState != other.getState();
             answerState = other.getState();
         }
