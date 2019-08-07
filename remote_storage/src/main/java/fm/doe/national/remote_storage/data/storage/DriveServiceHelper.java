@@ -208,7 +208,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
                             String fileName = TextUtil.getFileNameWithoutExtension(photo.getLocalPath());
                             String query = new DriveQueryBuilder()
                                     .parentId(root.get(0))
-                                    .mimeType(DriveType.FILE.getValue())
+                                    .mimeType(MIME_TYPE_JPEG)
                                     .name(fileName)
                                     .build();
 
