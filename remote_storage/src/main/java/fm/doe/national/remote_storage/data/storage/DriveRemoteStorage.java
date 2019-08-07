@@ -136,27 +136,27 @@ public final class DriveRemoteStorage implements RemoteStorage {
 
         String userEmail = userAccount.getEmail();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
-                .flatMapCompletable(regionFolderId ->
-                        driveServiceHelper.createOrUpdateFile(
-                                SurveyTextUtil.createSurveyFileName(survey, userEmail),
-                                dataSourceComponent.getSurveySerializer().serialize(survey),
-                                new NdoeMetadata(survey, userEmail),
-                                regionFolderId
-                        )
-                        .flatMap(s -> {
-                            List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
-                            return driveServiceHelper.uploadPhotos(photos, regionFolderId);
-                        })
-                        .flatMapObservable(Observable::fromIterable)
-                        .filter(photoFilePair -> photoFilePair.second != null)
-                        .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataSource()
-                                .updatePhotoWithRemote(
-                                        photoFilePair.first,
-                                        photoFilePair.second.getId()
-                                )
-                                .subscribeOn(Schedulers.io())
-                        )
-                );
+                .flatMapCompletable(regionFolderId -> {
+                    List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
+                    return driveServiceHelper.uploadPhotos(photos, regionFolderId)
+                            .flatMapObservable(Observable::fromIterable)
+                            .filter(photoFilePair -> photoFilePair.second != null)
+                            .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataSource()
+                                    .updatePhotoWithRemote(
+                                            photoFilePair.first,
+                                            photoFilePair.second.getId()
+                                    )
+                                    .subscribeOn(Schedulers.io())
+                            )
+                            .andThen(dataSourceComponent.getDataSource().loadSurvey(survey.getId()))
+                            .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
+                                    SurveyTextUtil.createSurveyFileName(updatedSurvey, userEmail),
+                                    dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
+                                    new NdoeMetadata(updatedSurvey, userEmail),
+                                    regionFolderId)
+                                    .ignoreElement()
+                            );
+                });
     }
 
     @Override
