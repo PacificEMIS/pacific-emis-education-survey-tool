@@ -4,6 +4,7 @@ import androidx.room.TypeConverter;
 
 import java.util.Date;
 
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
 
@@ -37,6 +38,16 @@ public class BaseConverters {
     @TypeConverter
     public static String convertFromAppRegionToName(AppRegion appRegion) {
         return appRegion.name();
+    }
+
+    @TypeConverter
+    public static SurveyState convertFromNameToSurevyState(String value) {
+        return SurveyState.valueOf(value);
+    }
+
+    @TypeConverter
+    public static String convertFromSurveyStateToName(SurveyState surveyState) {
+        return surveyState.name();
     }
 
 }

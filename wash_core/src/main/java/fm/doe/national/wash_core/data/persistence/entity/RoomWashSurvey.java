@@ -10,8 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.SurveyType;
+import fm.doe.national.core.utils.ObjectUtils;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.WashSurvey;
 
@@ -45,6 +47,8 @@ public class RoomWashSurvey implements WashSurvey {
     @ColumnInfo(name = "region")
     public AppRegion appRegion;
 
+    public SurveyState state;
+
     public RoomWashSurvey(int version,
                           SurveyType type,
                           AppRegion appRegion,
@@ -59,6 +63,7 @@ public class RoomWashSurvey implements WashSurvey {
         this.createDate = createDate;
         this.surveyTag = surveyTag;
         this.appRegion = appRegion;
+        this.state = SurveyState.NOT_COMPLETED;
     }
 
     public RoomWashSurvey(@NonNull WashSurvey other) {
@@ -71,6 +76,7 @@ public class RoomWashSurvey implements WashSurvey {
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
         this.appRegion = other.getAppRegion();
+        this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
     }
 
     @Override
@@ -135,5 +141,10 @@ public class RoomWashSurvey implements WashSurvey {
     @Override
     public AppRegion getAppRegion() {
         return appRegion;
+    }
+
+    @Override
+    public SurveyState getState() {
+        return state;
     }
 }

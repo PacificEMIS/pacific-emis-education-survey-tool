@@ -13,13 +13,13 @@ public class OptionsItemFactory {
 
     public Item createContactItem(Text displayName) {
         Item item = new Item(Text.from(R.string.label_contact), Item.Type.CONTACT, Item.IconType.VALUE);
-        item.setValue(displayName);
+        item.setTextValue(displayName);
         return item;
     }
 
     public Item createContextItem(Text contextName) {
         Item item = new Item(Text.from(R.string.label_context), Item.Type.CONTEXT, Item.IconType.VALUE);
-        item.setValue(contextName);
+        item.setTextValue(contextName);
         return item;
     }
 
@@ -33,13 +33,13 @@ public class OptionsItemFactory {
 
     public Item createOpModeItem(Text currentMode) {
         Item item = new Item(Text.from(R.string.label_mode), Item.Type.OPERATING_MODE, Item.IconType.VALUE);
-        item.setValue(currentMode);
+        item.setTextValue(currentMode);
         return item;
     }
 
     public Item createNameItem(Text displayName) {
         Item item = new Item(Text.from(R.string.label_name), Item.Type.NAME, Item.IconType.VALUE);
-        item.setValue(displayName);
+        item.setTextValue(displayName);
         return item;
     }
 
@@ -57,5 +57,15 @@ public class OptionsItemFactory {
                 Item.Type.DEBUG_BUILD_INFO,
                 Item.IconType.VALUE
         );
+    }
+
+    public Item createExportToExcelItem(boolean enabled) {
+        Item item = new Item(
+                Text.from(R.string.label_ability_to_export),
+                Item.Type.EXPORT_TO_EXCEL,
+                Item.IconType.BOOLEAN
+        );
+        item.setBooleanValue(enabled);
+        return item;
     }
 }

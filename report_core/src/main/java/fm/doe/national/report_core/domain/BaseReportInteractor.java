@@ -114,8 +114,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
 
     private void requestSummary(AccreditationSurvey survey) {
         Schedulers.computation().scheduleDirect(() -> {
-            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
-            summarySubject.onNext(getSurveySummary(clearedSurvey));
+            summarySubject.onNext(getSurveySummary(survey));
         });
     }
 
@@ -238,18 +237,17 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     @Override
     public Single<List<SummaryViewData>> requestFlattenSummary(AccreditationSurvey survey) {
         return Single.fromCallable(() -> {
-            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
-            AccreditationSurvey flattenSurvey = getFlattenSurvey(clearedSurvey);
+            AccreditationSurvey flattenSurvey = getFlattenSurvey(survey);
             return getSurveySummary(flattenSurvey);
         });
     }
 
-    private AccreditationSurvey getFlattenSurvey(AccreditationSurvey survey) {
+    protected AccreditationSurvey getFlattenSurvey(AccreditationSurvey survey) {
         MutableAccreditationSurvey otherSurvey = new MutableAccreditationSurvey(survey);
 
-        MutableCategory classroomObservation = otherSurvey.getCategories().stream()
+        List<MutableCategory> classroomObservations = otherSurvey.getCategories().stream()
                 .filter(cat -> cat.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION)
-                .collect(Collectors.toList()).get(0);
+                .collect(Collectors.toList());
 
         List<MutableCategory> schoolEvaluations = otherSurvey.getCategories().stream()
                 .filter(cat -> cat.getEvaluationForm() == EvaluationForm.SCHOOL_EVALUATION)
@@ -279,7 +277,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         schoolEvaluationCategory.setStandards(schoolEvaluationStandards);
 
         resultCategories.add(schoolEvaluationCategory);
-        resultCategories.add(classroomObservation);
+        resultCategories.addAll(classroomObservations);
         otherSurvey.setCategories(resultCategories);
         return otherSurvey;
     }
@@ -326,8 +324,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     @Override
     public Single<FlattenRecommendationsWrapper> requestFlattenRecommendations(AccreditationSurvey survey) {
         return Single.fromCallable(() -> {
-            AccreditationSurvey clearedSurvey = getSurveyWithWorstClassroomObservation(survey);
-            AccreditationSurvey flattenSurvey = getFlattenSurvey(clearedSurvey);
+            AccreditationSurvey flattenSurvey = getFlattenSurvey(survey);
             List<Recommendation> recommendations = generateCategoryRecommendations(flattenSurvey.getCategories());
             return new FlattenRecommendationsWrapper(recommendations, flattenSurvey);
         });

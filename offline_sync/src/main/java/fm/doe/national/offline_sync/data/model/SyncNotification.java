@@ -4,14 +4,24 @@ public class SyncNotification {
 
     private Type type;
     private int value;
+    private Throwable throwable;
 
-    public SyncNotification(Type type, int value) {
-        this.type = type;
-        this.value = value;
+    public static SyncNotification error(Throwable throwable) {
+        return new SyncNotification(Type.ERROR, 0, throwable);
     }
 
-    public SyncNotification(Type type) {
+    public static SyncNotification just(Type type) {
+        return new SyncNotification(type, 0, null);
+    }
+
+    public static SyncNotification withValue(Type type, int value) {
+        return new SyncNotification(type, value, null);
+    }
+
+    private SyncNotification(Type type, int value, Throwable throwable) {
         this.type = type;
+        this.value = value;
+        this.throwable = throwable;
     }
 
     public Type getType() {
@@ -22,6 +32,10 @@ public class SyncNotification {
         return value;
     }
 
+    public Throwable getThrowable() {
+        return throwable;
+    }
+
     public enum Type {
         DID_SEND_AVAILABLE_SURVEYS,
         DID_SEND_SURVEY,
@@ -29,8 +43,7 @@ public class SyncNotification {
         DID_SEND_PHOTO,
         WILL_SAVE_PHOTOS,
         DID_SAVE_PHOTO,
-        RECEIVE_BYTES,
         DID_FINISH_SYNC,
-        DID_PUSH_SURVEY
+        ERROR
     }
 }

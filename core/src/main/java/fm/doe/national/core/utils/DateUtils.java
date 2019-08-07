@@ -17,7 +17,7 @@ public class DateUtils {
     private static final DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.US);
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat dateTagDateFormat = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
+    private static final DateFormat dateTagDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat numericMonthYearDateFormat = new SimpleDateFormat("MM-yyyy", Locale.US);

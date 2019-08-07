@@ -37,7 +37,9 @@ import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.Photo;
+import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.TextUtil;
@@ -81,6 +83,7 @@ import static fm.doe.national.core.utils.ViewUtils.createBitmapOptions;
 public final class BluetoothOfflineAccessor implements OfflineAccessor, Transporter.Listener, Acceptor.OnSocketAcceptedListener {
 
     private static final String TAG = BluetoothOfflineAccessor.class.getName();
+    private static final String MARK_FILE_NOT_EXIST = "File not exist";
 
     public static final List<String> sReceiverActionsToRegister = Arrays.asList(
             BluetoothDevice.ACTION_FOUND,
@@ -114,9 +117,6 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     @Nullable
     private SingleSubject<byte[]> requestPhotoSubject;
-
-    @Nullable
-    private CompletableSubject pushSurveySubject;
 
     private ConnectionState connectionState = ConnectionState.NONE;
 
@@ -380,15 +380,22 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 case REQUEST_PHOTO:
                     handlePhotoRequest(btMessage.getContent());
                     break;
-                case PUSH_SURVEY:
-                    handlePushSurvey(btMessage.getContent());
-                    break;
                 case END:
-                    if (pushSurveySubject != null) {
-                        pushSurveySubject.onComplete();
-                    }
+                    Schedulers.io().scheduleDirect(() -> {
+                        Survey survey = syncUseCase.getTargetSurvey();
 
-                    syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_FINISH_SYNC));
+                        if (survey instanceof AccreditationSurvey) {
+                            MutableAccreditationSurvey mutableAccreditationSurvey = new MutableAccreditationSurvey((AccreditationSurvey)survey);
+                            mutableAccreditationSurvey.setState(SurveyState.MERGED);
+                            accreditationDataSource.updateSurvey(mutableAccreditationSurvey);
+                        } else if (survey instanceof WashSurvey) {
+                            MutableWashSurvey mutableWashSurvey = new MutableWashSurvey((WashSurvey) survey);
+                            mutableWashSurvey.setState(SurveyState.MERGED);
+                            washDataSource.updateSurvey(mutableWashSurvey);
+                        }
+
+                        syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_FINISH_SYNC));
+                    });
                     break;
             }
         } catch (JsonSyntaxException ex) {
@@ -413,7 +420,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 String messageJson = gson.toJson(message);
                 Log.d(TAG, "handleSurveysRequest send - " + messageJson);
                 transporter.write(messageJson);
-                syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_AVAILABLE_SURVEYS));
+                syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_SEND_AVAILABLE_SURVEYS));
             };
 
             switch (request.getSurveyType()) {
@@ -479,8 +486,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 Log.d(TAG, "handleFilledSurveyRequest send - " + messageJson);
                 transporter.write(messageJson);
                 syncUseCase.setTargetSurvey(v.getSurvey());
-                syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_SURVEY));
-                syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SEND_PHOTOS, v.getSurvey().getPhotosCount()));
+                syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_SEND_SURVEY));
+                syncNotifier.notify(SyncNotification.withValue(SyncNotification.Type.WILL_SEND_PHOTOS, v.getSurvey().getPhotosCount()));
             };
 
             switch (request.getSurveyType()) {
@@ -578,20 +585,33 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         if (requestPhotoSubject != null) {
             requestPhotoSubject.onError(error);
         }
+
         Log.d(TAG, "passErrorToMessageSubjects - " + throwable.getMessage());
+        syncNotifier.notify(SyncNotification.error(throwable));
     }
 
     @Override
     public Single<Survey> mergeSurveys(Survey targetSurvey, Survey externalSurvey, ConflictResolveStrategy strategy) {
+        Single<Survey> merge;
+
         if (targetSurvey instanceof AccreditationSurvey && externalSurvey instanceof AccreditationSurvey) {
-            return mergeAccreditationSurveys((AccreditationSurvey) targetSurvey, (AccreditationSurvey) externalSurvey, strategy);
+            merge = mergeAccreditationSurveys((AccreditationSurvey) targetSurvey, (AccreditationSurvey) externalSurvey, strategy);
+        } else if (targetSurvey instanceof WashSurvey && externalSurvey instanceof WashSurvey) {
+            merge = mergeWashSurveys((WashSurvey) targetSurvey, (WashSurvey) externalSurvey, strategy);
+        } else {
+            return Single.error(new NotImplementedException());
         }
 
-        if (targetSurvey instanceof WashSurvey && externalSurvey instanceof WashSurvey) {
-            return mergeWashSurveys((WashSurvey) targetSurvey, (WashSurvey) externalSurvey, strategy);
-        }
+        return merge
+                .flatMap(survey -> Single.fromCallable(() -> {
+                    syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_FINISH_SYNC));
 
-        return Single.error(new NotImplementedException());
+                    if (transporter != null) {
+                        transporter.write(gson.toJson(new BtMessage(BtMessage.Type.END, null)));
+                    }
+
+                    return survey;
+                }));
     }
 
     private Single<Survey> mergeAccreditationSurveys(AccreditationSurvey targetSurvey,
@@ -601,7 +621,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             MutableAccreditationSurvey mutableTargetSurvey = (MutableAccreditationSurvey) targetSurvey;
             List<MutableAnswer> answers = mutableTargetSurvey.merge(externalSurvey, strategy);
             int photosCount = (int) answers.stream().mapToLong(a -> a.getPhotos().size()).sum();
-            syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
+            syncNotifier.notify(SyncNotification.withValue(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
             Log.d(TAG, "did merge accreditation with photos = " + photosCount);
             return Pair.create(mutableTargetSurvey, answers);
         })
@@ -616,7 +636,18 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                         )
                         .ignoreElements()
                 )
-                .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()));
+                .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()))
+                .cast(MutableAccreditationSurvey.class)
+                .flatMap(this::updateAccreditationSurveyState);
+    }
+
+    private Single<MutableAccreditationSurvey> updateAccreditationSurveyState(MutableAccreditationSurvey mutableAccreditationSurvey) {
+        return Single.fromCallable(() -> {
+            Progress progress = mutableAccreditationSurvey.calculateProgress();
+            mutableAccreditationSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
+            accreditationDataSource.updateSurvey(mutableAccreditationSurvey);
+            return mutableAccreditationSurvey;
+        });
     }
 
     private Single<Survey> mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey, ConflictResolveStrategy strategy) {
@@ -625,7 +656,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             List<fm.doe.national.wash_core.data.model.mutable.MutableAnswer> answers =
                     mutableTargetSurvey.merge(externalSurvey, strategy);
             int photosCount = (int) answers.stream().mapToLong(a -> nonNullWrapPhotos(a.getPhotos()).size()).sum();
-            syncNotifier.notify(new SyncNotification(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
+            syncNotifier.notify(SyncNotification.withValue(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
             Log.d(TAG, "did merge wash with photos = " + photosCount);
             return Pair.create(mutableTargetSurvey, answers);
         })
@@ -640,7 +671,18 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                         )
                         .ignoreElements()
                 )
-                .andThen(washDataSource.loadSurvey(targetSurvey.getId()));
+                .andThen(washDataSource.loadSurvey(targetSurvey.getId()))
+                .cast(MutableWashSurvey.class)
+                .flatMap(this::updateWashSurveyState);
+    }
+
+    private Single<MutableWashSurvey> updateWashSurveyState(MutableWashSurvey mutableWashSurvey) {
+        return Single.fromCallable(() -> {
+            Progress progress = mutableWashSurvey.calculateProgress();
+            mutableWashSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
+            washDataSource.updateSurvey(mutableWashSurvey);
+            return mutableWashSurvey;
+        });
     }
 
     private List<? extends Photo> nonNullWrapPhotos(@Nullable List<? extends Photo> photos) {
@@ -658,29 +700,29 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     }
 
                     savePhotoBytesToFile(TextUtil.getFileNameWithoutExtension(path), photoBytes);
-                    syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SAVE_PHOTO));
+                    syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_SAVE_PHOTO));
                 }))
                 .toFlowable();
     }
 
     private void savePhotoBytesToFile(String fileName, byte[] bytes) {
-        File photoFile;
-
         try {
-            photoFile = filesRepository.createEmptyImageFile(fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new BluetoothGenericException(e);
-        }
-
-        if (photoFile == null) {
-            return;
-        }
-
-        try (FileOutputStream fos = new FileOutputStream(photoFile)) {
             byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length, createBitmapOptions());
+
+            if (bitmap == null && new String(bytes).equals(MARK_FILE_NOT_EXIST)) {
+                return; // file not exist on other device, so this is handled error case
+            }
+
+            File photoFile = filesRepository.createEmptyImageFile(fileName);
+
+            if (photoFile == null) {
+                return;
+            }
+
+            FileOutputStream fos = new FileOutputStream(photoFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw new BluetoothGenericException(e);
@@ -721,70 +763,10 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             byte[] bytes = byteArrayOutputStream.toByteArray();
             transporter.write(Base64.encode(bytes, Base64.DEFAULT));
         } else {
-            transporter.write("File not exist");
+            transporter.write(MARK_FILE_NOT_EXIST);
         }
 
-        syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_SEND_PHOTO));
-    }
-
-    @Override
-    public Completable pushSurvey(Survey mergedSurvey) {
-        pushSurveySubject = CompletableSubject.create();
-        return Completable.fromAction(() -> {
-            if (transporter == null) {
-                throw new BluetoothGenericException(new IllegalStateException());
-            }
-            String messageJson = gson.toJson(mergedSurvey);
-            Log.d(TAG, "pushSurvey - " + messageJson);
-            BtMessage message = new BtMessage(BtMessage.Type.PUSH_SURVEY, messageJson);
-            transporter.write(gson.toJson(message));
-            syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_PUSH_SURVEY));
-        })
-                .andThen(pushSurveySubject);
-
-    }
-
-    private void handlePushSurvey(String content) {
-        Log.d(TAG, "handlePushSurvey - " + content);
-        if (transporter == null) {
-            return;
-        }
-
-        Survey externalSurvey = tryParseSurveyBodyJson(content);
-
-        if (externalSurvey == null) {
-            return;
-        }
-
-        Log.d(TAG, "handlePushSurvey will merge");
-        compositeDisposable.add(
-                mergeSurveys(syncUseCase.getTargetSurvey(), externalSurvey, ConflictResolveStrategy.THEIRS)
-                        .subscribe(survey -> {
-                            transporter.write(gson.toJson(new BtMessage(BtMessage.Type.END, null)));
-                            syncNotifier.notify(new SyncNotification(SyncNotification.Type.DID_FINISH_SYNC));
-                        }, Throwable::printStackTrace)
-        );
-
-    }
-
-    @Nullable
-    private Survey tryParseSurveyBodyJson(String json) {
-        try {
-            MutableAccreditationSurvey accreditationSurvey = gson.fromJson(json, MutableAccreditationSurvey.class);
-
-            // fix for https://github.com/google/gson/issues/61
-            if (accreditationSurvey.getCategories() == null) {
-                throw new JsonSyntaxException("Required field not present");
-            }
-
-            return accreditationSurvey;
-        } catch (JsonSyntaxException ex) {
-            try {
-                return gson.fromJson(json, MutableWashSurvey.class);
-            } catch (JsonSyntaxException otherEx) {
-                return null;
-            }
-        }
+        syncNotifier.notify(SyncNotification.just(SyncNotification.Type.DID_SEND_PHOTO));
     }
 
     @Nullable

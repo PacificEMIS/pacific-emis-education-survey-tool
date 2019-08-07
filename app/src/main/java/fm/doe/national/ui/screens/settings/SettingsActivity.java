@@ -28,11 +28,11 @@ import fm.doe.national.ui.screens.password.PasswordsActivity;
 import fm.doe.national.ui.screens.settings.items.Item;
 import fm.doe.national.ui.screens.templates.SurveyTemplatesActivity;
 
-public class SettingsActivity extends BaseActivity implements SettingsView, BaseListAdapter.OnItemClickListener<Item> {
+public class SettingsActivity extends BaseActivity implements SettingsView, BaseListAdapter.OnItemClickListener<Item>, SettingsAdapter.OnBooleanValueChangedListener {
 
     private static final String TAG_INPUT_DIALOG = "TAG_INPUT_DIALOG";
 
-    private final SettingsAdapter adapter = new SettingsAdapter(this);
+    private final SettingsAdapter adapter = new SettingsAdapter(this, this);
 
     @InjectPresenter
     SettingsPresenter presenter;
@@ -155,5 +155,10 @@ public class SettingsActivity extends BaseActivity implements SettingsView, Base
     @Override
     public SettingsPresenter getPresenter() {
         return presenter;
+    }
+
+    @Override
+    public void onBooleanValueChanged(Item item, boolean value) {
+        presenter.onBooleanValueChanged(item, value);
     }
 }

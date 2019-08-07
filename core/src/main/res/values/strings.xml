@@ -12,6 +12,7 @@
     <string name="error_any">Some error occurred</string>
     <string name="error_parse">Failed to parse file</string>
     <string name="error_wrong_region">Incorrect region context</string>
+    <string name="error_permissions">You need to grant all permissions to the application</string>
     <string name="format_standard">Standard %1$s:</string>
     <string name="label_school_accreditation">School Accreditation</string>
     <string name="label_settings">Settings %1$s(%2$d)</string>

@@ -3,11 +3,12 @@ package fm.doe.national.ui.screens.settings;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
@@ -20,9 +21,13 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
     private static final int VIEW_TYPE_VALUE = 0;
     private static final int VIEW_TYPE_NAV = 1;
     private static final int VIEW_TYPE_RECEIVE = 2;
+    private static final int VIEW_TYPE_BOOLEAN = 3;
 
-    public SettingsAdapter(@Nullable OnItemClickListener<Item> clickListener) {
+    private final OnBooleanValueChangedListener onBooleanValueChangedListener;
+
+    public SettingsAdapter(OnItemClickListener<Item> clickListener, OnBooleanValueChangedListener onBooleanValueChangedListener) {
         super(clickListener);
+        this.onBooleanValueChangedListener = onBooleanValueChangedListener;
     }
 
     @Override
@@ -34,6 +39,8 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
                 return VIEW_TYPE_VALUE;
             case RECEIVE:
                 return VIEW_TYPE_RECEIVE;
+            case BOOLEAN:
+                return VIEW_TYPE_BOOLEAN;
             default:
                 throw new NotImplementedException();
         }
@@ -49,13 +56,42 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
                 return new NavViewHolder(parent);
             case VIEW_TYPE_RECEIVE:
                 return new ReceiveViewHolder(parent);
+            case VIEW_TYPE_BOOLEAN:
+                return new BooleanViewHolder(parent);
+            default:
+                throw new IllegalStateException();
         }
-        throw new IllegalStateException();
     }
 
     @Override
     protected ViewHolder provideViewHolder(ViewGroup parent) {
         return null;
+    }
+
+    class BooleanViewHolder extends ViewHolder implements CompoundButton.OnCheckedChangeListener {
+
+        private TextView titleTextView = findViewById(R.id.textview_title);
+        private Switch valueSwitch = findViewById(R.id.switch_value);
+
+        public BooleanViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_setting_bool);
+            itemView.setOnClickListener(null);
+        }
+
+        @Override
+        protected void onBind(Item item) {
+            item.getTitle().applyTo(titleTextView);
+            valueSwitch.setOnCheckedChangeListener(null);
+            valueSwitch.setChecked(item.getBooleanValue());
+            valueSwitch.setOnCheckedChangeListener(this);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            Item item = getItem();
+            item.setBooleanValue(isChecked);
+            onBooleanValueChangedListener.onBooleanValueChanged(item, isChecked);
+        }
     }
 
     class ValueViewHolder extends BaseViewHolder {
@@ -69,8 +105,8 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
         protected void onBind(Item item) {
             super.onBind(item);
 
-            if (item.getValue() != null) {
-                item.getValue().applyTo(valueTextView);
+            if (item.getTextValue() != null) {
+                item.getTextValue().applyTo(valueTextView);
             }
         }
     }
@@ -115,5 +151,9 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
         protected void onBind(Item item) {
             item.getTitle().applyTo(titleTextView);
         }
+    }
+
+    public interface OnBooleanValueChangedListener {
+        void onBooleanValueChanged(Item item, boolean value);
     }
 }

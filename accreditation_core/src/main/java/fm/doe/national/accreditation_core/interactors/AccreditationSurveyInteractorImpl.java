@@ -17,6 +17,7 @@ import fm.doe.national.accreditation_core.data.model.mutable.MutableCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.core.data.model.SurveyState;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -159,8 +160,9 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     }
 
     private void markSurveyAsCompletedIfNeed() {
-        if (!survey.isCompleted() && survey.getProgress().isFinished()) {
+        if (survey.getState() == SurveyState.NOT_COMPLETED && survey.getProgress().isFinished()) {
             survey.setCompleteDate(new Date());
+            survey.setState(SurveyState.COMPLETED);
             accreditationDataSource.updateSurvey(survey);
         }
     }

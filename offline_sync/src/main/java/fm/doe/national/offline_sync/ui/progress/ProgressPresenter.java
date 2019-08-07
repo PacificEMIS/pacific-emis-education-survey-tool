@@ -24,9 +24,8 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
     private static final String TAG = ProgressPresenter.class.getName();
 
     private static final int PERCENTAGE_ALL = 100;
-    private static final int PERCENTAGE_GET_SURVEY = 30;
-    private static final int PERCENTAGE_PART_GET_PHOTOS = 30;
-    private static final int PERCENTAGE_PUSH_SURVEY = 70;
+    private static final int PERCENTAGE_GET_SURVEY = 50;
+    private static final int PERCENTAGE_PART_GET_PHOTOS = 50;
 
     private final OfflineAccessor offlineAccessor;
     private final OfflineSyncUseCase useCase;
@@ -51,12 +50,11 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
                         .flatMap(externalSurvey -> offlineAccessor.mergeSurveys(
                                 useCase.getTargetSurvey(),
                                 externalSurvey,
-                                ConflictResolveStrategy.MINE)
+                                ConflictResolveStrategy.THEIRS)
                         )
-                        .flatMapCompletable(offlineAccessor::pushSurvey)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(() -> {
+                        .subscribe(survey -> {
                             remoteStorageAccessor.scheduleUploading(useCase.getTargetSurvey().getId());
                             useCase.finish();
                         }, this::handleError)
@@ -86,9 +84,6 @@ public class ProgressPresenter extends BasePresenter<ProgressView> {
                 break;
             case DID_SAVE_PHOTO:
                 addProgress(oneIncomePhotoPercentValue);
-                break;
-            case DID_PUSH_SURVEY:
-                setProgress(PERCENTAGE_PUSH_SURVEY);
                 break;
             case DID_FINISH_SYNC:
                 setProgress(PERCENTAGE_ALL);

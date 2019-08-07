@@ -5,12 +5,14 @@ import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
 import fm.doe.national.offline_sync.data.bluetooth_threads.ConnectionState;
 import fm.doe.national.offline_sync.data.model.SyncNotification;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.domain.SyncNotifier;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -19,17 +21,17 @@ public class MergeProgressPresenter extends BasePresenter<MergeProgressView> {
 
     private static final int PERCENTAGE_ALL = 100;
     private static final int PERCENTAGE_SEND_AVAILABLE_SURVEYS = 10;
-    private static final int PERCENTAGE_SEND_SURVEY = 30;
+    private static final int PERCENTAGE_SEND_SURVEY = 50;
     private static final int PERCENTAGE_PART_SEND_ALL_PHOTOS = 50;
-    private static final int PERCENTAGE_PUSH_SURVEY = 80;
-    private static final int PERCENTAGE_PART_GET_ALL_PHOTOS = 20;
 
     private final OfflineAccessor offlineAccessor = MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor();
     private final OfflineSyncUseCase useCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
     private final SyncNotifier notifier = MicronesiaApplication.getInjection().getOfflineSyncComponent().getNotifier();
+    private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
+            .getRemoteStorageComponent()
+            .getRemoteStorageAccessor();
 
     private int oneOutcomePhotoPercentValue;
-    private int oneIncomePhotoPercentValue;
     private int currentProgress;
 
     public MergeProgressPresenter() {
@@ -77,17 +79,15 @@ public class MergeProgressPresenter extends BasePresenter<MergeProgressView> {
             case DID_SEND_PHOTO:
                 addProgress(oneOutcomePhotoPercentValue);
                 break;
-            case WILL_SAVE_PHOTOS:
-                oneIncomePhotoPercentValue = notification.getValue() == 0 ?
-                    PERCENTAGE_PART_GET_ALL_PHOTOS :
-                    (PERCENTAGE_PART_GET_ALL_PHOTOS / notification.getValue());
-                break;
-            case DID_SAVE_PHOTO:
-                addProgress(oneIncomePhotoPercentValue);
-                break;
             case DID_FINISH_SYNC:
                 setProgress(PERCENTAGE_ALL);
                 getViewState().setDescription(Text.from(R.string.hint_merge_successful));
+                Survey survey = useCase.getTargetSurvey();
+
+                if (survey != null) {
+                    remoteStorageAccessor.scheduleUploading(survey.getId());
+                }
+
                 break;
         }
     }
