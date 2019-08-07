@@ -37,7 +37,10 @@ public class SerializableAnswer implements Answer {
         this.comment = otherAnswer.getComment();
 
         if (otherAnswer.getPhotos() != null) {
-            this.photos = otherAnswer.getPhotos().stream().map(SerializablePhoto::new).collect(Collectors.toList());
+            this.photos = otherAnswer.getPhotos()
+                    .stream()
+                    .map(SerializablePhoto::new)
+                    .collect(Collectors.toList());
         }
     }
 
