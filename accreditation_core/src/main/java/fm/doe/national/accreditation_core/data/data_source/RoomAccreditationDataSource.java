@@ -354,9 +354,9 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     @Override
     public Completable updatePhotoWithRemote(Photo photo, String remoteFileId) {
         return Completable.fromAction(() -> {
-            MutablePhoto mutablePhoto = new MutablePhoto(photo);
-            mutablePhoto.setRemotePath(remoteFileId);
-            photoDao.update(new RoomPhoto(photo));
+            RoomPhoto roomPhoto = photoDao.getById(photo.getId());
+            roomPhoto.remoteUrl = remoteFileId;
+            photoDao.update(roomPhoto);
         });
     }
 }

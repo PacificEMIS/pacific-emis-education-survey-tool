@@ -44,6 +44,7 @@ import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
@@ -148,7 +149,11 @@ public final class DriveRemoteStorage implements RemoteStorage {
                         .flatMapObservable(Observable::fromIterable)
                         .filter(photoFilePair -> photoFilePair.second != null)
                         .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataSource()
-                                .updatePhotoWithRemote(photoFilePair.first, photoFilePair.second.getId())
+                                .updatePhotoWithRemote(
+                                        photoFilePair.first,
+                                        photoFilePair.second.getId()
+                                )
+                                .subscribeOn(Schedulers.io())
                         )
                 );
     }

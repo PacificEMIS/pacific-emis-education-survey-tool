@@ -21,6 +21,7 @@ import javax.annotation.Nullable;
 
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.NdoeMetadata;
@@ -37,6 +38,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
     private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, properties)";
     private static final String FIELD_ID = "id";
     private static final String FOLDERNAME_PHOTOS = "photos";
+    private static final String MIME_TYPE_JPEG = "image/jpeg";
 
     private final Drive drive;
     private final Executor executor = Executors.newCachedThreadPool();
@@ -197,7 +199,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
                                 return Single.just(Pair.create(photo, (File) null));
                             }
 
-                            String fileName = photoFile.getName().split(".")[0];
+                            String fileName = TextUtil.getFileNameWithoutExtension(photo.getLocalPath());
                             String query = new DriveQueryBuilder()
                                     .parentId(root.get(0))
                                     .mimeType(DriveType.FILE.getValue())
@@ -211,12 +213,17 @@ public class DriveServiceHelper extends TasksRxWrapper {
                                         }
 
                                         return wrapWithSingleInThreadPool(() -> {
-                                            FileContent mediaContent = new FileContent("image/jpeg", photoFile);
+                                            FileContent mediaContent = new FileContent(MIME_TYPE_JPEG, photoFile);
                                             File metadata = new File()
                                                     .setParents(root)
-                                                    .setMimeType("image/jpeg")
+                                                    .setMimeType(MIME_TYPE_JPEG)
                                                     .setName(fileName);
-                                            return Pair.create(photo, drive.files().create(metadata, mediaContent).execute());
+                                            return Pair.create(
+                                                    photo,
+                                                    drive.files()
+                                                            .create(metadata, mediaContent)
+                                                            .execute()
+                                            );
                                         }, Pair.create(photo, (File) null));
                                     });
                         }))
