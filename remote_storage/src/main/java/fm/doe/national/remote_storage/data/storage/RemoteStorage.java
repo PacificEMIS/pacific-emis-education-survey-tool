@@ -3,6 +3,8 @@ package fm.doe.national.remote_storage.data.storage;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -32,5 +34,7 @@ public interface RemoteStorage {
     void setUserAccount(@Nullable GoogleSignInAccount account);
 
     Single<String> exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType);
+
+    InputStream getFileContentStream(String fileId) throws IOException;
     
 }

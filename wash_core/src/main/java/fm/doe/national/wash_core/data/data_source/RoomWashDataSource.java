@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import fm.doe.national.core.data.data_source.DataSourceImpl;
 import fm.doe.national.core.data.exceptions.WrongAppRegionException;
@@ -17,6 +18,7 @@ import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash_core.BuildConfig;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.Group;
@@ -329,5 +331,29 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     @Override
     public void updateSurvey(Survey survey) {
         database.getSurveyDao().update(new RoomWashSurvey((WashSurvey) survey));
+    }
+
+    @Override
+    public List<Photo> getPhotos(Survey survey) {
+        return ((WashSurvey) survey).getGroups().stream()
+                .flatMap(g -> g.getSubGroups().stream())
+                .flatMap(sg -> sg.getQuestions().stream())
+                .flatMap(q -> {
+                    List<? extends Photo> photos = q.getAnswer().getPhotos();
+                    if (CollectionUtils.isEmpty(photos)) {
+                        return Stream.empty();
+                    }
+                    return photos.stream();
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Completable updatePhotoWithRemote(Photo photo, String remoteFileId) {
+        return Completable.fromAction(() -> {
+            RoomPhoto roomPhoto = photoDao.getById(photo.getId());
+            roomPhoto.remoteUrl = remoteFileId;
+            photoDao.update(roomPhoto);
+        });
     }
 }

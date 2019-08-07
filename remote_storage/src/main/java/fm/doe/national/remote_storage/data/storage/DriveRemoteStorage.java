@@ -20,6 +20,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +30,7 @@ import javax.annotation.Nullable;
 import fm.doe.national.core.data.exceptions.FileExportException;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.FilesRepository;
+import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
@@ -41,7 +43,9 @@ import fm.doe.national.remote_storage.data.model.NdoeMetadata;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
@@ -132,12 +136,28 @@ public final class DriveRemoteStorage implements RemoteStorage {
 
         String userEmail = userAccount.getEmail();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
-                .flatMap(regionFolderId -> driveServiceHelper.createOrUpdateFile(
-                        SurveyTextUtil.createSurveyFileName(survey, userEmail),
-                        dataSourceComponent.getSurveySerializer().serialize(survey),
-                        new NdoeMetadata(survey, userEmail),
-                        regionFolderId))
-                .ignoreElement();
+                .flatMapCompletable(regionFolderId -> {
+                    List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
+                    return driveServiceHelper.uploadPhotos(photos, regionFolderId)
+                            .flatMapObservable(Observable::fromIterable)
+                            .filter(photoFilePair -> photoFilePair.second != null)
+                            .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataSource()
+                                    .updatePhotoWithRemote(
+                                            photoFilePair.first,
+                                            photoFilePair.second.getId()
+                                    )
+                                    .subscribeOn(Schedulers.io())
+                            )
+                            .andThen(dataSourceComponent.getDataSource().loadSurvey(survey.getId())
+                                    .subscribeOn(Schedulers.io()))
+                            .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
+                                    SurveyTextUtil.createSurveyFileName(updatedSurvey, userEmail),
+                                    dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
+                                    new NdoeMetadata(updatedSurvey, userEmail),
+                                    regionFolderId)
+                                    .ignoreElement()
+                            );
+                });
     }
 
     @Override
@@ -237,4 +257,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
     }
 
+    @Override
+    public InputStream getFileContentStream(String fileId) throws IOException {
+        return driveServiceHelper.getFileContentStream(fileId);
+    }
 }

@@ -39,4 +39,8 @@ public interface DataSource {
     Completable createPartiallySavedSurvey(Survey survey);
 
     void updateSurvey(Survey survey);
+
+    List<Photo> getPhotos(Survey survey);
+
+    Completable updatePhotoWithRemote(Photo photo, String remoteFileId);
 }

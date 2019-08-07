@@ -16,14 +16,25 @@ public interface Photo extends IdentifiedObject {
     String getRemotePath();
 
     @Nullable
-    default Image getImage() {
+    default String getUsablePath() {
         String localPath = getLocalPath();
         String remotePath = getRemotePath();
 
         if (localPath != null && new File(localPath).exists()) {
-            return UrlImageExtensionsKt.from(Image.Companion, localPath);
+            return localPath;
         } else if (remotePath != null) {
-            return UrlImageExtensionsKt.from(Image.Companion, remotePath);
+            return remotePath;
+        }
+
+        return null;
+    }
+
+    @Nullable
+    default Image getImage() {
+        String path = getUsablePath();
+
+        if (path != null) {
+            return UrlImageExtensionsKt.from(Image.Companion, path);
         }
 
         return null;
