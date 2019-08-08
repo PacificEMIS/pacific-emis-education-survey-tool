@@ -257,17 +257,19 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
 
                     photosToCreate.addAll(expectedPhotos);
 
-                    return updatePhotos(photosToUpdate)
+                    return updatePhotos(photosToUpdate, mutableAnswer.getId())
                             .andThen(deletePhotos(photosToDelete))
                             .andThen(createPhotos(photosToCreate, mutableAnswer.getId()))
                             .andThen(Single.fromCallable(() -> answerDao.getFilledById(mutableAnswer.getId()).toMutable()));
                 });
     }
 
-    private Completable updatePhotos(List<MutablePhoto> photos) {
+    private Completable updatePhotos(List<MutablePhoto> photos, long answerId) {
         return Observable.fromIterable(photos)
                 .map(photo -> {
-                    photoDao.update(new RoomPhoto(photo));
+                    RoomPhoto roomPhoto = new RoomPhoto(photo);
+                    roomPhoto.answerId = answerId;
+                    photoDao.update(roomPhoto);
                     return photo;
                 })
                 .toList()
