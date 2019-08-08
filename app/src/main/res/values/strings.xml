@@ -47,4 +47,5 @@
     <string name="label_load_wash_template">Import Water, Sanitation and Hygiene Template of survey</string>
     <string name="title_format_templates">Templates of %1$s surveys</string>
     <string name="label_ability_to_export">Ability to export survey to Excel</string>
+    <string name="label_hint_merge_mode">This turns your tablet into merging mode. You only have to do this if you are worker using a secondary tablet and you want to submit your work with the team leader\'s primary tablet.</string>
 </resources>

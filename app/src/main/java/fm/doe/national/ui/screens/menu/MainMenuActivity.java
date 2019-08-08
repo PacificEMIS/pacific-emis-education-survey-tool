@@ -3,9 +3,13 @@ package fm.doe.national.ui.screens.menu;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -52,6 +56,14 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     @BindView(R.id.textview_auth)
     TextView authTextView;
 
+    @BindView(R.id.imagebutton_merge_hint)
+    View mergeHintView;
+
+    @BindView(R.id.view_poput_constraint)
+    View popupConstraintView;
+
+    private View popupView;
+
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, MainMenuActivity.class);
     }
@@ -59,6 +71,8 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        popupView = getLayoutInflater().inflate (R.layout.popup_hint, null, false);
+        ((TextView)popupView.findViewById(R.id.textview_hint)).setText(R.string.label_hint_merge_mode);
     }
 
     @Override
@@ -94,6 +108,27 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     @OnClick(R.id.textview_auth)
     void onAuthButtonPressed() {
         presenter.onAuthButtonPressed();
+    }
+
+    @OnClick(R.id.imagebutton_merge_hint)
+    void onMergeHintPressed() {
+        PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setClippingEnabled(false);
+
+        // need to measure view before it rendered
+        // showAsDropDown cannot draw popup above anchor in ViewHolder
+        // so just offset it manually
+        popupView.measure(View.MeasureSpec.makeMeasureSpec(popupConstraintView.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+        popupWindow.showAsDropDown(mergeHintView,
+                0,
+                -mergeHintView.getMeasuredHeight() - popupView.getMeasuredHeight(),
+                Gravity.TOP);
     }
 
     @Override
