@@ -97,6 +97,6 @@ public class MutableSubCriteria extends BaseMutableEntity implements SubCriteria
             return null;
         }
 
-        return answer.merge(externalAnswer, strategy, other.getAnswer().getState() != AnswerState.NOT_ANSWERED);
+        return answer.merge(externalAnswer, strategy);
     }
 }
