@@ -8,6 +8,7 @@ import dagger.Provides;
 import fm.doe.national.core.di.CoreScope;
 import fm.doe.national.core.preferences.GlobalPreferences;
 import fm.doe.national.core.preferences.GlobalPreferencesImpl;
+import fm.doe.national.core.remote_config.RemoteConfig;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -26,6 +27,12 @@ public class PreferencesModule {
     @CoreScope
     public GlobalPreferences provideGlobalPreferences(SharedPreferences sp) {
         return new GlobalPreferencesImpl(sp);
+    }
+
+    @Provides
+    @CoreScope
+    public RemoteConfig provideRemoteConfig(GlobalPreferences globalPreferences) {
+        return new RemoteConfig(globalPreferences);
     }
 
 }

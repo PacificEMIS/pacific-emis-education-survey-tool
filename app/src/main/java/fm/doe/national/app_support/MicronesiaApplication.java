@@ -13,6 +13,7 @@ import fm.doe.national.accreditation_core.di.AccreditationCoreComponentProvider;
 import fm.doe.national.app_support.di.Injection;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.di.CoreComponentProvider;
+import fm.doe.national.core.remote_config.RemoteConfig;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.data_source_injector.di.DataSourceComponentProvider;
 import fm.doe.national.fsm_report.di.FsmReportComponent;
@@ -64,6 +65,9 @@ public class MicronesiaApplication extends MultiDexApplication implements
         super.onCreate();
         AppCenter.start(this, getString(R.string.app_center_key), Analytics.class, Crashes.class);
         injection.createDependencyGraph(this);
+
+        RemoteConfig remoteConfig = injection.getCoreComponent().getRemoteConfig();
+        remoteConfig.onAppCreate();
     }
 
     public static Injection getInjection() {

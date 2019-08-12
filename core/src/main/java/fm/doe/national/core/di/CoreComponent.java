@@ -17,6 +17,7 @@ import fm.doe.national.core.di.modules.LocalDataSourceModule;
 import fm.doe.national.core.di.modules.PreferencesModule;
 import fm.doe.national.core.di.modules.SerializationModule;
 import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.remote_config.RemoteConfig;
 import fm.doe.national.core.utils.LifecycleListener;
 
 @CoreScope
@@ -42,5 +43,7 @@ public interface CoreComponent {
     Parser<List<School>> getSchoolsParser();
 
     Persister getPersister();
+
+    RemoteConfig getRemoteConfig();
 
 }
