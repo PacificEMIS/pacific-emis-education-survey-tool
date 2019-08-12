@@ -1,18 +1,25 @@
 package fm.doe.national.accreditation_core.data.model.mutable;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
+import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
+import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.core.utils.TextUtil;
 
 public class MutableAnswer extends BaseMutableEntity implements Answer {
 
@@ -62,36 +69,34 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
 
     @Nullable
     public MutableAnswer merge(Answer other, ConflictResolveStrategy strategy) {
-        boolean haveChanges = false;
-
-        if (strategy == ConflictResolveStrategy.THEIRS && other.getState() != AnswerState.NOT_ANSWERED) {
-            haveChanges = answerState != other.getState();
-            answerState = other.getState();
+        if (strategy != ConflictResolveStrategy.THEIRS) {
+            // MINE is not supported
+            throw new NotImplementedException();
         }
 
-        String externalComment = other.getComment();
-        if (externalComment != null) {
-            comment = (comment == null ? "" : (comment + "/n")) + externalComment;
-            haveChanges = true;
+        String otherComment = other.getComment();
+        List<? extends Photo> otherPhotos = other.getPhotos();
+        boolean haveChanges = other.getState() != AnswerState.NOT_ANSWERED ||
+                !CollectionUtils.isEmpty(other.getPhotos()) ||
+                !TextUtils.isEmpty(otherComment);
+
+        if (!haveChanges) {
+            return null;
         }
 
-        if (other.getPhotos() != null) {
-            List<MutablePhoto> otherUniquePhotos = other.getPhotos().stream()
+        answerState = other.getState();
+        comment = otherComment;
+
+        if (otherPhotos != null) {
+            photos = otherPhotos
+                    .stream()
                     .map(MutablePhoto::new)
-                    .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.isDataEquals(mutablePhoto)))
                     .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
                     .collect(Collectors.toList());
-
-            if (!otherUniquePhotos.isEmpty()) {
-                if (this.photos == null) {
-                    this.photos = new ArrayList<>();
-                }
-
-                this.photos.addAll(otherUniquePhotos);
-                haveChanges = true;
-            }
+        } else {
+            photos = null;
         }
 
-        return haveChanges ? this : null;
+        return this;
     }
 }

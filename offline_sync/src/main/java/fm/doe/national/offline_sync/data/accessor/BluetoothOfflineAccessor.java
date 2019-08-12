@@ -620,7 +620,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         return Single.fromCallable(() -> {
             MutableAccreditationSurvey mutableTargetSurvey = (MutableAccreditationSurvey) targetSurvey;
             List<MutableAnswer> answers = mutableTargetSurvey.merge(externalSurvey, strategy);
-            int photosCount = (int) answers.stream().mapToLong(a -> a.getPhotos().size()).sum();
+            int photosCount = (int) answers.stream().mapToLong(a -> nonNullWrapPhotos(a.getPhotos()).size()).sum();
             syncNotifier.notify(SyncNotification.withValue(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
             Log.d(TAG, "did merge accreditation with photos = " + photosCount);
             return Pair.create(mutableTargetSurvey, answers);

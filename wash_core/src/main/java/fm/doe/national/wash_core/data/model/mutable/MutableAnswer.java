@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.model.BaseSerializableIdentifiedObject;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
+import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.utils.CollectionUtils;
@@ -145,51 +147,42 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
         this.inputText = TextUtils.isEmpty(inputText) ? null : inputText;
     }
 
-    public MutableAnswer merge(Answer other, ConflictResolveStrategy strategy) {
-        boolean haveChanges = false;
-        switch (strategy) {
-            case MINE:
-                haveChanges = mergeItemsMine(other) ||
-                        mergeInputTextMine(other) ||
-                        mergeVariantsMine(other) ||
-                        mergeLocationMine(other) ||
-                        mergeBinaryAnswerMine(other) ||
-                        mergeTernaryAnswerMine(other);
-                break;
-            case THEIRS:
-                haveChanges = mergeItemsTheirs(other) ||
-                        mergeInputTextTheirs(other) ||
-                        mergeVariantsTheirs(other) ||
-                        mergeLocationTheirs(other) ||
-                        mergeBinaryAnswerTheirs(other) ||
-                        mergeTernaryAnswerTheirs(other);
-                break;
+    public MutableAnswer merge(Answer other, ConflictResolveStrategy strategy, boolean isOtherAnswered) {
+        if (strategy != ConflictResolveStrategy.THEIRS) {
+            // MINE is not supported
+            throw new NotImplementedException();
         }
 
-        String externalComment = other.getComment();
-        if (externalComment != null) {
-            comment = (comment == null ? "" : (comment + "/n")) + externalComment;
-            haveChanges = true;
+        String otherComment = other.getComment();
+        List<? extends Photo> otherPhotos = other.getPhotos();
+        boolean haveChanges = isOtherAnswered ||
+                !CollectionUtils.isEmpty(other.getPhotos()) ||
+                !TextUtils.isEmpty(otherComment);
+
+        if (!haveChanges) {
+            return null;
         }
 
-        if (other.getPhotos() != null) {
-            List<MutablePhoto> otherUniquePhotos = other.getPhotos().stream()
+        mergeItemsTheirs(other);
+        mergeInputTextTheirs(other);
+        mergeVariantsTheirs(other);
+        mergeLocationTheirs(other);
+        mergeBinaryAnswerTheirs(other);
+        mergeTernaryAnswerTheirs(other);
+
+        comment = otherComment;
+
+        if (otherPhotos != null) {
+            photos = otherPhotos
+                    .stream()
                     .map(MutablePhoto::new)
-                    .filter(mutablePhoto -> this.photos.stream().noneMatch(existing -> existing.isDataEquals(mutablePhoto)))
                     .peek(photo -> photo.setId(BaseSerializableIdentifiedObject.DEFAULT_ID))
                     .collect(Collectors.toList());
-
-            if (!otherUniquePhotos.isEmpty()) {
-                if (this.photos == null) {
-                    this.photos = new ArrayList<>();
-                }
-
-                this.photos.addAll(otherUniquePhotos);
-                haveChanges = true;
-            }
+        } else {
+            photos = null;
         }
 
-        return haveChanges ? this : null;
+        return this;
     }
 
     private boolean mergeItemsMine(Answer answer) {

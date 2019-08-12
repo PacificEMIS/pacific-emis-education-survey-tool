@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import fm.doe.national.accreditation_core.data.model.Answer;
+import fm.doe.national.accreditation_core.data.model.AnswerState;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;

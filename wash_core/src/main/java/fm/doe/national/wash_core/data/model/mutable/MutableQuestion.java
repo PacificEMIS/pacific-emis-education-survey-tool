@@ -441,10 +441,6 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
     }
 
     public MutableAnswer merge(Question other, ConflictResolveStrategy strategy) {
-        if (other.getAnswer() == null || !other.getAnswer().isAnsweredForQuestionType(other.getType())) {
-            return null;
-        }
-
-        return this.answer.merge(other.getAnswer(), strategy);
+        return this.answer.merge(other.getAnswer(), strategy, other.getAnswer().isAnsweredForQuestionType(other.getType()));
     }
 }
