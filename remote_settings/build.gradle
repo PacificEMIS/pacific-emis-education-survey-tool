@@ -34,11 +34,16 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
 
+    // Omega
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"
     annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
 
+    // GSON
+    implementation "com.google.code.gson:gson:${Deps.gson}"
 
     api 'com.google.firebase:firebase-core:17.0.1'
     api 'com.google.firebase:firebase-analytics:17.0.1'

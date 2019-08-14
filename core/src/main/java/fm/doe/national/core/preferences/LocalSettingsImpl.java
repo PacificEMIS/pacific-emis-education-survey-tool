@@ -70,7 +70,7 @@ public class LocalSettingsImpl implements LocalSettings {
 
     @Override
     public Image getLogo() {
-        String logoPath = sharedPreferences.getString(PREF_KEY_LOGO_PATH, null);
+        String logoPath = getLogoPath();
 
         if (logoPath != null) {
             return UrlImageExtensionsKt.from(Image.Companion, logoPath);
@@ -84,6 +84,12 @@ public class LocalSettingsImpl implements LocalSettings {
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    @Nullable
+    @Override
+    public String getLogoPath() {
+        return sharedPreferences.getString(PREF_KEY_LOGO_PATH, null);
     }
 
     @Override

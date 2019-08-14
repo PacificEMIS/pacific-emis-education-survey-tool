@@ -29,6 +29,9 @@ public interface LocalSettings {
 
     Image getLogo();
 
+    @Nullable
+    String getLogoPath();
+
     void setLogoPath(@Nullable String path);
 
     String getMasterPassword();
