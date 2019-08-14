@@ -31,7 +31,7 @@ public class ProviderModule {
 
     @Provides
     SurveyPresenter provideSurveyPresenter() {
-        switch (coreComponent.getGlobalPreferences().getSurveyType()) {
+        switch (coreComponent.getLocalSettings().getSurveyType()) {
             case SCHOOL_ACCREDITATION:
                 return new AccreditationSurveyPresenter(accreditationCoreComponent, surveyCoreComponent);
             case WASH:
@@ -42,7 +42,7 @@ public class ProviderModule {
 
     @Provides
     SurveyInteractor provideSurveyInteractor() {
-        switch (coreComponent.getGlobalPreferences().getSurveyType()) {
+        switch (coreComponent.getLocalSettings().getSurveyType()) {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getAccreditationSurveyInteractor();
             case WASH:

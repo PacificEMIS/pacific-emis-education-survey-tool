@@ -19,6 +19,8 @@ import fm.doe.national.fsm_report.di.FsmReportComponent;
 import fm.doe.national.fsm_report.di.FsmReportComponentProvider;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncComponentProvider;
+import fm.doe.national.remote_settings.di.RemoteSettingsComponent;
+import fm.doe.national.remote_settings.di.RemoteSettingsComponentProvider;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentProvider;
 import fm.doe.national.report.di.ReportComponent;
@@ -55,7 +57,8 @@ public class MicronesiaApplication extends MultiDexApplication implements
         AccreditationCoreComponentProvider,
         DataSourceComponentProvider,
         WashCoreComponentProvider,
-        OfflineSyncComponentProvider {
+        OfflineSyncComponentProvider,
+        RemoteSettingsComponentProvider {
 
     private static final Injection injection = new Injection();
 
@@ -64,6 +67,9 @@ public class MicronesiaApplication extends MultiDexApplication implements
         super.onCreate();
         AppCenter.start(this, getString(R.string.app_center_key), Analytics.class, Crashes.class);
         injection.createDependencyGraph(this);
+        injection.getRemoteSettingsComponent()
+                .getRemoteSettings()
+                .onAppCreate();
     }
 
     public static Injection getInjection() {
@@ -123,5 +129,10 @@ public class MicronesiaApplication extends MultiDexApplication implements
     @Override
     public OfflineSyncComponent provideOfflineSyncComponent() {
         return injection.getOfflineSyncComponent();
+    }
+
+    @Override
+    public RemoteSettingsComponent provideRemoteSettingsComponent() {
+        return injection.getRemoteSettingsComponent();
     }
 }

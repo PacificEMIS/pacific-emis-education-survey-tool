@@ -16,7 +16,7 @@ import fm.doe.national.core.data.exceptions.WrongAppRegionException;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.wash_core.BuildConfig;
@@ -51,11 +51,11 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     private final WashDatabase templateDatabase;
     private final WashDatabase database;
 
-    private final GlobalPreferences globalPreferences;
+    private final LocalSettings localSettings;
 
-    public RoomWashDataSource(Context applicationContext, GlobalPreferences globalPreferences) {
-        super(applicationContext, globalPreferences);
-        this.globalPreferences = globalPreferences;
+    public RoomWashDataSource(Context applicationContext, LocalSettings localSettings) {
+        super(applicationContext, localSettings);
+        this.localSettings = localSettings;
         database = Room.databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME).build();
         templateDatabase = Room.databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME).build();
         answerDao = database.getAnswerDao();
@@ -167,7 +167,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(globalPreferences.getAppRegion()))
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(localSettings.getAppRegion()))
                 .map(RelativeRoomSurvey::toMutable);
     }
 
@@ -179,7 +179,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
 
     @Override
     public Single<List<Survey>> loadAllSurveys() {
-        return Single.fromCallable(() -> database.getSurveyDao().getAllFilled(globalPreferences.getAppRegion()))
+        return Single.fromCallable(() -> database.getSurveyDao().getAllFilled(localSettings.getAppRegion()))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutable)
                 .toList()
@@ -322,7 +322,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     public Completable createPartiallySavedSurvey(Survey survey) {
         return Completable.fromAction(() -> {
             WashSurvey washSurvey = (WashSurvey) survey;
-            if (globalPreferences.getAppRegion() == washSurvey.getAppRegion()) {
+            if (localSettings.getAppRegion() == washSurvey.getAppRegion()) {
                 saveSurvey(database, washSurvey, true);
             } else {
                 throw new WrongAppRegionException();

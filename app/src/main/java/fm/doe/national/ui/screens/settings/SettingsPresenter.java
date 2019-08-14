@@ -12,7 +12,7 @@ import java.util.Arrays;
 import fm.doe.national.BuildConfig;
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.ui.screens.settings.items.Item;
@@ -26,7 +26,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private final static String MIME_TYPE_SCHOOLS = "text/csv";
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
-    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
 
     public SettingsPresenter() {
@@ -37,11 +37,11 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
-                itemFactory.createContextItem(globalPreferences.getAppRegion().getName()),
-                itemFactory.createExportToExcelItem(globalPreferences.isExportToExcelEnabled()),
-                itemFactory.createNameItem(globalPreferences.getAppName()),
-                itemFactory.createContactItem(Text.from(globalPreferences.getContactName())),
-                itemFactory.createOpModeItem(globalPreferences.getOperatingMode().getName()),
+                itemFactory.createContextItem(localSettings.getAppRegion().getName()),
+                itemFactory.createExportToExcelItem(localSettings.isExportToExcelEnabled()),
+                itemFactory.createNameItem(localSettings.getAppName()),
+                itemFactory.createContactItem(Text.from(localSettings.getContactName())),
+                itemFactory.createOpModeItem(localSettings.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
                 itemFactory.createTemplatesItem()
         ));
@@ -92,7 +92,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     public void onBooleanValueChanged(Item item, boolean value) {
         switch (item.getType()) {
             case EXPORT_TO_EXCEL:
-                globalPreferences.setExportToExcelEnabled(value);
+                localSettings.setExportToExcelEnabled(value);
                 break;
         }
     }
@@ -107,7 +107,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onContextPressed() {
         getViewState().showRegionSelector((region) -> {
-            globalPreferences.setAppRegion(region);
+            localSettings.setAppRegion(region);
             refresh();
         });
     }
@@ -115,9 +115,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void onNamePressed() {
         getViewState().showInputDialog(
                 Text.from(R.string.title_input_name),
-                globalPreferences.getAppName(),
+                localSettings.getAppName(),
                 (name) -> {
-                    globalPreferences.setAppName(name);
+                    localSettings.setAppName(name);
                     refresh();
                 }
         );
@@ -126,9 +126,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void onContactPressed() {
         getViewState().showInputDialog(
                 Text.from(R.string.title_input_contact),
-                Text.from(globalPreferences.getContactName()),
+                Text.from(localSettings.getContactName()),
                 (name) -> {
-                    globalPreferences.setContactName(name);
+                    localSettings.setContactName(name);
                     refresh();
                 }
         );

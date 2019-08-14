@@ -9,7 +9,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.di.CoreComponent;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.model.DriveType;
@@ -25,7 +25,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
 
     private final RemoteStorage storage;
     private final RemoteStorageAccessor accessor;
-    private final GlobalPreferences globalPreferences;
+    private final LocalSettings localSettings;
     private final Stack<GoogleDriveFileHolder> parentsStack = new Stack<>();
     private final boolean isDebugViewer;
 
@@ -33,7 +33,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
         this.isDebugViewer = isDebugViewer;
         this.storage = component.getRemoteStorage();
         this.accessor = component.getRemoteStorageAccessor();
-        this.globalPreferences = coreComponent.getGlobalPreferences();
+        this.localSettings = coreComponent.getLocalSettings();
         updateFileHolders();
     }
 
@@ -60,7 +60,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                         .doFinally(getViewState()::hideWaiting)
                         .subscribe(items -> {
                             String currentSurveyPrefix = SurveyTextUtil.convertSurveyTypeToExportPrefix(
-                                    globalPreferences.getSurveyTypeOrDefault()
+                                    localSettings.getSurveyTypeOrDefault()
                             );
                             List<GoogleDriveFileHolder> itemsToShow = items.stream()
                                     .filter(f -> isDebugViewer || f.getMimeType() == DriveType.FOLDER ||

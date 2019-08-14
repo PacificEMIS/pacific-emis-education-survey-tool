@@ -16,7 +16,7 @@ import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
 
-public class GlobalPreferencesImpl implements GlobalPreferences {
+public class LocalSettingsImpl implements LocalSettings {
 
     private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
     private static final AppRegion DEFAULT_APP_REGION = AppRegion.FSM;
@@ -38,10 +38,11 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     private static final Image sDefaultIconRmi = Image.from(R.drawable.ic_rmi);
 
     private static final String PREF_KEY_EXCEL_EXPORT = "PREF_KEY_EXCEL_EXPORT";
+    private static final String PREF_KEY_PROD_CERT = "PREF_KEY_PROD_CERT";
 
     private final SharedPreferences sharedPreferences;
 
-    public GlobalPreferencesImpl(SharedPreferences sharedPreferences) {
+    public LocalSettingsImpl(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
@@ -69,7 +70,7 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
 
     @Override
     public Image getLogo() {
-        String logoPath = sharedPreferences.getString(PREF_KEY_LOGO_PATH, null);
+        String logoPath = getLogoPath();
 
         if (logoPath != null) {
             return UrlImageExtensionsKt.from(Image.Companion, logoPath);
@@ -83,6 +84,12 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    @Nullable
+    @Override
+    public String getLogoPath() {
+        return sharedPreferences.getString(PREF_KEY_LOGO_PATH, null);
     }
 
     @Override
@@ -192,5 +199,16 @@ public class GlobalPreferencesImpl implements GlobalPreferences {
     @Override
     public void setExportToExcelEnabled(boolean enabled) {
         sharedPreferences.edit().putBoolean(PREF_KEY_EXCEL_EXPORT, enabled).apply();
+    }
+
+    @Override
+    public void setProdCert(String cert) {
+        sharedPreferences.edit().putString(PREF_KEY_PROD_CERT, cert).apply();
+    }
+
+    @Nullable
+    @Override
+    public String getProdCert() {
+        return sharedPreferences.getString(PREF_KEY_PROD_CERT, null);
     }
 }

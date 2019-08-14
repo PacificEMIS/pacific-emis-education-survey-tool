@@ -16,7 +16,7 @@ import fm.doe.national.core.di.modules.LifecycleModule;
 import fm.doe.national.core.di.modules.LocalDataSourceModule;
 import fm.doe.national.core.di.modules.PreferencesModule;
 import fm.doe.national.core.di.modules.SerializationModule;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.utils.LifecycleListener;
 
 @CoreScope
@@ -33,7 +33,7 @@ public interface CoreComponent {
 
     FilesRepository getPicturesRepository();
 
-    GlobalPreferences getGlobalPreferences();
+    LocalSettings getLocalSettings();
 
     SharedPreferences getSharedPreferences();
 

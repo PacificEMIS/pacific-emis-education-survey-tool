@@ -5,7 +5,7 @@ import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.core.data.serialization.SurveyParser;
 import fm.doe.national.core.data.serialization.SurveySerializer;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
@@ -20,8 +20,8 @@ public class SerializersModule {
     }
 
     @Provides
-    public SurveyParser provideSurveyParser(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getSurveyTypeOrDefault()) {
+    public SurveyParser provideSurveyParser(LocalSettings localSettings) {
+        switch (localSettings.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getSurveyParser();
             case WASH:
@@ -31,8 +31,8 @@ public class SerializersModule {
     }
 
     @Provides
-    public SurveySerializer provideSurveySerializer(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getSurveyTypeOrDefault()) {
+    public SurveySerializer provideSurveySerializer(LocalSettings localSettings) {
+        switch (localSettings.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getSurveySerializer();
             case WASH:

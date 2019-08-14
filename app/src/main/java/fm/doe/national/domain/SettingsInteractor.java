@@ -14,7 +14,7 @@ import fm.doe.national.core.data.exceptions.ParseException;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.serialization.Parser;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
@@ -30,30 +30,30 @@ public class SettingsInteractor {
     private final RemoteStorage remoteStorage;
     private final Parser<List<School>> schoolsParser;
     private final AssetManager assetManager;
-    private final GlobalPreferences globalPreferences;
+    private final LocalSettings localSettings;
     private final SurveyAccessor accessor;
 
     public SettingsInteractor(RemoteStorageAccessor remoteStorageAccessor,
                               RemoteStorage remoteStorage,
                               Parser<List<School>> schoolsParser,
                               AssetManager assetManager,
-                              GlobalPreferences globalPreferences,
+                              LocalSettings localSettings,
                               SurveyAccessor accessor) {
         this.remoteStorageAccessor = remoteStorageAccessor;
         this.remoteStorage = remoteStorage;
         this.accessor = accessor;
         this.schoolsParser = schoolsParser;
         this.assetManager = assetManager;
-        this.globalPreferences = globalPreferences;
+        this.localSettings = localSettings;
     }
 
     public void setOperatingMode(OperatingMode mode) {
-        globalPreferences.setOperatingMode(mode);
+        localSettings.setOperatingMode(mode);
         remoteStorage.refreshCredentials();
     }
 
     private DataSource getCurrentDataSource() {
-        return accessor.getDataSource(globalPreferences.getSurveyTypeOrDefault());
+        return accessor.getDataSource(localSettings.getSurveyTypeOrDefault());
     }
 
     public Completable importSchools(String content) {
@@ -117,24 +117,24 @@ public class SettingsInteractor {
     }
 
     public void setAppRegion(AppRegion region) {
-        globalPreferences.setAppRegion(region);
+        localSettings.setAppRegion(region);
     }
 
     @Nullable
     public AppRegion getAppRegion() {
-        if (globalPreferences.isAppRegionSaved()) {
-            return globalPreferences.getAppRegion();
+        if (localSettings.isAppRegionSaved()) {
+            return localSettings.getAppRegion();
         } else {
             return null;
         }
     }
 
     public void setMasterPassword(String password) {
-        globalPreferences.setMasterPassword(password);
+        localSettings.setMasterPassword(password);
     }
 
     public boolean isMasterPasswordSaved() {
-        return globalPreferences.isMasterPasswordSaved();
+        return localSettings.isMasterPasswordSaved();
     }
 
     public Completable createFilledSurveyFromCloud() {

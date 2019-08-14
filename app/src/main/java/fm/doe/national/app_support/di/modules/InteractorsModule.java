@@ -9,7 +9,7 @@ import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.serialization.Parser;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.domain.SettingsInteractor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.wash_core.di.WashCoreComponent;
@@ -34,13 +34,13 @@ public class InteractorsModule {
 
     @Provides
     SettingsInteractor provideSettingsInteractor(Parser<List<School>> schoolsParser,
-                                                 GlobalPreferences globalPreferences) {
+                                                 LocalSettings localSettings) {
         return new SettingsInteractor(
                 remoteStorageComponent.getRemoteStorageAccessor(),
                 remoteStorageComponent.getRemoteStorage(),
                 schoolsParser,
                 assetManager,
-                globalPreferences,
+                localSettings,
                 new SettingsInteractor.SurveyAccessor(
                         accreditationCoreComponent.getDataSource(),
                         washCoreComponent.getDataSource(),

@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.splash;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.widget.ImageView;
 
@@ -51,31 +52,30 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     @Override
     public void requestAppPermissions() {
-        try {
-            String[] permissions = getPackageManager()
-                    .getPackageInfo(getPackageName(), PackageManager.GET_PERMISSIONS)
-                    .requestedPermissions;
+        String[] permissions = new String[] {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.BLUETOOTH
+        };
 
-            Dexter.withActivity(this)
-                    .withPermissions(permissions)
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            if (report.areAllPermissionsGranted()) {
-                                splashPresenter.onPermissionsGranted();
-                            } else {
-                                showMessage(Text.from(R.string.title_error), Text.from(R.string.error_permissions));
-                            }
+        Dexter.withActivity(this)
+                .withPermissions(permissions)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            splashPresenter.onPermissionsGranted();
+                        } else {
+                            showMessage(Text.from(R.string.title_error), Text.from(R.string.error_permissions));
                         }
+                    }
 
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    })
-                    .check();
-        } catch (PackageManager.NameNotFoundException ex) {
-            ex.printStackTrace();
-        }
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                })
+                .check();
     }
 }

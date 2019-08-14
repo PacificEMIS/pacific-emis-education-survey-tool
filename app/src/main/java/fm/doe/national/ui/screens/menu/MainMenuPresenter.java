@@ -8,7 +8,7 @@ import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
@@ -23,9 +23,9 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
             .getOfflineSyncComponent()
             .getUseCase();
 
-    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection()
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection()
             .getCoreComponent()
-            .getGlobalPreferences();
+            .getLocalSettings();
 
     private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
             .getRemoteStorageComponent()
@@ -42,8 +42,8 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
     @Override
     public void attachView(MainMenuView view) {
         super.attachView(view);
-        getViewState().setIcon(globalPreferences.getLogo());
-        getViewState().setTitle(globalPreferences.getAppName());
+        getViewState().setIcon(localSettings.getLogo());
+        getViewState().setTitle(localSettings.getAppName());
     }
 
     public void onLicensePressed() {
@@ -57,13 +57,13 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
     @NonNull
     @Override
     protected String provideMasterPassword() {
-        return globalPreferences.getMasterPassword();
+        return localSettings.getMasterPassword();
     }
 
     @NonNull
     @Override
     protected String provideFactoryPassword() {
-        return globalPreferences.getFactoryPassword();
+        return localSettings.getFactoryPassword();
     }
 
     @Override
@@ -72,12 +72,12 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
     }
 
     public void onAccreditationPressed() {
-        globalPreferences.setSurveyType(SurveyType.SCHOOL_ACCREDITATION);
+        localSettings.setSurveyType(SurveyType.SCHOOL_ACCREDITATION);
         getViewState().navigateToSurveys();
     }
 
     public void onWashPressed() {
-        globalPreferences.setSurveyType(SurveyType.WASH);
+        localSettings.setSurveyType(SurveyType.WASH);
         getViewState().navigateToSurveys();
     }
 

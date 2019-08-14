@@ -5,7 +5,7 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.core.data.files.FilesRepository;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
@@ -26,8 +26,8 @@ public class RemoteStorageModule {
 
     @Provides
     @RemoteStorageScope
-    RemoteStorage provideRemoteStorage(Context context, GlobalPreferences globalPreferences, FilesRepository filesRepository) {
-        return new DriveRemoteStorage(context, globalPreferences, dataSourceComponent, filesRepository);
+    RemoteStorage provideRemoteStorage(Context context, LocalSettings localSettings, FilesRepository filesRepository) {
+        return new DriveRemoteStorage(context, localSettings, dataSourceComponent, filesRepository);
     }
 
     @Provides

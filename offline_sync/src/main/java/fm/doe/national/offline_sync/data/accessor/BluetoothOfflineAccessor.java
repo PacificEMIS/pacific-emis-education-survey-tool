@@ -40,7 +40,7 @@ import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.SurveyState;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.core.utils.VoidFunction;
@@ -101,7 +101,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private final Subject<Action> discoverableRequestSubject = PublishSubject.create();
     private final Subject<Action> btPermissionsRequestSubject = PublishSubject.create();
     private final List<BluetoothDevice> devicesCache = new ArrayList<>();
-    private final GlobalPreferences globalPreferences;
+    private final LocalSettings localSettings;
     private final AccreditationDataSource accreditationDataSource;
     private final WashDataSource washDataSource;
     private final FilesRepository filesRepository;
@@ -132,13 +132,13 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public BluetoothOfflineAccessor(Context applicationContext,
-                                    GlobalPreferences globalPreferences,
+                                    LocalSettings localSettings,
                                     AccreditationDataSource accreditationDataSource,
                                     WashDataSource washDataSource,
                                     FilesRepository filesRepository,
                                     SyncNotifier syncNotifier) {
         this.applicationContextRef = new WeakReference<>(applicationContext);
-        this.globalPreferences = globalPreferences;
+        this.localSettings = localSettings;
         this.accreditationDataSource = accreditationDataSource;
         this.washDataSource = washDataSource;
         this.filesRepository = filesRepository;
@@ -255,8 +255,8 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 BtMessage.Type.REQUEST_SURVEYS,
                 gson.toJson(new RequestSurveysBody(
                         schoolId,
-                        globalPreferences.getAppRegion(),
-                        globalPreferences.getSurveyTypeOrDefault(),
+                        localSettings.getAppRegion(),
+                        localSettings.getSurveyTypeOrDefault(),
                         surveyTag
                 ))
         ))
@@ -268,7 +268,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
         requestFilledSurveySubject = SingleSubject.create();
         return send(new BtMessage(
                 BtMessage.Type.REQUEST_FILLED_SURVEY,
-                gson.toJson(new RequestSurveyBody(surveyId, globalPreferences.getSurveyTypeOrDefault()))
+                gson.toJson(new RequestSurveyBody(surveyId, localSettings.getSurveyTypeOrDefault()))
         ))
                 .andThen(requestFilledSurveySubject);
     }
