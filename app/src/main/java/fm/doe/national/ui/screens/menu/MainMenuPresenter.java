@@ -25,7 +25,7 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
 
     private final LocalSettings localSettings = MicronesiaApplication.getInjection()
             .getCoreComponent()
-            .getGlobalPreferences();
+            .getLocalSettings();
 
     private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
             .getRemoteStorageComponent()

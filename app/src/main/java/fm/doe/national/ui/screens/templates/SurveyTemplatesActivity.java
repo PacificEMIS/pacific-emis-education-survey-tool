@@ -31,7 +31,7 @@ public class SurveyTemplatesActivity extends BaseActivity {
 
     private final LocalSettings localSettings = MicronesiaApplication.getInjection()
             .getCoreComponent()
-            .getGlobalPreferences();
+            .getLocalSettings();
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SurveyTemplatesActivity.class);

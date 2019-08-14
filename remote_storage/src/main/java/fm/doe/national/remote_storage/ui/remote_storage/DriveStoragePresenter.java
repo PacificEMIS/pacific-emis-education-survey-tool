@@ -33,7 +33,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
         this.isDebugViewer = isDebugViewer;
         this.storage = component.getRemoteStorage();
         this.accessor = component.getRemoteStorageAccessor();
-        this.localSettings = coreComponent.getGlobalPreferences();
+        this.localSettings = coreComponent.getLocalSettings();
         updateFileHolders();
     }
 

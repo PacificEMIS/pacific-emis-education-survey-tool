@@ -20,7 +20,7 @@ public class LogoPresenter extends BasePresenter<LogoView> {
 
     private final LocalSettings localSettings = MicronesiaApplication.getInjection()
             .getCoreComponent()
-            .getGlobalPreferences();
+            .getLocalSettings();
 
     private final FilesRepository filesRepository = MicronesiaApplication.getInjection()
             .getCoreComponent()

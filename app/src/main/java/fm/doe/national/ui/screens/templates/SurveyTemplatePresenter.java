@@ -23,7 +23,7 @@ public abstract class SurveyTemplatePresenter extends BasePresenter<SurveyTempla
     private final SurveyParser parser;
     private final LocalSettings localSettings = MicronesiaApplication.getInjection()
             .getCoreComponent()
-            .getGlobalPreferences();
+            .getLocalSettings();
 
     public SurveyTemplatePresenter(DataSource dataSource, SurveyParser parser) {
         this.dataSource = dataSource;

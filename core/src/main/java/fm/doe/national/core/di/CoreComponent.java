@@ -33,7 +33,7 @@ public interface CoreComponent {
 
     FilesRepository getPicturesRepository();
 
-    LocalSettings getGlobalPreferences();
+    LocalSettings getLocalSettings();
 
     SharedPreferences getSharedPreferences();
 

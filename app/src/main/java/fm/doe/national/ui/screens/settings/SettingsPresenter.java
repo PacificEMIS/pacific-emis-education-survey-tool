@@ -26,7 +26,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private final static String MIME_TYPE_SCHOOLS = "text/csv";
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
-    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
 
     public SettingsPresenter() {

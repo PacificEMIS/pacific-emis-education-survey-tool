@@ -31,7 +31,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
     private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
-    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getGlobalPreferences();
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
     private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection().getRemoteStorageComponent().getRemoteStorageAccessor();
