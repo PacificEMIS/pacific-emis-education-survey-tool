@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1047152165099-7hujv9go0gb1ejbos9cp2jnmkt5ks4vh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fm.doe.national",
+            "certificate_hash": "3118ac396dfec00449d2870413491fd896283810"
+          }
+        },
+        {
           "client_id": "1047152165099-mi0njkg7t2j8hn7mtjhkl86tol1p7nqi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
