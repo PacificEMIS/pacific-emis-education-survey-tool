@@ -9,6 +9,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import fm.doe.national.core.preferences.LocalSettings;
+import fm.doe.national.core.utils.VoidFunction;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 
 public class RemoteSettings {
@@ -17,6 +18,10 @@ public class RemoteSettings {
     private static final long INTERVAL_FETCH_SEC = 12; // 12 hours
     private static final String KEY_MASTER_PASSWORD = "master_password";
     private static final String KEY_PROD_CERT = "prod_cert";
+    private static final String KEY_LOGO_URL = "logo_url";
+    private static final String KEY_EXPORT_TO_EXCEL = "can_export_to_excel";
+    private static final String KEY_APP_TITLE = "app_title";
+    private static final String KEY_CONTACT = "contact";
 
     private final LocalSettings localSettings;
     private final RemoteStorage remoteStorage;
@@ -52,15 +57,26 @@ public class RemoteSettings {
     }
 
     private void parseRemoteSettings() {
-        String masterPassword = firebaseRemoteConfig.getString(KEY_MASTER_PASSWORD);
-        if (masterPassword != null) {
-            localSettings.setMasterPassword(masterPassword);
-        }
-
-        String prodCert = firebaseRemoteConfig.getString(KEY_PROD_CERT);
-        if (prodCert != null) {
-            localSettings.setProdCert(prodCert);
+        parseString(KEY_MASTER_PASSWORD, localSettings::setMasterPassword);
+        parseString(KEY_PROD_CERT, cert -> {
+            localSettings.setProdCert(cert);
             remoteStorage.refreshCredentials();
+        });
+        parseString(KEY_LOGO_URL, localSettings::setLogoPath);
+        parseBoolean(KEY_EXPORT_TO_EXCEL, localSettings::setExportToExcelEnabled);
+        parseString(KEY_APP_TITLE, localSettings::setAppName);
+        parseString(KEY_CONTACT, localSettings::setContactName);
+    }
+
+    private void parseBoolean(String key, VoidFunction<Boolean> function) {
+        boolean value = firebaseRemoteConfig.getBoolean(key);
+        function.apply(value);
+    }
+
+    private void parseString(String key, VoidFunction<String> function) {
+        String value = firebaseRemoteConfig.getString(key);
+        if (value != null) {
+            function.apply(value);
         }
     }
 }
