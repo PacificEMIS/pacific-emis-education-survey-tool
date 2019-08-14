@@ -18,6 +18,9 @@ import fm.doe.national.fsm_report.di.FsmReportModule;
 import fm.doe.national.offline_sync.di.DaggerOfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncComponent;
 import fm.doe.national.offline_sync.di.OfflineSyncModule;
+import fm.doe.national.remote_settings.di.DaggerRemoteSettingsComponent;
+import fm.doe.national.remote_settings.di.RemoteSettingsComponent;
+import fm.doe.national.remote_settings.di.RemoteSettingsModule;
 import fm.doe.national.remote_storage.di.DaggerRemoteStorageComponent;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.remote_storage.di.RemoteStorageModule;
@@ -49,6 +52,7 @@ public class Injection {
     private DataSourceComponent dataSourceComponent;
     private WashCoreComponent washCoreComponent;
     private OfflineSyncComponent offlineSyncComponent;
+    private RemoteSettingsComponent remoteSettingsComponent;
 
     public void createDependencyGraph(Context applicationContext) {
         coreComponent = DaggerCoreComponent
@@ -103,6 +107,10 @@ public class Injection {
                 .coreComponent(coreComponent)
                 .offlineSyncModule(new OfflineSyncModule(washCoreComponent, accreditationCoreComponent))
                 .build();
+        remoteSettingsComponent = DaggerRemoteSettingsComponent.builder()
+                .coreComponent(coreComponent)
+                .remoteSettingsModule(new RemoteSettingsModule(remoteStorageComponent))
+                .build();
     }
 
     public CoreComponent getCoreComponent() {
@@ -151,5 +159,9 @@ public class Injection {
 
     public OfflineSyncComponent getOfflineSyncComponent() {
         return offlineSyncComponent;
+    }
+
+    public RemoteSettingsComponent getRemoteSettingsComponent() {
+        return remoteSettingsComponent;
     }
 }

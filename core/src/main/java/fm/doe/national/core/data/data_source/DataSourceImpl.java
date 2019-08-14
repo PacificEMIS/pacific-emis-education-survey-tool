@@ -12,7 +12,7 @@ import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.persistence.SchoolsDatabase;
 import fm.doe.national.core.data.persistence.dao.SchoolDao;
 import fm.doe.national.core.data.persistence.model.RoomSchool;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.CollectionUtils;
 import io.reactivex.Completable;
@@ -25,12 +25,12 @@ public abstract class DataSourceImpl implements DataSource {
 
     protected final SchoolsDatabase schoolsDatabase;
 
-    protected final GlobalPreferences globalPreferences;
+    protected final LocalSettings localSettings;
 
     protected final SchoolDao schoolDao;
 
-    public DataSourceImpl(Context applicationContext, GlobalPreferences globalPreferences) {
-        this.globalPreferences = globalPreferences;
+    public DataSourceImpl(Context applicationContext, LocalSettings localSettings) {
+        this.localSettings = localSettings;
         schoolsDatabase = Room.databaseBuilder(applicationContext, SchoolsDatabase.class, SCHOOLS_DATABASE_NAME).build();
         schoolDao = schoolsDatabase.getSchoolDao();
     }
@@ -41,7 +41,7 @@ public abstract class DataSourceImpl implements DataSource {
 
     @Override
     public Single<List<School>> loadSchools() {
-        return Single.fromCallable(() -> schoolDao.getAll(globalPreferences.getAppRegion()))
+        return Single.fromCallable(() -> schoolDao.getAll(localSettings.getAppRegion()))
                 .map(roomSchools -> new ArrayList<>(roomSchools));
     }
 

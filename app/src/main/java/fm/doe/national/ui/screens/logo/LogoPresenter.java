@@ -12,13 +12,13 @@ import java.io.IOException;
 import fm.doe.national.R;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.files.FilesRepository;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 
 @InjectViewState
 public class LogoPresenter extends BasePresenter<LogoView> {
 
-    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection()
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection()
             .getCoreComponent()
             .getGlobalPreferences();
 
@@ -31,11 +31,11 @@ public class LogoPresenter extends BasePresenter<LogoView> {
     }
 
     private void refreshLogo() {
-        getViewState().setLogo(globalPreferences.getLogo());
+        getViewState().setLogo(localSettings.getLogo());
     }
 
     public void onSetDefaultPressed() {
-        globalPreferences.setLogoPath(null);
+        localSettings.setLogoPath(null);
         refreshLogo();
     }
 
@@ -49,7 +49,7 @@ public class LogoPresenter extends BasePresenter<LogoView> {
             FileOutputStream fos = new FileOutputStream(pictureFile);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             bitmap.recycle();
-            globalPreferences.setLogoPath(pictureFile.getPath());
+            localSettings.setLogoPath(pictureFile.getPath());
             refreshLogo();
         } catch (IOException ex) {
             ex.printStackTrace();

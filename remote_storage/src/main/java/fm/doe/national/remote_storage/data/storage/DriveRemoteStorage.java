@@ -19,6 +19,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.omega_r.libs.omegatypes.Text;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -32,7 +33,7 @@ import fm.doe.national.core.data.exceptions.NotImplementedException;
 import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
@@ -63,7 +64,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private final DataSourceComponent dataSourceComponent;
 
     private final Context appContext;
-    private final GlobalPreferences globalPreferences;
+    private final LocalSettings localSettings;
 
     private DriveServiceHelper driveServiceHelper;
 
@@ -73,11 +74,11 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private GoogleCredential serviceCredentials;
 
     public DriveRemoteStorage(Context appContext,
-                              GlobalPreferences globalPreferences,
+                              LocalSettings localSettings,
                               DataSourceComponent dataSourceComponent,
                               FilesRepository filesRepository) {
         this.appContext = appContext;
-        this.globalPreferences = globalPreferences;
+        this.localSettings = localSettings;
         this.dataSourceComponent = dataSourceComponent;
         this.filesRepository = filesRepository;
         refreshCredentials();
@@ -87,13 +88,17 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public void refreshCredentials() {
         try {
-            serviceCredentials = GoogleCredential.fromStream(
-                    appContext.getAssets().open(getCredentialsFileName()),
-                    sTransport,
-                    sGsonFactory)
-                    .createScoped(sScopes);
-            Drive drive = getDriveService(serviceCredentials);
-            driveServiceHelper = new DriveServiceHelper(drive);
+            InputStream credentialsStream = getCredentialsStream();
+
+            if (credentialsStream != null) {
+                serviceCredentials = GoogleCredential.fromStream(
+                        credentialsStream,
+                        sTransport,
+                        sGsonFactory)
+                        .createScoped(sScopes);
+                Drive drive = getDriveService(serviceCredentials);
+                driveServiceHelper = new DriveServiceHelper(drive);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,14 +117,21 @@ public final class DriveRemoteStorage implements RemoteStorage {
         return new SheetsExcelExporter(appContext, sheets);
     }
 
-    private String getCredentialsFileName() {
-        switch (globalPreferences.getOperatingMode()) {
+    @Nullable
+    private InputStream getCredentialsStream() throws IOException {
+        switch (localSettings.getOperatingMode()) {
             case DEV:
-                return BuildConfig.CREDENTIALS_DEV;
+                appContext.getAssets().open(BuildConfig.CREDENTIALS_DEV);
             case PROD:
-                return BuildConfig.CREDENTIALS_PROD;
+                String cert = localSettings.getProdCert();
+
+                if (cert == null) {
+                    return null;
+                }
+
+                return new ByteArrayInputStream(cert.getBytes());
             default:
-                return BuildConfig.CREDENTIALS_DEV;
+                return null;
         }
     }
 
@@ -191,7 +203,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         SheetsExcelExporter excelExporter;
         switch (exportType) {
             case GLOBAL:
-                fileIdStep = Single.just(globalPreferences.getSpreadsheetId());
+                fileIdStep = Single.just(localSettings.getSpreadsheetId());
                 excelExporter = getExcelExporter(serviceCredentials);
                 break;
             case PRIVATE:
@@ -247,7 +259,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     private String getTemplateFileName() {
-        switch (globalPreferences.getAppRegion()) {
+        switch (localSettings.getAppRegion()) {
             case FSM:
                 return BuildConfig.NAME_REPORT_TEMPLATE_FSM;
             case RMI:

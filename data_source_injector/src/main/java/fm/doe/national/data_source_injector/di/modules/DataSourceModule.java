@@ -4,7 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.core.data.data_source.DataSource;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
@@ -19,8 +19,8 @@ public class DataSourceModule {
     }
 
     @Provides
-    DataSource provideDataSource(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getSurveyTypeOrDefault()) {
+    DataSource provideDataSource(LocalSettings localSettings) {
+        switch (localSettings.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 return accreditationCoreComponent.getDataSource();
             case WASH:

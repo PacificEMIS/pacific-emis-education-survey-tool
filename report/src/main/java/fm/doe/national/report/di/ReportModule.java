@@ -2,7 +2,7 @@ package fm.doe.national.report.di;
 
 import dagger.Module;
 import dagger.Provides;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.fsm_report.di.FsmReportComponent;
 import fm.doe.national.report_core.domain.ReportInteractor;
 import fm.doe.national.report_core.domain.ReportsProvider;
@@ -20,8 +20,8 @@ public class ReportModule {
     }
 
     @Provides
-    public ReportsProvider provideReportsProvider(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getAppRegion()) {
+    public ReportsProvider provideReportsProvider(LocalSettings localSettings) {
+        switch (localSettings.getAppRegion()) {
             case FSM:
                 return fsmReportComponent.getFsmReportsProvider();
             case RMI:
@@ -31,8 +31,8 @@ public class ReportModule {
     }
 
     @Provides
-    public ReportInteractor provideReportInteractor(GlobalPreferences globalPreferences) {
-        switch (globalPreferences.getAppRegion()) {
+    public ReportInteractor provideReportInteractor(LocalSettings localSettings) {
+        switch (localSettings.getAppRegion()) {
             case FSM:
                 return fsmReportComponent.getFsmReportInteractor();
             case RMI:

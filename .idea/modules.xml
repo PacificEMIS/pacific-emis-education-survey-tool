@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/fsm_report/fsm_report.iml" filepath="$PROJECT_DIR$/fsm_report/fsm_report.iml" />
       <module fileurl="file://$PROJECT_DIR$/micronesia.iml" filepath="$PROJECT_DIR$/micronesia.iml" />
       <module fileurl="file://$PROJECT_DIR$/offline_sync/offline_sync.iml" filepath="$PROJECT_DIR$/offline_sync/offline_sync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/remote_settings/remote_settings.iml" filepath="$PROJECT_DIR$/remote_settings/remote_settings.iml" />
       <module fileurl="file://$PROJECT_DIR$/remote_storage/remote_storage.iml" filepath="$PROJECT_DIR$/remote_storage/remote_storage.iml" />
       <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" />
       <module fileurl="file://$PROJECT_DIR$/report_core/report_core.iml" filepath="$PROJECT_DIR$/report_core/report_core.iml" />

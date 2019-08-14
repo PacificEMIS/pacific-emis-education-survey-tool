@@ -1,29 +1,32 @@
-package fm.doe.national.core.remote_config;
+package fm.doe.national.remote_settings.model;
 
 import android.util.Log;
 
-import com.google.firebase.BuildConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
+import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 
-public class RemoteConfig {
-    private static final String TAG = RemoteConfig.class.getName();
+public class RemoteSettings {
+    private static final String TAG = RemoteSettings.class.getName();
     private static final long TIMEOUT_FETCH_SEC = 5;
-    private static final long INTERVAL_FETCH_SEC = 12 * 60 * 60; // 12 hours
+    private static final long INTERVAL_FETCH_SEC = 12; // 12 hours
     private static final String KEY_MASTER_PASSWORD = "master_password";
+    private static final String KEY_PROD_CERT = "prod_cert";
 
-    private final GlobalPreferences globalPreferences;
+    private final LocalSettings localSettings;
+    private final RemoteStorage remoteStorage;
     private final Executor executor = Executors.newCachedThreadPool();
 
     private FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
-    public RemoteConfig(GlobalPreferences globalPreferences) {
-        this.globalPreferences = globalPreferences;
+    public RemoteSettings(LocalSettings localSettings, RemoteStorage remoteStorage) {
+        this.localSettings = localSettings;
+        this.remoteStorage = remoteStorage;
     }
 
     public void onAppCreate() {
@@ -51,7 +54,13 @@ public class RemoteConfig {
     private void parseRemoteSettings() {
         String masterPassword = firebaseRemoteConfig.getString(KEY_MASTER_PASSWORD);
         if (masterPassword != null) {
-            globalPreferences.setMasterPassword(masterPassword);
+            localSettings.setMasterPassword(masterPassword);
+        }
+
+        String prodCert = firebaseRemoteConfig.getString(KEY_PROD_CERT);
+        if (prodCert != null) {
+            localSettings.setProdCert(prodCert);
+            remoteStorage.refreshCredentials();
         }
     }
 }

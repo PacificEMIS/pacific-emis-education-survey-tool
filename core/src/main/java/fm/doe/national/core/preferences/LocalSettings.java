@@ -10,7 +10,7 @@ import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.preferences.entities.SurveyType;
 
-public interface GlobalPreferences {
+public interface LocalSettings {
 
     @NonNull
     AppRegion getAppRegion();
@@ -56,4 +56,9 @@ public interface GlobalPreferences {
     boolean isExportToExcelEnabled();
 
     void setExportToExcelEnabled(boolean enabled);
+
+    void setProdCert(String cert);
+
+    @Nullable
+    String getProdCert();
 }

@@ -9,7 +9,7 @@ import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.WrongAppRegionException;
 import fm.doe.national.core.data.serialization.SurveyParser;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,7 +21,7 @@ public abstract class SurveyTemplatePresenter extends BasePresenter<SurveyTempla
 
     protected final DataSource dataSource;
     private final SurveyParser parser;
-    private final GlobalPreferences globalPreferences = MicronesiaApplication.getInjection()
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection()
             .getCoreComponent()
             .getGlobalPreferences();
 
@@ -44,7 +44,7 @@ public abstract class SurveyTemplatePresenter extends BasePresenter<SurveyTempla
             addDisposable(
                     Single.fromCallable(() -> parser.parse(new ByteArrayInputStream(content.getBytes())))
                             .flatMapCompletable(survey -> {
-                                if (survey.getAppRegion() == globalPreferences.getAppRegion()) {
+                                if (survey.getAppRegion() == localSettings.getAppRegion()) {
                                     return dataSource.rewriteTemplateSurvey(survey);
                                 } else {
                                     throw new WrongAppRegionException();

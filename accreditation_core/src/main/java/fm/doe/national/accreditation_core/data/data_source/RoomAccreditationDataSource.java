@@ -36,7 +36,7 @@ import fm.doe.national.core.data.exceptions.WrongAppRegionException;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.mutable.MutablePhoto;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.CollectionUtils;
 import io.reactivex.Completable;
@@ -55,12 +55,12 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     private final AccreditationDatabase templateDatabase;
     private final AccreditationDatabase database;
 
-    private final GlobalPreferences globalPreferences;
+    private final LocalSettings localSettings;
 
-    public RoomAccreditationDataSource(Context applicationContext, GlobalPreferences globalPreferences) {
-        super(applicationContext, globalPreferences);
+    public RoomAccreditationDataSource(Context applicationContext, LocalSettings localSettings) {
+        super(applicationContext, localSettings);
 
-        this.globalPreferences = globalPreferences;
+        this.localSettings = localSettings;
         database = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME).build();
         templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME).build();
         surveyDao = database.getSurveyDao();
@@ -174,7 +174,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(globalPreferences.getAppRegion()))
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(localSettings.getAppRegion()))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
@@ -186,7 +186,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public Single<List<Survey>> loadAllSurveys() {
-        return Single.fromCallable(() -> surveyDao.getAllFilled(globalPreferences.getAppRegion()))
+        return Single.fromCallable(() -> surveyDao.getAllFilled(localSettings.getAppRegion()))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
                 .toList()
@@ -324,7 +324,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     public Completable createPartiallySavedSurvey(Survey survey) {
         return Completable.fromAction(() -> {
             AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
-            if (globalPreferences.getAppRegion() == accreditationSurvey.getAppRegion()) {
+            if (localSettings.getAppRegion() == accreditationSurvey.getAppRegion()) {
                 saveSurvey(database, accreditationSurvey, true);
             } else {
                 throw new WrongAppRegionException();

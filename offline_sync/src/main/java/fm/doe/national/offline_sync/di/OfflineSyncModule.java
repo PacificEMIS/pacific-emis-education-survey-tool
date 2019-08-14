@@ -6,7 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.core.data.files.FilesRepository;
-import fm.doe.national.core.preferences.GlobalPreferences;
+import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.utils.LifecycleListener;
 import fm.doe.national.offline_sync.data.accessor.BluetoothOfflineAccessor;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
@@ -29,12 +29,12 @@ public class OfflineSyncModule {
     @Provides
     @OfflineSyncScope
     OfflineAccessor provideOfflineAccessor(Context context,
-                                           GlobalPreferences globalPreferences,
+                                           LocalSettings localSettings,
                                            FilesRepository filesRepository,
                                            SyncNotifier syncNotifier) {
         return new BluetoothOfflineAccessor(
                 context,
-                globalPreferences,
+                localSettings,
                 accreditationCoreComponent.getDataSource(),
                 washCoreComponent.getDataSource(),
                 filesRepository,
