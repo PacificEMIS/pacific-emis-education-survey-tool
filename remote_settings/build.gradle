@@ -16,6 +16,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "long", "INTERVAL_FETCH_SEC", "${12 * 60 * 60}"
+        }
+        debug {
+            buildConfigField "long", "INTERVAL_FETCH_SEC", "5"
         }
     }
     compileOptions {

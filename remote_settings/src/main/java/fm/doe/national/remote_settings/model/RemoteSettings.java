@@ -12,13 +12,12 @@ import java.util.concurrent.Executors;
 import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.utils.VoidArgFunction;
 import fm.doe.national.core.utils.VoidFunction;
-import fm.doe.national.remote_storage.BuildConfig;
+import fm.doe.national.remote_settings.BuildConfig;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 
 public class RemoteSettings {
     private static final String TAG = RemoteSettings.class.getName();
     private static final long TIMEOUT_FETCH_SEC = 5;
-    private static final long INTERVAL_FETCH_SEC = BuildConfig.DEBUG ? 5 : (12 * 60 * 60); // 5 sec in debug, 12 hours in release
     private static final String KEY_MASTER_PASSWORD = "master_password";
     private static final String KEY_PROD_CERT = "prod_cert";
     private static final String KEY_LOGO_URL = "logo_url";
@@ -41,7 +40,7 @@ public class RemoteSettings {
     public void onAppCreate() {
         FirebaseRemoteConfigSettings settings = new FirebaseRemoteConfigSettings.Builder()
                 .setFetchTimeoutInSeconds(TIMEOUT_FETCH_SEC)
-                .setMinimumFetchIntervalInSeconds(INTERVAL_FETCH_SEC)
+                .setMinimumFetchIntervalInSeconds(BuildConfig.INTERVAL_FETCH_SEC)
                 .build();
         firebaseRemoteConfig.setConfigSettingsAsync(settings)
                 .addOnSuccessListener(executor, v -> fetch())
