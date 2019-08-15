@@ -7,13 +7,13 @@ public class GoogleDriveFileHolder {
     private final String id;
     private final String name;
     private final DriveType mimeType;
-    private final NdoeMetadata ndoeMetadata;
+    private final SurveyMetadata surveyMetadata;
 
     public GoogleDriveFileHolder(File driveFile) {
         this.id = driveFile.getId();
         this.name = driveFile.getName();
         this.mimeType = DriveType.of(driveFile.getMimeType());
-        this.ndoeMetadata = NdoeMetadata.extract(driveFile);
+        this.surveyMetadata = SurveyMetadata.extract(driveFile);
     }
 
     public String getId() {
@@ -28,7 +28,7 @@ public class GoogleDriveFileHolder {
         return mimeType;
     }
 
-    public NdoeMetadata getNdoeMetadata() {
-        return ndoeMetadata;
+    public SurveyMetadata getSurveyMetadata() {
+        return surveyMetadata;
     }
 }

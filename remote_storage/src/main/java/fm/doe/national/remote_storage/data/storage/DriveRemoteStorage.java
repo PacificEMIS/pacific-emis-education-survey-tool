@@ -40,7 +40,7 @@ import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.export.SheetsExcelExporter;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
-import fm.doe.national.remote_storage.data.model.NdoeMetadata;
+import fm.doe.national.remote_storage.data.model.SurveyMetadata;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.Completable;
@@ -165,7 +165,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, userEmail),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
-                                    new NdoeMetadata(updatedSurvey, userEmail),
+                                    new SurveyMetadata(updatedSurvey, userEmail),
                                     regionFolderId)
                                     .ignoreElement()
                             );

@@ -14,7 +14,7 @@ import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.preferences.entities.SurveyType;
 import fm.doe.national.core.utils.DateUtils;
 
-public class NdoeMetadata {
+public class SurveyMetadata {
 
     private static final String KEY_SCHOOL_ID = "schoolNo";
     private static final String KEY_COMPLETION = "surveyCompleted";
@@ -40,8 +40,8 @@ public class NdoeMetadata {
     @Nullable
     private Date completionDate;
 
-    public static NdoeMetadata extract(File file) {
-        NdoeMetadata metadata = new NdoeMetadata();
+    public static SurveyMetadata extract(File file) {
+        SurveyMetadata metadata = new SurveyMetadata();
         Map<String, String> properties = file.getProperties();
 
         if (properties == null) {
@@ -85,11 +85,11 @@ public class NdoeMetadata {
         return metadata;
     }
 
-    private NdoeMetadata() {
+    private SurveyMetadata() {
         // private constructor
     }
 
-    public NdoeMetadata(Survey survey, String user) {
+    public SurveyMetadata(Survey survey, String user) {
         schoolId = survey.getSchoolId();
         surveyState = survey.getState();
         completionDate = survey.getCompleteDate();
@@ -161,6 +161,6 @@ public class NdoeMetadata {
     @NonNull
     @Override
     public String toString() {
-        return NdoeMetadata.class.getName() + " { " + createMetadataProperties(new File()) + " }";
+        return SurveyMetadata.class.getName() + " { " + createMetadataProperties(new File()) + " }";
     }
 }
