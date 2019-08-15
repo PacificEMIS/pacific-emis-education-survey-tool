@@ -99,4 +99,8 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
         }
         return null;
     }
+
+    public interface ExternalDocumentPickerCallback {
+        void onExternalDocumentPicked(ContentResolver contentResolver, Uri uri);
+    }
 }

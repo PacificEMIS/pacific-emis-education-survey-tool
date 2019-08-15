@@ -23,7 +23,6 @@ public class RemoteSettings {
     private static final String TAG = RemoteSettings.class.getName();
     private static final long TIMEOUT_FETCH_SEC = 5;
     private static final String KEY_MASTER_PASSWORD = "master_password";
-    private static final String KEY_PROD_CERT = "prod_cert";
     private static final String KEY_LOGO_URL = "logo_url";
     private static final String KEY_EXPORT_TO_EXCEL = "can_export_to_excel";
     private static final String KEY_APP_TITLE = "app_title";
@@ -98,10 +97,6 @@ public class RemoteSettings {
                 localSettings::setMasterPassword,
                 localSettings::isMasterPasswordSaved
         );
-        parseString(KEY_PROD_CERT, cert -> {
-            localSettings.setProdCert(cert);
-            remoteStorage.refreshCredentials();
-        });
         parseForceableString(KEY_LOGO_URL, forcedByUser, localSettings::setLogoPath, localSettings::isLogoSaved);
         parseForceableBoolean(
                 KEY_EXPORT_TO_EXCEL,

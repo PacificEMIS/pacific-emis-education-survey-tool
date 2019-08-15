@@ -72,4 +72,8 @@ public class OptionsItemFactory {
         item.setBooleanValue(enabled);
         return item;
     }
+
+    public Item createLoadProdCertificateItem() {
+        return new Item(Text.from(R.string.label_load_prod_certificate), Item.Type.LOAD_PROD_CERTIFICATE, Item.IconType.RECEIVE);
+    }
 }
