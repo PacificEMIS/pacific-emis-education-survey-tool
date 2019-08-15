@@ -51,6 +51,10 @@ public class OptionsItemFactory {
         return new Item(Text.from(R.string.label_templates), Item.Type.TEMPLATES, Item.IconType.NAV);
     }
 
+    public Item createForceFetchRemoteSettingsItem() {
+        return new Item(Text.from(R.string.label_force_remote_settings), Item.Type.REMOTE_SETTIGNS, Item.IconType.NAV);
+    }
+
     public Item createDebugBuildInfoItem() {
         return new Item(
                 Text.from(R.string.label_format_debug_info, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE),
@@ -67,5 +71,9 @@ public class OptionsItemFactory {
         );
         item.setBooleanValue(enabled);
         return item;
+    }
+
+    public Item createLoadProdCertificateItem() {
+        return new Item(Text.from(R.string.label_load_prod_certificate), Item.Type.LOAD_PROD_CERTIFICATE, Item.IconType.RECEIVE);
     }
 }

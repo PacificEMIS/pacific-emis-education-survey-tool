@@ -93,6 +93,11 @@ public class LocalSettingsImpl implements LocalSettings {
     }
 
     @Override
+    public boolean isLogoSaved() {
+        return getLogoPath() != null;
+    }
+
+    @Override
     public void setLogoPath(@Nullable String path) {
         sharedPreferences.edit().putString(PREF_KEY_LOGO_PATH, path).apply();
     }
@@ -143,11 +148,21 @@ public class LocalSettingsImpl implements LocalSettings {
 
     @Override
     public Text getAppName() {
-        String savedName = sharedPreferences.getString(PREF_KEY_APP_NAME, null);
+        String savedName = getSavedAppName();
         if (savedName == null) {
             return Text.from(R.string.app_name);
         }
         return Text.from(savedName);
+    }
+
+    @Nullable
+    private String getSavedAppName() {
+        return sharedPreferences.getString(PREF_KEY_APP_NAME, null);
+    }
+
+    @Override
+    public boolean isAppNameSaved() {
+        return getSavedAppName() != null;
     }
 
     @Override
@@ -157,7 +172,18 @@ public class LocalSettingsImpl implements LocalSettings {
 
     @Override
     public String getContactName() {
-        return sharedPreferences.getString(PREF_KEY_CONTACT_NAME, "");
+        String savedContactName = getSavedContactName();
+        return savedContactName != null ? savedContactName : "";
+    }
+
+    @Nullable
+    private String getSavedContactName() {
+        return sharedPreferences.getString(PREF_KEY_CONTACT_NAME, null);
+    }
+
+    @Override
+    public boolean isContactNameSaved() {
+        return getSavedContactName() != null;
     }
 
     @Override

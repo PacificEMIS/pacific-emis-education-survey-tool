@@ -18,8 +18,10 @@
     <string name="title_input_contact">Input Contact</string>
     <string name="label_mode">Operating mode</string>
     <string name="label_import_schools">Import schools</string>
+    <string name="label_load_prod_certificate">Load Production Certificate</string>
     <string name="label_export_folder">Export Folder</string>
     <string name="label_templates">Templates of surveys</string>
+    <string name="label_force_remote_settings">Force fetch remote settings</string>
     <string name="label_license">Software License</string>
     <string name="label_format_debug_info">Build %1$s(%2$d)</string>
     <string name="label_change_password">Change master password</string>
@@ -48,4 +50,7 @@
     <string name="title_format_templates">Templates of %1$s surveys</string>
     <string name="label_ability_to_export">Ability to export survey to Excel</string>
     <string name="label_hint_merge_mode">This turns your tablet into merging mode. You only have to do this if you are worker using a secondary tablet and you want to submit your work with the team leader\'s primary tablet.</string>
+    <string name="remote_fetch_result_success">New values have been fetched from Remote Settings</string>
+    <string name="remote_fetch_result_failure">New values haven\'t been found in Remote Settings</string>
+    <string name="toast_prod_cert_loaded">Production Certificate Loaded</string>
 </resources>

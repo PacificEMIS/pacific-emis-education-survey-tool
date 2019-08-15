@@ -76,8 +76,10 @@ public final class Item {
         NAME,
         PASSWORD,
         TEMPLATES,
+        REMOTE_SETTIGNS,
         DEBUG_BUILD_INFO,
-        EXPORT_TO_EXCEL
+        EXPORT_TO_EXCEL,
+        LOAD_PROD_CERTIFICATE
     }
 
     public enum IconType {
