@@ -32,6 +32,8 @@ public interface LocalSettings {
     @Nullable
     String getLogoPath();
 
+    boolean isLogoSaved();
+
     void setLogoPath(@Nullable String path);
 
     String getMasterPassword();
@@ -44,9 +46,13 @@ public interface LocalSettings {
 
     Text getAppName();
 
+    boolean isAppNameSaved();
+
     void setAppName(String name);
 
     String getContactName();
+
+    boolean isContactNameSaved();
 
     void setContactName(String name);
 

@@ -15,6 +15,7 @@ import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
+import fm.doe.national.remote_settings.model.RemoteSettings;
 import fm.doe.national.ui.screens.settings.items.Item;
 import fm.doe.national.ui.screens.settings.items.OptionsItemFactory;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,6 +28,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
+    private final RemoteSettings remoteSettings = MicronesiaApplication.getInjection()
+            .getRemoteSettingsComponent()
+            .getRemoteSettings();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
 
     public SettingsPresenter() {
@@ -43,7 +47,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createContactItem(Text.from(localSettings.getContactName())),
                 itemFactory.createOpModeItem(localSettings.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createTemplatesItem()
+                itemFactory.createTemplatesItem(),
+                itemFactory.createForceFetchRemoteSettingsItem()
         ));
 
         if (BuildConfig.DEBUG) {
@@ -86,7 +91,29 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             case TEMPLATES:
                 onTemplatesPressed();
                 break;
+            case REMOTE_SETTIGNS:
+                onForceFetchRemoteSettingsPressed();
+                break;
         }
+    }
+
+    private void onForceFetchRemoteSettingsPressed() {
+        addDisposable(
+                remoteSettings.forceFetch()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> getViewState().showWaiting())
+                        .doFinally(getViewState()::hideWaiting)
+                        .subscribe(hasFetchedNewValues -> {
+                            if (hasFetchedNewValues) {
+                                getViewState().showToast(Text.from(R.string.remote_fetch_result_success));
+                                this.refresh();
+                                remoteSettings.init(null);
+                            } else {
+                                getViewState().showToast(Text.from(R.string.remote_fetch_result_failure));
+                            }
+                        }, this::handleError)
+        );
     }
 
     public void onBooleanValueChanged(Item item, boolean value) {
