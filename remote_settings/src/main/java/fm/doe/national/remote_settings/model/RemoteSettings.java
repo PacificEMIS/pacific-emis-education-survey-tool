@@ -76,7 +76,7 @@ public class RemoteSettings {
         };
         firebaseRemoteConfig.fetchAndActivate()
                 .addOnSuccessListener(executor, areUpdated -> {
-                    if (areUpdated) {
+                    if (areUpdated || forcedByUser) {
                         parseRemoteSettings(forcedByUser);
                         notifyCompleted.apply(true);
                     } else {
