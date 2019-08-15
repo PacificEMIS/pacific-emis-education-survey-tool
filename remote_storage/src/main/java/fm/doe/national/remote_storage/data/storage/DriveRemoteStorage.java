@@ -121,7 +121,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private InputStream getCredentialsStream() throws IOException {
         switch (localSettings.getOperatingMode()) {
             case DEV:
-                appContext.getAssets().open(BuildConfig.CREDENTIALS_DEV);
+                return appContext.getAssets().open(BuildConfig.CREDENTIALS_DEV);
             case PROD:
                 String cert = localSettings.getProdCert();
 

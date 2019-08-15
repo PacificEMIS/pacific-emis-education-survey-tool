@@ -1,6 +1,5 @@
 <resources>
     <string name="title_drive">Drive</string>
-    <string name="drive_app_name">drive_app_name</string>
     <string name="format_export_standard">o    Standard %1$s – %2$s</string>
     <string name="format_export_criteria">§  Criteria %1$s – %2$s</string>
     <string name="format_export_sub_criteria">·         Sub-criteria %1$s – %2$s</string>
