@@ -170,4 +170,9 @@ public class SurveyActivity extends BaseActivity implements
     public void setReportEnabled(boolean enabled) {
         navigationItemsAdapter.setReportEnabled(enabled);
     }
+
+    @Override
+    public void close() {
+        this.finish();
+    }
 }

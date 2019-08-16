@@ -2,14 +2,17 @@ package fm.doe.national.wash.ui.questions;
 
 import androidx.annotation.Nullable;
 
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
+import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
+import fm.doe.national.wash.R;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.Location;
 import fm.doe.national.wash_core.data.model.mutable.MutableAnswer;
@@ -58,8 +61,30 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     private void loadNavigation() {
         BuildableNavigationItem navigationItem = navigator.getCurrentItem();
         QuestionsView view = getViewState();
-        view.setNextButtonVisible(navigationItem.getNextItem() != null);
+
+        if (navigationItem.getNextItem() == null) {
+            view.setNextButtonText(Text.from(R.string.button_complete));
+            updateCompleteState(washSurveyInteractor.getCurrentSurvey());
+            subscribeOnProgressChanges();
+        } else {
+            view.setNextButtonText(Text.from(R.string.button_next));
+        }
+
         view.setPrevButtonVisible(navigationItem.getPreviousItem() != null);
+    }
+
+    private void subscribeOnProgressChanges() {
+        addDisposable(washSurveyInteractor.getSurveyProgressObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCompleteState));
+    }
+
+    private void updateCompleteState(Survey survey) {
+        boolean isFinished = survey.getProgress().isFinished();
+        QuestionsView view = getViewState();
+        view.setNextButtonEnabled(isFinished);
+        view.setHintTextVisible(!isFinished);
     }
 
     void onCommentPressed(MutableQuestion question, int position) {
@@ -106,7 +131,11 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     }
 
     void onNextPressed() {
-        navigator.selectNext();
+        if (navigator.getCurrentItem().getNextItem() != null) {
+            navigator.selectNext();
+        } else {
+            navigator.close();
+        }
     }
 
     void onLocationChanged(Location location, MutableQuestion question) {

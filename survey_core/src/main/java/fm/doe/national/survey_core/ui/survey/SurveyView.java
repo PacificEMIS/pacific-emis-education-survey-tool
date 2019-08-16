@@ -30,4 +30,6 @@ public interface SurveyView extends BaseView {
 
     void setReportEnabled(boolean enabled);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void close();
 }

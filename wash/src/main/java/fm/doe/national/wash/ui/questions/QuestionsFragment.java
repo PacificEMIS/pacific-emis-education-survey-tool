@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
@@ -230,4 +231,20 @@ public class QuestionsFragment extends BaseFragment implements
     public void refreshQuestionAtPosition(int selectedQuestionPosition) {
         questionsAdapter.notifyItemChanged(selectedQuestionPosition);
     }
+
+    @Override
+    public void setNextButtonEnabled(boolean isEnabled) {
+        bottomNavigatorView.setNextButtonEnabled(isEnabled);
+    }
+
+    @Override
+    public void setNextButtonText(Text text) {
+        bottomNavigatorView.setNextText(text.getString(getContext()));
+    }
+
+    @Override
+    public void setHintTextVisible(boolean isVisible) {
+        bottomNavigatorView.setHintTextVisible(isVisible);
+    }
+
 }
