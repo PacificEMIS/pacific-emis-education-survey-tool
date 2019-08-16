@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
@@ -84,6 +85,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
 
     private static final String TAG = BluetoothOfflineAccessor.class.getName();
     private static final String MARK_FILE_NOT_EXIST = "File not exist";
+    private static final String SEPARATOR_CREATE_USER = ", ";
 
     public static final List<String> sReceiverActionsToRegister = Arrays.asList(
             BluetoothDevice.ACTION_FOUND,
@@ -638,16 +640,36 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 )
                 .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()))
                 .cast(MutableAccreditationSurvey.class)
-                .flatMap(this::updateAccreditationSurveyState);
+                .flatMap(updatedSurvey -> updateAccreditationSurveyState(updatedSurvey, externalSurvey));
     }
 
-    private Single<MutableAccreditationSurvey> updateAccreditationSurveyState(MutableAccreditationSurvey mutableAccreditationSurvey) {
+    private Single<MutableAccreditationSurvey> updateAccreditationSurveyState(MutableAccreditationSurvey mutableAccreditationSurvey,
+                                                                              AccreditationSurvey externalSurvey) {
         return Single.fromCallable(() -> {
             Progress progress = mutableAccreditationSurvey.calculateProgress();
             mutableAccreditationSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
+            mutableAccreditationSurvey.setLastEditedUser(externalSurvey.getLastEditedUser());
+            mutableAccreditationSurvey.setCreateUser(getUpdatedCreateUser(mutableAccreditationSurvey, externalSurvey));
             accreditationDataSource.updateSurvey(mutableAccreditationSurvey);
             return mutableAccreditationSurvey;
         });
+    }
+
+    @NonNull
+    private String getUpdatedCreateUser(Survey localSurvey, Survey externalSurvey) {
+        String existingCreateUser = localSurvey.getCreateUser();
+        String existingExternalUser = externalSurvey.getCreateUser();
+        String updatedCreateUser = "";
+
+        if (existingCreateUser != null) {
+            updatedCreateUser += existingCreateUser;
+        }
+
+        if (existingExternalUser != null && !updatedCreateUser.contains(existingExternalUser)) {
+            updatedCreateUser += SEPARATOR_CREATE_USER + externalSurvey.getCreateUser();
+        }
+
+        return updatedCreateUser;
     }
 
     private Single<Survey> mergeWashSurveys(WashSurvey targetSurvey, WashSurvey externalSurvey, ConflictResolveStrategy strategy) {
@@ -673,13 +695,16 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 )
                 .andThen(washDataSource.loadSurvey(targetSurvey.getId()))
                 .cast(MutableWashSurvey.class)
-                .flatMap(this::updateWashSurveyState);
+                .flatMap(updatedSurvey -> updateWashSurveyState(updatedSurvey, externalSurvey));
     }
 
-    private Single<MutableWashSurvey> updateWashSurveyState(MutableWashSurvey mutableWashSurvey) {
+    private Single<MutableWashSurvey> updateWashSurveyState(MutableWashSurvey mutableWashSurvey,
+                                                            WashSurvey externalSurvey) {
         return Single.fromCallable(() -> {
             Progress progress = mutableWashSurvey.calculateProgress();
             mutableWashSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
+            mutableWashSurvey.setLastEditedUser(externalSurvey.getLastEditedUser());
+            mutableWashSurvey.setCreateUser(getUpdatedCreateUser(mutableWashSurvey, externalSurvey));
             washDataSource.updateSurvey(mutableWashSurvey);
             return mutableWashSurvey;
         });

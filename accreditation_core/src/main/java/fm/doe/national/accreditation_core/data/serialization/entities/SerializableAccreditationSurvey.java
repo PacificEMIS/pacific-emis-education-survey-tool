@@ -68,6 +68,14 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @ElementList(inline = true)
     List<SerializableCategory> categories;
 
+    @Nullable
+    @Element(required = false)
+    String createUser;
+
+    @Nullable
+    @Element(required = false)
+    String lastEditedUser;
+
     public SerializableAccreditationSurvey() {
     }
 
@@ -81,6 +89,9 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.schoolName = other.getSchoolName();
         this.schoolId = other.getSchoolId();
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
+        this.createUser = other.getCreateUser();
+        this.lastEditedUser = other.getLastEditedUser();
+
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(SerializableCategory::new).collect(Collectors.toList());
         }
@@ -153,5 +164,17 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Override
     public SurveyState getState() {
         return state;
+    }
+
+    @Nullable
+    @Override
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    @Nullable
+    @Override
+    public String getLastEditedUser() {
+        return lastEditedUser;
     }
 }

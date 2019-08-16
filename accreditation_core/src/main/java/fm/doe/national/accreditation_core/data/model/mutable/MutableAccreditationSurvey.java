@@ -34,6 +34,12 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     private MutableProgress progress = MutableProgress.createEmptyProgress();
     private SurveyState state;
 
+    @Nullable
+    private String createUser;
+
+    @Nullable
+    private String lastEditedUser;
+
     public static MutableAccreditationSurvey toMutable(@NonNull AccreditationSurvey accreditationSurvey) {
         if (accreditationSurvey instanceof MutableAccreditationSurvey) {
             return (MutableAccreditationSurvey) accreditationSurvey;
@@ -55,6 +61,9 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.schoolId = other.getSchoolId();
         this.appRegion = other.getAppRegion();
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
+        this.createUser = other.getCreateUser();
+        this.lastEditedUser = other.getLastEditedUser();
+
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(MutableCategory::new).collect(Collectors.toList());
         }
@@ -208,5 +217,25 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
 
     public void setState(SurveyState state) {
         this.state = state;
+    }
+
+    @Nullable
+    @Override
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    @Nullable
+    @Override
+    public String getLastEditedUser() {
+        return lastEditedUser;
+    }
+
+    public void setCreateUser(@Nullable String createUser) {
+        this.createUser = createUser;
+    }
+
+    public void setLastEditedUser(@Nullable String lastEditedUser) {
+        this.lastEditedUser = lastEditedUser;
     }
 }

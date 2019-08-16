@@ -69,6 +69,14 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Convert(SurveyStateConverter.class)
     SurveyState state;
 
+    @Nullable
+    @Element(required = false)
+    String createUser;
+
+    @Nullable
+    @Element(required = false)
+    String lastEditedUser;
+
     public SerializableWashSurvey(WashSurvey other) {
         this.type = other.getSurveyType();
         this.region = other.getAppRegion();
@@ -79,6 +87,8 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
+        this.createUser = other.getCreateUser();
+        this.lastEditedUser = other.getLastEditedUser();
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(SerializableGroup::new).collect(Collectors.toList());
@@ -151,5 +161,17 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Override
     public SurveyState getState() {
         return state;
+    }
+
+    @Nullable
+    @Override
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    @Nullable
+    @Override
+    public String getLastEditedUser() {
+        return lastEditedUser;
     }
 }

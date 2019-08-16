@@ -49,13 +49,20 @@ public class RoomWashSurvey implements WashSurvey {
 
     public SurveyState state;
 
+    @ColumnInfo(name = "create_user")
+    public String createUser;
+
+    @ColumnInfo(name = "last_edited_user")
+    public String lastEditedUser;
+
     public RoomWashSurvey(int version,
                           SurveyType type,
                           AppRegion appRegion,
                           @Nullable String schoolName,
                           @Nullable String schoolId,
                           @Nullable Date createDate,
-                          @Nullable String surveyTag) {
+                          @Nullable String surveyTag,
+                          @Nullable String createUser) {
         this.version = version;
         this.type = type;
         this.schoolName = schoolName;
@@ -64,6 +71,7 @@ public class RoomWashSurvey implements WashSurvey {
         this.surveyTag = surveyTag;
         this.appRegion = appRegion;
         this.state = SurveyState.NOT_COMPLETED;
+        this.createUser = createUser;
     }
 
     public RoomWashSurvey(@NonNull WashSurvey other) {
@@ -77,6 +85,8 @@ public class RoomWashSurvey implements WashSurvey {
         this.schoolId = other.getSchoolId();
         this.appRegion = other.getAppRegion();
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
+        this.createUser = other.getCreateUser();
+        this.lastEditedUser = other.getLastEditedUser();
     }
 
     @Override
@@ -146,5 +156,17 @@ public class RoomWashSurvey implements WashSurvey {
     @Override
     public SurveyState getState() {
         return state;
+    }
+
+    @Nullable
+    @Override
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    @Nullable
+    @Override
+    public String getLastEditedUser() {
+        return lastEditedUser;
     }
 }
