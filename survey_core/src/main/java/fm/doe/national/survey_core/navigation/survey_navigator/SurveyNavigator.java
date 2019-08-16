@@ -23,4 +23,6 @@ public interface SurveyNavigator {
 
     void setNavigation(List<NavigationItem> items);
 
+    void close();
+
 }

@@ -99,4 +99,12 @@ public class SurveyNavigatiorImpl implements SurveyNavigator {
                 .map(item -> (BuildableNavigationItem) item)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void close() {
+        SurveyView view = viewWeakReference.get();
+        if (view != null) {
+            view.close();
+        }
+    }
 }
