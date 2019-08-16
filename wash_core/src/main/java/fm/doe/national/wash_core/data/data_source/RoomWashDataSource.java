@@ -196,7 +196,7 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag) {
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail) {
         return getTemplateSurvey()
                 .flatMap(survey -> {
                     MutableWashSurvey mutableSurvey = new MutableWashSurvey((WashSurvey) survey);
@@ -205,6 +205,8 @@ public class RoomWashDataSource extends DataSourceImpl implements WashDataSource
                     mutableSurvey.setSchoolId(schoolId);
                     mutableSurvey.setCreateDate(createDate);
                     mutableSurvey.setSurveyTag(surveyTag);
+                    mutableSurvey.setCreateUser(userEmail);
+                    mutableSurvey.setLastEditedUser(userEmail);
                     long id = saveSurvey(database, mutableSurvey, true);
                     return loadSurvey(id);
                 });

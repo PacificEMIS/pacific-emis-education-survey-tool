@@ -26,7 +26,7 @@ public interface DataSource {
 
     Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion, String surveyTag);
 
-    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag);
+    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail);
 
     Completable deleteSurvey(long surveyId);
 

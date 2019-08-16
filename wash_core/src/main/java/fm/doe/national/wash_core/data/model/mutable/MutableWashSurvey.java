@@ -50,6 +50,12 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     @NonNull
     private SurveyState state;
 
+    @Nullable
+    private String createUser;
+
+    @Nullable
+    private String lastEditedUser;
+
     public MutableWashSurvey(WashSurvey other) {
         this(other.getVersion(), other.getSurveyType(), other.getAppRegion());
 
@@ -60,6 +66,8 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         this.schoolId = other.getSchoolId();
         this.schoolName = other.getSchoolName();
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
+        this.createUser = other.getCreateUser();
+        this.lastEditedUser = other.getLastEditedUser();
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(MutableGroup::new).collect(Collectors.toList());
@@ -221,5 +229,25 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         }
 
         return new MutableProgress(questionsCount, answerCount);
+    }
+
+    @Nullable
+    @Override
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    @Nullable
+    @Override
+    public String getLastEditedUser() {
+        return lastEditedUser;
+    }
+
+    public void setCreateUser(@Nullable String createUser) {
+        this.createUser = createUser;
+    }
+
+    public void setLastEditedUser(@Nullable String lastEditedUser) {
+        this.lastEditedUser = lastEditedUser;
     }
 }

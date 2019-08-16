@@ -38,4 +38,10 @@ public interface Survey extends Progressable, IdentifiedObject {
 
     int getPhotosCount();
 
+    @Nullable
+    String getCreateUser();
+
+    @Nullable
+    String getLastEditedUser();
+
 }

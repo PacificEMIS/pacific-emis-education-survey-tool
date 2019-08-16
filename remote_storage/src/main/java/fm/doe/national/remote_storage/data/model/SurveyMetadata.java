@@ -89,15 +89,15 @@ public class SurveyMetadata {
         // private constructor
     }
 
-    public SurveyMetadata(Survey survey, String user) {
+    public SurveyMetadata(Survey survey) {
         schoolId = survey.getSchoolId();
         surveyState = survey.getState();
         completionDate = survey.getCompleteDate();
         surveyTag = survey.getSurveyTag();
         creationDate = survey.getCreateDate();
-        creator = user;
+        creator = survey.getCreateUser();
         lastEditedDate = new Date();
-        lastEditedUser = user;
+        lastEditedUser = survey.getLastEditedUser();
         surveyType = survey.getSurveyType();
     }
 
@@ -124,6 +124,7 @@ public class SurveyMetadata {
 
         properties.put(KEY_LAST_EDIT_DATE, DateUtils.formatUtc(lastEditedDate));
         properties.put(KEY_LAST_EDIT_USER, lastEditedUser);
+        properties.put(KEY_CREATION_USER, creator);
 
         String existingSurveyStateAsString = properties.get(KEY_COMPLETION);
         if (existingSurveyStateAsString == null ||
@@ -144,11 +145,6 @@ public class SurveyMetadata {
         String existingCreationDate = properties.get(KEY_CREATION_DATE);
         if (existingCreationDate == null) {
             properties.put(KEY_CREATION_DATE, DateUtils.formatUtc(creationDate));
-        }
-
-        String existingCreator = properties.get(KEY_CREATION_USER);
-        if (existingCreator == null) {
-            properties.put(KEY_CREATION_USER, creator);
         }
 
         if (surveyType != null) {

@@ -15,14 +15,22 @@ import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.core.utils.DateUtils;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
-    private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
-    private final SurveyInteractor accreditationSurveyInteractor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
+    private final DataSource dataSource = MicronesiaApplication.getInjection()
+            .getDataSourceComponent()
+            .getDataSource();
+    private final SurveyInteractor accreditationSurveyInteractor = MicronesiaApplication.getInjection()
+            .getSurveyComponent()
+            .getSurveyInteractor();
+    private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
+            .getRemoteStorageComponent()
+            .getRemoteStorageAccessor();
 
     private Date surveyDate = new Date();
     private List<? extends School> schools;
@@ -67,7 +75,8 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                         selectedSchool.getId(),
                         selectedSchool.getName(),
                         new Date(),
-                        DateUtils.formatDateTag(surveyDate)
+                        DateUtils.formatDateTag(surveyDate),
+                        remoteStorageAccessor.getUserEmail()
                 )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
