@@ -40,6 +40,7 @@ import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.export.SheetsExcelExporter;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
+import fm.doe.national.remote_storage.data.model.PhotoMetadata;
 import fm.doe.national.remote_storage.data.model.SurveyMetadata;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
@@ -150,7 +151,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
                     List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
-                    return driveServiceHelper.uploadPhotos(photos, regionFolderId)
+                    return driveServiceHelper.uploadPhotos(photos, regionFolderId, new PhotoMetadata(survey))
                             .flatMapObservable(Observable::fromIterable)
                             .filter(photoFilePair -> photoFilePair.second != null)
                             .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataSource()
