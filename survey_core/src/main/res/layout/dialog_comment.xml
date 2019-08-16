@@ -43,9 +43,16 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_add_comment"
+                        android:textAppearance="@style/Text.Title1.Large" />
+
+                    <TextView
                         android:id="@+id/textview_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:fontFamily="@font/noto_sans_medium"
                         android:textColor="@color/blue_grey_400"
                         android:textSize="14sp"
