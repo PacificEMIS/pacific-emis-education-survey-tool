@@ -25,7 +25,8 @@ import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.core.utils.TextUtil;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
-import fm.doe.national.remote_storage.data.model.NdoeMetadata;
+import fm.doe.national.remote_storage.data.model.PhotoMetadata;
+import fm.doe.national.remote_storage.data.model.SurveyMetadata;
 import fm.doe.national.remote_storage.utils.DriveQueryBuilder;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -50,7 +51,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
     public Single<String> createOrUpdateFile(final String fileName,
                                              final String content,
-                                             final NdoeMetadata ndoeMetadata,
+                                             final SurveyMetadata surveyMetadata,
                                              @Nullable final String folderId) {
         ByteArrayContent contentStream = ByteArrayContent.fromString(DriveType.XML.getValue(), content);
         List<String> root = Collections.singletonList(folderId == null ? FOLDER_ROOT : folderId);
@@ -69,7 +70,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
                         return wrapWithSingleInThreadPool(
                                 () -> {
                                     drive.files()
-                                            .update(fileId, ndoeMetadata.applyToDriveFile(existingFile), contentStream)
+                                            .update(fileId, surveyMetadata.applyToDriveFile(existingFile), contentStream)
                                             .execute();
                                     return fileId;
                                 },
@@ -77,7 +78,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
                         );
                     }
 
-                    File metadata = ndoeMetadata.applyToDriveFile(
+                    File metadata = surveyMetadata.applyToDriveFile(
                             new File()
                                     .setParents(root)
                                     .setMimeType(DriveType.XML.getValue())
@@ -193,7 +194,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
         });
     }
 
-    public Single<List<Pair<Photo, File>>> uploadPhotos(List<Photo> photos, String parentFolderId) {
+    public Single<List<Pair<Photo, File>>> uploadPhotos(List<Photo> photos, String parentFolderId, PhotoMetadata photoMetadata) {
         return createFolderIfNotExist(FOLDERNAME_PHOTOS, parentFolderId)
                 .flatMapObservable(photosFolderId -> Observable.fromIterable(photos)
                         .concatMapSingle(photo -> {
@@ -220,10 +221,12 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
                                         return wrapWithSingleInThreadPool(() -> {
                                             FileContent mediaContent = new FileContent(MIME_TYPE_JPEG, photoFile);
-                                            File metadata = new File()
-                                                    .setParents(root)
-                                                    .setMimeType(MIME_TYPE_JPEG)
-                                                    .setName(fileName);
+                                            File metadata = photoMetadata.applyToDriveFile(
+                                                    new File()
+                                                            .setParents(root)
+                                                            .setMimeType(MIME_TYPE_JPEG)
+                                                            .setName(fileName)
+                                            );
                                             return Pair.create(
                                                     photo,
                                                     drive.files()

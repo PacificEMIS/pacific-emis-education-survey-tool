@@ -92,7 +92,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                         .doFinally(getViewState()::hideWaiting)
                         .subscribe(content -> {
                             if (isDebugViewer) {
-                                getViewState().setContent(file.getNdoeMetadata().toString() + content);
+                                getViewState().setContent(file.getSurveyMetadata().toString() + content);
                             } else {
                                 accessor.onContentReceived(content);
                                 getViewState().close();
