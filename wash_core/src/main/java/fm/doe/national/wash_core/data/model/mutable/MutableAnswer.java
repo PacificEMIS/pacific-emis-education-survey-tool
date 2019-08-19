@@ -4,7 +4,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -291,5 +290,16 @@ public class MutableAnswer extends BaseMutableEntity implements Answer {
 
         this.ternaryAnswerState = answer.getTernaryAnswerState();
         return true;
+    }
+
+    public void clear() {
+        items = null;
+        comment = null;
+        inputText = null;
+        variants = null;
+        location = null;
+        photos = null;
+        binaryAnswerState = null;
+        ternaryAnswerState = null;
     }
 }

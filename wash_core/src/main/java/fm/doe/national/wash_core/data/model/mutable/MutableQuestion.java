@@ -423,7 +423,7 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
             return;
         }
 
-        answer = new MutableAnswer();
+        answer.clear();
     }
 
     public boolean isAnswerInRelation(Context context, Relation relation) {

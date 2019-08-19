@@ -18,12 +18,17 @@ public class QuestionRelationsHelper {
 
     private final List<QuestionVisibilityWrapper> items;
     private final Listener listener;
+    private final QuestionsAdapter.QuestionsListener questionsListener;
     private WeakReference<Context> contextWeakReference;
 
-    public QuestionRelationsHelper(Context context, @NonNull List<MutableQuestion> questions, @NonNull Listener listener) {
+    public QuestionRelationsHelper(Context context,
+                                   @NonNull List<MutableQuestion> questions,
+                                   @NonNull Listener listener,
+                                   QuestionsAdapter.QuestionsListener questionsListener) {
         items = questions.stream().map(QuestionVisibilityWrapper::new).collect(Collectors.toList());
         contextWeakReference = new WeakReference<>(context);
         this.listener = listener;
+        this.questionsListener = questionsListener;
         initVisibleStates();
     }
 
@@ -35,7 +40,7 @@ public class QuestionRelationsHelper {
         if (changedQuestionWrapperOptional.isPresent()) {
             QuestionVisibilityWrapper questionVisibilityWrapper = changedQuestionWrapperOptional.get();
             questionVisibilityWrapper.setQuestion(question);
-            updateChildrenVisibility(questionVisibilityWrapper);
+            initVisibleStates();
         }
     }
 
@@ -46,7 +51,6 @@ public class QuestionRelationsHelper {
 
     private void updateChildrenVisibility(@NonNull QuestionVisibilityWrapper questionWrapper) {
         findChildrenIndexes(questionWrapper).forEach(i -> updateChildVisibility(items.get(i), questionWrapper));
-        collectVisibleItemsAndNotify();
     }
 
     private void collectVisibleItemsAndNotify() {
@@ -80,7 +84,9 @@ public class QuestionRelationsHelper {
 
         // clear answers in questions that become unavailable (but I may be wrong about this behavior)
         if (!isVisible) {
-            childWrapper.getQuestion().clearAnswer();
+            MutableQuestion question = childWrapper.getQuestion();
+            question.clearAnswer();
+            questionsListener.onAnswerStateChanged(question);
         }
     }
 
