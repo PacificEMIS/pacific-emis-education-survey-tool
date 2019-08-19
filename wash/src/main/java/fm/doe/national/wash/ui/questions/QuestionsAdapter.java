@@ -94,7 +94,7 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
     }
 
     public void setRelativeItems(Context context, List<MutableQuestion> items) {
-        relationsHelper = new QuestionRelationsHelper(context, items , this);
+        relationsHelper = new QuestionRelationsHelper(context, items , this, questionsListener);
     }
 
     private void notifyAnswerStateChanged(MutableQuestion question) {
