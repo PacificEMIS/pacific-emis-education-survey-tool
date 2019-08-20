@@ -28,6 +28,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
     PasswordPresenter presenter;
 
     private View notMatchView;
+    private View passwordShortView;
     private boolean isInSettingsContext;
 
     private final TextWatcher newPassTextWatcher = new TextWatcherAdapter() {
@@ -61,6 +62,7 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
         setTextWatcher(R.id.textinputedittext_new_pass, newPassTextWatcher);
         setTextWatcher(R.id.textinputedittext_confirm_pass, confirmPassTextWatcher);
         notMatchView = findViewById(R.id.textview_incorrect);
+        passwordShortView = findViewById(R.id.textview_short_password);
 
         BottomNavigatorView navigatorView = findViewById(R.id.bottomnavigatorview);
 
@@ -87,6 +89,11 @@ public class PasswordsActivity extends BaseActivity implements PasswordView, Bot
     @Override
     public void setPasswordsNotMatchVisible(boolean visible) {
         notMatchView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void setPasswordTooShortVisible(boolean visible) {
+        passwordShortView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override

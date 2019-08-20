@@ -11,6 +11,9 @@ public interface PasswordView extends BaseView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setPasswordsNotMatchVisible(boolean visible);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void setPasswordTooShortVisible(boolean visible);
+
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToRegion();
 
