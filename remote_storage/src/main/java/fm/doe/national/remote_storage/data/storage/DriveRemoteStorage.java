@@ -204,7 +204,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         SheetsExcelExporter excelExporter;
         switch (exportType) {
             case GLOBAL:
-                fileIdStep = Single.just(localSettings.getSpreadsheetId());
+                fileIdStep = copyTemplateReportToServiceDriveIfNotExist();
                 excelExporter = getExcelExporter(serviceCredentials);
                 break;
             case PRIVATE:
@@ -229,10 +229,30 @@ public final class DriveRemoteStorage implements RemoteStorage {
                 );
     }
 
+    private Single<String> copyTemplateReportToServiceDriveIfNotExist() {
+        Drive drive = getDriveService(serviceCredentials);
+        String templateName = getTemplateFileName();
+        String templateExtension = BuildConfig.EXTENSION_REPORT_TEMPLATE;
+        return driveServiceHelper.getFileId(templateName, null)
+                .flatMap(optionalFileId -> {
+                    if (optionalFileId.isPresent()) {
+                        return Single.just(optionalFileId.get());
+                    }
+
+                    return uploadExcelTemplate(drive, templateName, templateExtension);
+                });
+    }
+
     private Single<String> copyTemplateReportToUserDrive(HttpRequestInitializer initializer) {
         Drive drive = getDriveService(initializer);
         String templateName = getTemplateFileName();
         String templateExtension = BuildConfig.EXTENSION_REPORT_TEMPLATE;
+        return uploadExcelTemplate(drive, templateName, templateExtension);
+    }
+
+    private Single<String> uploadExcelTemplate(Drive drive,
+                                               String templateName,
+                                               String templateExtension) {
         return Single.fromCallable(() ->
                 filesRepository.createTmpFile(
                         templateName,
