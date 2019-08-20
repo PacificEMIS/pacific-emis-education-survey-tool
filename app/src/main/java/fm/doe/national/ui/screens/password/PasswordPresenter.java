@@ -3,6 +3,7 @@ package fm.doe.national.ui.screens.password;
 import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.BuildConfig;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.domain.SettingsInteractor;
 
@@ -17,6 +18,7 @@ public class PasswordPresenter extends BasePresenter<PasswordView> {
     public void onNewPasswordInput(String input) {
         newPassword = input;
         getViewState().setPasswordsNotMatchVisible(false);
+        getViewState().setPasswordTooShortVisible(newPassword.length() < BuildConfig.MIN_PASSWORD_LENGTH);
     }
 
     public void onConfirmPasswordInput(String input) {
