@@ -15,6 +15,7 @@ import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.ObjectUtils;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
@@ -90,7 +91,12 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
             );
         } catch (IOException ex) {
             ex.printStackTrace();
-            getViewState().showToast(Text.from(ex.getLocalizedMessage()));
+            String errorMessage = ex.getLocalizedMessage();
+            Text errorText = null;
+            if (errorMessage != null) {
+                errorText = Text.from(errorMessage);
+            }
+            getViewState().showToast(ObjectUtils.orElse(errorText, Text.from(R.string.error_file_not_created)));
         }
     }
 
