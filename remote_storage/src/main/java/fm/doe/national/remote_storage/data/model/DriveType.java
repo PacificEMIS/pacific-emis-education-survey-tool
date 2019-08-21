@@ -4,6 +4,8 @@ public enum DriveType {
     FOLDER("application/vnd.google-apps.folder"),
     FILE("application/vnd.google-apps.file"),
     XML("text/xml"),
+    GOOGLE_SHEETS("application/vnd.google-apps.spreadsheet"),
+    EXCEL("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
     OTHER("");
 
     public static DriveType of(String mimeType) {

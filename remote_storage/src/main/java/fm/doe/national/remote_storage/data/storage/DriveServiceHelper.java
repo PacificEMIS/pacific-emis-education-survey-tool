@@ -9,9 +9,11 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -259,5 +261,14 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
                     return Single.just(Optional.empty());
                 });
+    }
+
+    public Completable downloadContent(String fileId, java.io.File targetFile, DriveType mimeType) {
+        return wrapWithCompletableInThreadPool(() -> {
+            OutputStream outputStream = new FileOutputStream(targetFile);
+            drive.files()
+                    .export(fileId, mimeType.getValue())
+                    .executeMediaAndDownloadTo(outputStream);
+        });
     }
 }

@@ -31,7 +31,7 @@ public class FilesRepositoryImpl implements FilesRepository {
     @Override
     public File createEmptyImageFile() throws IOException {
         String imageFileName = String.format(Locale.getDefault(), PATTERN_IMAGE_FILENAME, new Date().getTime());
-        File file = File.createTempFile(imageFileName, EXT_PICTURE, getExternalPicturesDirectory());
+        File file = File.createTempFile(imageFileName, EXT_PICTURE, getExternalDirectory());
         notifyFileSystem();
         return file;
     }
@@ -45,7 +45,7 @@ public class FilesRepositoryImpl implements FilesRepository {
     @Override
     @Nullable
     public File createEmptyImageFile(String name) throws IOException {
-        File file = new File(getExternalPicturesDirectory(), name + EXT_PICTURE);
+        File file = new File(getExternalDirectory(), name + EXT_PICTURE);
         boolean isCreated = file.createNewFile();
 
         if (isCreated) {
@@ -59,7 +59,7 @@ public class FilesRepositoryImpl implements FilesRepository {
     private void notifyFileSystem() {
         MediaScannerConnection.scanFile(
                 appContext,
-                new String[]{getExternalPicturesDirectory().getAbsolutePath()},
+                new String[]{getExternalDirectory().getAbsolutePath()},
                 null,
                 (path, uri) -> {
                     // nothing
@@ -91,10 +91,16 @@ public class FilesRepositoryImpl implements FilesRepository {
         return file;
     }
 
-    public File getExternalPicturesDirectory() {
+    public File getExternalDirectory() {
         if (!externalPicturesDirectory.exists()) {
             externalPicturesDirectory.mkdir();
         }
         return externalPicturesDirectory;
+    }
+
+    @Override
+    public File createFile(String name, String ext) throws IOException {
+        // createTempFile will generate unique name
+        return File.createTempFile(name, ext, getExternalDirectory());
     }
 }

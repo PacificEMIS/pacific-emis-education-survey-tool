@@ -20,6 +20,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.omega_r.libs.omegatypes.Text;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -38,6 +39,7 @@ import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.export.SheetsExcelExporter;
+import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.PhotoMetadata;
@@ -264,8 +266,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
                         driveServiceHelper.uploadFileFromSource(
                                 drive,
                                 file,
-                                SheetsExcelExporter.MIME_TYPE_MS_EXCEL,
-                                SheetsExcelExporter.MIME_TYPE_GOOGLE_SHEETS,
+                                DriveType.EXCEL.getValue(),
+                                DriveType.GOOGLE_SHEETS.getValue(),
                                 templateName
                         )
                 )
@@ -293,5 +295,10 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public InputStream getFileContentStream(String fileId) throws IOException {
         return driveServiceHelper.getFileContentStream(fileId);
+    }
+
+    @Override
+    public Completable downloadContent(String fileId, File targetFile, DriveType mimeType) {
+        return driveServiceHelper.downloadContent(fileId, targetFile, mimeType);
     }
 }

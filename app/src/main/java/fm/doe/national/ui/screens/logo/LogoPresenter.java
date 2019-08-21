@@ -24,7 +24,7 @@ public class LogoPresenter extends BasePresenter<LogoView> {
 
     private final FilesRepository filesRepository = MicronesiaApplication.getInjection()
             .getCoreComponent()
-            .getPicturesRepository();
+            .getFilesRepository();
 
     public LogoPresenter() {
         refreshLogo();

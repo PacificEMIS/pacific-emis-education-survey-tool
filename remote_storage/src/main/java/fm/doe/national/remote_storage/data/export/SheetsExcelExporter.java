@@ -37,9 +37,6 @@ import io.reactivex.Single;
 @SuppressLint("DefaultLocale")
 public class SheetsExcelExporter extends TasksRxWrapper {
 
-    public static final String MIME_TYPE_MS_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    public static final String MIME_TYPE_GOOGLE_SHEETS = "application/vnd.google-apps.spreadsheet";
-
     private static final String TAG = SheetsExcelExporter.class.getName();
     private static final String PREFIX_UPDATABLE_CELL = "$";
     private static final String FORMAT_CELL_SUMMARY_SUB_CRITERIA_TOTAL = "$%sSummary-%d.%d.%d";

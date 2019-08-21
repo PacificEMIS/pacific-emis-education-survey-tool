@@ -2,15 +2,21 @@ package fm.doe.national.remote_storage.ui.remote_storage;
 
 import androidx.annotation.Nullable;
 
+import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.remote_storage.BuildConfig;
+import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
@@ -26,6 +32,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
     private final RemoteStorage storage;
     private final RemoteStorageAccessor accessor;
     private final LocalSettings localSettings;
+    private final FilesRepository filesRepository;
     private final Stack<GoogleDriveFileHolder> parentsStack = new Stack<>();
     private final boolean isDebugViewer;
 
@@ -34,6 +41,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
         this.storage = component.getRemoteStorage();
         this.accessor = component.getRemoteStorageAccessor();
         this.localSettings = coreComponent.getLocalSettings();
+        this.filesRepository = coreComponent.getFilesRepository();
         updateFileHolders();
     }
 
@@ -47,6 +55,42 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
             case XML:
                 requestContent(item);
                 break;
+            case EXCEL:
+            case GOOGLE_SHEETS:
+                downloadContent(item);
+                break;
+        }
+    }
+
+    private void downloadContent(GoogleDriveFileHolder item) {
+        if (!isDebugViewer) {
+            return;
+        }
+
+        try {
+            File downloadFile = filesRepository.createFile(item.getName(), "." + BuildConfig.EXTENSION_REPORT_TEMPLATE);
+
+            if (!downloadFile.exists()) {
+                getViewState().showToast(Text.from(R.string.error_file_not_created));
+                return;
+            }
+
+            addDisposable(
+                    storage.downloadContent(item.getId(), downloadFile, DriveType.EXCEL)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSubscribe(d -> getViewState().showWaiting())
+                            .doFinally(getViewState()::hideWaiting)
+                            .subscribe(
+                                    () -> getViewState().showToast(
+                                            Text.from(R.string.format_file_downloaded, downloadFile.getAbsolutePath())
+                                    ),
+                                    this::handleError
+                            )
+            );
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            getViewState().showToast(Text.from(ex.getLocalizedMessage()));
         }
     }
 

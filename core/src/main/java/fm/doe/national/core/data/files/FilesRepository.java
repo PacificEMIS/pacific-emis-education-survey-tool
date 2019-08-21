@@ -18,4 +18,6 @@ public interface FilesRepository {
 
     File createTmpFile(String name, String ext, InputStream inputStream) throws IOException;
 
+    File createFile(String name, String ext) throws IOException;
+
 }
