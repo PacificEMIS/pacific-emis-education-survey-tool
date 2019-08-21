@@ -31,7 +31,7 @@ public interface CoreComponent {
 
     Context getContext();
 
-    FilesRepository getPicturesRepository();
+    FilesRepository getFilesRepository();
 
     LocalSettings getLocalSettings();
 

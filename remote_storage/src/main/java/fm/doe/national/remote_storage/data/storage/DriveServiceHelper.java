@@ -9,12 +9,15 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -183,15 +186,16 @@ public class DriveServiceHelper extends TasksRxWrapper {
                                              String targetMimeType,
                                              String targetName) {
         return Single.fromCallable(() -> {
-            File fileMetadata = new File();
-            fileMetadata.setName(targetName);
-            fileMetadata.setMimeType(targetMimeType);
+            File fileMetadata = new File()
+                    .setName(targetName)
+                    .setMimeType(targetMimeType);
 
             FileContent mediaContent = new FileContent(sourceMimeType, source);
             return service.files().create(fileMetadata, mediaContent)
                     .setFields(FIELD_ID)
                     .execute();
-        });
+        })
+                .subscribeOn(Schedulers.io());
     }
 
     public Single<List<Pair<Photo, File>>> uploadPhotos(List<Photo> photos, String parentFolderId, PhotoMetadata photoMetadata) {
@@ -239,4 +243,32 @@ public class DriveServiceHelper extends TasksRxWrapper {
                 .toList();
     }
 
+    public Single<Optional<String>> getFileId(final String name, @Nullable final String parentFolderId) {
+        List<String> root = Collections.singletonList(parentFolderId == null ? FOLDER_ROOT : parentFolderId);
+
+        String query = new DriveQueryBuilder()
+                .parentId(root.get(0))
+                .name(name)
+                .build();
+
+        return requestFiles(query)
+                .flatMap(fileList -> {
+                    List<File> foundedFiles = fileList.getFiles();
+
+                    if (!CollectionUtils.isEmpty(foundedFiles)) {
+                        return Single.just(Optional.of(foundedFiles.get(0).getId()));
+                    }
+
+                    return Single.just(Optional.empty());
+                });
+    }
+
+    public Completable downloadContent(String fileId, java.io.File targetFile, DriveType mimeType) {
+        return wrapWithCompletableInThreadPool(() -> {
+            OutputStream outputStream = new FileOutputStream(targetFile);
+            drive.files()
+                    .export(fileId, mimeType.getValue())
+                    .executeMediaAndDownloadTo(outputStream);
+        });
+    }
 }

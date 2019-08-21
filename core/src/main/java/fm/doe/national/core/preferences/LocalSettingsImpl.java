@@ -202,22 +202,6 @@ public class LocalSettingsImpl implements LocalSettings {
     }
 
     @Override
-    public String getSpreadsheetId() {
-        switch (getAppRegion()) {
-            case FSM:
-                return getOperatingMode() == OperatingMode.PROD
-                        ? BuildConfig.SPREADSHEET_ID_PROD_FSM
-                        : BuildConfig.SPREADSHEET_ID_DEV_FSM;
-            case RMI:
-                return getOperatingMode() == OperatingMode.PROD
-                        ? BuildConfig.SPREADSHEET_ID_PROD_RMI
-                        : BuildConfig.SPREADSHEET_ID_DEV_RMI;
-            default:
-                throw new NotImplementedException();
-        }
-    }
-
-    @Override
     public boolean isExportToExcelEnabled() {
         return sharedPreferences.getBoolean(PREF_KEY_EXCEL_EXPORT, false);
     }

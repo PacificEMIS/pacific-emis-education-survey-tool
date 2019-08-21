@@ -37,7 +37,7 @@ public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
     private Context appContext;
 
     protected PhotosPresenter(CoreComponent coreComponent) {
-        filesRepository = coreComponent.getPicturesRepository();
+        filesRepository = coreComponent.getFilesRepository();
         appContext = coreComponent.getContext();
     }
 

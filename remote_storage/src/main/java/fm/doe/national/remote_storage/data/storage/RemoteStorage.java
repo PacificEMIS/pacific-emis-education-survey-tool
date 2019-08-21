@@ -3,6 +3,7 @@ package fm.doe.national.remote_storage.data.storage;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import fm.doe.national.core.data.model.Survey;
+import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
@@ -36,5 +38,6 @@ public interface RemoteStorage {
     Single<String> exportToExcel(Survey survey, ReportBundle reportBundle, ExportType exportType);
 
     InputStream getFileContentStream(String fileId) throws IOException;
-    
+
+    Completable downloadContent(String fileId, File targetFile, DriveType mimeType);
 }

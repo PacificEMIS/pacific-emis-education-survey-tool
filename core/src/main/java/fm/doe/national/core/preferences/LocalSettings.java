@@ -60,8 +60,6 @@ public interface LocalSettings {
 
     void setOperatingMode(OperatingMode mode);
 
-    String getSpreadsheetId();
-
     boolean isExportToExcelEnabled();
 
     void setExportToExcelEnabled(boolean enabled);
