@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fm.doe.national.remote_storage">
+
+    <application>
+        <activity
+            android:name=".ui.auth.GoogleAuthActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.remote_storage.DriveStorageActivity"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

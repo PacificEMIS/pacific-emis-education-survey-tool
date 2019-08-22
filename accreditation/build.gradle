@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode 1
+        versionName Versions.appVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moxyReflectorPackage: 'fm.doe.national.accreditation']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(path: ':core')
+    implementation project(path: ':accreditation_core')
+    implementation project(path: ':report')
+    implementation project(path: ':survey_core')
+    implementation project(path: ':remote_storage')
+
+    implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
+    implementation "com.google.android.material:material:${Deps.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
+    testImplementation "junit:junit:${Deps.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
+
+    // Omega
+    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
+    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
+
+    // RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
+
+    // Moxy
+    implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
+    annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
+
+}

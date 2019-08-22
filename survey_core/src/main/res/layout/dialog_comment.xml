@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:fitsSystemWindows="true"
+    tools:background="@color/black">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/popup_comment"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingBottom="32dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/layout_buttons"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:id="@+id/layout_questions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginEnd="48dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_add_comment"
+                        android:textAppearance="@style/Text.Title1.Large" />
+
+                    <TextView
+                        android:id="@+id/textview_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/noto_sans_medium"
+                        android:textColor="@color/blue_grey_400"
+                        android:textSize="14sp"
+                        tools:text="Sub-criteria SE1.1.d" />
+
+                    <TextView
+                        android:id="@+id/textview_subcriteria_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/noto_sans_medium"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        tools:text="The principal manages a program of teacher collaboration for instructional planning. " />
+
+                    <TextView
+                        android:id="@+id/textview_interview_question"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/noto_sans_italic"
+                        android:textColor="@color/blue_grey_700"
+                        android:textSize="16sp"
+                        tools:text="How do you manage instructional planning collaborations with your teachers? Do your teachers plan together or by themselves? " />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+            <EditText
+                android:id="@+id/edittext_comment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_outline"
+                android:gravity="start|top"
+                android:minHeight="100dp"
+                android:paddingStart="16dp"
+                android:paddingTop="18dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="18dp"
+                android:textAppearance="@style/Text.Body1"
+                tools:text="During the accreditation visit interview, the principal demonstrated a deep understanding of what his/her teachers were teaching and how they were doing  The principal conducts or contributes to workshops on curriculum and instruction  Regular meeting with school teachers are held to build collaboration among them.   Evidence of meeting attendance." />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/button_ok"
+                style="@style/DialogTextButton"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="48dp"
+                android:text="@string/label_ok" />
+
+            <Button
+                android:id="@+id/button_cancel"
+                style="@style/DialogTextButton"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_toStartOf="@+id/button_ok"
+                android:text="@string/label_cancel" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

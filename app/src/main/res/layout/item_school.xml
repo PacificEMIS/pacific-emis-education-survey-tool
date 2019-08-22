@@ -3,26 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_selectable_item"
+    android:foreground="?selectableItemBackground"
+    android:gravity="center_vertical"
+    android:minHeight="76dp"
     android:orientation="horizontal"
-    android:background="?selectableItemBackground"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    android:padding="16dp">
+
+    <RadioButton
+        android:id="@+id/radiobutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textview_id"
-        style="@style/GreyedListText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="86dp"
-        tools:text="005006"/>
+        android:textAppearance="@style/Text.Body1.Secondary"
+        tools:text="005006" />
 
     <TextView
         android:id="@+id/textview_name"
-        style="@style/ListText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Ban Sam Kong School"/>
+        android:textAppearance="@style/Text.Body1"
+        tools:text="Ban Sam Kong School" />
 
 </LinearLayout>

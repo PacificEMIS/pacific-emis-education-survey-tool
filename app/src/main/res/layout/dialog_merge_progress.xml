@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="48dp"
+    android:layout_marginEnd="48dp"
+    android:background="@drawable/bg_popup"
+    android:paddingStart="48dp"
+    android:paddingTop="48dp"
+    android:paddingEnd="48dp"
+    android:paddingBottom="32dp">
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/title_get_remote_survey"
+        android:textAppearance="@style/Text.Title2"
+        android:textSize="18sp" />
+
+    <fm.doe.national.core.ui.views.StateProgressBar
+        android:id="@+id/progressbar"
+        style="@style/HorizontalProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_progress_bar"
+        android:layout_below="@+id/textview_title"
+        android:layout_marginTop="12dp"
+        tools:progress="50" />
+
+    <TextView
+        android:id="@+id/textview_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressbar"
+        android:textAppearance="@style/Text.Small2"
+        tools:text="Merging is in process, please stay close to the paired device" />
+
+    <Button
+        android:id="@+id/button_end_session"
+        style="@style/DialogTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_description"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="32dp"
+        android:text="@string/label_end_session" />
+
+</RelativeLayout>

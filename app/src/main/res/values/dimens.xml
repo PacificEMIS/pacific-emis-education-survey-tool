@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="size_criteria_text">14sp</dimen>
-    <dimen name="size_standard_icon">48dp</dimen>
-    <dimen name="size_text_titles">20sp</dimen>
-
-    <dimen name="menu_text_margin_top">16dp</dimen>
-    <dimen name="menu_text_height">36dp</dimen>
     <dimen name="drawer_menu_width">506dp</dimen>
-    <dimen name="size_toolbar">56dp</dimen>
-
-    <dimen name="textsize_summary_category">10sp</dimen>
-    <dimen name="textsize_dropbox_title_primary">20sp</dimen>
-    <dimen name="textsize_dropbox_title_secondary">16sp</dimen>
 
     <dimen name="textsize_splash_title_start">48sp</dimen>
     <dimen name="textsize_splash_title_end">36sp</dimen>

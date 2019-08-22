@@ -1,59 +1,95 @@
 package fm.doe.national.ui.screens.survey_creation;
 
-import com.arellomobile.mvp.InjectViewState;
+import androidx.annotation.Nullable;
+
+import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import fm.doe.national.MicronesiaApplication;
-import fm.doe.national.data.data_source.DataSource;
-import fm.doe.national.data.data_source.models.School;
-import fm.doe.national.ui.screens.base.BasePresenter;
+import fm.doe.national.app_support.MicronesiaApplication;
+import fm.doe.national.core.data.data_source.DataSource;
+import fm.doe.national.core.data.model.School;
+import fm.doe.national.core.domain.SurveyInteractor;
+import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.DateUtils;
+import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
-    private final DataSource dataSource = MicronesiaApplication.getAppComponent().getDataSource();
+    private final DataSource dataSource = MicronesiaApplication.getInjection()
+            .getDataSourceComponent()
+            .getDataSource();
+    private final SurveyInteractor accreditationSurveyInteractor = MicronesiaApplication.getInjection()
+            .getSurveyComponent()
+            .getSurveyInteractor();
+    private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
+            .getRemoteStorageComponent()
+            .getRemoteStorageAccessor();
 
-    private Date surveyStartDate = new Date();
-    private List<School> schools;
+    private Date surveyDate = new Date();
+    private List<? extends School> schools;
 
-    public CreateSurveyPresenter() {
+    @Nullable
+    private School selectedSchool;
+
+    CreateSurveyPresenter() {
         loadDate();
         loadSchools();
+        updateContinueAvailability();
     }
 
     private void loadDate() {
-        getViewState().setStartDate(surveyStartDate);
+        getViewState().setStartDate(surveyDate);
     }
 
     private void loadSchools() {
-        addDisposable(dataSource.requestSchools()
+        addDisposable(dataSource.loadSchools()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(schools -> {
                     this.schools = schools;
-                    getViewState().setSchools(schools);
+                    getViewState().setSchools(new ArrayList<>(this.schools));
                 }, this::handleError));
     }
 
-    public void onSchoolPicked(School school) {
-        addDisposable(dataSource.createNewSchoolAccreditationPassing(surveyStartDate, school)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(passing -> getViewState().navigateToCategoryChooser(passing.getId()), this::handleError));
+    void onSchoolPicked(School school) {
+        selectedSchool = school;
+        updateContinueAvailability();
     }
 
+    private void updateContinueAvailability() {
+        getViewState().setContinueEnabled(selectedSchool != null);
+    }
 
-    public void onSearchQueryChanged(String query) {
+    void onContinuePressed() {
+        addDisposable(
+                dataSource.createSurvey(
+                        selectedSchool.getId(),
+                        selectedSchool.getName(),
+                        new Date(),
+                        DateUtils.formatDateTag(surveyDate),
+                        remoteStorageAccessor.getUserEmail()
+                )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> getViewState().showWaiting())
+                        .doFinally(() -> getViewState().hideWaiting())
+                        .subscribe(survey -> {
+                            accreditationSurveyInteractor.setCurrentSurvey(survey, true);
+                            getViewState().navigateToSurvey();
+                        }, this::handleError)
+        );
+    }
+
+    void onSearchQueryChanged(String query) {
         List<School> queriedSchools = new ArrayList<>();
         String lowerQuery = query.toLowerCase();
         for (School school : schools) {
@@ -64,7 +100,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
         getViewState().setSchools(queriedSchools);
     }
 
-    public void onEditButtonClick() {
+    void onEditButtonClick() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -73,13 +109,13 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
         getViewState().showDatePicker(year, month, day);
     }
 
-    public void onDatePicked(int year, int month, int dayOfMonth) {
+    void onDatePicked(int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
         Date surveyStartDate = calendar.getTime();
 
         getViewState().setStartDate(surveyStartDate);
 
-        this.surveyStartDate = surveyStartDate;
+        this.surveyDate = surveyStartDate;
     }
 }

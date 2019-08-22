@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp">
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:indeterminate="true"/>
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_school_accreditation_level"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/layout_titles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_section="header">
+
+            <fm.doe.national.report_core.ui.level_legend.LevelLegendView
+                android:id="@+id/levellegendview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/title_school_accreditation_level"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <LinearLayout
+                style="@style/LevelTable.Background.Header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/LevelTable.Cell.Header.Name"
+                    android:text="@string/title_evaluation_forms" />
+
+                <TextView
+                    style="@style/LevelTable.Cell.Header.Score"
+                    android:text="@string/title_obtained_score" />
+
+                <TextView
+                    style="@style/LevelTable.Cell.Header.Score"
+                    android:text="@string/title_multiplier" />
+
+                <TextView
+                    style="@style/LevelTable.Cell.Header.Score"
+                    android:text="@string/title_final_score" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_total_scores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_section="footer">
+
+            <include layout="@layout/item_school_accreditation_level" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            style="@style/LevelTable.Background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_section="footer">
+
+            <TextView
+                android:id="@+id/textview_determination"
+                style="@style/LevelTable.Cell.Name"
+                android:text="@string/title_determination_of_overall_level" />
+
+            <TextView style="@style/LevelTable.Cell.Score" />
+
+            <TextView style="@style/LevelTable.Cell.Score" />
+
+            <FrameLayout
+                style="@style/LevelTable.Cell.Score"
+                android:paddingStart="0dp">
+
+                <TextView
+                    android:id="@+id/textview_level"
+                    android:layout_width="74dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    android:textAppearance="@style/Text.Title1"
+                    android:textSize="12sp"
+                    tools:background="@color/level_1"
+                    tools:text="Level 2" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+</FrameLayout>

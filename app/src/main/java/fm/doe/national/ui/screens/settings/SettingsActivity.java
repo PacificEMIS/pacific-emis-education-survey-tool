@@ -1,70 +1,50 @@
 package fm.doe.national.ui.screens.settings;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
-import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
-import com.omega_r.libs.omegatypes.Text;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
+import com.omega_r.libs.omegatypes.Text;
+import com.omegar.mvp.presenter.InjectPresenter;
+
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import fm.doe.national.R;
-import fm.doe.national.data.cloud.CloudAccountData;
-import fm.doe.national.data.cloud.CloudType;
-import fm.doe.national.ui.custom_views.CloudConnectionCardView;
-import fm.doe.national.ui.screens.base.BaseActivity;
-import fm.doe.national.utils.PackageUtils;
-import fm.doe.national.utils.ViewUtils;
+import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
+import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.ui.views.InputDialog;
+import fm.doe.national.ui.screens.logo.LogoActivity;
+import fm.doe.national.ui.screens.password.PasswordsActivity;
+import fm.doe.national.ui.screens.settings.items.Item;
+import fm.doe.national.ui.screens.templates.SurveyTemplatesActivity;
 
-public class SettingsActivity extends BaseActivity implements
-        SettingsView,
-        CloudConnectionCardView.OnConnectClickListener,
-        SettingsAdapter.Callback {
+public class SettingsActivity extends BaseActivity implements SettingsView, BaseListAdapter.OnItemClickListener<Item>, SettingsAdapter.OnBooleanValueChangedListener {
 
-    private static final int REQUEST_CODE_GALLERY = 201;
+    private static final String TAG_INPUT_DIALOG = "TAG_INPUT_DIALOG";
 
-    private final SettingsAdapter adapter = new SettingsAdapter();
+    private final SettingsAdapter adapter = new SettingsAdapter(this, this);
 
     @InjectPresenter
     SettingsPresenter presenter;
 
-    @BindView(R.id.imageview_logo)
-    ImageView logoImageView;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerView;
 
-    @BindView(R.id.textview_logo)
-    TextView logoNameTextView;
+    @Nullable
+    private Dialog inputDialog;
 
-    @BindView(R.id.textview_change_logo)
-    TextView changeLogoTextView;
-
-    @BindView(R.id.recyclerview_accounts)
-    OmegaRecyclerView accountsRecycler;
-
-    @BindView(R.id.cardview_dropbox)
-    CloudConnectionCardView dropboxView;
-
-    @BindView(R.id.cardview_drive)
-    CloudConnectionCardView driveView;
-
-    @BindView(R.id.layout_possible_connections)
-    View possibleConnectionsView;
-
-    @BindView(R.id.layout_connections)
-    ConstraintLayout layoutConnections;
+    @Nullable
+    private Dialog selectorDialog;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
@@ -77,20 +57,8 @@ public class SettingsActivity extends BaseActivity implements
     }
 
     private void initViews() {
-        String versionName = PackageUtils.getVersionName(this);
-        int versionCode = PackageUtils.getVersionNumber(this);
-        setTitle(getString(R.string.label_settings, versionName, versionCode));
-
-        adapter.setCallback(this);
-        accountsRecycler.setAdapter(adapter);
-
-        dropboxView.setCloudName(Text.from(R.string.integration_dropbox));
-        dropboxView.setIconDrawableId(R.drawable.ic_dropbox);
-        dropboxView.setListener(this);
-
-        driveView.setCloudName(Text.from(R.string.integration_drive));
-        driveView.setIconDrawableId(R.drawable.ic_google_drive);
-        driveView.setListener(this);
+        setTitle(R.string.label_settings);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -98,114 +66,99 @@ public class SettingsActivity extends BaseActivity implements
         return R.layout.activity_settings;
     }
 
-    @OnClick(R.id.textview_change_logo)
-    public void onChangeLogoClick(View v) {
-        presenter.onChangeLogoClick();
+    @Override
+    public void setItems(List<Item> options) {
+        adapter.setItems(options);
     }
 
     @Override
-    public void onConnectClick(View v) {
-        switch (v.getId()) {
-            case R.id.cardview_dropbox:
-                presenter.onConnectToDropboxClick();
-                break;
-            case R.id.cardview_drive:
-                presenter.onConnectToDriveClick();
-                break;
+    public void onItemClick(Item item) {
+        presenter.onItemPressed(item);
+    }
+
+    @Override
+    public void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener) {
+        inputDialog = InputDialog.create(this, title, existingText)
+                .setListener(listener::onInput);
+        inputDialog.show();
+    }
+
+    @Override
+    public void showRegionSelector(RegionListener listener) {
+        selectorDialog = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.sheet_app_context, null);
+        View fsmItemView = sheetView.findViewById(R.id.textview_fsm);
+        View rmiItemView = sheetView.findViewById(R.id.textview_rmi);
+        TextView titleTextView = sheetView.findViewById(R.id.textview_title);
+        titleTextView.setText(R.string.title_choose_context);
+        fsmItemView.setOnClickListener(v -> {
+            listener.onRegionSelected(AppRegion.FSM);
+            safeDismiss(selectorDialog);
+        });
+        rmiItemView.setOnClickListener(v -> {
+            listener.onRegionSelected(AppRegion.RMI);
+            safeDismiss(selectorDialog);
+        });
+        selectorDialog.setContentView(sheetView);
+        selectorDialog.show();
+    }
+
+    @Override
+    public void showOperatingModeSelector(OperatingModeListener listener) {
+        selectorDialog = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.sheet_operating_mode, null);
+        View prodItemView = sheetView.findViewById(R.id.textview_prod);
+        View devItemView = sheetView.findViewById(R.id.textview_dev);
+        TextView titleTextView = sheetView.findViewById(R.id.textview_title);
+        titleTextView.setText(R.string.title_choose_op_mode);
+        prodItemView.setOnClickListener(v -> {
+            listener.onOperatingModeSelected(OperatingMode.PROD);
+            safeDismiss(selectorDialog);
+        });
+        devItemView.setOnClickListener(v -> {
+            listener.onOperatingModeSelected(OperatingMode.DEV);
+            safeDismiss(selectorDialog);
+        });
+        selectorDialog.setContentView(sheetView);
+        selectorDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        safeDismiss(inputDialog);
+        safeDismiss(selectorDialog);
+    }
+
+    private void safeDismiss(@Nullable Dialog dialog) {
+        if (dialog != null) {
+            dialog.dismiss();
         }
     }
 
     @Override
-    public void onImportSchoolsClick(CloudAccountData viewData) {
-        presenter.onImportSchoolsClick(viewData);
+    public void navigateToChangePassword() {
+        startActivity(PasswordsActivity.createIntent(this, true));
     }
 
     @Override
-    public void onImportSurveyClick(CloudAccountData viewData) {
-        presenter.onImportSurveyClick(viewData);
+    public void navigateToChangeLogo() {
+        startActivity(LogoActivity.createIntent(this));
     }
 
     @Override
-    public void onChooseFolderClick(CloudAccountData viewData) {
-        presenter.onChooseFolderClick(viewData);
+    public void navigateToTemplates() {
+        startActivity(SurveyTemplatesActivity.createIntent(this));
+    }
+
+    @Nullable
+    @Override
+    public SettingsPresenter getPresenter() {
+        return presenter;
     }
 
     @Override
-    public void onChooseDefaultClick(CloudAccountData viewData) {
-        presenter.onSetDefaultClick(viewData);
-    }
-
-    @Override
-    public void showAccountConnections(List<CloudAccountData> viewDataList) {
-        if (viewDataList.size() > 0) {
-            adapter.setItems(viewDataList);
-            accountsRecycler.setHeadersVisibility(true);
-        } else {
-            accountsRecycler.setHeadersVisibility(false);
-        }
-    }
-
-    @Override
-    public void hideConnectViews(List<CloudType> types) {
-        // hide possible connection view if all clouds already connected
-        if (CloudType.values().length - 1 == types.size()) {
-            possibleConnectionsView.setVisibility(View.GONE);
-        } else {
-            for (CloudType type : types) {
-                switch (type) {
-                    case DRIVE:
-                        hideDrive();
-                        break;
-                    case DROPBOX:
-                        hideDropbox();
-                        break;
-                }
-            }
-        }
-    }
-
-    private void hideDrive() {
-        driveView.setVisibility(View.GONE);
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(layoutConnections);
-        constraintSet.connect(dropboxView.getId(), ConstraintSet.START, R.id.view_left_panel, ConstraintSet.START);
-        constraintSet.connect(dropboxView.getId(), ConstraintSet.END, R.id.view_left_panel, ConstraintSet.END);
-        constraintSet.applyTo(layoutConnections);
-    }
-
-    private void hideDropbox() {
-        dropboxView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void setLogo(String path) {
-        ViewUtils.setScaledDownImageTo(logoImageView, path);
-    }
-
-    @Override
-    public void setLogoName(String logoName) {
-        logoNameTextView.setText(logoName);
-    }
-
-    @Override
-    public void pickPhotoFromGallery() {
-        OmegaIntentBuilder.from(this)
-                .pick()
-                .image()
-                .multiply(false)
-                .createIntentHandler(this)
-                .startActivityForResult(REQUEST_CODE_GALLERY);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                presenter.onImagePicked(bitmap);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    public void onBooleanValueChanged(Item item, boolean value) {
+        presenter.onBooleanValueChanged(item, value);
     }
 }

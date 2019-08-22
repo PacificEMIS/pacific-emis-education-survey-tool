@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="92dp"
+    android:background="?selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/imageview_action_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="56dp"
+        android:src="@drawable/ic_navigate_next"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/textview_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="56dp"
+        android:layout_toEndOf="@+id/textview_title"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:letterSpacing="0"
+        android:maxLines="1"
+        android:textAppearance="@style/Text.Body1"
+        android:textColor="?colorPrimary"
+        tools:text="person.name@email.com" />
+
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="56dp"
+        android:textAppearance="@style/Text.Body1"
+        tools:text="Change master password" />
+
+</RelativeLayout>

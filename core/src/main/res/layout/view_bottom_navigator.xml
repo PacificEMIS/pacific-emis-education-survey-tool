@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textview_complete_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="end|center_vertical"
+        android:textAppearance="@style/Text.Small2"
+        tools:text="@string/label_complete_hint" />
+
+    <TextView
+        android:id="@+id/button_prev"
+        style="@style/NavigationButton.Left"
+        android:layout_below="@+id/textview_complete_hint"
+        android:layout_alignParentStart="true"
+        tools:text="@string/button_prev" />
+
+    <TextView
+        android:id="@+id/button_next"
+        style="@style/NavigationButton.Right"
+        android:layout_below="@+id/textview_complete_hint"
+        android:layout_alignParentEnd="true"
+        tools:text="@string/button_next" />
+
+</RelativeLayout>
