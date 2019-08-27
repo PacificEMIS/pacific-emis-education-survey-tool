@@ -195,12 +195,14 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     public void openInExternalApp(Uri uri) {
         Intent intent = new Intent(Intent.ACTION_VIEW)
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+        String scheme = uri.getScheme();
 
-        if (uri.getScheme() == null) {
+        if (scheme == null) {
             Log.e(TAG, "uri should contain scheme");
+            return;
         }
 
-        if (uri.getScheme().contains("http")) {
+        if (scheme.contains("http")) {
             intent.setData(uri);
         } else {
             intent.setDataAndType(
