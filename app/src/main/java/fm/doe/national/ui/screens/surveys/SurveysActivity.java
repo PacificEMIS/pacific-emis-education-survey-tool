@@ -40,6 +40,7 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         SurveysAdapter.MenuItemClickListener {
 
     private static final String TAG = SurveysActivity.class.getName();
+    private static final String SCHEME_WEB = "http";
 
     @InjectPresenter
     SurveysPresenter presenter;
@@ -202,7 +203,7 @@ public class SurveysActivity extends BaseBluetoothActivity implements
             return;
         }
 
-        if (scheme.contains("http")) {
+        if (scheme.contains(SCHEME_WEB)) {
             intent.setData(uri);
         } else {
             intent.setDataAndType(
