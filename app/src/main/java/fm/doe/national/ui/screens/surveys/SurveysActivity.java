@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -36,6 +39,8 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         BaseAdapter.OnItemClickListener<Survey>,
         SurveysAdapter.MenuItemClickListener {
 
+    private static final String TAG = SurveysActivity.class.getName();
+
     @InjectPresenter
     SurveysPresenter presenter;
 
@@ -62,6 +67,8 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
     }
 
     @Override
@@ -185,11 +192,28 @@ public class SurveysActivity extends BaseBluetoothActivity implements
     }
 
     @Override
-    public void openInExternalApp(String url) {
+    public void openInExternalApp(Uri uri) {
+        Intent intent = new Intent(Intent.ACTION_VIEW)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if (uri.getScheme() == null) {
+            Log.e(TAG, "uri should contain scheme");
+        }
+
+        if (uri.getScheme().contains("http")) {
+            intent.setData(uri);
+        } else {
+            intent.setDataAndType(
+                    uri,
+                    MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(uri.getPath()))
+            );
+        }
+
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             showMessage(Text.from(R.string.title_error), Text.from(R.string.error_no_app_to_open));
         }
     }
+
 }

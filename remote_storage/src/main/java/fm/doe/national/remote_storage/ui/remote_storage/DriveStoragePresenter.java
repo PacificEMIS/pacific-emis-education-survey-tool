@@ -1,5 +1,7 @@
 package fm.doe.national.remote_storage.ui.remote_storage;
 
+import android.content.Context;
+
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -33,6 +35,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
     private final FilesRepository filesRepository;
     private final Stack<GoogleDriveFileHolder> parentsStack = new Stack<>();
     private final boolean isDebugViewer;
+    private final Context appContext;
 
     public DriveStoragePresenter(RemoteStorageComponent component, CoreComponent coreComponent, boolean isDebugViewer) {
         this.isDebugViewer = isDebugViewer;
@@ -40,6 +43,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
         this.accessor = component.getRemoteStorageAccessor();
         this.localSettings = coreComponent.getLocalSettings();
         this.filesRepository = coreComponent.getFilesRepository();
+        this.appContext = coreComponent.getContext();
         updateFileHolders();
     }
 
@@ -66,7 +70,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
         }
 
         addDisposable(
-                RemoteStorageUtils.downloadReport(storage, filesRepository, item.getId())
+                RemoteStorageUtils.downloadReport(appContext, storage, filesRepository, item.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().showWaiting())

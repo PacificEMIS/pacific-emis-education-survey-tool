@@ -1,5 +1,8 @@
 package fm.doe.national.ui.screens.surveys;
 
+import android.content.Context;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -41,6 +44,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection().getRemoteStorageComponent().getRemoteStorageAccessor();
     private final RemoteStorage remoteStorage = MicronesiaApplication.getInjection().getRemoteStorageComponent().getRemoteStorage();
     private final FilesRepository filesRepository = MicronesiaApplication.getInjection().getCoreComponent().getFilesRepository();
+    private final Context appContext = MicronesiaApplication.getInjection().getCoreComponent().getContext();
 
     private List<Survey> surveys = new ArrayList<>();
 
@@ -100,7 +104,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                             .doFinally(getViewState()::hideWaiting)
                             .subscribe(url -> {
                                 if (!url.isEmpty()) {
-                                    getViewState().openInExternalApp(url);
+                                    getViewState().openInExternalApp(Uri.parse(url));
                                 }
                             }, this::handleError)
             );
@@ -122,19 +126,20 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                         .toList()
                         .flatMap(urls -> {
                             if (urls.isEmpty()) {
-                                return Single.just("");
+                                return Single.just(Uri.EMPTY);
                             }
-                            return RemoteStorageUtils.downloadReportFromUrl(remoteStorage, filesRepository, urls.get(0));
+                            return RemoteStorageUtils.downloadReportFromUrl(appContext, remoteStorage, filesRepository, urls.get(0));
                         })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> getViewState().showWaiting())
                         .doFinally(() -> getViewState().hideWaiting())
-                        .subscribe(url -> {
-                            if (url.isEmpty()) {
+                        .subscribe(uri -> {
+                            if (uri.equals(Uri.EMPTY)) {
                                 getViewState().showMessage(Text.from(R.string.title_info), Text.from(R.string.message_nothing_to_export));
                             } else {
-                                getViewState().showMessage(Text.from(R.string.title_info), Text.from(R.string.format_exported_to, url));
+                                getViewState().openInExternalApp(uri);
+//                                getViewState().showMessage(Text.from(R.string.title_info), Text.from(R.string.format_exported_to, url));
                             }
                         }, this::handleError)
         );
