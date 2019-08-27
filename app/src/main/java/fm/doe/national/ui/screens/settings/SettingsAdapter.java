@@ -63,11 +63,6 @@ public class SettingsAdapter extends BaseListAdapter<Item> {
         }
     }
 
-    @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
-        return null;
-    }
-
     class BooleanViewHolder extends ViewHolder implements CompoundButton.OnCheckedChangeListener {
 
         private TextView titleTextView = findViewById(R.id.textview_title);
