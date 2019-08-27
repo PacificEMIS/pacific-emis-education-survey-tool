@@ -13,6 +13,7 @@ import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.app_support.MicronesiaApplication;
 import fm.doe.national.core.data.data_source.DataSource;
 import fm.doe.national.core.data.exceptions.NotImplementedException;
+import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.data.model.SurveyState;
 import fm.doe.national.core.domain.SurveyInteractor;
@@ -22,7 +23,10 @@ import fm.doe.national.offline_sync.domain.OfflineSyncUseCase;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothPresenter;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.model.ExportType;
+import fm.doe.national.remote_storage.data.storage.RemoteStorage;
+import fm.doe.national.remote_storage.utils.RemoteStorageUtils;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -35,6 +39,8 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
     private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection().getRemoteStorageComponent().getRemoteStorageAccessor();
+    private final RemoteStorage remoteStorage = MicronesiaApplication.getInjection().getRemoteStorageComponent().getRemoteStorage();
+    private final FilesRepository filesRepository = MicronesiaApplication.getInjection().getCoreComponent().getFilesRepository();
 
     private List<Survey> surveys = new ArrayList<>();
 
@@ -113,12 +119,23 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                         .filter(s -> s.getState() == SurveyState.COMPLETED)
                         .cast(AccreditationSurvey.class)
                         .concatMapSingle(survey -> remoteStorageAccessor.exportToExcel(survey, ExportType.GLOBAL))
+                        .toList()
+                        .flatMap(urls -> {
+                            if (urls.isEmpty()) {
+                                return Single.just("");
+                            }
+                            return RemoteStorageUtils.downloadReportFromUrl(remoteStorage, filesRepository, urls.get(0));
+                        })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> getViewState().showWaiting())
                         .doFinally(() -> getViewState().hideWaiting())
-                        .subscribe(urls -> {
-                            // do nothing
+                        .subscribe(url -> {
+                            if (url.isEmpty()) {
+                                getViewState().showMessage(Text.from(R.string.title_info), Text.from(R.string.message_nothing_to_export));
+                            } else {
+                                getViewState().showMessage(Text.from(R.string.title_info), Text.from(R.string.format_exported_to, url));
+                            }
                         }, this::handleError)
         );
     }

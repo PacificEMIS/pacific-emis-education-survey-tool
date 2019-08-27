@@ -1,5 +1,6 @@
 package fm.doe.national.ui.screens.surveys;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -185,6 +186,10 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
     @Override
     public void openInExternalApp(String url) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (ActivityNotFoundException ex) {
+            showMessage(Text.from(R.string.title_error), Text.from(R.string.error_no_app_to_open));
+        }
     }
 }

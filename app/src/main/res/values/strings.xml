@@ -54,4 +54,8 @@
     <string name="remote_fetch_result_failure">New values haven\'t been found in Remote Settings</string>
     <string name="toast_prod_cert_loaded">Production Certificate Loaded</string>
     <string name="error_password_is_too_short">Password is too short</string>
+    <string name="title_info">Info</string>
+    <string name="message_nothing_to_export">Nothing to export</string>
+    <string name="format_exported_to">Surveys export file downloaded to %1$s</string>
+    <string name="error_no_app_to_open">Unable to open file: suitable application not installed</string>
 </resources>
