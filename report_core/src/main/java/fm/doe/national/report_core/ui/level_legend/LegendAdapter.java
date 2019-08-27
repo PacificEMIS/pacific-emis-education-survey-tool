@@ -5,6 +5,8 @@ import android.content.res.ColorStateList;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
 import java.util.HashMap;
@@ -24,8 +26,9 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
         }
     }
 
+    @NonNull
     @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemViewHolder(parent);
     }
 

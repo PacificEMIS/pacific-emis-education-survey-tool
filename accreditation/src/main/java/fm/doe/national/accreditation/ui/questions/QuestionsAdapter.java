@@ -50,12 +50,6 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<Question> {
         throw new IllegalStateException();
     }
 
-    @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
-        // unused
-        return null;
-    }
-
     class QuestionViewHolder extends BaseQuestionViewHolder implements BinaryAnswerSelectorView.StateChangedListener {
 
         private final View popupView;
