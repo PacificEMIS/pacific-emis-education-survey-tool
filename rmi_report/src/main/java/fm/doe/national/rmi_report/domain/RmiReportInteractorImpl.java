@@ -62,7 +62,6 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
             List<List<Category>> coCategoriesList = new ArrayList<>(coCategoriesListByTitle.values());
 
             int[] counts = new int[SchoolAccreditationTallyLevel.MAX_CRITERIA_SUM];
-            int tallyScore = 0;
 
             // populate Tally scores from School Evaluation results
             for (Category category : seCategories) {
@@ -71,7 +70,6 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
                         int criteriaSum = getPositiveAnswersCount(criteria);
                         if (criteriaSum > 0 && criteriaSum <= SchoolAccreditationTallyLevel.MAX_CRITERIA_SUM) {
                             counts[criteriaSum - 1]++;
-                            tallyScore += criteriaSum;
                         }
                     }
                 }
@@ -95,11 +93,10 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
 
                 if (tallyValue > 0 && tallyValue <= SchoolAccreditationTallyLevel.MAX_CRITERIA_SUM) {
                     counts[tallyValue - 1]++;
-                    tallyScore += tallyValue;
                 }
             }
 
-            levelSubject.onNext(new SchoolAccreditationTallyLevel(counts, tallyScore));
+            levelSubject.onNext(new SchoolAccreditationTallyLevel(counts));
         });
     }
 
