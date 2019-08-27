@@ -33,7 +33,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     private LevelLegendView levelLegendView;
     private View progressView;
 
-    private final EvalutaionFormsAdapter adapter = new EvalutaionFormsAdapter();
+    private final EvaluationFormsAdapter adapter = new EvaluationFormsAdapter();
 
     private TextView totalObtainedScoreTextView;
     private TextView totalFinalScoreTextView;
@@ -86,7 +86,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     public void setData(SchoolAccreditationLevel data) {
         adapter.setItems(data.getForms());
 
-        totalFinalScoreTextView.setText(String.valueOf(data.getTotalScore()));
+        totalFinalScoreTextView.setText(String.valueOf((int) data.getTotalScore()));
         totalObtainedScoreTextView.setText(String.valueOf(data.getTotalObtainedScore()));
         totalScoreTitleTextView.setText(R.string.label_total_score);
 

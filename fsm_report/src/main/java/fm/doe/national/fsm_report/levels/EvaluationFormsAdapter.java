@@ -10,7 +10,7 @@ import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import fm.doe.national.fsm_report.R;
 import fm.doe.national.fsm_report.model.AccreditationForm;
 
-public class EvalutaionFormsAdapter extends BaseListAdapter<AccreditationForm> {
+public class EvaluationFormsAdapter extends BaseListAdapter<AccreditationForm> {
 
     @NonNull
     @Override
