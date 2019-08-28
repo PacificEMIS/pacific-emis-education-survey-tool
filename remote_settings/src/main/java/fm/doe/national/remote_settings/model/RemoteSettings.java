@@ -1,20 +1,28 @@
 package fm.doe.national.remote_settings.model;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import fm.doe.national.core.preferences.LocalSettings;
+import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.VoidArgFunction;
 import fm.doe.national.core.utils.VoidFunction;
 import fm.doe.national.remote_settings.BuildConfig;
+import fm.doe.national.remote_settings.R;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import io.reactivex.Single;
 import io.reactivex.subjects.SingleSubject;
@@ -33,11 +41,41 @@ public class RemoteSettings {
     private final Executor executor = Executors.newCachedThreadPool();
     private final Gson gson = new Gson();
 
-    private FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+    private Map<AppRegion, FirebaseRemoteConfig> remoteConfigs = new HashMap<>();
 
-    public RemoteSettings(LocalSettings localSettings, RemoteStorage remoteStorage) {
+    public RemoteSettings(Context appContext, LocalSettings localSettings, RemoteStorage remoteStorage) {
         this.localSettings = localSettings;
         this.remoteStorage = remoteStorage;
+        configureFirebase(appContext);
+    }
+
+    private void configureFirebase(Context appContext) {
+        remoteConfigs.put(
+                AppRegion.FSM,
+                FirebaseRemoteConfig.getInstance(FirebaseApp.initializeApp(
+                        appContext,
+                        new FirebaseOptions.Builder()
+                                .setApplicationId(appContext.getString(R.string.firebase_application_id_fsm))
+                                .setApiKey(appContext.getString(R.string.firebase_api_key_fsm))
+                                .build(),
+                        Objects.requireNonNull(AppRegion.FSM.getName().getString(appContext))
+                ))
+        );
+        remoteConfigs.put(
+                AppRegion.RMI,
+                FirebaseRemoteConfig.getInstance(FirebaseApp.initializeApp(
+                        appContext,
+                        new FirebaseOptions.Builder()
+                                .setApplicationId(appContext.getString(R.string.firebase_application_id_rmi))
+                                .setApiKey(appContext.getString(R.string.firebase_api_key_rmi))
+                                .build(),
+                        Objects.requireNonNull(AppRegion.RMI.getName().getString(appContext))
+                ))
+        );
+    }
+
+    private FirebaseRemoteConfig getRemoteConfig() {
+        return remoteConfigs.get(localSettings.getAppRegion());
     }
 
     public void init(@Nullable Runnable onSuccess) {
@@ -49,7 +87,7 @@ public class RemoteSettings {
                 .setFetchTimeoutInSeconds(TIMEOUT_FETCH_SEC)
                 .setMinimumFetchIntervalInSeconds(fetchInterval)
                 .build();
-        firebaseRemoteConfig.setConfigSettingsAsync(settings)
+        getRemoteConfig().setConfigSettingsAsync(settings)
                 .addOnSuccessListener(executor, v -> {
                     if (onSuccess != null) {
                         onSuccess.run();
@@ -74,7 +112,7 @@ public class RemoteSettings {
                 subject.onSuccess(isSuccess);
             }
         };
-        firebaseRemoteConfig.fetchAndActivate()
+        getRemoteConfig().fetchAndActivate()
                 .addOnSuccessListener(executor, areUpdated -> {
                     if (areUpdated || forcedByUser) {
                         parseRemoteSettings(forcedByUser);
@@ -110,11 +148,16 @@ public class RemoteSettings {
 
     private void parseForceableBoolean(String key,
                                        boolean forcedByUser,
-                                       VoidFunction<Boolean> setFunction, 
+                                       VoidFunction<Boolean> setFunction,
                                        VoidArgFunction<Boolean> existenceCheckFunction) {
-        String value = firebaseRemoteConfig.getString(key);
+        String value = getRemoteConfig().getString(key);
         if (value != null) {
             ForceableBoolean remoteValue = gson.fromJson(value, ForceableBoolean.class);
+
+            if (remoteValue == null) {
+                return;
+            }
+
             if (forcedByUser || remoteValue.isForce() || !existenceCheckFunction.apply()) {
                 setFunction.apply(remoteValue.getValue());
             }
@@ -125,9 +168,14 @@ public class RemoteSettings {
                                       boolean forcedByUser,
                                       VoidFunction<String> setFunction,
                                       VoidArgFunction<Boolean> existenceCheckFunction) {
-        String value = firebaseRemoteConfig.getString(key);
+        String value = getRemoteConfig().getString(key);
         if (value != null) {
             ForceableString remoteValue = gson.fromJson(value, ForceableString.class);
+
+            if (remoteValue == null) {
+                return;
+            }
+
             if (forcedByUser || remoteValue.isForce() || !existenceCheckFunction.apply()) {
                 setFunction.apply(remoteValue.getValue());
             }
@@ -135,7 +183,7 @@ public class RemoteSettings {
     }
 
     private void parseString(String key, VoidFunction<String> function) {
-        String value = firebaseRemoteConfig.getString(key);
+        String value = getRemoteConfig().getString(key);
         if (value != null) {
             function.apply(value);
         }
