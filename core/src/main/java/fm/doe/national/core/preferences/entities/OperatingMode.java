@@ -5,10 +5,11 @@ import com.omega_r.libs.omegatypes.Text;
 import fm.doe.national.core.R;
 
 public enum OperatingMode {
-    DEV(0, Text.from(R.string.op_mode_dev)),
-    PROD(1, Text.from(R.string.op_mode_prod));
+    DEV(0, Text.from(R.string.op_mode_dev), "Development"),
+    PROD(1, Text.from(R.string.op_mode_prod), "Production");
 
     private final Text name;
+    private final String serializedName;
     private final int value;
 
     public static OperatingMode createFromValue(int value) {
@@ -20,9 +21,19 @@ public enum OperatingMode {
         return DEV;
     }
 
-    OperatingMode(int value, Text name) {
+    public static OperatingMode createFromSerializedName(String name) {
+        for (OperatingMode operatingMode : OperatingMode.values()) {
+            if (operatingMode.serializedName.equals(name)) {
+                return operatingMode;
+            }
+        }
+        return DEV;
+    }
+
+    OperatingMode(int value, Text name, String serializedName) {
         this.value = value;
         this.name = name;
+        this.serializedName = serializedName;
     }
 
     public int getValue() {

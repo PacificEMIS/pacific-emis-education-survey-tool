@@ -20,6 +20,7 @@ import java.util.concurrent.Executors;
 
 import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.AppRegion;
+import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.utils.VoidArgFunction;
 import fm.doe.national.core.utils.VoidFunction;
 import fm.doe.national.remote_settings.BuildConfig;
@@ -37,6 +38,7 @@ public class RemoteSettings {
     private static final String KEY_APP_TITLE = "app_title";
     private static final String KEY_CONTACT = "contact";
     private static final String KEY_PROD_CERT = "prod_cert";
+    private static final String KEY_OPERATING_MODE = "operating_mode";
 
     private final LocalSettings localSettings;
     private final RemoteStorage remoteStorage;
@@ -150,6 +152,11 @@ public class RemoteSettings {
             localSettings.setProdCert(decodeBase64(cert64));
             remoteStorage.refreshCredentials();
         }, () -> localSettings.getProdCert() == null);
+        parseForceableString(KEY_OPERATING_MODE, forcedByUser, value -> {
+            OperatingMode operatingMode = OperatingMode.createFromSerializedName(value);
+            localSettings.setOperatingMode(operatingMode);
+            remoteStorage.refreshCredentials();
+        }, localSettings::isOperatingModeSaved);
     }
 
     private String decodeBase64(String decodedString) {
