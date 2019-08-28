@@ -58,6 +58,8 @@ public interface LocalSettings {
 
     OperatingMode getOperatingMode();
 
+    boolean isOperatingModeSaved();
+
     void setOperatingMode(OperatingMode mode);
 
     boolean isExportToExcelEnabled();

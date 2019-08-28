@@ -229,4 +229,15 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
                 .setType(mimeType);
         startActivityForResult(intent, REQUEST_EXTERNAL_DOCUMENT);
     }
+
+    @Override
+    public void showPrompt(Text title, Text message, Runnable onPositivePressed) {
+        new AlertDialog.Builder(this)
+                .setTitle(title.getString(this))
+                .setMessage(message.getString(this))
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> onPositivePressed.run())
+                .setNegativeButton(android.R.string.no, null)
+                .create()
+                .show();
+    }
 }
