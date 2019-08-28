@@ -1,6 +1,7 @@
 package fm.doe.national.remote_settings.model;
 
 import android.content.Context;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class RemoteSettings {
     private static final String KEY_EXPORT_TO_EXCEL = "can_export_to_excel";
     private static final String KEY_APP_TITLE = "app_title";
     private static final String KEY_CONTACT = "contact";
+    private static final String KEY_PROD_CERT = "prod_cert";
 
     private final LocalSettings localSettings;
     private final RemoteStorage remoteStorage;
@@ -144,6 +146,14 @@ public class RemoteSettings {
         );
         parseForceableString(KEY_APP_TITLE, forcedByUser, localSettings::setAppName, localSettings::isAppNameSaved);
         parseForceableString(KEY_CONTACT, forcedByUser, localSettings::setContactName, localSettings::isContactNameSaved);
+        parseForceableString(KEY_PROD_CERT, forcedByUser, cert64 -> {
+            localSettings.setProdCert(decodeBase64(cert64));
+            remoteStorage.refreshCredentials();
+        }, () -> localSettings.getProdCert() == null);
+    }
+
+    private String decodeBase64(String decodedString) {
+        return new String(Base64.decode(decodedString, Base64.DEFAULT));
     }
 
     private void parseForceableBoolean(String key,
@@ -179,13 +189,6 @@ public class RemoteSettings {
             if (forcedByUser || remoteValue.isForce() || !existenceCheckFunction.apply()) {
                 setFunction.apply(remoteValue.getValue());
             }
-        }
-    }
-
-    private void parseString(String key, VoidFunction<String> function) {
-        String value = getRemoteConfig().getString(key);
-        if (value != null) {
-            function.apply(value);
         }
     }
 }
