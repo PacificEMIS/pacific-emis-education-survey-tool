@@ -3,6 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="fm.doe.national">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
     <application
         android:name=".app_support.MicronesiaApplication"
         android:allowBackup="false"
@@ -67,13 +75,5 @@
             android:name="io.fabric.ApiKey"
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />
     </application>
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
