@@ -119,8 +119,9 @@ public abstract class BaseReportInteractor implements ReportInteractor {
     }
 
     private List<SummaryViewData> getSurveySummary(AccreditationSurvey survey) {
+        AccreditationSurvey flattenSurvey = getFlattenSurvey(survey);
         List<SummaryViewData> summaryViewDataList = new ArrayList<>();
-        for (Category category : survey.getCategories()) {
+        for (Category category : flattenSurvey.getCategories()) {
             for (Standard standard : category.getStandards()) {
                 List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
                 int totalByStandard = 0;
