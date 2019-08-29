@@ -193,7 +193,7 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
         @Override
         protected void onBind(SummaryViewData item) {
-            headerTextView.setText(item.getCategory().getTitle());
+            item.getCategory().getEvaluationForm().getName().applyTo(headerTextView);
         }
     }
 }
