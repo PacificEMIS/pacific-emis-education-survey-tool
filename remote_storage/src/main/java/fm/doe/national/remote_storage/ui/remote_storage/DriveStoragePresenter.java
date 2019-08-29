@@ -1,12 +1,12 @@
 package fm.doe.national.remote_storage.ui.remote_storage;
 
+import android.content.Context;
+
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -15,14 +15,13 @@ import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.core.utils.ObjectUtils;
-import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
+import fm.doe.national.remote_storage.utils.RemoteStorageUtils;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -36,6 +35,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
     private final FilesRepository filesRepository;
     private final Stack<GoogleDriveFileHolder> parentsStack = new Stack<>();
     private final boolean isDebugViewer;
+    private final Context appContext;
 
     public DriveStoragePresenter(RemoteStorageComponent component, CoreComponent coreComponent, boolean isDebugViewer) {
         this.isDebugViewer = isDebugViewer;
@@ -43,6 +43,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
         this.accessor = component.getRemoteStorageAccessor();
         this.localSettings = coreComponent.getLocalSettings();
         this.filesRepository = coreComponent.getFilesRepository();
+        this.appContext = coreComponent.getContext();
         updateFileHolders();
     }
 
@@ -68,36 +69,14 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
             return;
         }
 
-        try {
-            File downloadFile = filesRepository.createFile(item.getName(), "." + BuildConfig.EXTENSION_REPORT_TEMPLATE);
-
-            if (!downloadFile.exists()) {
-                getViewState().showToast(Text.from(R.string.error_file_not_created));
-                return;
-            }
-
-            addDisposable(
-                    storage.downloadContent(item.getId(), downloadFile, DriveType.EXCEL)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnSubscribe(d -> getViewState().showWaiting())
-                            .doFinally(getViewState()::hideWaiting)
-                            .subscribe(
-                                    () -> getViewState().showToast(
-                                            Text.from(R.string.format_file_downloaded, downloadFile.getAbsolutePath())
-                                    ),
-                                    this::handleError
-                            )
-            );
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            String errorMessage = ex.getLocalizedMessage();
-            Text errorText = null;
-            if (errorMessage != null) {
-                errorText = Text.from(errorMessage);
-            }
-            getViewState().showToast(ObjectUtils.orElse(errorText, Text.from(R.string.error_file_not_created)));
-        }
+        addDisposable(
+                RemoteStorageUtils.downloadReport(appContext, storage, filesRepository, item.getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> getViewState().showWaiting())
+                        .doFinally(getViewState()::hideWaiting)
+                        .subscribe(path -> getViewState().showToast(Text.from(R.string.format_file_downloaded, path)), this::handleError)
+        );
     }
 
     private void updateFileHolders() {

@@ -20,7 +20,7 @@ public class LocalSettingsImpl implements LocalSettings {
 
     private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
     private static final AppRegion DEFAULT_APP_REGION = AppRegion.FSM;
-    private static final int NO_APP_CONTEXT_VALUE = -1;
+    private static final int NO_INT_VALUE = -1;
 
     private static final String PREF_KEY_SURVEY_TYPE = "PREF_KEY_SURVEY_TYPE";
     private static final int NO_SURVEY_TYPE_VALUE = -1;
@@ -60,7 +60,7 @@ public class LocalSettingsImpl implements LocalSettings {
 
     @Nullable
     private AppRegion getSavedAppRegion() {
-        return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_REGION, NO_APP_CONTEXT_VALUE));
+        return AppRegion.createFromValue(sharedPreferences.getInt(PREF_KEY_APP_REGION, NO_INT_VALUE));
     }
 
     @Override
@@ -194,6 +194,11 @@ public class LocalSettingsImpl implements LocalSettings {
     @Override
     public OperatingMode getOperatingMode() {
         return OperatingMode.createFromValue(sharedPreferences.getInt(PREF_KEY_OPERATING_MODE, DEFAULT_OPERATING_MODE.getValue()));
+    }
+
+    @Override
+    public boolean isOperatingModeSaved() {
+        return sharedPreferences.getInt(PREF_KEY_OPERATING_MODE, NO_INT_VALUE) != NO_INT_VALUE;
     }
 
     @Override

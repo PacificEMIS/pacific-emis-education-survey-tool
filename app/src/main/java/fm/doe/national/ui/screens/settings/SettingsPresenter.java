@@ -157,9 +157,14 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onContextPressed() {
-        getViewState().showRegionSelector((region) -> {
+        getViewState().showRegionSelector(region -> {
             localSettings.setAppRegion(region);
             refresh();
+            getViewState().showPrompt(
+                    Text.from(R.string.title_info),
+                    Text.from(R.string.message_prompt_fetch_remote),
+                    this::onForceFetchRemoteSettingsPressed
+            );
         });
     }
 

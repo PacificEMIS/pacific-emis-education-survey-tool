@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
@@ -22,8 +23,9 @@ public class RegionsAdapter extends BaseListAdapter<AppRegion> {
         super(clickListener);
     }
 
+    @NonNull
     @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemViewHolder(parent);
     }
 

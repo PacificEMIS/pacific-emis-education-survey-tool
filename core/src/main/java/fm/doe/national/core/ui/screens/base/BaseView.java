@@ -29,4 +29,6 @@ public interface BaseView extends MvpView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void openExternalDocumentsPicker(String mimeType);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showPrompt(Text title, Text message, Runnable onPositivePressed);
 }

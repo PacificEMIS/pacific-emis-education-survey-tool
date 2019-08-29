@@ -1,5 +1,7 @@
 package fm.doe.national.ui.screens.surveys;
 
+import android.net.Uri;
+
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
@@ -26,5 +28,5 @@ interface SurveysView extends BaseBluetoothView {
     void setExportEnabled(boolean isEnabled);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void openInExternalApp(String url);
+    void openInExternalApp(Uri url);
 }

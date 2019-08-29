@@ -77,11 +77,6 @@ public class VariantsAdapter extends BaseListAdapter<Variant> {
         notifyDataSetChanged();
     }
 
-    @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
-        return new ItemViewHolder(parent);
-    }
-
     class NumericItemViewHolder extends ItemViewHolder implements ComplexNumericAnswerAdapter.OnNumericAnswerChangeListener {
 
         private final ComplexNumericAnswerAdapter adapter = new ComplexNumericAnswerAdapter(this);

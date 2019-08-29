@@ -40,11 +40,6 @@ public class AnswerSelectorAdapter extends BaseListAdapter<String> {
         throw new IllegalStateException();
     }
 
-    @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
-        return null;
-    }
-
     private void updateSelection(int position) {
         boolean isChecked = checkedPositions.contains(position);
         switch (type) {

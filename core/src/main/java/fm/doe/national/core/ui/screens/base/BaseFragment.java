@@ -104,4 +104,9 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView {
                 .setType(mimeType);
         startActivityForResult(intent, REQUEST_EXTERNAL_DOCUMENT);
     }
+
+    @Override
+    public void showPrompt(Text title, Text message, Runnable onPositivePressed) {
+        ((BaseActivity) getActivity()).showPrompt(title, message, onPositivePressed);
+    }
 }

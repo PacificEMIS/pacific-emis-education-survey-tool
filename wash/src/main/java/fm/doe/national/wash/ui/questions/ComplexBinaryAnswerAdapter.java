@@ -23,8 +23,9 @@ public class ComplexBinaryAnswerAdapter extends BaseListAdapter<String> {
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemViewHolder(parent);
     }
 

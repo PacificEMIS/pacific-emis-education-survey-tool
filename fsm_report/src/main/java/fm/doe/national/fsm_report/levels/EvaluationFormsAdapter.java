@@ -3,15 +3,18 @@ package fm.doe.national.fsm_report.levels;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
 import fm.doe.national.fsm_report.R;
 import fm.doe.national.fsm_report.model.AccreditationForm;
 
-public class EvalutaionFormsAdapter extends BaseListAdapter<AccreditationForm> {
+public class EvaluationFormsAdapter extends BaseListAdapter<AccreditationForm> {
 
+    @NonNull
     @Override
-    protected ItemViewHolder provideViewHolder(ViewGroup parent) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemViewHolder(parent);
     }
 

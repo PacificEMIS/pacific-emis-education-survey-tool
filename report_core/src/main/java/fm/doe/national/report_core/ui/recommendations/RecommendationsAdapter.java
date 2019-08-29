@@ -62,12 +62,6 @@ public class RecommendationsAdapter extends BaseListAdapter<Recommendation> {
         throw new IllegalStateException();
     }
 
-    // unused
-    @Override
-    protected ItemViewHolder provideViewHolder(ViewGroup parent) {
-        return null;
-    }
-
     class ItemViewHolder extends ViewHolder {
 
         ItemViewHolder(ViewGroup parent, @LayoutRes int res) {

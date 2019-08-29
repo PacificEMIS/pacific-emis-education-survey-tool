@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
 import java.util.ArrayList;
@@ -25,8 +27,9 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
             R.id.textview_cell_5
     };
 
+    @NonNull
     @Override
-    protected ItemViewHolder provideViewHolder(ViewGroup parent) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemViewHolder(parent);
     }
 

@@ -23,7 +23,7 @@ public class SchoolAccreditationTallyLevel {
         return new SchoolAccreditationTallyLevel();
     }
 
-    public SchoolAccreditationTallyLevel(int[] counts, int tallyScore) {
+    public SchoolAccreditationTallyLevel(int[] counts) {
         if (counts.length != MAX_CRITERIA_SUM) {
             throw new IllegalStateException();
         }
@@ -31,7 +31,7 @@ public class SchoolAccreditationTallyLevel {
         this.countOfTwos = counts[1];
         this.countOfThrees = counts[2];
         this.countOfFours = counts[3];
-        this.tallyScore = tallyScore;
+        this.tallyScore = countOfOnes + countOfTwos + countOfThrees + countOfFours;
         this.level = calculateLevel();
     }
 

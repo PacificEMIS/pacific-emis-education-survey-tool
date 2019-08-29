@@ -53,4 +53,9 @@ public class BaseDialogFragment extends MvpAppCompatDialogFragment implements Ba
     public void openExternalDocumentsPicker(String mimeType) {
         // nothing
     }
+
+    @Override
+    public void showPrompt(Text title, Text message, Runnable onPositivePressed) {
+        // nothing
+    }
 }

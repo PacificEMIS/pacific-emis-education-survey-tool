@@ -3,6 +3,7 @@ package fm.doe.national.offline_sync.ui.devices;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import fm.doe.national.core.ui.screens.base.BaseSelectionListAdapter;
@@ -15,8 +16,9 @@ public class PairedDevicesAdapter extends BaseSelectionListAdapter<Device> {
         super(clickListener);
     }
 
+    @NonNull
     @Override
-    protected ViewHolder provideViewHolder(ViewGroup parent) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemViewHolder(parent);
     }
 
