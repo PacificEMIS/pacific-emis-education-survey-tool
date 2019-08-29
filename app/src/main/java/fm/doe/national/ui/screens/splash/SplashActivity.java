@@ -1,7 +1,6 @@
 package fm.doe.national.ui.screens.splash;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.widget.ImageView;
 
 import com.karumi.dexter.Dexter;
@@ -48,6 +47,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     public void navigateToMenu() {
         startActivity(MainMenuActivity.createIntent(this));
+        finish();
     }
 
     @Override
