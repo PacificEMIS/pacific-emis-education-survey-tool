@@ -11,7 +11,6 @@ android {
         minSdkVersion Versions.minSdk
         versionName Versions.appVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled Dex.multiDexEnabled
 
         ext.betaDistributionGroupAliases = "testaccounts"
 
@@ -45,7 +44,7 @@ android {
         release {
             minifyEnabled Dex.minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -77,7 +76,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
     implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
-    implementation 'androidx.multidex:multidex:2.0.1'
 
     // Moxy
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"

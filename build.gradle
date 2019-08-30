@@ -63,7 +63,6 @@ ext {
             googleApi            : '1.30.2'
     ]
     Dex = [
-            multiDexEnabled: true,
             minifyEnabled  : false
     ]
 }

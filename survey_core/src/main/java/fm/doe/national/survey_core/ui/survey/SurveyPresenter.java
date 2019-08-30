@@ -1,7 +1,5 @@
 package fm.doe.national.survey_core.ui.survey;
 
-import com.omegar.mvp.InjectViewState;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +14,7 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-@InjectViewState
-public abstract class SurveyPresenter extends BasePresenter<SurveyView> {
+public abstract class SurveyPresenter<T extends SurveyView> extends BasePresenter<T> {
 
     protected final SurveyNavigator surveyNavigator;
 

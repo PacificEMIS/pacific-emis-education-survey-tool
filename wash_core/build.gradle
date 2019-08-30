@@ -8,7 +8,6 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode 1
         versionName Versions.appVersion
-        multiDexEnabled Dex.multiDexEnabled
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
 

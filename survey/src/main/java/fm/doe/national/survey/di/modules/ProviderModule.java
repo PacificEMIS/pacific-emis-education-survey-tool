@@ -8,7 +8,7 @@ import fm.doe.national.core.di.CoreComponent;
 import fm.doe.national.core.domain.SurveyInteractor;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.ui.survey.SurveyPresenter;
-import fm.doe.national.wash.ui.WashSurveyPresenter;
+import fm.doe.national.wash.ui.survey.WashSurveyPresenter;
 import fm.doe.national.wash_core.di.WashCoreComponent;
 
 @Module
