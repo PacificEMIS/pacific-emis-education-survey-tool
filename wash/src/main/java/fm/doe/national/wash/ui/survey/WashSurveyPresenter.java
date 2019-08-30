@@ -1,4 +1,4 @@
-package fm.doe.national.wash.ui;
+package fm.doe.national.wash.ui.survey;
 
 import com.omegar.mvp.InjectViewState;
 
@@ -21,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class WashSurveyPresenter extends SurveyPresenter {
+public class WashSurveyPresenter extends SurveyPresenter<WashSurveyView> {
 
     private final WashSurveyInteractor washSurveyInteractor;
 

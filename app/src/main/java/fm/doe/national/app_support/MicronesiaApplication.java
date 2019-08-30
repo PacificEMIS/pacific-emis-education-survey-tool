@@ -1,6 +1,6 @@
 package fm.doe.national.app_support;
 
-import androidx.multidex.MultiDexApplication;
+import android.app.Application;
 
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
@@ -42,12 +42,11 @@ import fm.doe.national.wash_core.di.WashCoreComponentProvider;
         "fm.doe.national.report",
         "fm.doe.national.accreditation",
         "fm.doe.national.remote_storage",
-        "fm.doe.national.survey_core",
         "fm.doe.national.survey",
         "fm.doe.national.wash",
         "fm.doe.national.offline_sync",
 })
-public class MicronesiaApplication extends MultiDexApplication implements
+public class MicronesiaApplication extends Application implements
         CoreComponentProvider,
         FsmReportComponentProvider,
         RmiReportComponentProvider,

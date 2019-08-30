@@ -62,4 +62,7 @@ ext {
             playServicesAuth     : '17.0.0',
             googleApi            : '1.30.2'
     ]
+    Dex = [
+            minifyEnabled  : false
+    ]
 }

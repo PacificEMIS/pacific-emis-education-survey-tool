@@ -21,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class WashPhotosPresenter extends PhotosPresenter {
+public class WashPhotosPresenter extends PhotosPresenter<WashPhotosView> {
 
     private final WashSurveyInteractor interactor;
     private final RemoteStorageAccessor remoteStorageAccessor;
