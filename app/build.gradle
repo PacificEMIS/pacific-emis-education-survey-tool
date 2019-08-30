@@ -11,7 +11,7 @@ android {
         minSdkVersion Versions.minSdk
         versionName Versions.appVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+        multiDexEnabled Dex.multiDexEnabled
 
         ext.betaDistributionGroupAliases = "testaccounts"
 
@@ -43,7 +43,7 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled false
+            minifyEnabled Dex.minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }

@@ -9,6 +9,7 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode 1
         versionName Versions.appVersion
+        multiDexEnabled Dex.multiDexEnabled
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -24,7 +25,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled Dex.minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

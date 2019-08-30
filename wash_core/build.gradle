@@ -8,6 +8,7 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode 1
         versionName Versions.appVersion
+        multiDexEnabled Dex.multiDexEnabled
 
         buildConfigField "int", "DATA_BASE_VERSION", "1"
 
@@ -16,7 +17,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled Dex.minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

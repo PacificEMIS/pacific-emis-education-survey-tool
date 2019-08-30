@@ -8,11 +8,12 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode 1
         versionName Versions.appVersion
+        multiDexEnabled Dex.multiDexEnabled
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled Dex.minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
