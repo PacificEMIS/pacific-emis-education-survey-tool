@@ -20,7 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class AccreditationPhotosPresenter extends PhotosPresenter {
+public class AccreditationPhotosPresenter extends PhotosPresenter<AccreditationPhotosView> {
 
     private final AccreditationSurveyInteractor interactor;
     private final RemoteStorageAccessor remoteStorageAccessor;

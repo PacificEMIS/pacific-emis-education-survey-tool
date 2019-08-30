@@ -13,7 +13,7 @@ import fm.doe.national.survey_core.ui.photos.PhotosActivity;
 import fm.doe.national.survey_core.ui.photos.PhotosPresenter;
 import fm.doe.national.wash_core.di.WashCoreComponentInjector;
 
-public class WashPhotosActivity extends PhotosActivity {
+public class WashPhotosActivity extends PhotosActivity implements WashPhotosView {
 
     @InjectPresenter
     WashPhotosPresenter presenter;

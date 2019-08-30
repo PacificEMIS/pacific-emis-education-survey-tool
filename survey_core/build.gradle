@@ -10,17 +10,11 @@ android {
         versionName Versions.appVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.survey_core']
-            }
-        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled Dex.minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

@@ -23,7 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class AccreditationSurveyPresenter extends SurveyPresenter {
+public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationSurveyView> {
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
 

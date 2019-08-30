@@ -13,7 +13,7 @@ import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.ui.photos.PhotosActivity;
 import fm.doe.national.survey_core.ui.photos.PhotosPresenter;
 
-public class AccreditationPhotosActivity extends PhotosActivity {
+public class AccreditationPhotosActivity extends PhotosActivity implements AccreditationPhotosView {
 
     @InjectPresenter
     AccreditationPhotosPresenter presenter;

@@ -7,7 +7,6 @@ import android.net.Uri;
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
-import com.omegar.mvp.InjectViewState;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,8 +25,7 @@ import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-@InjectViewState
-public abstract class PhotosPresenter extends BasePresenter<PhotosView> {
+public abstract class PhotosPresenter<T extends PhotosView> extends BasePresenter<T> {
 
     private final FilesRepository filesRepository;
 
