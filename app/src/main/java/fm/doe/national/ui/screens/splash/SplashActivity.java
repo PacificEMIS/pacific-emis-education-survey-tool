@@ -54,7 +54,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     public void requestAppPermissions() {
         String[] permissions = new String[] {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.BLUETOOTH_ADMIN,
                 Manifest.permission.BLUETOOTH
         };
