@@ -185,6 +185,10 @@ public class QuestionsFragment extends BaseFragment implements
 
         locationProviderClient.getLastLocation()
                 .addOnSuccessListener(location -> {
+                    if (location == null) {
+                        showMessage(Text.from(R.string.title_error), Text.from(R.string.message_geo_is_off));
+                        return;
+                    }
                     presenter.onLocationChanged(new Location(location.getLatitude(), location.getLongitude()), question);
                     questionsAdapter.notifyItemChanged(position);
                 });
