@@ -54,6 +54,7 @@
         <item name="android:layout_weight">@integer/weight_summary_criteria_value</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/Text.Title1.Small</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="Recommendation">
