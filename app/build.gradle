@@ -109,7 +109,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
 
     // CircleImageView
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 
     // AppCenter
     implementation "com.microsoft.appcenter:appcenter-analytics:${Deps.appCenter}"
