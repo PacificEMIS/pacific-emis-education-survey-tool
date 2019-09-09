@@ -81,11 +81,11 @@
     <string name="second_criteria">C2</string>
     <string name="third_criteria">C3</string>
     <string name="forth_criteria">C4</string>
-    <string name="first_subcriteria">SC1</string>
-    <string name="second_subcriteria">SC2</string>
-    <string name="third_subcriteria">SC3</string>
-    <string name="forth_subcriteria">SC4</string>
-    <string name="fifth_subcriteria">SC5</string>
+    <string name="first_subcriteria">SCa</string>
+    <string name="second_subcriteria">SCb</string>
+    <string name="third_subcriteria">SCc</string>
+    <string name="forth_subcriteria">SCd</string>
+    <string name="fifth_subcriteria">SCe</string>
     <string name="title_total">Total</string>
     <string name="title_total_by_standards">Total by Standards</string>
     <string name="more_photos_pattern">+%1$d</string>
