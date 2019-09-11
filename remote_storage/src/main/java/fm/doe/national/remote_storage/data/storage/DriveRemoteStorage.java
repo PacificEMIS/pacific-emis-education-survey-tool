@@ -38,13 +38,15 @@ import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.data_source_injector.di.DataSourceComponent;
 import fm.doe.national.remote_storage.BuildConfig;
 import fm.doe.national.remote_storage.R;
+import fm.doe.national.remote_storage.data.export.FsmSheetsExcelExporter;
+import fm.doe.national.remote_storage.data.export.RmiSheetsExcelExporter;
 import fm.doe.national.remote_storage.data.export.SheetsExcelExporter;
 import fm.doe.national.remote_storage.data.model.DriveType;
 import fm.doe.national.remote_storage.data.model.ExportType;
 import fm.doe.national.remote_storage.data.model.GoogleDriveFileHolder;
 import fm.doe.national.remote_storage.data.model.PhotoMetadata;
-import fm.doe.national.remote_storage.data.model.SurveyMetadata;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
+import fm.doe.national.remote_storage.data.model.SurveyMetadata;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -117,7 +119,14 @@ public final class DriveRemoteStorage implements RemoteStorage {
         Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, initializer)
                 .setApplicationName(appContext.getString(R.string.app_name))
                 .build();
-        return new SheetsExcelExporter(appContext, sheets);
+        switch (localSettings.getAppRegion()) {
+            case FSM:
+                return new FsmSheetsExcelExporter(appContext, sheets);
+            case RMI:
+                return new RmiSheetsExcelExporter(appContext, sheets);
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     @Nullable

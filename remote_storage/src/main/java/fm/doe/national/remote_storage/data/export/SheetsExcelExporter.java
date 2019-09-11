@@ -35,7 +35,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @SuppressLint("DefaultLocale")
-public class SheetsExcelExporter extends TasksRxWrapper {
+abstract public class SheetsExcelExporter extends TasksRxWrapper {
 
     private static final String TAG = SheetsExcelExporter.class.getName();
     private static final String PREFIX_UPDATABLE_CELL = "$";
@@ -69,9 +69,12 @@ public class SheetsExcelExporter extends TasksRxWrapper {
             rangesToUpdate.addAll(createInfoValueRanges(sheetName, reportBundle.getHeader()));
             rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.SCHOOL_EVALUATION));
             rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.CLASSROOM_OBSERVATION));
+            updateRangesWithLevelsInfo(sheetName, rangesToUpdate, reportBundle);
             updateValues(spreadsheetId, rangesToUpdate);
         });
     }
+
+    abstract protected void updateRangesWithLevelsInfo(String sheetName, List<ValueRange> rangesToUpdate, ReportBundle reportBundle);
 
     public Single<String> recreateSheet(String spreadsheetId, String sheetName, String templateSheetName) {
         return wrapWithSingleInThreadPool(() -> {
