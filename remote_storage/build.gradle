@@ -19,7 +19,7 @@ android {
 
         buildConfigField "String", "CREDENTIALS_DEV", "\"c_dev.json\""
         buildConfigField "String", "NAME_REPORT_TEMPLATE_FSM", "\"report_fsm\""
-        buildConfigField "String", "NAME_REPORT_TEMPLATE_RMI", "\"report_rmi\""
+        buildConfigField "String", "NAME_REPORT_TEMPLATE_RMI", "\"report_rmi_v2\""
         buildConfigField "String", "EXTENSION_REPORT_TEMPLATE", "\"xlsx\""
     }
 
