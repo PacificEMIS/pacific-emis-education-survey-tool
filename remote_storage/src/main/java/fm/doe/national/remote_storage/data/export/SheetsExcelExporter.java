@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
 import com.google.api.services.sheets.v4.model.BatchUpdateValuesRequest;
@@ -30,12 +32,18 @@ import fm.doe.national.remote_storage.R;
 import fm.doe.national.remote_storage.data.model.ReportBundle;
 import fm.doe.national.remote_storage.data.storage.TasksRxWrapper;
 import fm.doe.national.report_core.model.SummaryViewData;
+import fm.doe.national.report_core.model.recommendations.CategoryRecommendation;
+import fm.doe.national.report_core.model.recommendations.CriteriaRecommendation;
+import fm.doe.national.report_core.model.recommendations.FlattenRecommendationsWrapper;
+import fm.doe.national.report_core.model.recommendations.Recommendation;
+import fm.doe.national.report_core.model.recommendations.StandardRecommendation;
+import fm.doe.national.report_core.model.recommendations.SubCriteriaRecommendation;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @SuppressLint("DefaultLocale")
-public class SheetsExcelExporter extends TasksRxWrapper {
+abstract public class SheetsExcelExporter extends TasksRxWrapper {
 
     private static final String TAG = SheetsExcelExporter.class.getName();
     private static final String PREFIX_UPDATABLE_CELL = "$";
@@ -44,6 +52,11 @@ public class SheetsExcelExporter extends TasksRxWrapper {
     private static final String CELL_SCHOOL_NAME = "$schName";
     private static final String CELL_DATE = "$date";
     private static final String CELL_PRINCIPAL = "$principal";
+    private static final String CELL_RECOMMENDATIONS_START = "$recommendations";
+    private static final int SPACES_CATEGORY = 0;
+    private static final int SPACES_STANDARD = 2;
+    private static final int SPACES_CRITERIA = 4;
+    private static final int SPACES_SUB_CRITERIA = 6;
 
     private static final String VALUE_INPUT_OPTION_USER = "USER_ENTERED";
     private final Sheets sheetsApi;
@@ -69,9 +82,13 @@ public class SheetsExcelExporter extends TasksRxWrapper {
             rangesToUpdate.addAll(createInfoValueRanges(sheetName, reportBundle.getHeader()));
             rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.SCHOOL_EVALUATION));
             rangesToUpdate.addAll(createEvaluationScoreValueRanges(sheetName, reportBundle.getSummary(), EvaluationForm.CLASSROOM_OBSERVATION));
+            updateRangesWithLevelsInfo(sheetName, rangesToUpdate, reportBundle);
+            rangesToUpdate.addAll(createRecommendationsValueRanges(sheetName, reportBundle.getRecommendations()));
             updateValues(spreadsheetId, rangesToUpdate);
         });
     }
+
+    abstract protected void updateRangesWithLevelsInfo(String sheetName, List<ValueRange> rangesToUpdate, ReportBundle reportBundle);
 
     public Single<String> recreateSheet(String spreadsheetId, String sheetName, String templateSheetName) {
         return wrapWithSingleInThreadPool(() -> {
@@ -360,6 +377,51 @@ public class SheetsExcelExporter extends TasksRxWrapper {
 
     protected String makeRange(String sheetName, String a1Range) {
         return "'" + sheetName + "'!" + a1Range;
+    }
+
+    private List<ValueRange> createRecommendationsValueRanges(String sheetName, FlattenRecommendationsWrapper recommendations) {
+        List<ValueRange> ranges = new ArrayList<>();
+        CellInfo cellInfo = updatableCells.get(CELL_RECOMMENDATIONS_START);
+
+        if (cellInfo == null) {
+            return ranges;
+        }
+
+        int currentRow = cellInfo.row;
+        final String column = TextUtil.convertIntToCharsIcons(cellInfo.column);
+        for (Recommendation recommendation : recommendations.getRecommendations()) {
+            ranges.add(createSingleCellValueRange(
+                    sheetName,
+                    column,
+                    currentRow,
+                    convertToString(recommendation)
+                    ));
+            currentRow++;
+        }
+        return ranges;
+    }
+
+    @NonNull
+    private String convertToString(Recommendation recommendation) {
+        final String content = getRecommendationContent(recommendation);
+        final String space = appContext.getString(R.string.invisible_char);
+        if (recommendation instanceof CategoryRecommendation) {
+            return TextUtil.repeat(space, SPACES_CATEGORY) + content;
+        }
+        if (recommendation instanceof StandardRecommendation) {
+            return TextUtil.repeat(space, SPACES_STANDARD) + content;
+        }
+        if (recommendation instanceof CriteriaRecommendation) {
+            return TextUtil.repeat(space, SPACES_CRITERIA) + content;
+        }
+        if (recommendation instanceof SubCriteriaRecommendation) {
+            return TextUtil.repeat(space, SPACES_SUB_CRITERIA) + content;
+        }
+        return "";
+    }
+
+    private String getRecommendationContent(Recommendation recommendation) {
+        return recommendation.getContent().getString(appContext);
     }
 
     protected static class ScoresSummaryCellsInfo {

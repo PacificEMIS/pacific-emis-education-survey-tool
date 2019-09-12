@@ -350,7 +350,7 @@
             <question>
                 <id>SW.W.12</id>
                 <name>If rarely available, what is the reason?</name>
-                <flags>CHOOSE|SINGLE</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.W.11</id>
                     <relationAnswer>Water isn't available at certain times of the day or year</relationAnswer>

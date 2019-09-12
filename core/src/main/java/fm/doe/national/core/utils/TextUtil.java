@@ -36,4 +36,15 @@ public class TextUtil {
         return file.getName().replaceFirst(REGEX_FILE_NAME, "");
     }
 
+    @NonNull
+    public static String repeat(@NonNull String string, int times) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < times; i++) {
+            builder.append(string);
+        }
+
+        return builder.toString();
+    }
+
 }
