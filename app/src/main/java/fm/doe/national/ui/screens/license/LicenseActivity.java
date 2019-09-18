@@ -50,7 +50,11 @@ public class LicenseActivity extends BaseActivity {
 
     private void readLicenseFile() {
         try (InputStream inputStream = getAssets().open(BuildConfig.LICENSE_FILE_NAME)) {
-            licenseTextView.setText(StreamUtils.asString(inputStream));
+
+            String licenceText = String.format(StreamUtils.asString(inputStream), BuildConfig.VERSION_ALIAS);
+
+            licenseTextView.setText(licenceText);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

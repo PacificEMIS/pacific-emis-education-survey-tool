@@ -21,6 +21,8 @@ android {
         buildConfigField "String", "SCHOOLS_FSM_FILE_NAME", "\"schools_fsm.csv\""
         buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools_rmi.csv\""
         buildConfigField "String", "LICENSE_FILE_NAME", "\"license.txt\""
+
+        buildConfigField "String", "VERSION_ALIAS", "\"" + (System.getenv("VERSION_ALIAS") as String ?: "Dev") + "\""
     }
     signingConfigs {
         release {
