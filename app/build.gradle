@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 
+def VERSION_NAME = System.getenv("VERSION_ALIAS") as String ?: "Dev"
+
 android {
     compileSdkVersion Versions.compileSdk
     defaultConfig {
@@ -22,7 +24,10 @@ android {
         buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools_rmi.csv\""
         buildConfigField "String", "LICENSE_FILE_NAME", "\"license.txt\""
 
-        buildConfigField "String", "VERSION_ALIAS", "\"" + (System.getenv("VERSION_ALIAS") as String ?: "Dev") + "\""
+        buildConfigField "String", "VERSION_ALIAS", "\"" + VERSION_NAME + "\""
+
+        archivesBaseName = System.getenv("APK_NAME") as String ?: "app"
+
     }
     signingConfigs {
         release {
