@@ -1,6 +1,6 @@
 package fm.doe.national.remote_storage.data.storage;
 
-import androidx.core.util.Pair;
+import android.util.Log;
 
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.FileContent;
@@ -23,6 +23,7 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Nullable;
 
+import androidx.core.util.Pair;
 import fm.doe.national.core.data.model.Photo;
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.core.utils.TextUtil;
@@ -40,6 +41,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
     private static final String FOLDER_ROOT = "root";
     private static final String SPACE_DRIVE = "drive";
+    private static final String ORDER_BY_CREATED_TIME = "createdTime desc";
     private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, properties)";
     private static final String FIELD_ID = "id";
     private static final String FOLDERNAME_PHOTOS = "photos";
@@ -101,19 +103,42 @@ public class DriveServiceHelper extends TasksRxWrapper {
                 .name(folderName)
                 .build();
 
-        return requestFiles(query)
+        return requestFiles(query, true)
                 .flatMap(fileList -> {
                     List<File> foundedFiles = fileList.getFiles();
                     if (!CollectionUtils.isEmpty(foundedFiles)) {
                         return Single.just(foundedFiles.get(0).getId());
                     }
 
-                    File metadata = new File()
+                    File file = new File()
                             .setParents(root)
                             .setMimeType(DriveType.FOLDER.getValue())
                             .setName(folderName);
 
-                    return wrapWithSingleInThreadPool(() -> drive.files().create(metadata).execute().getId(), "");
+                    return wrapWithSingleInThreadPool(() -> drive.files().create(file).execute().getId(), "")
+                            // Double check for duplicate folder
+                            .flatMap(createdFolderId -> requestFiles(query, true)
+                                    .flatMap(fileList2 -> {
+
+                                        List<File> foundedFiles2 = fileList2.getFiles();
+
+                                        if (foundedFiles2.isEmpty()) {
+                                            return Single.just(createdFolderId);
+
+                                        }
+
+                                        Collections.reverse(foundedFiles2);
+
+                                        String firstFolderId = foundedFiles2.get(0).getId();
+
+                                        if (!firstFolderId.equals(createdFolderId)) {
+                                            return delete(createdFolderId)
+                                                    .andThen(Single.just(firstFolderId));
+                                        } else {
+                                            return Single.just(firstFolderId);
+
+                                        }
+                                    }));
                 });
     }
 
@@ -170,11 +195,16 @@ public class DriveServiceHelper extends TasksRxWrapper {
     }
 
     private Single<FileList> requestFiles(String query) {
+        return requestFiles(query, false);
+    }
+
+    private Single<FileList> requestFiles(String query, boolean orderByCreateTime) {
         return wrapWithSingleInThreadPool(
                 () -> drive.files().list()
                         .setQ(query)
                         .setFields(FIELDS_TO_QUERY)
                         .setSpaces(SPACE_DRIVE)
+                        .setOrderBy(orderByCreateTime ? ORDER_BY_CREATED_TIME : null)
                         .execute(),
                 new FileList()
         );
