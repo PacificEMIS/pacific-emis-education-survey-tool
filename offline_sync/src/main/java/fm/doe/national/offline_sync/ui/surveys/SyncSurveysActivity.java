@@ -6,15 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
 import fm.doe.national.offline_sync.R;
@@ -31,6 +30,7 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Button buttonNext;
+    private View emptyView;
 
     public static Intent createIntent(Context parentContext) {
         return new Intent(parentContext, SyncSurveysActivity.class);
@@ -51,6 +51,8 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
         swipeRefreshLayout.setOnRefreshListener(this);
         buttonNext = findViewById(R.id.button_next);
         buttonNext.setOnClickListener(this);
+        emptyView = findViewById(R.id.textview_empty_surveys);
+        emptyView.setVisibility(View.GONE);
     }
 
     @Override
@@ -100,4 +102,10 @@ public class SyncSurveysActivity extends BaseActivity implements SyncSurveysView
     public void navigateToProgress() {
         startActivity(ProgressActivity.createIntent(this));
     }
+
+    @Override
+    public void setEmptyStateEnabled(boolean enabled) {
+        emptyView.setVisibility(enabled ? View.VISIBLE : View.GONE);
+    }
+
 }

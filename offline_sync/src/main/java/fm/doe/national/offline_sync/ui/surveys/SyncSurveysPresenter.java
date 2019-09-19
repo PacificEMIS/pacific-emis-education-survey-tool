@@ -2,6 +2,9 @@ package fm.doe.national.offline_sync.ui.surveys;
 
 import com.omegar.mvp.InjectViewState;
 
+import java.util.Collections;
+import java.util.List;
+
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
 import fm.doe.national.offline_sync.data.accessor.OfflineAccessor;
@@ -29,6 +32,7 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
     public void onSurveyPressed(Survey survey) {
         selectedSurvey = survey;
         getViewState().setNextEnabled(true);
+        getViewState().setEmptyStateEnabled(false);
     }
 
     public void onRefresh() {
@@ -38,8 +42,13 @@ public class SyncSurveysPresenter extends BasePresenter<SyncSurveysView> {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().setListLoadingVisible(true))
                         .doFinally(() -> getViewState().setListLoadingVisible(false))
-                        .subscribe(getViewState()::setSurveys, this::handleError)
+                        .subscribe(this::setSurveys, this::handleError)
         );
+    }
+
+    private void setSurveys(List<Survey> surveys) {
+        getViewState().setEmptyStateEnabled(surveys == null || surveys.isEmpty());
+        getViewState().setSurveys(surveys);
     }
 
     public void onNextPressed() {
