@@ -17,6 +17,7 @@ import fm.doe.national.core.utils.DateUtils;
 public class SurveyMetadata {
 
     private static final String KEY_SCHOOL_ID = "schoolNo";
+    private static final String KEY_SCHOOL_NAME = "schoolName";
     private static final String KEY_COMPLETION = "surveyCompleted";
     private static final String KEY_COMPLETION_DATE = "surveyCompletedDateTime";
     private static final String KEY_SURVEY_TAG = "surveyTag";
@@ -27,6 +28,7 @@ public class SurveyMetadata {
     private static final String KEY_TYPE = "type";
 
     private String schoolId;
+    private String schoolName;
     private String lastEditedUser;
     private SurveyState surveyState;
     private String creator;
@@ -49,6 +51,8 @@ public class SurveyMetadata {
         }
 
         metadata.schoolId = properties.get(KEY_SCHOOL_ID);
+        metadata.schoolName = properties.get(KEY_SCHOOL_NAME);
+
         metadata.lastEditedUser = properties.get(KEY_LAST_EDIT_USER);
         metadata.creator = properties.get(KEY_CREATION_USER);
 
@@ -91,6 +95,7 @@ public class SurveyMetadata {
 
     public SurveyMetadata(Survey survey) {
         schoolId = survey.getSchoolId();
+        schoolName = survey.getSchoolName();
         surveyState = survey.getState();
         completionDate = survey.getCompleteDate();
         surveyTag = survey.getSurveyTag();
@@ -120,6 +125,11 @@ public class SurveyMetadata {
 
         if (!properties.containsKey(KEY_SCHOOL_ID)) {
             properties.put(KEY_SCHOOL_ID, schoolId);
+            properties.put(KEY_SCHOOL_NAME, schoolName);
+        }
+
+        if (!properties.containsKey(KEY_SCHOOL_NAME)) {
+            properties.put(KEY_SCHOOL_NAME, schoolName);
         }
 
         properties.put(KEY_LAST_EDIT_DATE, DateUtils.formatUtc(lastEditedDate));
