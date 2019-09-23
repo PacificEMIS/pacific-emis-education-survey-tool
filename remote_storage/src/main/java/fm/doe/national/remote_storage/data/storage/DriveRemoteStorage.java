@@ -177,7 +177,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, userEmail),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
-                                    new SurveyMetadata(updatedSurvey),
+                                    new SurveyMetadata(updatedSurvey, userEmail),
                                     regionFolderId)
                                     .ignoreElement()
                             );
