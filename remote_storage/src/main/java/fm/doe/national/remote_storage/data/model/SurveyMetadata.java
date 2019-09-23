@@ -93,7 +93,7 @@ public class SurveyMetadata {
         // private constructor
     }
 
-    public SurveyMetadata(Survey survey) {
+    public SurveyMetadata(Survey survey, String userEmail) {
         schoolId = survey.getSchoolId();
         schoolName = survey.getSchoolName();
         surveyState = survey.getState();
@@ -102,7 +102,7 @@ public class SurveyMetadata {
         creationDate = survey.getCreateDate();
         creator = survey.getCreateUser();
         lastEditedDate = new Date();
-        lastEditedUser = survey.getLastEditedUser();
+        lastEditedUser = (userEmail != null) ? userEmail : survey.getLastEditedUser();
         surveyType = survey.getSurveyType();
     }
 
