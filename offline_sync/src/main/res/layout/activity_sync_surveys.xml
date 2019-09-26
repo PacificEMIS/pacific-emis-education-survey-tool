@@ -30,9 +30,9 @@
         android:id="@+id/textview_empty_surveys"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
+        android:layout_below="@id/include_appbar"
         android:text="@string/label_empty_surveys"
+        android:textStyle="bold"
         android:padding="32dp"
         android:visibility="gone" />
 
