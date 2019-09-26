@@ -26,6 +26,7 @@ public class SurveyMetadata {
     private static final String KEY_LAST_EDIT_DATE = "lastEditedDateTime";
     private static final String KEY_LAST_EDIT_USER = "lastEditedUser";
     private static final String KEY_TYPE = "type";
+    private static final String SEPARATOR_CREATE_USER = ", ";
 
     private String schoolId;
     private String schoolName;
@@ -100,9 +101,9 @@ public class SurveyMetadata {
         completionDate = survey.getCompleteDate();
         surveyTag = survey.getSurveyTag();
         creationDate = survey.getCreateDate();
-        creator = survey.getCreateUser();
+        creator = getUpdatedCreateUser(survey.getCreateUser(), userEmail);
         lastEditedDate = new Date();
-        lastEditedUser = (userEmail != null) ? userEmail : survey.getLastEditedUser();
+        lastEditedUser = getUpdatedLastEditedUser(survey.getLastEditedUser(), userEmail);
         surveyType = survey.getSurveyType();
     }
 
@@ -162,6 +163,24 @@ public class SurveyMetadata {
         }
 
         return properties;
+    }
+
+    private String getUpdatedCreateUser(String existingCreateUser, String existingExternalUser) {
+        String updatedCreateUser = "";
+
+        if (existingCreateUser != null) {
+            updatedCreateUser += existingCreateUser;
+        }
+
+        if (existingExternalUser != null && !updatedCreateUser.contains(existingExternalUser)) {
+            updatedCreateUser += SEPARATOR_CREATE_USER + existingExternalUser;
+        }
+
+        return updatedCreateUser;
+    }
+
+    private String getUpdatedLastEditedUser(String lastEditedUser, String userEmail) {
+        return (userEmail != null) ? userEmail : lastEditedUser;
     }
 
     @NonNull
