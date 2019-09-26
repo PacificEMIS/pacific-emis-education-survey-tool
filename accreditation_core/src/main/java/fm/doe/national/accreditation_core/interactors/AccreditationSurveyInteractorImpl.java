@@ -165,6 +165,11 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
             survey.setState(SurveyState.COMPLETED);
             accreditationDataSource.updateSurvey(survey);
         }
+        if (survey.getState() == SurveyState.COMPLETED && !survey.getProgress().isFinished()) {
+            survey.setCompleteDate(null);
+            survey.setState(SurveyState.NOT_COMPLETED);
+            accreditationDataSource.updateSurvey(survey);
+        }
     }
 
     private int findProgressDeltaAndNotify(MutableAnswer answer,
