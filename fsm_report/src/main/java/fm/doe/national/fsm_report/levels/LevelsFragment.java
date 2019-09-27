@@ -86,7 +86,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
     public void setData(SchoolAccreditationLevel data) {
         adapter.setItems(data.getForms());
 
-        totalFinalScoreTextView.setText(String.valueOf((int) data.getTotalScore()));
+        totalFinalScoreTextView.setText(String.valueOf(data.getTotalScore()));
         totalObtainedScoreTextView.setText(String.valueOf(data.getTotalObtainedScore()));
         totalScoreTitleTextView.setText(R.string.label_total_score);
 

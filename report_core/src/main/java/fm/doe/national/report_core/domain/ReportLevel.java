@@ -40,11 +40,11 @@ public enum ReportLevel implements Level {
             R.color.level_4);
 
     private static final float MAX_LEVEL = 100.0f;
-    private static final int MIN_LEVEL = 0;
+    private static final float MIN_LEVEL = 0;
     private static final int VALUE_UNKNOWN = Integer.MAX_VALUE;
 
-    private int maxValue;
-    private int minValue = VALUE_UNKNOWN;
+    private float maxValue;
+    private float minValue = VALUE_UNKNOWN;
     private Text name;
     private Text meaning;
     private Text awards;
@@ -52,7 +52,7 @@ public enum ReportLevel implements Level {
     @ColorRes
     private int colorRes;
 
-    ReportLevel(int maxValue, Text name, Text meaning, Text determinationSource, int colorRes) {
+    ReportLevel(float maxValue, Text name, Text meaning, Text determinationSource, int colorRes) {
         this.maxValue = maxValue;
         this.name = name;
         this.meaning = meaning;
@@ -60,16 +60,16 @@ public enum ReportLevel implements Level {
         this.colorRes = colorRes;
     }
 
-    public int getMaxValue() {
+    public float getMaxValue() {
         return maxValue;
     }
 
-    public int getMinValue() {
+    public float getMinValue() {
         if (minValue == VALUE_UNKNOWN) {
             ReportLevel previousLevel = null;
             for (ReportLevel level : ReportLevel.values()) {
                 if (level == this) {
-                    minValue = previousLevel == null ? MIN_LEVEL : (previousLevel.maxValue + 1);
+                    minValue = previousLevel == null ? MIN_LEVEL : previousLevel.maxValue;
                 }
                 previousLevel = level;
             }

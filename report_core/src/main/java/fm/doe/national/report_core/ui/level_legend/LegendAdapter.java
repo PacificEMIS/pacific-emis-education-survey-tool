@@ -56,24 +56,25 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
 
         private String buildLevelName(ReportLevel item) {
             StringBuilder stringBuilder = new StringBuilder()
-                    .append(item.getName().getString(getContext()))
-                    .append(" (");
+                    .append(item.getName().getString(getContext()));
 
             if (item.getMaxValue() < 100) {
                 stringBuilder
+                        .append(" (")
                         .append(item.getMinValue())
                         .append("-")
                         .append(item.getMaxValue())
-                        .append("%");
+                        .append("%")
+                        .append("]");
             } else {
                 stringBuilder
+                        .append(" (")
                         .append(getString(R.string.above))
                         .append(" ")
-                        .append(item.getMinValue() - 1)
-                        .append("%");
+                        .append(item.getMinValue())
+                        .append("%")
+                        .append(")");
             }
-
-            stringBuilder.append(")");
             return stringBuilder.toString();
         }
 
