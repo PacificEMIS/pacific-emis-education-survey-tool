@@ -137,15 +137,11 @@ public class SurveyMetadata {
         properties.put(KEY_LAST_EDIT_USER, lastEditedUser);
         properties.put(KEY_CREATION_USER, creator);
 
-        String existingSurveyStateAsString = properties.get(KEY_COMPLETION);
-        if (existingSurveyStateAsString == null ||
-                SurveyState.fromValue(existingSurveyStateAsString) == SurveyState.NOT_COMPLETED) {
-            properties.put(KEY_COMPLETION, surveyState.getValue());
-        }
-
-        String existingCompletionDateAsString = properties.get(KEY_COMPLETION_DATE);
-        if (existingCompletionDateAsString == null && completionDate != null && surveyState == SurveyState.COMPLETED) {
+        properties.put(KEY_COMPLETION, surveyState.getValue());
+        if (surveyState == SurveyState.COMPLETED) {
             properties.put(KEY_COMPLETION_DATE, DateUtils.formatUtc(completionDate));
+        } else {
+            properties.remove(KEY_COMPLETION_DATE);
         }
 
         String existingSurveyTag = properties.get(KEY_SURVEY_TAG);
