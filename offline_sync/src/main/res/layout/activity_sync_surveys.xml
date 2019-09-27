@@ -32,8 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/include_appbar"
         android:text="@string/label_empty_surveys"
-        android:textStyle="bold"
         android:padding="32dp"
+        android:textStyle="bold"
+        android:textAppearance="@style/Text.Body1"
         android:visibility="gone" />
 
     <com.omega_r.libs.OmegaCenterIconButton
