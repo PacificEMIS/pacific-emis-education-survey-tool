@@ -165,10 +165,15 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
             survey.setState(SurveyState.COMPLETED);
             accreditationDataSource.updateSurvey(survey);
         }
-        if (survey.getState() == SurveyState.COMPLETED && !survey.getProgress().isFinished()) {
-            survey.setCompleteDate(null);
-            survey.setState(SurveyState.NOT_COMPLETED);
-            accreditationDataSource.updateSurvey(survey);
+        if (!survey.getProgress().isFinished()) {
+            if (survey.getState() == SurveyState.COMPLETED) {
+                survey.setCompleteDate(null);
+                survey.setState(SurveyState.NOT_COMPLETED);
+                accreditationDataSource.updateSurvey(survey);
+            } else {
+                survey.setCompleteDate(null);
+                survey.setState(SurveyState.NOT_COMPLETED);
+            }
         }
     }
 
