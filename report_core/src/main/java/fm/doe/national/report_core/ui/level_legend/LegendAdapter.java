@@ -64,16 +64,16 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
                         .append(item.getMinValue())
                         .append("-")
                         .append(item.getMaxValue())
-                        .append("%");
+                        .append("%")
+                        .append("]");
             } else {
                 stringBuilder
                         .append(getString(R.string.above))
                         .append(" ")
-                        .append(item.getMinValue() - 1)
-                        .append("%");
+                        .append(item.getMinValue())
+                        .append("%")
+                        .append(")");
             }
-
-            stringBuilder.append(")");
             return stringBuilder.toString();
         }
 
