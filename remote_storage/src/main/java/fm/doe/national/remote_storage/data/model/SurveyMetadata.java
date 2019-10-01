@@ -139,6 +139,7 @@ public class SurveyMetadata {
 
         properties.put(KEY_COMPLETION, surveyState.getValue());
         if (surveyState == SurveyState.COMPLETED) {
+            completionDate = new Date();
             properties.put(KEY_COMPLETION_DATE, DateUtils.formatUtc(completionDate));
         } else {
             properties.remove(KEY_COMPLETION_DATE);
