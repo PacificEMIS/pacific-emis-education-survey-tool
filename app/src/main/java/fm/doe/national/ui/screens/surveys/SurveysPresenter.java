@@ -50,6 +50,8 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     private Survey surveyToDelete;
 
+    private boolean requestLoadPartiallySavedSurvey;
+
     public SurveysPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
 
@@ -146,12 +148,8 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     public void onLoadPartiallySavedSurveyPressed() {
-        addDisposable(settingsInteractor.createFilledSurveyFromCloud()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(d -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(this::loadRecentSurveys, this::handleError));
+        requestLoadPartiallySavedSurvey = true;
+        getViewState().promptMasterPassword(Text.from(R.string.message_load_partially_password_prompt));
     }
 
     @NonNull
@@ -168,7 +166,15 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     @Override
     protected void onMasterPasswordValidated() {
-        if (surveyToDelete != null) {
+        if (requestLoadPartiallySavedSurvey) {
+            requestLoadPartiallySavedSurvey = false;
+            addDisposable(settingsInteractor.createFilledSurveyFromCloud()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(d -> getViewState().showWaiting())
+                    .doFinally(() -> getViewState().hideWaiting())
+                    .subscribe(this::loadRecentSurveys, this::handleError));
+        } else if (surveyToDelete != null) {
             deleteSurvey();
         }
     }

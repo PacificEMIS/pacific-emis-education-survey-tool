@@ -17,6 +17,7 @@ import fm.doe.national.core.utils.DateUtils;
 public class SurveyMetadata {
 
     private static final String KEY_SCHOOL_ID = "schoolNo";
+    private static final String KEY_SCHOOL_NAME = "schoolName";
     private static final String KEY_COMPLETION = "surveyCompleted";
     private static final String KEY_COMPLETION_DATE = "surveyCompletedDateTime";
     private static final String KEY_SURVEY_TAG = "surveyTag";
@@ -25,8 +26,10 @@ public class SurveyMetadata {
     private static final String KEY_LAST_EDIT_DATE = "lastEditedDateTime";
     private static final String KEY_LAST_EDIT_USER = "lastEditedUser";
     private static final String KEY_TYPE = "type";
+    private static final String SEPARATOR_CREATE_USER = ", ";
 
     private String schoolId;
+    private String schoolName;
     private String lastEditedUser;
     private SurveyState surveyState;
     private String creator;
@@ -49,6 +52,8 @@ public class SurveyMetadata {
         }
 
         metadata.schoolId = properties.get(KEY_SCHOOL_ID);
+        metadata.schoolName = properties.get(KEY_SCHOOL_NAME);
+
         metadata.lastEditedUser = properties.get(KEY_LAST_EDIT_USER);
         metadata.creator = properties.get(KEY_CREATION_USER);
 
@@ -89,15 +94,16 @@ public class SurveyMetadata {
         // private constructor
     }
 
-    public SurveyMetadata(Survey survey) {
+    public SurveyMetadata(Survey survey, String userEmail) {
         schoolId = survey.getSchoolId();
+        schoolName = survey.getSchoolName();
         surveyState = survey.getState();
         completionDate = survey.getCompleteDate();
         surveyTag = survey.getSurveyTag();
         creationDate = survey.getCreateDate();
-        creator = survey.getCreateUser();
+        creator = getUpdatedCreateUser(survey.getCreateUser(), userEmail);
         lastEditedDate = new Date();
-        lastEditedUser = survey.getLastEditedUser();
+        lastEditedUser = getUpdatedLastEditedUser(survey.getLastEditedUser(), userEmail);
         surveyType = survey.getSurveyType();
     }
 
@@ -120,21 +126,23 @@ public class SurveyMetadata {
 
         if (!properties.containsKey(KEY_SCHOOL_ID)) {
             properties.put(KEY_SCHOOL_ID, schoolId);
+            properties.put(KEY_SCHOOL_NAME, schoolName);
+        }
+
+        if (!properties.containsKey(KEY_SCHOOL_NAME)) {
+            properties.put(KEY_SCHOOL_NAME, schoolName);
         }
 
         properties.put(KEY_LAST_EDIT_DATE, DateUtils.formatUtc(lastEditedDate));
         properties.put(KEY_LAST_EDIT_USER, lastEditedUser);
         properties.put(KEY_CREATION_USER, creator);
 
-        String existingSurveyStateAsString = properties.get(KEY_COMPLETION);
-        if (existingSurveyStateAsString == null ||
-                SurveyState.fromValue(existingSurveyStateAsString) == SurveyState.NOT_COMPLETED) {
-            properties.put(KEY_COMPLETION, surveyState.getValue());
-        }
-
-        String existingCompletionDateAsString = properties.get(KEY_COMPLETION_DATE);
-        if (existingCompletionDateAsString == null && completionDate != null && surveyState == SurveyState.COMPLETED) {
+        properties.put(KEY_COMPLETION, surveyState.getValue());
+        if (surveyState == SurveyState.COMPLETED) {
+            completionDate = new Date();
             properties.put(KEY_COMPLETION_DATE, DateUtils.formatUtc(completionDate));
+        } else {
+            properties.remove(KEY_COMPLETION_DATE);
         }
 
         String existingSurveyTag = properties.get(KEY_SURVEY_TAG);
@@ -152,6 +160,24 @@ public class SurveyMetadata {
         }
 
         return properties;
+    }
+
+    private String getUpdatedCreateUser(String existingCreateUser, String existingExternalUser) {
+        String updatedCreateUser = "";
+
+        if (existingCreateUser != null) {
+            updatedCreateUser += existingCreateUser;
+        }
+
+        if (existingExternalUser != null && !updatedCreateUser.contains(existingExternalUser)) {
+            updatedCreateUser += SEPARATOR_CREATE_USER + existingExternalUser;
+        }
+
+        return updatedCreateUser;
+    }
+
+    private String getUpdatedLastEditedUser(String lastEditedUser, String userEmail) {
+        return (userEmail != null) ? userEmail : lastEditedUser;
     }
 
     @NonNull

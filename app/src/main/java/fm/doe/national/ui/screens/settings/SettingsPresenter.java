@@ -59,11 +59,11 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createImportSchoolsItem(),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
-                itemFactory.createLoadProdCertificateItem()
+                itemFactory.createLoadProdCertificateItem(),
+                itemFactory.createDebugStorageItem()
         ));
 
         if (BuildConfig.DEBUG) {
-            items.add(itemFactory.createDebugStorageItem());
             items.add(itemFactory.createDebugBuildInfoItem());
         }
 

@@ -13,4 +13,5 @@
     <string name="label_try_again">Try again</string>
     <string name="ok">OK</string>
     <string name="title_merge_progress">Merge process</string>
+    <string name="label_empty_surveys">There are no survey with same school and same survey date on the tablet you are trying to merge from.</string>
 </resources>

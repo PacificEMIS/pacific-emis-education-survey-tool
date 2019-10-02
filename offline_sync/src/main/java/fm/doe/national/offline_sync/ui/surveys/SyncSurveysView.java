@@ -24,4 +24,6 @@ public interface SyncSurveysView extends BaseView {
 
     void setNextEnabled(boolean enabled);
 
+    void setEmptyStateEnabled(boolean enabled);
+
 }
