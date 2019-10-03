@@ -116,10 +116,6 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
 
     @Override
     public void showDebugStorage() {
-        if (!BuildConfig.DEBUG) {
-            throw new IllegalStateException();
-        }
-
         Activity currentActivity = lifecycleListener.getCurrentActivity();
 
         if (currentActivity == null) {
