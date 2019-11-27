@@ -431,7 +431,7 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
 
         if (answerAsString != null) {
             for (String relationAnswer : relation.getRelationAnswers()) {
-                if (answerAsString.toLowerCase().equals(relationAnswer.toLowerCase())) {
+                if (answerAsString.toLowerCase().contains(relationAnswer.toLowerCase())) {
                     return true;
                 }
             }
