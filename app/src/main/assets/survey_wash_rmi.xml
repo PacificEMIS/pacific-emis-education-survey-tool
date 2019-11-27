@@ -411,7 +411,7 @@
             <question>
                 <id>SW.W.17</id>
                 <name>What is the reason/s for not treating water?</name>
-                <flags>CHOOSE|SINGLE</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.W.15</id>
                     <relationAnswer>No</relationAnswer>

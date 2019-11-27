@@ -32,8 +32,8 @@ public class RemoteStorageModule {
 
     @Provides
     @RemoteStorageScope
-    RemoteUploader provideRemoteUploader() {
-        return new WorkerRemoteUploader();
+    RemoteUploader provideRemoteUploader(Context context) {
+        return new WorkerRemoteUploader(context);
     }
 
     @Provides
