@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/label_school_name"
+                android:text="@string/label_school_name_sync"
                 android:textAppearance="@style/Text.Title1.Large" />
 
             <TextView
