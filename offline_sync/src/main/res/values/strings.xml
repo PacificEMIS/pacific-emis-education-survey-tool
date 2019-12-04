@@ -7,7 +7,7 @@
     <string name="label_choose_device">Choose device</string>
     <string name="label_select_survey">Select survey</string>
     <string name="label_device_name">Device name</string>
-    <string name="label_school_name">School name</string>
+    <string name="label_school_name_sync">School name</string>
     <string name="label_mac_address">Mac address</string>
     <string name="label_survey_date">Survey date</string>
     <string name="label_try_again">Try again</string>
