@@ -411,7 +411,7 @@
             <question>
                 <id>SW.W.17</id>
                 <name>What is the reason/s for not treating water?</name>
-                <flags>CHOOSE|SINGLE</flags>
+                <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.W.15</id>
                     <relationAnswer>No</relationAnswer>
@@ -1006,10 +1006,9 @@
                     <relationAnswer>Most</relationAnswer>
                     <relationAnswer>Some</relationAnswer>
                 </relation>
-                <item>All</item>
-                <item>Most</item>
-                <item>Some</item>
-                <item>None</item>
+                <item>Running water from a piped system ot tank (faucet and sink/stand tap/rainwater tank and faucet/bucket and spigot)</item>
+                <item>Hand poured water system (bucket or ladle)</item>
+                <item>Basin/bucket (hand washing done in the water and not running or poured)</item>
             </question>
             <question>
                 <id>SW.H.5</id>

@@ -1,6 +1,7 @@
 package fm.doe.national.remote_storage.data.uploader;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.util.LongSparseArray;
 
@@ -30,7 +31,10 @@ public class WorkerRemoteUploader implements RemoteUploader {
 
     private final PublishSubject<Long> publishSubject = PublishSubject.create();
 
-    public WorkerRemoteUploader() {
+    private final Context appContext;
+
+    public WorkerRemoteUploader(Context appContext) {
+        this.appContext = appContext;
         setupPublisher();
     }
 
@@ -50,7 +54,7 @@ public class WorkerRemoteUploader implements RemoteUploader {
                         .putLong(UploadWorker.DATA_PASSING_ID, passingId)
                         .build())
                 .build();
-        WorkManager.getInstance().enqueue(workRequest);
+        WorkManager.getInstance(appContext).enqueue(workRequest);
         currentWorkers.put(passingId, workRequest.getId());
     }
 
