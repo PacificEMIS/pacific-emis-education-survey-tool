@@ -8,11 +8,12 @@ import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.report_core.model.ReportPage;
 import fm.doe.national.report_core.ui.level_legend.LevelLegendView;
 
-@StateStrategyType(OneExecutionStateStrategy.class)
 public interface ReportView extends BaseView {
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void setReportPages(List<ReportPage> pages);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void setHeaderItem(LevelLegendView.Item item);
 
 }

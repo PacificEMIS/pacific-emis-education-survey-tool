@@ -2,8 +2,8 @@ package fm.doe.national.core.data.model;
 
 import androidx.annotation.Nullable;
 
-import com.omega_r.libs.omegatypes.Image;
-import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
+import com.omega_r.libs.omegatypes.image.Image;
+import com.omega_r.libs.omegatypes.image.UrlImage;
 
 import java.io.File;
 
@@ -22,11 +22,9 @@ public interface Photo extends IdentifiedObject {
 
         if (localPath != null && new File(localPath).exists()) {
             return localPath;
-        } else if (remotePath != null) {
+        } else {
             return remotePath;
         }
-
-        return null;
     }
 
     @Nullable
@@ -34,7 +32,7 @@ public interface Photo extends IdentifiedObject {
         String path = getUsablePath();
 
         if (path != null) {
-            return UrlImageExtensionsKt.from(Image.Companion, path);
+            return new UrlImage(path);
         }
 
         return null;

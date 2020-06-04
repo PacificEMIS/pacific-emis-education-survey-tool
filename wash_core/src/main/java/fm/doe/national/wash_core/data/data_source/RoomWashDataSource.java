@@ -19,7 +19,6 @@ import fm.doe.national.core.data.model.mutable.MutablePhoto;
 import fm.doe.national.core.preferences.LocalSettings;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.utils.CollectionUtils;
-import fm.doe.national.wash_core.BuildConfig;
 import fm.doe.national.wash_core.data.model.Answer;
 import fm.doe.national.wash_core.data.model.Group;
 import fm.doe.national.wash_core.data.model.Question;
@@ -42,8 +41,8 @@ import io.reactivex.Single;
 
 public class RoomWashDataSource extends DataSourceImpl implements WashDataSource {
 
-    private static final String DATABASE_NAME = BuildConfig.APPLICATION_ID + ".database";
-    private static final String TEMPLATE_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".template_database";
+    private static final String DATABASE_NAME = "wash.database";
+    private static final String TEMPLATE_DATABASE_NAME = "wash.template_database";
 
     private final AnswerDao answerDao;
     private final PhotoDao photoDao;

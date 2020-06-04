@@ -13,14 +13,15 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.omega_r.libs.omegatypes.Image;
 import com.omega_r.libs.omegatypes.Text;
+import com.omega_r.libs.omegatypes.image.Image;
 import com.omegar.mvp.presenter.InjectPresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothActivity;
 import fm.doe.national.ui.dialogs.merge_progress.MergeProgressDialogFragment;
 import fm.doe.national.ui.screens.license.LicenseActivity;
@@ -132,7 +133,7 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
 
     @Override
     public void setIcon(Image image) {
-        image.applyImage(iconImageView, 0);
+        ViewUtils.setImageTo(iconImageView, image);
     }
 
     @Override

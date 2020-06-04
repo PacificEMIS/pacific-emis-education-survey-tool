@@ -9,11 +9,12 @@ import java.util.List;
 import fm.doe.national.offline_sync.data.model.Device;
 import fm.doe.national.offline_sync.ui.base.BaseBluetoothView;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface PairedDevicesView extends BaseBluetoothView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setDevicesList(List<Device> devices);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setListLoadingVisible(boolean visible);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
@@ -22,5 +23,7 @@ public interface PairedDevicesView extends BaseBluetoothView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSurveys();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setNextEnabled(boolean enabled);
+
 }

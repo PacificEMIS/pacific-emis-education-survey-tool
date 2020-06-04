@@ -3,8 +3,8 @@ package fm.doe.national.core.preferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.omega_r.libs.omegatypes.Image;
 import com.omega_r.libs.omegatypes.Text;
+import com.omega_r.libs.omegatypes.image.Image;
 
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.preferences.entities.OperatingMode;

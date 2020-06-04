@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fm.doe.national.accreditation_core.BuildConfig;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.Category;
@@ -45,8 +44,8 @@ import io.reactivex.Single;
 
 public class RoomAccreditationDataSource extends DataSourceImpl implements AccreditationDataSource {
 
-    private static final String DATABASE_NAME = BuildConfig.APPLICATION_ID + ".database";
-    private static final String TEMPLATE_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".template_database";
+    private static final String DATABASE_NAME = "accreditation.database";
+    private static final String TEMPLATE_DATABASE_NAME = "accreditation.template_database";
 
     private final SurveyDao surveyDao;
     private final AnswerDao answerDao;
@@ -190,7 +189,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
                 .toList()
-                .map(list -> new ArrayList<>(list));
+                .map(ArrayList::new);
     }
 
     @Override
@@ -199,7 +198,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
                 .flatMapObservable(Observable::fromIterable)
                 .map(MutableAccreditationSurvey::new)
                 .toList()
-                .map(list -> new ArrayList<>(list));
+                .map(ArrayList::new);
     }
 
     @Override

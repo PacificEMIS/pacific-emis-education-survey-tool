@@ -9,9 +9,9 @@ import java.util.List;
 import fm.doe.national.core.preferences.entities.AppRegion;
 import fm.doe.national.core.ui.screens.base.BaseView;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface ChooseRegionView extends BaseView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setRegions(List<AppRegion> regions);
 
     @StateStrategyType(OneExecutionStateStrategy.class)

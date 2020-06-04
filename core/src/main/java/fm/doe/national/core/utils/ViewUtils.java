@@ -21,7 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.image.Image;
+import com.omega_r.libs.omegatypes.image.ImageKt;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,7 +65,7 @@ public class ViewUtils {
 
     public static void setImageTo(ImageView imageView, @Nullable Image image) {
         if (image != null) {
-            image.applyImage(imageView, 0);
+            ImageKt.setImage(imageView, image);
         }
     }
 

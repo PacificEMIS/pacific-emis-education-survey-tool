@@ -14,20 +14,24 @@ import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface SurveyView extends BaseView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setSchoolName(String schoolName);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void updateQuestionsGroupProgress(long id, Progress progress);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setNavigationTitle(@Nullable Text prefix, Text name, @Nullable Progress progress);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setNavigationItems(List<NavigationItem> items);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showNavigationItem(BuildableNavigationItem item);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setReportEnabled(boolean enabled);
 
     @StateStrategyType(OneExecutionStateStrategy.class)

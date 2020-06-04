@@ -8,9 +8,9 @@ import java.util.List;
 import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.survey_core.navigation.NavigationItem;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface SurveyTemplateView extends BaseView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setItems(List<NavigationItem> items);
 
 }

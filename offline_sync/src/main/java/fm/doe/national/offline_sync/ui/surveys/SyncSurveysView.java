@@ -9,11 +9,12 @@ import java.util.List;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BaseView;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface SyncSurveysView extends BaseView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setListLoadingVisible(boolean visible);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setSurveys(List<Survey> surveys);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
@@ -22,8 +23,10 @@ public interface SyncSurveysView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToProgress();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setNextEnabled(boolean enabled);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setEmptyStateEnabled(boolean enabled);
 
 }

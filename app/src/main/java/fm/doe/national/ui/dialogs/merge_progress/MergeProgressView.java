@@ -7,14 +7,15 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import fm.doe.national.core.ui.screens.base.BaseView;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface MergeProgressView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void close();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setProgress(int progress);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setDescription(Text text);
 
 }

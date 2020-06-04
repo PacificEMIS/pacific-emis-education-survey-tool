@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
-import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.image.Image;
 import com.omegar.mvp.presenter.InjectPresenter;
 
 import java.io.IOException;
@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import fm.doe.national.R;
 import fm.doe.national.core.ui.screens.base.BaseActivity;
+import fm.doe.national.core.utils.ViewUtils;
 
 public class LogoActivity extends BaseActivity implements LogoView {
 
@@ -45,7 +46,7 @@ public class LogoActivity extends BaseActivity implements LogoView {
 
     @Override
     public void setLogo(Image logo) {
-        logo.applyImage(logoImageView, 0);
+        ViewUtils.setImageTo(logoImageView, logo);
     }
 
     @Override
