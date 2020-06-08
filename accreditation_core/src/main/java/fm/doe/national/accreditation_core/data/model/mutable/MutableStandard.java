@@ -1,12 +1,14 @@
 package fm.doe.national.accreditation_core.data.model.mutable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
@@ -20,6 +22,9 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
     private List<MutableCriteria> criterias;
     private MutableProgress progress = MutableProgress.createEmptyProgress();
 
+    @Nullable
+    private MutableObservationInfo observationInfo;
+
     public MutableStandard() {
     }
 
@@ -29,6 +34,11 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         this.suffix = other.getSuffix();
         if (other.getCriterias() != null) {
             this.criterias = other.getCriterias().stream().map(MutableCriteria::new).collect(Collectors.toList());
+        }
+
+        final ObservationInfo otherObservationInfo = other.getObservationInfo();
+        if (otherObservationInfo != null) {
+            this.observationInfo = new MutableObservationInfo(otherObservationInfo);
         }
     }
 
@@ -50,6 +60,12 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
         return criterias;
     }
 
+    @Nullable
+    @Override
+    public ObservationInfo getObservationInfo() {
+        return observationInfo;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -60,6 +76,10 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
 
     public void setCriterias(List<MutableCriteria> criterias) {
         this.criterias = criterias;
+    }
+
+    public void setObservationInfo(@Nullable MutableObservationInfo observationInfo) {
+        this.observationInfo = observationInfo;
     }
 
     @NonNull
@@ -83,6 +103,15 @@ public class MutableStandard extends BaseMutableEntity implements Standard {
                         break;
                     }
                 }
+            }
+        }
+
+        final ObservationInfo otherObservationInfo = other.getObservationInfo();
+        if (otherObservationInfo != null) {
+            if (this.observationInfo == null) {
+                this.observationInfo = new MutableObservationInfo(otherObservationInfo);
+            } else {
+                this.observationInfo.merge(otherObservationInfo, strategy);
             }
         }
 
