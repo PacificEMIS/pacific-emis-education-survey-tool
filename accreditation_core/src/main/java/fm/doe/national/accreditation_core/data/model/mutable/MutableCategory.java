@@ -83,7 +83,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
 
     @Nullable
     @Override
-    public ObservationInfo getObservationInfo() {
+    public MutableObservationInfo getObservationInfo() {
         return observationInfo;
     }
 

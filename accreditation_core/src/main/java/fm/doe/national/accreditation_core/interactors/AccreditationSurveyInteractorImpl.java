@@ -120,6 +120,14 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     }
 
     @Override
+    public Single<MutableCategory> requestCategory(long categoryId) {
+        return requestCategories()
+                .flatMapObservable(Observable::fromIterable)
+                .filter(cat -> cat.getId() == categoryId)
+                .firstOrError();
+    }
+
+    @Override
     public Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId) {
         return requestStandards(categoryId)
                 .flatMapObservable(Observable::fromIterable)

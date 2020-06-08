@@ -21,6 +21,10 @@ public class MutableObservationInfo implements ObservationInfo {
     @Nullable
     private Date date;
 
+    public MutableObservationInfo() {
+
+    }
+
     public MutableObservationInfo(@Nullable String teacherName,
                                   @Nullable String grade,
                                   @Nullable Integer totalStudentsPresent,

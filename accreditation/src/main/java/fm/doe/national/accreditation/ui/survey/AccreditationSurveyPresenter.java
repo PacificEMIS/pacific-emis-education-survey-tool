@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.accreditation.ui.navigation.concrete.CategoryNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.concrete.ClassroomObservationInfoNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportTitleNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.StandardNavigationItem;
+import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
@@ -62,6 +64,10 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
 
                     for (MutableCategory category : categories) {
                         navigationItems.add(new CategoryNavigationItem(category));
+
+                        if (category.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION) {
+                            navigationItems.add(new ClassroomObservationInfoNavigationItem(category.getId()));
+                        }
 
                         for (MutableStandard standard : category.getStandards()) {
                             StandardNavigationItem standardItem = new StandardNavigationItem(category, standard);

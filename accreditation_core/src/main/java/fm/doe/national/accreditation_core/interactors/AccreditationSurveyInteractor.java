@@ -17,6 +17,8 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
     Single<List<MutableStandard>> requestStandards(long categoryId);
 
+    Single<MutableCategory> requestCategory(long categoryId);
+
     Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId);
 
     Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
