@@ -11,11 +11,12 @@ import org.simpleframework.xml.convert.Convert;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fm.doe.national.accreditation_core.data.serialization.EvaluationFormConverter;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
-import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.accreditation_core.data.serialization.EvaluationFormConverter;
+import fm.doe.national.core.data.model.Progress;
 
 @Root(name = "category")
 public class SerializableCategory implements Category {
@@ -30,11 +31,18 @@ public class SerializableCategory implements Category {
     @Element
     String name;
 
+    @Nullable
+    @Element(name = "observationInfo", required = false)
+    SerializableObservationInfo observationInfo;
+
     public SerializableCategory(@NonNull Category other) {
         this.name = other.getTitle();
         this.evaluationForm = other.getEvaluationForm();
         if (other.getStandards() != null) {
             this.standards = other.getStandards().stream().map(SerializableStandard::new).collect(Collectors.toList());
+        }
+        if (other.getObservationInfo() != null) {
+            this.observationInfo = new SerializableObservationInfo(other.getObservationInfo());
         }
     }
 
@@ -56,6 +64,12 @@ public class SerializableCategory implements Category {
     @Override
     public long getId() {
         return 0;
+    }
+
+    @Nullable
+    @Override
+    public ObservationInfo getObservationInfo() {
+        return observationInfo;
     }
 
     @NonNull

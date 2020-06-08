@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Criteria;
-import fm.doe.national.accreditation_core.data.model.ObservationInfo;
-import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.core.data.model.Progress;
 
 @Root(name = "standard")
 public class SerializableStandard implements Standard {
@@ -30,10 +29,6 @@ public class SerializableStandard implements Standard {
     @Element(name = "id", required = false)
     String index;
 
-    @Nullable
-    @Element(name = "observationInfo", required = false)
-    SerializableObservationInfo observationInfo;
-
     public SerializableStandard() {
     }
 
@@ -42,9 +37,6 @@ public class SerializableStandard implements Standard {
         this.index = other.getSuffix();
         if (other.getCriterias() != null) {
             this.criterias = other.getCriterias().stream().map(SerializableCriteria::new).collect(Collectors.toList());
-        }
-        if (other.getObservationInfo() != null) {
-            this.observationInfo = new SerializableObservationInfo(other.getObservationInfo());
         }
     }
 
@@ -64,12 +56,6 @@ public class SerializableStandard implements Standard {
     @Override
     public List<? extends Criteria> getCriterias() {
         return criterias == null ? Collections.emptyList() : criterias;
-    }
-
-    @Nullable
-    @Override
-    public ObservationInfo getObservationInfo() {
-        return observationInfo;
     }
 
     @Override

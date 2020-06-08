@@ -1,6 +1,7 @@
 package fm.doe.national.accreditation_core.data.model.mutable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
@@ -20,6 +22,8 @@ public class MutableCategory extends BaseMutableEntity implements Category {
     private List<MutableStandard> standards;
     private MutableProgress progress = MutableProgress.createEmptyProgress();
     private EvaluationForm evaluationForm;
+    @Nullable
+    private MutableObservationInfo observationInfo;
 
     public MutableCategory(@NonNull Category other) {
         this.id = other.getId();
@@ -27,6 +31,11 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         this.evaluationForm = other.getEvaluationForm();
         if (other.getStandards() != null) {
             this.standards = other.getStandards().stream().map(MutableStandard::new).collect(Collectors.toList());
+        }
+
+        final ObservationInfo otherObservationInfo = other.getObservationInfo();
+        if (otherObservationInfo != null) {
+            this.observationInfo = new MutableObservationInfo(otherObservationInfo);
         }
     }
 
@@ -68,6 +77,16 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         this.evaluationForm = evaluationForm;
     }
 
+    public void setObservationInfo(@Nullable MutableObservationInfo observationInfo) {
+        this.observationInfo = observationInfo;
+    }
+
+    @Nullable
+    @Override
+    public ObservationInfo getObservationInfo() {
+        return observationInfo;
+    }
+
     public List<MutableAnswer> merge(Category other, ConflictResolveStrategy strategy) {
         List<? extends Standard> externalStandards = other.getStandards();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
@@ -80,6 +99,15 @@ public class MutableCategory extends BaseMutableEntity implements Category {
                         break;
                     }
                 }
+            }
+        }
+
+        final ObservationInfo otherObservationInfo = other.getObservationInfo();
+        if (otherObservationInfo != null) {
+            if (this.observationInfo == null) {
+                this.observationInfo = new MutableObservationInfo(otherObservationInfo);
+            } else {
+                this.observationInfo.merge(otherObservationInfo, strategy);
             }
         }
 
