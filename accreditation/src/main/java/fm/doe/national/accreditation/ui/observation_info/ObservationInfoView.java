@@ -9,6 +9,7 @@ import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.Date;
+import java.util.List;
 
 import fm.doe.national.core.ui.screens.base.BaseView;
 
@@ -41,8 +42,15 @@ public interface ObservationInfoView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showDateTimePicker(@NonNull Date sourceDate, @NonNull OnDateTimePickedListener listener);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showGradeSelector(@NonNull List<String> possibleGrades, @NonNull OnGradePickedListener listener);
+
     interface OnDateTimePickedListener {
         void onDateTimePicked(@NonNull Date date);
+    }
+
+    interface OnGradePickedListener {
+        void onGradePicked(@NonNull String grade);
     }
 
 }

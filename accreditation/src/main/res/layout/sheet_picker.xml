@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_sheet_picker" >
+
+        <include layout="@layout/include_sheet_header" />
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+</FrameLayout>

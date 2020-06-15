@@ -8,4 +8,5 @@
     <string name="label_observation_info_total_students">Total students present</string>
     <string name="label_observation_info_subject">Subject</string>
     <string name="label_observation_date_time">Date time</string>
+    <string name="label_select_grade">Select a grade</string>
 </resources>

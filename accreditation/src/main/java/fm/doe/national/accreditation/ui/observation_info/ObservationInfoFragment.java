@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
@@ -25,6 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import fm.doe.national.accreditation.R;
@@ -136,7 +139,7 @@ public class ObservationInfoFragment extends BaseFragment implements
         teacherNameEditText.addTextChangedListener(teacherNameTextWatcher);
         totalStudentsEditText.addTextChangedListener(totalStudentsTextWatcher);
         subjectEditText.addTextChangedListener(subjectTextWatcher);
-        gradeTextView.setOnClickListener((view) -> showGradeSelector());
+        gradeTextView.setOnClickListener((view) -> presenter.onGradePressed());
         dateTimeTextView.setOnClickListener((view) -> presenter.onDateTimePressed());
     }
 
@@ -194,17 +197,6 @@ public class ObservationInfoFragment extends BaseFragment implements
         presenter.onNextPressed();
     }
 
-    private void showGradeSelector() {
-//        selectorDialog = new BottomSheetDialog(requireContext());
-//        View sheetView = getLayoutInflater().inflate(R.layout.sheet_operating_mode, null);
-//        View prodItemView = sheetView.findViewById(R.id.textview_prod);
-//        View devItemView = sheetView.findViewById(R.id.textview_dev);
-//        TextView titleTextView = sheetView.findViewById(R.id.textview_title);
-//        titleTextView.setText(R.string.title_choose_op_mode);
-//        selectorDialog.setContentView(sheetView);
-//        selectorDialog.show();
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -243,5 +235,22 @@ public class ObservationInfoFragment extends BaseFragment implements
                 sourceCalendar.get(Calendar.MONTH),
                 sourceCalendar.get(Calendar.DATE)
         ).show();
+    }
+
+    @Override
+    public void showGradeSelector(@NonNull List<String> possibleGrades, @NonNull OnGradePickedListener listener) {
+        selectorDialog = new BottomSheetDialog(requireContext());
+        final View sheetView = getLayoutInflater().inflate(R.layout.sheet_picker, null);
+        final SheetPickerAdapter adapter = new SheetPickerAdapter(possibleGrades, item -> {
+            listener.onGradePicked(item);
+            safeDismiss(selectorDialog);
+        });
+        adapter.setItems(possibleGrades);
+        final RecyclerView recyclerView = sheetView.findViewById(R.id.recyclerview);
+        recyclerView.setAdapter(adapter);
+        final TextView titleTextView = sheetView.findViewById(R.id.textview_title);
+        titleTextView.setText(R.string.label_select_grade);
+        selectorDialog.setContentView(sheetView);
+        selectorDialog.show();
     }
 }

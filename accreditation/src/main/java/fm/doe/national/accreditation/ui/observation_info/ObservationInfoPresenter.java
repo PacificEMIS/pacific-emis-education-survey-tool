@@ -5,7 +5,9 @@ import android.util.Log;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.accreditation.R;
@@ -27,6 +29,23 @@ import io.reactivex.subjects.PublishSubject;
 
 @InjectViewState
 public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView> {
+
+    private final static List<String> POSSIBLE_GRADES = Arrays.asList(
+            "Grade 1-10",
+            "Grade 1-4",
+            "Grade 1-6",
+            "Grade 1-7",
+            "Grade 1-8",
+            "Grade 9-11",
+            "Grade 9-12",
+            "Grade ECE-10",
+            "Grade ECE-12",
+            "Grade ECE-5",
+            "Grade ECE-8",
+            "Grade 1-5",
+            "Grade 5-8"
+    );
+
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
     private final RemoteStorageAccessor remoteStorageAccessor;
     private final SurveyNavigator navigator;
@@ -192,11 +211,6 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         teacherNameSubject.onNext(RxNullableObject.wrap(teacherName));
     }
 
-    public void onGradeChanged(String grade) {
-        observationInfo.setGrade(grade);
-        infoChangedSubject.onNext(observationInfo);
-    }
-
     public void onTotalStudentsChanged(Integer totalStudents) {
         totalStudentsSubject.onNext(RxNullableObject.wrap(totalStudents));
     }
@@ -214,5 +228,13 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                 infoChangedSubject.onNext(observationInfo);
             });
         }
+    }
+
+    public void onGradePressed() {
+        getViewState().showGradeSelector(POSSIBLE_GRADES, selectedGrade -> {
+            observationInfo.setGrade(selectedGrade);
+            getViewState().setGrade(selectedGrade);
+            infoChangedSubject.onNext(observationInfo);
+        });
     }
 }
