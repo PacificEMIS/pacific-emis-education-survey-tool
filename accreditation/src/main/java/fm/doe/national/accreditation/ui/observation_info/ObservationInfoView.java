@@ -1,5 +1,6 @@
 package fm.doe.national.accreditation.ui.observation_info;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -34,6 +35,6 @@ public interface ObservationInfoView extends BaseView {
     void setSubject(@Nullable String subject);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void setDate(@Nullable Date date);
+    void setDate(@NonNull Date date);
 
 }

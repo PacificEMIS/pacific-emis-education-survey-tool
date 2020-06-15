@@ -1,12 +1,16 @@
 package fm.doe.national.survey_core.navigation.survey_navigator;
 
+import com.omega_r.libs.omegatypes.Text;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.core.data.model.IdentifiedObject;
+import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.NavigationItem;
+import fm.doe.national.survey_core.navigation.PrefixedBuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.ProgressablePrefixedBuildableNavigationItem;
 import fm.doe.national.survey_core.ui.survey.SurveyView;
 
@@ -29,16 +33,21 @@ public class SurveyNavigatiorImpl implements SurveyNavigator {
             return;
         }
 
-        if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
-            ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
-            surveyView.setNavigationTitle(
-                    navigationItem.getTitlePrefix(),
-                    navigationItem.getTitle(),
-                    navigationItem.getProgress()
-            );
-        } else {
-            surveyView.setNavigationTitle(null, item.getTitle(), null);
+        Text prefixText = null;
+        Progress progress = null;
+
+        if (item instanceof PrefixedBuildableNavigationItem) {
+            prefixText = ((PrefixedBuildableNavigationItem) item).getTitlePrefix();
+            if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
+                progress = ((ProgressablePrefixedBuildableNavigationItem) item).getProgress();
+            }
         }
+
+        surveyView.setNavigationTitle(
+                prefixText,
+                item.getTitle(),
+                progress
+        );
 
         surveyView.showNavigationItem(item);
         currentItem = item;

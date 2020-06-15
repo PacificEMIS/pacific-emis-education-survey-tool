@@ -1,7 +1,12 @@
 package fm.doe.national.accreditation.ui.observation_info;
 
+import android.util.Log;
+
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
@@ -10,6 +15,7 @@ import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
+import fm.doe.national.core.utils.RxNullableObject;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
@@ -17,6 +23,7 @@ import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 @InjectViewState
 public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView> {
@@ -27,16 +34,21 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
 
     private MutableObservationInfo observationInfo;
 
+    private PublishSubject<RxNullableObject<String>> teacherNameSubject = PublishSubject.create();
+    private PublishSubject<RxNullableObject<Integer>> totalStudentsSubject = PublishSubject.create();
+    private PublishSubject<RxNullableObject<String>> classThemeSubject = PublishSubject.create();
+
     ObservationInfoPresenter(RemoteStorageComponent remoteStorageComponent,
-                       SurveyCoreComponent surveyCoreComponent,
-                       AccreditationCoreComponent accreditationCoreComponent,
-                       long categoryId) {
+                             SurveyCoreComponent surveyCoreComponent,
+                             AccreditationCoreComponent accreditationCoreComponent,
+                             long categoryId) {
         this.accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.categoryId = categoryId;
         loadInfo();
         loadNavigation();
+        setupViewInteraction();
     }
 
     private void loadInfo() {
@@ -62,7 +74,13 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         view.setGrade(observationInfo.getGrade());
         view.setTotalStudentsPresent(observationInfo.getTotalStudentsPresent());
         view.setSubject(observationInfo.getSubject());
-        view.setDate(observationInfo.getDate());
+
+        Date savedDate = observationInfo.getDate();
+        if (savedDate == null) {
+            savedDate = new Date();
+            observationInfo.setDate(new Date());
+        }
+        view.setDate(savedDate);
     }
 
     private void loadNavigation() {
@@ -83,6 +101,45 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         boolean isFinished = survey.getProgress().isFinished();
         ObservationInfoView view = getViewState();
         view.setNextButtonEnabled(isFinished);
+    }
+
+    private void setupViewInteraction() {
+        addDisposable(
+                teacherNameSubject
+                        .throttleLast(1, TimeUnit.SECONDS)
+                        .subscribe(name -> {
+                            observationInfo.setTeacherName(name.object);
+                            logState();
+                        }, this::handleError)
+        );
+        addDisposable(
+                totalStudentsSubject
+                        .throttleLast(1, TimeUnit.SECONDS)
+                        .subscribe(count -> {
+                            observationInfo.setTotalStudentsPresent(count.object);
+                            logState();
+                        }, this::handleError)
+        );
+        addDisposable(
+                classThemeSubject
+                        .throttleLast(1, TimeUnit.SECONDS)
+                        .subscribe(classSubject -> {
+                            observationInfo.setSubject(classSubject.object);
+                            logState();
+                        }, this::handleError)
+        );
+    }
+
+    private void logState() {
+        Log.d("RX", "============================ \n"
+                + "logState: \n"
+                + "teacherName = " + (observationInfo.getTeacherName() == null ? "null" : observationInfo.getTeacherName()) + "\n"
+                + "grade = " + (observationInfo.getGrade() == null ? "null" : observationInfo.getGrade()) + "\n"
+                + "totalStudentsPresent = " + (observationInfo.getTotalStudentsPresent() == null ? "null" : observationInfo.getTotalStudentsPresent().toString()) + "\n"
+                + "subject = " + (observationInfo.getSubject() == null ? "null" : observationInfo.getSubject()) + "\n"
+                + "date = " + (observationInfo.getDate() == null ? "null" : observationInfo.getDate().toString()) + "\n"
+                + "============================ \n"
+        );
     }
 
 //    void onAnswerChanged(Question updatedQuestion) {
@@ -117,5 +174,25 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         } else {
             navigateToNext.run();
         }
+    }
+
+    public void onTeacherNameChanged(String teacherName) {
+        teacherNameSubject.onNext(RxNullableObject.wrap(teacherName));
+    }
+
+    public void onGradeChanged(String grade) {
+
+    }
+
+    public void onTotalStudentsChanged(Integer totalStudents) {
+        totalStudentsSubject.onNext(RxNullableObject.wrap(totalStudents));
+    }
+
+    public void onSubjectChanged(String subject) {
+        classThemeSubject.onNext(RxNullableObject.wrap(subject));
+    }
+
+    public void onDateTimeChanged(Date date) {
+
     }
 }
