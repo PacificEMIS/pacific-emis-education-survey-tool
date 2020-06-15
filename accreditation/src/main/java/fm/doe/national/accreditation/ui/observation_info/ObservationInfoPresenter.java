@@ -37,6 +37,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     private PublishSubject<RxNullableObject<String>> teacherNameSubject = PublishSubject.create();
     private PublishSubject<RxNullableObject<Integer>> totalStudentsSubject = PublishSubject.create();
     private PublishSubject<RxNullableObject<String>> classThemeSubject = PublishSubject.create();
+    private PublishSubject<MutableObservationInfo> infoChangedSubject = PublishSubject.create();
 
     ObservationInfoPresenter(RemoteStorageComponent remoteStorageComponent,
                              SurveyCoreComponent surveyCoreComponent,
@@ -49,6 +50,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         loadInfo();
         loadNavigation();
         setupViewInteraction();
+        setupSaving();
     }
 
     private void loadInfo() {
@@ -109,7 +111,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         .throttleLast(1, TimeUnit.SECONDS)
                         .subscribe(name -> {
                             observationInfo.setTeacherName(name.object);
-                            logState();
+                            infoChangedSubject.onNext(observationInfo);
                         }, this::handleError)
         );
         addDisposable(
@@ -117,7 +119,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         .throttleLast(1, TimeUnit.SECONDS)
                         .subscribe(count -> {
                             observationInfo.setTotalStudentsPresent(count.object);
-                            logState();
+                            infoChangedSubject.onNext(observationInfo);
                         }, this::handleError)
         );
         addDisposable(
@@ -125,13 +127,23 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         .throttleLast(1, TimeUnit.SECONDS)
                         .subscribe(classSubject -> {
                             observationInfo.setSubject(classSubject.object);
+                            infoChangedSubject.onNext(observationInfo);
+                        }, this::handleError)
+        );
+    }
+
+    private void setupSaving() {
+        addDisposable(
+                infoChangedSubject
+                        .throttleLast(1, TimeUnit.SECONDS)
+                        .subscribe(observationInfo -> {
                             logState();
                         }, this::handleError)
         );
     }
 
     private void logState() {
-        Log.d("RX", "============================ \n"
+        Log.d("RX", "============SAVE CALLED================ \n"
                 + "logState: \n"
                 + "teacherName = " + (observationInfo.getTeacherName() == null ? "null" : observationInfo.getTeacherName()) + "\n"
                 + "grade = " + (observationInfo.getGrade() == null ? "null" : observationInfo.getGrade()) + "\n"
@@ -181,7 +193,8 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     }
 
     public void onGradeChanged(String grade) {
-
+        observationInfo.setGrade(grade);
+        infoChangedSubject.onNext(observationInfo);
     }
 
     public void onTotalStudentsChanged(Integer totalStudents) {
@@ -192,7 +205,14 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         classThemeSubject.onNext(RxNullableObject.wrap(subject));
     }
 
-    public void onDateTimeChanged(Date date) {
-
+    public void onDateTimePressed() {
+        final Date savedDate = observationInfo.getDate();
+        if (savedDate != null) {
+            getViewState().showDateTimePicker(observationInfo.getDate(), date -> {
+                observationInfo.setDate(date);
+                getViewState().setDate(date);
+                infoChangedSubject.onNext(observationInfo);
+            });
+        }
     }
 }

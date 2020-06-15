@@ -196,9 +196,9 @@
                 android:gravity="end"
                 android:letterSpacing="0"
                 android:maxLines="1"
-                tools:text="Jun 8, 2020 11:16 AM"
                 android:textAppearance="@style/Text.Body1"
-                android:textColor="?colorPrimary" />
+                android:textColor="?colorPrimary"
+                tools:text="Jun 8, 2020 11:16 AM" />
 
         </LinearLayout>
 

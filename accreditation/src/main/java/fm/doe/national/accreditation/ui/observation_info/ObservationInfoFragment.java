@@ -2,7 +2,9 @@ package fm.doe.national.accreditation.ui.observation_info;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +23,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -134,7 +137,7 @@ public class ObservationInfoFragment extends BaseFragment implements
         totalStudentsEditText.addTextChangedListener(totalStudentsTextWatcher);
         subjectEditText.addTextChangedListener(subjectTextWatcher);
         gradeTextView.setOnClickListener((view) -> showGradeSelector());
-        dateTimeTextView.setOnClickListener((view) -> showGradeSelector());
+        dateTimeTextView.setOnClickListener((view) -> presenter.onDateTimePressed());
     }
 
     @Override
@@ -212,5 +215,33 @@ public class ObservationInfoFragment extends BaseFragment implements
         if (dialog != null) {
             dialog.dismiss();
         }
+    }
+
+    @Override
+    public void showDateTimePicker(@NonNull Date sourceDate, @NonNull OnDateTimePickedListener listener) {
+        final Calendar resultCalendar = Calendar.getInstance();
+        resultCalendar.clear();
+        final Calendar sourceCalendar = Calendar.getInstance();
+        sourceCalendar.setTime(sourceDate);
+        new DatePickerDialog(
+                requireContext(),
+                (datePicker, year, monthOfYear, dayOfMonth) -> {
+                    resultCalendar.set(year, monthOfYear, dayOfMonth);
+                    new TimePickerDialog(
+                            requireContext(),
+                            (timePicker, hourOfDay, minute) -> {
+                                resultCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                resultCalendar.set(Calendar.MINUTE, minute);
+                                listener.onDateTimePicked(resultCalendar.getTime());
+                            },
+                            sourceCalendar.get(Calendar.HOUR_OF_DAY),
+                            sourceCalendar.get(Calendar.MINUTE),
+                            false
+                    ).show();
+                },
+                sourceCalendar.get(Calendar.YEAR),
+                sourceCalendar.get(Calendar.MONTH),
+                sourceCalendar.get(Calendar.DATE)
+        ).show();
     }
 }

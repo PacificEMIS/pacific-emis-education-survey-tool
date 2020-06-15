@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.Date;
@@ -36,5 +37,12 @@ public interface ObservationInfoView extends BaseView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setDate(@NonNull Date date);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showDateTimePicker(@NonNull Date sourceDate, @NonNull OnDateTimePickedListener listener);
+
+    interface OnDateTimePickedListener {
+        void onDateTimePicked(@NonNull Date date);
+    }
 
 }
