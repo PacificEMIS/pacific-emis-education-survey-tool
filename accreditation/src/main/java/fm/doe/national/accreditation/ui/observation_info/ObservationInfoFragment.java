@@ -74,7 +74,7 @@ public class ObservationInfoFragment extends BaseFragment implements Observation
 
     @Override
     public void setTeacherName(@Nullable String teacherName) {
-        
+
     }
 
     @Override

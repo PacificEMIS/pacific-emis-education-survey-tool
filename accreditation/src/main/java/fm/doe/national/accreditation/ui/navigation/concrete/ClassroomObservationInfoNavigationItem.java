@@ -7,14 +7,18 @@ import com.omega_r.libs.omegatypes.Text;
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.observation_info.ObservationInfoFragment;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
-import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
+import fm.doe.national.survey_core.navigation.PrefixedBuildableNavigationItem;
 
-public class ClassroomObservationInfoNavigationItem extends BuildableNavigationItem {
+public class ClassroomObservationInfoNavigationItem extends PrefixedBuildableNavigationItem {
 
     private final long categoryId;
 
     public ClassroomObservationInfoNavigationItem(long categoryId) {
-        super(Text.from(R.string.label_classroom_observation_info), categoryId);
+        super(
+                categoryId,
+                Text.from(R.string.label_classroom_observation_info_suffix),
+                Text.from(R.string.label_classroom_observation_info_prefix)
+        );
         this.categoryId = categoryId;
     }
 
