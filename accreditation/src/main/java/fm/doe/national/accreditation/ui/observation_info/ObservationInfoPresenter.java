@@ -2,6 +2,8 @@ package fm.doe.national.accreditation.ui.observation_info;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
@@ -12,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationInfo;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
@@ -125,43 +128,37 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     }
 
     private void setupViewInteraction() {
-        addDisposable(
-                teacherNameSubject
-                        .throttleLast(1, TimeUnit.SECONDS)
-                        .subscribe(name -> {
-                            observationInfo.setTeacherName(name.object);
-                            infoChangedSubject.onNext(observationInfo);
-                        }, this::handleError)
+        addDisposable(teacherNameSubject
+                .throttleLast(1, TimeUnit.SECONDS)
+                .subscribe(name -> {
+                    observationInfo.setTeacherName(name.object);
+                    infoChangedSubject.onNext(observationInfo);
+                }, this::handleError)
         );
-        addDisposable(
-                totalStudentsSubject
-                        .throttleLast(1, TimeUnit.SECONDS)
-                        .subscribe(count -> {
-                            observationInfo.setTotalStudentsPresent(count.object);
-                            infoChangedSubject.onNext(observationInfo);
-                        }, this::handleError)
+        addDisposable(totalStudentsSubject
+                .throttleLast(1, TimeUnit.SECONDS)
+                .subscribe(count -> {
+                    observationInfo.setTotalStudentsPresent(count.object);
+                    infoChangedSubject.onNext(observationInfo);
+                }, this::handleError)
         );
-        addDisposable(
-                classThemeSubject
-                        .throttleLast(1, TimeUnit.SECONDS)
-                        .subscribe(classSubject -> {
-                            observationInfo.setSubject(classSubject.object);
-                            infoChangedSubject.onNext(observationInfo);
-                        }, this::handleError)
+        addDisposable(classThemeSubject
+                .throttleLast(1, TimeUnit.SECONDS)
+                .subscribe(classSubject -> {
+                    observationInfo.setSubject(classSubject.object);
+                    infoChangedSubject.onNext(observationInfo);
+                }, this::handleError)
         );
     }
 
     private void setupSaving() {
-        addDisposable(
-                infoChangedSubject
-                        .throttleLast(1, TimeUnit.SECONDS)
-                        .subscribe(observationInfo -> {
-                            logState();
-                        }, this::handleError)
+        addDisposable(infoChangedSubject
+                .throttleLast(1, TimeUnit.SECONDS)
+                .subscribe(this::save, this::handleError)
         );
     }
 
-    private void logState() {
+    private void save(@NonNull ObservationInfo observationInfo) {
         Log.d("RX", "============SAVE CALLED================ \n"
                 + "logState: \n"
                 + "teacherName = " + (observationInfo.getTeacherName() == null ? "null" : observationInfo.getTeacherName()) + "\n"
@@ -171,23 +168,15 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                 + "date = " + (observationInfo.getDate() == null ? "null" : observationInfo.getDate().toString()) + "\n"
                 + "============================ \n"
         );
+        addDisposable(accreditationSurveyInteractor.updateClassroomObservationInfo(observationInfo, categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> remoteStorageAccessor.scheduleUploading(accreditationSurveyInteractor.getCurrentSurvey().getId()),
+                        this::handleError
+                )
+        );
     }
-
-//    void onAnswerChanged(Question updatedQuestion) {
-//        SubCriteria subCriteria = Objects.requireNonNull(updatedQuestion.getSubCriteria());
-//        update(subCriteria.getId(), updatedQuestion.getCriteria().getId(), subCriteria.getAnswer());
-//    }
-//
-//    private void update(long subCriteriaId, long criteriaId, Answer answer) {
-//        addDisposable(accreditationSurveyInteractor.updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        () -> remoteStorageAccessor.scheduleUploading(accreditationSurveyInteractor.getCurrentSurvey().getId()),
-//                        this::handleError
-//                )
-//        );
-//    }
 
     void onPrevPressed() {
         navigator.selectPrevious();

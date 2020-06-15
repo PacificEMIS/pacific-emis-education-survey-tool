@@ -10,6 +10,7 @@ import fm.doe.national.accreditation_core.data.data_source.AccreditationDataSour
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
@@ -52,7 +53,7 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
                     return mutableSurvey;
                 })
                 .toList()
-                .map(list -> new ArrayList<>(list));
+                .map(ArrayList::new);
     }
 
     @Override
@@ -259,6 +260,11 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     @Override
     public Completable updateAnswer(Answer answer) {
         return updateAnswer(answer, categoryId, standardId, criteriaId, subCriteriaId);
+    }
+
+    @Override
+    public Completable updateClassroomObservationInfo(ObservationInfo info, long categoryId) {
+        return accreditationDataSource.updateObservationInfo(info, categoryId);
     }
 
     @Override

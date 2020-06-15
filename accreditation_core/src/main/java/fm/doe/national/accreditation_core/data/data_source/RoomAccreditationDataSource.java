@@ -15,11 +15,13 @@ import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.persistence.AccreditationDatabase;
 import fm.doe.national.accreditation_core.data.persistence.dao.AnswerDao;
+import fm.doe.national.accreditation_core.data.persistence.dao.CategoryDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.PhotoDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.SurveyDao;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomAccreditationSurvey;
@@ -360,6 +362,20 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             RoomPhoto roomPhoto = photoDao.getById(photo.getId());
             roomPhoto.remoteUrl = remoteFileId;
             photoDao.update(roomPhoto);
+        });
+    }
+
+    @Override
+    public Completable updateObservationInfo(ObservationInfo observationInfo, long categoryId) {
+        return Completable.fromAction(() -> {
+            CategoryDao dao = database.getCategoryDao();
+            RoomCategory category = dao.getById(categoryId);
+            category.observationInfoTeacherName = observationInfo.getTeacherName();
+            category.observationInfoGrade = observationInfo.getGrade();
+            category.observationInfoTotalStudentsPresent = observationInfo.getTotalStudentsPresent();
+            category.observationInfoSubject = observationInfo.getSubject();
+            category.observationInfoDate = observationInfo.getDate();
+            dao.update(category);
         });
     }
 }
