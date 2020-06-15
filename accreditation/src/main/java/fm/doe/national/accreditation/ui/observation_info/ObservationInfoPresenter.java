@@ -1,7 +1,5 @@
 package fm.doe.national.accreditation.ui.observation_info;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -159,15 +157,6 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     }
 
     private void save(@NonNull ObservationInfo observationInfo) {
-        Log.d("RX", "============SAVE CALLED================ \n"
-                + "logState: \n"
-                + "teacherName = " + (observationInfo.getTeacherName() == null ? "null" : observationInfo.getTeacherName()) + "\n"
-                + "grade = " + (observationInfo.getGrade() == null ? "null" : observationInfo.getGrade()) + "\n"
-                + "totalStudentsPresent = " + (observationInfo.getTotalStudentsPresent() == null ? "null" : observationInfo.getTotalStudentsPresent().toString()) + "\n"
-                + "subject = " + (observationInfo.getSubject() == null ? "null" : observationInfo.getSubject()) + "\n"
-                + "date = " + (observationInfo.getDate() == null ? "null" : observationInfo.getDate().toString()) + "\n"
-                + "============================ \n"
-        );
         addDisposable(accreditationSurveyInteractor.updateClassroomObservationInfo(observationInfo, categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
