@@ -1,5 +1,8 @@
 package fm.doe.national.accreditation.ui.survey;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
@@ -66,19 +69,15 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
                         navigationItems.add(new CategoryNavigationItem(category));
 
                         if (category.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION) {
-                            navigationItems.add(new ClassroomObservationInfoNavigationItem(category.getId()));
+                            ClassroomObservationInfoNavigationItem infoItem = new ClassroomObservationInfoNavigationItem(category.getId());
+                            addNavigationItem(navigationItems, infoItem, prevBuildableNavigationItem);
+                            prevBuildableNavigationItem = infoItem;
                         }
 
                         for (MutableStandard standard : category.getStandards()) {
                             StandardNavigationItem standardItem = new StandardNavigationItem(category, standard);
-                            standardItem.setPreviousItem(prevBuildableNavigationItem);
-
-                            if (prevBuildableNavigationItem != null) {
-                                prevBuildableNavigationItem.setNextItem(standardItem);
-                            }
-
+                            addNavigationItem(navigationItems, standardItem, prevBuildableNavigationItem);
                             prevBuildableNavigationItem = standardItem;
-                            navigationItems.add(standardItem);
                         }
                     }
                     navigationItems.add(new ReportTitleNavigationItem());
@@ -91,6 +90,16 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
                     navigationItems.add(reportNavigationItem);
                     return navigationItems;
                 }));
+    }
+
+    private void addNavigationItem(@NonNull List<NavigationItem> navigationItems,
+                                   @NonNull BuildableNavigationItem item,
+                                   @Nullable BuildableNavigationItem previousItem) {
+        item.setPreviousItem(previousItem);
+        if (previousItem != null) {
+            previousItem.setNextItem(item);
+        }
+        navigationItems.add(item);
     }
 
     @Override
