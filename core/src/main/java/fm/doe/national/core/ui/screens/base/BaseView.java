@@ -34,4 +34,8 @@ public interface BaseView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showPrompt(Text title, Text message, Runnable onPositivePressed);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void close();
+
 }

@@ -54,10 +54,10 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
 
     private MutableObservationInfo observationInfo;
 
-    private PublishSubject<RxNullableObject<String>> teacherNameSubject = PublishSubject.create();
-    private PublishSubject<RxNullableObject<Integer>> totalStudentsSubject = PublishSubject.create();
-    private PublishSubject<RxNullableObject<String>> classThemeSubject = PublishSubject.create();
-    private PublishSubject<MutableObservationInfo> infoChangedSubject = PublishSubject.create();
+    private final PublishSubject<RxNullableObject<String>> teacherNameSubject = PublishSubject.create();
+    private final PublishSubject<RxNullableObject<Integer>> totalStudentsSubject = PublishSubject.create();
+    private final PublishSubject<RxNullableObject<String>> classThemeSubject = PublishSubject.create();
+    private final PublishSubject<MutableObservationInfo> infoChangedSubject = PublishSubject.create();
 
     ObservationInfoPresenter(RemoteStorageComponent remoteStorageComponent,
                              SurveyCoreComponent surveyCoreComponent,
