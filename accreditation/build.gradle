@@ -51,6 +51,7 @@ dependencies {
     implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
+    implementation "com.github.Omega-R:OmegaCenterIconButton:${Deps.omegaCenterIconButton}@aar"
 
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"
