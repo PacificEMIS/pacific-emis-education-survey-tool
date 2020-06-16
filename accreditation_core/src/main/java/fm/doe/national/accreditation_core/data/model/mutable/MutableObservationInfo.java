@@ -22,7 +22,7 @@ public class MutableObservationInfo implements ObservationInfo {
     private Date date;
 
     public MutableObservationInfo() {
-
+        // nothing
     }
 
     public MutableObservationInfo(@Nullable String teacherName,

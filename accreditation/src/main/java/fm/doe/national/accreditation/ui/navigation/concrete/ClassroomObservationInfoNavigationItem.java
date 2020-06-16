@@ -13,9 +13,9 @@ public class ClassroomObservationInfoNavigationItem extends PrefixedBuildableNav
 
     private final long categoryId;
 
-    public ClassroomObservationInfoNavigationItem(long categoryId) {
+    public ClassroomObservationInfoNavigationItem(long id, long categoryId) {
         super(
-                (ClassroomObservationInfoNavigationItem.class.getName() + categoryId).hashCode(),
+                id,
                 Text.from(R.string.label_classroom_observation_info_suffix),
                 Text.from(R.string.label_classroom_observation_info_prefix)
         );

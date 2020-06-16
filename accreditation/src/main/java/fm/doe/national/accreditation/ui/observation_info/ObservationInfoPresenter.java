@@ -100,7 +100,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         Date savedDate = observationInfo.getDate();
         if (savedDate == null) {
             savedDate = new Date();
-            observationInfo.setDate(new Date());
+            observationInfo.setDate(savedDate);
         }
         view.setDate(savedDate);
     }
@@ -121,8 +121,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
 
     private void updateCompleteState(Survey survey) {
         boolean isFinished = survey.getProgress().isFinished();
-        ObservationInfoView view = getViewState();
-        view.setNextButtonEnabled(isFinished);
+        getViewState().setNextButtonEnabled(isFinished);
     }
 
     private void setupViewInteraction() {

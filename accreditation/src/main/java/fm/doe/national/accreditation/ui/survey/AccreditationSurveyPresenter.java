@@ -30,6 +30,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationSurveyView> {
 
+    private final static long FIRST_CLASSROOM_OBSERVATION_ID_FOR_GENERATION = -100;
+
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
 
     public AccreditationSurveyPresenter(AccreditationCoreComponent accreditationCoreComponent, SurveyCoreComponent surveyCoreComponent) {
@@ -64,14 +66,19 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
                 .flatMap(categories -> Single.fromCallable(() -> {
                     List<NavigationItem> navigationItems = new ArrayList<>();
                     BuildableNavigationItem prevBuildableNavigationItem = null;
+                    long generatedClassroomObservationInfoId = FIRST_CLASSROOM_OBSERVATION_ID_FOR_GENERATION;
 
                     for (MutableCategory category : categories) {
                         navigationItems.add(new CategoryNavigationItem(category));
 
                         if (category.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION) {
-                            ClassroomObservationInfoNavigationItem infoItem = new ClassroomObservationInfoNavigationItem(category.getId());
+                            ClassroomObservationInfoNavigationItem infoItem = new ClassroomObservationInfoNavigationItem(
+                                    generatedClassroomObservationInfoId,
+                                    category.getId()
+                            );
                             addNavigationItem(navigationItems, infoItem, prevBuildableNavigationItem);
                             prevBuildableNavigationItem = infoItem;
+                            generatedClassroomObservationInfoId--;
                         }
 
                         for (MutableStandard standard : category.getStandards()) {
