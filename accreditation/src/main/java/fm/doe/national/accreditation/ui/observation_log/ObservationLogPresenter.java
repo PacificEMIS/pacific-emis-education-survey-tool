@@ -7,7 +7,6 @@ import com.omegar.mvp.InjectViewState;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
-import fm.doe.national.accreditation.ui.observation_info.ObservationInfoView;
 import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
@@ -22,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class ObservationLogPresenter extends BasePresenter<ObservationInfoView> {
+public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
     private final RemoteStorageAccessor remoteStorageAccessor;
@@ -76,7 +75,7 @@ public class ObservationLogPresenter extends BasePresenter<ObservationInfoView> 
 
     private void loadNavigation() {
         BuildableNavigationItem navigationItem = navigator.getCurrentItem();
-        ObservationInfoView view = getViewState();
+        ObservationLogView view = getViewState();
 
         if (navigationItem.getNextItem() != null && navigationItem.getNextItem() instanceof ReportNavigationItem) {
             view.setNextButtonText(Text.from(R.string.button_complete));

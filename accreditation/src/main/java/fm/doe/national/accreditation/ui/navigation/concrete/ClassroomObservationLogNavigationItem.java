@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.omega_r.libs.omegatypes.Text;
 
 import fm.doe.national.accreditation.R;
-import fm.doe.national.accreditation.ui.observation_info.ObservationInfoFragment;
+import fm.doe.national.accreditation.ui.observation_log.ObservationLogFragment;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.survey_core.navigation.PrefixedBuildableNavigationItem;
 
@@ -25,6 +25,6 @@ public class ClassroomObservationLogNavigationItem extends PrefixedBuildableNavi
     @NonNull
     @Override
     public BaseFragment buildFragment() {
-        return ObservationInfoFragment.create(categoryId);
+        return ObservationLogFragment.create(categoryId);
     }
 }

@@ -2,7 +2,6 @@ package fm.doe.national.accreditation.ui.observation_log;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +38,6 @@ public class ObservationLogFragment extends BaseFragment implements
     ObservationLogPresenter presenter;
 
     private BottomNavigatorView bottomNavigatorView;
-
-    @Nullable
-    private Dialog selectorDialog;
 
     public static ObservationLogFragment create(long categoryId) {
         ObservationLogFragment fragment = new ObservationLogFragment();
