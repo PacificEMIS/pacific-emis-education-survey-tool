@@ -251,6 +251,15 @@
             android:text="@string/label_classroom_observation_log_hint"
             android:textAppearance="@style/Text.Small2" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:text="@string/label_classroom_observation_log_title"
+            android:textAppearance="@style/Text.Title2" />
+
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 
 </RelativeLayout>
