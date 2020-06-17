@@ -18,4 +18,5 @@ public interface Standard extends Progressable, IdentifiedObject {
 
     @Nullable
     List<? extends Criteria> getCriterias();
+
 }

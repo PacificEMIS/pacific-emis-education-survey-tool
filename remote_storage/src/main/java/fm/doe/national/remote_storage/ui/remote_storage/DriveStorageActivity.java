@@ -112,11 +112,6 @@ public class DriveStorageActivity extends BaseActivity implements
     }
 
     @Override
-    public void close() {
-        finish();
-    }
-
-    @Override
     public void onItemLongClick(GoogleDriveFileHolder item) {
         presenter.onItemLongPressed(item);
     }

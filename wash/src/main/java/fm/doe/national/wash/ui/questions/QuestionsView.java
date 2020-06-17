@@ -11,9 +11,9 @@ import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.wash_core.data.model.Question;
 import fm.doe.national.wash_core.data.model.mutable.MutableQuestion;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface QuestionsView extends BaseView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setQuestions(List<MutableQuestion> questions);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
@@ -22,16 +22,22 @@ public interface QuestionsView extends BaseView {
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToPhotos();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setPrevButtonVisible(boolean isVisible);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setNextButtonVisible(boolean isVisible);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setNextButtonEnabled(boolean isEnabled);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setNextButtonText(Text text);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setHintTextVisible(boolean isVisible);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void refreshQuestionAtPosition(int selectedQuestionPosition);
 
 }

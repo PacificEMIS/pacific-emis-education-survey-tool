@@ -117,22 +117,32 @@ public class NavigationItemsAdapter extends BaseAdapter<NavigationItem> {
         protected void onBind(NavigationItem item) {
             titleOmegaTextView.setText(item.getTitle());
             itemView.setActivated(isSelected());
+            updatePrefix(item);
+            updateProgress(item);
+            itemView.setEnabled(!(item instanceof ReportBuildableNavigationItem) || isReportEnabled);
+        }
 
+        private void updatePrefix(NavigationItem item) {
+            if (item instanceof PrefixedBuildableNavigationItem) {
+                PrefixedBuildableNavigationItem prefixedItem = (PrefixedBuildableNavigationItem) item;
+                titleOmegaTextView.setStartText(prefixedItem.getTitlePrefix());
+            } else {
+                titleOmegaTextView.setStartText(null);
+            }
+        }
+
+        private void updateProgress(NavigationItem item) {
             if (item instanceof ProgressablePrefixedBuildableNavigationItem) {
                 ProgressablePrefixedBuildableNavigationItem navigationItem = (ProgressablePrefixedBuildableNavigationItem) item;
-                titleOmegaTextView.setStartText(navigationItem.getTitlePrefix());
                 Progress progress = navigationItem.getProgress();
                 int progressVisibility = progress.getTotal() == 0 ? View.GONE : View.VISIBLE;
                 progressTextView.setVisibility(progressVisibility);
                 progressBar.setVisibility(progressVisibility);
                 ViewUtils.rebindProgress(progress, progressTextView, progressBar);
             } else {
-                titleOmegaTextView.setStartText(null);
                 progressTextView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
             }
-
-            itemView.setEnabled(!(item instanceof ReportBuildableNavigationItem) || isReportEnabled);
         }
 
         private boolean isSelected() {

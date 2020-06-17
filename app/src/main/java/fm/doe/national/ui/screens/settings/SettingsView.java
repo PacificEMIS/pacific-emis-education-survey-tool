@@ -14,22 +14,27 @@ import fm.doe.national.core.preferences.entities.OperatingMode;
 import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.ui.screens.settings.items.Item;
 
-@StateStrategyType(OneExecutionStateStrategy.class)
 public interface SettingsView extends BaseView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setItems(List<Item> options);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showRegionSelector(RegionListener listener);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showOperatingModeSelector(OperatingModeListener listener);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToChangePassword();
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToChangeLogo();
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToTemplates();
 
     interface InputListener {

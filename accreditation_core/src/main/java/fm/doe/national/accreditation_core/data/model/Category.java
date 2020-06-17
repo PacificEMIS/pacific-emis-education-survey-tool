@@ -17,4 +17,7 @@ public interface Category extends Progressable, IdentifiedObject {
     List<? extends Standard> getStandards();
 
     EvaluationForm getEvaluationForm();
+
+    @Nullable
+    ObservationInfo getObservationInfo();
 }

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.observation_info.ObservationInfoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:text="@string/label_observation_info_title"
+            android:textAppearance="@style/Text.Title2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:text="@string/label_observation_info_teacher_name"
+            android:textAppearance="@style/Text.Body1" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textinputlayout_teacher_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textinputedittext_teacher_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:textAppearance="@style/Text.Body4" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:background="@color/grey_300" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_observation_info_grade"
+                android:textAppearance="@style/Text.Body1" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textview_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:letterSpacing="0"
+                android:maxLines="1"
+                android:text="@string/label_observation_info_please_select_grade"
+                android:textAppearance="@style/Text.Body1"
+                android:textColor="?colorPrimary" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:background="@color/grey_300" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:text="@string/label_observation_info_total_students"
+            android:textAppearance="@style/Text.Body1" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textinputlayout_students"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textinputedittext_students"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="numberSigned"
+                android:maxLength="3"
+                android:textAppearance="@style/Text.Body4" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:background="@color/grey_300" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:text="@string/label_observation_info_subject"
+            android:textAppearance="@style/Text.Body1" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textinputlayout_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textinputedittext_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:textAppearance="@style/Text.Body4" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:background="@color/grey_300" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_observation_date_time"
+                android:textAppearance="@style/Text.Body1" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textview_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:letterSpacing="0"
+                android:maxLines="1"
+                android:textAppearance="@style/Text.Body1"
+                android:textColor="?colorPrimary"
+                tools:text="Jun 8, 2020 11:16 AM" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:background="@color/grey_300" />
+
+        <fm.doe.national.core.ui.views.BottomNavigatorView
+            android:id="@+id/bottomnavigatorview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:nextText="@string/button_next"
+            app:prevText="@string/button_prev" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -8,11 +8,12 @@ import java.util.List;
 import fm.doe.national.core.ui.screens.base.BaseView;
 import fm.doe.national.report_core.model.recommendations.Recommendation;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface RecommendationsView extends BaseView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setRecommendationsLoadingVisibility(boolean visible);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setRecommendations(List<Recommendation> recommendations);
 
 }

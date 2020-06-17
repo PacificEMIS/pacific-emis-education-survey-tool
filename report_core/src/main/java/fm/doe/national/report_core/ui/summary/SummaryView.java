@@ -10,11 +10,12 @@ import java.util.List;
 import fm.doe.national.report_core.model.SummaryViewData;
 import fm.doe.national.report_core.ui.base.BaseReportView;
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface SummaryView extends BaseReportView {
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setLoadingVisibility(boolean visible);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void setSummaryData(@NonNull List<SummaryViewData> data);
 
 }

@@ -7,7 +7,6 @@ import androidx.room.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-import fm.doe.national.core.BuildConfig;
 import fm.doe.national.core.data.model.School;
 import fm.doe.national.core.data.persistence.SchoolsDatabase;
 import fm.doe.national.core.data.persistence.dao.SchoolDao;
@@ -21,7 +20,7 @@ import io.reactivex.Single;
 
 public abstract class DataSourceImpl implements DataSource {
 
-    private static final String SCHOOLS_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".schools.database";
+    private static final String SCHOOLS_DATABASE_NAME = "schools.database";
 
     protected final SchoolsDatabase schoolsDatabase;
 
@@ -42,7 +41,7 @@ public abstract class DataSourceImpl implements DataSource {
     @Override
     public Single<List<School>> loadSchools() {
         return Single.fromCallable(() -> schoolDao.getAll(localSettings.getAppRegion()))
-                .map(roomSchools -> new ArrayList<>(roomSchools));
+                .map(ArrayList::new);
     }
 
     @Override

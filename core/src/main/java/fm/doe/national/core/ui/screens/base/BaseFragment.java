@@ -109,4 +109,9 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView {
     public void showPrompt(Text title, Text message, Runnable onPositivePressed) {
         ((BaseActivity) getActivity()).showPrompt(title, message, onPositivePressed);
     }
+
+    @Override
+    public void close() {
+        requireActivity().finish();
+    }
 }

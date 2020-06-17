@@ -11,8 +11,8 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 import fm.doe.national.accreditation_core.data.model.Criteria;
-import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.core.data.model.Progress;
 
 @Entity(foreignKeys = @ForeignKey(entity = RoomCategory.class, parentColumns = "uid", childColumns = "category_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("category_id")})
@@ -27,7 +27,11 @@ public class RoomStandard implements Standard {
     @ColumnInfo(name = "category_id")
     public long categoryId;
 
-    public RoomStandard(String title, long categoryId, String suffix) {
+    public RoomStandard(
+            String title,
+            long categoryId,
+            String suffix
+    ) {
         this.title = title;
         this.categoryId = categoryId;
         this.suffix = suffix;

@@ -9,18 +9,21 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import fm.doe.national.core.data.exceptions.GmsUserRecoverableException;
 
 
-@StateStrategyType(AddToEndSingleStrategy.class)
 public interface BaseView extends MvpView {
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showToast(Text text);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showMessage(Text title, Text message);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void showWaiting();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void hideWaiting();
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void promptMasterPassword(Text title);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
@@ -31,4 +34,8 @@ public interface BaseView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showPrompt(Text title, Text message, Runnable onPositivePressed);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void close();
+
 }

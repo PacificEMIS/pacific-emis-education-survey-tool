@@ -1,14 +1,19 @@
 package fm.doe.national.accreditation.ui.survey;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fm.doe.national.accreditation.ui.navigation.concrete.CategoryNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.concrete.ClassroomObservationInfoNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportTitleNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.StandardNavigationItem;
+import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
@@ -24,6 +29,8 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationSurveyView> {
+
+    private final static long FIRST_CLASSROOM_OBSERVATION_ID_FOR_GENERATION = -100;
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
 
@@ -59,20 +66,25 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
                 .flatMap(categories -> Single.fromCallable(() -> {
                     List<NavigationItem> navigationItems = new ArrayList<>();
                     BuildableNavigationItem prevBuildableNavigationItem = null;
+                    long generatedClassroomObservationInfoId = FIRST_CLASSROOM_OBSERVATION_ID_FOR_GENERATION;
 
                     for (MutableCategory category : categories) {
                         navigationItems.add(new CategoryNavigationItem(category));
 
+                        if (category.getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION) {
+                            ClassroomObservationInfoNavigationItem infoItem = new ClassroomObservationInfoNavigationItem(
+                                    generatedClassroomObservationInfoId,
+                                    category.getId()
+                            );
+                            addNavigationItem(navigationItems, infoItem, prevBuildableNavigationItem);
+                            prevBuildableNavigationItem = infoItem;
+                            generatedClassroomObservationInfoId--;
+                        }
+
                         for (MutableStandard standard : category.getStandards()) {
                             StandardNavigationItem standardItem = new StandardNavigationItem(category, standard);
-                            standardItem.setPreviousItem(prevBuildableNavigationItem);
-
-                            if (prevBuildableNavigationItem != null) {
-                                prevBuildableNavigationItem.setNextItem(standardItem);
-                            }
-
+                            addNavigationItem(navigationItems, standardItem, prevBuildableNavigationItem);
                             prevBuildableNavigationItem = standardItem;
-                            navigationItems.add(standardItem);
                         }
                     }
                     navigationItems.add(new ReportTitleNavigationItem());
@@ -85,6 +97,16 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
                     navigationItems.add(reportNavigationItem);
                     return navigationItems;
                 }));
+    }
+
+    private void addNavigationItem(@NonNull List<NavigationItem> navigationItems,
+                                   @NonNull BuildableNavigationItem item,
+                                   @Nullable BuildableNavigationItem previousItem) {
+        item.setPreviousItem(previousItem);
+        if (previousItem != null) {
+            previousItem.setNextItem(item);
+        }
+        navigationItems.add(item);
     }
 
     @Override

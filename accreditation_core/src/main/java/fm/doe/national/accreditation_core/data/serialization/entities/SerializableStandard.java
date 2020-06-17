@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Criteria;
-import fm.doe.national.core.data.model.Progress;
 import fm.doe.national.accreditation_core.data.model.Standard;
+import fm.doe.national.core.data.model.Progress;
 
 @Root(name = "standard")
 public class SerializableStandard implements Standard {

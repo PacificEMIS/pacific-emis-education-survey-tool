@@ -3,6 +3,7 @@ package fm.doe.national.accreditation_core.interactors;
 import java.util.List;
 
 import fm.doe.national.accreditation_core.data.model.Answer;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
@@ -17,11 +18,15 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
     Single<List<MutableStandard>> requestStandards(long categoryId);
 
+    Single<MutableCategory> requestCategory(long categoryId);
+
     Single<List<MutableCriteria>> requestCriterias(long categoryId, long standardId);
 
     Completable updateAnswer(Answer answer, long categoryId, long standardId, long criteriaId, long subCriteriaId);
 
     Completable updateAnswer(Answer answer);
+
+    Completable updateClassroomObservationInfo(ObservationInfo info, long categoryId);
 
     Observable<MutableCategory> getCategoryProgressObservable();
 

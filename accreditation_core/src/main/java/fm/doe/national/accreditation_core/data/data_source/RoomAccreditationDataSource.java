@@ -11,16 +11,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fm.doe.national.accreditation_core.BuildConfig;
 import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.Criteria;
+import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.persistence.AccreditationDatabase;
 import fm.doe.national.accreditation_core.data.persistence.dao.AnswerDao;
+import fm.doe.national.accreditation_core.data.persistence.dao.CategoryDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.PhotoDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.SurveyDao;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomAccreditationSurvey;
@@ -45,8 +46,8 @@ import io.reactivex.Single;
 
 public class RoomAccreditationDataSource extends DataSourceImpl implements AccreditationDataSource {
 
-    private static final String DATABASE_NAME = BuildConfig.APPLICATION_ID + ".database";
-    private static final String TEMPLATE_DATABASE_NAME = BuildConfig.APPLICATION_ID + ".template_database";
+    private static final String DATABASE_NAME = "accreditation.database";
+    private static final String TEMPLATE_DATABASE_NAME = "accreditation.template_database";
 
     private final SurveyDao surveyDao;
     private final AnswerDao answerDao;
@@ -189,8 +190,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         return Single.fromCallable(() -> surveyDao.getAllFilled(localSettings.getAppRegion()))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
-                .toList()
-                .map(list -> new ArrayList<>(list));
+                .cast(Survey.class)
+                .toList();
     }
 
     @Override
@@ -198,8 +199,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         return Single.fromCallable(() -> surveyDao.getSurveys(schoolId, appRegion, surveyTag))
                 .flatMapObservable(Observable::fromIterable)
                 .map(MutableAccreditationSurvey::new)
-                .toList()
-                .map(list -> new ArrayList<>(list));
+                .cast(Survey.class)
+                .toList();
     }
 
     @Override
@@ -361,6 +362,20 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             RoomPhoto roomPhoto = photoDao.getById(photo.getId());
             roomPhoto.remoteUrl = remoteFileId;
             photoDao.update(roomPhoto);
+        });
+    }
+
+    @Override
+    public Completable updateObservationInfo(ObservationInfo observationInfo, long categoryId) {
+        return Completable.fromAction(() -> {
+            CategoryDao dao = database.getCategoryDao();
+            RoomCategory category = dao.getById(categoryId);
+            category.observationInfoTeacherName = observationInfo.getTeacherName();
+            category.observationInfoGrade = observationInfo.getGrade();
+            category.observationInfoTotalStudentsPresent = observationInfo.getTotalStudentsPresent();
+            category.observationInfoSubject = observationInfo.getSubject();
+            category.observationInfoDate = observationInfo.getDate();
+            dao.update(category);
         });
     }
 }

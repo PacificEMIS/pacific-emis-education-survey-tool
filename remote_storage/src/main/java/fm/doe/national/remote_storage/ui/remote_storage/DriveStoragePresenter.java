@@ -7,9 +7,28 @@ import androidx.annotation.Nullable;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import fm.doe.national.core.data.files.FilesRepository;
 import fm.doe.national.core.di.CoreComponent;
@@ -23,11 +42,30 @@ import fm.doe.national.remote_storage.data.storage.RemoteStorage;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.remote_storage.utils.RemoteStorageUtils;
 import fm.doe.national.remote_storage.utils.SurveyTextUtil;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
+
+    private final static String PRETTY_XML_NORMALIZATION_EXPRESSION = "//text()[normalize-space()='']";
+    private final static String PRETTY_CONTENT_FORMAT = "METADATA:\n\n%s\n\n\nCONTENT\n\n%s";
+
+    private final static Transformer sXmlTransformer;
+
+    static {
+        try {
+            sXmlTransformer = TransformerFactory.newInstance().newTransformer();
+            sXmlTransformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            sXmlTransformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            sXmlTransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            sXmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+            throw new ExceptionInInitializerError();
+        }
+    }
 
     private final RemoteStorage storage;
     private final RemoteStorageAccessor accessor;
@@ -121,13 +159,51 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                         .doFinally(getViewState()::hideWaiting)
                         .subscribe(content -> {
                             if (isDebugViewer) {
-                                getViewState().setContent(file.getSurveyMetadata().toString() + content);
+                                showDocumentContent(file.getSurveyMetadata().toString(), content);
                             } else {
                                 accessor.onContentReceived(content);
                                 getViewState().close();
                             }
                         }, this::handleError)
         );
+    }
+
+    private void showDocumentContent(String metadata, String content) {
+        addDisposable(
+                prettyfyXml(content)
+                        .flatMap((prettyXml) -> Single.fromCallable(() -> String.format(PRETTY_CONTENT_FORMAT, metadata, prettyXml)))
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(prettyContent -> getViewState().setContent(prettyContent), this::handleError)
+        );
+    }
+
+    private Single<String> prettyfyXml(String xmlStringToBeFormatted) {
+        return Single.fromCallable(() -> {
+            try {
+                Document document = DocumentBuilderFactory.newInstance()
+                        .newDocumentBuilder()
+                        .parse(new InputSource(new ByteArrayInputStream(xmlStringToBeFormatted.getBytes(StandardCharsets.UTF_8))));
+
+                // Remove whitespaces outside tags
+                document.normalize();
+                XPath xPath = XPathFactory.newInstance().newXPath();
+                NodeList nodeList = (NodeList) xPath.evaluate(PRETTY_XML_NORMALIZATION_EXPRESSION,
+                        document,
+                        XPathConstants.NODESET);
+
+                for (int i = 0; i < nodeList.getLength(); ++i) {
+                    Node node = nodeList.item(i);
+                    node.getParentNode().removeChild(node);
+                }
+
+                StringWriter stringWriter = new StringWriter();
+                sXmlTransformer.transform(new DOMSource(document), new StreamResult(stringWriter));
+                return stringWriter.toString();
+            } catch (Exception ex) {
+                return xmlStringToBeFormatted;
+            }
+        });
     }
 
     public void onBackPressed() {

@@ -2,8 +2,8 @@ package fm.doe.national.ui.screens.settings.items;
 
 import androidx.annotation.Nullable;
 
-import com.omega_r.libs.omegatypes.Image;
 import com.omega_r.libs.omegatypes.Text;
+import com.omega_r.libs.omegatypes.image.Image;
 
 public final class Item {
 

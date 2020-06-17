@@ -5,9 +5,10 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.omega_r.libs.omegatypes.Image;
 import com.omega_r.libs.omegatypes.Text;
-import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
+import com.omega_r.libs.omegatypes.image.Image;
+import com.omega_r.libs.omegatypes.image.ResourceImage;
+import com.omega_r.libs.omegatypes.image.UrlImage;
 
 import fm.doe.national.core.BuildConfig;
 import fm.doe.national.core.R;
@@ -34,8 +35,8 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.DEV;
 
-    private static final Image sDefaultIconFsm = Image.from(R.drawable.ic_fsm);
-    private static final Image sDefaultIconRmi = Image.from(R.drawable.ic_rmi);
+    private static final Image sDefaultIconFsm = new ResourceImage(R.drawable.ic_fsm);
+    private static final Image sDefaultIconRmi = new ResourceImage(R.drawable.ic_rmi);
 
     private static final String PREF_KEY_EXCEL_EXPORT = "PREF_KEY_EXCEL_EXPORT";
     private static final String PREF_KEY_PROD_CERT = "PREF_KEY_PROD_CERT";
@@ -73,7 +74,7 @@ public class LocalSettingsImpl implements LocalSettings {
         String logoPath = getLogoPath();
 
         if (logoPath != null) {
-            return UrlImageExtensionsKt.from(Image.Companion, logoPath);
+            return new UrlImage(logoPath);
         }
 
         switch (getAppRegion()) {

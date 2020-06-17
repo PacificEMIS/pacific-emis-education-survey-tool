@@ -51,7 +51,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
 
     // Omega
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
 
