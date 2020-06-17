@@ -34,7 +34,7 @@ class SerializableObservationInfo implements ObservationInfo {
     Date date;
 
     public SerializableObservationInfo() {
-
+        // nothing
     }
 
     public SerializableObservationInfo(@NonNull ObservationInfo other) {

@@ -58,4 +58,9 @@ public class BaseDialogFragment extends MvpAppCompatDialogFragment implements Ba
     public void showPrompt(Text title, Text message, Runnable onPositivePressed) {
         // nothing
     }
+
+    @Override
+    public void close() {
+        dismiss();
+    }
 }

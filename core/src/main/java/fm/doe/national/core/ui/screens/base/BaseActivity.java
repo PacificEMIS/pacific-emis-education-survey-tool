@@ -240,4 +240,9 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
                 .create()
                 .show();
     }
+
+    @Override
+    public void close() {
+        finish();
+    }
 }

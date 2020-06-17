@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -47,6 +48,21 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
+
+    private final static Transformer sXmlTransformer;
+
+    static {
+        try {
+            sXmlTransformer = TransformerFactory.newInstance().newTransformer();
+            sXmlTransformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            sXmlTransformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            sXmlTransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            sXmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+            throw new ExceptionInInitializerError();
+        }
+    }
 
     private final RemoteStorage storage;
     private final RemoteStorageAccessor accessor;
@@ -165,7 +181,6 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
     private Single<String> prettyfyXml(String xmlStringToBeFormatted) {
         return Single.fromCallable(() -> {
             try {
-                // Turn xml string into a document
                 Document document = DocumentBuilderFactory.newInstance()
                         .newDocumentBuilder()
                         .parse(new InputSource(new ByteArrayInputStream(xmlStringToBeFormatted.getBytes(StandardCharsets.UTF_8))));
@@ -182,16 +197,8 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                     node.getParentNode().removeChild(node);
                 }
 
-                // Setup pretty print options
-                Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-                // Return pretty print xml string
                 StringWriter stringWriter = new StringWriter();
-                transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
+                sXmlTransformer.transform(new DOMSource(document), new StreamResult(stringWriter));
                 return stringWriter.toString();
             } catch (Exception ex) {
                 return xmlStringToBeFormatted;
