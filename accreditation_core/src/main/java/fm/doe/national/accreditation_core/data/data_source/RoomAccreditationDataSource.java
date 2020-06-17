@@ -190,8 +190,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         return Single.fromCallable(() -> surveyDao.getAllFilled(localSettings.getAppRegion()))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
-                .toList()
-                .map(ArrayList::new);
+                .cast(Survey.class)
+                .toList();
     }
 
     @Override
@@ -199,8 +199,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         return Single.fromCallable(() -> surveyDao.getSurveys(schoolId, appRegion, surveyTag))
                 .flatMapObservable(Observable::fromIterable)
                 .map(MutableAccreditationSurvey::new)
-                .toList()
-                .map(ArrayList::new);
+                .cast(Survey.class)
+                .toList();
     }
 
     @Override

@@ -49,6 +49,9 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
 
+    private final static String PRETTY_XML_NORMALIZATION_EXPRESSION = "//text()[normalize-space()='']";
+    private final static String PRETTY_CONTENT_FORMAT = "METADATA:\n\n%s\n\n\nCONTENT\n\n%s";
+
     private final static Transformer sXmlTransformer;
 
     static {
@@ -168,10 +171,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
     private void showDocumentContent(String metadata, String content) {
         addDisposable(
                 prettyfyXml(content)
-                        .flatMap((prettyXml) -> Single.fromCallable(() -> "METADATA:\n\n" +
-                                metadata +
-                                "\n\n\nCONTENT\n\n" +
-                                prettyXml))
+                        .flatMap((prettyXml) -> Single.fromCallable(() -> String.format(PRETTY_CONTENT_FORMAT, metadata, prettyXml)))
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(prettyContent -> getViewState().setContent(prettyContent), this::handleError)
@@ -188,7 +188,7 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
                 // Remove whitespaces outside tags
                 document.normalize();
                 XPath xPath = XPathFactory.newInstance().newXPath();
-                NodeList nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']",
+                NodeList nodeList = (NodeList) xPath.evaluate(PRETTY_XML_NORMALIZATION_EXPRESSION,
                         document,
                         XPathConstants.NODESET);
 
