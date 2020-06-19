@@ -29,22 +29,13 @@
             android:text="@string/label_observation_info_teacher_name"
             android:textAppearance="@style/Text.Body1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textinputlayout_teacher_name"
+        <fm.doe.national.core.ui.views.InputFieldLayout
+            android:id="@+id/inputfieldlayout_teacher_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/observation_info_horizontal_margin"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/observation_info_horizontal_margin">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textinputedittext_teacher_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:textAppearance="@style/Text.Body4" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin" />
 
         <View
             android:layout_width="match_parent"
@@ -106,24 +97,15 @@
             android:text="@string/label_observation_info_total_students"
             android:textAppearance="@style/Text.Body1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textinputlayout_students"
+        <fm.doe.national.core.ui.views.InputFieldLayout
+            android:id="@+id/inputfieldlayout_students"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/observation_info_horizontal_margin"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/observation_info_horizontal_margin">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textinputedittext_students"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="numberSigned"
-                android:maxLength="3"
-                android:textAppearance="@style/Text.Body4" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:inputType="numberSigned"
+            android:maxLength="3" />
 
         <View
             android:layout_width="match_parent"
@@ -142,22 +124,13 @@
             android:text="@string/label_observation_info_subject"
             android:textAppearance="@style/Text.Body1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textinputlayout_subject"
+        <fm.doe.national.core.ui.views.InputFieldLayout
+            android:id="@+id/inputfieldlayout_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/observation_info_horizontal_margin"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/observation_info_horizontal_margin">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textinputedittext_subject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:textAppearance="@style/Text.Body4" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin" />
 
         <View
             android:layout_width="match_parent"

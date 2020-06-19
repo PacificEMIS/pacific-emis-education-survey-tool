@@ -8,7 +8,6 @@ import com.omegar.mvp.InjectViewState;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
@@ -18,7 +17,6 @@ import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
 import fm.doe.national.accreditation_core.interactors.AccreditationSurveyInteractor;
 import fm.doe.national.core.data.model.Survey;
 import fm.doe.national.core.ui.screens.base.BasePresenter;
-import fm.doe.national.core.utils.RxNullableObject;
 import fm.doe.national.remote_storage.data.accessor.RemoteStorageAccessor;
 import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
@@ -26,7 +24,6 @@ import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 @InjectViewState
 public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView> {
@@ -54,11 +51,6 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
 
     private MutableObservationInfo observationInfo;
 
-    private final PublishSubject<RxNullableObject<String>> teacherNameSubject = PublishSubject.create();
-    private final PublishSubject<RxNullableObject<Integer>> totalStudentsSubject = PublishSubject.create();
-    private final PublishSubject<RxNullableObject<String>> classThemeSubject = PublishSubject.create();
-    private final PublishSubject<MutableObservationInfo> infoChangedSubject = PublishSubject.create();
-
     ObservationInfoPresenter(RemoteStorageComponent remoteStorageComponent,
                              SurveyCoreComponent surveyCoreComponent,
                              AccreditationCoreComponent accreditationCoreComponent,
@@ -69,8 +61,6 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         this.categoryId = categoryId;
         loadInfo();
         loadNavigation();
-        setupViewInteraction();
-        setupSaving();
     }
 
     private void loadInfo() {
@@ -124,37 +114,6 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         getViewState().setNextButtonEnabled(isFinished);
     }
 
-    private void setupViewInteraction() {
-        addDisposable(teacherNameSubject
-                .throttleLast(1, TimeUnit.SECONDS)
-                .subscribe(name -> {
-                    observationInfo.setTeacherName(name.object);
-                    infoChangedSubject.onNext(observationInfo);
-                }, this::handleError)
-        );
-        addDisposable(totalStudentsSubject
-                .throttleLast(1, TimeUnit.SECONDS)
-                .subscribe(count -> {
-                    observationInfo.setTotalStudentsPresent(count.object);
-                    infoChangedSubject.onNext(observationInfo);
-                }, this::handleError)
-        );
-        addDisposable(classThemeSubject
-                .throttleLast(1, TimeUnit.SECONDS)
-                .subscribe(classSubject -> {
-                    observationInfo.setSubject(classSubject.object);
-                    infoChangedSubject.onNext(observationInfo);
-                }, this::handleError)
-        );
-    }
-
-    private void setupSaving() {
-        addDisposable(infoChangedSubject
-                .throttleLast(1, TimeUnit.SECONDS)
-                .subscribe(this::save, this::handleError)
-        );
-    }
-
     private void save(@NonNull ObservationInfo observationInfo) {
         addDisposable(accreditationSurveyInteractor.updateClassroomObservationInfo(observationInfo, categoryId)
                 .subscribeOn(Schedulers.io())
@@ -185,15 +144,18 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     }
 
     public void onTeacherNameChanged(String teacherName) {
-        teacherNameSubject.onNext(RxNullableObject.wrap(teacherName));
+        observationInfo.setTeacherName(teacherName);
+        save(observationInfo);
     }
 
     public void onTotalStudentsChanged(Integer totalStudents) {
-        totalStudentsSubject.onNext(RxNullableObject.wrap(totalStudents));
+        observationInfo.setTotalStudentsPresent(totalStudents);
+        save(observationInfo);
     }
 
     public void onSubjectChanged(String subject) {
-        classThemeSubject.onNext(RxNullableObject.wrap(subject));
+        observationInfo.setSubject(subject);
+        save(observationInfo);
     }
 
     public void onDateTimePressed() {
@@ -202,7 +164,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
             getViewState().showDateTimePicker(observationInfo.getDate(), date -> {
                 observationInfo.setDate(date);
                 getViewState().setDate(date);
-                infoChangedSubject.onNext(observationInfo);
+                save(observationInfo);
             });
         }
     }
@@ -211,7 +173,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         getViewState().showGradeSelector(POSSIBLE_GRADES, selectedGrade -> {
             observationInfo.setGrade(selectedGrade);
             getViewState().setGrade(selectedGrade);
-            infoChangedSubject.onNext(observationInfo);
+            save(observationInfo);
         });
     }
 }
