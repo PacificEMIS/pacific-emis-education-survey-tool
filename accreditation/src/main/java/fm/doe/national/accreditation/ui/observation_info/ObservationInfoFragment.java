@@ -6,12 +6,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,13 +32,14 @@ import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
-import fm.doe.national.core.utils.TextWatcherAdapter;
+import fm.doe.national.core.ui.views.InputFieldLayout;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 
 public class ObservationInfoFragment extends BaseFragment implements
         ObservationInfoView,
-        BottomNavigatorView.Listener {
+        BottomNavigatorView.Listener,
+        InputFieldLayout.OnDonePressedListener {
 
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
 
@@ -50,44 +49,15 @@ public class ObservationInfoFragment extends BaseFragment implements
     @InjectPresenter
     ObservationInfoPresenter presenter;
 
-    private EditText teacherNameEditText;
+    private InputFieldLayout teacherNameInputFieldLayout;
     private TextView gradeTextView;
-    private EditText totalStudentsEditText;
-    private EditText subjectEditText;
+    private InputFieldLayout totalStudentsInputFieldLayout;
+    private InputFieldLayout subjectInputFieldLayout;
     private TextView dateTimeTextView;
     private BottomNavigatorView bottomNavigatorView;
 
     @Nullable
     private Dialog selectorDialog;
-
-    private TextWatcher teacherNameTextWatcher = new TextWatcherAdapter() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            presenter.onTeacherNameChanged(s.toString());
-        }
-    };
-
-    private TextWatcher totalStudentsTextWatcher = new TextWatcherAdapter() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (s.length() == 0) {
-                presenter.onTotalStudentsChanged(null);
-                return;
-            }
-            try {
-                presenter.onTotalStudentsChanged(Integer.parseInt(s.toString()));
-            } catch (NumberFormatException ex) {
-                ex.printStackTrace();
-            }
-        }
-    };
-
-    private TextWatcher subjectTextWatcher = new TextWatcherAdapter() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            presenter.onSubjectChanged(s.toString());
-        }
-    };
 
     public static ObservationInfoFragment create(long categoryId) {
         ObservationInfoFragment fragment = new ObservationInfoFragment();
@@ -126,19 +96,19 @@ public class ObservationInfoFragment extends BaseFragment implements
     }
 
     private void bindViews(@NonNull View view) {
-        teacherNameEditText = view.findViewById(R.id.textinputedittext_teacher_name);
+        teacherNameInputFieldLayout = view.findViewById(R.id.inputfieldlayout_teacher_name);
         gradeTextView = view.findViewById(R.id.textview_grade);
-        totalStudentsEditText = view.findViewById(R.id.textinputedittext_students);
-        subjectEditText = view.findViewById(R.id.textinputedittext_subject);
+        totalStudentsInputFieldLayout = view.findViewById(R.id.inputfieldlayout_students);
+        subjectInputFieldLayout = view.findViewById(R.id.inputfieldlayout_subject);
         dateTimeTextView = view.findViewById(R.id.textview_date_time);
         bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
     }
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
-        teacherNameEditText.addTextChangedListener(teacherNameTextWatcher);
-        totalStudentsEditText.addTextChangedListener(totalStudentsTextWatcher);
-        subjectEditText.addTextChangedListener(subjectTextWatcher);
+        teacherNameInputFieldLayout.setOnDonePressedListener(this);
+        totalStudentsInputFieldLayout.setOnDonePressedListener(this);
+        subjectInputFieldLayout.setOnDonePressedListener(this);
         gradeTextView.setOnClickListener((view) -> presenter.onGradePressed());
         dateTimeTextView.setOnClickListener((view) -> presenter.onDateTimePressed());
     }
@@ -160,7 +130,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTeacherName(@Nullable String teacherName) {
-        teacherNameEditText.setText(teacherName);
+        teacherNameInputFieldLayout.setStartingText(teacherName);
     }
 
     @Override
@@ -174,12 +144,12 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTotalStudentsPresent(@Nullable Integer totalStudentsPresent) {
-        totalStudentsEditText.setText(totalStudentsPresent == null ? null : totalStudentsPresent.toString());
+        totalStudentsInputFieldLayout.setStartingText(totalStudentsPresent == null ? null : totalStudentsPresent.toString());
     }
 
     @Override
     public void setSubject(@Nullable String subject) {
-        subjectEditText.setText(subject);
+        subjectInputFieldLayout.setStartingText(subject);
     }
 
     @Override
@@ -252,5 +222,24 @@ public class ObservationInfoFragment extends BaseFragment implements
         titleTextView.setText(R.string.label_select_grade);
         selectorDialog.setContentView(sheetView);
         selectorDialog.show();
+    }
+
+    @Override
+    public void onDonePressed(View view, @Nullable String content) {
+        if (view.getId() == R.id.inputfieldlayout_teacher_name) {
+            presenter.onTeacherNameChanged(content);
+        } else if (view.getId() == R.id.inputfieldlayout_students) {
+            if (TextUtils.isEmpty(content)) {
+                presenter.onTotalStudentsChanged(null);
+                return;
+            }
+            try {
+                presenter.onTotalStudentsChanged(Integer.parseInt(content));
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+        } else if (view.getId() == R.id.inputfieldlayout_subject) {
+            presenter.onSubjectChanged(content);
+        }
     }
 }

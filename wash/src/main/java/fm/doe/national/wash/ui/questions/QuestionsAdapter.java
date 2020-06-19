@@ -2,15 +2,11 @@ package fm.doe.national.wash.ui.questions;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fm.doe.national.core.ui.views.InputFieldLayout;
 import fm.doe.national.core.utils.CollectionUtils;
 import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
 import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
@@ -308,7 +305,7 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
 
         NumericTextInputViewHolder(ViewGroup parent) {
             super(parent);
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            inputFieldLayout.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
 
     }
@@ -317,21 +314,18 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
 
         PhoneTextInputViewHolder(ViewGroup parent) {
             super(parent);
-            editText.setInputType(InputType.TYPE_CLASS_PHONE);
+            inputFieldLayout.setInputType(InputType.TYPE_CLASS_PHONE);
         }
 
     }
 
-    class TextInputViewHolder extends QuestionViewHolder implements TextWatcher {
+    class TextInputViewHolder extends QuestionViewHolder implements InputFieldLayout.OnDonePressedListener {
 
-        EditText editText = findViewById(R.id.textinputedittext);
-        private ImageButton doneButton = findViewById(R.id.imagebutton_done);
-        private String existingValue;
+        InputFieldLayout inputFieldLayout = findViewById(R.id.inputfieldlayout);
 
         TextInputViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_text_input_question);
-            doneButton.setOnClickListener(this);
-            editText.addTextChangedListener(this);
+            inputFieldLayout.setOnDonePressedListener(this);
         }
 
         @Override
@@ -339,45 +333,24 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
             super.onBind(item);
 
             if (item.getAnswer() != null) {
-                existingValue = item.getAnswer().getInputText();
-                editText.setText(existingValue);
+                inputFieldLayout.setStartingText(item.getAnswer().getInputText());
             }
-            doneButton.setVisibility(View.GONE);
+            inputFieldLayout.setDoneButtonVisible(false);
         }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // nothing
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // nothing
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            doneButton.setVisibility(editText.getText().toString().equals(existingValue) ? View.GONE : View.VISIBLE);
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (v.getId() == R.id.imagebutton_done) {
-                String inputtedText = editText.getText().toString();
+        public void onDonePressed(View view, @Nullable String content) {
+            if (view.getId() == R.id.inputfieldlayout) {
                 MutableQuestion question = getItem();
-                existingValue = inputtedText.isEmpty() ? null : inputtedText;
-                question.setAnswerInputText(existingValue);
+                question.setAnswerInputText(content);
                 notifyAnswerStateChanged(question);
-                doneButton.setVisibility(View.GONE);
                 hideKeyboard();
-            } else {
-                super.onClick(v);
             }
         }
 
         private void hideKeyboard() {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(inputFieldLayout.getWindowToken(), 0);
             itemView.requestFocus();
         }
     }
