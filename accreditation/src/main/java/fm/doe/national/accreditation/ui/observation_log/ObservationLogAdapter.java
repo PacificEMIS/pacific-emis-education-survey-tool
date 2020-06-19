@@ -8,8 +8,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
 
@@ -18,23 +20,37 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import fm.doe.national.accreditation.R;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import fm.doe.national.core.ui.views.InputFieldLayout;
 
-public class ObservationLogAdapter extends BaseListAdapter<RecordViewData>
+public class ObservationLogAdapter extends ListAdapter<MutableObservationLogRecord, ObservationLogAdapter.RecordViewHolder>
         implements StickyAdapter<ObservationLogAdapter.HeaderViewHolder> {
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("hh:mm a", Locale.US);
 
     @NonNull
+    private Listener listener;
+
+    public ObservationLogAdapter(@NonNull DiffUtil.ItemCallback<MutableObservationLogRecord> diffCallback, @NonNull Listener listener) {
+        super(diffCallback);
+        this.listener = listener;
+    }
+
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new RecordViewHolder(parent);
     }
 
     @Override
+    public void onBindViewHolder(@NonNull RecordViewHolder holder, int position) {
+        holder.onBind(getItem(position));
+    }
+
+    @Override
     public long getStickyId(int position) {
-        return 0;
+        return 0; // just a simple header for all elements
     }
 
     @Override
@@ -47,7 +63,9 @@ public class ObservationLogAdapter extends BaseListAdapter<RecordViewData>
         // nothing
     }
 
-    class RecordViewHolder extends ViewHolder implements InputFieldLayout.OnDonePressedListener {
+    class RecordViewHolder extends OmegaRecyclerView.ViewHolder implements
+            InputFieldLayout.OnDonePressedListener,
+            View.OnClickListener {
 
         private TextView timeTextView;
         private InputFieldLayout teacherInputFieldLayout;
@@ -74,8 +92,7 @@ public class ObservationLogAdapter extends BaseListAdapter<RecordViewData>
             studentsInputFieldLayout.setOnDonePressedListener(this);
         }
 
-        @Override
-        protected void onBind(RecordViewData item) {
+        void onBind(MutableObservationLogRecord item) {
             timeTextView.setText(DATE_FORMAT.format(item.getDate()));
             teacherInputFieldLayout.setStartingText(item.getTeacherActions());
             studentsInputFieldLayout.setStartingText(item.getStudentsActions());
@@ -83,21 +100,27 @@ public class ObservationLogAdapter extends BaseListAdapter<RecordViewData>
 
         @Override
         public void onClick(View v) {
+            final int position = getAdapterPosition();
+            if (position == RecyclerView.NO_POSITION) {
+                return;
+            }
             if (v.getId() == R.id.imagebutton_delete) {
-
+                listener.onDeletePressed(position);
             } else if (v.getId() == R.id.textview_time) {
-
-            } else {
-                super.onClick(v);
+                listener.onTimePressed(position);
             }
         }
 
         @Override
         public void onDonePressed(View view, @Nullable String content) {
+            final int position = getAdapterPosition();
+            if (position == RecyclerView.NO_POSITION) {
+                return;
+            }
             if (view.getId() == R.id.inputfieldlayout_teacher_action) {
-
+                listener.onTeacherActionChanged(position, content);
             } else if (view.getId() == R.id.inputfieldlayout_students_action) {
-
+                listener.onStudentsActionChanged(position, content);
             }
         }
     }
@@ -106,5 +129,12 @@ public class ObservationLogAdapter extends BaseListAdapter<RecordViewData>
         public HeaderViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_observation_log_header);
         }
+    }
+
+    public interface Listener {
+        void onTeacherActionChanged(int position, @Nullable String action);
+        void onStudentsActionChanged(int position, @Nullable String action);
+        void onTimePressed(int position);
+        void onDeletePressed(int position);
     }
 }

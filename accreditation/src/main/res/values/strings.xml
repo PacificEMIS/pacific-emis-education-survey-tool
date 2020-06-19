@@ -13,6 +13,7 @@
     <string name="label_classroom_observation_log_prefix">Class Progress:</string>
     <string name="label_classroom_observation_log_suffix">Log</string>
     <string name="button_classroom_observation_log_start">Start lesson</string>
+    <string name="button_classroom_observation_log_add">Add activity</string>
     <string name="label_classroom_observation_log_hint">Specify the time of activity in the lesson in minutes from the beginning of the lesson</string>
     <string name="label_classroom_observation_log_title">Log the lesson progress</string>
     <string name="label_classroom_observation_log_column_time">Start time</string>
