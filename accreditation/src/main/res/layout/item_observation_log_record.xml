@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:weightSum="712">
+
+        <TextView
+            android:id="@+id/textview_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="101"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="16dp"
+            android:drawableEnd="@drawable/ic_log_edit"
+            android:textAppearance="@style/Text.Body1"
+            android:textColor="?colorPrimary"
+            tools:text="12:55" />
+
+        <fm.doe.national.core.ui.views.InputFieldLayout
+            android:id="@+id/inputfieldlayout_teacher_action"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="286"
+            android:paddingStart="0dp"
+            android:paddingEnd="16dp" />
+
+        <fm.doe.national.core.ui.views.InputFieldLayout
+            android:id="@+id/inputfieldlayout_students_action"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="269" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="56"
+            android:minHeight="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_log_delete"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+        android:background="@color/grey_300" />
+
+</LinearLayout>

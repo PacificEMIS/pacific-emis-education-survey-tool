@@ -42,8 +42,6 @@
             android:textAllCaps="false"
             android:textAppearance="@style/Text.Title1.Small" />
 
-
     </LinearLayout>
-
 
 </FrameLayout>

@@ -1,6 +1,5 @@
 package fm.doe.national.accreditation.ui.observation_log;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,14 +8,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.Arrays;
+import java.util.Date;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
@@ -31,13 +30,14 @@ public class ObservationLogFragment extends BaseFragment implements
 
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
 
-    @SuppressLint("ConstantLocale")
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("hh:mm a", Locale.US);
-
     @InjectPresenter
     ObservationLogPresenter presenter;
 
+    private final ObservationLogAdapter adapter = new ObservationLogAdapter();
+
     private BottomNavigatorView bottomNavigatorView;
+    private RecyclerView recyclerView;
+
 
     public static ObservationLogFragment create(long categoryId) {
         ObservationLogFragment fragment = new ObservationLogFragment();
@@ -77,6 +77,23 @@ public class ObservationLogFragment extends BaseFragment implements
 
     private void bindViews(@NonNull View view) {
         bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
+        recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setItems(Arrays.asList(
+                new RecordViewData(new Date(), "Action", "React"),
+                new RecordViewData(new Date(), "Action2", "React2"),
+                new RecordViewData(new Date(), "Action3", "React3"),
+                new RecordViewData(new Date(), "Action4", "React4"),
+                new RecordViewData(new Date(), "Action", "React"),
+                new RecordViewData(new Date(), "Action2", "React2"),
+                new RecordViewData(new Date(), "Action3", "React3"),
+                new RecordViewData(new Date(), "Action4", "React4"),
+                new RecordViewData(new Date(), "Action", "React"),
+                new RecordViewData(new Date(), "Action2", "React2"),
+                new RecordViewData(new Date(), "Action3", "React3"),
+                new RecordViewData(new Date(), "Action4", "React4")
+        ));
     }
 
     private void setupUserInteractions() {
