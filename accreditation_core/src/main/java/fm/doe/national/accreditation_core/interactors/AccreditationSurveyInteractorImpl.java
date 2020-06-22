@@ -266,7 +266,7 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     @Override
     public Completable updateClassroomObservationInfo(ObservationInfo info, long categoryId) {
         return requestCategory(categoryId)
-                .doOnSuccess(mutableCategory -> mutableCategory.setObservationInfo(new MutableObservationInfo(info)))
+                .doOnSuccess(mutableCategory -> mutableCategory.setObservationInfo(MutableObservationInfo.from(info)))
                 .flatMapCompletable(mutableCategory -> accreditationDataSource.updateObservationInfo(info, categoryId));
     }
 

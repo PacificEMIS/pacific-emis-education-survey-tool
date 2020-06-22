@@ -35,7 +35,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
 
         final ObservationInfo otherObservationInfo = other.getObservationInfo();
         if (otherObservationInfo != null) {
-            this.observationInfo = new MutableObservationInfo(otherObservationInfo);
+            this.observationInfo = MutableObservationInfo.from(otherObservationInfo);
         }
     }
 
@@ -105,7 +105,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         final ObservationInfo otherObservationInfo = other.getObservationInfo();
         if (otherObservationInfo != null) {
             if (this.observationInfo == null) {
-                this.observationInfo = new MutableObservationInfo(otherObservationInfo);
+                this.observationInfo = MutableObservationInfo.from(otherObservationInfo);
             } else {
                 this.observationInfo.merge(otherObservationInfo, strategy);
             }
