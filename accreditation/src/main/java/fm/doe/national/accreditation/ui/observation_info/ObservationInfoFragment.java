@@ -1,6 +1,7 @@
 package fm.doe.national.accreditation.ui.observation_info;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +57,7 @@ public class ObservationInfoFragment extends BaseFragment implements
     private InputFieldLayout subjectInputFieldLayout;
     private TextView dateTimeTextView;
     private BottomNavigatorView bottomNavigatorView;
+    private View rootView;
 
     @Nullable
     private Dialog selectorDialog;
@@ -102,6 +105,7 @@ public class ObservationInfoFragment extends BaseFragment implements
         subjectInputFieldLayout = view.findViewById(R.id.inputfieldlayout_subject);
         dateTimeTextView = view.findViewById(R.id.textview_date_time);
         bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
+        rootView = view.findViewById(R.id.layout_root);
     }
 
     private void setupUserInteractions() {
@@ -227,8 +231,10 @@ public class ObservationInfoFragment extends BaseFragment implements
     @Override
     public void onDonePressed(View view, @Nullable String content) {
         if (view.getId() == R.id.inputfieldlayout_teacher_name) {
+            hideKeyboard(teacherNameInputFieldLayout);
             presenter.onTeacherNameChanged(content);
         } else if (view.getId() == R.id.inputfieldlayout_students) {
+            hideKeyboard(totalStudentsInputFieldLayout);
             if (TextUtils.isEmpty(content)) {
                 presenter.onTotalStudentsChanged(null);
                 return;
@@ -239,7 +245,16 @@ public class ObservationInfoFragment extends BaseFragment implements
                 ex.printStackTrace();
             }
         } else if (view.getId() == R.id.inputfieldlayout_subject) {
+            hideKeyboard(subjectInputFieldLayout);
             presenter.onSubjectChanged(content);
         }
+    }
+
+    private void hideKeyboard(@NonNull View focusedView) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
+        }
+        rootView.requestFocus();
     }
 }
