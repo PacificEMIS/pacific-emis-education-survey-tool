@@ -15,6 +15,7 @@ import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditatio
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCriteria;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationInfo;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.core.data.model.Survey;
@@ -264,7 +265,9 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
 
     @Override
     public Completable updateClassroomObservationInfo(ObservationInfo info, long categoryId) {
-        return accreditationDataSource.updateObservationInfo(info, categoryId);
+        return requestCategory(categoryId)
+                .doOnSuccess(mutableCategory -> mutableCategory.setObservationInfo(MutableObservationInfo.from(info)))
+                .flatMapCompletable(mutableCategory -> accreditationDataSource.updateObservationInfo(info, categoryId));
     }
 
     @Override

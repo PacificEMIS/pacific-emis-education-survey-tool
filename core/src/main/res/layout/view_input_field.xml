@@ -13,6 +13,7 @@
             android:id="@+id/textinputedittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:paddingEnd="48dp"
             android:textAppearance="@style/Text.Body4"
             tools:text="Enter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter textEnter text" />
