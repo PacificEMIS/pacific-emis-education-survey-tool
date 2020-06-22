@@ -21,6 +21,13 @@ public class MutableObservationInfo implements ObservationInfo {
     @Nullable
     private Date date;
 
+    public static MutableObservationInfo from(@NonNull ObservationInfo other) {
+        if (other instanceof MutableObservationInfo) {
+            return (MutableObservationInfo) other;
+        }
+        return new MutableObservationInfo(other);
+    }
+
     public MutableObservationInfo() {
         // nothing
     }
@@ -37,7 +44,7 @@ public class MutableObservationInfo implements ObservationInfo {
         this.date = date;
     }
 
-    public MutableObservationInfo(@NonNull ObservationInfo other) {
+    private MutableObservationInfo(@NonNull ObservationInfo other) {
         this.teacherName = other.getTeacherName();
         this.grade = other.getGrade();
         this.totalStudentsPresent = other.getTotalStudentsPresent();
