@@ -171,7 +171,7 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
     private void refreshRecordsAfterAdding(MutableObservationLogRecord addedRecord) {
         sortRecords();
         final int addedPosition = records.indexOf(addedRecord);
-        getViewState().updateScrollingToPosition(new ArrayList<>(records), addedPosition); // clone list to have a different list instances in UI and in presenter
+        getViewState().updateLogScrollingToPosition(new ArrayList<>(records), addedPosition); // clone list to have a different list instances in UI and in presenter
     }
 
     private void refreshRecords() {

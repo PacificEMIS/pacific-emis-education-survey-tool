@@ -28,7 +28,7 @@ public interface ObservationLogView extends BaseView {
     void updateLog(List<MutableObservationLogRecord> items);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void updateScrollingToPosition(List<MutableObservationLogRecord> items, int position);
+    void updateLogScrollingToPosition(List<MutableObservationLogRecord> items, int position);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showTimePicker(@NonNull Date sourceDate, @NonNull OnTimePickedListener listener);

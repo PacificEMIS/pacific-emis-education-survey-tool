@@ -136,6 +136,8 @@ public class MutableCategory extends BaseMutableEntity implements Category {
             }
         }
 
+        // TODO: merge of logs will be discussed with Ghislain
+
         return changedAnswers;
     }
 }

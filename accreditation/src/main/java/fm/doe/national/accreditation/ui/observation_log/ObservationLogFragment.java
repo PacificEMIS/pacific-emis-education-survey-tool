@@ -122,7 +122,7 @@ public class ObservationLogFragment extends BaseFragment implements
     }
 
     @Override
-    public void updateScrollingToPosition(List<MutableObservationLogRecord> items, int position) {
+    public void updateLogScrollingToPosition(List<MutableObservationLogRecord> items, int position) {
         updateLog(items, () -> recyclerView.smoothScrollToPosition(position + getRecyclerItemsOffset()));
     }
 

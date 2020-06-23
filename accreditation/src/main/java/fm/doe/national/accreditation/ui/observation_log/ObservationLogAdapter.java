@@ -103,9 +103,9 @@ public class ObservationLogAdapter extends ListAdapter<MutableObservationLogReco
         }
 
         void onBind(MutableObservationLogRecord item) {
-            Date date = item.getDate();
-            Text timeText = Text.from(DATE_HOURS_MINUTES_FORMAT.format(date), timeNumbersTextStyle);
-            Text middayText = Text.from(DATE_AM_PM_FORMAT.format(date), timeMiddayTextStyle);
+            final Date date = item.getDate();
+            final Text timeText = Text.from(DATE_HOURS_MINUTES_FORMAT.format(date), timeNumbersTextStyle);
+            final Text middayText = Text.from(DATE_AM_PM_FORMAT.format(date), timeMiddayTextStyle);
             TextKt.setText(timeTextView, timeText.plus(middayText), null);
             teacherInputFieldLayout.setStartingText(item.getTeacherActions());
             studentsInputFieldLayout.setStartingText(item.getStudentsActions());
