@@ -18,7 +18,15 @@ public class MutableObservationLogRecord implements ObservationLogRecord {
     @Nullable
     private String studentsActions;
 
-    public MutableObservationLogRecord(@NonNull ObservationLogRecord other) {
+    @NonNull
+    public static MutableObservationLogRecord from(@NonNull ObservationLogRecord other) {
+        if (other instanceof MutableObservationLogRecord) {
+            return (MutableObservationLogRecord) other;
+        }
+        return new MutableObservationLogRecord(other);
+    }
+
+    private MutableObservationLogRecord(@NonNull ObservationLogRecord other) {
         this(other.getId(), other.getDate(), other.getTeacherActions(), other.getStudentsActions());
     }
 
@@ -27,9 +35,9 @@ public class MutableObservationLogRecord implements ObservationLogRecord {
     }
 
     public MutableObservationLogRecord(long id,
-                          @NonNull Date date,
-                          @Nullable String teacherActions,
-                          @Nullable String studentsActions) {
+                                       @NonNull Date date,
+                                       @Nullable String teacherActions,
+                                       @Nullable String studentsActions) {
         this.id = id;
         this.date = date;
         this.teacherActions = teacherActions;

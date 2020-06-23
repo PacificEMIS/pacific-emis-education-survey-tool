@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.ObservationInfo;
+import fm.doe.national.accreditation_core.data.model.ObservationLogRecord;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.core.data.model.ConflictResolveStrategy;
 import fm.doe.national.core.data.model.mutable.BaseMutableEntity;
@@ -24,8 +25,17 @@ public class MutableCategory extends BaseMutableEntity implements Category {
     private EvaluationForm evaluationForm;
     @Nullable
     private MutableObservationInfo observationInfo;
+    private ArrayList<MutableObservationLogRecord> logRecords = new ArrayList<>();
 
-    public MutableCategory(@NonNull Category other) {
+    @NonNull
+    public static MutableCategory from(@NonNull Category other) {
+        if (other instanceof MutableCategory) {
+            return (MutableCategory) other;
+        }
+        return new MutableCategory(other);
+    }
+
+    private MutableCategory(@NonNull Category other) {
         this.id = other.getId();
         this.title = other.getTitle();
         this.evaluationForm = other.getEvaluationForm();
@@ -36,6 +46,11 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         final ObservationInfo otherObservationInfo = other.getObservationInfo();
         if (otherObservationInfo != null) {
             this.observationInfo = MutableObservationInfo.from(otherObservationInfo);
+        }
+
+        final List<? extends ObservationLogRecord> logRecords = other.getLogRecords();
+        if (logRecords != null) {
+            logRecords.forEach(it -> this.logRecords.add(MutableObservationLogRecord.from(it)));
         }
     }
 
@@ -85,6 +100,16 @@ public class MutableCategory extends BaseMutableEntity implements Category {
     @Override
     public MutableObservationInfo getObservationInfo() {
         return observationInfo;
+    }
+
+    @NonNull
+    @Override
+    public ArrayList<MutableObservationLogRecord> getLogRecords() {
+        return logRecords;
+    }
+
+    public void setLogRecords(@NonNull ArrayList<MutableObservationLogRecord> logRecords) {
+        this.logRecords = logRecords;
     }
 
     public List<MutableAnswer> merge(Category other, ConflictResolveStrategy strategy) {

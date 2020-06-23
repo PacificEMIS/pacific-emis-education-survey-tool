@@ -61,7 +61,7 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(savedItems -> {
                             records = savedItems.stream()
-                                    .map(MutableObservationLogRecord::new)
+                                    .map(MutableObservationLogRecord::from)
                                     .collect(Collectors.toList());
                             refreshRecords();
                         }, this::handleError)
@@ -125,7 +125,11 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
     }
 
     public void onDeletePressed(int position) {
-
+        if (position < records.size()) {
+            // TODO: delete from db
+            records.remove(position);
+            refreshRecords();
+        }
     }
 
     public void onAddPressed() {
@@ -148,6 +152,6 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
                 return leftDate.compareTo(rightDate);
             }
         });
-        getViewState().updateLog(new ArrayList<>(records)); // clone list to have an different list instances in UI and in presenter
+        getViewState().updateLog(new ArrayList<>(records)); // clone list to have a different list instances in UI and in presenter
     }
 }
