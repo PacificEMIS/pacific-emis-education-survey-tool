@@ -1,9 +1,13 @@
 package fm.doe.national.accreditation.ui.observation_log;
 
+import androidx.annotation.NonNull;
+
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationLogRecord;
@@ -23,4 +27,10 @@ public interface ObservationLogView extends BaseView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void updateLog(List<MutableObservationLogRecord> items);
 
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showTimePicker(@NonNull Date sourceDate, @NonNull OnTimePickedListener listener);
+
+    interface OnTimePickedListener {
+        void onTimePicked(@NonNull Date date);
+    }
 }

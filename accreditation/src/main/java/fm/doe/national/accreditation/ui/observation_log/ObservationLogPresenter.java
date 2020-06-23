@@ -111,11 +111,21 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
     }
 
     public void onTeacherActionChanged(int position, String action) {
-
+        if (position >= records.size()) {
+            return;
+        }
+        MutableObservationLogRecord record = records.get(position);
+        record.setTeacherActions(action);
+        save(record);
     }
 
     public void onStudentsActionChanged(int position, String action) {
-
+        if (position >= records.size()) {
+            return;
+        }
+        MutableObservationLogRecord record = records.get(position);
+        record.setStudentsActions(action);
+        save(record);
     }
 
     public void onDeletePressed(int position) {
@@ -144,7 +154,17 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
     }
 
     public void onTimePressed(int position) {
-
+        if (position >= records.size()) {
+            return;
+        }
+        MutableObservationLogRecord record = MutableObservationLogRecord.copyOf(records.get(position));
+        getViewState().showTimePicker(record.getDate(), date -> {
+            record.setDate(date);
+            records.remove(position);
+            records.add(record);
+            refreshRecords();
+            save(record);
+        });
     }
 
     private void refreshRecords() {

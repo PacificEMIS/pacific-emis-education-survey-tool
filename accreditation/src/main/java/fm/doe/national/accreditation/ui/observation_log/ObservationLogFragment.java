@@ -1,6 +1,7 @@
 package fm.doe.national.accreditation.ui.observation_log;
 
 import android.app.Application;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import fm.doe.national.accreditation.R;
@@ -145,5 +148,22 @@ public class ObservationLogFragment extends BaseFragment implements
         if (v.getId() == R.id.button_add) {
             presenter.onAddPressed();
         }
+    }
+
+    @Override
+    public void showTimePicker(@NonNull Date sourceDate, @NonNull OnTimePickedListener listener) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sourceDate);
+        new TimePickerDialog(
+                requireContext(),
+                (timePicker, hourOfDay, minute) -> {
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    calendar.set(Calendar.MINUTE, minute);
+                    listener.onTimePicked(calendar.getTime());
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                false
+        ).show();
     }
 }

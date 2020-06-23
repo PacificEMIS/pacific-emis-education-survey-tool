@@ -10,7 +10,7 @@ import java.util.Date;
 
 import fm.doe.national.accreditation_core.data.model.ObservationLogRecord;
 
-@Root(name = "log")
+@Root(name = "record")
 class SerializableObservationLogRecord implements ObservationLogRecord {
 
     @Nullable

@@ -19,11 +19,16 @@ public class MutableObservationLogRecord implements ObservationLogRecord {
     private String studentsActions;
 
     @NonNull
+    public static MutableObservationLogRecord copyOf(@NonNull ObservationLogRecord other) {
+        return new MutableObservationLogRecord(other);
+    }
+
+    @NonNull
     public static MutableObservationLogRecord from(@NonNull ObservationLogRecord other) {
         if (other instanceof MutableObservationLogRecord) {
             return (MutableObservationLogRecord) other;
         }
-        return new MutableObservationLogRecord(other);
+        return copyOf(other);
     }
 
     private MutableObservationLogRecord(@NonNull ObservationLogRecord other) {
