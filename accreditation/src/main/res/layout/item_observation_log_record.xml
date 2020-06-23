@@ -21,11 +21,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="101"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_log_edit"
+            android:focusable="true"
             android:gravity="center_vertical"
             android:minHeight="48dp"
             android:paddingStart="0dp"
             android:paddingEnd="16dp"
-            android:drawableEnd="@drawable/ic_log_edit"
             android:textAppearance="@style/Text.Body1"
             android:textColor="?colorPrimary"
             tools:text="12:55" />
@@ -49,8 +52,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="56"
-            android:minHeight="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:minHeight="48dp"
             android:src="@drawable/ic_log_delete"
             tools:ignore="ContentDescription" />
 

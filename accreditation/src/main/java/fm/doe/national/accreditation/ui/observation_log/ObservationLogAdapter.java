@@ -14,9 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
+import com.omega_r.libs.omegatypes.Size;
+import com.omega_r.libs.omegatypes.Text;
+import com.omega_r.libs.omegatypes.TextKt;
+import com.omega_r.libs.omegatypes.TextStyle;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import fm.doe.national.accreditation.R;
@@ -27,7 +32,8 @@ public class ObservationLogAdapter extends ListAdapter<MutableObservationLogReco
         implements StickyAdapter<ObservationLogAdapter.HeaderViewHolder> {
 
     @SuppressLint("ConstantLocale")
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("hh:mm a", Locale.US);
+    private static final DateFormat DATE_HOURS_MINUTES_FORMAT = new SimpleDateFormat("hh:mm", Locale.US);
+    private static final DateFormat DATE_AM_PM_FORMAT = new SimpleDateFormat(" a", Locale.US);
 
     @NonNull
     private Listener listener;
@@ -67,6 +73,8 @@ public class ObservationLogAdapter extends ListAdapter<MutableObservationLogReco
             InputFieldLayout.OnDonePressedListener,
             View.OnClickListener {
 
+        private final TextStyle timeNumbersTextStyle = TextStyle.size(Size.from(R.dimen.text_size_log_time_numbers));
+        private final TextStyle timeMiddayTextStyle = TextStyle.size(Size.from(R.dimen.text_size_log_time_midday));
         private TextView timeTextView;
         private InputFieldLayout teacherInputFieldLayout;
         private InputFieldLayout studentsInputFieldLayout;
@@ -93,7 +101,10 @@ public class ObservationLogAdapter extends ListAdapter<MutableObservationLogReco
         }
 
         void onBind(MutableObservationLogRecord item) {
-            timeTextView.setText(DATE_FORMAT.format(item.getDate()));
+            Date date = item.getDate();
+            Text timeText = Text.from(DATE_HOURS_MINUTES_FORMAT.format(date), timeNumbersTextStyle);
+            Text middayText = Text.from(DATE_AM_PM_FORMAT.format(date), timeMiddayTextStyle);
+            TextKt.setText(timeTextView, timeText.plus(middayText), null);
             teacherInputFieldLayout.setStartingText(item.getTeacherActions());
             studentsInputFieldLayout.setStartingText(item.getStudentsActions());
         }
