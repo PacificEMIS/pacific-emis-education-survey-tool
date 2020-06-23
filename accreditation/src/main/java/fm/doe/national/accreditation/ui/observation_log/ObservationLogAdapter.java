@@ -1,8 +1,10 @@
 package fm.doe.national.accreditation.ui.observation_log;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -124,6 +126,7 @@ public class ObservationLogAdapter extends ListAdapter<MutableObservationLogReco
 
         @Override
         public void onDonePressed(View view, @Nullable String content) {
+            hideKeyboard(view);
             final int position = getAdapterPosition();
             if (position == RecyclerView.NO_POSITION) {
                 return;
@@ -133,6 +136,12 @@ public class ObservationLogAdapter extends ListAdapter<MutableObservationLogReco
             } else if (view.getId() == R.id.inputfieldlayout_students_action) {
                 listener.onStudentsActionChanged(position, content);
             }
+        }
+
+        private void hideKeyboard(View view) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            itemView.requestFocus();
         }
     }
 
