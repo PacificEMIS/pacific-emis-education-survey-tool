@@ -11,11 +11,13 @@ import fm.doe.national.accreditation_core.data.model.AccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.AnswerState;
 import fm.doe.national.accreditation_core.data.model.ObservationInfo;
+import fm.doe.national.accreditation_core.data.model.ObservationLogRecord;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAnswer;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCategory;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationInfo;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableStandard;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableSubCriteria;
 import fm.doe.national.core.data.model.Survey;
@@ -313,5 +315,25 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     @Override
     public Completable completeSurveyIfNeed() {
         return Completable.fromAction(this::markSurveyAsCompletedIfNeed);
+    }
+
+    @Override
+    public Single<List<MutableObservationLogRecord>> requestLogRecords(long categoryId) {
+        return accreditationDataSource.getLogRecordsForCategoryWithId(categoryId);
+    }
+
+    @Override
+    public Single<MutableObservationLogRecord> createEmptyLogRecord(long categoryId) {
+        return accreditationDataSource.createEmptyLogRecord(categoryId, new Date());
+    }
+
+    @Override
+    public Completable updateObservationLogRecord(ObservationLogRecord record) {
+        return accreditationDataSource.updateObservationLogRecord(record);
+    }
+
+    @Override
+    public Completable deleteObservationLogRecord(long recordId) {
+        return accreditationDataSource.deleteObservationLogRecord(recordId);
     }
 }

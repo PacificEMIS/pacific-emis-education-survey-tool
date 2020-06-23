@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation.R;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
-import fm.doe.national.accreditation_core.data.model.ObservationInfo;
 import fm.doe.national.accreditation_core.data.model.ObservationLogRecord;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import fm.doe.national.accreditation_core.di.AccreditationCoreComponent;
@@ -25,7 +23,6 @@ import fm.doe.national.remote_storage.di.RemoteStorageComponent;
 import fm.doe.national.survey_core.di.SurveyCoreComponent;
 import fm.doe.national.survey_core.navigation.BuildableNavigationItem;
 import fm.doe.national.survey_core.navigation.survey_navigator.SurveyNavigator;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -38,7 +35,6 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
     private final long categoryId;
 
     private List<MutableObservationLogRecord> records = Collections.emptyList();
-    private long tmpIdGeg = 0;
 
     ObservationLogPresenter(RemoteStorageComponent remoteStorageComponent,
                             SurveyCoreComponent surveyCoreComponent,
@@ -53,16 +49,14 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
     }
 
     private void loadInfo() {
-        List<ObservationLogRecord> defList = Collections.emptyList();
+        getViewState().showWaiting();
         addDisposable(
-                Single.fromCallable(() -> defList)
-//                accreditationSurveyInteractor.requestCategory(categoryId)
+                accreditationSurveyInteractor.requestLogRecords(categoryId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally(() -> getViewState().hideWaiting())
                         .subscribe(savedItems -> {
-                            records = savedItems.stream()
-                                    .map(MutableObservationLogRecord::from)
-                                    .collect(Collectors.toList());
+                            records = savedItems;
                             refreshRecords();
                         }, this::handleError)
         );
@@ -87,8 +81,8 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
         getViewState().setNextButtonEnabled(isFinished);
     }
 
-    private void save(@NonNull ObservationInfo observationInfo) {
-        addDisposable(accreditationSurveyInteractor.updateClassroomObservationInfo(observationInfo, categoryId)
+    private void save(@NonNull ObservationLogRecord record) {
+        addDisposable(accreditationSurveyInteractor.updateObservationLogRecord(record)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -126,16 +120,27 @@ public class ObservationLogPresenter extends BasePresenter<ObservationLogView> {
 
     public void onDeletePressed(int position) {
         if (position < records.size()) {
-            // TODO: delete from db
+            MutableObservationLogRecord deletedRecord = records.get(position);
             records.remove(position);
-            refreshRecords();
+            addDisposable(
+                    accreditationSurveyInteractor.deleteObservationLogRecord(deletedRecord.getId())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(this::refreshRecords, this::handleError)
+            );
         }
     }
 
     public void onAddPressed() {
-        // TODO: save to db to generate id
-        records.add(new MutableObservationLogRecord(tmpIdGeg++, new Date()));
-        refreshRecords();
+        addDisposable(
+                accreditationSurveyInteractor.createEmptyLogRecord(categoryId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(createdRecord -> {
+                            records.add(createdRecord);
+                            refreshRecords();
+                        }, this::handleError)
+        );
     }
 
     public void onTimePressed(int position) {

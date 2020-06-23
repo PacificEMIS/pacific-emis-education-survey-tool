@@ -30,10 +30,6 @@ public class MutableObservationLogRecord implements ObservationLogRecord {
         this(other.getId(), other.getDate(), other.getTeacherActions(), other.getStudentsActions());
     }
 
-    public MutableObservationLogRecord(long id, @NonNull Date date) {
-        this(id, date, null, null);
-    }
-
     public MutableObservationLogRecord(long id,
                                        @NonNull Date date,
                                        @Nullable String teacherActions,

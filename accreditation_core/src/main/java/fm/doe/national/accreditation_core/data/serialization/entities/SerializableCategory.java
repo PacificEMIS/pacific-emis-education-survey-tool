@@ -37,7 +37,7 @@ public class SerializableCategory implements Category {
     @Element(name = "observationInfo", required = false)
     SerializableObservationInfo observationInfo;
 
-    @ElementList(name = "observationLog")
+    @ElementList(name = "observationLog", required = false)
     List<SerializableObservationLogRecord> logRecords;
 
     @NonNull
