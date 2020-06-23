@@ -10,8 +10,8 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
@@ -41,6 +41,7 @@ public class ObservationLogFragment extends BaseFragment implements
 
     private BottomNavigatorView bottomNavigatorView;
     private Button addButton;
+    private OmegaRecyclerView recyclerView;
 
     public static ObservationLogFragment create(long categoryId) {
         ObservationLogFragment fragment = new ObservationLogFragment();
@@ -80,7 +81,7 @@ public class ObservationLogFragment extends BaseFragment implements
 
     private void bindViews(@NonNull View view) {
         bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
-        final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
         addButton = view.findViewById(R.id.button_add);
         addButton.setOnClickListener(this);
@@ -117,10 +118,25 @@ public class ObservationLogFragment extends BaseFragment implements
 
     @Override
     public void updateLog(List<MutableObservationLogRecord> items) {
+        updateLog(items, null);
+    }
+
+    @Override
+    public void updateScrollingToPosition(List<MutableObservationLogRecord> items, int position) {
+        updateLog(items, () -> recyclerView.smoothScrollToPosition(position + getRecyclerItemsOffset()));
+    }
+
+    private int getRecyclerItemsOffset() {
+        final int realItemsCount = adapter.getItemCount();
+        final int internalItemsCount = recyclerView.getAdapter().getItemCount();
+        return internalItemsCount - realItemsCount;
+    }
+
+    private void updateLog(List<MutableObservationLogRecord> items, @Nullable Runnable commitCallback) {
         addButton.setText(items.isEmpty()
                 ? R.string.button_classroom_observation_log_start
                 : R.string.button_classroom_observation_log_add);
-        adapter.submitList(items);
+        adapter.submitList(items, commitCallback);
     }
 
     @Override
