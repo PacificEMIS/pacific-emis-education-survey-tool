@@ -1,7 +1,6 @@
 package fm.doe.national.accreditation.ui.observation_info;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -11,7 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +33,7 @@ import fm.doe.national.accreditation_core.di.AccreditationCoreComponentInjector;
 import fm.doe.national.core.ui.screens.base.BaseFragment;
 import fm.doe.national.core.ui.views.BottomNavigatorView;
 import fm.doe.national.core.ui.views.InputFieldLayout;
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.remote_storage.di.RemoteStorageComponentInjector;
 import fm.doe.national.survey_core.di.SurveyCoreComponentInjector;
 
@@ -68,10 +67,6 @@ public class ObservationInfoFragment extends BaseFragment implements
         args.putLong(ARG_CATEGORY_ID, categoryId);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public ObservationInfoFragment() {
-        // Required empty public constructor
     }
 
     @ProvidePresenter
@@ -231,10 +226,10 @@ public class ObservationInfoFragment extends BaseFragment implements
     @Override
     public void onDonePressed(View view, @Nullable String content) {
         if (view.getId() == R.id.inputfieldlayout_teacher_name) {
-            hideKeyboard(teacherNameInputFieldLayout);
+            ViewUtils.hideKeyboardAndClearFocus(teacherNameInputFieldLayout, rootView);
             presenter.onTeacherNameChanged(content);
         } else if (view.getId() == R.id.inputfieldlayout_students) {
-            hideKeyboard(totalStudentsInputFieldLayout);
+            ViewUtils.hideKeyboardAndClearFocus(totalStudentsInputFieldLayout, rootView);
             if (TextUtils.isEmpty(content)) {
                 presenter.onTotalStudentsChanged(null);
                 return;
@@ -245,16 +240,8 @@ public class ObservationInfoFragment extends BaseFragment implements
                 ex.printStackTrace();
             }
         } else if (view.getId() == R.id.inputfieldlayout_subject) {
-            hideKeyboard(subjectInputFieldLayout);
+            ViewUtils.hideKeyboardAndClearFocus(subjectInputFieldLayout, rootView);
             presenter.onSubjectChanged(content);
         }
-    }
-
-    private void hideKeyboard(@NonNull View focusedView) {
-        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
-        }
-        rootView.requestFocus();
     }
 }

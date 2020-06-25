@@ -1,11 +1,9 @@
 package fm.doe.national.wash.ui.questions;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,6 +17,7 @@ import java.util.stream.Collectors;
 
 import fm.doe.national.core.ui.views.InputFieldLayout;
 import fm.doe.national.core.utils.CollectionUtils;
+import fm.doe.national.core.utils.ViewUtils;
 import fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView;
 import fm.doe.national.survey_core.ui.survey.BaseQuestionsAdapter;
 import fm.doe.national.wash.R;
@@ -349,9 +348,7 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
         }
 
         private void hideKeyboard() {
-            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(inputFieldLayout.getWindowToken(), 0);
-            itemView.requestFocus();
+            ViewUtils.hideKeyboardAndClearFocus(inputFieldLayout, itemView);
         }
     }
 

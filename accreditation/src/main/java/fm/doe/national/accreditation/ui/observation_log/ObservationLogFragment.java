@@ -126,6 +126,7 @@ public class ObservationLogFragment extends BaseFragment implements
         updateLog(items, () -> recyclerView.smoothScrollToPosition(position + getRecyclerItemsOffset()));
     }
 
+    // In OmegaRecyclerView headers are adapter items too, so to get real position in real adapter we need to find offset in adapters
     private int getRecyclerItemsOffset() {
         final int realItemsCount = adapter.getItemCount();
         final int internalItemsCount = recyclerView.getAdapter().getItemCount();

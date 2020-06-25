@@ -1,6 +1,7 @@
 package fm.doe.national.core.utils;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -196,6 +198,14 @@ public class ViewUtils {
         Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
         img.recycle();
         return rotatedImg;
+    }
+
+    public static void hideKeyboardAndClearFocus(View focusedView, View neutralFocusView) {
+        InputMethodManager imm = (InputMethodManager) focusedView.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
+        }
+        neutralFocusView.requestFocus();
     }
 
 }
