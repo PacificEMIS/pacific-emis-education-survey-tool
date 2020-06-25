@@ -20,4 +20,8 @@ public interface Category extends Progressable, IdentifiedObject {
 
     @Nullable
     ObservationInfo getObservationInfo();
+
+    @Nullable
+    List<? extends ObservationLogRecord> getLogRecords();
+
 }

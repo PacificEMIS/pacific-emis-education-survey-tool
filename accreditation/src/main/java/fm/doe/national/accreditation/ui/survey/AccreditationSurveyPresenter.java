@@ -10,6 +10,7 @@ import java.util.List;
 
 import fm.doe.national.accreditation.ui.navigation.concrete.CategoryNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ClassroomObservationInfoNavigationItem;
+import fm.doe.national.accreditation.ui.navigation.concrete.ClassroomObservationLogNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.ReportTitleNavigationItem;
 import fm.doe.national.accreditation.ui.navigation.concrete.StandardNavigationItem;
@@ -30,7 +31,8 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationSurveyView> {
 
-    private final static long FIRST_CLASSROOM_OBSERVATION_ID_FOR_GENERATION = -100;
+    private final static long FIRST_CLASSROOM_OBSERVATION_INFO_ID_FOR_GENERATION = -100;
+    private final static long FIRST_CLASSROOM_OBSERVATION_LOG_ID_FOR_GENERATION = -1000;
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
 
@@ -66,7 +68,8 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
                 .flatMap(categories -> Single.fromCallable(() -> {
                     List<NavigationItem> navigationItems = new ArrayList<>();
                     BuildableNavigationItem prevBuildableNavigationItem = null;
-                    long generatedClassroomObservationInfoId = FIRST_CLASSROOM_OBSERVATION_ID_FOR_GENERATION;
+                    long generatedClassroomObservationInfoId = FIRST_CLASSROOM_OBSERVATION_INFO_ID_FOR_GENERATION;
+                    long generatedClassroomObservationLogId = FIRST_CLASSROOM_OBSERVATION_LOG_ID_FOR_GENERATION;
 
                     for (MutableCategory category : categories) {
                         navigationItems.add(new CategoryNavigationItem(category));
@@ -78,7 +81,16 @@ public class AccreditationSurveyPresenter extends SurveyPresenter<AccreditationS
                             );
                             addNavigationItem(navigationItems, infoItem, prevBuildableNavigationItem);
                             prevBuildableNavigationItem = infoItem;
+
+                            ClassroomObservationLogNavigationItem logItem = new ClassroomObservationLogNavigationItem(
+                                    generatedClassroomObservationLogId,
+                                    category.getId()
+                            );
+                            addNavigationItem(navigationItems, logItem, prevBuildableNavigationItem);
+                            prevBuildableNavigationItem = logItem;
+
                             generatedClassroomObservationInfoId--;
+                            generatedClassroomObservationLogId--;
                         }
 
                         for (MutableStandard standard : category.getStandards()) {

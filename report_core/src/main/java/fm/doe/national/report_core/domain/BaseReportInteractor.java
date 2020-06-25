@@ -274,7 +274,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         }
         schoolEvaluationStandards.sort(Comparator.comparing(MutableStandard::getSuffix));
 
-        MutableCategory schoolEvaluationCategory = new MutableCategory(schoolEvaluations.get(0));
+        MutableCategory schoolEvaluationCategory = MutableCategory.from(schoolEvaluations.get(0));
         schoolEvaluationCategory.setStandards(schoolEvaluationStandards);
 
         resultCategories.add(schoolEvaluationCategory);

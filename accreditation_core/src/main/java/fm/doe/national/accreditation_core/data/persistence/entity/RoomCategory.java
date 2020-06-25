@@ -15,6 +15,7 @@ import java.util.List;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.ObservationInfo;
+import fm.doe.national.accreditation_core.data.model.ObservationLogRecord;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationInfo;
 import fm.doe.national.core.data.model.Progress;
@@ -129,6 +130,12 @@ public class RoomCategory implements Category {
         } else {
             return null;
         }
+    }
+
+    @Nullable
+    @Override
+    public List<? extends ObservationLogRecord> getLogRecords() {
+        return null;
     }
 
     private boolean haveObservationInfo() {

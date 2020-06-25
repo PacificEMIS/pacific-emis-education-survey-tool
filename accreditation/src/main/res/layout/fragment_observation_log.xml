@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.observation_log.ObservationLogFragment">
+
+    <fm.doe.national.core.ui.views.BottomNavigatorView
+        android:id="@+id/bottomnavigatorview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="0dp"
+        app:nextText="@string/button_next"
+        app:prevText="@string/button_prev" />
+
+    <com.omega_r.libs.OmegaCenterIconButton
+        android:id="@+id/button_add"
+        style="@style/Button.Outline"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignTop="@+id/bottomnavigatorview"
+        android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+        android:layout_marginTop="-16dp"
+        android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+        android:drawableStart="@drawable/ic_log_add"
+        android:drawablePadding="16dp"
+        android:text="@string/button_classroom_observation_log_start" />
+
+    <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/button_add"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="36dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/ic_alert"
+            android:drawablePadding="16dp"
+            android:gravity="center_vertical"
+            android:text="@string/label_classroom_observation_log_hint"
+            android:textAppearance="@style/Text.Small2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/observation_info_horizontal_margin"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="@dimen/observation_info_horizontal_margin"
+            android:text="@string/label_classroom_observation_log_title"
+            android:textAppearance="@style/Text.Title2" />
+
+    </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
+
+</RelativeLayout>

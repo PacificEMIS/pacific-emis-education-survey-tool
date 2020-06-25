@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.EvaluationForm;
 import fm.doe.national.accreditation_core.data.model.ObservationInfo;
+import fm.doe.national.accreditation_core.data.model.ObservationLogRecord;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.serialization.EvaluationFormConverter;
 import fm.doe.national.core.data.model.Progress;
+import fm.doe.national.core.utils.CollectionUtils;
 
 @Root(name = "category")
 public class SerializableCategory implements Category {
@@ -35,7 +37,18 @@ public class SerializableCategory implements Category {
     @Element(name = "observationInfo", required = false)
     SerializableObservationInfo observationInfo;
 
-    public SerializableCategory(@NonNull Category other) {
+    @ElementList(name = "observationLog", required = false)
+    List<SerializableObservationLogRecord> logRecords;
+
+    @NonNull
+    public static SerializableCategory from(@NonNull Category other) {
+        if (other instanceof SerializableCategory) {
+            return (SerializableCategory) other;
+        }
+        return new SerializableCategory(other);
+    }
+
+    private SerializableCategory(@NonNull Category other) {
         this.name = other.getTitle();
         this.evaluationForm = other.getEvaluationForm();
         if (other.getStandards() != null) {
@@ -44,9 +57,14 @@ public class SerializableCategory implements Category {
         if (other.getObservationInfo() != null) {
             this.observationInfo = new SerializableObservationInfo(other.getObservationInfo());
         }
+        final List<? extends ObservationLogRecord> records = other.getLogRecords();
+        if (!CollectionUtils.isEmpty(records)) {
+            this.logRecords = records.stream().map(SerializableObservationLogRecord::from).collect(Collectors.toList());
+        }
     }
 
     public SerializableCategory() {
+        // required empty public constructor
     }
 
     @NonNull
@@ -81,5 +99,11 @@ public class SerializableCategory implements Category {
     @Override
     public EvaluationForm getEvaluationForm() {
         return evaluationForm;
+    }
+
+    @Nullable
+    @Override
+    public List<? extends ObservationLogRecord> getLogRecords() {
+        return logRecords;
     }
 }

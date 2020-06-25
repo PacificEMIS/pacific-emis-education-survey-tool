@@ -7,6 +7,7 @@ import androidx.room.TypeConverters;
 import fm.doe.national.accreditation_core.data.persistence.dao.AnswerDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.CategoryDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.CriteriaDao;
+import fm.doe.national.accreditation_core.data.persistence.dao.ObservationLogRecordDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.PhotoDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.StandardDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.SubCriteriaDao;
@@ -15,6 +16,7 @@ import fm.doe.national.accreditation_core.data.persistence.entity.RoomAccreditat
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomAnswer;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomCategory;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomCriteria;
+import fm.doe.national.accreditation_core.data.persistence.entity.RoomObservationLogRecord;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomPhoto;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomStandard;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomSubCriteria;
@@ -28,7 +30,8 @@ import fm.doe.national.core.data.persistence.BaseConverters;
                 RoomCriteria.class,
                 RoomSubCriteria.class,
                 RoomAnswer.class,
-                RoomPhoto.class
+                RoomPhoto.class,
+                RoomObservationLogRecord.class
         },
         version = 1,
         exportSchema = false)
@@ -51,5 +54,7 @@ public abstract class AccreditationDatabase extends RoomDatabase {
     public abstract PhotoDao getPhotoDao();
 
     public abstract AnswerDao getAnswerDao();
+
+    public abstract ObservationLogRecordDao getObservationLogRecordDao();
 
 }

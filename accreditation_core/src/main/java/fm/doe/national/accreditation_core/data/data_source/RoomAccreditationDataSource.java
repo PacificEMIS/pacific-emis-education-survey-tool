@@ -16,18 +16,22 @@ import fm.doe.national.accreditation_core.data.model.Answer;
 import fm.doe.national.accreditation_core.data.model.Category;
 import fm.doe.national.accreditation_core.data.model.Criteria;
 import fm.doe.national.accreditation_core.data.model.ObservationInfo;
+import fm.doe.national.accreditation_core.data.model.ObservationLogRecord;
 import fm.doe.national.accreditation_core.data.model.Standard;
 import fm.doe.national.accreditation_core.data.model.SubCriteria;
 import fm.doe.national.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
+import fm.doe.national.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import fm.doe.national.accreditation_core.data.persistence.AccreditationDatabase;
 import fm.doe.national.accreditation_core.data.persistence.dao.AnswerDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.CategoryDao;
+import fm.doe.national.accreditation_core.data.persistence.dao.ObservationLogRecordDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.PhotoDao;
 import fm.doe.national.accreditation_core.data.persistence.dao.SurveyDao;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomAccreditationSurvey;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomAnswer;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomCategory;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomCriteria;
+import fm.doe.national.accreditation_core.data.persistence.entity.RoomObservationLogRecord;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomPhoto;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomStandard;
 import fm.doe.national.accreditation_core.data.persistence.entity.RoomSubCriteria;
@@ -376,6 +380,45 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             category.observationInfoSubject = observationInfo.getSubject();
             category.observationInfoDate = observationInfo.getDate();
             dao.update(category);
+        });
+    }
+
+    @Override
+    public Single<List<MutableObservationLogRecord>> getLogRecordsForCategoryWithId(long categoryId) {
+        return Single.fromCallable(() -> {
+            ObservationLogRecordDao dao = database.getObservationLogRecordDao();
+            List<RoomObservationLogRecord> roomRecords = dao.getAllForCategoryWithId(categoryId);
+            return roomRecords.stream().map(MutableObservationLogRecord::from).collect(Collectors.toList());
+        });
+    }
+
+    @Override
+    public Completable updateObservationLogRecord(ObservationLogRecord record) {
+        return Completable.fromAction(() -> {
+            ObservationLogRecordDao dao = database.getObservationLogRecordDao();
+            RoomObservationLogRecord storedRecord = dao.getById(record.getId());
+            storedRecord.date = record.getDate();
+            storedRecord.studentsAction = record.getStudentsActions();
+            storedRecord.teacherAction = record.getTeacherActions();
+            dao.update(storedRecord);
+        });
+    }
+
+    @Override
+    public Completable deleteObservationLogRecord(long recordId) {
+        return Completable.fromAction(() -> {
+            ObservationLogRecordDao dao = database.getObservationLogRecordDao();
+            dao.deleteById(recordId);
+        });
+    }
+
+    @Override
+    public Single<MutableObservationLogRecord> createEmptyLogRecord(long categoryId, Date date) {
+        return Single.fromCallable(() -> {
+            ObservationLogRecordDao dao = database.getObservationLogRecordDao();
+            RoomObservationLogRecord newRecord = new RoomObservationLogRecord(categoryId, date, null, null);
+            final long id = dao.insert(newRecord);
+            return MutableObservationLogRecord.from(dao.getById(id));
         });
     }
 }

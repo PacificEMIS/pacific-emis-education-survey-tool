@@ -93,7 +93,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.lastEditedUser = other.getLastEditedUser();
 
         if (other.getCategories() != null) {
-            this.categories = other.getCategories().stream().map(SerializableCategory::new).collect(Collectors.toList());
+            this.categories = other.getCategories().stream().map(SerializableCategory::from).collect(Collectors.toList());
         }
     }
 

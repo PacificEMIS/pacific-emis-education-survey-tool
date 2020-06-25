@@ -20,16 +20,7 @@ public class ReportPage {
         try {
             Constructor<? extends BaseReportFragment> constructor = fragmentClass.getConstructor(ReportInteractor.class);
             return constructor.newInstance(interactorInstance);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        } catch (InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
             throw new IllegalStateException();
         }
