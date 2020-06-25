@@ -2,9 +2,11 @@ package fm.doe.national.accreditation_core.data.model.mutable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import fm.doe.national.accreditation_core.data.model.Category;
@@ -33,6 +35,11 @@ public class MutableCategory extends BaseMutableEntity implements Category {
             return (MutableCategory) other;
         }
         return new MutableCategory(other);
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public MutableCategory() {
+        // empty constructor for unit tests
     }
 
     private MutableCategory(@NonNull Category other) {
@@ -127,17 +134,42 @@ public class MutableCategory extends BaseMutableEntity implements Category {
             }
         }
 
-        final ObservationInfo otherObservationInfo = other.getObservationInfo();
-        if (otherObservationInfo != null) {
-            if (this.observationInfo == null) {
-                this.observationInfo = MutableObservationInfo.from(otherObservationInfo);
-            } else {
-                this.observationInfo.merge(otherObservationInfo, strategy);
+        if (evaluationForm == EvaluationForm.CLASSROOM_OBSERVATION) {
+            final ObservationInfo otherObservationInfo = other.getObservationInfo();
+            if (otherObservationInfo != null) {
+                if (this.observationInfo == null) {
+                    this.observationInfo = MutableObservationInfo.from(otherObservationInfo);
+                } else {
+                    this.observationInfo.merge(otherObservationInfo);
+                }
+            }
+
+            final List<? extends ObservationLogRecord> otherLogRecordList = other.getLogRecords();
+            if (otherLogRecordList != null) {
+                mergeLogRecords(otherLogRecordList);
             }
         }
 
-        // TODO: merge of logs will be discussed with Ghislain
-
         return changedAnswers;
+    }
+
+    private void mergeLogRecords(@NonNull List<? extends ObservationLogRecord> others) {
+        if (CollectionUtils.isEmpty(logRecords)) {
+            logRecords = others.stream()
+                    .map(MutableObservationLogRecord::from)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            return;
+        }
+        for (ObservationLogRecord otherRecord : others) {
+            final Optional<MutableObservationLogRecord> sameDateRecordOptional = logRecords.stream()
+                    .filter(it -> it.getDate().equals(otherRecord.getDate()))
+                    .findFirst();
+            if (sameDateRecordOptional.isPresent()) {
+                final MutableObservationLogRecord sameDateRecord = sameDateRecordOptional.get();
+                sameDateRecord.merge(otherRecord);
+            } else {
+                logRecords.add(MutableObservationLogRecord.from(otherRecord));
+            }
+        }
     }
 }

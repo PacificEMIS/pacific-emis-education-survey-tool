@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 import java.util.Date;
 
 import fm.doe.national.accreditation_core.data.model.ObservationInfo;
-import fm.doe.national.core.data.model.ConflictResolveStrategy;
 
 public class MutableObservationInfo implements ObservationInfo {
 
@@ -102,28 +101,21 @@ public class MutableObservationInfo implements ObservationInfo {
         return date;
     }
 
-    public void merge(@NonNull ObservationInfo other, @NonNull ConflictResolveStrategy strategy) {
-        switch (strategy) {
-            case MINE:
-                // do nothing
-                break;
-            case THEIRS:
-                if (other.getTeacherName() != null) {
-                    this.teacherName = other.getTeacherName();
-                }
-                if (other.getGrade() != null) {
-                    this.grade = other.getGrade();
-                }
-                if (other.getTotalStudentsPresent() != null) {
-                    this.totalStudentsPresent = other.getTotalStudentsPresent();
-                }
-                if (other.getSubject() != null) {
-                    this.subject = other.getSubject();
-                }
-                if (other.getDate() != null) {
-                    this.date = other.getDate();
-                }
-                break;
+    public void merge(@NonNull ObservationInfo other) {
+        if (teacherName == null) {
+            this.teacherName = other.getTeacherName();
+        }
+        if (grade == null) {
+            this.grade = other.getGrade();
+        }
+        if (totalStudentsPresent == null) {
+            this.totalStudentsPresent = other.getTotalStudentsPresent();
+        }
+        if (subject == null) {
+            this.subject = other.getSubject();
+        }
+        if (date == null) {
+            this.date = other.getDate();
         }
     }
 }
