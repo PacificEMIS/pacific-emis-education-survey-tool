@@ -49,6 +49,10 @@ public class MutableObservationLogRecord implements ObservationLogRecord {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @NonNull
     public Date getDate() {
         return date;
@@ -90,5 +94,14 @@ public class MutableObservationLogRecord implements ObservationLogRecord {
     @Override
     public int hashCode() {
         return Objects.hash(id, date, teacherActions, studentsActions);
+    }
+
+    public void merge(@NonNull ObservationLogRecord other) {
+        if (teacherActions == null) {
+            teacherActions = other.getTeacherActions();
+        }
+        if (studentsActions == null) {
+            studentsActions = other.getStudentsActions();
+        }
     }
 }
