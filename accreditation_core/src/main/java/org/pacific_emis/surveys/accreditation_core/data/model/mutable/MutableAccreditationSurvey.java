@@ -3,14 +3,10 @@ package org.pacific_emis.surveys.accreditation_core.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.accreditation_core.data.model.AnswerState;
 import org.pacific_emis.surveys.accreditation_core.data.model.Category;
+import org.pacific_emis.surveys.accreditation_core.data.model.MergeFieldsResult;
 import org.pacific_emis.surveys.core.data.model.ConflictResolveStrategy;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.data.model.mutable.BaseMutableEntity;
@@ -19,6 +15,10 @@ import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.ObjectUtils;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MutableAccreditationSurvey extends BaseMutableEntity implements AccreditationSurvey {
 
@@ -186,7 +186,9 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.completeDate = completeDate;
     }
 
-    public List<MutableAnswer> merge(AccreditationSurvey other, ConflictResolveStrategy strategy) {
+    public MergeFieldsResult merge(AccreditationSurvey other, ConflictResolveStrategy strategy) {
+        final MergeFieldsResult mergeResult = new MergeFieldsResult();
+
         if (strategy == ConflictResolveStrategy.THEIRS) {
             this.completeDate = other.getCompleteDate();
             this.createDate = other.getCreateDate();
@@ -194,20 +196,19 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         }
 
         List<? extends Category> externalCategories = other.getCategories();
-        List<MutableAnswer> changedAnswers = new ArrayList<>();
 
         if (!CollectionUtils.isEmpty(externalCategories)) {
             for (Category category : externalCategories) {
                 for (MutableCategory mutableCategory : getCategories()) {
                     if (mutableCategory.getTitle().equals(category.getTitle())) {
-                        changedAnswers.addAll(mutableCategory.merge(category, strategy));
+                        mergeResult.plus(mutableCategory.merge(category, strategy));
                         break;
                     }
                 }
             }
         }
 
-        return changedAnswers;
+        return mergeResult;
     }
 
     @Override

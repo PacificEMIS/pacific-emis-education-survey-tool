@@ -9,31 +9,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
-import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.pacific_emis.surveys.accreditation_core.data.data_source.AccreditationDataSource;
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
+import org.pacific_emis.surveys.accreditation_core.data.model.MergeFieldsResult;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
-import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableAnswer;
+import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationInfo;
+import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import org.pacific_emis.surveys.core.data.exceptions.NotImplementedException;
 import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.ConflictResolveStrategy;
@@ -43,6 +33,7 @@ import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.TextUtil;
 import org.pacific_emis.surveys.core.utils.VoidFunction;
 import org.pacific_emis.surveys.offline_sync.data.bluetooth_threads.Acceptor;
@@ -66,6 +57,19 @@ import org.pacific_emis.surveys.offline_sync.domain.SyncNotifier;
 import org.pacific_emis.surveys.wash_core.data.data_source.WashDataSource;
 import org.pacific_emis.surveys.wash_core.data.model.WashSurvey;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableWashSurvey;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -387,7 +391,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                         Survey survey = syncUseCase.getTargetSurvey();
 
                         if (survey instanceof AccreditationSurvey) {
-                            MutableAccreditationSurvey mutableAccreditationSurvey = new MutableAccreditationSurvey((AccreditationSurvey)survey);
+                            MutableAccreditationSurvey mutableAccreditationSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
                             mutableAccreditationSurvey.setState(SurveyState.MERGED);
                             accreditationDataSource.updateSurvey(mutableAccreditationSurvey);
                         } else if (survey instanceof WashSurvey) {
@@ -621,16 +625,18 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                                                      ConflictResolveStrategy strategy) {
         return Single.fromCallable(() -> {
             MutableAccreditationSurvey mutableTargetSurvey = (MutableAccreditationSurvey) targetSurvey;
-            List<MutableAnswer> answers = mutableTargetSurvey.merge(externalSurvey, strategy);
-            int photosCount = (int) answers.stream().mapToLong(a -> nonNullWrapPhotos(a.getPhotos()).size()).sum();
+            final MergeFieldsResult mergeFieldsResult = mutableTargetSurvey.merge(externalSurvey, strategy);
+            accreditationDataSource.updateSurvey(mutableTargetSurvey);
+            int photosCount = (int) mergeFieldsResult.getAnswers()
+                    .stream()
+                    .mapToLong(a -> nonNullWrapPhotos(a.getPhotos()).size())
+                    .sum();
             syncNotifier.notify(SyncNotification.withValue(SyncNotification.Type.WILL_SAVE_PHOTOS, photosCount));
             Log.d(TAG, "did merge accreditation with photos = " + photosCount);
-            return Pair.create(mutableTargetSurvey, answers);
+            return mergeFieldsResult;
         })
-                .flatMap(pair -> {
-                    accreditationDataSource.updateSurvey(pair.first);
-                    return Single.just(pair.second);
-                })
+                .flatMap(mergeFieldsResult -> updateMergedSurveyFields(mergeFieldsResult)
+                        .andThen(Single.just(mergeFieldsResult.getAnswers())))
                 .flatMapCompletable(changedAnswers -> Flowable.range(0, changedAnswers.size())
                         .concatMap(index -> accreditationDataSource.updateAnswer(changedAnswers.get(index))
                                 .flattenAsFlowable(a -> nonNullWrapPhotos(a.getPhotos()))
@@ -641,6 +647,35 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()))
                 .cast(MutableAccreditationSurvey.class)
                 .flatMap(updatedSurvey -> updateAccreditationSurveyState(updatedSurvey, externalSurvey));
+    }
+
+    private Completable updateMergedSurveyFields(@NonNull MergeFieldsResult mergeFieldsResult) {
+        return updateMergedCategoryObservationInfo(mergeFieldsResult.getObservationInfoList())
+                .andThen(updateMergedCategoryObservationLog(mergeFieldsResult));
+    }
+
+    private Completable updateMergedCategoryObservationInfo(@NonNull List<Pair<Long, MutableObservationInfo>> updatePairs) {
+        return Observable.fromIterable(updatePairs)
+                .concatMapCompletable(pair -> {
+                    final long categoryId = pair.first;
+                    final MutableObservationInfo info = pair.second;
+                    return accreditationDataSource.updateObservationInfo(info, categoryId);
+                });
+    }
+
+    private Completable updateMergedCategoryObservationLog(@NonNull MergeFieldsResult mergeFieldsResult) {
+        return Observable.fromIterable(CollectionUtils.toIterable(mergeFieldsResult.getAddedLogRecords()))
+                .concatMapCompletable(pair -> {
+                    final long categoryId = pair.first;
+                    final List<MutableObservationLogRecord> addedLogs = pair.second;
+                    return accreditationDataSource.createLogRecords(categoryId, addedLogs);
+                })
+                .andThen(Observable.fromIterable(CollectionUtils.toIterable(mergeFieldsResult.getUpdatedLogRecords())))
+                .concatMapCompletable(pair -> {
+                    final List<MutableObservationLogRecord> updatedLogs = pair.second;
+                    return Observable.fromIterable(updatedLogs)
+                            .concatMapCompletable(accreditationDataSource::updateObservationLogRecord);
+                });
     }
 
     private Single<MutableAccreditationSurvey> updateAccreditationSurveyState(MutableAccreditationSurvey mutableAccreditationSurvey,

@@ -3,9 +3,9 @@ package org.pacific_emis.surveys.accreditation_core.data.model.mutable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Date;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
+
+import java.util.Date;
 
 public class MutableObservationInfo implements ObservationInfo {
 
@@ -101,21 +101,34 @@ public class MutableObservationInfo implements ObservationInfo {
         return date;
     }
 
-    public void merge(@NonNull ObservationInfo other) {
+    public boolean merge(@NonNull ObservationInfo other) {
+        boolean haveChanges = false;
+
         if (teacherName == null) {
             this.teacherName = other.getTeacherName();
+            haveChanges = true;
         }
+
         if (grade == null) {
             this.grade = other.getGrade();
+            haveChanges = true;
         }
+
         if (totalStudentsPresent == null) {
             this.totalStudentsPresent = other.getTotalStudentsPresent();
+            haveChanges = true;
         }
+
         if (subject == null) {
             this.subject = other.getSubject();
+            haveChanges = true;
         }
+
         if (date == null) {
             this.date = other.getDate();
+            haveChanges = true;
         }
+
+        return haveChanges;
     }
 }

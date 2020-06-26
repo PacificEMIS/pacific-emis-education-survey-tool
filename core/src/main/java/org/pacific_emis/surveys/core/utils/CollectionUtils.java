@@ -1,11 +1,15 @@
 package org.pacific_emis.surveys.core.utils;
 
 
+import android.util.Pair;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.collection.LongSparseArray;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class CollectionUtils {
@@ -34,6 +38,28 @@ public class CollectionUtils {
         ArrayList<T> arrayList = new ArrayList<>();
         arrayList.add(element);
         return arrayList;
+    }
+
+    public static <T> void forEach(@NonNull LongSparseArray<T> sparseArray,
+                                   @NonNull SparseArrayForEachCallback<T> callback) {
+        for (int i = 0; i < sparseArray.size(); i++) {
+            final long key = sparseArray.keyAt(i);
+            callback.call(key, sparseArray.get(key));
+        }
+    }
+
+    @NonNull
+    public static <T> Iterable<Pair<Long, T>> toIterable(@NonNull LongSparseArray<T> sparseArray) {
+        final List<Pair<Long, T>> list = new ArrayList<>();
+        for (int i = 0; i < sparseArray.size(); i++) {
+            final long key = sparseArray.keyAt(i);
+            list.add(Pair.create(key, sparseArray.get(key)));
+        }
+        return list;
+    }
+
+    public interface SparseArrayForEachCallback<T> {
+        void call(long id, T item);
     }
 
 }

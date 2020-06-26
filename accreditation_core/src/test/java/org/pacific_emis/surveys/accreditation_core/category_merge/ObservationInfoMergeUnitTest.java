@@ -1,14 +1,13 @@
 package org.pacific_emis.surveys.accreditation_core.category_merge;
 
 import org.junit.Test;
-
-import java.util.Date;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationInfo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class ObservationInfoMergeUnitTest {
 
@@ -17,8 +16,9 @@ public class ObservationInfoMergeUnitTest {
         final MutableObservationInfo host = CategoryMergeConstants.ObservationInfo.createEmpty();
         final ObservationInfo other = CategoryMergeConstants.ObservationInfo.createEmpty();
 
-        host.merge(other);
+        final boolean haveChanges = host.merge(other);
 
+        assertTrue(haveChanges);
         assertNull(host.getTeacherName());
         assertNull(host.getGrade());
         assertNull(host.getTotalStudentsPresent());
@@ -31,8 +31,9 @@ public class ObservationInfoMergeUnitTest {
         final MutableObservationInfo host = CategoryMergeConstants.ObservationInfo.createHostFilled();
         final ObservationInfo other = CategoryMergeConstants.ObservationInfo.createEmpty();
 
-        host.merge(other);
+        final boolean haveChanges = host.merge(other);
 
+        assertFalse(haveChanges);
         assertEquals(CategoryMergeConstants.ObservationInfo.HOST_TEACHER_NAME, host.getTeacherName());
         assertEquals(CategoryMergeConstants.ObservationInfo.HOST_GRADE, host.getGrade());
         assertEquals(CategoryMergeConstants.ObservationInfo.HOST_STUDENTS_PRESENT, host.getTotalStudentsPresent());
@@ -42,12 +43,12 @@ public class ObservationInfoMergeUnitTest {
 
     @Test
     public void test_observationInfoMerge_hostEmptyOtherFilled() {
-        final Date testDate = new Date();
         final MutableObservationInfo host = CategoryMergeConstants.ObservationInfo.createEmpty();
         final ObservationInfo other = CategoryMergeConstants.ObservationInfo.createOtherFilled();
 
-        host.merge(other);
+        final boolean haveChanges = host.merge(other);
 
+        assertTrue(haveChanges);
         assertEquals(CategoryMergeConstants.ObservationInfo.OTHER_TEACHER_NAME, host.getTeacherName());
         assertEquals(CategoryMergeConstants.ObservationInfo.OTHER_GRADE, host.getGrade());
         assertEquals(CategoryMergeConstants.ObservationInfo.OTHER_STUDENTS_PRESENT, host.getTotalStudentsPresent());
@@ -60,8 +61,9 @@ public class ObservationInfoMergeUnitTest {
         final MutableObservationInfo host = CategoryMergeConstants.ObservationInfo.createHostFilled();
         final ObservationInfo other =CategoryMergeConstants.ObservationInfo.createOtherFilled();
 
-        host.merge(other);
+        final boolean haveChanges = host.merge(other);
 
+        assertFalse(haveChanges);
         assertEquals(CategoryMergeConstants.ObservationInfo.HOST_TEACHER_NAME, host.getTeacherName());
         assertEquals(CategoryMergeConstants.ObservationInfo.HOST_GRADE, host.getGrade());
         assertEquals(CategoryMergeConstants.ObservationInfo.HOST_STUDENTS_PRESENT, host.getTotalStudentsPresent());
@@ -76,8 +78,9 @@ public class ObservationInfoMergeUnitTest {
         host.setDate(CategoryMergeConstants.ObservationInfo.HOST_DATE);
         final ObservationInfo other = CategoryMergeConstants.ObservationInfo.createOtherFilled();
 
-        host.merge(other);
+        final boolean haveChanges = host.merge(other);
 
+        assertTrue(haveChanges);
         assertEquals(CategoryMergeConstants.ObservationInfo.OTHER_TEACHER_NAME, host.getTeacherName());
         assertEquals(CategoryMergeConstants.ObservationInfo.HOST_GRADE, host.getGrade());
         assertEquals(CategoryMergeConstants.ObservationInfo.OTHER_STUDENTS_PRESENT, host.getTotalStudentsPresent());

@@ -4,13 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.Category;
 import org.pacific_emis.surveys.accreditation_core.data.model.EvaluationForm;
+import org.pacific_emis.surveys.accreditation_core.data.model.MergeFieldsResult;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationLogRecord;
 import org.pacific_emis.surveys.accreditation_core.data.model.Standard;
@@ -18,6 +14,12 @@ import org.pacific_emis.surveys.core.data.model.ConflictResolveStrategy;
 import org.pacific_emis.surveys.core.data.model.mutable.BaseMutableEntity;
 import org.pacific_emis.surveys.core.data.model.mutable.MutableProgress;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class MutableCategory extends BaseMutableEntity implements Category {
 
@@ -119,7 +121,9 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         this.logRecords = logRecords;
     }
 
-    public List<MutableAnswer> merge(Category other, ConflictResolveStrategy strategy) {
+    public MergeFieldsResult merge(Category other, ConflictResolveStrategy strategy) {
+        final MergeFieldsResult mergeResult = new MergeFieldsResult();
+
         List<? extends Standard> externalStandards = other.getStandards();
         List<MutableAnswer> changedAnswers = new ArrayList<>();
 
@@ -134,32 +138,42 @@ public class MutableCategory extends BaseMutableEntity implements Category {
             }
         }
 
+        mergeResult.addAnswers(changedAnswers);
+
         if (evaluationForm == EvaluationForm.CLASSROOM_OBSERVATION) {
             final ObservationInfo otherObservationInfo = other.getObservationInfo();
             if (otherObservationInfo != null) {
                 if (this.observationInfo == null) {
                     this.observationInfo = MutableObservationInfo.from(otherObservationInfo);
+                    mergeResult.addObservationInfo(id, this.observationInfo);
                 } else {
-                    this.observationInfo.merge(otherObservationInfo);
+                    final boolean haveChanges = this.observationInfo.merge(otherObservationInfo);
+                    if (haveChanges) {
+                        mergeResult.addObservationInfo(id, this.observationInfo);
+                    }
                 }
             }
 
             final List<? extends ObservationLogRecord> otherLogRecordList = other.getLogRecords();
             if (otherLogRecordList != null) {
-                mergeLogRecords(otherLogRecordList);
+                mergeResult.plus(mergeLogRecords(id, otherLogRecordList));
             }
         }
 
-        return changedAnswers;
+        return mergeResult;
     }
 
-    private void mergeLogRecords(@NonNull List<? extends ObservationLogRecord> others) {
+    private MergeFieldsResult mergeLogRecords(long categoryId, @NonNull List<? extends ObservationLogRecord> others) {
+        final MergeFieldsResult mergeResult = new MergeFieldsResult();
+
         if (CollectionUtils.isEmpty(logRecords)) {
             logRecords = others.stream()
                     .map(MutableObservationLogRecord::from)
                     .collect(Collectors.toCollection(ArrayList::new));
-            return;
+            mergeResult.addCreatedLogRecords(categoryId, logRecords);
+            return mergeResult;
         }
+
         for (ObservationLogRecord otherRecord : others) {
             final Optional<MutableObservationLogRecord> sameDateRecordOptional = logRecords.stream()
                     .filter(it -> it.getDate().equals(otherRecord.getDate()))
@@ -167,9 +181,14 @@ public class MutableCategory extends BaseMutableEntity implements Category {
             if (sameDateRecordOptional.isPresent()) {
                 final MutableObservationLogRecord sameDateRecord = sameDateRecordOptional.get();
                 sameDateRecord.merge(otherRecord);
+                mergeResult.addUpdatedLogRecords(categoryId, Collections.singletonList(sameDateRecord));
             } else {
-                logRecords.add(MutableObservationLogRecord.from(otherRecord));
+                final MutableObservationLogRecord mutableRecord = MutableObservationLogRecord.from(otherRecord);
+                mergeResult.addCreatedLogRecords(categoryId, Collections.singletonList(mutableRecord));
+                logRecords.add(mutableRecord);
             }
         }
+
+        return mergeResult;
     }
 }
