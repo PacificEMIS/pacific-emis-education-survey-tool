@@ -5,14 +5,14 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableQuestion;
+import org.pacific_emis.surveys.wash_core.data.serialization.model.Relation;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableQuestion;
-import org.pacific_emis.surveys.wash_core.data.serialization.model.Relation;
 
 public class QuestionRelationsHelper {
 
@@ -29,10 +29,12 @@ public class QuestionRelationsHelper {
         contextWeakReference = new WeakReference<>(context);
         this.listener = listener;
         this.questionsListener = questionsListener;
-        initVisibleStates();
+        initVisibleStates(0);
     }
 
     public void onQuestionAnswerChanged(MutableQuestion question) {
+        int visibleQuestionsCount = collectVisibleQuestions().size();
+
         Optional<QuestionVisibilityWrapper> changedQuestionWrapperOptional = items.stream()
                 .filter(it -> it.getQuestion().equals(question))
                 .findFirst();
@@ -40,21 +42,24 @@ public class QuestionRelationsHelper {
         if (changedQuestionWrapperOptional.isPresent()) {
             QuestionVisibilityWrapper questionVisibilityWrapper = changedQuestionWrapperOptional.get();
             questionVisibilityWrapper.setQuestion(question);
-            initVisibleStates();
+            initVisibleStates(visibleQuestionsCount);
         }
     }
 
-    private void initVisibleStates() {
+    private void initVisibleStates(int visibleQuestionsCountBeforeUpdate) {
         items.forEach(this::updateChildrenVisibility);
-        collectVisibleItemsAndNotify();
+        collectVisibleItemsAndNotify(visibleQuestionsCountBeforeUpdate);
     }
 
     private void updateChildrenVisibility(@NonNull QuestionVisibilityWrapper questionWrapper) {
         findChildrenIndexes(questionWrapper).forEach(i -> updateChildVisibility(items.get(i), questionWrapper));
     }
 
-    private void collectVisibleItemsAndNotify() {
-        listener.onVisibleItemsChanged(collectVisibleQuestions());
+    private void collectVisibleItemsAndNotify(int visibleQuestionsCountBeforeUpdate) {
+        final List<MutableQuestion> visibleQuestions = collectVisibleQuestions();
+        if (visibleQuestions.size() != visibleQuestionsCountBeforeUpdate) {
+            listener.onVisibleItemsChanged(visibleQuestions);
+        }
     }
 
     private List<Integer> findChildrenIndexes(@NonNull QuestionVisibilityWrapper questionWrapper) {

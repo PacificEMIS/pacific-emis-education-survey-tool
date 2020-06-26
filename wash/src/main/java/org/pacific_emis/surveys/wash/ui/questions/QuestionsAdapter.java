@@ -11,10 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
@@ -29,12 +25,16 @@ import org.pacific_emis.surveys.wash_core.data.model.TernaryAnswerState;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableAnswer;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableQuestion;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> implements QuestionRelationsHelper.Listener {
 
     private QuestionsListener questionsListener;
     private QuestionRelationsHelper relationsHelper;
 
-    public QuestionsAdapter(BaseQuestionsAdapter.Listener baseListener, QuestionsListener questionsListener) {
+    public QuestionsAdapter(BaseQuestionsAdapter.Listener<MutableQuestion> baseListener, QuestionsListener questionsListener) {
         super(baseListener);
         this.questionsListener = questionsListener;
     }
