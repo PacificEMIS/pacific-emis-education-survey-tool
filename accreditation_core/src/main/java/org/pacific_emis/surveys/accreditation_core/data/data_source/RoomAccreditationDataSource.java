@@ -4,13 +4,6 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.accreditation_core.data.model.Answer;
 import org.pacific_emis.surveys.accreditation_core.data.model.Category;
@@ -44,6 +37,14 @@ import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -419,6 +420,22 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             RoomObservationLogRecord newRecord = new RoomObservationLogRecord(categoryId, date, null, null);
             final long id = dao.insert(newRecord);
             return MutableObservationLogRecord.from(dao.getById(id));
+        });
+    }
+
+    @Override
+    public Completable createLogRecords(long categoryId, List<? extends ObservationLogRecord> records) {
+        return Completable.fromAction(() -> {
+            ObservationLogRecordDao dao = database.getObservationLogRecordDao();
+            for (ObservationLogRecord record : records) {
+                RoomObservationLogRecord newRecord = new RoomObservationLogRecord(
+                        categoryId,
+                        record.getDate(),
+                        record.getTeacherActions(),
+                        record.getStudentsActions()
+                );
+                dao.insert(newRecord);
+            }
         });
     }
 }
