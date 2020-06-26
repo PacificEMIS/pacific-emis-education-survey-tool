@@ -14,7 +14,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.rmi_report']
+                arguments = [moxyReflectorPackage: 'org.pacific_emis.surveys.rmi_report']
             }
         }
     }

@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.accreditation']
+                arguments = [moxyReflectorPackage: 'org.pacific_emis.surveys.accreditation']
             }
         }
     }

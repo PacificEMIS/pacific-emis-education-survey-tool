@@ -5,7 +5,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion Versions.compileSdk
     defaultConfig {
-        applicationId "fm.doe.national"
+        applicationId "org.pacific_emis.surveys"
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         targetSdkVersion Versions.targetSdk
         minSdkVersion Versions.minSdk

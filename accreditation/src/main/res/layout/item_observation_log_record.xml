@@ -34,7 +34,7 @@
             android:textColor="?colorPrimary"
             tools:text="12:55" />
 
-        <fm.doe.national.core.ui.views.InputFieldLayout
+        <org.pacific_emis.surveys.core.ui.views.InputFieldLayout
             android:id="@+id/inputfieldlayout_teacher_action"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:paddingStart="0dp"
             android:paddingEnd="16dp" />
 
-        <fm.doe.national.core.ui.views.InputFieldLayout
+        <org.pacific_emis.surveys.core.ui.views.InputFieldLayout
             android:id="@+id/inputfieldlayout_students_action"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

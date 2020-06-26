@@ -36,7 +36,7 @@
 
     </com.omega_r.libs.omegarecyclerview.OmegaRecyclerView>
 
-    <fm.doe.national.core.ui.views.BottomNavigatorView
+    <org.pacific_emis.surveys.core.ui.views.BottomNavigatorView
         android:id="@+id/bottomnavigatorview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

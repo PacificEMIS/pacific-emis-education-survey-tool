@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fm.doe.national.survey_core.ui.custom_views.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.pacific_emis.surveys.survey_core.ui.custom_views.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,4 +25,4 @@
         app:srcCompat="@drawable/ic_close_outlined"
         tools:ignore="ContentDescription" />
 
-</fm.doe.national.survey_core.ui.custom_views.SquareRelativeLayout>
+</org.pacific_emis.surveys.survey_core.ui.custom_views.SquareRelativeLayout>
