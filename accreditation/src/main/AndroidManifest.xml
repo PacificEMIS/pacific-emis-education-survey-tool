@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fm.doe.national.accreditation">
+    package="org.pacific_emis.surveys.accreditation">
 
     <application>
         <activity
-            android:name=".ui.photos.AccreditationPhotosActivity"
+            android:name="org.pacific_emis.surveys.accreditation.ui.photos.AccreditationPhotosActivity"
             android:label="@string/label_attached_photos"
             android:screenOrientation="portrait" />
     </application>

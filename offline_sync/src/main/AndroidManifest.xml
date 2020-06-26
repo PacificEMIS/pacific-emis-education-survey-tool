@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fm.doe.national.offline_sync">
+    package="org.pacific_emis.surveys.offline_sync">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -9,16 +9,16 @@
     <application>
 
         <activity
-            android:name=".ui.devices.PairedDevicesActivity"
+            android:name="org.pacific_emis.surveys.offline_sync.ui.devices.PairedDevicesActivity"
             android:label="@string/title_devices"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.surveys.SyncSurveysActivity"
+            android:name="org.pacific_emis.surveys.offline_sync.ui.surveys.SyncSurveysActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.progress.ProgressActivity"
+            android:name="org.pacific_emis.surveys.offline_sync.ui.progress.ProgressActivity"
             android:screenOrientation="portrait" />
 
     </application>

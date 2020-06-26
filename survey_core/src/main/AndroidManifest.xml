@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fm.doe.national.survey_core" >
+    package="org.pacific_emis.surveys.survey_core" >
 
     <application>
         <activity
-            android:name="fm.doe.national.survey_core.ui.photos.FullscreenImageActivity"
+            android:name="org.pacific_emis.surveys.survey_core.ui.photos.FullscreenImageActivity"
             android:screenOrientation="portrait" />
     </application>
 

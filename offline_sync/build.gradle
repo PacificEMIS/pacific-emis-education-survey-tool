@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.offline_sync']
+                arguments = [moxyReflectorPackage: 'org.pacific_emis.surveys.offline_sync']
             }
         }
     }

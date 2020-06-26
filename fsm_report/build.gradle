@@ -17,7 +17,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moxyReflectorPackage : 'fm.doe.national.fsm_report' ]
+                arguments = [ moxyReflectorPackage : 'org.pacific_emis.surveys.fsm_report' ]
             }
         }
     }

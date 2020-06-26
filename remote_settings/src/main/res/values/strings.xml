@@ -1,6 +1,8 @@
 <resources>
-    <string name="firebase_application_id_fsm">1:1047152165099:android:57b1110d31aaee5a</string>
+    <string name="firebase_application_id_fsm">1:1047152165099:android:8544b189a64d9f3446beae</string>
     <string name="firebase_api_key_fsm">AIzaSyAX6ChtLvB-fz-8OW8rEEbk_jbCEEzMRqs</string>
-    <string name="firebase_application_id_rmi">1:892419340395:android:57b1110d31aaee5a</string>
+    <string name="firebase_project_id_fsm">pacific-emis-survey</string>
+    <string name="firebase_application_id_rmi">1:892419340395:android:25857de0083dd0c6c3d92e</string>
     <string name="firebase_api_key_rmi">AIzaSyC-bcbkxTjbjdTrHYz_0Mt-xYbXeQxjZjk</string>
+    <string name="firebase_project_id_rmi">miemis-education-survey-tool</string>
 </resources>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fm.doe.national.remote_storage">
+    package="org.pacific_emis.surveys.remote_storage">
 
     <application>
         <activity
-            android:name=".ui.auth.GoogleAuthActivity"
+            android:name="org.pacific_emis.surveys.remote_storage.ui.auth.GoogleAuthActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.remote_storage.DriveStorageActivity"
+            android:name="org.pacific_emis.surveys.remote_storage.ui.remote_storage.DriveStorageActivity"
             android:screenOrientation="portrait" />
     </application>
 

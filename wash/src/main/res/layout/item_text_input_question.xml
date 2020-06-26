@@ -7,7 +7,7 @@
 
     <include layout="@layout/include_question_header" />
 
-    <fm.doe.national.core.ui.views.InputFieldLayout
+    <org.pacific_emis.surveys.core.ui.views.InputFieldLayout
         android:id="@+id/inputfieldlayout"
         style="@style/AnswersBlock"
         android:layout_width="match_parent"
