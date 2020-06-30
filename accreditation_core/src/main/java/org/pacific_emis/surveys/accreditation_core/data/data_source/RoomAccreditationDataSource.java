@@ -110,6 +110,20 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             if (category.getStandards() != null) {
                 saveStandards(database, category.getStandards(), id, shouldCreateAnswers);
             }
+            if (!CollectionUtils.isEmpty(category.getLogRecords())) {
+                saveObservationLogRecords(database, category.getLogRecords(), id);
+            }
+        }
+    }
+
+    private void saveObservationLogRecords(AccreditationDatabase database,
+                                     List<? extends ObservationLogRecord> records,
+                                     long categoryId) {
+        for (ObservationLogRecord record : records) {
+            RoomObservationLogRecord roomRecord = RoomObservationLogRecord.from(record);
+            roomRecord.uid = 0;
+            roomRecord.categoryId = categoryId;
+            database.getObservationLogRecordDao().insert(roomRecord);
         }
     }
 
