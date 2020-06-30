@@ -1,6 +1,5 @@
 package org.pacific_emis.surveys.accreditation.ui.observation_log;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -19,22 +18,28 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omega_r.libs.omegatypes.TextKt;
 import com.omega_r.libs.omegatypes.TextStyle;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import org.pacific_emis.surveys.accreditation.R;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class ObservationLogAdapter extends ListAdapter<MutableObservationLogRecord, ObservationLogAdapter.RecordViewHolder>
         implements StickyAdapter<ObservationLogAdapter.HeaderViewHolder> {
 
-    @SuppressLint("ConstantLocale")
-    private static final DateFormat DATE_HOURS_MINUTES_FORMAT = new SimpleDateFormat("hh:mm", Locale.US);
-    private static final DateFormat DATE_AM_PM_FORMAT = new SimpleDateFormat(" a", Locale.US);
+    @NonNull
+    private static DateFormat getDateHoursMinutesFormat() {
+        return new SimpleDateFormat("hh:mm", Locale.US);
+    }
+
+    @NonNull
+    private static DateFormat getDateAmPmFormat() {
+        return new SimpleDateFormat(" a", Locale.US);
+    }
 
     @NonNull
     private Listener listener;
@@ -103,8 +108,8 @@ public class ObservationLogAdapter extends ListAdapter<MutableObservationLogReco
 
         private void onBind(MutableObservationLogRecord item) {
             final Date date = item.getDate();
-            final Text timeText = Text.from(DATE_HOURS_MINUTES_FORMAT.format(date), timeNumbersTextStyle);
-            final Text middayText = Text.from(DATE_AM_PM_FORMAT.format(date), timeMiddayTextStyle);
+            final Text timeText = Text.from(getDateHoursMinutesFormat().format(date), timeNumbersTextStyle);
+            final Text middayText = Text.from(getDateAmPmFormat().format(date), timeMiddayTextStyle);
             TextKt.setText(timeTextView, timeText.plus(middayText), null);
             teacherInputFieldLayout.setStartingText(item.getTeacherActions());
             studentsInputFieldLayout.setStartingText(item.getStudentsActions());
