@@ -1,0 +1,68 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'io.fabric.tools:gradle:1.28.1'
+        classpath 'com.google.gms:google-services:4.3.0'
+    }
+    subprojects {
+        project.configurations.all {
+            resolutionStrategy.eachDependency { details ->
+                if (details.requested.group == 'androidx.arch.core'
+                        && !details.requested.name.contains('androidx')) {
+                    details.useVersion "2.0.1"
+                }
+            }
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+ext {
+    Versions = [
+            minSdk    : 24,
+            targetSdk : 29,
+            compileSdk: 29,
+            buildTools: '29.0.2',
+            java      : '1.8.0',
+            appVersion: "2.0"]
+    Deps = [
+            dagger               : '2.24',
+            butterknife          : '10.1.0',
+            moxy                 : '1.5.7',
+            appcompat            : '1.1.0',
+            junit                : '4.13-beta-3',
+            androidJUnit         : '1.1.1',
+            espresso             : '3.2.0',
+            omegaTypes           : '1.0.0',
+            omegaCenterIconButton: '0.0.4',
+            rxJava               : '2.2.9',
+            rxAndroid            : '2.1.1',
+            room                 : '2.1.0',
+            omegaRecycler        : '1.9.8',
+            material             : '1.1.0-alpha10',
+            dropbox              : '3.1.0',
+            omegaViews           : '1.0.2',
+            constraintLayout     : '2.0.0-beta2',
+            work                 : '2.2.0',
+            appCenter            : '2.1.0',
+            gson                 : '2.8.5',
+            playServicesAuth     : '17.0.0',
+            googleApi            : '1.30.2'
+    ]
+    Dex = [
+            minifyEnabled  : false
+    ]
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="StateProgressBar">
+        <attr name="bgColor" format="reference"/>
+        <attr name="progressColor" format="reference"/>
+        <attr name="successColor" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="BottomNavigatorView">
+        <attr name="prevText" format="string" />
+        <attr name="nextText" format="string" />
+        <attr name="hintText" format="string" />
+    </declare-styleable>
+    
+</resources>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_appbar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/white"
+            android:elevation="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/toolbar_title_inset"
+                android:text="@string/title_recent_surveys"
+                android:textAppearance="@style/Text.Title1" />
+
+            <TextView
+                android:id="@+id/textview_load_survey"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_download"
+                android:drawablePadding="8dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="24dp"
+                android:text="@string/label_load_survey"
+                android:textAppearance="@style/Text.Body2"
+                tools:ignore="RelativeOverlap" />
+
+        </RelativeLayout>
+
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+            android:id="@+id/recyclerview_categories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
+            tools:listitem="@layout/item_survey" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_new_accreditation"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_plus"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textview_creation_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/fab_new_accreditation"
+        android:layout_alignBottom="@+id/fab_new_accreditation"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@+id/fab_new_accreditation"
+        android:gravity="center_vertical|end"
+        android:text="@string/label_creation_hint"
+        android:textAppearance="@style/Text.Small1"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.omega_r.libs.views.OmegaTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/omegatextview_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingStart="56dp"
+    android:paddingTop="48dp"
+    android:paddingEnd="56dp"
+    android:paddingBottom="48dp"
+    android:textAppearance="@style/Text.Title2"
+    app:startDelimiter="\n"
+    tools:startText="Criteria SE1.4:"
+    tools:text="The principal has very high expectations for students and teachers" />

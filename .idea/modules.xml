@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PEST_Github.iml" filepath="$PROJECT_DIR$/.idea/modules/PEST_Github.iml" group="PEST_Github" />
+      <module fileurl="file://$PROJECT_DIR$/accreditation/accreditation.iml" filepath="$PROJECT_DIR$/accreditation/accreditation.iml" group="PEST_Github/accreditation" />
+      <module fileurl="file://$PROJECT_DIR$/accreditation_core/accreditation_core.iml" filepath="$PROJECT_DIR$/accreditation_core/accreditation_core.iml" group="PEST_Github/accreditation_core" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="PEST_Github/app" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" group="PEST_Github/core" />
+      <module fileurl="file://$PROJECT_DIR$/data_source_injector/data_source_injector.iml" filepath="$PROJECT_DIR$/data_source_injector/data_source_injector.iml" group="PEST_Github/data_source_injector" />
+      <module fileurl="file://$PROJECT_DIR$/fsm_report/fsm_report.iml" filepath="$PROJECT_DIR$/fsm_report/fsm_report.iml" group="PEST_Github/fsm_report" />
+      <module fileurl="file://$PROJECT_DIR$/offline_sync/offline_sync.iml" filepath="$PROJECT_DIR$/offline_sync/offline_sync.iml" group="PEST_Github/offline_sync" />
+      <module fileurl="file://$PROJECT_DIR$/remote_settings/remote_settings.iml" filepath="$PROJECT_DIR$/remote_settings/remote_settings.iml" group="PEST_Github/remote_settings" />
+      <module fileurl="file://$PROJECT_DIR$/remote_storage/remote_storage.iml" filepath="$PROJECT_DIR$/remote_storage/remote_storage.iml" group="PEST_Github/remote_storage" />
+      <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" group="PEST_Github/report" />
+      <module fileurl="file://$PROJECT_DIR$/report_core/report_core.iml" filepath="$PROJECT_DIR$/report_core/report_core.iml" group="PEST_Github/report_core" />
+      <module fileurl="file://$PROJECT_DIR$/rmi_report/rmi_report.iml" filepath="$PROJECT_DIR$/rmi_report/rmi_report.iml" group="PEST_Github/rmi_report" />
+      <module fileurl="file://$PROJECT_DIR$/survey/survey.iml" filepath="$PROJECT_DIR$/survey/survey.iml" group="PEST_Github/survey" />
+      <module fileurl="file://$PROJECT_DIR$/survey_core/survey_core.iml" filepath="$PROJECT_DIR$/survey_core/survey_core.iml" group="PEST_Github/survey_core" />
+      <module fileurl="file://$PROJECT_DIR$/wash/wash.iml" filepath="$PROJECT_DIR$/wash/wash.iml" group="PEST_Github/wash" />
+      <module fileurl="file://$PROJECT_DIR$/wash_core/wash_core.iml" filepath="$PROJECT_DIR$/wash_core/wash_core.iml" group="PEST_Github/wash_core" />
+    </modules>
+  </component>
+</project>

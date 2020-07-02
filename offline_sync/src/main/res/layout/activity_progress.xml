@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/include_appbar"
+        layout="@layout/include_appbar" />
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_appbar"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="20dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_device_name"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_device_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="MiPad 4" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_school_name_sync"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_school_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="Parem Elementary School Chuuk" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_mac_address"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_mac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="88:88:88:88:88:88" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_survey_date"
+                android:textAppearance="@style/Text.Title1.Large" />
+
+            <TextView
+                android:id="@+id/textview_survey_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Body2"
+                tools:text="06.05.2019" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <fm.doe.national.core.ui.views.StateProgressBar
+        android:id="@+id/progressbar"
+        style="@style/HorizontalProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:layout_below="@+id/layout_info"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="56dp"
+        tools:progress="50" />
+
+    <TextView
+        android:id="@+id/textview_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressbar"
+        android:layout_alignStart="@+id/progressbar"
+        android:layout_alignEnd="@+id/progressbar"
+        android:textAppearance="@style/Text.Small2"
+        tools:text="Merging is in process, please stay close to the paired device" />
+
+    <com.omega_r.libs.OmegaCenterIconButton
+        android:id="@+id/button_try_again"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="32dp"
+        android:drawableStart="@drawable/ic_try_again"
+        android:drawablePadding="16dp"
+        android:text="@string/label_try_again"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.omega_r.libs.OmegaCenterIconButton
+        android:id="@+id/button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="32dp"
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="16dp"
+        android:text="@string/ok"
+        android:visibility="gone" />
+
+</RelativeLayout>

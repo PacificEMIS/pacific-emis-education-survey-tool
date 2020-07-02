@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_appbar"
+        layout="@layout/include_appbar" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include_appbar">
+
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="96dp"
+            tools:listitem="@layout/item_bluetooth_device" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/textview_empty_surveys"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include_appbar"
+        android:text="@string/label_empty_surveys"
+        android:padding="32dp"
+        android:textStyle="bold"
+        android:textAppearance="@style/Text.Body1"
+        android:visibility="gone" />
+
+    <com.omega_r.libs.OmegaCenterIconButton
+        android:id="@+id/button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="32dp"
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="16dp"
+        android:text="@string/label_select_survey" />
+
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="title_tally_level_1">1 Level Tally</string>
+    <string name="title_tally_level_2">2 Level Tally</string>
+    <string name="title_tally_level_3">3 Level Tally</string>
+    <string name="title_tally_level_4">4 Level Tally</string>
+    <string name="title_tally_score">Tally Score</string>
+    <string name="title_tally_level">Level</string>
+    <string name="title_rmi_report">RMI report</string>
+</resources>

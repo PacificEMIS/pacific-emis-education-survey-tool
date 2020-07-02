@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fm.doe.national.accreditation">
+
+    <application>
+        <activity
+            android:name=".ui.photos.AccreditationPhotosActivity"
+            android:label="@string/label_attached_photos"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="title_devices">Select device</string>
+    <string name="title_select_survey">Select survey</string>
+    <string name="title_no_name">No name</string>
+    <string name="action_open_bt_settings">Open Bluetooth Settings</string>
+    <string name="rfcomm_uuid">5c8b28e9-fe2e-4cff-8da1-054a77377894</string>
+    <string name="label_choose_device">Choose device</string>
+    <string name="label_select_survey">Select survey</string>
+    <string name="label_device_name">Device name</string>
+    <string name="label_school_name_sync">School name</string>
+    <string name="label_mac_address">Mac address</string>
+    <string name="label_survey_date">Survey date</string>
+    <string name="label_try_again">Try again</string>
+    <string name="ok">OK</string>
+    <string name="title_merge_progress">Merge process</string>
+    <string name="label_empty_surveys">There are no survey with same school and same survey date on the tablet you are trying to merge from.</string>
+</resources>

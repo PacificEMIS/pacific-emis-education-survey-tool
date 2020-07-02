@@ -1,0 +1,40 @@
+<resources>
+
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/layer_splash</item>
+    </style>
+
+    <style name="Subtitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/blue_grey_700</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextButton" parent="TextAppearance.AppCompat">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Selectable" parent="AppTheme">
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="AppTheme.SearchToolbar">
+        <item name="android:editTextColor">@color/white</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextView</item>
+    </style>
+
+    <style name="AutoCompleteTextView" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+    </style>
+
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="drawer_menu_width">506dp</dimen>
+
+    <dimen name="textsize_splash_title_start">48sp</dimen>
+    <dimen name="textsize_splash_title_end">36sp</dimen>
+</resources>

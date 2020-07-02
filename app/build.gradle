@@ -1,0 +1,130 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+
+def VERSION_NAME = System.getenv("VERSION_ALIAS") as String ?: "Dev"
+
+android {
+    compileSdkVersion Versions.compileSdk
+    defaultConfig {
+        applicationId "fm.doe.national"
+        versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
+        targetSdkVersion Versions.targetSdk
+        minSdkVersion Versions.minSdk
+        versionName Versions.appVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ext.betaDistributionGroupAliases = "testaccounts"
+
+        buildConfigField "String", "SURVEY_SA_FSM_FILE_NAME", "\"survey_sa_fsm.xml\""
+        buildConfigField "String", "SURVEY_SA_RMI_FILE_NAME", "\"survey_sa_rmi.xml\""
+        buildConfigField "String", "SURVEY_WASH_FSM_FILE_NAME", "\"survey_wash_fsm.xml\""
+        buildConfigField "String", "SURVEY_WASH_RMI_FILE_NAME", "\"survey_wash_rmi.xml\""
+        buildConfigField "String", "SCHOOLS_FSM_FILE_NAME", "\"schools_fsm.csv\""
+        buildConfigField "String", "SCHOOLS_RMI_FILE_NAME", "\"schools_rmi.csv\""
+        buildConfigField "String", "LICENSE_FILE_NAME", "\"license.txt\""
+
+        buildConfigField "String", "VERSION_ALIAS", "\"" + VERSION_NAME + "\""
+
+        archivesBaseName = System.getenv("APK_NAME") as String ?: "app"
+
+    }
+    signingConfigs {
+        release {
+            keyAlias System.getenv("KEY_ALIAS") ?: "KEY_ALIAS"
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "KEYSTORE_PASSWORD"
+            storeFile file(System.getenv("KEY_FILE") ?: "KEY_FILE")
+            keyPassword System.getenv("KEY_PASSWORD") ?: "KEY_PASSWORD"
+        }
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('debug.keystore')
+            storePassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled Dex.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility Versions.java
+        targetCompatibility Versions.java
+    }
+    buildToolsVersion Versions.buildTools
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation project(path: ':core')
+    implementation project(path: ':accreditation_core')
+    implementation project(path: ':report')
+    implementation project(path: ':report_core')
+    implementation project(path: ':fsm_report')
+    implementation project(path: ':rmi_report')
+    implementation project(path: ':accreditation')
+    implementation project(path: ':survey')
+    implementation project(path: ':survey_core')
+    implementation project(path: ':data_source_injector')
+    implementation project(path: ':wash_core')
+    implementation project(path: ':wash')
+    implementation project(path: ':remote_storage')
+    implementation project(path: ':offline_sync')
+    implementation project(path: ':remote_settings')
+
+    implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
+    implementation "com.google.android.material:material:${Deps.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
+
+    // Moxy
+    implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"
+    annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
+
+    // RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:${Deps.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Deps.rxAndroid}"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
+
+    // OmegaLibs
+    implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:glide:${Deps.omegaTypes}"
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
+    implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
+    implementation 'com.github.Omega-R:OmegaLayouts:0.0.1'
+    implementation "com.github.Omega-R:OmegaCenterIconButton:${Deps.omegaCenterIconButton}@aar"
+
+    // Butterknife
+    implementation "com.jakewharton:butterknife:${Deps.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${Deps.butterknife}"
+
+    // Tests
+    testImplementation "junit:junit:${Deps.junit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
+    androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
+
+    // CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    // AppCenter
+    implementation "com.microsoft.appcenter:appcenter-analytics:${Deps.appCenter}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${Deps.appCenter}"
+
+    // Permissions
+    implementation 'com.karumi:dexter:5.0.0'
+
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+}
+apply plugin: 'com.google.gms.google-services'

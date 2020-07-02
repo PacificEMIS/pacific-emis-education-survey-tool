@@ -1,0 +1,8 @@
+<resources>
+    <string name="label_total_score">Total Score</string>
+    <string name="title_evaluation_forms">Evaluation Forms</string>
+    <string name="title_obtained_score">Obtained Score</string>
+    <string name="title_multiplier">Multiplier</string>
+    <string name="title_final_score">Final Score</string>
+    <string name="title_determination_of_overall_level">Determination of Overall Level</string>
+</resources>

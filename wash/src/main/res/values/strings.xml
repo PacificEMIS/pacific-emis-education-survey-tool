@@ -1,0 +1,9 @@
+<resources>
+    <string name="label_latitude">Latitude:</string>
+    <string name="label_longitude">Longitude:</string>
+    <string name="title_take_position">Fix position</string>
+    <string name="label_hint_position">Click on the “Fix position” button when you are directly near the school. The application will record the geolocation of the school.</string>
+    <string name="format_position">%1$.6f %2$.6f</string>
+    <string name="format_question">Question %1$s:</string>
+    <string name="message_geo_is_off">Failed to receive geolocation. Possible fix: \n1) Make sure that Google Services are up-to-date\n2) Open any map application, like Maps by Google, and ensure that it finds your geolocation.</string>
+</resources>
