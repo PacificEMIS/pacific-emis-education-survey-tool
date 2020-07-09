@@ -59,6 +59,7 @@ public class RemoteSettings {
                 FirebaseRemoteConfig.getInstance(FirebaseApp.initializeApp(
                         appContext,
                         new FirebaseOptions.Builder()
+                                .setProjectId(appContext.getString(R.string.firebase_project_id_fsm))
                                 .setApplicationId(appContext.getString(R.string.firebase_application_id_fsm))
                                 .setApiKey(appContext.getString(R.string.firebase_api_key_fsm))
                                 .build(),
@@ -70,6 +71,7 @@ public class RemoteSettings {
                 FirebaseRemoteConfig.getInstance(FirebaseApp.initializeApp(
                         appContext,
                         new FirebaseOptions.Builder()
+                                .setProjectId(appContext.getString(R.string.firebase_project_id_rmi))
                                 .setApplicationId(appContext.getString(R.string.firebase_application_id_rmi))
                                 .setApiKey(appContext.getString(R.string.firebase_api_key_rmi))
                                 .build(),
