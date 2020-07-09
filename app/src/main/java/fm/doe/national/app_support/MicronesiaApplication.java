@@ -5,6 +5,7 @@ import android.app.Application;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
+import com.omega_r.libs.omegatypes.image.GlideImagesProcessor;
 import com.omegar.mvp.RegisterMoxyReflectorPackages;
 
 import fm.doe.national.R;
@@ -70,6 +71,8 @@ public class MicronesiaApplication extends Application implements
 
         RemoteSettings remoteSettings = provideRemoteSettingsComponent().getRemoteSettings();
         remoteSettings.init(remoteSettings::fetchAsync);
+
+        GlideImagesProcessor.Companion.setAsCurrentImagesProcessor();
     }
 
     public static Injection getInjection() {
