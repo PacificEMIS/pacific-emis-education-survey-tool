@@ -159,7 +159,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
             return Completable.error(new IllegalStateException());
         }
 
-        String userEmail = survey.getCreateUser();
+        String creator = survey.getCreateUser();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
                     List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
@@ -176,9 +176,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
                             .andThen(dataSourceComponent.getDataSource().loadSurvey(survey.getId())
                                     .subscribeOn(Schedulers.io()))
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
-                                    SurveyTextUtil.createSurveyFileName(updatedSurvey, userEmail),
+                                    SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
-                                    new SurveyMetadata(updatedSurvey, userEmail),
+                                    new SurveyMetadata(updatedSurvey, creator),
                                     regionFolderId)
                                     .ignoreElement()
                             );
