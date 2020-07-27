@@ -7,27 +7,17 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.omega_r.libs.omegatypes.Text;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Nullable;
 
 import org.pacific_emis.surveys.core.data.exceptions.FileExportException;
 import org.pacific_emis.surveys.core.data.exceptions.NotImplementedException;
@@ -48,6 +38,17 @@ import org.pacific_emis.surveys.remote_storage.data.model.PhotoMetadata;
 import org.pacific_emis.surveys.remote_storage.data.model.ReportBundle;
 import org.pacific_emis.surveys.remote_storage.data.model.SurveyMetadata;
 import org.pacific_emis.surveys.remote_storage.utils.SurveyTextUtil;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -63,7 +64,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     );
     private static final String SHEET_NAME_SUMMARY = "Standard Scores Summary";
     private static final String SHEET_NAME_TEMPLATE = "template";
-    private static final HttpTransport sTransport = AndroidHttp.newCompatibleTransport();
+    private static final HttpTransport sTransport = new NetHttpTransport();
     private static final GsonFactory sGsonFactory = new GsonFactory();
     private final FilesRepository filesRepository;
     private final DataSourceComponent dataSourceComponent;
@@ -158,7 +159,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
             return Completable.error(new IllegalStateException());
         }
 
-        String userEmail = userAccount.getEmail();
+        String userEmail = survey.getCreateUser();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
                     List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
