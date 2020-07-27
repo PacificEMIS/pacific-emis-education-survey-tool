@@ -1,10 +1,21 @@
 package org.pacific_emis.surveys.remote_storage.data.storage;
 
+import androidx.core.util.Pair;
+
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+
+import org.pacific_emis.surveys.core.data.model.Photo;
+import org.pacific_emis.surveys.core.utils.CollectionUtils;
+import org.pacific_emis.surveys.core.utils.TextUtil;
+import org.pacific_emis.surveys.remote_storage.data.model.DriveType;
+import org.pacific_emis.surveys.remote_storage.data.model.GoogleDriveFileHolder;
+import org.pacific_emis.surveys.remote_storage.data.model.PhotoMetadata;
+import org.pacific_emis.surveys.remote_storage.data.model.SurveyMetadata;
+import org.pacific_emis.surveys.remote_storage.utils.DriveQueryBuilder;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -21,15 +32,6 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Nullable;
 
-import androidx.core.util.Pair;
-import org.pacific_emis.surveys.core.data.model.Photo;
-import org.pacific_emis.surveys.core.utils.CollectionUtils;
-import org.pacific_emis.surveys.core.utils.TextUtil;
-import org.pacific_emis.surveys.remote_storage.data.model.DriveType;
-import org.pacific_emis.surveys.remote_storage.data.model.GoogleDriveFileHolder;
-import org.pacific_emis.surveys.remote_storage.data.model.PhotoMetadata;
-import org.pacific_emis.surveys.remote_storage.data.model.SurveyMetadata;
-import org.pacific_emis.surveys.remote_storage.utils.DriveQueryBuilder;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -42,7 +44,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
     private static final String ORDER_BY_CREATED_TIME = "createdTime desc";
     private static final String FIELDS_TO_QUERY = "files(id, name, mimeType, properties)";
     private static final String FIELD_ID = "id";
-    private static final String FOLDERNAME_PHOTOS = "photos";
+    private static final String FOLDER_NAME_PHOTOS = "photos";
     private static final String MIME_TYPE_JPEG = "image/jpeg";
 
     private final Drive drive;
@@ -227,7 +229,7 @@ public class DriveServiceHelper extends TasksRxWrapper {
     }
 
     public Single<List<Pair<Photo, File>>> uploadPhotos(List<Photo> photos, String parentFolderId, PhotoMetadata photoMetadata) {
-        return createFolderIfNotExist(FOLDERNAME_PHOTOS, parentFolderId)
+        return createFolderIfNotExist(FOLDER_NAME_PHOTOS, parentFolderId)
                 .flatMapObservable(photosFolderId -> Observable.fromIterable(photos)
                         .concatMapSingle(photo -> {
                             List<String> root = Collections.singletonList(photosFolderId);

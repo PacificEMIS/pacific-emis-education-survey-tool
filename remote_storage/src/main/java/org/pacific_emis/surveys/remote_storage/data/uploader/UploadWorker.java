@@ -13,6 +13,7 @@ import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccess
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
+
 import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
@@ -35,6 +36,7 @@ public class UploadWorker extends RxWorker {
         remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
     }
 
+    @NonNull
     @Override
     public Single<Result> createWork() {
         final long surveyId = getInputData().getLong(DATA_PASSING_ID, VALUE_ID_NOT_FOUND);
@@ -52,6 +54,7 @@ public class UploadWorker extends RxWorker {
                 .andThen(Single.just(Result.success()));
     }
 
+    @NonNull
     @Override
     protected Scheduler getBackgroundScheduler() {
         return Schedulers.io();
