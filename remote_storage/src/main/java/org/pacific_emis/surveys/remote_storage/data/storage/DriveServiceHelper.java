@@ -249,8 +249,9 @@ public class DriveServiceHelper extends TasksRxWrapper {
 
                             return requestFiles(query)
                                     .flatMap(fileList -> {
-                                        if (!CollectionUtils.isEmpty(fileList.getFiles())) {
-                                            return Single.just(Pair.create(photo, (File) null));
+                                        final List<File> existingRemoteFiles = fileList.getFiles();
+                                        if (!CollectionUtils.isEmpty(existingRemoteFiles)) {
+                                            return Single.just(Pair.create(photo, existingRemoteFiles.get(0)));
                                         }
 
                                         return wrapWithSingleInThreadPool(() -> {

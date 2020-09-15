@@ -61,9 +61,9 @@ public class WorkerRemoteUploader implements RemoteUploader {
 
     @Override
     public void scheduleUploading(long passingId) {
-        UUID foundedUUID = currentWorkers.get(passingId);
-        if (foundedUUID != null) {
-            WorkManager.getInstance().cancelWorkById(foundedUUID);
+        UUID foundedUuid = currentWorkers.get(passingId);
+        if (foundedUuid != null) {
+            WorkManager.getInstance(appContext).cancelWorkById(foundedUuid);
         }
 
         publishSubject.onNext(passingId);
