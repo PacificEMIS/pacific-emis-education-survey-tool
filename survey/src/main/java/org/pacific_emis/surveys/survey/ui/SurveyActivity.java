@@ -17,8 +17,6 @@ import com.omega_r.libs.views.OmegaTextView;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
-import java.util.List;
-
 import org.pacific_emis.surveys.accreditation.ui.survey.AccreditationSurveyView;
 import org.pacific_emis.surveys.accreditationSurvey.R;
 import org.pacific_emis.surveys.core.data.model.Progress;
@@ -31,6 +29,8 @@ import org.pacific_emis.surveys.survey_core.navigation.NavigationItem;
 import org.pacific_emis.surveys.survey_core.navigation.NavigationItemsAdapter;
 import org.pacific_emis.surveys.survey_core.ui.survey.SurveyPresenter;
 import org.pacific_emis.surveys.wash.ui.survey.WashSurveyView;
+
+import java.util.List;
 
 public class SurveyActivity extends BaseActivity implements
         AccreditationSurveyView,
@@ -129,6 +129,12 @@ public class SurveyActivity extends BaseActivity implements
 
     private void toggleNavigator() {
         isNavigatorOpened = !isNavigatorOpened;
+        if (isNavigatorOpened) {
+            final View focusedView = getCurrentFocus();
+            if (focusedView != null) {
+                ViewUtils.hideKeyboardAndClearFocus(focusedView, findViewById(R.id.layout_navigator));
+            }
+        }
         onNavigatorStateChanged();
     }
 
