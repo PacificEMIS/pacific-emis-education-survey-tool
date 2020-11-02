@@ -1,2 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fm.doe.national.accreditation_core" />
+    package="org.pacific_emis.surveys.accreditation_core" />

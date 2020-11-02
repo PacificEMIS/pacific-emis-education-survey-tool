@@ -12,5 +12,12 @@
         <attr name="nextText" format="string" />
         <attr name="hintText" format="string" />
     </declare-styleable>
+
+
+    <declare-styleable name="InputFieldLayout">
+        <attr name="doneVisible" format="boolean" />
+        <attr name="android:inputType"/>
+        <attr name="android:maxLength"/>
+    </declare-styleable>
     
 </resources>

@@ -25,7 +25,7 @@
             android:text="@string/label_question_hint"
             android:textAppearance="@style/Text.Small2" />
 
-        <fm.doe.national.core.ui.views.BottomNavigatorView
+        <org.pacific_emis.surveys.core.ui.views.BottomNavigatorView
             android:id="@+id/bottomnavigatorview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

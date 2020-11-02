@@ -1,7 +1,7 @@
 <survey>
     <type>WASH</type>
     <country>RMI</country>
-    <version>1</version>
+    <version>2</version>
     <group>
         <id>BS</id>
         <name>Basic Survey Data</name>
@@ -10,7 +10,7 @@
             <name>Inspector</name>
             <question>
                 <id>BS.I.1</id>
-                <name>Name of the Person filling the form</name>
+                <name>Name of the person filling the form</name>
                 <flags>INPUT</flags>
             </question>
             <question>
@@ -28,18 +28,18 @@
                 <flags>INPUT</flags>
             </question>
             <question>
-                <id>BS.S.3</id>
-                <name>What is the Head Teacher's Mobile Number</name>
+                <id>BS.S.2</id>
+                <name>What is the Head Teacher's mobile number?</name>
                 <flags>INPUT|PHONE</flags>
             </question>
             <question>
-                <id>BS.S.4</id>
-                <name>Take photo of the water source</name>
+                <id>BS.S.3</id>
+                <name>Take a photo of the water source</name>
                 <flags>PHOTO</flags>
             </question>
             <question>
-                <id>BS.S.5</id>
-                <name>Take Geolocation</name>
+                <id>BS.S.4</id>
+                <name>Take Geolocation of the school</name>
                 <flags>GEO</flags>
             </question>
         </subgroup>
@@ -126,8 +126,8 @@
             <id>CW.S</id>
             <name>Sanitation</name>
             <question>
-                <id>SW.S.1</id>
-                <name>What type of student toilets/latrines are at the school? (check one - the most common)</name>
+                <id>CW.S.1</id>
+                <name>What type of student toilets/latrines are at the school? (Select one - the most common)</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <item>Flush / Pour-flush toilets</item>
                 <item>Pit latrines with slab</item>
@@ -138,7 +138,7 @@
                 <item>No toilets or latrines</item>
             </question>
             <question>
-                <id>SW.S.2</id>
+                <id>CW.S.2</id>
                 <name>How many toilets/latrines are at the school?</name>
                 <flags>VAR|INPUT|NUMERIC</flags>
                 <variant>
@@ -194,7 +194,7 @@
             <name>Water</name>
             <question>
                 <id>SW.W.1</id>
-                <name>What is the main water source of Drinking water for the school?</name>
+                <name>What is the main source of drinking water for the school?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <item>Piped water into school building (reticulated - treated)</item>
                 <item>Piped water into school building (reticulated - untreated)</item>
@@ -211,7 +211,7 @@
             </question>
             <question>
                 <id>SW.W.2</id>
-                <name>What purpose is the main water source of water used for?</name>
+                <name>What purpose is the main source of water used for?</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <item>Drinking</item>
                 <item>Hand washing</item>
@@ -410,8 +410,8 @@
             </question>
             <question>
                 <id>SW.W.17</id>
-                <name>What is the reason/s for not treating water?</name>
-                <flags>CHOOSE|MULTIPLE</flags>
+                <name>What is the main reason for not treating water?</name>
+                <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.W.15</id>
                     <relationAnswer>No</relationAnswer>
@@ -510,12 +510,12 @@
             </question>
             <question>
                 <id>SW.S.2</id>
-                <name>Do all functional toilets have lighting (includes natural light or alternative sources)?</name>
+                <name>Do all functioning toilets have lighting (includes natural light or alternative sources)?</name>
                 <flags>BINARY</flags>
             </question>
             <question>
                 <id>SW.S.3</id>
-                <name>Do all functional toilets have adequate ventilation?</name>
+                <name>Do all functioning toilets have adequate ventilation?</name>
                 <flags>BINARY</flags>
             </question>
             <question>
@@ -536,7 +536,7 @@
             </question>
             <question>
                 <id>SW.S.5</id>
-                <name>What materials are the toilets (pan and Slab) made from?</name>
+                <name>What materials are the toilets (pan and slab) made from?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
@@ -570,7 +570,7 @@
             </question>
             <question>
                 <id>SW.S.7</id>
-                <name>Are the toilet facilities share with others?</name>
+                <name>Are the toilet facilities shared with others?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.1</id>
@@ -593,7 +593,7 @@
             </question>
             <question>
                 <id>SW.S.9</id>
-                <name>Please take a photo of the facility that is accessible to children with disabilities.</name>
+                <name>Take a photo of the facility that is accessible to children with disabilities</name>
                 <flags>PHOTO</flags>
                 <relation>
                     <id>SW.S.8</id>
@@ -603,7 +603,7 @@
             </question>
             <question>
                 <id>SW.S.10</id>
-                <name>Are there separate toilets for boys and girls</name>
+                <name>Are there separate toilets for boys and girls?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.1</id>
@@ -615,7 +615,7 @@
             </question>
             <question>
                 <id>SW.S.11</id>
-                <name>What is the total number of toilets for students</name>
+                <name>What is the total number of toilets for students?</name>
                 <flags>INPUT|NUMERIC</flags>
                 <relation>
                     <id>SW.S.1</id>
@@ -714,7 +714,7 @@
             </question>
             <question>
                 <id>SW.S.20</id>
-                <name>Do girls individual toilet include a container or plastic bag for disposing of napkins and/or disposable pads?</name>
+                <name>Do girls individual toilets include a container or plastic bag for disposing of napkins and/or disposable pads?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.10</id>
@@ -730,7 +730,7 @@
             </question>
             <question>
                 <id>SW.S.21</id>
-                <name>Describe the container for napkin disposal?</name>
+                <name>Describe the container for napkin disposal</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.S.20</id>
@@ -1098,7 +1098,7 @@
             </question>
             <question>
                 <id>SW.H.12</id>
-                <name>Please assess if water and soap are available for hand washing at the hand washing facility (Observation)</name>
+                <name>Assess if water and soap are available for hand washing at the hand washing facility (observation)</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.9</id>
@@ -1111,7 +1111,7 @@
             </question>
             <question>
                 <id>SW.H.13</id>
-                <name>Please assess if the hand washing facilities are accessible to children with disabilities and the youngest children at the school (Observation)</name>
+                <name>Assess if the hand washing facilities are accessible to children with disabilities and the youngest children at the school (Observation)</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.H.1</id>
@@ -1163,12 +1163,12 @@
             </question>
             <question>
                 <id>SW.OM.2</id>
-                <name>Does the school have a school improvement plan?</name>
+                <name>Does the school have a School Improvement Plan?</name>
                 <flags>TERNARY|SINGLE</flags>
             </question>
             <question>
                 <id>SW.OM.3</id>
-                <name>Is WASH, solid waste management included in the School Improvement Plan</name>
+                <name>Is WASH, solid waste management included in the School Improvement Plan?</name>
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.OM.2</id>
@@ -1211,7 +1211,7 @@
             </question>
             <question>
                 <id>SW.OM.7</id>
-                <name>Indicate with the tick the members of the school community that supports the school in improving learning environment, repair WASH facilities tanks, tippy taps and toilets</name>
+                <name>Indicate the members of the school community that support the school in improving learning environment, and maintaining WASH facilities tanks, tippy taps and toilets</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.OM.6</id>
@@ -1238,7 +1238,7 @@
             </question>
             <question>
                 <id>SW.OM.9</id>
-                <name>What are some of the activities that the community participate in?</name>
+                <name>What are some of the activities that the community participates in?</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.OM.6</id>
@@ -1253,7 +1253,7 @@
             </question>
             <question>
                 <id>SW.OM.10</id>
-                <name>Why do you think, communities do not support school activities?</name>
+                <name>Why do you think communities do not support school activities?</name>
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.OM.6</id>
@@ -1274,7 +1274,7 @@
             </question>
             <question>
                 <id>SW.OM.12</id>
-                <name>If yes, who provide the funding?</name>
+                <name>If yes, who provides the funding?</name>
                 <flags>CHOOSE|MULTIPLE</flags>
                 <relation>
                     <id>SW.OM.11</id>
@@ -1456,7 +1456,7 @@
             </question>
             <question>
                 <id>SW.CSA.13</id>
-                <name>Are learning materials available for teaching WinS?</name>
+                <name>Are learning materials available for teaching WASH?</name>
                 <flags>BINARY</flags>
             </question>
             <question>
@@ -1518,7 +1518,7 @@
             </question>
             <question>
                 <id>SW.SWK.5</id>
-                <name>Please take a photo of the WASH corner</name>
+                <name>Take a photo of the WASH corner</name>
                 <flags>PHOTO</flags>
                 <relation>
                     <id>SW.SWK.4</id>

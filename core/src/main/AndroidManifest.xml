@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fm.doe.national.core" >
+    package="org.pacific_emis.surveys.core" >
 
     <application>
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="fm.doe.national.fileprovider"
+            android:authorities="org.pacific_emis.surveys.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

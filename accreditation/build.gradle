@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.accreditation']
+                arguments = [moxyReflectorPackage: 'org.pacific_emis.surveys.accreditation']
             }
         }
     }
@@ -48,9 +48,10 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
 
     // Omega
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
+    implementation "com.github.Omega-R:OmegaCenterIconButton:${Deps.omegaCenterIconButton}@aar"
 
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"

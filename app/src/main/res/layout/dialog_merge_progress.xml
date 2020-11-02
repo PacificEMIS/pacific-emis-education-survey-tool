@@ -23,7 +23,7 @@
         android:textAppearance="@style/Text.Title2"
         android:textSize="18sp" />
 
-    <fm.doe.national.core.ui.views.StateProgressBar
+    <org.pacific_emis.surveys.core.ui.views.StateProgressBar
         android:id="@+id/progressbar"
         style="@style/HorizontalProgressBar"
         android:layout_width="match_parent"

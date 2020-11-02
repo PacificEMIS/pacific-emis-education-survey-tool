@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.offline_sync']
+                arguments = [moxyReflectorPackage: 'org.pacific_emis.surveys.offline_sync']
             }
         }
     }
@@ -42,13 +42,13 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
     implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
     testImplementation "junit:junit:${Deps.junit}"
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
 
     // Omega
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
     implementation "com.github.Omega-R:OmegaCenterIconButton:${Deps.omegaCenterIconButton}@aar"

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="observation_info_horizontal_margin">56dp</dimen>
+    <dimen name="text_size_log_time_numbers">20sp</dimen>
+    <dimen name="text_size_log_time_midday">12sp</dimen>
+</resources>

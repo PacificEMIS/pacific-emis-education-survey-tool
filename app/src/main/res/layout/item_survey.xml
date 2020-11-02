@@ -54,7 +54,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Amwachang Elementary School" />
 
-    <fm.doe.national.core.ui.views.StateProgressBar
+    <org.pacific_emis.surveys.core.ui.views.StateProgressBar
         android:id="@+id/progressbar"
         style="@style/HorizontalProgressBar"
         android:layout_width="96dp"

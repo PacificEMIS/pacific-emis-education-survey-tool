@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moxyReflectorPackage : 'fm.doe.national.core' ]
+                arguments = [ moxyReflectorPackage : 'org.pacific_emis.surveys.core' ]
             }
         }
 
@@ -45,7 +45,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:${Deps.espresso}"
 
     // Omega
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
 
@@ -87,5 +87,5 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    api 'com.github.bumptech.glide:glide:4.9.0'
+    api 'com.github.bumptech.glide:glide:4.11.0'
 }

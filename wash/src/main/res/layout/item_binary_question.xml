@@ -7,7 +7,7 @@
 
     <include layout="@layout/include_question_header" />
 
-    <fm.doe.national.survey_core.ui.custom_views.BinaryAnswerSelectorView
+    <org.pacific_emis.surveys.survey_core.ui.custom_views.BinaryAnswerSelectorView
         android:id="@+id/binaryanswerselectorview"
         style="@style/AnswersBlock" />
 
