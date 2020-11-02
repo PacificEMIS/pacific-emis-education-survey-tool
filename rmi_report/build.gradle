@@ -14,7 +14,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moxyReflectorPackage: 'fm.doe.national.rmi_report']
+                arguments = [moxyReflectorPackage: 'org.pacific_emis.surveys.rmi_report']
             }
         }
     }
@@ -52,7 +52,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
 
     // Omega
-    implementation "com.github.Omega-R:OmegaTypes:${Deps.omegaTypes}"
+    implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
 

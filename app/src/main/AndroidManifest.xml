@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="fm.doe.national">
+    package="org.pacific_emis.surveys">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".app_support.MicronesiaApplication"
+        android:name="org.pacific_emis.surveys.app_support.MicronesiaApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.screens.splash.SplashActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -32,42 +32,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.screens.region.ChooseRegionActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.region.ChooseRegionActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.menu.MainMenuActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.menu.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.survey_creation.CreateSurveyActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.survey_creation.CreateSurveyActivity"
             android:label="@string/label_create_survey"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SearchToolbar" />
         <activity
-            android:name=".ui.screens.surveys.SurveysActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.surveys.SurveysActivity"
             android:label="@string/label_school_accreditation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.settings.SettingsActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.settings.SettingsActivity"
             android:label="@string/label_settings"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.password.PasswordsActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.password.PasswordsActivity"
             android:label="@string/label_passwords"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.screens.logo.LogoActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.logo.LogoActivity"
             android:label="@string/label_logo"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.templates.SurveyTemplatesActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.templates.SurveyTemplatesActivity"
             android:label="@string/label_templates"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.screens.license.LicenseActivity"
+            android:name="org.pacific_emis.surveys.ui.screens.license.LicenseActivity"
             android:label="@string/label_license"
             android:screenOrientation="portrait" />
 

@@ -7,7 +7,7 @@ def VERSION_NAME = System.getenv("VERSION_ALIAS") as String ?: "Dev"
 android {
     compileSdkVersion Versions.compileSdk
     defaultConfig {
-        applicationId "fm.doe.national"
+        applicationId "org.pacific_emis.surveys"
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         targetSdkVersion Versions.targetSdk
         minSdkVersion Versions.minSdk
@@ -116,15 +116,15 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:${Deps.androidJUnit}"
 
     // CircleImageView
-    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // AppCenter
     implementation "com.microsoft.appcenter:appcenter-analytics:${Deps.appCenter}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${Deps.appCenter}"
 
     // Permissions
-    implementation 'com.karumi:dexter:5.0.0'
+    implementation 'com.karumi:dexter:6.1.2'
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
 apply plugin: 'com.google.gms.google-services'

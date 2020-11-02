@@ -7,7 +7,7 @@
 
     <include layout="@layout/include_question_header" />
 
-    <fm.doe.national.wash.ui.custom_views.answer_selector_view.AnswerSelectorView
+    <org.pacific_emis.surveys.wash.ui.custom_views.answer_selector_view.AnswerSelectorView
         android:id="@+id/answerselectionview"
         style="@style/AnswersBlock"
         app:selectionType="multiple" />

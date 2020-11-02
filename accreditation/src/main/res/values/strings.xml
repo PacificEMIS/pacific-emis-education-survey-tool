@@ -1,2 +1,22 @@
 <resources>
+    <string name="label_classroom_observation_info_prefix">Classroom Data:</string>
+    <string name="label_classroom_observation_info_suffix">Info</string>
+    <string name="label_observation_info_title">Information about observation</string>
+    <string name="label_observation_info_teacher_name">Teacher name</string>
+    <string name="label_observation_info_grade">Grade</string>
+    <string name="label_observation_info_please_select_grade">Please select grade</string>
+    <string name="label_observation_info_total_students">Total students present</string>
+    <string name="label_observation_info_subject">Subject</string>
+    <string name="label_observation_date_time">Date time</string>
+    <string name="label_select_grade">Select a grade</string>
+
+    <string name="label_classroom_observation_log_prefix">Class Progress:</string>
+    <string name="label_classroom_observation_log_suffix">Log</string>
+    <string name="button_classroom_observation_log_start">Start lesson</string>
+    <string name="button_classroom_observation_log_add">Add activity</string>
+    <string name="label_classroom_observation_log_hint">Specify the time of activity in the lesson</string>
+    <string name="label_classroom_observation_log_title">Log the lesson progress</string>
+    <string name="label_classroom_observation_log_column_time">Start time</string>
+    <string name="label_classroom_observation_log_column_teacher">Teacher Activity</string>
+    <string name="label_classroom_observation_log_column_student">Student Activity</string>
 </resources>
