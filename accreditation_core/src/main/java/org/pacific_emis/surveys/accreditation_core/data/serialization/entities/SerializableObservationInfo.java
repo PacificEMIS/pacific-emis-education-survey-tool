@@ -3,12 +3,13 @@ package org.pacific_emis.surveys.accreditation_core.data.serialization.entities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
+import org.pacific_emis.surveys.accreditation_core.data.serialization.UtcDateConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.convert.Convert;
 
 import java.util.Date;
-
-import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 
 @Root(name = "info")
 class SerializableObservationInfo implements ObservationInfo {
@@ -31,6 +32,7 @@ class SerializableObservationInfo implements ObservationInfo {
 
     @Nullable
     @Element(name = "date", required = false)
+    @Convert(UtcDateConverter.class)
     Date date;
 
     public SerializableObservationInfo() {
