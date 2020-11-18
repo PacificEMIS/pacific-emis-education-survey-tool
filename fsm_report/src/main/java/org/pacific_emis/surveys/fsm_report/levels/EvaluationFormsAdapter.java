@@ -42,7 +42,7 @@ public class EvaluationFormsAdapter extends BaseListAdapter<AccreditationForm> {
             item.getName().applyTo(nameTextView, null);
             obtainedScoreTextView.setText(String.valueOf(item.getObtainedScore()));
             multiplierTextView.setText(String.valueOf(item.getMultiplier()));
-            finalScoreTextView.setText(String.valueOf(item.getFinalScore()));
+            finalScoreTextView.setText(EvaluationFormFormatter.formatTotalScore(item.getFinalScore()));
         }
     }
 }
