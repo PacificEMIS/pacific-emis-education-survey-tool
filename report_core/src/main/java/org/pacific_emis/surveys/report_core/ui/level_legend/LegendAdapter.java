@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.pacific_emis.surveys.report_core.R;
 import org.pacific_emis.surveys.report_core.domain.ReportLevel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class LegendAdapter extends BaseListAdapter<ReportLevel> {
@@ -61,20 +61,25 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
 
             if (item.getMaxValue() < 100) {
                 stringBuilder
-                        .append(item.getMinValue())
+                        .append(convertMinValueToUi(item.getMinValue()))
                         .append("-")
-                        .append(item.getMaxValue())
+                        .append(Math.round(item.getMaxValue()))
                         .append("%")
-                        .append("]");
+                        .append(")");
             } else {
                 stringBuilder
                         .append(getString(R.string.above))
                         .append(" ")
-                        .append(item.getMinValue())
+                        .append(Math.round(item.getMinValue()))
                         .append("%")
                         .append(")");
             }
             return stringBuilder.toString();
+        }
+
+        private int convertMinValueToUi(float minValue) {
+            int minValueAsInt = Math.round(minValue);
+            return minValueAsInt > 0 ? minValueAsInt + 1 : 0;
         }
 
         private String buildLevelDescription(ReportLevel item) {

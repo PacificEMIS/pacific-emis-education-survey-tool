@@ -2,23 +2,23 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/accreditation/accreditation.iml" filepath="$PROJECT_DIR$/accreditation/accreditation.iml" group="micronesia/accreditation" />
-      <module fileurl="file://$PROJECT_DIR$/accreditation_core/accreditation_core.iml" filepath="$PROJECT_DIR$/accreditation_core/accreditation_core.iml" group="micronesia/accreditation_core" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="micronesia/app" />
-      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" group="micronesia/core" />
-      <module fileurl="file://$PROJECT_DIR$/data_source_injector/data_source_injector.iml" filepath="$PROJECT_DIR$/data_source_injector/data_source_injector.iml" group="micronesia/data_source_injector" />
-      <module fileurl="file://$PROJECT_DIR$/fsm_report/fsm_report.iml" filepath="$PROJECT_DIR$/fsm_report/fsm_report.iml" group="micronesia/fsm_report" />
-      <module fileurl="file://$PROJECT_DIR$/micronesia.iml" filepath="$PROJECT_DIR$/micronesia.iml" group="micronesia" />
-      <module fileurl="file://$PROJECT_DIR$/offline_sync/offline_sync.iml" filepath="$PROJECT_DIR$/offline_sync/offline_sync.iml" group="micronesia/offline_sync" />
-      <module fileurl="file://$PROJECT_DIR$/remote_settings/remote_settings.iml" filepath="$PROJECT_DIR$/remote_settings/remote_settings.iml" group="micronesia/remote_settings" />
-      <module fileurl="file://$PROJECT_DIR$/remote_storage/remote_storage.iml" filepath="$PROJECT_DIR$/remote_storage/remote_storage.iml" group="micronesia/remote_storage" />
-      <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" group="micronesia/report" />
-      <module fileurl="file://$PROJECT_DIR$/report_core/report_core.iml" filepath="$PROJECT_DIR$/report_core/report_core.iml" group="micronesia/report_core" />
-      <module fileurl="file://$PROJECT_DIR$/rmi_report/rmi_report.iml" filepath="$PROJECT_DIR$/rmi_report/rmi_report.iml" group="micronesia/rmi_report" />
-      <module fileurl="file://$PROJECT_DIR$/survey/survey.iml" filepath="$PROJECT_DIR$/survey/survey.iml" group="micronesia/survey" />
-      <module fileurl="file://$PROJECT_DIR$/survey_core/survey_core.iml" filepath="$PROJECT_DIR$/survey_core/survey_core.iml" group="micronesia/survey_core" />
-      <module fileurl="file://$PROJECT_DIR$/wash/wash.iml" filepath="$PROJECT_DIR$/wash/wash.iml" group="micronesia/wash" />
-      <module fileurl="file://$PROJECT_DIR$/wash_core/wash_core.iml" filepath="$PROJECT_DIR$/wash_core/wash_core.iml" group="micronesia/wash_core" />
+      <module fileurl="file://$PROJECT_DIR$/micronesia.iml" filepath="$PROJECT_DIR$/micronesia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/accreditation/micronesia.accreditation.iml" filepath="$PROJECT_DIR$/.idea/modules/accreditation/micronesia.accreditation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/accreditation_core/micronesia.accreditation_core.iml" filepath="$PROJECT_DIR$/.idea/modules/accreditation_core/micronesia.accreditation_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/micronesia.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/micronesia.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/micronesia.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/micronesia.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data_source_injector/micronesia.data_source_injector.iml" filepath="$PROJECT_DIR$/.idea/modules/data_source_injector/micronesia.data_source_injector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fsm_report/micronesia.fsm_report.iml" filepath="$PROJECT_DIR$/.idea/modules/fsm_report/micronesia.fsm_report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/offline_sync/micronesia.offline_sync.iml" filepath="$PROJECT_DIR$/.idea/modules/offline_sync/micronesia.offline_sync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote_settings/micronesia.remote_settings.iml" filepath="$PROJECT_DIR$/.idea/modules/remote_settings/micronesia.remote_settings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote_storage/micronesia.remote_storage.iml" filepath="$PROJECT_DIR$/.idea/modules/remote_storage/micronesia.remote_storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/micronesia.report.iml" filepath="$PROJECT_DIR$/.idea/modules/report/micronesia.report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report_core/micronesia.report_core.iml" filepath="$PROJECT_DIR$/.idea/modules/report_core/micronesia.report_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmi_report/micronesia.rmi_report.iml" filepath="$PROJECT_DIR$/.idea/modules/rmi_report/micronesia.rmi_report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/survey/micronesia.survey.iml" filepath="$PROJECT_DIR$/.idea/modules/survey/micronesia.survey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/survey_core/micronesia.survey_core.iml" filepath="$PROJECT_DIR$/.idea/modules/survey_core/micronesia.survey_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wash/micronesia.wash.iml" filepath="$PROJECT_DIR$/.idea/modules/wash/micronesia.wash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wash_core/micronesia.wash_core.iml" filepath="$PROJECT_DIR$/.idea/modules/wash_core/micronesia.wash_core.iml" />
     </modules>
   </component>
 </project>
