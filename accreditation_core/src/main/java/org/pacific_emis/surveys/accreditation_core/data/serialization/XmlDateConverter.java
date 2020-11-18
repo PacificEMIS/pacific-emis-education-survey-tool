@@ -10,24 +10,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class UtcDateConverter implements Converter<Date> {
-    // TODO: apply UTC
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S z", Locale.US);
+public class XmlDateConverter implements Converter<Date> {
+    private static final DateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S z", Locale.US);
 
     @Override
     public Date read(InputNode node) throws Exception {
         final String value = node.getValue();
-        // TODO: apply UTC
-//        return value == null ? null : DateUtils.parseUtc(value);
-        return value == null ? null : dateFormat.parse(value);
+        if (value == null) {
+            return null;
+        }
+        final Date extractedDate = DateUtils.parseUtc(value);
+        if (extractedDate != null) {
+            return extractedDate;
+        }
+        // backward compatibility
+        return oldDateFormat.parse(value);
     }
 
 
     @Override
     public void write(OutputNode node, Date value) {
-        // TODO: apply UTC
-//        node.setValue(value == null ? null : DateUtils.formatUtc(value));
-        node.setValue(value == null ? null : dateFormat.format(value));
+        node.setValue(value == null ? null : DateUtils.formatUtc(value));
     }
 
 }

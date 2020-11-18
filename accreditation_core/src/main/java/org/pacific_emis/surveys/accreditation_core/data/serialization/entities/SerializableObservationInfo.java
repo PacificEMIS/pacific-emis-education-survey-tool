@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
-import org.pacific_emis.surveys.accreditation_core.data.serialization.UtcDateConverter;
+import org.pacific_emis.surveys.accreditation_core.data.serialization.XmlDateConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
@@ -32,7 +32,7 @@ class SerializableObservationInfo implements ObservationInfo {
 
     @Nullable
     @Element(name = "date", required = false)
-    @Convert(UtcDateConverter.class)
+    @Convert(XmlDateConverter.class)
     Date date;
 
     public SerializableObservationInfo() {
