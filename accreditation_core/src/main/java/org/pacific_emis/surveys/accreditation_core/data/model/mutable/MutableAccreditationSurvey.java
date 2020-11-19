@@ -65,7 +65,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.lastEditedUser = other.getLastEditedUser();
 
         if (other.getCategories() != null) {
-            this.categories = other.getCategories().stream().map(MutableCategory::from).collect(Collectors.toList());
+            this.categories = other.getCategories().stream().map(MutableCategory::new).collect(Collectors.toList());
         }
     }
 
