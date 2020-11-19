@@ -78,7 +78,7 @@ public class LegendAdapter extends BaseListAdapter<ReportLevel> {
         }
 
         private int convertMinValueToUi(float minValue) {
-            int minValueAsInt = Math.round(minValue);
+            int minValueAsInt = (int) minValue;
             return minValueAsInt > 0 ? minValueAsInt + 1 : 0;
         }
 
