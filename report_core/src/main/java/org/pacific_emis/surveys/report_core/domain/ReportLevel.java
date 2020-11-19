@@ -37,20 +37,21 @@ public enum ReportLevel implements Level {
             Text.from(R.string.report_level_4),
             Text.from(R.string.report_level_4_determination),
             Text.from(R.string.report_level_4_determination_source),
-            R.color.level_4);
+            R.color.level_4
+    );
 
     private static final float MAX_LEVEL = 100.0f;
     private static final float MIN_LEVEL = 0;
     private static final int VALUE_UNKNOWN = Integer.MAX_VALUE;
 
-    private float maxValue;
-    private float minValue = VALUE_UNKNOWN;
-    private Text name;
-    private Text meaning;
-    private Text awards;
-
+    private final float maxValue;
+    private final Text name;
+    private final Text meaning;
+    private final Text awards;
     @ColorRes
-    private int colorRes;
+    private final int colorRes;
+
+    private float minValue = VALUE_UNKNOWN;
 
     ReportLevel(float maxValue, Text name, Text meaning, Text determinationSource, int colorRes) {
         this.maxValue = maxValue;
