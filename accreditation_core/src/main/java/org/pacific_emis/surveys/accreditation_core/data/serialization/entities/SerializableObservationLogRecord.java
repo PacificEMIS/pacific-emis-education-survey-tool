@@ -3,12 +3,13 @@ package org.pacific_emis.surveys.accreditation_core.data.serialization.entities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.pacific_emis.surveys.accreditation_core.data.model.ObservationLogRecord;
+import org.pacific_emis.surveys.accreditation_core.data.serialization.XmlDateConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.convert.Convert;
 
 import java.util.Date;
-
-import org.pacific_emis.surveys.accreditation_core.data.model.ObservationLogRecord;
 
 @Root(name = "record")
 class SerializableObservationLogRecord implements ObservationLogRecord {
@@ -23,6 +24,7 @@ class SerializableObservationLogRecord implements ObservationLogRecord {
 
     @Nullable
     @Element(name = "date", required = false)
+    @Convert(XmlDateConverter.class)
     Date date;
 
     @NonNull

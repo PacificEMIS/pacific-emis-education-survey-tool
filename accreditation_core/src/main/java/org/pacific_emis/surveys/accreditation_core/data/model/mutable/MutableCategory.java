@@ -44,7 +44,7 @@ public class MutableCategory extends BaseMutableEntity implements Category {
         // empty constructor for unit tests
     }
 
-    private MutableCategory(@NonNull Category other) {
+    public MutableCategory(@NonNull Category other) {
         this.id = other.getId();
         this.title = other.getTitle();
         this.evaluationForm = other.getEvaluationForm();

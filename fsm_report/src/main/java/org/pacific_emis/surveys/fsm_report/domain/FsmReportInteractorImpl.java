@@ -1,10 +1,6 @@
 package org.pacific_emis.surveys.fsm_report.domain;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.accreditation_core.data.model.Category;
 import org.pacific_emis.surveys.accreditation_core.data.model.Criteria;
@@ -15,6 +11,11 @@ import org.pacific_emis.surveys.report_core.domain.BaseReportInteractor;
 import org.pacific_emis.surveys.report_core.domain.ReportLevel;
 import org.pacific_emis.surveys.report_core.model.Level;
 import org.pacific_emis.surveys.report_core.model.SummaryViewData;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
@@ -62,8 +63,12 @@ public class FsmReportInteractorImpl extends BaseReportInteractor implements Fsm
 
             }
 
-            levelSubject.onNext(new SchoolAccreditationLevel(formBuilders.stream()
-                    .map(AccreditationForm.Builder::build).collect(Collectors.toList()))
+            levelSubject.onNext(
+                    new SchoolAccreditationLevel(
+                            formBuilders.stream()
+                                    .map(AccreditationForm.Builder::build)
+                                    .collect(Collectors.toList())
+                    )
             );
         });
     }
