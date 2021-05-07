@@ -104,7 +104,8 @@ public enum ReportLevel implements Level {
         return estimateLevel(MAX_LEVEL * actual / required);
     }
 
-    public static ReportLevel estimateLevel(float level) {
+    public static ReportLevel estimateLevel(float incomingLevel) {
+        float level = Math.round(incomingLevel);
         for (ReportLevel value : ReportLevel.values()) {
             if (level <= value.getMaxValue()) {
                 return value;
