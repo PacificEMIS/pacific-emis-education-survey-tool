@@ -50,6 +50,51 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047152165099:android:8544b189a64d9f3446beae",
+        "android_client_info": {
+          "package_name": "org.pacific_emis.surveys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047152165099-l1c5jb3c7thlfns0ne31i2uj3qju7pin.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.pacific_emis.surveys",
+            "certificate_hash": "bd0bb4ad0fce77fa0db19143130c278887373407"
+          }
+        },
+        {
+          "client_id": "1047152165099-6uhhfkbm4phg5iffvh391p8om8ov0fi4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.pacific_emis.surveys",
+            "certificate_hash": "1b0d54364c1331a777716d2a7c7d39042e760307"
+          }
+        },
+        {
+          "client_id": "1047152165099-faio84ormmlgtev8slemglnoijtje0l6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX6ChtLvB-fz-8OW8rEEbk_jbCEEzMRqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047152165099-faio84ormmlgtev8slemglnoijtje0l6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

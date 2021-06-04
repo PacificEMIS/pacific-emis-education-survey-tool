@@ -30,7 +30,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             android:scaleType="center"
-            app:layout_behavior="fm.doe.national.core.ui.screens.base.FloatingActionButtonBehavior"
+            app:layout_behavior="org.pacific_emis.surveys.core.ui.screens.base.FloatingActionButtonBehavior"
             app:srcCompat="@drawable/ic_plus"
             app:tint="@color/white" />
 
