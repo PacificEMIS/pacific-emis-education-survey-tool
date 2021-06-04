@@ -7,14 +7,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import butterknife.BindView;
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseActivity;
 import org.pacific_emis.surveys.core.utils.StreamUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+
+import butterknife.BindView;
 
 public class LicenseActivity extends BaseActivity {
 
@@ -51,7 +53,11 @@ public class LicenseActivity extends BaseActivity {
     private void readLicenseFile() {
         try (InputStream inputStream = getAssets().open(BuildConfig.LICENSE_FILE_NAME)) {
 
-            String licenceText = String.format(StreamUtils.asString(inputStream), BuildConfig.VERSION_ALIAS);
+            String licenceText = String.format(
+                    StreamUtils.asString(inputStream),
+                    BuildConfig.VERSION_ALIAS,
+                    Calendar.getInstance().get(Calendar.YEAR)
+            );
 
             licenseTextView.setText(licenceText);
 
