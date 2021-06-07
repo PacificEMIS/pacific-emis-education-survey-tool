@@ -29,19 +29,19 @@ import io.reactivex.schedulers.Schedulers;
 public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView> {
 
     private final static List<String> POSSIBLE_GRADES = Arrays.asList(
-            "Grade 1-10",
-            "Grade 1-4",
-            "Grade 1-6",
-            "Grade 1-7",
-            "Grade 1-8",
-            "Grade 9-11",
-            "Grade 9-12",
-            "Grade ECE-10",
-            "Grade ECE-12",
-            "Grade ECE-5",
-            "Grade ECE-8",
-            "Grade 1-5",
-            "Grade 5-8"
+            "Grade ECE",
+            "Grade 1",
+            "Grade 2",
+            "Grade 3",
+            "Grade 4",
+            "Grade 5",
+            "Grade 6",
+            "Grade 7",
+            "Grade 8",
+            "Grade 9",
+            "Grade 10",
+            "Grade 11",
+            "Grade 12"
     );
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
