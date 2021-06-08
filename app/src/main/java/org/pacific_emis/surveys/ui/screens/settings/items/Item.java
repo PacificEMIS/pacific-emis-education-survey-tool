@@ -71,6 +71,7 @@ public final class Item {
         CONTEXT,
         EXPORT_FOLDER,
         IMPORT_SCHOOLS,
+        LOAD_SCHOOLS,
         LOGO,
         OPERATING_MODE,
         NAME,
