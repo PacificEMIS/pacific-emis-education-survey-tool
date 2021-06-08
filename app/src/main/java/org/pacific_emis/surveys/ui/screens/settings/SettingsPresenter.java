@@ -217,6 +217,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         getViewState().openExternalDocumentsPicker(MIME_TYPE_SCHOOLS);
     }
 
+    private void onLoadSchoolsPressed() {
+        // interact with EMIS API
+    }
+
     @Override
     public void onExternalDocumentPicked(ContentResolver contentResolver, Uri uri) {
         if (documentPickerCallback != null) {
