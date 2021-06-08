@@ -63,6 +63,7 @@
     <string name="account_drive">Google Drive account</string>
     <string name="account_dropbox">Dropbox account</string>
     <string name="action_import_schools">Import schools</string>
+    <string name="action_load_schools">Load schools</string>
     <string name="action_import_surveys">Import survey</string>
     <string name="action_export_folder">Export folder</string>
     <string name="integration_drive">Google Drive integration</string>
