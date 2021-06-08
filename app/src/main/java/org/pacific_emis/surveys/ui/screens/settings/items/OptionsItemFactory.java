@@ -27,6 +27,10 @@ public class OptionsItemFactory {
         return new Item(Text.from(R.string.label_import_schools), Item.Type.IMPORT_SCHOOLS, Item.IconType.RECEIVE);
     }
 
+    public Item createLoadSchoolsItem() {
+        return new Item(Text.from(R.string.label_load_schools), Item.Type.LOAD_SCHOOLS, Item.IconType.RECEIVE);
+    }
+
     public Item createLogoItem() {
         return new Item(Text.from(R.string.label_logo), Item.Type.LOGO, Item.IconType.NAV);
     }
