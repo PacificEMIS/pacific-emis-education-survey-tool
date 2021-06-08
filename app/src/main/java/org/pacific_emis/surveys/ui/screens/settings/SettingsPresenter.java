@@ -89,6 +89,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             case IMPORT_SCHOOLS:
                 onImportSchoolsPressed();
                 break;
+            case LOAD_SCHOOLS:
+                onLoadSchoolsPressed();
+                break;
             case LOGO:
                 onLogoPressed();
                 break;
