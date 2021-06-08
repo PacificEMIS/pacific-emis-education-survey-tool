@@ -27,8 +27,12 @@ public class OptionsItemFactory {
         return new Item(Text.from(R.string.label_import_schools), Item.Type.IMPORT_SCHOOLS, Item.IconType.RECEIVE);
     }
 
-    public Item createLoadSchoolsItem() {
-        return new Item(Text.from(R.string.label_load_schools), Item.Type.LOAD_SCHOOLS, Item.IconType.RECEIVE);
+    public Item createLoadSchoolsItem(Text contextName) {
+        return new Item(
+                Text.from(R.string.label_load_schools).plus(" ").plus(contextName).plus(" API"),
+                Item.Type.LOAD_SCHOOLS,
+                Item.IconType.RECEIVE
+        );
     }
 
     public Item createLogoItem() {

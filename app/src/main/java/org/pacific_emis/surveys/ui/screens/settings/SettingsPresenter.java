@@ -58,7 +58,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createContactItem(Text.from(localSettings.getContactName())),
                 itemFactory.createOpModeItem(localSettings.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createLoadSchoolsItem(),
+                itemFactory.createLoadSchoolsItem(localSettings.getAppRegion().getName()),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
                 itemFactory.createLoadProdCertificateItem(),
