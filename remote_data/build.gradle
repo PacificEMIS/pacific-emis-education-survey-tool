@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode 1
+        versionName Versions.appVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled Dex.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "long", "INTERVAL_FETCH_SEC", "${12 * 60 * 60}"
+        }
+        debug {
+            buildConfigField "long", "INTERVAL_FETCH_SEC", "5"
+        }
+    }
+    compileOptions {
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
+    }
+}
+
+dependencies {
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.google.code.gson:gson:${Deps.gson}"
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+}

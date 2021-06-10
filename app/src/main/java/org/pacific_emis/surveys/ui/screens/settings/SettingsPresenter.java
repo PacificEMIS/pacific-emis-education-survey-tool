@@ -222,6 +222,19 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onLoadSchoolsPressed() {
         // interact with EMIS API
+        String content = null;
+        if (content != null) {
+            addDisposable(interactor.importSchools(content)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(disposable -> getViewState().showWaiting())
+                    .doFinally(() -> getViewState().hideWaiting())
+                    .subscribe(
+                            () -> getViewState().showToast(Text.from(R.string.toast_import_schools_success)),
+                            this::handleError
+                    ));
+        }
+        getViewState().openExternalDocumentsPicker(MIME_TYPE_SCHOOLS);
     }
 
     @Override

@@ -2,23 +2,24 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/micronesia.iml" filepath="$PROJECT_DIR$/micronesia.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/accreditation/micronesia.accreditation.iml" filepath="$PROJECT_DIR$/.idea/modules/accreditation/micronesia.accreditation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/accreditation_core/micronesia.accreditation_core.iml" filepath="$PROJECT_DIR$/.idea/modules/accreditation_core/micronesia.accreditation_core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/micronesia.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/micronesia.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/micronesia.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/micronesia.core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data_source_injector/micronesia.data_source_injector.iml" filepath="$PROJECT_DIR$/.idea/modules/data_source_injector/micronesia.data_source_injector.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fsm_report/micronesia.fsm_report.iml" filepath="$PROJECT_DIR$/.idea/modules/fsm_report/micronesia.fsm_report.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/offline_sync/micronesia.offline_sync.iml" filepath="$PROJECT_DIR$/.idea/modules/offline_sync/micronesia.offline_sync.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote_settings/micronesia.remote_settings.iml" filepath="$PROJECT_DIR$/.idea/modules/remote_settings/micronesia.remote_settings.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote_storage/micronesia.remote_storage.iml" filepath="$PROJECT_DIR$/.idea/modules/remote_storage/micronesia.remote_storage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/micronesia.report.iml" filepath="$PROJECT_DIR$/.idea/modules/report/micronesia.report.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report_core/micronesia.report_core.iml" filepath="$PROJECT_DIR$/.idea/modules/report_core/micronesia.report_core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmi_report/micronesia.rmi_report.iml" filepath="$PROJECT_DIR$/.idea/modules/rmi_report/micronesia.rmi_report.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/survey/micronesia.survey.iml" filepath="$PROJECT_DIR$/.idea/modules/survey/micronesia.survey.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/survey_core/micronesia.survey_core.iml" filepath="$PROJECT_DIR$/.idea/modules/survey_core/micronesia.survey_core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wash/micronesia.wash.iml" filepath="$PROJECT_DIR$/.idea/modules/wash/micronesia.wash.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wash_core/micronesia.wash_core.iml" filepath="$PROJECT_DIR$/.idea/modules/wash_core/micronesia.wash_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/education-survey-tool.iml" filepath="$PROJECT_DIR$/.idea/modules/education-survey-tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/accreditation/education-survey-tool.accreditation.iml" filepath="$PROJECT_DIR$/.idea/modules/accreditation/education-survey-tool.accreditation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/accreditation_core/education-survey-tool.accreditation_core.iml" filepath="$PROJECT_DIR$/.idea/modules/accreditation_core/education-survey-tool.accreditation_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/education-survey-tool.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/education-survey-tool.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/education-survey-tool.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/education-survey-tool.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data_source_injector/education-survey-tool.data_source_injector.iml" filepath="$PROJECT_DIR$/.idea/modules/data_source_injector/education-survey-tool.data_source_injector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fsm_report/education-survey-tool.fsm_report.iml" filepath="$PROJECT_DIR$/.idea/modules/fsm_report/education-survey-tool.fsm_report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/offline_sync/education-survey-tool.offline_sync.iml" filepath="$PROJECT_DIR$/.idea/modules/offline_sync/education-survey-tool.offline_sync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote_data/education-survey-tool.remote_data.iml" filepath="$PROJECT_DIR$/.idea/modules/remote_data/education-survey-tool.remote_data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote_settings/education-survey-tool.remote_settings.iml" filepath="$PROJECT_DIR$/.idea/modules/remote_settings/education-survey-tool.remote_settings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote_storage/education-survey-tool.remote_storage.iml" filepath="$PROJECT_DIR$/.idea/modules/remote_storage/education-survey-tool.remote_storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/education-survey-tool.report.iml" filepath="$PROJECT_DIR$/.idea/modules/report/education-survey-tool.report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report_core/education-survey-tool.report_core.iml" filepath="$PROJECT_DIR$/.idea/modules/report_core/education-survey-tool.report_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmi_report/education-survey-tool.rmi_report.iml" filepath="$PROJECT_DIR$/.idea/modules/rmi_report/education-survey-tool.rmi_report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/survey/education-survey-tool.survey.iml" filepath="$PROJECT_DIR$/.idea/modules/survey/education-survey-tool.survey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/survey_core/education-survey-tool.survey_core.iml" filepath="$PROJECT_DIR$/.idea/modules/survey_core/education-survey-tool.survey_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wash/education-survey-tool.wash.iml" filepath="$PROJECT_DIR$/.idea/modules/wash/education-survey-tool.wash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wash_core/education-survey-tool.wash_core.iml" filepath="$PROJECT_DIR$/.idea/modules/wash_core/education-survey-tool.wash_core.iml" />
     </modules>
   </component>
 </project>
