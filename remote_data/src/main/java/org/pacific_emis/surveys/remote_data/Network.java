@@ -22,4 +22,21 @@ public class Network {
                 .build()
                 .create(EmisApi.class);
     }
+
+    public List<School> getListOfSchoolNamesAndCodesFrom(ApiContext context) throws IOException {
+        EmisApi api;
+        switch (context) {
+            case MIEMIS:
+                api = miEmisApi;
+                break;
+            case FEDEMIS:
+                api = fedEmisApi;
+                break;
+            default:
+                throw new IOException("Cannot get list of schools from API with such context.");
+        }
+        Core preResult = api.getCore().execute().body();
+        if (preResult != null) return preResult.schoolCodes;
+        else throw new IOException("Error while interacting with API");
+    }
 }
