@@ -5,6 +5,7 @@ public enum ApiContext {
 
     String baseUrl;
     String name;
+
     ApiContext(String baseUrl, String name) {
         this.baseUrl = baseUrl;
         this.name = name;

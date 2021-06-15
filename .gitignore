@@ -11,3 +11,4 @@
 /captures
 .externalNativeBuild
 jarRepositories.xml
+/.idea/jarRepositories.xml
