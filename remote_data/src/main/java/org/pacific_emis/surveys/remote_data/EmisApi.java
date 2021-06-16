@@ -14,7 +14,7 @@ interface EmisApi {
     Call<List<School>> getSchools(@Query("Authorization") String token);
 
     @GET("teachers")
-    Call<List<School>> getTeachers(@Query("Authorization") String token);
+    Call<Teachers> getTeachers(@Query("PageNo") int page, @Query("PageSize") int pageSize, @Query("Authorization") String token);
 
     @GET("lookups/collection/core")
     Call<Core> getCore();
