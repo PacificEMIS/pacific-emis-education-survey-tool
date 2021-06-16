@@ -7,6 +7,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Network {
+    private final static String ERROR_INCORRECT_API_CONTEXT = "Cannot get list of schools from API with such context.";
+    private final static String ERROR_API_INTERACT = "Error while interacting with API.";
+
     EmisApi fedEmisApi;
     EmisApi miEmisApi;
 
@@ -33,10 +36,10 @@ public class Network {
                 api = fedEmisApi;
                 break;
             default:
-                throw new IOException("Cannot get list of schools from API with such context.");
+                throw new IOException(ERROR_INCORRECT_API_CONTEXT);
         }
         Core preResult = api.getCore().execute().body();
         if (preResult != null) return preResult.schoolCodes;
-        else throw new IOException("Error while interacting with API");
+        else throw new IOException(ERROR_API_INTERACT);
     }
 }
