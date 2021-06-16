@@ -17,7 +17,7 @@ import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
 import org.pacific_emis.surveys.remote_data.ApiContext;
 import org.pacific_emis.surveys.remote_data.Network;
-import org.pacific_emis.surveys.remote_data.School;
+import org.pacific_emis.surveys.remote_data.models.School;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
