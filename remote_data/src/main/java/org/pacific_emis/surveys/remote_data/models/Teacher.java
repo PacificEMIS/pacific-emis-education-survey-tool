@@ -1,11 +1,37 @@
 package org.pacific_emis.surveys.remote_data.models;
 
+import androidx.annotation.NonNull;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Teacher {
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+
+public class Teacher implements org.pacific_emis.surveys.core.data.model.Teacher {
     @SerializedName("tID")
-    public int teacherId;
+    int teacherId;
 
     @SerializedName("tFullName")
-    public String name;
+    String name;
+
+    @Expose(serialize = false, deserialize = false)
+    public AppRegion appRegion;
+
+    @NonNull
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @NonNull
+    @Override
+    public Integer getId() {
+        return teacherId;
+    }
+
+    @NonNull
+    @Override
+    public AppRegion getAppRegion() {
+        return appRegion;
+    }
 }
