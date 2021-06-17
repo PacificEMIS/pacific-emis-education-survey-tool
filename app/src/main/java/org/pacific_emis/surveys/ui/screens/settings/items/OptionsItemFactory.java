@@ -35,6 +35,14 @@ public class OptionsItemFactory {
         );
     }
 
+    public Item createLoadTeachersItem(Text contextName) {
+        return new Item(
+                Text.from(R.string.label_load_teachers).plus(" ").plus(contextName).plus(" API"),
+                Item.Type.LOAD_TEACHERS,
+                Item.IconType.RECEIVE
+        );
+    }
+
     public Item createLogoItem() {
         return new Item(Text.from(R.string.label_logo), Item.Type.LOGO, Item.IconType.NAV);
     }
