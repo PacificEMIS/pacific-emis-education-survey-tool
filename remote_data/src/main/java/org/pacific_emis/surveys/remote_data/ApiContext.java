@@ -1,13 +1,15 @@
 package org.pacific_emis.surveys.remote_data;
 
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+
 public enum ApiContext {
-    FEDEMIS("https://fedemis.doe.fm/api/", "FedEMIS"), MIEMIS("http://data.pss.edu.mh/miemis/api/", "MIEMIS");
+    FEDEMIS("https://fedemis.doe.fm/api/", AppRegion.FSM), MIEMIS("http://data.pss.edu.mh/miemis/api/", AppRegion.RMI);
 
     String baseUrl;
-    String name;
+    AppRegion appRegion;
 
-    ApiContext(String baseUrl, String name) {
+    ApiContext(String baseUrl, AppRegion appRegion) {
         this.baseUrl = baseUrl;
-        this.name = name;
+        this.appRegion = appRegion;
     }
 }
