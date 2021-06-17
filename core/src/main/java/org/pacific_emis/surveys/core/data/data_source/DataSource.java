@@ -1,12 +1,14 @@
 package org.pacific_emis.surveys.core.data.data_source;
 
-import java.util.Date;
-import java.util.List;
-
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+
+import java.util.Date;
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -15,6 +17,8 @@ public interface DataSource {
     Single<List<School>> loadSchools();
 
     Completable rewriteAllSchools(List<School> schools);
+
+    Completable rewriteAllTeachers(List<Teacher> schools);
 
     Completable rewriteTemplateSurvey(Survey survey);
 

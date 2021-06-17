@@ -4,16 +4,20 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.pacific_emis.surveys.core.data.model.School;
-import org.pacific_emis.surveys.core.data.persistence.SchoolsDatabase;
+import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase;
 import org.pacific_emis.surveys.core.data.persistence.dao.SchoolDao;
+import org.pacific_emis.surveys.core.data.persistence.dao.TeacherDao;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomSchool;
+import org.pacific_emis.surveys.core.data.persistence.model.RoomTeacher;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -22,20 +26,22 @@ public abstract class DataSourceImpl implements DataSource {
 
     private static final String SCHOOLS_DATABASE_NAME = "schools.database";
 
-    protected final SchoolsDatabase schoolsDatabase;
+    protected final SchoolInfoDatabase schoolInfoDatabase;
 
     protected final LocalSettings localSettings;
 
     protected final SchoolDao schoolDao;
+    protected final TeacherDao teacherDao;
 
     public DataSourceImpl(Context applicationContext, LocalSettings localSettings) {
         this.localSettings = localSettings;
-        schoolsDatabase = Room.databaseBuilder(applicationContext, SchoolsDatabase.class, SCHOOLS_DATABASE_NAME).build();
-        schoolDao = schoolsDatabase.getSchoolDao();
+        schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME).build();
+        schoolDao = schoolInfoDatabase.getSchoolDao();
+        teacherDao = schoolInfoDatabase.getTeacherDao();
     }
 
     public void closeConnections() {
-        schoolsDatabase.close();
+        schoolInfoDatabase.close();
     }
 
     @Override
@@ -58,6 +64,23 @@ public abstract class DataSourceImpl implements DataSource {
                 .flatMapCompletable(roomSchools -> Completable.fromAction(() -> {
                     schoolDao.deleteAllForAppRegion(appRegion);
                     schoolDao.insert(roomSchools);
+                }));
+    }
+
+    @Override
+    public Completable rewriteAllTeachers(List<Teacher> teachers) {
+        if (CollectionUtils.isEmpty(teachers)) {
+            return Completable.complete();
+        }
+
+        final AppRegion appRegion = teachers.get(0).getAppRegion();
+
+        return Observable.fromIterable(teachers)
+                .map(RoomTeacher::new)
+                .toList()
+                .flatMapCompletable(roomTeachers -> Completable.fromAction(() -> {
+                    teacherDao.deleteAllForAppRegion(appRegion);
+                    teacherDao.insert(roomTeachers);
                 }));
     }
 
