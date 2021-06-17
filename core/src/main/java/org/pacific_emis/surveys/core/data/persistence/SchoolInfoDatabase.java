@@ -5,19 +5,23 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import org.pacific_emis.surveys.core.data.persistence.dao.SchoolDao;
+import org.pacific_emis.surveys.core.data.persistence.dao.TeacherDao;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomSchool;
+import org.pacific_emis.surveys.core.data.persistence.model.RoomTeacher;
 
 @Database(
         entities = {
-                RoomSchool.class
+                RoomSchool.class,
+                RoomTeacher.class
         },
         version = 1,
         exportSchema = false)
 @TypeConverters({
         BaseConverters.class
 })
-public abstract class SchoolsDatabase extends RoomDatabase {
+public abstract class SchoolInfoDatabase extends RoomDatabase {
 
     public abstract SchoolDao getSchoolDao();
+    public abstract TeacherDao getTeacherDao();
 
 }
