@@ -5,14 +5,12 @@ import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.ByteArrayInputStream;
-import java.util.List;
-
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.core.data.data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.ParseException;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.serialization.Parser;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
@@ -20,6 +18,10 @@ import org.pacific_emis.surveys.core.preferences.entities.OperatingMode;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -59,6 +61,12 @@ public class SettingsInteractor {
     public Completable importSchools(String content) {
         return Single.fromCallable(() -> schoolsParser.parse(new ByteArrayInputStream(content.getBytes())))
                 .flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
+
+    }
+
+    public Completable importTeachers(List<Teacher> teachers) {
+        return Single.fromCallable(() -> teachers)
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
 
     }
 
