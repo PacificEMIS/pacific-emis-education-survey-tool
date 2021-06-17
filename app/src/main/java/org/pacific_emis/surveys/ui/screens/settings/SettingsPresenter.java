@@ -240,6 +240,14 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .subscribe(() -> { /* do nothing */ }, this::handleError));
     }
 
+    private void onLoadTeachersPressed() {
+        System.out.println("Teachers load pressed");
+        addDisposable(loadTeachersFromApi()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> { /* do nothing */ }, this::handleError));
+    }
+
     private Completable loadSchoolsFromApi() {
         return Single.fromCallable(() -> {
             try {
