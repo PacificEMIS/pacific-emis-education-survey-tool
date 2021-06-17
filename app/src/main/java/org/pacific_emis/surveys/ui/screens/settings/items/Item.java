@@ -72,6 +72,7 @@ public final class Item {
         EXPORT_FOLDER,
         IMPORT_SCHOOLS,
         LOAD_SCHOOLS,
+        LOAD_TEACHERS,
         LOGO,
         OPERATING_MODE,
         NAME,
