@@ -1,5 +1,7 @@
 package org.pacific_emis.surveys.remote_data;
 
+import androidx.annotation.NonNull;
+
 import org.pacific_emis.surveys.remote_data.models.Core;
 import org.pacific_emis.surveys.remote_data.models.School;
 import org.pacific_emis.surveys.remote_data.models.Teacher;
@@ -7,6 +9,7 @@ import org.pacific_emis.surveys.remote_data.models.Teachers;
 import org.pacific_emis.surveys.remote_data.models.Token;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Retrofit;
@@ -53,7 +56,8 @@ public class Network {
         else throw new IOException(ERROR_API_INTERACT);
     }
 
-    public List<Teacher> getListOfTeacherNamesAndIdsFrom(ApiContext context) throws IOException {
+    @NonNull
+    public List<org.pacific_emis.surveys.core.data.model.Teacher> getListOfTeacherNamesAndIdsFrom(ApiContext context) throws IOException {
         EmisApi api;
         String username = "";
         String password = "";
@@ -73,8 +77,19 @@ public class Network {
         }
         Token token = api.getToken(username, password, "password").execute().body();
         if (token == null) throw new IOException(ERROR_API_INTERACT);
-        Teachers preResult = api.getTeachers(1, 5000, token.toString()).execute().body();
+        Teachers resultForFullAmountOfTeachers = api.getTeachers(1, 1, token.toString()).execute().body();
+        if (resultForFullAmountOfTeachers == null) throw new IOException(ERROR_API_INTERACT);
+        Teachers preResult = api.getTeachers(
+                1,
+                resultForFullAmountOfTeachers.fullAmountOfTeachers,
+                token.toString()
+        ).execute().body();
         if (preResult == null) throw new IOException(ERROR_API_INTERACT);
-        return preResult.teachers;
+        List<org.pacific_emis.surveys.core.data.model.Teacher> result = new ArrayList<>();
+        for(Teacher t: preResult.teachers) {
+            t.appRegion = context.appRegion;
+            result.add(t);
+        }
+        return result;
     }
 }
