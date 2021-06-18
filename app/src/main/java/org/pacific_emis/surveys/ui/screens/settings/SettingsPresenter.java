@@ -72,6 +72,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createImportSchoolsItem(),
                 itemFactory.createLoadSchoolsItem(localSettings.getAppRegion().getName()),
                 itemFactory.createLoadTeachersItem(localSettings.getAppRegion().getName()),
+                itemFactory.createLoadSubjectsItem(localSettings.getAppRegion().getName()),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
                 itemFactory.createLoadProdCertificateItem(),
