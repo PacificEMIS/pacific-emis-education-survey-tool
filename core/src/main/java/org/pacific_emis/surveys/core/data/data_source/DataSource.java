@@ -2,6 +2,7 @@ package org.pacific_emis.surveys.core.data.data_source;
 
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
@@ -19,6 +20,8 @@ public interface DataSource {
     Completable rewriteAllSchools(List<School> schools);
 
     Completable rewriteAllTeachers(List<Teacher> schools);
+
+    Completable rewriteAllSubjects(List<Subject> subjects);
 
     Completable rewriteTemplateSurvey(Survey survey);
 
