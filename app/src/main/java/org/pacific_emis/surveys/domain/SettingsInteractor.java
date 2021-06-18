@@ -9,6 +9,7 @@ import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.core.data.data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.ParseException;
 import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.serialization.Parser;
@@ -67,6 +68,12 @@ public class SettingsInteractor {
     public Completable importTeachers(List<Teacher> teachers) {
         return Single.fromCallable(() -> teachers)
                 .flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
+
+    }
+
+    public Completable importSubjects(List<Subject> subjects) {
+        return Single.fromCallable(() -> subjects)
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
 
     }
 
