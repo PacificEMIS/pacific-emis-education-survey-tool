@@ -6,10 +6,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,13 +23,6 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import org.pacific_emis.surveys.accreditation.R;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
@@ -37,26 +32,37 @@ import org.pacific_emis.surveys.core.utils.ViewUtils;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponentInjector;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class ObservationInfoFragment extends BaseFragment implements
         ObservationInfoView,
         BottomNavigatorView.Listener,
-        InputFieldLayout.OnDonePressedListener {
+        InputFieldLayout.OnDonePressedListener,
+        AdapterView.OnItemClickListener {
 
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.US);
+    final String[] example = {"kek", "kekTest", "kekPlus"};
 
     @InjectPresenter
     ObservationInfoPresenter presenter;
 
     private InputFieldLayout teacherNameInputFieldLayout;
+    private AutoCompleteTextView teacherNameAutoComplete;
     private TextView gradeTextView;
     private InputFieldLayout totalStudentsInputFieldLayout;
     private InputFieldLayout subjectInputFieldLayout;
     private TextView dateTimeTextView;
     private BottomNavigatorView bottomNavigatorView;
     private View rootView;
+    private ArrayAdapter teachersAutoAdapter;
 
     @Nullable
     private Dialog selectorDialog;
@@ -83,6 +89,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        teachersAutoAdapter = initializeTeacherAdapter();
         return inflater.inflate(R.layout.fragment_observation_info, container, false);
     }
 
@@ -94,7 +101,9 @@ public class ObservationInfoFragment extends BaseFragment implements
     }
 
     private void bindViews(@NonNull View view) {
-        teacherNameInputFieldLayout = view.findViewById(R.id.inputfieldlayout_teacher_name);
+//        teacherNameInputFieldLayout = view.findViewById(R.id.inputfieldlayout_teacher_name);
+
+        teacherNameAutoComplete = view.findViewById(R.id.input_auto_teacher_name);
         gradeTextView = view.findViewById(R.id.textview_grade);
         totalStudentsInputFieldLayout = view.findViewById(R.id.inputfieldlayout_students);
         subjectInputFieldLayout = view.findViewById(R.id.inputfieldlayout_subject);
@@ -105,7 +114,12 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
-        teacherNameInputFieldLayout.setOnDonePressedListener(this);
+
+//        teacherNameInputFieldLayout.setOnDonePressedListener(this);
+
+        teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
+        teacherNameAutoComplete.setOnItemClickListener(this);
+
         totalStudentsInputFieldLayout.setOnDonePressedListener(this);
         subjectInputFieldLayout.setOnDonePressedListener(this);
         gradeTextView.setOnClickListener((view) -> presenter.onGradePressed());
@@ -129,7 +143,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTeacherName(@Nullable String teacherName) {
-        teacherNameInputFieldLayout.setStartingText(teacherName);
+//        teacherNameInputFieldLayout.setStartingText(teacherName);
     }
 
     @Override
@@ -225,23 +239,34 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void onDonePressed(View view, @Nullable String content) {
-        if (view.getId() == R.id.inputfieldlayout_teacher_name) {
-            ViewUtils.hideKeyboardAndClearFocus(teacherNameInputFieldLayout, rootView);
-            presenter.onTeacherNameChanged(content);
-        } else if (view.getId() == R.id.inputfieldlayout_students) {
-            ViewUtils.hideKeyboardAndClearFocus(totalStudentsInputFieldLayout, rootView);
-            if (TextUtils.isEmpty(content)) {
-                presenter.onTotalStudentsChanged(null);
-                return;
-            }
-            try {
-                presenter.onTotalStudentsChanged(Integer.parseInt(content));
-            } catch (NumberFormatException ex) {
-                ex.printStackTrace();
-            }
-        } else if (view.getId() == R.id.inputfieldlayout_subject) {
-            ViewUtils.hideKeyboardAndClearFocus(subjectInputFieldLayout, rootView);
-            presenter.onSubjectChanged(content);
-        }
+//        if (view.getId() == R.id.inputfieldlayout_teacher_name) {
+//            ViewUtils.hideKeyboardAndClearFocus(teacherNameInputFieldLayout, rootView);
+//            presenter.onTeacherNameChanged(content);
+//        } else if (view.getId() == R.id.inputfieldlayout_students) {
+//            ViewUtils.hideKeyboardAndClearFocus(totalStudentsInputFieldLayout, rootView);
+//            if (TextUtils.isEmpty(content)) {
+//                presenter.onTotalStudentsChanged(null);
+//                return;
+//            }
+//            try {
+//                presenter.onTotalStudentsChanged(Integer.parseInt(content));
+//            } catch (NumberFormatException ex) {
+//                ex.printStackTrace();
+//            }
+//        } else if (view.getId() == R.id.inputfieldlayout_subject) {
+//            ViewUtils.hideKeyboardAndClearFocus(subjectInputFieldLayout, rootView);
+//            presenter.onSubjectChanged(content);
+//        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
+        presenter.onTeacherNameChanged((String) teachersAutoAdapter.getItem(position));
+    }
+
+    private ArrayAdapter initializeTeacherAdapter() {
+//        for(Teacher t: )
+        return new ArrayAdapter(getContext(), android.R.layout.simple_dropdown_item_1line, example);
     }
 }

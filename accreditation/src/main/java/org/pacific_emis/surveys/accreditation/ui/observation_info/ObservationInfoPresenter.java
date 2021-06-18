@@ -5,16 +5,20 @@ import androidx.annotation.NonNull;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.pacific_emis.surveys.accreditation.R;
 import org.pacific_emis.surveys.accreditation.ui.navigation.concrete.ReportNavigationItem;
+import org.pacific_emis.surveys.accreditation_core.data.data_source.RoomAccreditationDataSource;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponent;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
+import org.pacific_emis.surveys.core.data.data_source.DataSource;
+import org.pacific_emis.surveys.core.data.data_source.DataSourceImpl;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
@@ -28,6 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView> {
 
+    private final DataSource dataSource = new RoomAccreditationDataSource();
     private final static List<String> POSSIBLE_GRADES = Arrays.asList(
             "Grade ECE",
             "Grade 1",
@@ -175,5 +180,17 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
             getViewState().setGrade(selectedGrade);
             save(observationInfo);
         });
+    }
+
+    private void loadSchools() {
+        addDisposable(dataSource.loadSchools()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(schools -> {
+                    this.schools = schools;
+                    getViewState().setSchools(new ArrayList<>(this.schools));
+                }, this::handleError));
     }
 }
