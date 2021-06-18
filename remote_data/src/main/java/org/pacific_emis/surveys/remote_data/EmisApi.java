@@ -2,6 +2,7 @@ package org.pacific_emis.surveys.remote_data;
 
 import org.pacific_emis.surveys.remote_data.models.Core;
 import org.pacific_emis.surveys.remote_data.models.School;
+import org.pacific_emis.surveys.remote_data.models.Subject;
 import org.pacific_emis.surveys.remote_data.models.Teachers;
 import org.pacific_emis.surveys.remote_data.models.Token;
 
@@ -17,10 +18,23 @@ import retrofit2.http.Query;
 
 interface EmisApi {
     @GET("schools")
-    Call<List<School>> getSchools(@Query("PageNo") int page, @Query("PageSize") int pageSize, @Header("Authorization") String token);
+    Call<List<School>> getSchools(
+            @Query("PageNo") int page,
+            @Query("PageSize") int pageSize,
+            @Header("Authorization") String token
+    );
 
     @GET("teachers")
-    Call<Teachers> getTeachers(@Query("PageNo") int page, @Query("PageSize") int pageSize, @Header("Authorization") String token);
+    Call<Teachers> getTeachers(
+            @Query("PageNo") int page,
+            @Query("PageSize") int pageSize,
+            @Header("Authorization") String token
+    );
+
+    @GET("subjects")
+    Call<List<Subject>> getSubjects(
+            @Header("Authorization") String token
+    );
 
     @GET("lookups/collection/core")
     Call<Core> getCore();
