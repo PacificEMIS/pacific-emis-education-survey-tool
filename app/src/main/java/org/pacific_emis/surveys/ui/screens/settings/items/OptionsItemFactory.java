@@ -43,6 +43,14 @@ public class OptionsItemFactory {
         );
     }
 
+    public Item createLoadSubjectsItem(Text contextName) {
+        return new Item(
+                Text.from(R.string.label_load_subjects).plus(" ").plus(contextName).plus(" API"),
+                Item.Type.LOAD_SUBJECTS,
+                Item.IconType.RECEIVE
+        );
+    }
+
     public Item createLogoItem() {
         return new Item(Text.from(R.string.label_logo), Item.Type.LOGO, Item.IconType.NAV);
     }
