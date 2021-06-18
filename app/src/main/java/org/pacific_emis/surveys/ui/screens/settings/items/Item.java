@@ -73,6 +73,7 @@ public final class Item {
         IMPORT_SCHOOLS,
         LOAD_SCHOOLS,
         LOAD_TEACHERS,
+        LOAD_SUBJECTS,
         LOGO,
         OPERATING_MODE,
         NAME,
