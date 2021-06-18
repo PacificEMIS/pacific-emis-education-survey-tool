@@ -17,6 +17,8 @@ public interface DataSource {
 
     Single<List<School>> loadSchools();
 
+    Single<List<Teacher>> loadTeachers();
+
     Completable rewriteAllSchools(List<School> schools);
 
     Completable rewriteAllTeachers(List<Teacher> schools);
