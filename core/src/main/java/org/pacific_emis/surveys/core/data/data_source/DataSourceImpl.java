@@ -25,6 +25,9 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_1_2;
+import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_2_3;
+
 public abstract class DataSourceImpl implements DataSource {
 
     private static final String SCHOOLS_DATABASE_NAME = "schools.database";
@@ -39,7 +42,9 @@ public abstract class DataSourceImpl implements DataSource {
 
     public DataSourceImpl(Context applicationContext, LocalSettings localSettings) {
         this.localSettings = localSettings;
-        schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME).build();
+        schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                .build();
         schoolDao = schoolInfoDatabase.getSchoolDao();
         teacherDao = schoolInfoDatabase.getTeacherDao();
         subjectDao = schoolInfoDatabase.getSubjectDao();
