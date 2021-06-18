@@ -5,11 +5,14 @@ import android.content.Context;
 import androidx.room.Room;
 
 import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase;
 import org.pacific_emis.surveys.core.data.persistence.dao.SchoolDao;
+import org.pacific_emis.surveys.core.data.persistence.dao.SubjectDao;
 import org.pacific_emis.surveys.core.data.persistence.dao.TeacherDao;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomSchool;
+import org.pacific_emis.surveys.core.data.persistence.model.RoomSubject;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomTeacher;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
@@ -32,12 +35,14 @@ public abstract class DataSourceImpl implements DataSource {
 
     protected final SchoolDao schoolDao;
     protected final TeacherDao teacherDao;
+    protected final SubjectDao subjectDao;
 
     public DataSourceImpl(Context applicationContext, LocalSettings localSettings) {
         this.localSettings = localSettings;
         schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME).build();
         schoolDao = schoolInfoDatabase.getSchoolDao();
         teacherDao = schoolInfoDatabase.getTeacherDao();
+        subjectDao = schoolInfoDatabase.getSubjectDao();
     }
 
     public void closeConnections() {
@@ -81,6 +86,23 @@ public abstract class DataSourceImpl implements DataSource {
                 .flatMapCompletable(roomTeachers -> Completable.fromAction(() -> {
                     teacherDao.deleteAllForAppRegion(appRegion);
                     teacherDao.insert(roomTeachers);
+                }));
+    }
+    
+    @Override
+    public Completable rewriteAllSubjects(List<Subject> subjects) {
+        if (CollectionUtils.isEmpty(subjects)) {
+            return Completable.complete();
+        }
+
+        final AppRegion appRegion = subjects.get(0).getAppRegion();
+
+        return Observable.fromIterable(subjects)
+                .map(RoomSubject::new)
+                .toList()
+                .flatMapCompletable(roomSubjects -> Completable.fromAction(() -> {
+                    subjectDao.deleteAllForAppRegion(appRegion);
+                    subjectDao.insert(roomSubjects);
                 }));
     }
 
