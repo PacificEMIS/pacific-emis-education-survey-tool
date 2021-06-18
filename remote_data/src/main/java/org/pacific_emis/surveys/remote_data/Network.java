@@ -58,7 +58,7 @@ public class Network {
     }
 
     @NonNull
-    public List<org.pacific_emis.surveys.core.data.model.Teacher> getListOfTeacherNamesAndIdsFrom(ApiContext context) throws IOException {
+    public List<org.pacific_emis.surveys.core.data.model.Teacher> getListOfTeachersFrom(ApiContext context) throws IOException {
         EmisApi api;
         String username = "";
         String password = "";

@@ -328,7 +328,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 }
 
                 if (apiContext != null) {
-                    List<Teacher> teachers = agent.getListOfTeacherNamesAndIdsFrom(apiContext);
+                    List<Teacher> teachers = agent.getListOfTeachersFrom(apiContext);
                     addDisposable(interactor.importTeachers(teachers)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
