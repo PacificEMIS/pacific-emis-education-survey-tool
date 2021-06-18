@@ -11,6 +11,7 @@ import com.omegar.mvp.InjectViewState;
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
@@ -314,17 +315,13 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 Network agent = new Network();
                 AppRegion region = localSettings.getAppRegion();
                 ApiContext apiContext = null;
-                String regionName = "";
-                String content = null;
 
                 switch (region) {
                     case FSM:
                         apiContext = ApiContext.FEDEMIS;
-                        regionName = FSM_REGION_NAME;
                         break;
                     case RMI:
                         apiContext = ApiContext.MIEMIS;
-                        regionName = RMI_REGION_NAME;
                         break;
                 }
 
@@ -336,7 +333,42 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                             .doOnSubscribe(disposable -> getViewState().showWaiting())
                             .doFinally(() -> getViewState().hideWaiting())
                             .subscribe(
-                                    () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
+                                    () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
+                                    ((SettingsPresenter) this)::handleError
+                            ));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0; // something not null. Doesn't means, what will be returned, because it will be ignored at next line.
+        }).ignoreElement();
+    }
+
+    private Completable loadSubjectsFromApi() {
+        return Single.fromCallable(() -> {
+            try {
+                Network agent = new Network();
+                AppRegion region = localSettings.getAppRegion();
+                ApiContext apiContext = null;
+
+                switch (region) {
+                    case FSM:
+                        apiContext = ApiContext.FEDEMIS;
+                        break;
+                    case RMI:
+                        apiContext = ApiContext.MIEMIS;
+                        break;
+                }
+
+                if (apiContext != null) {
+                    List<Subject> subjects = agent.getListOfSubjectsFrom(apiContext);
+                    addDisposable(interactor.importSubjects(subjects)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSubscribe(disposable -> getViewState().showWaiting())
+                            .doFinally(() -> getViewState().hideWaiting())
+                            .subscribe(
+                                    () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
                                     ((SettingsPresenter) this)::handleError
                             ));
                 }
