@@ -61,6 +61,12 @@ public abstract class DataSourceImpl implements DataSource {
     }
 
     @Override
+    public Single<List<Teacher>> loadTeachers() {
+        return Single.fromCallable(() -> teacherDao.getAll(localSettings.getAppRegion()))
+                .map(ArrayList::new);
+    }
+
+    @Override
     public Completable rewriteAllSchools(List<School> schools) {
         if (CollectionUtils.isEmpty(schools)) {
             return Completable.complete();
