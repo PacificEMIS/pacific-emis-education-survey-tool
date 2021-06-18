@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import org.pacific_emis.surveys.remote_data.models.Core;
 import org.pacific_emis.surveys.remote_data.models.School;
+import org.pacific_emis.surveys.remote_data.models.Subject;
 import org.pacific_emis.surveys.remote_data.models.Teacher;
 import org.pacific_emis.surveys.remote_data.models.Teachers;
 import org.pacific_emis.surveys.remote_data.models.Token;
@@ -87,6 +88,37 @@ public class Network {
         if (preResult == null) throw new IOException(ERROR_API_INTERACT);
         List<org.pacific_emis.surveys.core.data.model.Teacher> result = new ArrayList<>();
         for(Teacher t: preResult.teachers) {
+            t.appRegion = context.appRegion;
+            result.add(t);
+        }
+        return result;
+    }
+
+    @NonNull
+    public List<org.pacific_emis.surveys.core.data.model.Subject> getListOfSubjectsFrom(ApiContext context) throws IOException {
+        EmisApi api;
+        String username = "";
+        String password = "";
+        switch (context) {
+            case MIEMIS:
+                api = miEmisApi;
+                username = USERNAME_MIEMIS;
+                password = PASSWORD_MIEMIS;
+                break;
+            case FEDEMIS:
+                username = USERNAME_FEDEMIS;
+                password = PASSWORD_FEDEMIS;
+                api = fedEmisApi;
+                break;
+            default:
+                throw new IOException(ERROR_INCORRECT_API_CONTEXT);
+        }
+        Token token = api.getToken(username, password, "password").execute().body();
+        if (token == null) throw new IOException(ERROR_API_INTERACT);
+        List<Subject> preResult = api.getSubjects(token.toString()).execute().body();
+        if (preResult == null) throw new IOException(ERROR_API_INTERACT);
+        List<org.pacific_emis.surveys.core.data.model.Subject> result = new ArrayList<>();
+        for(Subject t: preResult) {
             t.appRegion = context.appRegion;
             result.add(t);
         }
