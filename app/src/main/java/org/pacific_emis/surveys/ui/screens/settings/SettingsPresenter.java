@@ -246,8 +246,14 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onLoadTeachersPressed() {
-        System.out.println("Teachers load pressed");
         addDisposable(loadTeachersFromApi()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> { /* do nothing */ }, this::handleError));
+    }
+
+    private void onLoadSubjectsPressed() {
+        addDisposable(loadSubjectsFromApi()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> { /* do nothing */ }, this::handleError));
