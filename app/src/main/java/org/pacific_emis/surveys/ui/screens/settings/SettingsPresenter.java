@@ -110,6 +110,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             case LOAD_TEACHERS:
                 onLoadTeachersPressed();
                 break;
+            case LOAD_SUBJECTS:
+                onLoadSubjectsPressed();
+                break;
             case LOGO:
                 onLogoPressed();
                 break;
