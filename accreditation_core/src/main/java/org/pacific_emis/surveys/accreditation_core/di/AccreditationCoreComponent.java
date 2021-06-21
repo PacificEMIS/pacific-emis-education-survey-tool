@@ -1,6 +1,5 @@
 package org.pacific_emis.surveys.accreditation_core.di;
 
-import dagger.Component;
 import org.pacific_emis.surveys.accreditation_core.data.data_source.AccreditationDataSource;
 import org.pacific_emis.surveys.accreditation_core.di.modules.DataSourceModule;
 import org.pacific_emis.surveys.accreditation_core.di.modules.InteractorsModule;
@@ -9,6 +8,8 @@ import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurv
 import org.pacific_emis.surveys.core.data.serialization.SurveyParser;
 import org.pacific_emis.surveys.core.data.serialization.SurveySerializer;
 import org.pacific_emis.surveys.core.di.CoreComponent;
+
+import dagger.Component;
 
 @AccreditationCoreScope
 @Component(modules = {
