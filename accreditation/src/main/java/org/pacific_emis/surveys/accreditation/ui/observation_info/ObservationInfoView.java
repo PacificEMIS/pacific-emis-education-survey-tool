@@ -8,10 +8,12 @@ import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
+import org.pacific_emis.surveys.core.data.model.Subject;
+import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.ui.screens.base.BaseView;
+
 import java.util.Date;
 import java.util.List;
-
-import org.pacific_emis.surveys.core.ui.screens.base.BaseView;
 
 public interface ObservationInfoView extends BaseView {
 
@@ -44,6 +46,12 @@ public interface ObservationInfoView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showGradeSelector(@NonNull List<String> possibleGrades, @NonNull OnGradePickedListener listener);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void addTeachersToAutocompleteField(@NonNull List<Teacher> teachers);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void addSubjectsToAutocompleteField(@NonNull List<Subject> subjects);
 
     interface OnDateTimePickedListener {
         void onDateTimePicked(@NonNull Date date);
