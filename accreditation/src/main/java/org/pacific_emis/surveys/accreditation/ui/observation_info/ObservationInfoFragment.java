@@ -66,8 +66,10 @@ public class ObservationInfoFragment extends BaseFragment implements
     private View rootView;
     private ArrayAdapter<String> teachersAutoAdapter;
     private final List<String> teacherNames = new ArrayList<String>();
+    private List<Teacher> teachers;
     private ArrayAdapter<String> subjectsAutoAdapter;
     private final List<String> subjectTitles = new ArrayList<String>();
+    private List<Subject> subjects;
 
     @Nullable
     private Dialog selectorDialog;
@@ -144,8 +146,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTeacherName(@Nullable String teacherName) {
-        teacherNames.add(teacherName);
-        teachersAutoAdapter.notifyDataSetChanged();
+        teacherNameAutoComplete.setText(teacherName);
     }
 
     @Override
@@ -164,8 +165,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setSubject(@Nullable String subject) {
-        subjectTitles.add(subject);
-        subjectsAutoAdapter.notifyDataSetChanged();
+        subjectAutoComplete.setText(subject);
     }
 
     @Override
@@ -242,6 +242,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void addTeachersToAutocompleteField(@NonNull @NotNull List<Teacher> teachers) {
+        this.teachers = teachers;
         teacherNames.clear();
         for (Teacher t : teachers) {
             teacherNames.add(t.getName());
@@ -256,6 +257,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void addSubjectsToAutocompleteField(@NonNull @NotNull List<Subject> subjects) {
+        this.subjects = subjects;
         subjectTitles.clear();
         for (Subject s : subjects) {
             subjectTitles.add(s.getName());
@@ -289,7 +291,15 @@ public class ObservationInfoFragment extends BaseFragment implements
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
-            presenter.onTeacherNameChanged((String) teachersAutoAdapter.getItem(position));
+            String teacherName = (String) teachersAutoAdapter.getItem(position);
+            Integer teacherId = null;
+            for(Teacher t: teachers) {
+                if(t.getName().equals(teacherName)) {
+                    teacherId = t.getId();
+                    break;
+                }
+            }
+            presenter.onTeacherNameChanged(teacherName, teacherId);
         }
     }
 

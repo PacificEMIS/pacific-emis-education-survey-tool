@@ -164,8 +164,9 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         }
     }
 
-    public void onTeacherNameChanged(String teacherName) {
+    public void onTeacherNameChanged(String teacherName, Integer teacherId) {
         observationInfo.setTeacherName(teacherName);
+        observationInfo.setTeacherId(teacherId);
         save(observationInfo);
     }
 

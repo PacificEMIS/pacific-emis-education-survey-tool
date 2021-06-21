@@ -67,7 +67,10 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
         super(applicationContext, localSettings);
 
         this.localSettings = localSettings;
-        database = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME).build();
+        database = Room
+                .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2)
+                .build();
         templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME).build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
@@ -117,8 +120,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     private void saveObservationLogRecords(AccreditationDatabase database,
-                                     List<? extends ObservationLogRecord> records,
-                                     long categoryId) {
+                                           List<? extends ObservationLogRecord> records,
+                                           long categoryId) {
         for (ObservationLogRecord record : records) {
             RoomObservationLogRecord roomRecord = RoomObservationLogRecord.from(record);
             roomRecord.uid = 0;
@@ -390,6 +393,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             CategoryDao dao = database.getCategoryDao();
             RoomCategory category = dao.getById(categoryId);
             category.observationInfoTeacherName = observationInfo.getTeacherName();
+            category.observationInfoTeacherId = observationInfo.getTeacherId();
             category.observationInfoGrade = observationInfo.getGrade();
             category.observationInfoTotalStudentsPresent = observationInfo.getTotalStudentsPresent();
             category.observationInfoSubject = observationInfo.getSubject();

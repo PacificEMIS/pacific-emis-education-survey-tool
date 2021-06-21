@@ -10,6 +10,9 @@ public interface ObservationInfo extends Serializable {
     String getTeacherName();
 
     @Nullable
+    Integer getTeacherId();
+
+    @Nullable
     String getGrade();
 
     @Nullable
