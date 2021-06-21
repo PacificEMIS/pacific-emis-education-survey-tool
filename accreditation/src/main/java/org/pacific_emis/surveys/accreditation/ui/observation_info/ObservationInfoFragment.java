@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,11 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
+import org.jetbrains.annotations.NotNull;
 import org.pacific_emis.surveys.accreditation.R;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
+import org.pacific_emis.surveys.core.data.model.Subject;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
@@ -34,6 +38,7 @@ import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponentInjector;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -42,27 +47,27 @@ import java.util.Locale;
 public class ObservationInfoFragment extends BaseFragment implements
         ObservationInfoView,
         BottomNavigatorView.Listener,
-        InputFieldLayout.OnDonePressedListener,
-        AdapterView.OnItemClickListener {
+        InputFieldLayout.OnDonePressedListener {
 
     private static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.US);
-    final String[] example = {"kek", "kekTest", "kekPlus"};
 
     @InjectPresenter
     ObservationInfoPresenter presenter;
 
-    private InputFieldLayout teacherNameInputFieldLayout;
     private AutoCompleteTextView teacherNameAutoComplete;
     private TextView gradeTextView;
     private InputFieldLayout totalStudentsInputFieldLayout;
-    private InputFieldLayout subjectInputFieldLayout;
+    private AutoCompleteTextView subjectAutoComplete;
     private TextView dateTimeTextView;
     private BottomNavigatorView bottomNavigatorView;
     private View rootView;
-    private ArrayAdapter teachersAutoAdapter;
+    private ArrayAdapter<String> teachersAutoAdapter;
+    private final List<String> teacherNames = new ArrayList<String>();
+    private ArrayAdapter<String> subjectsAutoAdapter;
+    private final List<String> subjectTitles = new ArrayList<String>();
 
     @Nullable
     private Dialog selectorDialog;
@@ -89,7 +94,8 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        teachersAutoAdapter = initializeTeacherAdapter();
+        teachersAutoAdapter = initializeAutocompleteAdapter(teacherNames);
+        subjectsAutoAdapter = initializeAutocompleteAdapter(subjectTitles);
         return inflater.inflate(R.layout.fragment_observation_info, container, false);
     }
 
@@ -101,12 +107,10 @@ public class ObservationInfoFragment extends BaseFragment implements
     }
 
     private void bindViews(@NonNull View view) {
-//        teacherNameInputFieldLayout = view.findViewById(R.id.inputfieldlayout_teacher_name);
-
         teacherNameAutoComplete = view.findViewById(R.id.input_auto_teacher_name);
+        subjectAutoComplete = view.findViewById(R.id.input_auto_subject);
         gradeTextView = view.findViewById(R.id.textview_grade);
         totalStudentsInputFieldLayout = view.findViewById(R.id.inputfieldlayout_students);
-        subjectInputFieldLayout = view.findViewById(R.id.inputfieldlayout_subject);
         dateTimeTextView = view.findViewById(R.id.textview_date_time);
         bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
         rootView = view.findViewById(R.id.layout_root);
@@ -114,14 +118,11 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
-
-//        teacherNameInputFieldLayout.setOnDonePressedListener(this);
-
         teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
-        teacherNameAutoComplete.setOnItemClickListener(this);
-
+        teacherNameAutoComplete.setOnItemClickListener(new TeacherDropdownItemClickListener());
+        subjectAutoComplete.setAdapter(teachersAutoAdapter);
+        subjectAutoComplete.setOnItemClickListener(new SubjectDropdownItemClickListener());
         totalStudentsInputFieldLayout.setOnDonePressedListener(this);
-        subjectInputFieldLayout.setOnDonePressedListener(this);
         gradeTextView.setOnClickListener((view) -> presenter.onGradePressed());
         dateTimeTextView.setOnClickListener((view) -> presenter.onDateTimePressed());
     }
@@ -143,7 +144,8 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTeacherName(@Nullable String teacherName) {
-//        teacherNameInputFieldLayout.setStartingText(teacherName);
+        teacherNames.add(teacherName);
+        teachersAutoAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -162,7 +164,8 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setSubject(@Nullable String subject) {
-        subjectInputFieldLayout.setStartingText(subject);
+        subjectTitles.add(subject);
+        subjectsAutoAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -238,35 +241,67 @@ public class ObservationInfoFragment extends BaseFragment implements
     }
 
     @Override
-    public void onDonePressed(View view, @Nullable String content) {
-//        if (view.getId() == R.id.inputfieldlayout_teacher_name) {
-//            ViewUtils.hideKeyboardAndClearFocus(teacherNameInputFieldLayout, rootView);
-//            presenter.onTeacherNameChanged(content);
-//        } else if (view.getId() == R.id.inputfieldlayout_students) {
-//            ViewUtils.hideKeyboardAndClearFocus(totalStudentsInputFieldLayout, rootView);
-//            if (TextUtils.isEmpty(content)) {
-//                presenter.onTotalStudentsChanged(null);
-//                return;
-//            }
-//            try {
-//                presenter.onTotalStudentsChanged(Integer.parseInt(content));
-//            } catch (NumberFormatException ex) {
-//                ex.printStackTrace();
-//            }
-//        } else if (view.getId() == R.id.inputfieldlayout_subject) {
-//            ViewUtils.hideKeyboardAndClearFocus(subjectInputFieldLayout, rootView);
-//            presenter.onSubjectChanged(content);
-//        }
+    public void addTeachersToAutocompleteField(@NonNull @NotNull List<Teacher> teachers) {
+        teacherNames.clear();
+        for (Teacher t : teachers) {
+            teacherNames.add(t.getName());
+        }
+        teachersAutoAdapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                teacherNames
+        );
+        teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
-        presenter.onTeacherNameChanged((String) teachersAutoAdapter.getItem(position));
+    public void addSubjectsToAutocompleteField(@NonNull @NotNull List<Subject> subjects) {
+        subjectTitles.clear();
+        for (Subject s : subjects) {
+            subjectTitles.add(s.getName());
+        }
+        subjectsAutoAdapter.notifyDataSetChanged();
+        subjectsAutoAdapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                subjectTitles
+        );
+        subjectAutoComplete.setAdapter(subjectsAutoAdapter);
     }
 
-    private ArrayAdapter initializeTeacherAdapter() {
-//        for(Teacher t: )
-        return new ArrayAdapter(getContext(), android.R.layout.simple_dropdown_item_1line, example);
+    @Override
+    public void onDonePressed(View view, @Nullable String content) {
+        if (view.getId() == R.id.inputfieldlayout_students) {
+            ViewUtils.hideKeyboardAndClearFocus(totalStudentsInputFieldLayout, rootView);
+            if (TextUtils.isEmpty(content)) {
+                presenter.onTotalStudentsChanged(null);
+                return;
+            }
+            try {
+                presenter.onTotalStudentsChanged(Integer.parseInt(content));
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    class TeacherDropdownItemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
+            presenter.onTeacherNameChanged((String) teachersAutoAdapter.getItem(position));
+        }
+    }
+
+    class SubjectDropdownItemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ViewUtils.hideKeyboardAndClearFocus(subjectAutoComplete, rootView);
+            presenter.onSubjectChanged((String) subjectsAutoAdapter.getItem(position));
+        }
+    }
+
+    private ArrayAdapter<String> initializeAutocompleteAdapter(List<String> list) {
+        return new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, list);
     }
 }

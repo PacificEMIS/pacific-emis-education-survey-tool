@@ -32,16 +32,9 @@
             android:text="@string/label_observation_info_teacher_name"
             android:textAppearance="@style/Text.Body1" />
 
-<!--        <org.pacific_emis.surveys.core.ui.views.InputFieldLayout-->
-<!--            android:id="@+id/inputfieldlayout_teacher_name"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/observation_info_horizontal_margin"-->
-<!--            android:layout_marginTop="32dp"-->
-<!--            android:layout_marginEnd="@dimen/observation_info_horizontal_margin" />-->
-
         <AutoCompleteTextView
             android:id="@+id/input_auto_teacher_name"
+            android:hint="@string/label_observation_info_teacher_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/observation_info_horizontal_margin"
@@ -135,8 +128,9 @@
             android:text="@string/label_observation_info_subject"
             android:textAppearance="@style/Text.Body1" />
 
-        <org.pacific_emis.surveys.core.ui.views.InputFieldLayout
-            android:id="@+id/inputfieldlayout_subject"
+        <AutoCompleteTextView
+            android:id="@+id/input_auto_subject"
+            android:hint="@string/label_observation_info_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/observation_info_horizontal_margin"
