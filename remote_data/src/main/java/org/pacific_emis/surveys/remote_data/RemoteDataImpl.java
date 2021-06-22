@@ -16,7 +16,7 @@ import java.util.List;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Network {
+public class RemoteDataImpl implements RemoteData {
     private final static String ERROR_INCORRECT_API_CONTEXT = "Cannot get list of schools from API with such context.";
     private final static String ERROR_API_INTERACT = "Error while interacting with API.";
     private final static String USERNAME_FEDEMIS = "elena.zagainova@omega-r.com";
@@ -27,7 +27,7 @@ public class Network {
     EmisApi fedEmisApi;
     EmisApi miEmisApi;
 
-    public Network() {
+    public RemoteDataImpl() {
         fedEmisApi = initEmisApi(ApiContext.FEDEMIS);
         miEmisApi = initEmisApi(ApiContext.MIEMIS);
     }

@@ -20,6 +20,8 @@ import org.pacific_emis.surveys.fsm_report.di.FsmReportComponent;
 import org.pacific_emis.surveys.fsm_report.di.FsmReportComponentProvider;
 import org.pacific_emis.surveys.offline_sync.di.OfflineSyncComponent;
 import org.pacific_emis.surveys.offline_sync.di.OfflineSyncComponentProvider;
+import org.pacific_emis.surveys.remote_data.di.RemoteDataComponent;
+import org.pacific_emis.surveys.remote_data.di.RemoteDataComponentProvider;
 import org.pacific_emis.surveys.remote_settings.di.RemoteSettingsComponent;
 import org.pacific_emis.surveys.remote_settings.di.RemoteSettingsComponentProvider;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
@@ -55,6 +57,7 @@ public class MicronesiaApplication extends Application implements
         SurveyComponentProvider,
         SurveyCoreComponentProvider,
         RemoteStorageComponentProvider,
+        RemoteDataComponentProvider,
         AccreditationCoreComponentProvider,
         DataSourceComponentProvider,
         WashCoreComponentProvider,
@@ -137,5 +140,10 @@ public class MicronesiaApplication extends Application implements
     @Override
     public RemoteSettingsComponent provideRemoteSettingsComponent() {
         return injection.getRemoteSettingsComponent();
+    }
+
+    @Override
+    public RemoteDataComponent provideRemoteDataComponent() {
+        return injection.getRemoteDataComponent();
     }
 }

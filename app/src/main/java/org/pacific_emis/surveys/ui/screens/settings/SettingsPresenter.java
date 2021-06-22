@@ -18,7 +18,8 @@ import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
 import org.pacific_emis.surveys.remote_data.ApiContext;
-import org.pacific_emis.surveys.remote_data.Network;
+import org.pacific_emis.surveys.remote_data.RemoteData;
+import org.pacific_emis.surveys.remote_data.RemoteDataImpl;
 import org.pacific_emis.surveys.remote_data.models.School;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
@@ -52,6 +53,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private final RemoteStorage remoteStorage = MicronesiaApplication.getInjection()
             .getRemoteStorageComponent()
             .getRemoteStorage();
+    private final RemoteData remoteData = MicronesiaApplication.getInjection()
+            .getRemoteDataComponent()
+            .getRemoteData();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
 
     @Nullable
@@ -265,7 +269,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private Completable loadSchoolsFromApi() {
         return Single.fromCallable(() -> {
             try {
-                Network agent = new Network();
                 AppRegion region = localSettings.getAppRegion();
                 ApiContext apiContext = null;
                 String regionName = "";
@@ -283,7 +286,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 }
 
                 if (apiContext != null) {
-                    List<School> schools = agent.getListOfSchoolNamesAndCodesFrom(apiContext);
+                    List<School> schools = remoteData.getListOfSchoolNamesAndCodesFrom(apiContext);
                     StringBuilder contentBuilder = new StringBuilder(SCHOOL_TABLE_HEADER);
                     contentBuilder = contentBuilder
                             .append(regionName)
@@ -321,7 +324,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private Completable loadTeachersFromApi() {
         return Single.fromCallable(() -> {
             try {
-                Network agent = new Network();
+                RemoteDataImpl agent = new RemoteDataImpl();
                 AppRegion region = localSettings.getAppRegion();
                 ApiContext apiContext = null;
 
@@ -356,7 +359,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private Completable loadSubjectsFromApi() {
         return Single.fromCallable(() -> {
             try {
-                Network agent = new Network();
+                RemoteDataImpl agent = new RemoteDataImpl();
                 AppRegion region = localSettings.getAppRegion();
                 ApiContext apiContext = null;
 

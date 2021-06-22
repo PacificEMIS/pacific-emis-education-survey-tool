@@ -18,6 +18,9 @@ import org.pacific_emis.surveys.fsm_report.di.FsmReportModule;
 import org.pacific_emis.surveys.offline_sync.di.DaggerOfflineSyncComponent;
 import org.pacific_emis.surveys.offline_sync.di.OfflineSyncComponent;
 import org.pacific_emis.surveys.offline_sync.di.OfflineSyncModule;
+import org.pacific_emis.surveys.remote_data.di.DaggerRemoteDataComponent;
+import org.pacific_emis.surveys.remote_data.di.RemoteDataComponent;
+import org.pacific_emis.surveys.remote_data.di.RemoteDataModule;
 import org.pacific_emis.surveys.remote_settings.di.DaggerRemoteSettingsComponent;
 import org.pacific_emis.surveys.remote_settings.di.RemoteSettingsComponent;
 import org.pacific_emis.surveys.remote_settings.di.RemoteSettingsModule;
@@ -53,6 +56,7 @@ public class Injection {
     private WashCoreComponent washCoreComponent;
     private OfflineSyncComponent offlineSyncComponent;
     private RemoteSettingsComponent remoteSettingsComponent;
+    private RemoteDataComponent remoteDataComponent;
 
     public void createDependencyGraph(Context applicationContext) {
         coreComponent = DaggerCoreComponent
@@ -111,6 +115,9 @@ public class Injection {
                 .coreComponent(coreComponent)
                 .remoteSettingsModule(new RemoteSettingsModule(remoteStorageComponent))
                 .build();
+        remoteDataComponent = DaggerRemoteDataComponent.builder()
+                .remoteDataModule(new RemoteDataModule())
+                .build();
     }
 
     public CoreComponent getCoreComponent() {
@@ -163,5 +170,9 @@ public class Injection {
 
     public RemoteSettingsComponent getRemoteSettingsComponent() {
         return remoteSettingsComponent;
+    }
+
+    public RemoteDataComponent getRemoteDataComponent() {
+        return remoteDataComponent;
     }
 }
