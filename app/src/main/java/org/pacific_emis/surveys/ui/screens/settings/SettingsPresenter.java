@@ -19,7 +19,6 @@ import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
 import org.pacific_emis.surveys.remote_data.ApiContext;
 import org.pacific_emis.surveys.remote_data.RemoteData;
-import org.pacific_emis.surveys.remote_data.RemoteDataImpl;
 import org.pacific_emis.surveys.remote_data.models.School;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
@@ -324,7 +323,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private Completable loadTeachersFromApi() {
         return Single.fromCallable(() -> {
             try {
-                RemoteDataImpl agent = new RemoteDataImpl();
                 AppRegion region = localSettings.getAppRegion();
                 ApiContext apiContext = null;
 
@@ -338,7 +336,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 }
 
                 if (apiContext != null) {
-                    List<Teacher> teachers = agent.getListOfTeachersFrom(apiContext);
+                    List<Teacher> teachers = remoteData.getListOfTeachersFrom(apiContext);
                     addDisposable(interactor.importTeachers(teachers)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -359,7 +357,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private Completable loadSubjectsFromApi() {
         return Single.fromCallable(() -> {
             try {
-                RemoteDataImpl agent = new RemoteDataImpl();
                 AppRegion region = localSettings.getAppRegion();
                 ApiContext apiContext = null;
 
@@ -373,7 +370,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 }
 
                 if (apiContext != null) {
-                    List<Subject> subjects = agent.getListOfSubjectsFrom(apiContext);
+                    List<Subject> subjects = remoteData.getListOfSubjectsFrom(apiContext);
                     addDisposable(interactor.importSubjects(subjects)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
