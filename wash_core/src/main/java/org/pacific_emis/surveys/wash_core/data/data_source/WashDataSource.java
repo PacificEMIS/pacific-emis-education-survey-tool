@@ -1,6 +1,6 @@
 package org.pacific_emis.surveys.wash_core.data.data_source;
 
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.wash_core.data.model.Answer;
 import io.reactivex.Single;
 

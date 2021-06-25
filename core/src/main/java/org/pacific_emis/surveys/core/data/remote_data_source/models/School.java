@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.remote_data.models;
+package org.pacific_emis.surveys.core.data.remote_data_source.models;
 
 import androidx.annotation.NonNull;
 
@@ -7,11 +7,12 @@ import com.google.gson.annotations.SerializedName;
 
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
-public class Subject implements org.pacific_emis.surveys.core.data.model.Subject {
-    @SerializedName("Code")
-    String subjectId;
+public class School implements org.pacific_emis.surveys.core.data.model.School {
 
-    @SerializedName("Description")
+    @SerializedName("C")
+    String code;
+
+    @SerializedName("N")
     String name;
 
     @Expose(serialize = false, deserialize = false)
@@ -26,7 +27,7 @@ public class Subject implements org.pacific_emis.surveys.core.data.model.Subject
     @NonNull
     @Override
     public String getId() {
-        return subjectId;
+        return code;
     }
 
     @NonNull

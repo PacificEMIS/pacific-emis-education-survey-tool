@@ -31,9 +31,6 @@ dependencies {
 
     // Dagger
     implementation "com.google.dagger:dagger-android:${Deps.dagger}"
-    implementation project(path: ':remote_data')
-    implementation project(path: ':remote_data')
-    implementation project(path: ':remote_data')
     annotationProcessor "com.google.dagger:dagger-android-processor:${Deps.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${Deps.dagger}"
 

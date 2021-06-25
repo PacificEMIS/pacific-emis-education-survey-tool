@@ -29,7 +29,7 @@ import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomP
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomStandard;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomSubCriteria;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.relative.RelativeRoomSurvey;
-import org.pacific_emis.surveys.core.data.data_source.DataSourceImpl;
+import org.pacific_emis.surveys.core.data.local_data_source.CoreLocalDataSource;
 import org.pacific_emis.surveys.core.data.exceptions.WrongAppRegionException;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
@@ -49,7 +49,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public class RoomAccreditationDataSource extends DataSourceImpl implements AccreditationDataSource {
+public class RoomAccreditationDataSource extends CoreLocalDataSource implements AccreditationDataSource {
 
     private static final String DATABASE_NAME = "accreditation.database";
     private static final String TEMPLATE_DATABASE_NAME = "accreditation.template_database";

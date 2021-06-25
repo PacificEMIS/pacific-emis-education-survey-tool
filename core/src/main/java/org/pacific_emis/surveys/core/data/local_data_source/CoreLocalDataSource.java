@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.core.data.data_source;
+package org.pacific_emis.surveys.core.data.local_data_source;
 
 import android.content.Context;
 
@@ -28,7 +28,7 @@ import io.reactivex.Single;
 import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_1_2;
 import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_2_3;
 
-public abstract class DataSourceImpl implements DataSource {
+public abstract class CoreLocalDataSource implements DataSource {
 
     private static final String SCHOOLS_DATABASE_NAME = "schools.database";
 
@@ -40,7 +40,7 @@ public abstract class DataSourceImpl implements DataSource {
     protected final TeacherDao teacherDao;
     protected final SubjectDao subjectDao;
 
-    public DataSourceImpl(Context applicationContext, LocalSettings localSettings) {
+    public CoreLocalDataSource(Context applicationContext, LocalSettings localSettings) {
         this.localSettings = localSettings;
         schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME)
                 .addMigrations(MIGRATION_1_2, MIGRATION_2_3)

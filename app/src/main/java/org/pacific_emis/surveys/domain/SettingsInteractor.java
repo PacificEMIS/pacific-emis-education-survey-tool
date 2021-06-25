@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.pacific_emis.surveys.BuildConfig;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.ParseException;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
@@ -75,6 +75,19 @@ public class SettingsInteractor {
         return Single.fromCallable(() -> subjects)
                 .flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
 
+    }
+
+
+    public Completable updateSchoolsFromRemote() {
+        return getCurrentDataSource().loadSchools().flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
+    }
+
+    public Completable updateTeachersFromRemote() {
+        return getCurrentDataSource().loadTeachers().flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
+    }
+
+    public Completable updateSubjectsFromRemote() {
+        return getCurrentDataSource().loadSubjects().flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
     }
 
     public Completable selectExportFolder() {

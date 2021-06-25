@@ -79,7 +79,6 @@ dependencies {
     implementation project(path: ':remote_storage')
     implementation project(path: ':offline_sync')
     implementation project(path: ':remote_settings')
-    implementation project(path: ':remote_data')
 
 
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"

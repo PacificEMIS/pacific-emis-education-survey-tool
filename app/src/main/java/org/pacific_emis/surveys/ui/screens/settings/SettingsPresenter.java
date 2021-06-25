@@ -11,27 +11,17 @@ import com.omegar.mvp.InjectViewState;
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
-import org.pacific_emis.surveys.core.data.model.Subject;
-import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
-import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
-import org.pacific_emis.surveys.remote_data.ApiContext;
-import org.pacific_emis.surveys.remote_data.RemoteData;
-import org.pacific_emis.surveys.remote_data.models.School;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
 import org.pacific_emis.surveys.ui.screens.settings.items.OptionsItemFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -40,9 +30,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final static String MIME_TYPE_SCHOOLS = "text/csv";
     private final static String MIME_TYPE_CERTIFICATE = "application/octet-stream";
-    private final static String FSM_REGION_NAME = "FSM";
-    private final static String RMI_REGION_NAME = "RMI";
-    private final static String SCHOOL_TABLE_HEADER = "schNo,schName\n";
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
@@ -52,9 +39,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private final RemoteStorage remoteStorage = MicronesiaApplication.getInjection()
             .getRemoteStorageComponent()
             .getRemoteStorage();
-    private final RemoteData remoteData = MicronesiaApplication.getInjection()
-            .getRemoteDataComponent()
-            .getRemoteData();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
 
     @Nullable
@@ -245,147 +229,39 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onLoadSchoolsPressed() {
-        addDisposable(loadSchoolsFromApi()
+        addDisposable(interactor.updateSchoolsFromRemote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> { /* do nothing */ }, this::handleError));
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
+                        ((SettingsPresenter) this)::handleError
+                ));
     }
 
     private void onLoadTeachersPressed() {
-        addDisposable(loadTeachersFromApi()
+        addDisposable(interactor.updateTeachersFromRemote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> { /* do nothing */ }, this::handleError));
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
+                        ((SettingsPresenter) this)::handleError
+                ));
     }
 
     private void onLoadSubjectsPressed() {
-        addDisposable(loadSubjectsFromApi()
+        addDisposable(interactor.updateSubjectsFromRemote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> { /* do nothing */ }, this::handleError));
-    }
-
-    private Completable loadSchoolsFromApi() {
-        return Single.fromCallable(() -> {
-            try {
-                AppRegion region = localSettings.getAppRegion();
-                ApiContext apiContext = null;
-                String regionName = "";
-                String content = null;
-
-                switch (region) {
-                    case FSM:
-                        apiContext = ApiContext.FEDEMIS;
-                        regionName = FSM_REGION_NAME;
-                        break;
-                    case RMI:
-                        apiContext = ApiContext.MIEMIS;
-                        regionName = RMI_REGION_NAME;
-                        break;
-                }
-
-                if (apiContext != null) {
-                    List<School> schools = remoteData.getListOfSchoolNamesAndCodesFrom(apiContext);
-                    StringBuilder contentBuilder = new StringBuilder(SCHOOL_TABLE_HEADER);
-                    contentBuilder = contentBuilder
-                            .append(regionName)
-                            .append(",")
-                            .append(regionName)
-                            .append("\n");
-                    for (School school : schools) {
-                        contentBuilder
-                                .append(school.code)
-                                .append(",")
-                                .append(school.name)
-                                .append("\n");
-                    }
-                    content = contentBuilder.toString();
-                }
-
-                if (content != null) {
-                    addDisposable(interactor.importSchools(content)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnSubscribe(disposable -> getViewState().showWaiting())
-                            .doFinally(() -> getViewState().hideWaiting())
-                            .subscribe(
-                                    () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
-                                    ((SettingsPresenter) this)::handleError
-                            ));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return 0; // something not null. Doesn't means, what will be returned, because it will be ignored at next line.
-        }).ignoreElement();
-    }
-
-    private Completable loadTeachersFromApi() {
-        return Single.fromCallable(() -> {
-            try {
-                AppRegion region = localSettings.getAppRegion();
-                ApiContext apiContext = null;
-
-                switch (region) {
-                    case FSM:
-                        apiContext = ApiContext.FEDEMIS;
-                        break;
-                    case RMI:
-                        apiContext = ApiContext.MIEMIS;
-                        break;
-                }
-
-                if (apiContext != null) {
-                    List<Teacher> teachers = remoteData.getListOfTeachersFrom(apiContext);
-                    addDisposable(interactor.importTeachers(teachers)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnSubscribe(disposable -> getViewState().showWaiting())
-                            .doFinally(() -> getViewState().hideWaiting())
-                            .subscribe(
-                                    () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
-                                    ((SettingsPresenter) this)::handleError
-                            ));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return 0; // something not null. Doesn't means, what will be returned, because it will be ignored at next line.
-        }).ignoreElement();
-    }
-
-    private Completable loadSubjectsFromApi() {
-        return Single.fromCallable(() -> {
-            try {
-                AppRegion region = localSettings.getAppRegion();
-                ApiContext apiContext = null;
-
-                switch (region) {
-                    case FSM:
-                        apiContext = ApiContext.FEDEMIS;
-                        break;
-                    case RMI:
-                        apiContext = ApiContext.MIEMIS;
-                        break;
-                }
-
-                if (apiContext != null) {
-                    List<Subject> subjects = remoteData.getListOfSubjectsFrom(apiContext);
-                    addDisposable(interactor.importSubjects(subjects)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnSubscribe(disposable -> getViewState().showWaiting())
-                            .doFinally(() -> getViewState().hideWaiting())
-                            .subscribe(
-                                    () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
-                                    ((SettingsPresenter) this)::handleError
-                            ));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return 0; // something not null. Doesn't means, what will be returned, because it will be ignored at next line.
-        }).ignoreElement();
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
+                        ((SettingsPresenter) this)::handleError
+                ));
     }
 
     @Override

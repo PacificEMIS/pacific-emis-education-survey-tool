@@ -162,18 +162,18 @@ public final class DriveRemoteStorage implements RemoteStorage {
         String creator = survey.getCreateUser();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
-                    List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
+                    List<Photo> photos = dataSourceComponent.getDataRepository().getPhotos(survey);
                     return driveServiceHelper.uploadPhotos(photos, regionFolderId, new PhotoMetadata(survey))
                             .flatMapObservable(Observable::fromIterable)
                             .filter(photoFilePair -> photoFilePair.second != null)
-                            .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataSource()
+                            .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataRepository()
                                     .updatePhotoWithRemote(
                                             photoFilePair.first,
                                             photoFilePair.second.getId()
                                     )
                                     .subscribeOn(Schedulers.io())
                             )
-                            .andThen(dataSourceComponent.getDataSource().loadSurvey(survey.getId())
+                            .andThen(dataSourceComponent.getDataRepository().loadSurvey(survey.getId())
                                     .subscribeOn(Schedulers.io()))
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
