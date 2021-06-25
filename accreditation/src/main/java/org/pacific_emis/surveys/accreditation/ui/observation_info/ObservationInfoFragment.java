@@ -57,6 +57,8 @@ public class ObservationInfoFragment extends BaseFragment implements
     @InjectPresenter
     ObservationInfoPresenter presenter;
 
+    private final List<String> teacherNames = new ArrayList<String>();
+    private final List<String> subjectTitles = new ArrayList<String>();
     private AutoCompleteTextView teacherNameAutoComplete;
     private TextView gradeTextView;
     private InputFieldLayout totalStudentsInputFieldLayout;
@@ -65,10 +67,8 @@ public class ObservationInfoFragment extends BaseFragment implements
     private BottomNavigatorView bottomNavigatorView;
     private View rootView;
     private ArrayAdapter<String> teachersAutoAdapter;
-    private final List<String> teacherNames = new ArrayList<String>();
     private List<Teacher> teachers;
     private ArrayAdapter<String> subjectsAutoAdapter;
-    private final List<String> subjectTitles = new ArrayList<String>();
     private List<Subject> subjects;
 
     @Nullable
@@ -293,8 +293,8 @@ public class ObservationInfoFragment extends BaseFragment implements
             ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
             String teacherName = (String) teachersAutoAdapter.getItem(position);
             Integer teacherId = null;
-            for(Teacher t: teachers) {
-                if(t.getName().equals(teacherName)) {
+            for (Teacher t : teachers) {
+                if (t.getName().equals(teacherName)) {
                     teacherId = t.getId();
                     break;
                 }
