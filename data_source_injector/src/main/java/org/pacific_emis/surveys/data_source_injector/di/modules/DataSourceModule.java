@@ -32,10 +32,8 @@ public class DataSourceModule {
         switch (localSettings.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
                 return new DataRepository(coreComponent.getRemoteDataSource(), accreditationCoreComponent.getDataSource());
-//                return new DataRepository(accreditationCoreComponent.getDataSource());
             case WASH:
                 return new DataRepository(coreComponent.getRemoteDataSource(), washCoreComponent.getDataSource());
-//                return new DataRepository(washCoreComponent.getDataSource());
         }
         throw new IllegalStateException();
     }
