@@ -54,44 +54,4 @@ public interface DataSource {
     List<Photo> getPhotos(Survey survey) throws UnsupportedOperationException;
 
     Completable updatePhotoWithRemote(Photo photo, String remoteFileId) throws UnsupportedOperationException;
-
-//    Single<List<School>> loadSchools();
-//
-//    Single<List<Teacher>> loadTeachers();
-//
-//    Single<List<Subject>> loadSubjects();
-//
-//    Completable rewriteAllSchools(List<School> schools);
-//
-//    Completable rewriteAllTeachers(List<Teacher> teachers);
-//
-//    Completable rewriteAllSubjects(List<Subject> subjects);
-//
-//    Completable rewriteTemplateSurvey(Survey survey);
-//
-//    Single<Survey> getTemplateSurvey();
-//
-//    Single<Survey> loadSurvey(long surveyId);
-//
-//    Single<List<Survey>> loadAllSurveys();
-//
-//    Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion, String surveyTag);
-//
-//    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail);
-//
-//    Completable deleteSurvey(long surveyId);
-//
-//    Single<Photo> createPhoto(Photo photo, long answerId);
-//
-//    Completable deletePhoto(long photoId);
-//
-//    Completable deleteCreatedSurveys();
-//
-//    Completable createPartiallySavedSurvey(Survey survey);
-//
-//    void updateSurvey(Survey survey);
-//
-//    List<Photo> getPhotos(Survey survey);
-//
-//    Completable updatePhotoWithRemote(Photo photo, String remoteFileId);
 }
