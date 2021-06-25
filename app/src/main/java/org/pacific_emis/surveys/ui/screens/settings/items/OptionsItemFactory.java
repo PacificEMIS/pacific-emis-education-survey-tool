@@ -29,7 +29,7 @@ public class OptionsItemFactory {
 
     public Item createLoadSchoolsItem(Text contextName) {
         return new Item(
-                Text.from(R.string.label_load_schools).plus(" ").plus(contextName).plus(" API"),
+                Text.from(R.string.label_load_schools, contextName),
                 Item.Type.LOAD_SCHOOLS,
                 Item.IconType.RECEIVE
         );
@@ -37,7 +37,7 @@ public class OptionsItemFactory {
 
     public Item createLoadTeachersItem(Text contextName) {
         return new Item(
-                Text.from(R.string.label_load_teachers).plus(" ").plus(contextName).plus(" API"),
+                Text.from(R.string.label_load_teachers, contextName),
                 Item.Type.LOAD_TEACHERS,
                 Item.IconType.RECEIVE
         );
@@ -45,7 +45,7 @@ public class OptionsItemFactory {
 
     public Item createLoadSubjectsItem(Text contextName) {
         return new Item(
-                Text.from(R.string.label_load_subjects).plus(" ").plus(contextName).plus(" API"),
+                Text.from(R.string.label_load_subjects, contextName),
                 Item.Type.LOAD_SUBJECTS,
                 Item.IconType.RECEIVE
         );
