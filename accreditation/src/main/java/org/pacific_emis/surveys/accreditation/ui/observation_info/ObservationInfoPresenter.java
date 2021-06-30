@@ -11,6 +11,7 @@ import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponent;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
@@ -176,8 +177,8 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         save(observationInfo);
     }
 
-    public void onSubjectChanged(String subject) {
-        observationInfo.setSubject(subject);
+    public void onSubjectChanged(Subject subject) {
+        observationInfo.setSubject(subject.getName());
         save(observationInfo);
     }
 

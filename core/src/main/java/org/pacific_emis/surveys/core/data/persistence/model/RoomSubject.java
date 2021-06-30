@@ -6,10 +6,11 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import org.pacific_emis.surveys.core.data.model.Subject;
+import org.pacific_emis.surveys.core.data.model.abstract_implementations.SubjectImpl;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
 @Entity(indices = {@Index("id")})
-public class RoomSubject implements Subject {
+public class RoomSubject extends SubjectImpl {
 
     @PrimaryKey
     @NonNull

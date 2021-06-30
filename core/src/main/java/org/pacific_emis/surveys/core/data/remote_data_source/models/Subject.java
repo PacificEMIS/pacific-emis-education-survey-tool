@@ -5,9 +5,10 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.pacific_emis.surveys.core.data.model.abstract_implementations.SubjectImpl;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
-public class Subject implements org.pacific_emis.surveys.core.data.model.Subject {
+public class Subject extends SubjectImpl {
     @SerializedName("Code")
     String subjectId;
 

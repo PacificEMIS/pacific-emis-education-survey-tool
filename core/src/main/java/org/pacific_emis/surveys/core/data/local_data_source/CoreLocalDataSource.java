@@ -4,8 +4,8 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Subject;
+import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase;
 import org.pacific_emis.surveys.core.data.persistence.dao.SchoolDao;

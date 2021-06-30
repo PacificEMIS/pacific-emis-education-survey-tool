@@ -5,9 +5,10 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.pacific_emis.surveys.core.data.model.abstract_implementations.TeacherImpl;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
-public class Teacher implements org.pacific_emis.surveys.core.data.model.Teacher {
+public class Teacher extends TeacherImpl {
     @SerializedName("tID")
     int teacherId;
 
