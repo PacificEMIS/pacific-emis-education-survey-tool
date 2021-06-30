@@ -49,7 +49,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public class RoomAccreditationDataSource extends CoreLocalDataSource implements AccreditationDataSource {
+public class AccreditationLocalDataSource extends CoreLocalDataSource implements AccreditationDataSource {
 
     private static final String DATABASE_NAME = "accreditation.database";
     private static final String TEMPLATE_DATABASE_NAME = "accreditation.template_database";
@@ -63,7 +63,7 @@ public class RoomAccreditationDataSource extends CoreLocalDataSource implements 
 
     private final LocalSettings localSettings;
 
-    public RoomAccreditationDataSource(Context applicationContext, LocalSettings localSettings) {
+    public AccreditationLocalDataSource(Context applicationContext, LocalSettings localSettings) {
         super(applicationContext, localSettings);
 
         this.localSettings = localSettings;
