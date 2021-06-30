@@ -24,65 +24,59 @@ public class DataRepository implements DataSource {
 
     @Override
     public Single<List<School>> loadSchools() {
+        return loadSchools(0);
+    }
+
+    public Single<List<School>> loadSchools(int defaultDataSourceNumber) {
         Single<List<School>> result = null;
-        for (int i = 0; i < dataSources.length; ) {
+        for (int i = defaultDataSourceNumber; i < dataSources.length; ) {
             try {
-                result = getSchoolsFromDataSource(i);
+                final int nextDataSourceNumber = i + 1;
+                result = dataSources[i].loadSchools().onErrorResumeNext(error -> loadSchools(nextDataSourceNumber));
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
             }
         }
         return result;
-    }
-
-    private Single<List<School>> getSchoolsFromDataSource(int dataSourceNumber) throws UnsupportedOperationException {
-        if (dataSourceNumber < dataSources.length - 1)
-            return dataSources[dataSourceNumber].loadSchools().onErrorResumeNext(error -> getSchoolsFromDataSource(dataSourceNumber + 1));
-        else
-            return dataSources[dataSourceNumber].loadSchools();
     }
 
     @Override
     public Single<List<Teacher>> loadTeachers() {
+        return loadTeachers(0);
+    }
+
+    public Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber) {
         Single<List<Teacher>> result = null;
-        for (int i = 0; i < dataSources.length; ) {
+        for (int i = defaultDataSourceNumber; i < dataSources.length; ) {
             try {
-                result = getTeachersFromDataSource(i);
+                final int nextDataSourceNumber = i + 1;
+                result = dataSources[i].loadTeachers().onErrorResumeNext(error -> loadTeachers(nextDataSourceNumber));
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
             }
         }
         return result;
-    }
-
-    private Single<List<Teacher>> getTeachersFromDataSource(int dataSourceNumber) throws UnsupportedOperationException {
-        if (dataSourceNumber < dataSources.length - 1)
-            return dataSources[dataSourceNumber].loadTeachers().onErrorResumeNext(error -> getTeachersFromDataSource(dataSourceNumber + 1));
-        else
-            return dataSources[dataSourceNumber].loadTeachers();
     }
 
     @Override
     public Single<List<Subject>> loadSubjects() {
+        return loadSubjects(0);
+    }
+
+    public Single<List<Subject>> loadSubjects(int defaultDataSourceNumber) {
         Single<List<Subject>> result = null;
-        for (int i = 0; i < dataSources.length; ) {
+        for (int i = defaultDataSourceNumber; i < dataSources.length; ) {
             try {
-                result = getSubjectsFromDataSource(i);
+                final int nextDataSourceNumber = i + 1;
+                result = dataSources[i].loadSubjects().onErrorResumeNext(error -> loadSubjects(nextDataSourceNumber));
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
             }
         }
         return result;
-    }
-    
-    private Single<List<Subject>> getSubjectsFromDataSource(int dataSourceNumber) throws UnsupportedOperationException {
-        if (dataSourceNumber < dataSources.length - 1)
-            return dataSources[dataSourceNumber].loadSubjects().onErrorResumeNext(error -> getSubjectsFromDataSource(dataSourceNumber + 1));
-        else
-            return dataSources[dataSourceNumber].loadSubjects();
     }
 
     @Override
