@@ -12,6 +12,7 @@ import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObs
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponent;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
@@ -86,7 +87,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         .doOnSubscribe(disposable -> getViewState().showWaiting())
                         .doFinally(() -> getViewState().hideWaiting())
                         .subscribe(teachers -> {
-                            getViewState().addTeachersToAutocompleteField(teachers);
+                            getViewState().setTeachersToAutocompleteField(teachers);
                         }, this::handleError)
         );
         addDisposable(
@@ -96,7 +97,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         .doOnSubscribe(disposable -> getViewState().showWaiting())
                         .doFinally(() -> getViewState().hideWaiting())
                         .subscribe(subjects -> {
-                            getViewState().addSubjectsToAutocompleteField(subjects);
+                            getViewState().setSubjectsToAutocompleteField(subjects);
                         }, this::handleError)
         );
     }
@@ -164,9 +165,9 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         }
     }
 
-    public void onTeacherNameChanged(String teacherName, Integer teacherId) {
-        observationInfo.setTeacherName(teacherName);
-        observationInfo.setTeacherId(teacherId);
+    public void onTeacherChanged(Teacher teacher) {
+        observationInfo.setTeacherName(teacher.getName());
+        observationInfo.setTeacherId(teacher.getId());
         save(observationInfo);
     }
 

@@ -48,10 +48,10 @@ public interface ObservationInfoView extends BaseView {
     void showGradeSelector(@NonNull List<String> possibleGrades, @NonNull OnGradePickedListener listener);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void addTeachersToAutocompleteField(@NonNull List<Teacher> teachers);
+    void setTeachersToAutocompleteField(@NonNull List<Teacher> teachers);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void addSubjectsToAutocompleteField(@NonNull List<Subject> subjects);
+    void setSubjectsToAutocompleteField(@NonNull List<Subject> subjects);
 
     interface OnDateTimePickedListener {
         void onDateTimePicked(@NonNull Date date);

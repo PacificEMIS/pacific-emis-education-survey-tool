@@ -57,8 +57,10 @@ public class ObservationInfoFragment extends BaseFragment implements
     @InjectPresenter
     ObservationInfoPresenter presenter;
 
-    private final List<String> teacherNames = new ArrayList<String>();
-    private final List<String> subjectTitles = new ArrayList<String>();
+    //    private final List<String> teacherNames = new ArrayList<String>();
+//    private final List<String> subjectTitles = new ArrayList<String>();
+    private final List<Teacher> teachers = new ArrayList<Teacher>();
+    private final List<Subject> subjects = new ArrayList<Subject>();
     private AutoCompleteTextView teacherNameAutoComplete;
     private TextView gradeTextView;
     private InputFieldLayout totalStudentsInputFieldLayout;
@@ -66,10 +68,8 @@ public class ObservationInfoFragment extends BaseFragment implements
     private TextView dateTimeTextView;
     private BottomNavigatorView bottomNavigatorView;
     private View rootView;
-    private ArrayAdapter<String> teachersAutoAdapter;
-    private List<Teacher> teachers;
-    private ArrayAdapter<String> subjectsAutoAdapter;
-    private List<Subject> subjects;
+    private ArrayAdapter<Teacher> teachersAutoAdapter;
+    private ArrayAdapter<Subject> subjectsAutoAdapter;
 
     @Nullable
     private Dialog selectorDialog;
@@ -96,8 +96,10 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        teachersAutoAdapter = initializeAutocompleteAdapter(teacherNames);
-        subjectsAutoAdapter = initializeAutocompleteAdapter(subjectTitles);
+//        teachersAutoAdapter = initializeAutocompleteAdapter(teachers);
+        teachersAutoAdapter = new ArrayAdapter<Teacher>(getContext(), android.R.layout.simple_dropdown_item_1line, teachers);
+//        subjectsAutoAdapter = initializeAutocompleteAdapter(subjects);
+        subjectsAutoAdapter = new ArrayAdapter<Subject>(getContext(), android.R.layout.simple_dropdown_item_1line, subjects);
         return inflater.inflate(R.layout.fragment_observation_info, container, false);
     }
 
@@ -241,34 +243,39 @@ public class ObservationInfoFragment extends BaseFragment implements
     }
 
     @Override
-    public void addTeachersToAutocompleteField(@NonNull @NotNull List<Teacher> teachers) {
-        this.teachers = teachers;
-        teacherNames.clear();
-        for (Teacher t : teachers) {
-            teacherNames.add(t.getName());
-        }
-        teachersAutoAdapter = new ArrayAdapter<String>(
-                getContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                teacherNames
-        );
-        teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
+    public void setTeachersToAutocompleteField(@NonNull @NotNull List<Teacher> teachers) {
+//        this.teachers = teachers;
+//        teacherNames.clear();
+//        for (Teacher t : teachers) {
+//            teacherNames.add(t.getName());
+//        }
+//        teachersAutoAdapter = new ArrayAdapter<String>(
+//                getContext(),
+//                android.R.layout.simple_dropdown_item_1line,
+//                teacherNames
+//        );
+//        teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
+        teachersAutoAdapter.clear();
+        teachersAutoAdapter.addAll(teachers);
+        teachersAutoAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void addSubjectsToAutocompleteField(@NonNull @NotNull List<Subject> subjects) {
-        this.subjects = subjects;
-        subjectTitles.clear();
-        for (Subject s : subjects) {
-            subjectTitles.add(s.getName());
-        }
+    public void setSubjectsToAutocompleteField(@NonNull @NotNull List<Subject> subjects) {
+//        this.subjects = subjects;
+//        subjectTitles.clear();
+//        for (Subject s : subjects) {
+//            subjectTitles.add(s.getName());
+//        }
+        subjectsAutoAdapter.clear();
+        subjectsAutoAdapter.addAll(subjects);
         subjectsAutoAdapter.notifyDataSetChanged();
-        subjectsAutoAdapter = new ArrayAdapter<String>(
-                getContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                subjectTitles
-        );
-        subjectAutoComplete.setAdapter(subjectsAutoAdapter);
+//        subjectsAutoAdapter = new ArrayAdapter<String>(
+//                getContext(),
+//                android.R.layout.simple_dropdown_item_1line,
+//                subjectTitles
+//        );
+//        subjectAutoComplete.setAdapter(subjectsAutoAdapter);
     }
 
     @Override
@@ -287,31 +294,31 @@ public class ObservationInfoFragment extends BaseFragment implements
         }
     }
 
-    class TeacherDropdownItemClickListener implements AdapterView.OnItemClickListener {
+//    private ArrayAdapter<String> initializeAutocompleteAdapter(List<String> list) {
+//        return new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, list);
+//    }
+
+    private class TeacherDropdownItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
-            String teacherName = (String) teachersAutoAdapter.getItem(position);
-            Integer teacherId = null;
-            for (Teacher t : teachers) {
-                if (t.getName().equals(teacherName)) {
-                    teacherId = t.getId();
-                    break;
-                }
-            }
-            presenter.onTeacherNameChanged(teacherName, teacherId);
+//            ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
+//            String teacherName = (String) teachersAutoAdapter.getItem(position);
+//            Integer teacherId = null;
+//            for (Teacher t : teachers) {
+//                if (t.getName().equals(teacherName)) {
+//                    teacherId = t.getId();
+//                    break;
+//                }
+//            }
+//            presenter.onTeacherChanged(teacherName, teacherId);
         }
     }
 
-    class SubjectDropdownItemClickListener implements AdapterView.OnItemClickListener {
+    private class SubjectDropdownItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ViewUtils.hideKeyboardAndClearFocus(subjectAutoComplete, rootView);
-            presenter.onSubjectChanged((String) subjectsAutoAdapter.getItem(position));
+//            ViewUtils.hideKeyboardAndClearFocus(subjectAutoComplete, rootView);
+//            presenter.onSubjectChanged((String) subjectsAutoAdapter.getItem(position));
         }
-    }
-
-    private ArrayAdapter<String> initializeAutocompleteAdapter(List<String> list) {
-        return new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, list);
     }
 }
