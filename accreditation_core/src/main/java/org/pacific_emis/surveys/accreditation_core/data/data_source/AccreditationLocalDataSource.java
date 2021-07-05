@@ -29,12 +29,11 @@ import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomP
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomStandard;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomSubCriteria;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.relative.RelativeRoomSurvey;
-import org.pacific_emis.surveys.core.data.local_data_source.CoreLocalDataSource;
 import org.pacific_emis.surveys.core.data.exceptions.WrongAppRegionException;
+import org.pacific_emis.surveys.core.data.local_data_source.CoreLocalDataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
-import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 
@@ -61,12 +60,12 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     private final AccreditationDatabase templateDatabase;
     private final AccreditationDatabase database;
 
-    private final LocalSettings localSettings;
+    protected final AppRegion appRegion;
 
-    public AccreditationLocalDataSource(Context applicationContext, LocalSettings localSettings) {
-        super(applicationContext, localSettings);
+    public AccreditationLocalDataSource(Context applicationContext, AppRegion appRegion) {
+        super(applicationContext, appRegion);
+        this.appRegion = appRegion;
 
-        this.localSettings = localSettings;
         database = Room
                 .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
                 .addMigrations(AccreditationDatabase.MIGRATION_1_2)
@@ -197,7 +196,7 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(appRegion))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
@@ -209,7 +208,7 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
 
     @Override
     public Single<List<Survey>> loadAllSurveys() {
-        return Single.fromCallable(() -> surveyDao.getAllFilled(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> surveyDao.getAllFilled(appRegion))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
                 .cast(Survey.class)
@@ -349,7 +348,7 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     public Completable createPartiallySavedSurvey(Survey survey) {
         return Completable.fromAction(() -> {
             AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
-            if (localSettings.getAppRegion() == accreditationSurvey.getAppRegion()) {
+            if (appRegion == accreditationSurvey.getAppRegion()) {
                 saveSurvey(database, accreditationSurvey, true);
             } else {
                 throw new WrongAppRegionException();

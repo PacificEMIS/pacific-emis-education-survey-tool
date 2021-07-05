@@ -4,19 +4,11 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.pacific_emis.surveys.core.data.local_data_source.CoreLocalDataSource;
 import org.pacific_emis.surveys.core.data.exceptions.WrongAppRegionException;
+import org.pacific_emis.surveys.core.data.local_data_source.CoreLocalDataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
-import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.wash_core.data.model.Answer;
@@ -35,6 +27,14 @@ import org.pacific_emis.surveys.wash_core.data.persistence.entity.RoomQuestion;
 import org.pacific_emis.surveys.wash_core.data.persistence.entity.RoomSubGroup;
 import org.pacific_emis.surveys.wash_core.data.persistence.entity.RoomWashSurvey;
 import org.pacific_emis.surveys.wash_core.data.persistence.entity.relative.RelativeRoomSurvey;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -50,11 +50,11 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     private final WashDatabase templateDatabase;
     private final WashDatabase database;
 
-    private final LocalSettings localSettings;
+    protected final AppRegion appRegion;
 
-    public RoomWashDataSource(Context applicationContext, LocalSettings localSettings) {
-        super(applicationContext, localSettings);
-        this.localSettings = localSettings;
+    public RoomWashDataSource(Context applicationContext, AppRegion appRegion) {
+        super(applicationContext, appRegion);
+        this.appRegion = appRegion;
         database = Room.databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME).build();
         templateDatabase = Room.databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME).build();
         answerDao = database.getAnswerDao();
@@ -166,7 +166,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(appRegion))
                 .map(RelativeRoomSurvey::toMutable);
     }
 
@@ -178,7 +178,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     @Override
     public Single<List<Survey>> loadAllSurveys() {
-        return Single.fromCallable(() -> database.getSurveyDao().getAllFilled(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> database.getSurveyDao().getAllFilled(appRegion))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutable)
                 .toList()
@@ -323,7 +323,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     public Completable createPartiallySavedSurvey(Survey survey) {
         return Completable.fromAction(() -> {
             WashSurvey washSurvey = (WashSurvey) survey;
-            if (localSettings.getAppRegion() == washSurvey.getAppRegion()) {
+            if (appRegion == washSurvey.getAppRegion()) {
                 saveSurvey(database, washSurvey, true);
             } else {
                 throw new WrongAppRegionException();

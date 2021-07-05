@@ -1,12 +1,11 @@
 package org.pacific_emis.surveys.core.data.remote_data_source;
 
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
-import org.pacific_emis.surveys.core.data.model.Subject;
-import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
-import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
 import java.util.Date;
@@ -25,26 +24,32 @@ public class CoreRemoteDataSource implements DataSource {
     private final static String USERNAME_MIEMIS = "elena.zagainova@omega-r.com";
     private final static String PASSWORD_FEDEMIS = "Omega!2019";
     private final static String PASSWORD_MIEMIS = "Omega!2019";
+    private final static String API_URL_FEDEMIS = "https://fedemis.doe.fm/api/";
+    private final static String API_URL_MIEMIS = "http://data.pss.edu.mh/miemis/api/";
+
+    private final static String TOKEN_GRANT_TYPE = "password";
 
     private EmisApi emisApi;
     private String username;
     private String password;
     private final AppRegion appRegion;
 
-    public CoreRemoteDataSource(LocalSettings localSettings) {
-        appRegion = localSettings.getAppRegion();
+    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion) {
         switch (appRegion) {
             case RMI:
-                emisApi = initEmisApi("http://data.pss.edu.mh/miemis/api/");
-                username = USERNAME_MIEMIS;
-                password = PASSWORD_MIEMIS;
-                break;
+                return new CoreRemoteDataSource(API_URL_MIEMIS, USERNAME_MIEMIS, PASSWORD_MIEMIS, appRegion);
             case FSM:
-                emisApi = initEmisApi("https://fedemis.doe.fm/api/");
-                username = USERNAME_FEDEMIS;
-                password = PASSWORD_FEDEMIS;
-                break;
+                return new CoreRemoteDataSource(API_URL_FEDEMIS, USERNAME_FEDEMIS, PASSWORD_FEDEMIS, appRegion);
+            default:
+                return null;
         }
+    }
+
+    public CoreRemoteDataSource(String emisApiUrl, String username, String password, AppRegion appRegion) {
+        this.appRegion = appRegion;
+        emisApi = initEmisApi(emisApiUrl);
+        this.username = username;
+        this.password = password;
     }
 
     private EmisApi initEmisApi(String baseUrl) {
@@ -66,7 +71,7 @@ public class CoreRemoteDataSource implements DataSource {
 
     @Override
     public Single<List<Teacher>> loadTeachers() {
-        return emisApi.getToken(username, password, "password").map(
+        return emisApi.getToken(username, this.password, TOKEN_GRANT_TYPE).map(
                 token -> emisApi
                         .getTeachers(
                                 1,
@@ -86,7 +91,7 @@ public class CoreRemoteDataSource implements DataSource {
 
     @Override
     public Single<List<Subject>> loadSubjects() {
-        return emisApi.getToken(username, password, "password").map(
+        return emisApi.getToken(username, password, TOKEN_GRANT_TYPE).map(
                 token -> emisApi
                         .getSubjects(token.toString())
                         .blockingGet()

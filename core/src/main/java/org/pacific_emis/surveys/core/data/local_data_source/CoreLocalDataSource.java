@@ -4,8 +4,8 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase;
 import org.pacific_emis.surveys.core.data.persistence.dao.SchoolDao;
@@ -14,7 +14,6 @@ import org.pacific_emis.surveys.core.data.persistence.dao.TeacherDao;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomSchool;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomSubject;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomTeacher;
-import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 
@@ -33,14 +32,14 @@ public abstract class CoreLocalDataSource implements DataSource {
 
     protected final SchoolInfoDatabase schoolInfoDatabase;
 
-    protected final LocalSettings localSettings;
+    protected final AppRegion appRegion;
 
     protected final SchoolDao schoolDao;
     protected final TeacherDao teacherDao;
     protected final SubjectDao subjectDao;
 
-    public CoreLocalDataSource(Context applicationContext, LocalSettings localSettings) {
-        this.localSettings = localSettings;
+    public CoreLocalDataSource(Context applicationContext, AppRegion appRegion) {
+        this.appRegion = appRegion;
         schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME)
                 .addMigrations(MIGRATION_1_2)
                 .build();
@@ -55,19 +54,19 @@ public abstract class CoreLocalDataSource implements DataSource {
 
     @Override
     public Single<List<School>> loadSchools() {
-        return Single.fromCallable(() -> schoolDao.getAll(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> schoolDao.getAll(appRegion))
                 .map(ArrayList::new);
     }
 
     @Override
     public Single<List<Teacher>> loadTeachers() {
-        return Single.fromCallable(() -> teacherDao.getAll(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> teacherDao.getAll(appRegion))
                 .map(ArrayList::new);
     }
 
     @Override
     public Single<List<Subject>> loadSubjects() {
-        return Single.fromCallable(() -> subjectDao.getAll(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> subjectDao.getAll(appRegion))
                 .map(ArrayList::new);
     }
 

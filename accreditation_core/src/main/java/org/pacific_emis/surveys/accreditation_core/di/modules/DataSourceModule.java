@@ -16,7 +16,7 @@ public class DataSourceModule {
     @Provides
     @AccreditationCoreScope
     public AccreditationDataSource provideDataSource(Context context, LocalSettings localSettings) {
-        return new AccreditationLocalDataSource(context, localSettings);
+        return new AccreditationLocalDataSource(context, localSettings.getAppRegion());
     }
 
 }
