@@ -26,7 +26,6 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_1_2;
-import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_2_3;
 
 public abstract class CoreLocalDataSource implements DataSource {
 
@@ -43,7 +42,7 @@ public abstract class CoreLocalDataSource implements DataSource {
     public CoreLocalDataSource(Context applicationContext, LocalSettings localSettings) {
         this.localSettings = localSettings;
         schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                .addMigrations(MIGRATION_1_2)
                 .build();
         schoolDao = schoolInfoDatabase.getSchoolDao();
         teacherDao = schoolInfoDatabase.getTeacherDao();

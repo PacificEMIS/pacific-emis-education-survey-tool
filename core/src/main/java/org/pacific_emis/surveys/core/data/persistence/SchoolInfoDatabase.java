@@ -37,6 +37,11 @@ public abstract class SchoolInfoDatabase extends RoomDatabase {
                     "CREATE TABLE IF NOT EXISTS RoomTeacher (id INTEGER NOT NULL, name TEXT, appRegion TEXT, PRIMARY KEY(id));"
             );
             database.execSQL("CREATE INDEX IF NOT EXISTS index_RoomTeacher_id ON RoomTeacher (id);");
+
+            database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS RoomSubject (id TEXT NOT NULL, name TEXT, appRegion TEXT, PRIMARY KEY(id));"
+            );
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_RoomSubject_id ON RoomSubject (id);");
         }
     };
 }
