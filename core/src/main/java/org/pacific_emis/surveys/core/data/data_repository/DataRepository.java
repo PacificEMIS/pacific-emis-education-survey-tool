@@ -1,11 +1,11 @@
 package org.pacific_emis.surveys.core.data.data_repository;
 
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
-import org.pacific_emis.surveys.core.data.model.Subject;
-import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
 import java.util.Date;
@@ -29,14 +29,12 @@ public class DataRepository implements DataSource {
 
     public Single<List<School>> loadSchools(int defaultDataSourceNumber) {
         Single<List<School>> result = null;
-        for (int i = defaultDataSourceNumber; i < dataSources.length; ) {
-            try {
-                final int nextDataSourceNumber = i + 1;
-                result = dataSources[i].loadSchools().onErrorResumeNext(error -> loadSchools(nextDataSourceNumber));
-                break;
-            } catch (UnsupportedOperationException e) {
-                i++;
-            }
+        if (defaultDataSourceNumber < dataSources.length) {
+            final int nextDataSourceNumber = defaultDataSourceNumber + 1;
+            result =
+                    dataSources[defaultDataSourceNumber]
+                            .loadSchools()
+                            .onErrorResumeNext(error -> loadSchools(nextDataSourceNumber));
         }
         return result;
     }
@@ -48,14 +46,12 @@ public class DataRepository implements DataSource {
 
     public Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber) {
         Single<List<Teacher>> result = null;
-        for (int i = defaultDataSourceNumber; i < dataSources.length; ) {
-            try {
-                final int nextDataSourceNumber = i + 1;
-                result = dataSources[i].loadTeachers().onErrorResumeNext(error -> loadTeachers(nextDataSourceNumber));
-                break;
-            } catch (UnsupportedOperationException e) {
-                i++;
-            }
+        if (defaultDataSourceNumber < dataSources.length) {
+            final int nextDataSourceNumber = defaultDataSourceNumber + 1;
+            result =
+                    dataSources[defaultDataSourceNumber]
+                            .loadTeachers()
+                            .onErrorResumeNext(error -> loadTeachers(nextDataSourceNumber));
         }
         return result;
     }
@@ -67,14 +63,12 @@ public class DataRepository implements DataSource {
 
     public Single<List<Subject>> loadSubjects(int defaultDataSourceNumber) {
         Single<List<Subject>> result = null;
-        for (int i = defaultDataSourceNumber; i < dataSources.length; ) {
-            try {
-                final int nextDataSourceNumber = i + 1;
-                result = dataSources[i].loadSubjects().onErrorResumeNext(error -> loadSubjects(nextDataSourceNumber));
-                break;
-            } catch (UnsupportedOperationException e) {
-                i++;
-            }
+        if (defaultDataSourceNumber < dataSources.length) {
+            final int nextDataSourceNumber = defaultDataSourceNumber + 1;
+            result =
+                    dataSources[defaultDataSourceNumber]
+                            .loadSubjects()
+                            .onErrorResumeNext(error -> loadSubjects(nextDataSourceNumber));
         }
         return result;
     }
