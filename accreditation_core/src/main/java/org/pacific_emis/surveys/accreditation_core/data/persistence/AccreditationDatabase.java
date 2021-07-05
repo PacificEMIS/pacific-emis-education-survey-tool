@@ -36,7 +36,7 @@ import org.pacific_emis.surveys.core.data.persistence.BaseConverters;
                 RoomObservationLogRecord.class
         },
         version = 2,
-        exportSchema = false)
+        exportSchema = true)
 @TypeConverters({
         Converters.class,
         BaseConverters.class
