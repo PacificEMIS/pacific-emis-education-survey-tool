@@ -94,8 +94,8 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        teachersAutoAdapter = initializeAutocompleteAdapter(teachers);
-        subjectsAutoAdapter = initializeAutocompleteAdapter(subjects);
+        teachersAutoAdapter = createAutocompleteAdapter(teachers);
+        subjectsAutoAdapter = createAutocompleteAdapter(subjects);
         return inflater.inflate(R.layout.fragment_observation_info, container, false);
     }
 
@@ -271,7 +271,7 @@ public class ObservationInfoFragment extends BaseFragment implements
         adapter.notifyDataSetChanged();
     }
 
-    private <T> ArrayAdapter<T> initializeAutocompleteAdapter(List<T> list) {
+    private <T> ArrayAdapter<T> createAutocompleteAdapter(List<T> list) {
         return new ArrayAdapter<T>(getContext(), android.R.layout.simple_dropdown_item_1line, list);
     }
 
