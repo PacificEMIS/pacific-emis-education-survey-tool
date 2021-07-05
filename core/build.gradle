@@ -9,17 +9,24 @@ android {
         versionCode 1
         versionName Versions.appVersion
 
+        buildConfigField "int", "DATA_BASE_VERSION", "2"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [ moxyReflectorPackage : 'org.pacific_emis.surveys.core' ]
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments += ["room.incremental": "true"]
             }
         }
 
         buildConfigField "String", "FACTORY_PASSWORD", "\"XzFY8x8m\""
         buildConfigField "int", "MIN_PASSWORD_LENGTH", "8"
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     buildTypes {
@@ -63,7 +70,7 @@ dependencies {
     implementation "androidx.room:room-runtime:${Deps.room}"
     annotationProcessor "androidx.room:room-compiler:${Deps.room}"
     implementation "androidx.room:room-rxjava2:${Deps.room}"
-    testImplementation "androidx.room:room-testing:${Deps.room}"
+    androidTestImplementation "androidx.room:room-testing:${Deps.room}"
 
     //GSON
     implementation "com.google.code.gson:gson:${Deps.gson}"
