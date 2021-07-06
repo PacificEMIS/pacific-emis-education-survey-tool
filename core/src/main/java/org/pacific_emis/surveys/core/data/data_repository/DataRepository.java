@@ -27,7 +27,7 @@ public class DataRepository implements DataSource {
         return loadSchools(0);
     }
 
-    public Single<List<School>> loadSchools(int defaultDataSourceNumber) {
+    private Single<List<School>> loadSchools(int defaultDataSourceNumber) {
         Single<List<School>> result = null;
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
@@ -44,7 +44,7 @@ public class DataRepository implements DataSource {
         return loadTeachers(0);
     }
 
-    public Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber) {
+    private Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber) {
         Single<List<Teacher>> result = null;
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
@@ -61,7 +61,7 @@ public class DataRepository implements DataSource {
         return loadSubjects(0);
     }
 
-    public Single<List<Subject>> loadSubjects(int defaultDataSourceNumber) {
+    private Single<List<Subject>> loadSubjects(int defaultDataSourceNumber) {
         Single<List<Subject>> result = null;
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
