@@ -41,6 +41,7 @@ public class RemoteSettings {
     private static final String KEY_CONTACT = "contact";
     private static final String KEY_PROD_CERT = "prod_cert";
     private static final String KEY_OPERATING_MODE = "operating_mode";
+    private static final String KEY_EMIS_URL = "emis_url";
 
     private final LocalSettings localSettings;
     private final RemoteStorage remoteStorage;
@@ -161,6 +162,7 @@ public class RemoteSettings {
             localSettings.setOperatingMode(operatingMode);
             remoteStorage.refreshCredentials();
         }, localSettings::isOperatingModeSaved);
+        parseForceableString(KEY_EMIS_URL, forcedByUser, localSettings::setEmisApi, localSettings::isEmisApiSaved);
     }
 
     private String decodeBase64(String decodedString) {
