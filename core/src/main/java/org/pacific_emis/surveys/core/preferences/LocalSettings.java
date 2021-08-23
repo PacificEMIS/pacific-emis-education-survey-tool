@@ -70,4 +70,10 @@ public interface LocalSettings {
 
     @Nullable
     String getProdCert();
+
+    void setEmisApi(String api);
+
+    String getEmisApi();
+
+    boolean isEmisApiSaved();
 }
