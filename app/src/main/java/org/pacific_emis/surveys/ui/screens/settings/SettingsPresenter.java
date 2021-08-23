@@ -244,6 +244,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 Network agent = new Network();
                 AppRegion region = localSettings.getAppRegion();
                 ApiContext apiContext = null;
+                String emisApi = localSettings.getEmisApi();
                 String regionName = "";
                 String content = null;
 
@@ -258,22 +259,12 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                         break;
                 }
 
-                if (apiContext != null) {
-                    List<School> schools = agent.getListOfSchoolNamesAndCodesFrom(apiContext);
-                    StringBuilder contentBuilder = new StringBuilder(SCHOOL_TABLE_HEADER);
-                    contentBuilder = contentBuilder
-                            .append(regionName)
-                            .append(",")
-                            .append(regionName)
-                            .append("\n");
-                    for (School school : schools) {
-                        contentBuilder
-                                .append(school.code)
-                                .append(",")
-                                .append(school.name)
-                                .append("\n");
-                    }
-                    content = contentBuilder.toString();
+                if (emisApi != null) {
+                    List<School> schools = agent.getListOfSchoolNamesAndCodesFrom(emisApi);
+                    content = getContentBuilder(regionName, schools).toString();
+                } else if (apiContext != null){
+                    List<School> schools = agent.getListOfSchoolNamesAndCodesFrom(getEmisContextUrl(apiContext));
+                    content = getContentBuilder(regionName, schools).toString();
                 }
 
                 if (content != null) {
@@ -316,6 +307,27 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onChangeMasterPasswordPressed() {
         getViewState().navigateToChangePassword();
+    }
+
+    private StringBuilder getContentBuilder(String regionName, List<School> schools) {
+        StringBuilder contentBuilder = new StringBuilder(SCHOOL_TABLE_HEADER);
+        contentBuilder = contentBuilder
+                .append(regionName)
+                .append(",")
+                .append(regionName)
+                .append("\n");
+        for (School school : schools) {
+            contentBuilder
+                    .append(school.code)
+                    .append(",")
+                    .append(school.name)
+                    .append("\n");
+        }
+        return contentBuilder;
+    }
+
+    private String getEmisContextUrl(ApiContext context) {
+        return context.getUrl();
     }
 
 }

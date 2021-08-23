@@ -10,4 +10,8 @@ public enum ApiContext {
         this.baseUrl = baseUrl;
         this.name = name;
     }
+
+    public String getUrl() {
+        return baseUrl;
+    }
 }
