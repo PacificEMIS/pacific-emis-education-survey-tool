@@ -12,16 +12,24 @@ import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
+import org.pacific_emis.surveys.remote_data.ApiContext;
+import org.pacific_emis.surveys.remote_data.Network;
+import org.pacific_emis.surveys.remote_data.School;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
 import org.pacific_emis.surveys.ui.screens.settings.items.OptionsItemFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -30,6 +38,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final static String MIME_TYPE_SCHOOLS = "text/csv";
     private final static String MIME_TYPE_CERTIFICATE = "application/octet-stream";
+    private final static String FSM_REGION_NAME = "FSM";
+    private final static String RMI_REGION_NAME = "RMI";
+    private final static String SCHOOL_TABLE_HEADER = "schNo,schName\n";
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
@@ -229,15 +240,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onLoadSchoolsPressed() {
-        addDisposable(interactor.updateSchoolsFromRemote()
+        addDisposable(loadSchoolsFromApi()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showWaiting())
-                .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(
-                        () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
-                        ((SettingsPresenter) this)::handleError
-                ));
+                .subscribe(() -> { /* do nothing */ }, this::handleError));
     }
 
     private void onLoadTeachersPressed() {
@@ -286,6 +292,27 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onChangeMasterPasswordPressed() {
         getViewState().navigateToChangePassword();
+    }
+
+    private StringBuilder getContentBuilder(String regionName, List<School> schools) {
+        StringBuilder contentBuilder = new StringBuilder(SCHOOL_TABLE_HEADER);
+        contentBuilder = contentBuilder
+                .append(regionName)
+                .append(",")
+                .append(regionName)
+                .append("\n");
+        for (School school : schools) {
+            contentBuilder
+                    .append(school.code)
+                    .append(",")
+                    .append(school.name)
+                    .append("\n");
+        }
+        return contentBuilder;
+    }
+
+    private String getEmisContextUrl(ApiContext context) {
+        return context.getUrl();
     }
 
 }

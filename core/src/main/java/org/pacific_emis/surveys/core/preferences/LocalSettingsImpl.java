@@ -31,6 +31,7 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_APP_NAME = "PREF_KEY_APP_NAME";
     private static final String PREF_KEY_CONTACT_NAME = "PREF_KEY_CONTACT_NAME";
     private static final String PREF_KEY_MASTER_PASSWORD = "PREF_KEY_MASTER_PASSWORD";
+    private static final String PREF_KEY_EMIS_API = "PREF_KEY_EMIS_API";
 
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.DEV;
@@ -227,4 +228,15 @@ public class LocalSettingsImpl implements LocalSettings {
     public String getProdCert() {
         return sharedPreferences.getString(PREF_KEY_PROD_CERT, null);
     }
+
+    @Override
+    public void setEmisApi(String api) {
+        sharedPreferences.edit().putString(PREF_KEY_EMIS_API, api).apply();
+    }
+
+    @Override
+    public String getEmisApi() { return sharedPreferences.getString(PREF_KEY_EMIS_API, null); }
+
+    @Override
+    public boolean isEmisApiSaved() { return getEmisApi() != null; }
 }
