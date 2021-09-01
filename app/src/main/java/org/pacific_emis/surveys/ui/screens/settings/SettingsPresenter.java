@@ -15,9 +15,6 @@ import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
-import org.pacific_emis.surveys.remote_data.ApiContext;
-import org.pacific_emis.surveys.remote_data.Network;
-import org.pacific_emis.surveys.remote_data.School;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
@@ -240,10 +237,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void onLoadSchoolsPressed() {
-        addDisposable(loadSchoolsFromApi()
+        addDisposable(interactor.updateSchoolsFromRemote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> { /* do nothing */ }, this::handleError));
+                .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)), this::handleError));
     }
 
     private void onLoadTeachersPressed() {
@@ -292,27 +289,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onChangeMasterPasswordPressed() {
         getViewState().navigateToChangePassword();
-    }
-
-    private StringBuilder getContentBuilder(String regionName, List<School> schools) {
-        StringBuilder contentBuilder = new StringBuilder(SCHOOL_TABLE_HEADER);
-        contentBuilder = contentBuilder
-                .append(regionName)
-                .append(",")
-                .append(regionName)
-                .append("\n");
-        for (School school : schools) {
-            contentBuilder
-                    .append(school.code)
-                    .append(",")
-                    .append(school.name)
-                    .append("\n");
-        }
-        return contentBuilder;
-    }
-
-    private String getEmisContextUrl(ApiContext context) {
-        return context.getUrl();
     }
 
 }

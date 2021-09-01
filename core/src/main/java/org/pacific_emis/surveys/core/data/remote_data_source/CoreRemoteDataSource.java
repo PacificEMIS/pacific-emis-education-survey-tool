@@ -34,14 +34,18 @@ public class CoreRemoteDataSource implements DataSource {
     private String password;
     private final AppRegion appRegion;
 
-    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion) {
-        switch (appRegion) {
-            case RMI:
-                return new CoreRemoteDataSource(API_URL_MIEMIS, USERNAME_MIEMIS, PASSWORD_MIEMIS, appRegion);
-            case FSM:
-                return new CoreRemoteDataSource(API_URL_FEDEMIS, USERNAME_FEDEMIS, PASSWORD_FEDEMIS, appRegion);
-            default:
-                return null;
+    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion, String apiUrl) {
+        if(apiUrl != null) {
+            return new CoreRemoteDataSource(apiUrl, USERNAME_MIEMIS, PASSWORD_MIEMIS, appRegion);
+        } else {
+            switch (appRegion) {
+                case RMI:
+                    return new CoreRemoteDataSource(API_URL_MIEMIS, USERNAME_MIEMIS, PASSWORD_MIEMIS, appRegion);
+                case FSM:
+                    return new CoreRemoteDataSource(API_URL_FEDEMIS, USERNAME_FEDEMIS, PASSWORD_FEDEMIS, appRegion);
+                default:
+                    return null;
+            }
         }
     }
 
