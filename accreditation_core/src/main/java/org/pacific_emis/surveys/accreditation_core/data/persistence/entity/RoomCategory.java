@@ -9,9 +9,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
-import java.util.List;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.Category;
 import org.pacific_emis.surveys.accreditation_core.data.model.EvaluationForm;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
@@ -19,6 +16,9 @@ import org.pacific_emis.surveys.accreditation_core.data.model.ObservationLogReco
 import org.pacific_emis.surveys.accreditation_core.data.model.Standard;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationInfo;
 import org.pacific_emis.surveys.core.data.model.Progress;
+
+import java.util.Date;
+import java.util.List;
 
 @Entity(foreignKeys = @ForeignKey(entity = RoomAccreditationSurvey.class, parentColumns = "uid", childColumns = "survey_id", onDelete = ForeignKey.CASCADE),
         indices = {@Index("uid"), @Index("survey_id")})
@@ -40,6 +40,10 @@ public class RoomCategory implements Category {
     public String observationInfoTeacherName;
 
     @Nullable
+    @ColumnInfo(name = "observation_info_teacher_id")
+    public Integer observationInfoTeacherId;
+
+    @Nullable
     @ColumnInfo(name = "observation_info_grade")
     public String observationInfoGrade;
 
@@ -59,6 +63,7 @@ public class RoomCategory implements Category {
                         long surveyId,
                         EvaluationForm evaluationForm,
                         @Nullable String observationInfoTeacherName,
+                        @Nullable Integer observationInfoTeacherId,
                         @Nullable String observationInfoGrade,
                         @Nullable Integer observationInfoTotalStudentsPresent,
                         @Nullable String observationInfoSubject,
@@ -67,6 +72,7 @@ public class RoomCategory implements Category {
         this.surveyId = surveyId;
         this.evaluationForm = evaluationForm;
         this.observationInfoTeacherName = observationInfoTeacherName;
+        this.observationInfoTeacherId = observationInfoTeacherId;
         this.observationInfoGrade = observationInfoGrade;
         this.observationInfoTotalStudentsPresent = observationInfoTotalStudentsPresent;
         this.observationInfoSubject = observationInfoSubject;
@@ -81,6 +87,7 @@ public class RoomCategory implements Category {
         final ObservationInfo otherObservationInfo = other.getObservationInfo();
         if (otherObservationInfo != null) {
             this.observationInfoTeacherName = otherObservationInfo.getTeacherName();
+            this.observationInfoTeacherId = otherObservationInfo.getTeacherId();
             this.observationInfoGrade = otherObservationInfo.getGrade();
             this.observationInfoTotalStudentsPresent = otherObservationInfo.getTotalStudentsPresent();
             this.observationInfoSubject = otherObservationInfo.getSubject();
@@ -122,6 +129,7 @@ public class RoomCategory implements Category {
         if (haveObservationInfo()) {
             return new MutableObservationInfo(
                     observationInfoTeacherName,
+                    observationInfoTeacherId,
                     observationInfoGrade,
                     observationInfoTotalStudentsPresent,
                     observationInfoSubject,
@@ -140,6 +148,7 @@ public class RoomCategory implements Category {
 
     private boolean haveObservationInfo() {
         return observationInfoTeacherName != null
+                || observationInfoTeacherId != null
                 || observationInfoGrade != null
                 || observationInfoTotalStudentsPresent != null
                 || observationInfoSubject != null

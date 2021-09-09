@@ -70,7 +70,7 @@ public class Injection {
                 .build();
         dataSourceComponent = DaggerDataSourceComponent.builder()
                 .coreComponent(coreComponent)
-                .dataSourceModule(new DataSourceModule(accreditationCoreComponent, washCoreComponent))
+                .dataSourceModule(new DataSourceModule(coreComponent, accreditationCoreComponent, washCoreComponent))
                 .serializersModule(new SerializersModule(accreditationCoreComponent, washCoreComponent))
                 .build();
         surveyComponent = DaggerSurveyComponent.builder()

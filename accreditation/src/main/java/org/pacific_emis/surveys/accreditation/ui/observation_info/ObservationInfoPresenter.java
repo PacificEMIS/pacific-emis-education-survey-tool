@@ -5,23 +5,26 @@ import androidx.annotation.NonNull;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.pacific_emis.surveys.accreditation.R;
 import org.pacific_emis.surveys.accreditation.ui.navigation.concrete.ReportNavigationItem;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponent;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponent;
 import org.pacific_emis.surveys.survey_core.navigation.BuildableNavigationItem;
 import org.pacific_emis.surveys.survey_core.navigation.survey_navigator.SurveyNavigator;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -76,6 +79,26 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                                 this.observationInfo = observationInfo;
                             }
                             onObservationInfoLoaded();
+                        }, this::handleError)
+        );
+        addDisposable(
+                accreditationSurveyInteractor.loadTeachers()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> getViewState().showWaiting())
+                        .doFinally(() -> getViewState().hideWaiting())
+                        .subscribe(teachers -> {
+                            getViewState().setTeachersToAutocompleteField(teachers);
+                        }, this::handleError)
+        );
+        addDisposable(
+                accreditationSurveyInteractor.loadSubjects()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> getViewState().showWaiting())
+                        .doFinally(() -> getViewState().hideWaiting())
+                        .subscribe(subjects -> {
+                            getViewState().setSubjectsToAutocompleteField(subjects);
                         }, this::handleError)
         );
     }
@@ -143,8 +166,9 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         }
     }
 
-    public void onTeacherNameChanged(String teacherName) {
-        observationInfo.setTeacherName(teacherName);
+    public void onTeacherChanged(Teacher teacher) {
+        observationInfo.setTeacherName(teacher.getName());
+        observationInfo.setTeacherId(teacher.getId());
         save(observationInfo);
     }
 
@@ -153,8 +177,8 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         save(observationInfo);
     }
 
-    public void onSubjectChanged(String subject) {
-        observationInfo.setSubject(subject);
+    public void onSubjectChanged(Subject subject) {
+        observationInfo.setSubject(subject.getName());
         save(observationInfo);
     }
 

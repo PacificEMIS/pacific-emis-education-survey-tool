@@ -8,9 +8,6 @@ import androidx.annotation.Nullable;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
@@ -21,6 +18,10 @@ import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
 import org.pacific_emis.surveys.ui.screens.settings.items.OptionsItemFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -57,6 +58,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createContactItem(Text.from(localSettings.getContactName())),
                 itemFactory.createOpModeItem(localSettings.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
+                itemFactory.createLoadSchoolsItem(localSettings.getAppRegion().getName()),
+                itemFactory.createLoadTeachersItem(localSettings.getAppRegion().getName()),
+                itemFactory.createLoadSubjectsItem(localSettings.getAppRegion().getName()),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
                 itemFactory.createLoadProdCertificateItem(),
@@ -86,6 +90,15 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 break;
             case IMPORT_SCHOOLS:
                 onImportSchoolsPressed();
+                break;
+            case LOAD_SCHOOLS:
+                onLoadSchoolsPressed();
+                break;
+            case LOAD_TEACHERS:
+                onLoadTeachersPressed();
+                break;
+            case LOAD_SUBJECTS:
+                onLoadSubjectsPressed();
                 break;
             case LOGO:
                 onLogoPressed();
@@ -213,6 +226,42 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             }
         };
         getViewState().openExternalDocumentsPicker(MIME_TYPE_SCHOOLS);
+    }
+
+    private void onLoadSchoolsPressed() {
+        addDisposable(interactor.updateSchoolsFromRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
+                        ((SettingsPresenter) this)::handleError
+                ));
+    }
+
+    private void onLoadTeachersPressed() {
+        addDisposable(interactor.updateTeachersFromRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
+                        ((SettingsPresenter) this)::handleError
+                ));
+    }
+
+    private void onLoadSubjectsPressed() {
+        addDisposable(interactor.updateSubjectsFromRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
+                        ((SettingsPresenter) this)::handleError
+                ));
     }
 
     @Override

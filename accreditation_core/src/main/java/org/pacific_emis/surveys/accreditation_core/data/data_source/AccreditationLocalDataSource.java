@@ -29,12 +29,11 @@ import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomP
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomStandard;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomSubCriteria;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.relative.RelativeRoomSurvey;
-import org.pacific_emis.surveys.core.data.data_source.DataSourceImpl;
 import org.pacific_emis.surveys.core.data.exceptions.WrongAppRegionException;
+import org.pacific_emis.surveys.core.data.local_data_source.CoreLocalDataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
-import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 
@@ -49,7 +48,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public class RoomAccreditationDataSource extends DataSourceImpl implements AccreditationDataSource {
+public class AccreditationLocalDataSource extends CoreLocalDataSource implements AccreditationDataSource {
 
     private static final String DATABASE_NAME = "accreditation.database";
     private static final String TEMPLATE_DATABASE_NAME = "accreditation.template_database";
@@ -61,13 +60,16 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     private final AccreditationDatabase templateDatabase;
     private final AccreditationDatabase database;
 
-    private final LocalSettings localSettings;
+    protected final AppRegion appRegion;
 
-    public RoomAccreditationDataSource(Context applicationContext, LocalSettings localSettings) {
-        super(applicationContext, localSettings);
+    public AccreditationLocalDataSource(Context applicationContext, AppRegion appRegion) {
+        super(applicationContext, appRegion);
+        this.appRegion = appRegion;
 
-        this.localSettings = localSettings;
-        database = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME).build();
+        database = Room
+                .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2)
+                .build();
         templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME).build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
@@ -117,8 +119,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     private void saveObservationLogRecords(AccreditationDatabase database,
-                                     List<? extends ObservationLogRecord> records,
-                                     long categoryId) {
+                                           List<? extends ObservationLogRecord> records,
+                                           long categoryId) {
         for (ObservationLogRecord record : records) {
             RoomObservationLogRecord roomRecord = RoomObservationLogRecord.from(record);
             roomRecord.uid = 0;
@@ -194,7 +196,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(appRegion))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
@@ -206,7 +208,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public Single<List<Survey>> loadAllSurveys() {
-        return Single.fromCallable(() -> surveyDao.getAllFilled(localSettings.getAppRegion()))
+        return Single.fromCallable(() -> surveyDao.getAllFilled(appRegion))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
                 .cast(Survey.class)
@@ -346,7 +348,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     public Completable createPartiallySavedSurvey(Survey survey) {
         return Completable.fromAction(() -> {
             AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
-            if (localSettings.getAppRegion() == accreditationSurvey.getAppRegion()) {
+            if (appRegion == accreditationSurvey.getAppRegion()) {
                 saveSurvey(database, accreditationSurvey, true);
             } else {
                 throw new WrongAppRegionException();
@@ -390,6 +392,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
             CategoryDao dao = database.getCategoryDao();
             RoomCategory category = dao.getById(categoryId);
             category.observationInfoTeacherName = observationInfo.getTeacherName();
+            category.observationInfoTeacherId = observationInfo.getTeacherId();
             category.observationInfoGrade = observationInfo.getGrade();
             category.observationInfoTotalStudentsPresent = observationInfo.getTotalStudentsPresent();
             category.observationInfoSubject = observationInfo.getSubject();

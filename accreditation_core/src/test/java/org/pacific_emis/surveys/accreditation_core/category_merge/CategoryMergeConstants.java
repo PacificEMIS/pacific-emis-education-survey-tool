@@ -2,21 +2,23 @@ package org.pacific_emis.surveys.accreditation_core.category_merge;
 
 import androidx.annotation.NonNull;
 
-import java.util.Date;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
+
+import java.util.Date;
 
 interface CategoryMergeConstants {
 
     class ObservationInfo {
         final static String HOST_TEACHER_NAME = "teacherName";
+        final static Integer HOST_TEACHER_ID = 1;
         final static String HOST_GRADE = "grade";
         final static Integer HOST_STUDENTS_PRESENT = 12;
         final static String HOST_SUBJECT = "subject";
         final static Date HOST_DATE = new Date(100000);
 
         final static String OTHER_TEACHER_NAME = "teacherName2";
+        final static Integer OTHER_TEACHER_ID = 2;
         final static String OTHER_GRADE = "grade2";
         final static Integer OTHER_STUDENTS_PRESENT = 13;
         final static String OTHER_SUBJECT = "subject2";
@@ -26,6 +28,7 @@ interface CategoryMergeConstants {
         static MutableObservationInfo createHostFilled() {
             return new MutableObservationInfo(
                     HOST_TEACHER_NAME,
+                    HOST_TEACHER_ID,
                     HOST_GRADE,
                     HOST_STUDENTS_PRESENT,
                     HOST_SUBJECT,
@@ -37,6 +40,7 @@ interface CategoryMergeConstants {
         static MutableObservationInfo createOtherFilled() {
             return new MutableObservationInfo(
                     OTHER_TEACHER_NAME,
+                    OTHER_TEACHER_ID,
                     OTHER_GRADE,
                     OTHER_STUDENTS_PRESENT,
                     OTHER_SUBJECT,

@@ -4,18 +4,19 @@ import androidx.annotation.Nullable;
 
 import com.omegar.mvp.InjectViewState;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.core.utils.DateUtils;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -24,7 +25,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     private final DataSource dataSource = MicronesiaApplication.getInjection()
             .getDataSourceComponent()
-            .getDataSource();
+            .getDataRepository();
     private final SurveyInteractor accreditationSurveyInteractor = MicronesiaApplication.getInjection()
             .getSurveyComponent()
             .getSurveyInteractor();
