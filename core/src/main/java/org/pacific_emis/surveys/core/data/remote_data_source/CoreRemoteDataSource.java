@@ -1,7 +1,5 @@
 package org.pacific_emis.surveys.core.data.remote_data_source;
 
-import android.util.Log;
-
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
