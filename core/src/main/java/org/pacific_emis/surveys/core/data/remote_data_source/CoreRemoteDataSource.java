@@ -1,5 +1,7 @@
 package org.pacific_emis.surveys.core.data.remote_data_source;
 
+import android.util.Log;
+
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
@@ -20,10 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CoreRemoteDataSource implements DataSource {
     private final static String UNSUPPORTED_FOR_THIS_DATASOURCE = "This operation is unsupported for remote data source.";
-    private final static String USERNAME_FEDEMIS = "elena.zagainova@omega-r.com";
-    private final static String USERNAME_MIEMIS = "elena.zagainova@omega-r.com";
-    private final static String PASSWORD_FEDEMIS = "Omega!2019";
-    private final static String PASSWORD_MIEMIS = "Omega!2019";
     private final static String API_URL_FEDEMIS = "https://fedemis.doe.fm/api/";
     private final static String API_URL_MIEMIS = "http://data.pss.edu.mh/miemis/api/";
 
@@ -34,18 +32,16 @@ public class CoreRemoteDataSource implements DataSource {
     private String password;
     private final AppRegion appRegion;
 
-    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion, String apiUrl) {
-        if(apiUrl != null) {
-            return new CoreRemoteDataSource(apiUrl, USERNAME_MIEMIS, PASSWORD_MIEMIS, appRegion);
-        } else {
-            switch (appRegion) {
-                case RMI:
-                    return new CoreRemoteDataSource(API_URL_MIEMIS, USERNAME_MIEMIS, PASSWORD_MIEMIS, appRegion);
-                case FSM:
-                    return new CoreRemoteDataSource(API_URL_FEDEMIS, USERNAME_FEDEMIS, PASSWORD_FEDEMIS, appRegion);
-                default:
-                    return null;
-            }
+    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion, String apiUrl, String emisUser, String emisPassword) {
+        if (apiUrl != null) {
+            return new CoreRemoteDataSource(apiUrl, emisUser, emisPassword, appRegion);
+        } else switch (appRegion) {
+            case RMI:
+                return new CoreRemoteDataSource(API_URL_MIEMIS, emisUser, emisPassword, appRegion);
+            case FSM:
+                return new CoreRemoteDataSource(API_URL_FEDEMIS, emisUser, emisPassword, appRegion);
+            default:
+                return null;
         }
     }
 

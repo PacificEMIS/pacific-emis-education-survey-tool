@@ -32,6 +32,8 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_CONTACT_NAME = "PREF_KEY_CONTACT_NAME";
     private static final String PREF_KEY_MASTER_PASSWORD = "PREF_KEY_MASTER_PASSWORD";
     private static final String PREF_KEY_EMIS_API = "PREF_KEY_EMIS_API";
+    private static final String PREF_KEY_EMIS_USER = "PREF_KEY_EMIS_USER";
+    private static final String PREF_KEY_EMIS_PASSWORD = "PREF_KEY_EMIS_PASSWORD";
 
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.DEV;
@@ -239,4 +241,33 @@ public class LocalSettingsImpl implements LocalSettings {
 
     @Override
     public boolean isEmisApiSaved() { return getEmisApi() != null; }
+
+    public void setEmisUser(String user) {
+        sharedPreferences.edit().putString(PREF_KEY_EMIS_USER, user).apply();
+    }
+
+    @Override
+    public String getEmisUser() {
+        return sharedPreferences.getString(PREF_KEY_EMIS_USER, null);
+    }
+
+    @Override
+    public boolean isEmisUserSaved() {
+        return getEmisUser() != null;
+    }
+
+    @Override
+    public void setEmisPassword(String password) {
+        sharedPreferences.edit().putString(PREF_KEY_EMIS_PASSWORD, password).apply();
+    }
+
+    @Override
+    public String getEmisPassword() {
+        return sharedPreferences.getString(PREF_KEY_EMIS_PASSWORD, null);
+    }
+
+    @Override
+    public boolean isEmisPasswordSaved() {
+        return getEmisPassword() != null;
+    }
 }
