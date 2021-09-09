@@ -232,6 +232,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         addDisposable(interactor.updateSchoolsFromRemote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)), this::handleError));
     }
 
