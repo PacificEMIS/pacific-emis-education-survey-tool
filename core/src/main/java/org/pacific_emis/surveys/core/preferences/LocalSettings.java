@@ -73,6 +73,7 @@ public interface LocalSettings {
 
     void setEmisApi(String api);
 
+    @Nullable
     String getEmisApi();
 
     boolean isEmisApiSaved();
