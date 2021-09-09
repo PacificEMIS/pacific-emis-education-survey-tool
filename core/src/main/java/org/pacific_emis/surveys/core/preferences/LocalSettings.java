@@ -71,15 +71,25 @@ public interface LocalSettings {
     @Nullable
     String getProdCert();
 
+    void setEmisApi(String api);
+
+    @Nullable
+    String getEmisApi();
+
+    boolean isEmisApiSaved();
+
     void setEmisUser(String user);
 
+    @Nullable
     String getEmisUser();
 
     boolean isEmisUserSaved();
 
     void setEmisPassword(String password);
 
+    @Nullable
     String getEmisPassword();
 
     boolean isEmisPasswordSaved();
+
 }

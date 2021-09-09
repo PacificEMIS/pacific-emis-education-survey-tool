@@ -1,7 +1,5 @@
 package org.pacific_emis.surveys.core.data.remote_data_source;
 
-import android.util.Log;
-
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
@@ -32,8 +30,10 @@ public class CoreRemoteDataSource implements DataSource {
     private String password;
     private final AppRegion appRegion;
 
-    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion, String emisUser, String emisPassword) {
-        switch (appRegion) {
+    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion, String apiUrl, String emisUser, String emisPassword) {
+        if (apiUrl != null) {
+            return new CoreRemoteDataSource(apiUrl, emisUser, emisPassword, appRegion);
+        } else switch (appRegion) {
             case RMI:
                 return new CoreRemoteDataSource(API_URL_MIEMIS, emisUser, emisPassword, appRegion);
             case FSM:
