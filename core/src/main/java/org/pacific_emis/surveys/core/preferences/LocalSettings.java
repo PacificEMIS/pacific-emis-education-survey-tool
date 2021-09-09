@@ -70,4 +70,16 @@ public interface LocalSettings {
 
     @Nullable
     String getProdCert();
+
+    void setEmisUser(String user);
+
+    String getEmisUser();
+
+    boolean isEmisUserSaved();
+
+    void setEmisPassword(String password);
+
+    String getEmisPassword();
+
+    boolean isEmisPasswordSaved();
 }
