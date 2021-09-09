@@ -12,7 +12,6 @@ import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
-import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
 import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
@@ -20,13 +19,9 @@ import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
 import org.pacific_emis.surveys.ui.screens.settings.items.OptionsItemFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -35,9 +30,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private final static String MIME_TYPE_SCHOOLS = "text/csv";
     private final static String MIME_TYPE_CERTIFICATE = "application/octet-stream";
-    private final static String FSM_REGION_NAME = "FSM";
-    private final static String RMI_REGION_NAME = "RMI";
-    private final static String SCHOOL_TABLE_HEADER = "schNo,schName\n";
 
     private final SettingsInteractor interactor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
