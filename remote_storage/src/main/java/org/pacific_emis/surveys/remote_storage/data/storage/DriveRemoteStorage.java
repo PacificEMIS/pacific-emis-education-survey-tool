@@ -160,6 +160,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
 
         String creator = survey.getCreateUser();
+        String updater = userAccount.getEmail();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
                     List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
@@ -178,7 +179,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
-                                    new SurveyMetadata(updatedSurvey, creator),
+                                    new SurveyMetadata(updatedSurvey, updater),
                                     regionFolderId)
                                     .ignoreElement()
                             );
