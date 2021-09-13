@@ -173,32 +173,23 @@ public class SettingsInteractor {
 
     public static class SurveyAccessor {
 
-        private final DataSource accreditationDataSource;
-        private final DataSource washDataSource;
+        private final DataSource dataRepository;
         private final Parser<Survey> accreditationSurveyParser;
         private final Parser<Survey> washSurveyParser;
         private final AssetManager assetManager;
 
-        public SurveyAccessor(DataSource accreditationDataSource,
-                              DataSource washDataSource,
+        public SurveyAccessor(DataSource dataRepository,
                               Parser<Survey> accreditationSurveyParser,
                               Parser<Survey> washSurveyParser,
                               AssetManager assetManager) {
-            this.accreditationDataSource = accreditationDataSource;
-            this.washDataSource = washDataSource;
+            this.dataRepository = dataRepository;
             this.accreditationSurveyParser = accreditationSurveyParser;
             this.washSurveyParser = washSurveyParser;
             this.assetManager = assetManager;
         }
 
         public DataSource getDataSource(@NonNull SurveyType surveyType) {
-            switch (surveyType) {
-                case SCHOOL_ACCREDITATION:
-                    return accreditationDataSource;
-                case WASH:
-                    return washDataSource;
-            }
-            throw new IllegalStateException();
+            return dataRepository;
         }
 
         public Parser<Survey> getSurveyParser(@NonNull SurveyType surveyType) {
@@ -215,13 +206,13 @@ public class SettingsInteractor {
             Survey survey = tryParseAccreditation(content);
 
             if (survey != null) {
-                return accreditationDataSource.createPartiallySavedSurvey(survey);
+                return dataRepository.createPartiallySavedSurvey(survey);
             }
 
             survey = tryParseWash(content);
 
             if (survey != null) {
-                return washDataSource.createPartiallySavedSurvey(survey);
+                return dataRepository.createPartiallySavedSurvey(survey);
             }
 
             throw new ParseException();
