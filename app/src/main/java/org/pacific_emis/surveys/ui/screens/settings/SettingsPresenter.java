@@ -11,6 +11,8 @@ import com.omegar.mvp.InjectViewState;
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
+import org.pacific_emis.surveys.core.data.remote_data_source.CoreRemoteDataSource;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
@@ -40,6 +42,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             .getRemoteStorageComponent()
             .getRemoteStorage();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
+    private final DataSource remoteDataSource = MicronesiaApplication.getInjection().getCoreComponent().getRemoteDataSource();
 
     @Nullable
     private ExternalDocumentPickerCallback documentPickerCallback;
