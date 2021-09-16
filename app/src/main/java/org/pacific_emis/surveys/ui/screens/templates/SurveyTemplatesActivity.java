@@ -40,7 +40,7 @@ public class SurveyTemplatesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(getString(R.string.title_format_templates, localSettings.getAppRegion().getName().getString(this)));
+        setTitle(getString(R.string.title_format_templates, localSettings.getCurrentAppRegion().getName().getString(this)));
         viewPager.setAdapter(tabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 

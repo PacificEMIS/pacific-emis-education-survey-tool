@@ -32,14 +32,11 @@ public abstract class CoreLocalDataSource implements DataSource {
 
     protected final SchoolInfoDatabase schoolInfoDatabase;
 
-    protected final AppRegion appRegion;
-
     protected final SchoolDao schoolDao;
     protected final TeacherDao teacherDao;
     protected final SubjectDao subjectDao;
 
-    public CoreLocalDataSource(Context applicationContext, AppRegion appRegion) {
-        this.appRegion = appRegion;
+    public CoreLocalDataSource(Context applicationContext) {
         schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME)
                 .addMigrations(MIGRATION_1_2)
                 .build();
@@ -53,19 +50,19 @@ public abstract class CoreLocalDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<School>> loadSchools() {
+    public Single<List<School>> loadSchools(AppRegion appRegion) {
         return Single.fromCallable(() -> schoolDao.getAll(appRegion))
                 .map(ArrayList::new);
     }
 
     @Override
-    public Single<List<Teacher>> loadTeachers() {
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
         return Single.fromCallable(() -> teacherDao.getAll(appRegion))
                 .map(ArrayList::new);
     }
 
     @Override
-    public Single<List<Subject>> loadSubjects() {
+    public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
         return Single.fromCallable(() -> subjectDao.getAll(appRegion))
                 .map(ArrayList::new);
     }

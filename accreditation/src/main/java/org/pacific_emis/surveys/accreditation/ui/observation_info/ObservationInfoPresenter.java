@@ -14,6 +14,9 @@ import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurv
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.di.CoreComponent;
+import org.pacific_emis.surveys.core.di.CoreComponentInjector;
+import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
@@ -50,17 +53,20 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
     private final RemoteStorageAccessor remoteStorageAccessor;
     private final SurveyNavigator navigator;
+    private final LocalSettings localSettings;
     private final long categoryId;
 
     private MutableObservationInfo observationInfo;
 
     ObservationInfoPresenter(RemoteStorageComponent remoteStorageComponent,
                              SurveyCoreComponent surveyCoreComponent,
+                             CoreComponent coreComponent,
                              AccreditationCoreComponent accreditationCoreComponent,
                              long categoryId) {
         this.accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
+        this.localSettings = coreComponent.getLocalSettings();
         this.categoryId = categoryId;
         loadInfo();
         loadNavigation();
@@ -82,7 +88,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         }, this::handleError)
         );
         addDisposable(
-                accreditationSurveyInteractor.loadTeachers()
+                accreditationSurveyInteractor.loadTeachers(localSettings.getCurrentAppRegion())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -92,7 +98,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         }, this::handleError)
         );
         addDisposable(
-                accreditationSurveyInteractor.loadSubjects()
+                accreditationSurveyInteractor.loadSubjects(localSettings.getCurrentAppRegion())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> getViewState().showWaiting())

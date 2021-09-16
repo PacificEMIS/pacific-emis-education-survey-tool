@@ -29,6 +29,7 @@ import org.pacific_emis.surveys.accreditation.R;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.di.CoreComponentInjector;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
@@ -87,6 +88,7 @@ public class ObservationInfoFragment extends BaseFragment implements
         return new ObservationInfoPresenter(
                 RemoteStorageComponentInjector.getComponent(application),
                 SurveyCoreComponentInjector.getComponent(application),
+                CoreComponentInjector.getComponent(application),
                 AccreditationCoreComponentInjector.getComponent(application),
                 args.getLong(ARG_CATEGORY_ID)
         );

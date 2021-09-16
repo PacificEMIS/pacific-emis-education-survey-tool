@@ -11,6 +11,7 @@ import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableCat
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableStandard;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.survey_core.navigation.NavigationItem;
 import org.pacific_emis.surveys.ui.screens.templates.SurveyTemplatePresenter;
 import io.reactivex.Single;
@@ -24,6 +25,8 @@ public class AccreditationSurveyTemplatePresenter extends SurveyTemplatePresente
             .getAccreditationCoreComponent()
             .getAccreditationSurveyInteractor();
 
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
+
     public AccreditationSurveyTemplatePresenter() {
         super(
                 MicronesiaApplication.getInjection().getAccreditationCoreComponent().getDataSource(),
@@ -35,7 +38,7 @@ public class AccreditationSurveyTemplatePresenter extends SurveyTemplatePresente
     @Override
     protected void loadItems() {
         addDisposable(
-                dataSource.getTemplateSurvey()
+                dataSource.getTemplateSurvey(localSettings.getCurrentAppRegion())
                         .flatMap(survey -> {
                             accreditationSurveyInteractor.setCurrentSurvey(survey);
                             return accreditationSurveyInteractor.requestCategories();

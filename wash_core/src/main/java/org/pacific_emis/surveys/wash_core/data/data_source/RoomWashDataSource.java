@@ -50,11 +50,8 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     private final WashDatabase templateDatabase;
     private final WashDatabase database;
 
-    protected final AppRegion appRegion;
-
-    public RoomWashDataSource(Context applicationContext, AppRegion appRegion) {
-        super(applicationContext, appRegion);
-        this.appRegion = appRegion;
+    public RoomWashDataSource(Context applicationContext) {
+        super(applicationContext);
         database = Room.databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME).build();
         templateDatabase = Room.databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME).build();
         answerDao = database.getAnswerDao();
@@ -165,19 +162,19 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     }
 
     @Override
-    public Single<Survey> getTemplateSurvey() {
+    public Single<Survey> getTemplateSurvey(AppRegion appRegion) {
         return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(appRegion))
                 .map(RelativeRoomSurvey::toMutable);
     }
 
     @Override
-    public Single<Survey> loadSurvey(long surveyId) {
+    public Single<Survey> loadSurvey(AppRegion appRegion, long surveyId) {
         return Single.fromCallable(() -> database.getSurveyDao().getFilledById(surveyId))
                 .map(RelativeRoomSurvey::toMutable);
     }
 
     @Override
-    public Single<List<Survey>> loadAllSurveys() {
+    public Single<List<Survey>> loadAllSurveys(AppRegion appRegion) {
         return Single.fromCallable(() -> database.getSurveyDao().getAllFilled(appRegion))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutable)
@@ -195,8 +192,8 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail) {
-        return getTemplateSurvey()
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
+        return getTemplateSurvey(appRegion)
                 .flatMap(survey -> {
                     MutableWashSurvey mutableSurvey = new MutableWashSurvey((WashSurvey) survey);
                     mutableSurvey.setId(0);
@@ -207,7 +204,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
                     mutableSurvey.setCreateUser(userEmail);
                     mutableSurvey.setLastEditedUser(userEmail);
                     long id = saveSurvey(database, mutableSurvey, true);
-                    return loadSurvey(id);
+                    return loadSurvey(appRegion, id);
                 });
     }
 
@@ -320,7 +317,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     }
 
     @Override
-    public Completable createPartiallySavedSurvey(Survey survey) {
+    public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
             WashSurvey washSurvey = (WashSurvey) survey;
             if (appRegion == washSurvey.getAppRegion()) {

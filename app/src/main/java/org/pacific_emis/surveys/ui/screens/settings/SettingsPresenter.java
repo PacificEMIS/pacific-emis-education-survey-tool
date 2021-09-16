@@ -55,15 +55,15 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
-                itemFactory.createContextItem(localSettings.getAppRegion().getName()),
+                itemFactory.createContextItem(localSettings.getCurrentAppRegion().getName()),
                 itemFactory.createExportToExcelItem(localSettings.isExportToExcelEnabled()),
                 itemFactory.createNameItem(localSettings.getAppName()),
                 itemFactory.createContactItem(Text.from(localSettings.getContactName())),
                 itemFactory.createOpModeItem(localSettings.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createLoadSchoolsItem(localSettings.getAppRegion().getName()),
-                itemFactory.createLoadTeachersItem(localSettings.getAppRegion().getName()),
-                itemFactory.createLoadSubjectsItem(localSettings.getAppRegion().getName()),
+                itemFactory.createLoadSchoolsItem(localSettings.getCurrentAppRegion().getName()),
+                itemFactory.createLoadTeachersItem(localSettings.getCurrentAppRegion().getName()),
+                itemFactory.createLoadSubjectsItem(localSettings.getCurrentAppRegion().getName()),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
                 itemFactory.createLoadProdCertificateItem(),
@@ -140,14 +140,18 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void onForceFetchRemoteSettingsPressed() {
         addDisposable(
                 remoteSettings.forceFetch()
-                        .flatMapCompletable(b -> interactor.loadDataFromAssets())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().showWaiting())
                         .doFinally(getViewState()::hideWaiting)
-                        .subscribe(()-> {
+                        .subscribe(hasFetchedNewValues -> {
+                            if (hasFetchedNewValues) {
+                                getViewState().showToast(Text.from(R.string.remote_fetch_result_success));
                                 this.refresh();
                                 remoteSettings.init(null);
+                            } else {
+                                getViewState().showToast(Text.from(R.string.remote_fetch_result_failure));
+                            }
                         }, this::handleError)
         );
     }
@@ -170,7 +174,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onContextPressed() {
         getViewState().showRegionSelector(region -> {
-            localSettings.setAppRegion(region);
+            localSettings.setCurrentAppRegion(region);
             refresh();
             getViewState().showPrompt(
                     Text.from(R.string.title_info),

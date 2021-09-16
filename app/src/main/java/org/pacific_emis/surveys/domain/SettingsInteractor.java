@@ -81,15 +81,15 @@ public class SettingsInteractor {
     }
 
     public Completable updateSchoolsFromRemote() {
-        return getDataSource().loadSchools().flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
+        return getDataSource().loadSchools(localSettings.getCurrentAppRegion()).flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
     }
 
     public Completable updateTeachersFromRemote() {
-        return getDataSource().loadTeachers().flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
+        return getDataSource().loadTeachers(localSettings.getCurrentAppRegion()).flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
     }
 
     public Completable updateSubjectsFromRemote() {
-        return getDataSource().loadSubjects().flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
+        return getDataSource().loadSubjects(localSettings.getCurrentAppRegion()).flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
     }
 
     public Completable selectExportFolder() {
@@ -147,13 +147,13 @@ public class SettingsInteractor {
     }
 
     public void setAppRegion(AppRegion region) {
-        localSettings.setAppRegion(region);
+        localSettings.setCurrentAppRegion(region);
     }
 
     @Nullable
     public AppRegion getAppRegion() {
-        if (localSettings.isAppRegionSaved()) {
-            return localSettings.getAppRegion();
+        if (localSettings.isCurrentAppRegionSaved()) {
+            return localSettings.getCurrentAppRegion();
         } else {
             return null;
         }
@@ -178,6 +178,7 @@ public class SettingsInteractor {
         private final DataSource dataRepository;
         private final DataSource accreditationDataSource;
         private final DataSource washDataSource;
+        private final LocalSettings localSettings;
         private final Parser<Survey> accreditationSurveyParser;
         private final Parser<Survey> washSurveyParser;
         private final AssetManager assetManager;
@@ -185,12 +186,14 @@ public class SettingsInteractor {
         public SurveyAccessor(DataSource dataRepository,
                               DataSource accreditationDataSource,
                               DataSource washDataSource,
+                              LocalSettings localSettings,
                               Parser<Survey> accreditationSurveyParser,
                               Parser<Survey> washSurveyParser,
                               AssetManager assetManager) {
             this.dataRepository = dataRepository;
             this.accreditationDataSource = accreditationDataSource;
             this.washDataSource = washDataSource;
+            this.localSettings = localSettings;
             this.accreditationSurveyParser = accreditationSurveyParser;
             this.washSurveyParser = washSurveyParser;
             this.assetManager = assetManager;
@@ -222,13 +225,13 @@ public class SettingsInteractor {
             Survey survey = tryParseAccreditation(content);
 
             if (survey != null) {
-                return accreditationDataSource.createPartiallySavedSurvey(survey);
+                return accreditationDataSource.createPartiallySavedSurvey(localSettings.getCurrentAppRegion(), survey);
             }
 
             survey = tryParseWash(content);
 
             if (survey != null) {
-                return washDataSource.createPartiallySavedSurvey(survey);
+                return washDataSource.createPartiallySavedSurvey(localSettings.getCurrentAppRegion(), survey);
             }
 
             throw new ParseException();
@@ -255,7 +258,7 @@ public class SettingsInteractor {
 
         public Completable fetchSurveyTemplateFromAssets(@NonNull SurveyType surveyType, String fileName) {
             return Single.fromCallable(() -> getSurveyParser(surveyType).parse(assetManager.open(fileName)))
-                    .flatMapCompletable(getDataSource()::rewriteTemplateSurvey);
+                    .flatMapCompletable(getDataSource(surveyType)::rewriteTemplateSurvey);
         }
     }
 }

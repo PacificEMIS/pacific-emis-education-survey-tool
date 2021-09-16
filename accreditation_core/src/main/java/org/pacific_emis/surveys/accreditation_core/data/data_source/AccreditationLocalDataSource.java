@@ -60,17 +60,16 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     private final AccreditationDatabase templateDatabase;
     private final AccreditationDatabase database;
 
-    protected final AppRegion appRegion;
-
-    public AccreditationLocalDataSource(Context applicationContext, AppRegion appRegion) {
-        super(applicationContext, appRegion);
-        this.appRegion = appRegion;
+    public AccreditationLocalDataSource(Context applicationContext) {
+        super(applicationContext);
 
         database = Room
                 .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
                 .addMigrations(AccreditationDatabase.MIGRATION_1_2)
                 .build();
-        templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME).build();
+        templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2)
+                .build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
@@ -195,19 +194,19 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     }
 
     @Override
-    public Single<Survey> getTemplateSurvey() {
+    public Single<Survey> getTemplateSurvey(AppRegion appRegion) {
         return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(appRegion))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
     @Override
-    public Single<Survey> loadSurvey(long surveyId) {
+    public Single<Survey> loadSurvey(AppRegion appRegion, long surveyId) {
         return Single.fromCallable(() -> surveyDao.getFilledById(surveyId))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
     @Override
-    public Single<List<Survey>> loadAllSurveys() {
+    public Single<List<Survey>> loadAllSurveys(AppRegion appRegion) {
         return Single.fromCallable(() -> surveyDao.getAllFilled(appRegion))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
@@ -225,8 +224,8 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail) {
-        return getTemplateSurvey()
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
+        return getTemplateSurvey(appRegion)
                 .flatMap(survey -> {
                     MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
                     mutableSurvey.setId(0);
@@ -237,7 +236,7 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
                     mutableSurvey.setCreateUser(userEmail);
                     mutableSurvey.setLastEditedUser(userEmail);
                     long id = saveSurvey(database, mutableSurvey, true);
-                    return loadSurvey(id);
+                    return loadSurvey(appRegion, id);
                 });
     }
 
@@ -345,7 +344,7 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     }
 
     @Override
-    public Completable createPartiallySavedSurvey(Survey survey) {
+    public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
             AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
             if (appRegion == accreditationSurvey.getAppRegion()) {

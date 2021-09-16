@@ -16,7 +16,7 @@ public class DataSourceModule {
     @Provides
     @WashCoreScope
     public WashDataSource provideDataSource(Context context, LocalSettings localSettings) {
-        return new RoomWashDataSource(context, localSettings.getAppRegion());
+        return new RoomWashDataSource(context);
     }
 
 }

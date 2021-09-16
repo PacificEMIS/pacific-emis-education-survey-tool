@@ -15,11 +15,11 @@ import io.reactivex.Single;
 
 public interface DataSource {
 
-    Single<List<School>> loadSchools() throws UnsupportedOperationException;
+    Single<List<School>> loadSchools(AppRegion appRegion) throws UnsupportedOperationException;
 
-    Single<List<Teacher>> loadTeachers() throws UnsupportedOperationException;
+    Single<List<Teacher>> loadTeachers(AppRegion appRegion) throws UnsupportedOperationException;
 
-    Single<List<Subject>> loadSubjects() throws UnsupportedOperationException;
+    Single<List<Subject>> loadSubjects(AppRegion appRegion) throws UnsupportedOperationException;
 
     Completable rewriteAllSchools(List<School> schools) throws UnsupportedOperationException;
 
@@ -29,15 +29,15 @@ public interface DataSource {
 
     Completable rewriteTemplateSurvey(Survey survey) throws UnsupportedOperationException;
 
-    Single<Survey> getTemplateSurvey() throws UnsupportedOperationException;
+    Single<Survey> getTemplateSurvey(AppRegion appRegion) throws UnsupportedOperationException;
 
-    Single<Survey> loadSurvey(long surveyId) throws UnsupportedOperationException;
+    Single<Survey> loadSurvey(AppRegion appRegion, long surveyId) throws UnsupportedOperationException;
 
-    Single<List<Survey>> loadAllSurveys() throws UnsupportedOperationException;
+    Single<List<Survey>> loadAllSurveys(AppRegion appRegion) throws UnsupportedOperationException;
 
     Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion, String surveyTag) throws UnsupportedOperationException;
 
-    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail) throws UnsupportedOperationException;
+    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) throws UnsupportedOperationException;
 
     Completable deleteSurvey(long surveyId) throws UnsupportedOperationException;
 
@@ -47,7 +47,7 @@ public interface DataSource {
 
     Completable deleteCreatedSurveys() throws UnsupportedOperationException;
 
-    Completable createPartiallySavedSurvey(Survey survey) throws UnsupportedOperationException;
+    Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) throws UnsupportedOperationException;
 
     void updateSurvey(Survey survey) throws UnsupportedOperationException;
 
