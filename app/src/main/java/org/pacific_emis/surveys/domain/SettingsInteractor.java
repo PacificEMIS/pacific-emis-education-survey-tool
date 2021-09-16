@@ -59,6 +59,10 @@ public class SettingsInteractor {
         return accessor.getDataSource(localSettings.getSurveyTypeOrDefault());
     }
 
+    private DataSource getDataSource() {
+        return accessor.getDataSource();
+    }
+
     public Completable importSchools(String content) {
         return Single.fromCallable(() -> schoolsParser.parse(new ByteArrayInputStream(content.getBytes())))
                 .flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
@@ -74,20 +78,18 @@ public class SettingsInteractor {
     public Completable importSubjects(List<Subject> subjects) {
         return Single.fromCallable(() -> subjects)
                 .flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
-
     }
 
-
     public Completable updateSchoolsFromRemote() {
-        return getCurrentDataSource().loadSchools().flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
+        return getDataSource().loadSchools().flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
     }
 
     public Completable updateTeachersFromRemote() {
-        return getCurrentDataSource().loadTeachers().flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
+        return getDataSource().loadTeachers().flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
     }
 
     public Completable updateSubjectsFromRemote() {
-        return getCurrentDataSource().loadSubjects().flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
+        return getDataSource().loadSubjects().flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
     }
 
     public Completable selectExportFolder() {
@@ -174,22 +176,36 @@ public class SettingsInteractor {
     public static class SurveyAccessor {
 
         private final DataSource dataRepository;
+        private final DataSource accreditationDataSource;
+        private final DataSource washDataSource;
         private final Parser<Survey> accreditationSurveyParser;
         private final Parser<Survey> washSurveyParser;
         private final AssetManager assetManager;
 
         public SurveyAccessor(DataSource dataRepository,
+                              DataSource accreditationDataSource,
+                              DataSource washDataSource,
                               Parser<Survey> accreditationSurveyParser,
                               Parser<Survey> washSurveyParser,
                               AssetManager assetManager) {
             this.dataRepository = dataRepository;
+            this.accreditationDataSource = accreditationDataSource;
+            this.washDataSource = washDataSource;
             this.accreditationSurveyParser = accreditationSurveyParser;
             this.washSurveyParser = washSurveyParser;
             this.assetManager = assetManager;
         }
 
+        public DataSource getDataSource() { return dataRepository; }
+
         public DataSource getDataSource(@NonNull SurveyType surveyType) {
-            return dataRepository;
+            switch (surveyType) {
+                case SCHOOL_ACCREDITATION:
+                    return accreditationDataSource;
+                case WASH:
+                    return washDataSource;
+            }
+            throw new IllegalStateException();
         }
 
         public Parser<Survey> getSurveyParser(@NonNull SurveyType surveyType) {

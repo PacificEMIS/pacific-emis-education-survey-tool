@@ -47,6 +47,8 @@ public class InteractorsModule {
                 localSettings,
                 new SettingsInteractor.SurveyAccessor(
                         dataSourceComponent.getDataRepository(),
+                        accreditationCoreComponent.getDataSource(),
+                        washCoreComponent.getDataSource(),
                         accreditationCoreComponent.getSurveyParser(),
                         washCoreComponent.getSurveyParser(),
                         assetManager
