@@ -120,7 +120,7 @@ public class ObservationInfoFragment extends BaseFragment implements
         bottomNavigatorView.setListener(this);
         teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
         teacherNameAutoComplete.setOnItemClickListener(new TeacherDropdownItemClickListener());
-        subjectAutoComplete.setAdapter(teachersAutoAdapter);
+        subjectAutoComplete.setAdapter(subjectsAutoAdapter);
         subjectAutoComplete.setOnItemClickListener(new SubjectDropdownItemClickListener());
         totalStudentsInputFieldLayout.setOnDonePressedListener(this);
         gradeTextView.setOnClickListener((view) -> presenter.onGradePressed());
