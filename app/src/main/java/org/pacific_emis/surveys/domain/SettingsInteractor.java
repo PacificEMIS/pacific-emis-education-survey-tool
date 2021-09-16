@@ -222,13 +222,13 @@ public class SettingsInteractor {
             Survey survey = tryParseAccreditation(content);
 
             if (survey != null) {
-                return dataRepository.createPartiallySavedSurvey(survey);
+                return accreditationDataSource.createPartiallySavedSurvey(survey);
             }
 
             survey = tryParseWash(content);
 
             if (survey != null) {
-                return dataRepository.createPartiallySavedSurvey(survey);
+                return washDataSource.createPartiallySavedSurvey(survey);
             }
 
             throw new ParseException();
