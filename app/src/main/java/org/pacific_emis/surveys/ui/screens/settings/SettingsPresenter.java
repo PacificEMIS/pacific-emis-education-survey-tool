@@ -140,18 +140,14 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void onForceFetchRemoteSettingsPressed() {
         addDisposable(
                 remoteSettings.forceFetch()
+                        .flatMapCompletable(b -> interactor.loadDataFromAssets())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> getViewState().showWaiting())
                         .doFinally(getViewState()::hideWaiting)
-                        .subscribe(hasFetchedNewValues -> {
-                            if (hasFetchedNewValues) {
-                                getViewState().showToast(Text.from(R.string.remote_fetch_result_success));
+                        .subscribe(()-> {
                                 this.refresh();
                                 remoteSettings.init(null);
-                            } else {
-                                getViewState().showToast(Text.from(R.string.remote_fetch_result_failure));
-                            }
                         }, this::handleError)
         );
     }

@@ -255,7 +255,7 @@ public class SettingsInteractor {
 
         public Completable fetchSurveyTemplateFromAssets(@NonNull SurveyType surveyType, String fileName) {
             return Single.fromCallable(() -> getSurveyParser(surveyType).parse(assetManager.open(fileName)))
-                    .flatMapCompletable(getDataSource(surveyType)::rewriteTemplateSurvey);
+                    .flatMapCompletable(getDataSource()::rewriteTemplateSurvey);
         }
     }
 }
