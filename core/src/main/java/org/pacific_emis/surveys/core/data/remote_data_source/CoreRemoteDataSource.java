@@ -73,7 +73,7 @@ public class CoreRemoteDataSource implements DataSource {
                 token -> emisApi
                         .getTeachers(
                                 1,
-                                emisApi.getTeachers(1, 1, token.toString()).blockingGet().fullAmountOfTeachers,
+                                Integer.MAX_VALUE,
                                 token.toString()
                         )
                         .blockingGet()
@@ -94,7 +94,10 @@ public class CoreRemoteDataSource implements DataSource {
                         .getSubjects(token.toString())
                         .blockingGet()
                         .stream()
-                        .map(it -> (Subject) it)
+                        .map(subject -> {
+                            subject.appRegion = appRegion;
+                            return (Subject) subject;
+                        })
                         .collect(Collectors.toList())
         );
     }
