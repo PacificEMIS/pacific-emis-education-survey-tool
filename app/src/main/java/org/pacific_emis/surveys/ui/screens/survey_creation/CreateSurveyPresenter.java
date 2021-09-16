@@ -8,6 +8,7 @@ import org.pacific_emis.surveys.app_support.MicronesiaApplication;
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
+import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.core.utils.DateUtils;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
@@ -32,6 +33,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
             .getRemoteStorageComponent()
             .getRemoteStorageAccessor();
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
 
     private Date surveyDate = new Date();
     private List<? extends School> schools;
@@ -50,7 +52,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadSchools() {
-        addDisposable(dataSource.loadSchools()
+        addDisposable(dataSource.loadSchools(localSettings.getCurrentAppRegion())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -77,7 +79,8 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                         selectedSchool.getName(),
                         new Date(),
                         DateUtils.formatDateTag(surveyDate),
-                        remoteStorageAccessor.getUserEmail()
+                        remoteStorageAccessor.getUserEmail(),
+                        localSettings.getCurrentAppRegion()
                 )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

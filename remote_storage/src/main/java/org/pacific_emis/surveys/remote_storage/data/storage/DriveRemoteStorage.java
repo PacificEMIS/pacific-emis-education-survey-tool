@@ -120,7 +120,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, initializer)
                 .setApplicationName(appContext.getString(R.string.app_name))
                 .build();
-        switch (localSettings.getAppRegion()) {
+        switch (localSettings.getCurrentAppRegion()) {
             case FSM:
                 return new FsmSheetsExcelExporter(appContext, sheets);
             case RMI:
@@ -173,7 +173,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                                     )
                                     .subscribeOn(Schedulers.io())
                             )
-                            .andThen(dataSourceComponent.getDataRepository().loadSurvey(survey.getId())
+                            .andThen(dataSourceComponent.getDataRepository().loadSurvey(survey.getAppRegion(), survey.getId())
                                     .subscribeOn(Schedulers.io()))
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
@@ -292,7 +292,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     private String getTemplateFileName() {
-        switch (localSettings.getAppRegion()) {
+        switch (localSettings.getCurrentAppRegion()) {
             case FSM:
                 return BuildConfig.NAME_REPORT_TEMPLATE_FSM;
             case RMI:

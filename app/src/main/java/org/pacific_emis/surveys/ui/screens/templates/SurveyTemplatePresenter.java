@@ -45,7 +45,7 @@ public abstract class SurveyTemplatePresenter extends BasePresenter<SurveyTempla
             addDisposable(
                     Single.fromCallable(() -> parser.parse(new ByteArrayInputStream(content.getBytes())))
                             .flatMapCompletable(survey -> {
-                                if (survey.getAppRegion() == localSettings.getAppRegion()) {
+                                if (survey.getAppRegion() == localSettings.getCurrentAppRegion()) {
                                     return dataSource.rewriteTemplateSurvey(survey);
                                 } else {
                                     throw new WrongAppRegionException();

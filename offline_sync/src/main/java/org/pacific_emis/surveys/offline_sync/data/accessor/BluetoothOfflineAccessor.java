@@ -261,7 +261,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                 BtMessage.Type.REQUEST_SURVEYS,
                 gson.toJson(new RequestSurveysBody(
                         schoolId,
-                        localSettings.getAppRegion(),
+                        localSettings.getCurrentAppRegion(),
                         localSettings.getSurveyTypeOrDefault(),
                         surveyTag
                 ))
@@ -499,7 +499,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             switch (request.getSurveyType()) {
                 case SCHOOL_ACCREDITATION:
                     compositeDisposable.add(
-                            accreditationDataSource.loadSurvey(request.getSurveyId())
+                            accreditationDataSource.loadSurvey(localSettings.getCurrentAppRegion(), request.getSurveyId())
                                     .cast(AccreditationSurvey.class)
                                     .map(MutableAccreditationSurvey::new)
                                     .subscribeOn(Schedulers.io())
@@ -512,7 +512,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                     break;
                 case WASH:
                     compositeDisposable.add(
-                            washDataSource.loadSurvey(request.getSurveyId())
+                            washDataSource.loadSurvey(localSettings.getCurrentAppRegion(), request.getSurveyId())
                                     .cast(WashSurvey.class)
                                     .map(MutableWashSurvey::new)
                                     .subscribeOn(Schedulers.io())
@@ -644,7 +644,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                         )
                         .ignoreElements()
                 )
-                .andThen(accreditationDataSource.loadSurvey(targetSurvey.getId()))
+                .andThen(accreditationDataSource.loadSurvey(localSettings.getCurrentAppRegion(), targetSurvey.getId()))
                 .cast(MutableAccreditationSurvey.class)
                 .flatMap(updatedSurvey -> updateAccreditationSurveyState(updatedSurvey, externalSurvey));
     }
@@ -728,7 +728,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
                         )
                         .ignoreElements()
                 )
-                .andThen(washDataSource.loadSurvey(targetSurvey.getId()))
+                .andThen(washDataSource.loadSurvey(localSettings.getCurrentAppRegion(), targetSurvey.getId()))
                 .cast(MutableWashSurvey.class)
                 .flatMap(updatedSurvey -> updateWashSurveyState(updatedSurvey, externalSurvey));
     }

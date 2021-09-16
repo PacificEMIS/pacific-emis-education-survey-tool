@@ -13,11 +13,11 @@ import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
 public interface LocalSettings {
 
     @NonNull
-    AppRegion getAppRegion();
+    AppRegion getCurrentAppRegion();
 
-    boolean isAppRegionSaved();
+    boolean isCurrentAppRegionSaved();
 
-    void setAppRegion(AppRegion appRegion);
+    void setCurrentAppRegion(AppRegion appRegion);
 
     @NonNull
     SurveyType getSurveyTypeOrDefault();
@@ -82,4 +82,6 @@ public interface LocalSettings {
     String getEmisPassword();
 
     boolean isEmisPasswordSaved();
+
+    String getEmisApiUrl();
 }

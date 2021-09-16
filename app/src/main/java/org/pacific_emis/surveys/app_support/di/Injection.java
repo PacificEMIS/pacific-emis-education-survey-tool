@@ -93,7 +93,8 @@ public class Injection {
                         dataSourceComponent,
                         applicationContext.getAssets(),
                         accreditationCoreComponent,
-                        washCoreComponent))
+                        washCoreComponent,
+                        coreComponent))
                 .build();
         fsmReportComponent = DaggerFsmReportComponent.builder()
                 .fsmReportModule(new FsmReportModule(accreditationCoreComponent))

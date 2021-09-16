@@ -85,7 +85,7 @@ public class RemoteSettings {
     }
 
     private FirebaseRemoteConfig getRemoteConfig() {
-        return remoteConfigs.get(localSettings.getAppRegion());
+        return remoteConfigs.get(localSettings.getCurrentAppRegion());
     }
 
     public void init(@Nullable Runnable onSuccess) {

@@ -76,7 +76,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     private void loadRecentSurveys() {
-        addDisposable(interactor.getAllSurveys()
+        addDisposable(interactor.getAllSurveys(localSettings.getCurrentAppRegion())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -120,7 +120,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public void onExportAllPressed() {
         addDisposable(
-                interactor.getAllSurveys()
+                interactor.getAllSurveys(localSettings.getCurrentAppRegion())
                         .flatMapObservable(Observable::fromIterable)
                         .filter(s -> s.getState() == SurveyState.COMPLETED)
                         .cast(AccreditationSurvey.class)

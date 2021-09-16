@@ -15,6 +15,7 @@ import org.pacific_emis.surveys.core.data.model.Progressable;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.data.model.mutable.MutableProgress;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.wash_core.data.data_source.WashDataSource;
 import org.pacific_emis.surveys.wash_core.data.model.Answer;
 import org.pacific_emis.surveys.wash_core.data.model.WashSurvey;
@@ -48,8 +49,8 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     }
 
     @Override
-    public Single<List<Survey>> getAllSurveys() {
-        return washDataSource.loadAllSurveys()
+    public Single<List<Survey>> getAllSurveys(AppRegion appRegion) {
+        return washDataSource.loadAllSurveys(appRegion)
                 .flatMapObservable(Observable::fromIterable)
                 .map(survey -> {
                     MutableWashSurvey mutableSurvey = new MutableWashSurvey((WashSurvey) survey);
