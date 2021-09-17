@@ -11,6 +11,8 @@ import com.omegar.mvp.InjectViewState;
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
+import org.pacific_emis.surveys.core.data.remote_data_source.CoreRemoteDataSource;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
@@ -40,6 +42,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             .getRemoteStorageComponent()
             .getRemoteStorage();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
+    private final DataSource remoteDataSource = MicronesiaApplication.getInjection().getCoreComponent().getRemoteDataSource();
 
     @Nullable
     private ExternalDocumentPickerCallback documentPickerCallback;
@@ -52,15 +55,15 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
-                itemFactory.createContextItem(localSettings.getAppRegion().getName()),
+                itemFactory.createContextItem(localSettings.getCurrentAppRegion().getName()),
                 itemFactory.createExportToExcelItem(localSettings.isExportToExcelEnabled()),
                 itemFactory.createNameItem(localSettings.getAppName()),
                 itemFactory.createContactItem(Text.from(localSettings.getContactName())),
                 itemFactory.createOpModeItem(localSettings.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
-                itemFactory.createLoadSchoolsItem(localSettings.getAppRegion().getName()),
-                itemFactory.createLoadTeachersItem(localSettings.getAppRegion().getName()),
-                itemFactory.createLoadSubjectsItem(localSettings.getAppRegion().getName()),
+                itemFactory.createLoadSchoolsItem(localSettings.getCurrentAppRegion().getName()),
+                itemFactory.createLoadTeachersItem(localSettings.getCurrentAppRegion().getName()),
+                itemFactory.createLoadSubjectsItem(localSettings.getCurrentAppRegion().getName()),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
                 itemFactory.createLoadProdCertificateItem(),
@@ -171,7 +174,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onContextPressed() {
         getViewState().showRegionSelector(region -> {
-            localSettings.setAppRegion(region);
+            localSettings.setCurrentAppRegion(region);
             refresh();
             getViewState().showPrompt(
                     Text.from(R.string.title_info),

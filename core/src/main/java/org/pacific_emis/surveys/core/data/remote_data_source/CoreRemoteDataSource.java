@@ -6,10 +6,15 @@ import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import io.reactivex.Completable;
@@ -20,34 +25,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CoreRemoteDataSource implements DataSource {
     private final static String UNSUPPORTED_FOR_THIS_DATASOURCE = "This operation is unsupported for remote data source.";
-    private final static String API_URL_FEDEMIS = "https://fedemis.doe.fm/api/";
-    private final static String API_URL_MIEMIS = "http://data.pss.edu.mh/miemis/api/";
-
     private final static String TOKEN_GRANT_TYPE = "password";
 
-    private EmisApi emisApi;
-    private String username;
-    private String password;
-    private final AppRegion appRegion;
+    private final Map<AppRegion, String> mTokenMap = new HashMap<>();
+    private final Map<AppRegion, EmisApi> emisApiMap = new ConcurrentHashMap<>();
+    private final LocalSettings localSettings;
 
-    public static CoreRemoteDataSource createByAppRegion(AppRegion appRegion, String apiUrl, String emisUser, String emisPassword) {
-        if (apiUrl != null) {
-            return new CoreRemoteDataSource(apiUrl, emisUser, emisPassword, appRegion);
-        } else switch (appRegion) {
-            case RMI:
-                return new CoreRemoteDataSource(API_URL_MIEMIS, emisUser, emisPassword, appRegion);
-            case FSM:
-                return new CoreRemoteDataSource(API_URL_FEDEMIS, emisUser, emisPassword, appRegion);
-            default:
-                return null;
-        }
-    }
-
-    public CoreRemoteDataSource(String emisApiUrl, String username, String password, AppRegion appRegion) {
-        this.appRegion = appRegion;
-        emisApi = initEmisApi(emisApiUrl);
-        this.username = username;
-        this.password = password;
+    public CoreRemoteDataSource(LocalSettings localSettings) {
+        emisApiMap.put(localSettings.getCurrentAppRegion(), initEmisApi(localSettings.getEmisApiUrl()));
+        this.localSettings = localSettings;
     }
 
     private EmisApi initEmisApi(String baseUrl) {
@@ -59,8 +45,35 @@ public class CoreRemoteDataSource implements DataSource {
                 .create(EmisApi.class);
     }
 
+    private Single<String> getToken(AppRegion appRegion) {
+        String emisUser = localSettings.getEmisUser();
+        String emisPassword = localSettings.getEmisPassword();
+        EmisApi emisApi = getOrCreateEmisApi(appRegion);
+        return Single.fromCallable(() -> Optional.ofNullable(mTokenMap.get(appRegion)))
+                .flatMap(optional ->
+                        optional.map(Single::just).orElseGet(()
+                                -> emisApi.getToken(emisUser, emisPassword, TOKEN_GRANT_TYPE)
+                                .map(token -> {
+                                    mTokenMap.put(appRegion, token.toString());
+                                    return token.toString();
+                                })));
+    }
+
+    private synchronized EmisApi getOrCreateEmisApi(AppRegion appRegion) {
+        EmisApi emisApi = emisApiMap.get(appRegion);
+        if (emisApi == null) {
+            if (localSettings.getCurrentAppRegion() != appRegion) {
+                throw new IllegalArgumentException("Current appRegion != " + appRegion + " (current = "  + localSettings.getCurrentAppRegion() + ")");
+            }
+            emisApi = initEmisApi(localSettings.getEmisApiUrl());
+            emisApiMap.put(appRegion, emisApi);
+        }
+        return emisApi;
+    }
+
     @Override
-    public Single<List<School>> loadSchools() {
+    public Single<List<School>> loadSchools(AppRegion appRegion) {
+        EmisApi emisApi = getOrCreateEmisApi(appRegion);
         return emisApi.getCore().map(core -> core.schoolCodes.stream().map(school -> {
             school.appRegion = appRegion;
             return (School) school;
@@ -68,13 +81,15 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<Teacher>> loadTeachers() {
-        return emisApi.getToken(username, this.password, TOKEN_GRANT_TYPE).map(
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
+        EmisApi emisApi = getOrCreateEmisApi(appRegion);
+
+        return getToken(appRegion).map(
                 token -> emisApi
                         .getTeachers(
                                 1,
-                                emisApi.getTeachers(1, 1, token.toString()).blockingGet().fullAmountOfTeachers,
-                                token.toString()
+                                Integer.MAX_VALUE,
+                                token
                         )
                         .blockingGet()
                         .teachers
@@ -88,13 +103,18 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<Subject>> loadSubjects() {
-        return emisApi.getToken(username, password, TOKEN_GRANT_TYPE).map(
+    public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
+        EmisApi emisApi = getOrCreateEmisApi(appRegion);
+
+        return getToken(appRegion).map(
                 token -> emisApi
-                        .getSubjects(token.toString())
+                        .getSubjects(token)
                         .blockingGet()
                         .stream()
-                        .map(it -> (Subject) it)
+                        .map(subject -> {
+                            subject.appRegion = appRegion;
+                            return (Subject) subject;
+                        })
                         .collect(Collectors.toList())
         );
     }
@@ -120,17 +140,17 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     @Override
-    public Single<Survey> getTemplateSurvey() {
+    public Single<Survey> getTemplateSurvey(AppRegion appRegion) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
     }
 
     @Override
-    public Single<Survey> loadSurvey(long surveyId) {
+    public Single<Survey> loadSurvey(AppRegion appRegion, long surveyId) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
     }
 
     @Override
-    public Single<List<Survey>> loadAllSurveys() {
+    public Single<List<Survey>> loadAllSurveys(AppRegion appRegion) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
     }
 
@@ -140,7 +160,7 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail) {
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
     }
 
@@ -165,7 +185,7 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     @Override
-    public Completable createPartiallySavedSurvey(Survey survey) {
+    public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
     }
 

@@ -10,6 +10,7 @@ import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableSta
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
 import java.util.List;
 
@@ -63,8 +64,8 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
     Completable deleteObservationLogRecord(long recordId);
 
-    Single<List<Teacher>> loadTeachers();
+    Single<List<Teacher>> loadTeachers(AppRegion appRegion);
 
-    Single<List<Subject>> loadSubjects();
+    Single<List<Subject>> loadSubjects(AppRegion appRegion);
 
 }

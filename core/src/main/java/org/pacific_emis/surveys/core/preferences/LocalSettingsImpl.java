@@ -17,10 +17,16 @@ import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.OperatingMode;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.FSM;
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.RMI;
+
 public class LocalSettingsImpl implements LocalSettings {
 
     private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
-    private static final AppRegion DEFAULT_APP_REGION = AppRegion.FSM;
+    private static final AppRegion DEFAULT_APP_REGION = FSM;
     private static final int NO_INT_VALUE = -1;
 
     private static final String PREF_KEY_SURVEY_TYPE = "PREF_KEY_SURVEY_TYPE";
@@ -44,6 +50,11 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_EXCEL_EXPORT = "PREF_KEY_EXCEL_EXPORT";
     private static final String PREF_KEY_PROD_CERT = "PREF_KEY_PROD_CERT";
 
+    private final static Map<AppRegion, String> API_URLS_MAP = new HashMap<AppRegion, String>() {{
+        put(RMI, "http://data.pss.edu.mh/miemis/api/");
+        put(FSM, "https://fedemis.doe.fm/api/");
+    }};
+
     private final SharedPreferences sharedPreferences;
 
     public LocalSettingsImpl(SharedPreferences sharedPreferences) {
@@ -52,13 +63,13 @@ public class LocalSettingsImpl implements LocalSettings {
 
     @NonNull
     @Override
-    public AppRegion getAppRegion() {
+    public AppRegion getCurrentAppRegion() {
         AppRegion savedAppRegion = getSavedAppRegion();
         return savedAppRegion != null ? savedAppRegion : DEFAULT_APP_REGION;
     }
 
     @Override
-    public boolean isAppRegionSaved() {
+    public boolean isCurrentAppRegionSaved() {
         return getSavedAppRegion() != null;
     }
 
@@ -68,7 +79,7 @@ public class LocalSettingsImpl implements LocalSettings {
     }
 
     @Override
-    public void setAppRegion(AppRegion appRegion) {
+    public void setCurrentAppRegion(AppRegion appRegion) {
         sharedPreferences.edit().putInt(PREF_KEY_APP_REGION, appRegion.getValue()).apply();
     }
 
@@ -80,7 +91,7 @@ public class LocalSettingsImpl implements LocalSettings {
             return new UrlImage(logoPath);
         }
 
-        switch (getAppRegion()) {
+        switch (getCurrentAppRegion()) {
             case FSM:
                 return sDefaultIconFsm;
             case RMI:
@@ -269,5 +280,10 @@ public class LocalSettingsImpl implements LocalSettings {
     @Override
     public boolean isEmisPasswordSaved() {
         return getEmisPassword() != null;
+    }
+
+    @Override
+    public String getEmisApiUrl() {
+        return API_URLS_MAP.get(getCurrentAppRegion());
     }
 }

@@ -8,6 +8,7 @@ import org.pacific_emis.surveys.app_support.di.modules.InteractorsModule;
 import org.pacific_emis.surveys.core.di.CoreComponent;
 import org.pacific_emis.surveys.core.di.DaggerCoreComponent;
 import org.pacific_emis.surveys.core.di.modules.ContextModule;
+import org.pacific_emis.surveys.core.di.modules.RemoteDataSourceModule;
 import org.pacific_emis.surveys.data_source_injector.di.DaggerDataSourceComponent;
 import org.pacific_emis.surveys.data_source_injector.di.DataSourceComponent;
 import org.pacific_emis.surveys.data_source_injector.di.modules.DataSourceModule;
@@ -89,9 +90,11 @@ public class Injection {
                 .coreComponent(coreComponent)
                 .interactorsModule(new InteractorsModule(
                         remoteStorageComponent,
+                        dataSourceComponent,
                         applicationContext.getAssets(),
                         accreditationCoreComponent,
-                        washCoreComponent))
+                        washCoreComponent,
+                        coreComponent))
                 .build();
         fsmReportComponent = DaggerFsmReportComponent.builder()
                 .fsmReportModule(new FsmReportModule(accreditationCoreComponent))

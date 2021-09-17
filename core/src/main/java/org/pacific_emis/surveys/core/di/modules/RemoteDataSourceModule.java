@@ -13,7 +13,7 @@ public class RemoteDataSourceModule {
     @Provides
     @CoreScope
     public CoreRemoteDataSource provideRemoteDataSource(LocalSettings localSettings) {
-        return CoreRemoteDataSource.createByAppRegion(localSettings.getAppRegion(), localSettings.getEmisApi(), localSettings.getEmisUser(), localSettings.getEmisPassword());
+        return new CoreRemoteDataSource(localSettings);
     }
 
 }

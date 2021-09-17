@@ -21,7 +21,7 @@ public class ReportModule {
 
     @Provides
     public ReportsProvider provideReportsProvider(LocalSettings localSettings) {
-        switch (localSettings.getAppRegion()) {
+        switch (localSettings.getCurrentAppRegion()) {
             case FSM:
                 return fsmReportComponent.getFsmReportsProvider();
             case RMI:
@@ -32,7 +32,7 @@ public class ReportModule {
 
     @Provides
     public ReportInteractor provideReportInteractor(LocalSettings localSettings) {
-        switch (localSettings.getAppRegion()) {
+        switch (localSettings.getCurrentAppRegion()) {
             case FSM:
                 return fsmReportComponent.getFsmReportInteractor();
             case RMI:

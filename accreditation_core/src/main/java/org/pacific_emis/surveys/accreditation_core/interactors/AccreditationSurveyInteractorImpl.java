@@ -20,6 +20,7 @@ import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,8 +51,8 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     }
 
     @Override
-    public Single<List<Survey>> getAllSurveys() {
-        return accreditationDataSource.loadAllSurveys()
+    public Single<List<Survey>> getAllSurveys(AppRegion appRegion) {
+        return accreditationDataSource.loadAllSurveys(appRegion)
                 .flatMapObservable(Observable::fromIterable)
                 .map(survey -> {
                     MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
@@ -341,12 +342,12 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     }
 
     @Override
-    public Single<List<Teacher>> loadTeachers() {
-        return accreditationDataSource.loadTeachers();
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
+        return accreditationDataSource.loadTeachers(appRegion);
     }
 
     @Override
-    public Single<List<Subject>> loadSubjects() {
-        return accreditationDataSource.loadSubjects();
+    public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
+        return accreditationDataSource.loadSubjects(appRegion);
     }
 }

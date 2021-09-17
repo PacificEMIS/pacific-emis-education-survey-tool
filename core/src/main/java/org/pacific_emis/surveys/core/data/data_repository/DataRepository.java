@@ -23,52 +23,52 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<List<School>> loadSchools() {
-        return loadSchools(0);
+    public Single<List<School>> loadSchools(AppRegion appRegion) {
+        return loadSchools(0, appRegion);
     }
 
-    private Single<List<School>> loadSchools(int defaultDataSourceNumber) {
+    private Single<List<School>> loadSchools(int defaultDataSourceNumber, AppRegion appRegion) {
         Single<List<School>> result = null;
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
             result =
                     dataSources[defaultDataSourceNumber]
-                            .loadSchools()
-                            .onErrorResumeNext(error -> loadSchools(nextDataSourceNumber));
+                            .loadSchools(appRegion)
+                            .onErrorResumeNext(error -> loadSchools(nextDataSourceNumber, appRegion));
         }
         return result;
     }
 
     @Override
-    public Single<List<Teacher>> loadTeachers() {
-        return loadTeachers(0);
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
+        return loadTeachers(0, appRegion);
     }
 
-    private Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber) {
+    private Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber, AppRegion appRegion) {
         Single<List<Teacher>> result = null;
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
             result =
                     dataSources[defaultDataSourceNumber]
-                            .loadTeachers()
-                            .onErrorResumeNext(error -> loadTeachers(nextDataSourceNumber));
+                            .loadTeachers(appRegion)
+                            .onErrorResumeNext(error -> loadTeachers(nextDataSourceNumber, appRegion));
         }
         return result;
     }
 
     @Override
-    public Single<List<Subject>> loadSubjects() {
-        return loadSubjects(0);
+    public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
+        return loadSubjects(0, appRegion);
     }
 
-    private Single<List<Subject>> loadSubjects(int defaultDataSourceNumber) {
+    private Single<List<Subject>> loadSubjects(int defaultDataSourceNumber, AppRegion appRegion) {
         Single<List<Subject>> result = null;
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
             result =
                     dataSources[defaultDataSourceNumber]
-                            .loadSubjects()
-                            .onErrorResumeNext(error -> loadSubjects(nextDataSourceNumber));
+                            .loadSubjects(appRegion)
+                            .onErrorResumeNext(error -> loadSubjects(nextDataSourceNumber, appRegion));
         }
         return result;
     }
@@ -130,11 +130,11 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<Survey> getTemplateSurvey() {
+    public Single<Survey> getTemplateSurvey(AppRegion appRegion) {
         Single<Survey> result = null;
         for (int i = 0; i < dataSources.length; ) {
             try {
-                result = dataSources[i].getTemplateSurvey();
+                result = dataSources[i].getTemplateSurvey(appRegion);
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
@@ -144,11 +144,11 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<Survey> loadSurvey(long surveyId) {
+    public Single<Survey> loadSurvey(AppRegion appRegion, long surveyId) {
         Single<Survey> result = null;
         for (int i = 0; i < dataSources.length; ) {
             try {
-                result = dataSources[i].loadSurvey(surveyId);
+                result = dataSources[i].loadSurvey(appRegion, surveyId);
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
@@ -158,11 +158,11 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<List<Survey>> loadAllSurveys() {
+    public Single<List<Survey>> loadAllSurveys(AppRegion appRegion) {
         Single<List<Survey>> result = null;
         for (int i = 0; i < dataSources.length; ) {
             try {
-                result = dataSources[i].loadAllSurveys();
+                result = dataSources[i].loadAllSurveys(appRegion);
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
@@ -186,11 +186,11 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail) {
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
         Single<Survey> result = null;
         for (int i = 0; i < dataSources.length; ) {
             try {
-                result = dataSources[i].createSurvey(schoolId, schoolName, createDate, surveyTag, userEmail);
+                result = dataSources[i].createSurvey(schoolId, schoolName, createDate, surveyTag, userEmail, appRegion);
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
@@ -256,11 +256,11 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Completable createPartiallySavedSurvey(Survey survey) {
+    public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         Completable result = null;
         for (int i = 0; i < dataSources.length; ) {
             try {
-                result = dataSources[i].createPartiallySavedSurvey(survey);
+                result = dataSources[i].createPartiallySavedSurvey(appRegion, survey);
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;
