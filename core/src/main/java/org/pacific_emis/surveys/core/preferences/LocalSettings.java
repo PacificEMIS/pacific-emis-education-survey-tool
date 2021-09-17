@@ -91,5 +91,4 @@ public interface LocalSettings {
     String getEmisPassword();
 
     boolean isEmisPasswordSaved();
-
 }
