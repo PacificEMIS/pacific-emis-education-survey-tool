@@ -250,9 +250,11 @@ public class LocalSettingsImpl implements LocalSettings {
     @Override
     public String getEmisApiUrl() {
         String emisUrl = sharedPreferences.getString(PREF_KEY_EMIS_API, null);
-        if (emisUrl != null)
+        if (emisUrl != null) {
             return emisUrl;
-        else return API_URLS_MAP.get(getCurrentAppRegion());
+        } else {
+            return API_URLS_MAP.get(getCurrentAppRegion());
+        }
     }
 
     @Override
