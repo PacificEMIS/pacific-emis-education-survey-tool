@@ -50,6 +50,11 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_EXCEL_EXPORT = "PREF_KEY_EXCEL_EXPORT";
     private static final String PREF_KEY_PROD_CERT = "PREF_KEY_PROD_CERT";
 
+    private final static Map<AppRegion, String> API_URLS_MAP = new HashMap<AppRegion, String>() {{
+        put(RMI, "http://data.pss.edu.mh/miemis/api/");
+        put(FSM, "https://fedemis.doe.fm/api/");
+    }};
+
     private final SharedPreferences sharedPreferences;
 
     public LocalSettingsImpl(SharedPreferences sharedPreferences) {
@@ -243,7 +248,14 @@ public class LocalSettingsImpl implements LocalSettings {
     }
 
     @Override
-    public String getEmisApiUrl() { return sharedPreferences.getString(PREF_KEY_EMIS_API, null); }
+    public String getEmisApiUrl() {
+        String emisUrl = sharedPreferences.getString(PREF_KEY_EMIS_API, null);
+        if (emisUrl != null) {
+            return emisUrl;
+        } else {
+            return API_URLS_MAP.get(getCurrentAppRegion());
+        }
+    }
 
     @Override
     public boolean isEmisApiUrlSaved() { return getEmisApiUrl() != null; }
