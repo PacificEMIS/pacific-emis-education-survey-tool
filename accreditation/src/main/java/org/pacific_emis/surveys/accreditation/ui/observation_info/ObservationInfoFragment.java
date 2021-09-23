@@ -6,11 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +44,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ObservationInfoFragment extends BaseFragment implements
         ObservationInfoView,
@@ -78,8 +72,6 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Nullable
     private Dialog selectorDialog;
-
-    final Handler handler = new Handler(Looper.getMainLooper());
 
     public static ObservationInfoFragment create(long categoryId) {
         ObservationInfoFragment fragment = new ObservationInfoFragment();
@@ -117,52 +109,12 @@ public class ObservationInfoFragment extends BaseFragment implements
         setEditTextClickListener();
     }
 
-    private void timeout(Runnable run) {
-        handler.removeCallbacksAndMessages(null);
-        handler.postDelayed(run, 1000);
-    }
-
     private void setEditTextClickListener() {
-        teacherNameAutoComplete.addTextChangedListener(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        // nothing
-                    }
+        Runnable runTeacher = () -> presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
+        Runnable runSubject = () -> presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        // nothing
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        Runnable run =
-                                () -> presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
-                        timeout(run);
-                    }
-                }
-        );
-
-        subjectAutoComplete.addTextChangedListener(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        // nothing
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        // nothing
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        Runnable run = () -> presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
-                        timeout(run);
-                    }
-                }
-        );
+        teacherNameAutoComplete.addTextChangedListener(new TimeOut(runTeacher, 1000));
+        subjectAutoComplete.addTextChangedListener(new TimeOut(runSubject, 1000));
     }
 
     private void bindViews(@NonNull View view) {
