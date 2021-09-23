@@ -6,6 +6,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -77,6 +79,8 @@ public class ObservationInfoFragment extends BaseFragment implements
     @Nullable
     private Dialog selectorDialog;
 
+    final Handler handler = new Handler(Looper.getMainLooper());
+
     public static ObservationInfoFragment create(long categoryId) {
         ObservationInfoFragment fragment = new ObservationInfoFragment();
         Bundle args = new Bundle();
@@ -113,11 +117,14 @@ public class ObservationInfoFragment extends BaseFragment implements
         setEditTextClickListener();
     }
 
+    private void timeout(Runnable run) {
+        handler.removeCallbacksAndMessages(null);
+        handler.postDelayed(run, 1000);
+    }
+
     private void setEditTextClickListener() {
         teacherNameAutoComplete.addTextChangedListener(
                 new TextWatcher() {
-                    private Timer timer = new Timer();
-
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                         // nothing
@@ -130,26 +137,15 @@ public class ObservationInfoFragment extends BaseFragment implements
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        timer.cancel();
-                        timer = new Timer();
-                        long DELAY = 1000;
-                        timer.schedule(
-                                new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
-                                    }
-                                },
-                                DELAY
-                        );
+                        Runnable run =
+                                () -> presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
+                        timeout(run);
                     }
                 }
         );
 
         subjectAutoComplete.addTextChangedListener(
                 new TextWatcher() {
-                    private Timer timer = new Timer();
-
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                         // nothing
@@ -162,17 +158,8 @@ public class ObservationInfoFragment extends BaseFragment implements
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        timer.cancel();
-                        timer = new Timer();
-                        long DELAY = 1000;
-                        timer.schedule(
-                                new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
-                                    }
-                                },
-                                DELAY);
+                        Runnable run = () -> presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
+                        timeout(run);
                     }
                 }
         );
