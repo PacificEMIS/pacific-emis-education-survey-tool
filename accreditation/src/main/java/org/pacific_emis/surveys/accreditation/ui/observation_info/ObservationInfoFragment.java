@@ -55,6 +55,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.US);
+    private static final long DELAY_CHANGED_MILLIS = 1000;
 
     @InjectPresenter
     ObservationInfoPresenter presenter;
@@ -73,8 +74,6 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Nullable
     private Dialog selectorDialog;
-
-    private static final long DELAY_CHANGED_MILLIS = 1000;
 
     public static ObservationInfoFragment create(long categoryId) {
         ObservationInfoFragment fragment = new ObservationInfoFragment();

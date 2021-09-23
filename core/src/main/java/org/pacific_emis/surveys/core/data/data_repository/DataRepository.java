@@ -47,38 +47,10 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
-        return loadTeachers(0, appRegion);
-    }
-
-    private Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber, AppRegion appRegion) {
-        Single<List<Teacher>> result = null;
-        if (defaultDataSourceNumber < dataSources.length) {
-            final int nextDataSourceNumber = defaultDataSourceNumber + 1;
-            result =
-                    dataSources[defaultDataSourceNumber]
-                            .loadTeachers(appRegion)
-                            .onErrorResumeNext(error -> null);
-        }
-        return result;
-    }
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) { return dataSources[0].loadTeachers(appRegion); }
 
     @Override
-    public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
-        return loadSubjects(0, appRegion);
-    }
-
-    private Single<List<Subject>> loadSubjects(int defaultDataSourceNumber, AppRegion appRegion) {
-        Single<List<Subject>> result = null;
-        if (defaultDataSourceNumber < dataSources.length) {
-            final int nextDataSourceNumber = defaultDataSourceNumber + 1;
-            result =
-                    dataSources[defaultDataSourceNumber]
-                            .loadSubjects(appRegion)
-                            .onErrorResumeNext(error -> null);
-        }
-        return result;
-    }
+    public Single<List<Subject>> loadSubjects(AppRegion appRegion) { return dataSources[0].loadSubjects(appRegion); }
 
     @Override
     public Completable rewriteAllSchools(List<School> schools) {
