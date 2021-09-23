@@ -1,5 +1,6 @@
 package org.pacific_emis.surveys.core.data.remote_data_source;
 
+import org.pacific_emis.surveys.core.BuildConfig;
 import org.pacific_emis.surveys.core.data.data_repository.Result;
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,7 +41,15 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     private EmisApi initEmisApi(String baseUrl) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .build();
+
         return new Retrofit.Builder()
+                .client(client)
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

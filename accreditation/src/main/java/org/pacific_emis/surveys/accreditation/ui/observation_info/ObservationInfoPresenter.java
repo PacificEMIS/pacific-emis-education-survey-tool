@@ -1,5 +1,7 @@
 package org.pacific_emis.surveys.accreditation.ui.observation_info;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegatypes.Text;
@@ -179,8 +181,10 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     }
 
     public void onTeacherChanged(String teacher) {
-        observationInfo.setTeacherName(teacher);
-        save(observationInfo);
+        if (!teacher.equals(observationInfo.getTeacherName())) {
+            observationInfo.setTeacherName(teacher);
+            save(observationInfo);
+        }
     }
 
     public void onTotalStudentsChanged(Integer totalStudents) {

@@ -33,6 +33,7 @@ import org.pacific_emis.surveys.core.di.CoreComponentInjector;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
+import org.pacific_emis.surveys.core.utils.DebounceTextChangedWatcher;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponentInjector;
@@ -73,6 +74,8 @@ public class ObservationInfoFragment extends BaseFragment implements
     @Nullable
     private Dialog selectorDialog;
 
+    private static final long DELAY_CHANGED_MILLIS = 1000;
+
     public static ObservationInfoFragment create(long categoryId) {
         ObservationInfoFragment fragment = new ObservationInfoFragment();
         Bundle args = new Bundle();
@@ -106,15 +109,21 @@ public class ObservationInfoFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         setupUserInteractions();
-        setEditTextClickListener();
+        setupTextChangedListeners();
     }
 
-    private void setEditTextClickListener() {
-        Runnable runTeacher = () -> presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
-        Runnable runSubject = () -> presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
+    private void setupTextChangedListeners() {
+        DebounceTextChangedWatcher.setup(
+                teacherNameAutoComplete,
+                DELAY_CHANGED_MILLIS,
+                newText -> presenter.onTeacherChanged(newText)
+        );
+        DebounceTextChangedWatcher.setup(
+                subjectAutoComplete,
+                DELAY_CHANGED_MILLIS,
+                newText -> presenter.onSubjectChanged(newText)
+        );
 
-        teacherNameAutoComplete.addTextChangedListener(new TimeOut(runTeacher, 1000));
-        subjectAutoComplete.addTextChangedListener(new TimeOut(runSubject, 1000));
     }
 
     private void bindViews(@NonNull View view) {

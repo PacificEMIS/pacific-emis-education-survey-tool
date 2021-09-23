@@ -243,15 +243,21 @@ public class LocalSettingsImpl implements LocalSettings {
     }
 
     @Override
-    public void setEmisApi(String api) {
+    public void setEmisApiUrl (String api) {
         sharedPreferences.edit().putString(PREF_KEY_EMIS_API, api).apply();
     }
 
     @Override
-    public String getEmisApi() { return sharedPreferences.getString(PREF_KEY_EMIS_API, null); }
+    public String getEmisApiUrl() {
+        String emisUrl = sharedPreferences.getString(PREF_KEY_EMIS_API, null);
+        if (emisUrl != null) {
+            return emisUrl;
+        } else {
+            return API_URLS_MAP.get(getCurrentAppRegion());
+        } }
 
     @Override
-    public boolean isEmisApiSaved() { return getEmisApi() != null; }
+    public boolean isEmisApiUrlSaved() { return getEmisApiUrl() != null; }
 
     public void setEmisUser(String user) {
         sharedPreferences.edit().putString(PREF_KEY_EMIS_USER, user).apply();
@@ -280,10 +286,5 @@ public class LocalSettingsImpl implements LocalSettings {
     @Override
     public boolean isEmisPasswordSaved() {
         return getEmisPassword() != null;
-    }
-
-    @Override
-    public String getEmisApiUrl() {
-        return API_URLS_MAP.get(getCurrentAppRegion());
     }
 }
