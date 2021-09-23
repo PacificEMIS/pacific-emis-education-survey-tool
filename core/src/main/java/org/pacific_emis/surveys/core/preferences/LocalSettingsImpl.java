@@ -243,7 +243,7 @@ public class LocalSettingsImpl implements LocalSettings {
     }
 
     @Override
-    public void setEmisApiUrl (String api) {
+    public void setEmisApiUrl(String api) {
         sharedPreferences.edit().putString(PREF_KEY_EMIS_API, api).apply();
     }
 
@@ -254,7 +254,8 @@ public class LocalSettingsImpl implements LocalSettings {
             return emisUrl;
         } else {
             return API_URLS_MAP.get(getCurrentAppRegion());
-        } }
+        }
+    }
 
     @Override
     public boolean isEmisApiUrlSaved() { return getEmisApiUrl() != null; }
