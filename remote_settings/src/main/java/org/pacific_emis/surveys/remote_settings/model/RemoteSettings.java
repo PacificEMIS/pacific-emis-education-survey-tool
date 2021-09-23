@@ -164,7 +164,7 @@ public class RemoteSettings {
             localSettings.setOperatingMode(operatingMode);
             remoteStorage.refreshCredentials();
         }, localSettings::isOperatingModeSaved);
-        parseForceableString(KEY_EMIS_URL, forcedByUser, localSettings::setEmisApiUrl, localSettings::isEmisApiUrlSaved);
+        parseForceableString(KEY_EMIS_URL, forcedByUser, localSettings::setEmisApi, localSettings::isEmisApiSaved);
         parseForceableString(KEY_EMIS_USER, forcedByUser, localSettings::setEmisUser, localSettings::isEmisUserSaved);
         parseForceableString(KEY_EMIS_PASSWORD, forcedByUser, localSettings::setEmisPassword, localSettings::isEmisPasswordSaved);
     }
