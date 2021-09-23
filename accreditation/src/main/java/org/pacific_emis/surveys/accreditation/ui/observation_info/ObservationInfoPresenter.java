@@ -178,6 +178,11 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         save(observationInfo);
     }
 
+    public void onTeacherChanged(String teacher) {
+        observationInfo.setTeacherName(teacher);
+        save(observationInfo);
+    }
+
     public void onTotalStudentsChanged(Integer totalStudents) {
         observationInfo.setTotalStudentsPresent(totalStudents);
         save(observationInfo);
@@ -185,6 +190,11 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
 
     public void onSubjectChanged(Subject subject) {
         observationInfo.setSubject(subject.getName());
+        save(observationInfo);
+    }
+
+    public void onSubjectChanged(String subject) {
+        observationInfo.setSubject(subject);
         save(observationInfo);
     }
 

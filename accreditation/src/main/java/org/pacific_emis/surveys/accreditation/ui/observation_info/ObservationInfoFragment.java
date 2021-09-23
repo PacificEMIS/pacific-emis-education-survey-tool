@@ -6,7 +6,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +108,47 @@ public class ObservationInfoFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         setupUserInteractions();
+        editTextClickListener();
+    }
+
+    private void editTextClickListener() {
+        teacherNameAutoComplete.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
+                    }
+                }
+        );
+
+        subjectAutoComplete.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
+                    }
+                }
+        );
     }
 
     private void bindViews(@NonNull View view) {
