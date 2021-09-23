@@ -58,7 +58,7 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(schools -> {
-                    this.schools = schools;
+                    this.schools = schools.getData();
                     getViewState().setSchools(new ArrayList<>(this.schools));
                 }, this::handleError));
     }

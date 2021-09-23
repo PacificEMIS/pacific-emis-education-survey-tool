@@ -13,6 +13,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 public class DataRepository implements DataSource {
 
@@ -23,20 +24,26 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<List<School>> loadSchools(AppRegion appRegion) {
-        return loadSchools(0, appRegion);
+    public Single<Result<List<School>>> loadSchools(AppRegion appRegion) {
+        return loadSchools(0, null, appRegion);
     }
 
-    private Single<List<School>> loadSchools(int defaultDataSourceNumber, AppRegion appRegion) {
-        Single<List<School>> result = null;
+    private Single<Result<List<School>>> loadSchools(int defaultDataSourceNumber,
+                                                     @NonNull Throwable prevError,
+                                                     AppRegion appRegion) {
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
-            result =
-                    dataSources[defaultDataSourceNumber]
+            return dataSources[defaultDataSourceNumber]
                             .loadSchools(appRegion)
-                            .onErrorResumeNext(error -> loadSchools(nextDataSourceNumber, appRegion));
+                            .onErrorResumeNext(error -> loadSchools(nextDataSourceNumber, error, appRegion))
+                            .map(item -> {
+                                if (item.getError() == null) {
+                                    return new Result<>(item.getData(), prevError);
+                                }
+                                return item;
+                            });
         }
-        return result;
+        return null;
     }
 
     @Override
@@ -51,7 +58,7 @@ public class DataRepository implements DataSource {
             result =
                     dataSources[defaultDataSourceNumber]
                             .loadTeachers(appRegion)
-                            .onErrorResumeNext(error -> loadTeachers(nextDataSourceNumber, appRegion));
+                            .onErrorResumeNext(error -> null);
         }
         return result;
     }
@@ -68,7 +75,7 @@ public class DataRepository implements DataSource {
             result =
                     dataSources[defaultDataSourceNumber]
                             .loadSubjects(appRegion)
-                            .onErrorResumeNext(error -> loadSubjects(nextDataSourceNumber, appRegion));
+                            .onErrorResumeNext(error -> null);
         }
         return result;
     }

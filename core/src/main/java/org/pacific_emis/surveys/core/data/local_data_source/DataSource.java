@@ -1,5 +1,6 @@
 package org.pacific_emis.surveys.core.data.local_data_source;
 
+import org.pacific_emis.surveys.core.data.data_repository.Result;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.model.Photo;
@@ -15,7 +16,7 @@ import io.reactivex.Single;
 
 public interface DataSource {
 
-    Single<List<School>> loadSchools(AppRegion appRegion) throws UnsupportedOperationException;
+    Single<Result<List<School>>> loadSchools(AppRegion appRegion) throws UnsupportedOperationException;
 
     Single<List<Teacher>> loadTeachers(AppRegion appRegion) throws UnsupportedOperationException;
 

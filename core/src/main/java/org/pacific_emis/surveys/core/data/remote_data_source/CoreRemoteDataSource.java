@@ -1,5 +1,6 @@
 package org.pacific_emis.surveys.core.data.remote_data_source;
 
+import org.pacific_emis.surveys.core.data.data_repository.Result;
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
@@ -72,12 +73,14 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<School>> loadSchools(AppRegion appRegion) {
+    public Single<Result<List<School>>> loadSchools(AppRegion appRegion) {
         EmisApi emisApi = getOrCreateEmisApi(appRegion);
         return emisApi.getCore().map(core -> core.schoolCodes.stream().map(school -> {
             school.appRegion = appRegion;
             return (School) school;
-        }).collect(Collectors.toList()));
+        })
+                .collect(Collectors.toList()))
+                .map(item -> new Result<>(item, null));
     }
 
     @Override

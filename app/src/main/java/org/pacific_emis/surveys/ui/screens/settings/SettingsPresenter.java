@@ -237,7 +237,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
-                .subscribe(() -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)), this::handleError));
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
+                        error -> getViewState().showToast(Text.from(R.string.toast_load_error))
+                ));
     }
 
     private void onLoadTeachersPressed() {
@@ -248,7 +251,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
-                        ((SettingsPresenter) this)::handleError
+                        error -> getViewState().showToast(Text.from(R.string.toast_load_error))
+
                 ));
     }
 
@@ -260,7 +264,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
-                        ((SettingsPresenter) this)::handleError
+                        error -> getViewState().showToast(Text.from(R.string.toast_load_error))
                 ));
     }
 
