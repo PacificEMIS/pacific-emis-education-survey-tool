@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import org.pacific_emis.surveys.core.data.data_repository.Result;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
@@ -50,9 +51,9 @@ public abstract class CoreLocalDataSource implements DataSource {
     }
 
     @Override
-    public Single<List<School>> loadSchools(AppRegion appRegion) {
+    public Single<Result<List<School>>> loadSchools(AppRegion appRegion) {
         return Single.fromCallable(() -> schoolDao.getAll(appRegion))
-                .map(ArrayList::new);
+                .map(item -> new Result<>(new ArrayList<>(item), null));
     }
 
     @Override

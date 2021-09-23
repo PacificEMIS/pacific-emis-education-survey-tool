@@ -33,6 +33,7 @@ import org.pacific_emis.surveys.core.di.CoreComponentInjector;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
+import org.pacific_emis.surveys.core.utils.DebounceTextChangedWatcher;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponentInjector;
@@ -54,6 +55,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.US);
+    private static final long DELAY_CHANGED_MILLIS = 1000;
 
     @InjectPresenter
     ObservationInfoPresenter presenter;
@@ -106,6 +108,21 @@ public class ObservationInfoFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         setupUserInteractions();
+        setupTextChangedListeners();
+    }
+
+    private void setupTextChangedListeners() {
+        DebounceTextChangedWatcher.setup(
+                teacherNameAutoComplete,
+                DELAY_CHANGED_MILLIS,
+                newText -> presenter.onTeacherChanged(newText)
+        );
+        DebounceTextChangedWatcher.setup(
+                subjectAutoComplete,
+                DELAY_CHANGED_MILLIS,
+                newText -> presenter.onSubjectChanged(newText)
+        );
+
     }
 
     private void bindViews(@NonNull View view) {

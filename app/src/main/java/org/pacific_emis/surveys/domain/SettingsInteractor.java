@@ -81,15 +81,25 @@ public class SettingsInteractor {
     }
 
     public Completable updateSchoolsFromRemote() {
-        return getDataSource().loadSchools(localSettings.getCurrentAppRegion()).flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
+        return getDataSource()
+                .loadSchools(localSettings.getCurrentAppRegion())
+                .flatMap(item -> {
+                    if (item.getError() != null) return Single.error(item.getError());
+                    return Single.just(item.getData());
+                })
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
     }
 
     public Completable updateTeachersFromRemote() {
-        return getDataSource().loadTeachers(localSettings.getCurrentAppRegion()).flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
+        return getDataSource()
+                .loadTeachers(localSettings.getCurrentAppRegion())
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
     }
 
     public Completable updateSubjectsFromRemote() {
-        return getDataSource().loadSubjects(localSettings.getCurrentAppRegion()).flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
+        return getDataSource()
+                .loadSubjects(localSettings.getCurrentAppRegion())
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
     }
 
     public Completable selectExportFolder() {

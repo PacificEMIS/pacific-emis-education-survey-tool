@@ -13,6 +13,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 public class DataRepository implements DataSource {
 
@@ -23,55 +24,33 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<List<School>> loadSchools(AppRegion appRegion) {
-        return loadSchools(0, appRegion);
+    public Single<Result<List<School>>> loadSchools(AppRegion appRegion) {
+        return loadSchools(0, null, appRegion);
     }
 
-    private Single<List<School>> loadSchools(int defaultDataSourceNumber, AppRegion appRegion) {
-        Single<List<School>> result = null;
+    private Single<Result<List<School>>> loadSchools(int defaultDataSourceNumber,
+                                                     @NonNull Throwable prevError,
+                                                     AppRegion appRegion) {
         if (defaultDataSourceNumber < dataSources.length) {
             final int nextDataSourceNumber = defaultDataSourceNumber + 1;
-            result =
-                    dataSources[defaultDataSourceNumber]
+            return dataSources[defaultDataSourceNumber]
                             .loadSchools(appRegion)
-                            .onErrorResumeNext(error -> loadSchools(nextDataSourceNumber, appRegion));
+                            .onErrorResumeNext(error -> loadSchools(nextDataSourceNumber, error, appRegion))
+                            .map(item -> {
+                                if (item.getError() == null) {
+                                    return new Result<>(item.getData(), prevError);
+                                }
+                                return item;
+                            });
         }
-        return result;
+        return null;
     }
 
     @Override
-    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
-        return loadTeachers(0, appRegion);
-    }
-
-    private Single<List<Teacher>> loadTeachers(int defaultDataSourceNumber, AppRegion appRegion) {
-        Single<List<Teacher>> result = null;
-        if (defaultDataSourceNumber < dataSources.length) {
-            final int nextDataSourceNumber = defaultDataSourceNumber + 1;
-            result =
-                    dataSources[defaultDataSourceNumber]
-                            .loadTeachers(appRegion)
-                            .onErrorResumeNext(error -> loadTeachers(nextDataSourceNumber, appRegion));
-        }
-        return result;
-    }
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) { return dataSources[0].loadTeachers(appRegion); }
 
     @Override
-    public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
-        return loadSubjects(0, appRegion);
-    }
-
-    private Single<List<Subject>> loadSubjects(int defaultDataSourceNumber, AppRegion appRegion) {
-        Single<List<Subject>> result = null;
-        if (defaultDataSourceNumber < dataSources.length) {
-            final int nextDataSourceNumber = defaultDataSourceNumber + 1;
-            result =
-                    dataSources[defaultDataSourceNumber]
-                            .loadSubjects(appRegion)
-                            .onErrorResumeNext(error -> loadSubjects(nextDataSourceNumber, appRegion));
-        }
-        return result;
-    }
+    public Single<List<Subject>> loadSubjects(AppRegion appRegion) { return dataSources[0].loadSubjects(appRegion); }
 
     @Override
     public Completable rewriteAllSchools(List<School> schools) {
