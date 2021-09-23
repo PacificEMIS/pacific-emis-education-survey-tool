@@ -46,6 +46,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ObservationInfoFragment extends BaseFragment implements
         ObservationInfoView,
@@ -108,12 +110,14 @@ public class ObservationInfoFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         setupUserInteractions();
-        editTextClickListener();
+        setEditTextClickListener();
     }
 
-    private void editTextClickListener() {
+    private void setEditTextClickListener() {
         teacherNameAutoComplete.addTextChangedListener(
                 new TextWatcher() {
+                    private Timer timer = new Timer();
+
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                         // nothing
@@ -126,13 +130,26 @@ public class ObservationInfoFragment extends BaseFragment implements
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
+                        timer.cancel();
+                        timer = new Timer();
+                        long DELAY = 1000;
+                        timer.schedule(
+                                new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        presenter.onTeacherChanged(teacherNameAutoComplete.getEditableText().toString());
+                                    }
+                                },
+                                DELAY
+                        );
                     }
                 }
         );
 
         subjectAutoComplete.addTextChangedListener(
                 new TextWatcher() {
+                    private Timer timer = new Timer();
+
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                         // nothing
@@ -145,7 +162,17 @@ public class ObservationInfoFragment extends BaseFragment implements
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
+                        timer.cancel();
+                        timer = new Timer();
+                        long DELAY = 1000;
+                        timer.schedule(
+                                new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        presenter.onSubjectChanged(subjectAutoComplete.getEditableText().toString());
+                                    }
+                                },
+                                DELAY);
                     }
                 }
         );
