@@ -25,6 +25,7 @@ import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.data_source_injector.di.DataSourceComponent;
 import org.pacific_emis.surveys.remote_storage.BuildConfig;
 import org.pacific_emis.surveys.remote_storage.R;
@@ -53,6 +54,8 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
@@ -68,6 +71,9 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final GsonFactory sGsonFactory = new GsonFactory();
     private final FilesRepository filesRepository;
     private final DataSourceComponent dataSourceComponent;
+
+    private final Subject<UploadState> surveyUploadStateSubject = BehaviorSubject.createDefault(UploadState.NOT_UPLOAD);
+    private UploadState uploadState = UploadState.NOT_UPLOAD;
 
     private final Context appContext;
     private final LocalSettings localSettings;
@@ -165,6 +171,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                     List<Photo> photos = dataSourceComponent.getDataRepository().getPhotos(survey);
                     return driveServiceHelper.uploadPhotos(photos, regionFolderId, new PhotoMetadata(survey))
                             .flatMapObservable(Observable::fromIterable)
+                            .doOnSubscribe(d -> setSurveyUploadState(UploadState.IN_PROGRESS))
                             .filter(photoFilePair -> photoFilePair.second != null)
                             .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataRepository()
                                     .updatePhotoWithRemote(
@@ -181,7 +188,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
                                     new SurveyMetadata(updatedSurvey, creator),
                                     regionFolderId)
                                     .ignoreElement()
-                            );
+                            )
+                            .doFinally(this::setCompleteUploadState);
                 });
     }
 
@@ -310,5 +318,20 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public Completable downloadContent(String fileId, File targetFile, DriveType mimeType) {
         return driveServiceHelper.downloadContent(fileId, targetFile, mimeType);
+    }
+
+    @Override
+    public Observable<UploadState> updateSurveyUploadState() {
+        return surveyUploadStateSubject;
+    }
+
+    private void setSurveyUploadState(UploadState uploadState) {
+        this.uploadState = uploadState;
+        surveyUploadStateSubject.onNext(this.uploadState);
+    }
+
+    private void setCompleteUploadState() {
+        this.uploadState = UploadState.SUCCESSFULLY;
+        surveyUploadStateSubject.onNext(this.uploadState);
     }
 }

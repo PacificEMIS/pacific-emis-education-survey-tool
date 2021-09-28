@@ -18,8 +18,10 @@ import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableAns
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponent;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
+import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponent;
 import org.pacific_emis.surveys.survey_core.navigation.BuildableNavigationItem;
@@ -33,6 +35,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
     private final RemoteStorageAccessor remoteStorageAccessor;
+    private final RemoteStorage remoteStorage;
     private final SurveyNavigator navigator;
     private final long standardId;
     private final long categoryId;
@@ -48,11 +51,14 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                        long standardId) {
         this.accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
+        this.remoteStorage = remoteStorageComponent.getRemoteStorage();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.standardId = standardId;
         this.categoryId = categoryId;
         loadQuestions();
         loadNavigation();
+        onUploadState();
+        subscribeOnSurveyUploadState();
     }
 
     private void loadQuestions() {
@@ -100,6 +106,46 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                 .subscribe(this::updateCompleteState));
     }
 
+    private void subscribeOnSurveyUploadState() {
+        addDisposable(
+                remoteStorage.updateSurveyUploadState()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onUploadStateChanged, this::handleError));
+    }
+
+    private void onUploadStateChanged(UploadState remoteState) {
+        UploadState surveyState = accreditationSurveyInteractor.getCurrentUploadState();
+
+        if (surveyState == UploadState.NOT_UPLOAD && remoteState == UploadState.IN_PROGRESS) {
+            accreditationSurveyInteractor.setCurrentUploadState(remoteState);
+            updateSurvey();
+        }
+
+        if (surveyState == UploadState.IN_PROGRESS && remoteState == UploadState.SUCCESSFULLY) {
+            accreditationSurveyInteractor.setCurrentUploadState(remoteState);
+            updateSurvey();
+        }
+
+        if (surveyState == UploadState.SUCCESSFULLY && remoteState == UploadState.IN_PROGRESS) {
+            accreditationSurveyInteractor.setCurrentUploadState(remoteState);
+            updateSurvey();
+        }
+    }
+
+    private void onUploadState() {
+        getViewState().setSurveyUploadState(accreditationSurveyInteractor.getCurrentUploadState());
+    }
+
+    private void updateSurvey() {
+        addDisposable(
+                accreditationSurveyInteractor.updateSurvey()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onUploadState, this::handleError)
+        );
+    }
+
     private void updateCompleteState(Survey survey) {
         boolean isFinished = survey.getProgress().isFinished();
         QuestionsView view = getViewState();
@@ -126,6 +172,8 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     void onAnswerChanged(Question updatedQuestion) {
         SubCriteria subCriteria = Objects.requireNonNull(updatedQuestion.getSubCriteria());
         update(subCriteria.getId(), updatedQuestion.getCriteria().getId(), subCriteria.getAnswer());
+        accreditationSurveyInteractor.setCurrentUploadState(UploadState.NOT_UPLOAD);
+        updateSurvey();
     }
 
     void onCommentEdit(String comment) {

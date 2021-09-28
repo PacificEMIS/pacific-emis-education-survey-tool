@@ -6,8 +6,10 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
+import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponent;
 import org.pacific_emis.surveys.survey_core.navigation.BuildableNavigationItem;
@@ -27,6 +29,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private final WashSurveyInteractor washSurveyInteractor;
     private final RemoteStorageAccessor remoteStorageAccessor;
+    private final RemoteStorage remoteStorage;
     private final SurveyNavigator navigator;
     private final long subGroupId;
     private final long groupId;
@@ -42,11 +45,14 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                        long subGroupId) {
         this.washSurveyInteractor = washCoreComponent.getWashSurveyInteractor();
         this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
+        this.remoteStorage = remoteStorageComponent.getRemoteStorage();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.subGroupId = subGroupId;
         this.groupId = groupId;
         loadQuestions();
         loadNavigation();
+        onUploadState();
+        subscribeOnSurveyUploadState();
     }
 
     private void loadQuestions() {
@@ -80,6 +86,46 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                 .subscribe(this::updateCompleteState));
     }
 
+    private void subscribeOnSurveyUploadState() {
+        addDisposable(
+                remoteStorage.updateSurveyUploadState()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onUploadStateChanged, this::handleError));
+    }
+
+    private void onUploadStateChanged(UploadState remoteState) {
+        UploadState surveyState = washSurveyInteractor.getCurrentUploadState();
+
+        if (surveyState == UploadState.NOT_UPLOAD && remoteState == UploadState.IN_PROGRESS) {
+            washSurveyInteractor.setCurrentUploadState(remoteState);
+            updateSurvey();
+        }
+
+        if (surveyState == UploadState.IN_PROGRESS && remoteState == UploadState.SUCCESSFULLY) {
+            washSurveyInteractor.setCurrentUploadState(remoteState);
+            updateSurvey();
+        }
+
+        if (surveyState == UploadState.SUCCESSFULLY && remoteState == UploadState.IN_PROGRESS) {
+            washSurveyInteractor.setCurrentUploadState(remoteState);
+            updateSurvey();
+        }
+    }
+
+    private void onUploadState() {
+        getViewState().setSurveyUploadState(washSurveyInteractor.getCurrentUploadState());
+    }
+
+    private void updateSurvey() {
+        addDisposable(
+                washSurveyInteractor.updateSurvey()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onUploadState, this::handleError)
+        );
+    }
+
     private void updateCompleteState(Survey survey) {
         boolean isFinished = survey.getProgress().isFinished();
         QuestionsView view = getViewState();
@@ -104,6 +150,8 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     void onAnswerChanged(MutableQuestion updatedQuestion) {
         update(updatedQuestion.getId(), updatedQuestion.getAnswer());
+        washSurveyInteractor.setCurrentUploadState(UploadState.NOT_UPLOAD);
+        updateSurvey();
     }
 
     void onCommentEdit(String comment) {

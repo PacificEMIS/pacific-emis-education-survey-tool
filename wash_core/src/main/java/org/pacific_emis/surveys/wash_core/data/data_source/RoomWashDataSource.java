@@ -52,8 +52,14 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     public RoomWashDataSource(Context applicationContext) {
         super(applicationContext);
-        database = Room.databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME).build();
-        templateDatabase = Room.databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME).build();
+        database = Room
+                .databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME)
+                .addMigrations(WashDatabase.MIGRATION_1_2)
+                .build();
+        templateDatabase = Room
+                .databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME)
+                .addMigrations(WashDatabase.MIGRATION_1_2)
+                .build();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
     }

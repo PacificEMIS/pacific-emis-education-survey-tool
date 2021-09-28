@@ -7,6 +7,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseView;
 import org.pacific_emis.surveys.wash_core.data.model.Question;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableQuestion;
@@ -40,4 +41,6 @@ public interface QuestionsView extends BaseView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void refreshQuestionAtPosition(int selectedQuestionPosition);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void setSurveyUploadState(UploadState uploadState);
 }

@@ -14,6 +14,7 @@ import org.pacific_emis.surveys.core.data.model.mutable.BaseMutableEntity;
 import org.pacific_emis.surveys.core.data.model.mutable.MutableProgress;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.ObjectUtils;
 import org.pacific_emis.surveys.wash_core.data.model.Group;
@@ -56,6 +57,9 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     @Nullable
     private String lastEditedUser;
 
+    @Nullable
+    private UploadState uploadState;
+
     public MutableWashSurvey(WashSurvey other) {
         this(other.getVersion(), other.getSurveyType(), other.getAppRegion());
 
@@ -68,6 +72,7 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(MutableGroup::new).collect(Collectors.toList());
@@ -243,11 +248,20 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
         return lastEditedUser;
     }
 
+    @Nullable
+    @Override
+    public UploadState getUploadState() {
+        return uploadState;
+    }
+
     public void setCreateUser(@Nullable String createUser) {
         this.createUser = createUser;
     }
 
     public void setLastEditedUser(@Nullable String lastEditedUser) {
         this.lastEditedUser = lastEditedUser;
+    }
+    public void  setUploadState(@Nullable UploadState uploadState) {
+        this.uploadState = uploadState;
     }
 }

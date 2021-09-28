@@ -3,7 +3,10 @@ package org.pacific_emis.surveys.core.ui.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,6 +19,9 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
     private TextView hintTextView;
     private TextView prevButton;
     private TextView nextButton;
+    private TextView uploadTextView;
+    private ImageView uploadImageView;
+    private LinearLayout uploadLayout;
 
     @Nullable
     private Listener listener;
@@ -51,6 +57,9 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
         hintTextView = findViewById(R.id.textview_complete_hint);
         prevButton = findViewById(R.id.button_prev);
         nextButton = findViewById(R.id.button_next);
+        uploadTextView = findViewById(R.id.textview_upload_to_cloud);
+        uploadImageView = findViewById(R.id.imageview_upload_to_cloud);
+        uploadLayout = findViewById(R.id.layout_upload);
     }
 
     public void setPrevText(@Nullable String text) {
@@ -59,6 +68,7 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
 
     public void setPrevButtonVisible(boolean isVisible) {
         prevButton.setVisibility(isVisible ? VISIBLE : GONE);
+        setLayoutGravity(isVisible);
     }
 
     public void setNextButtonVisible(boolean isVisible) {
@@ -67,6 +77,11 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
 
     public void setHintTextVisible(boolean isVisible) {
         hintTextView.setVisibility(isVisible ? VISIBLE : INVISIBLE);
+    }
+
+    public void setUploadStateVisible(boolean isVisible) {
+        uploadTextView.setVisibility(isVisible ? VISIBLE : INVISIBLE);
+        uploadImageView.setVisibility(isVisible ? VISIBLE : INVISIBLE);
     }
 
     public void setPrevButtonEnabled(boolean isEnabled) {
@@ -113,6 +128,29 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
             listener.onPrevPressed();
         } else if (id == R.id.button_next) {
             listener.onNextPressed();
+        }
+    }
+
+    public void setUploadInProgress() {
+        uploadTextView.setText(R.string.label_synced_in_progress);
+        uploadImageView.setImageResource(R.drawable.ic_in_progress_synced);
+    }
+
+    public void setUploadSuccessfully() {
+        uploadTextView.setText(R.string.label_synced_successfully);
+        uploadImageView.setImageResource(R.drawable.ic_successfully_synced);
+    }
+
+    public void setNotUpload() {
+        uploadTextView.setText(R.string.label_has_not_synced);
+        uploadImageView.setImageResource(R.drawable.ic_not_synced);
+    }
+
+    private void setLayoutGravity(boolean isVisible) {
+        if(!isVisible) {
+            uploadLayout.setGravity(Gravity.LEFT);
+        } else {
+            uploadLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         }
     }
 
