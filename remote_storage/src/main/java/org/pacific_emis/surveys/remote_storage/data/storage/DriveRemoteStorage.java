@@ -47,7 +47,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,12 +57,8 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
-
-import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.FSM;
-import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.RMI;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
@@ -173,6 +168,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
 
         String creator = survey.getCreateUser();
+        String updater = userAccount.getEmail();
         setSurveyUploadState(survey, UploadState.IN_PROGRESS);
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
@@ -192,7 +188,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
-                                    new SurveyMetadata(updatedSurvey, creator),
+                                    new SurveyMetadata(updatedSurvey, updater),
                                     regionFolderId)
                                     .doOnSubscribe(d -> setSurveyUploadState(survey, UploadState.SUCCESSFULLY))
                                     .ignoreElement()
