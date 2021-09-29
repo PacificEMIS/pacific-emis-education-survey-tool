@@ -7,6 +7,7 @@ import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.util.Date;
 import java.util.List;
@@ -286,5 +287,17 @@ public class DataRepository implements DataSource {
             }
         }
         return result;
+    }
+
+    @Override
+    public void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        for (int i = 0; i < dataSources.length; ) {
+            try {
+                dataSources[i].setSurveyUploadState(survey, uploadState);
+                break;
+            } catch (UnsupportedOperationException e) {
+                i++;
+            }
+        }
     }
 }

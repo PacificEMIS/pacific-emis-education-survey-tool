@@ -14,6 +14,8 @@ import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.wash_core.data.persistence.entity.RoomWashSurvey;
 import org.pacific_emis.surveys.wash_core.data.persistence.entity.relative.RelativeRoomSurvey;
 
+import io.reactivex.Completable;
+
 @Dao
 public interface SurveyDao {
 
@@ -21,7 +23,7 @@ public interface SurveyDao {
     long insert(RoomWashSurvey survey);
 
     @Update
-    void update(RoomWashSurvey survey);
+    Completable update(RoomWashSurvey survey);
 
     @Delete
     void delete(RoomWashSurvey survey);

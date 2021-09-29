@@ -51,7 +51,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         this.groupId = groupId;
         loadQuestions();
         loadNavigation();
-        onUploadState();
+        updateUploadState();
         subscribeOnSurveyUploadState();
     }
 
@@ -88,33 +88,18 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private void subscribeOnSurveyUploadState() {
         addDisposable(
-                remoteStorage.updateSurveyUploadState()
+                remoteStorage.getUploadStateObservable(washSurveyInteractor.getCurrentSurvey().getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onUploadStateChanged, this::handleError));
+                        .subscribe(this::updateUploadState, this::handleError));
     }
 
-    private void onUploadStateChanged(UploadState remoteState) {
-        UploadState surveyState = washSurveyInteractor.getCurrentUploadState();
-
-        if (surveyState == UploadState.NOT_UPLOAD && remoteState == UploadState.IN_PROGRESS) {
-            washSurveyInteractor.setCurrentUploadState(remoteState);
-            updateSurvey();
-        }
-
-        if (surveyState == UploadState.IN_PROGRESS && remoteState == UploadState.SUCCESSFULLY) {
-            washSurveyInteractor.setCurrentUploadState(remoteState);
-            updateSurvey();
-        }
-
-        if (surveyState == UploadState.SUCCESSFULLY && remoteState == UploadState.IN_PROGRESS) {
-            washSurveyInteractor.setCurrentUploadState(remoteState);
-            updateSurvey();
-        }
+    private void updateUploadState() {
+        updateUploadState(washSurveyInteractor.getCurrentUploadState());
     }
 
-    private void onUploadState() {
-        getViewState().setSurveyUploadState(washSurveyInteractor.getCurrentUploadState());
+    private void updateUploadState(UploadState uploadState) {
+        getViewState().setSurveyUploadState(uploadState);
     }
 
     private void updateSurvey() {
@@ -122,7 +107,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                 washSurveyInteractor.updateSurvey()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onUploadState, this::handleError)
+                        .subscribe(this::updateUploadState, this::handleError)
         );
     }
 

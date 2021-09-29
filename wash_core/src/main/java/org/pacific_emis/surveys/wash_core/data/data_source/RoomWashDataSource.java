@@ -10,6 +10,7 @@ import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.wash_core.data.model.Answer;
 import org.pacific_emis.surveys.wash_core.data.model.Group;
@@ -361,5 +362,12 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
             roomPhoto.remoteUrl = remoteFileId;
             photoDao.update(roomPhoto);
         });
+    }
+
+    @Override
+    public void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        MutableWashSurvey mutableSurvey =  (MutableWashSurvey) survey;
+        mutableSurvey.setUploadState(uploadState);
+        updateSurvey(mutableSurvey);
     }
 }

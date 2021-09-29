@@ -68,7 +68,7 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
 
     public void setPrevButtonVisible(boolean isVisible) {
         prevButton.setVisibility(isVisible ? VISIBLE : GONE);
-        setLayoutGravity(isVisible);
+        setCenter(isVisible);
     }
 
     public void setNextButtonVisible(boolean isVisible) {
@@ -146,8 +146,8 @@ public class BottomNavigatorView extends RelativeLayout implements View.OnClickL
         uploadImageView.setImageResource(R.drawable.ic_not_synced);
     }
 
-    private void setLayoutGravity(boolean isVisible) {
-        if(!isVisible) {
+    private void setCenter(boolean center) {
+        if(!center) {
             uploadLayout.setGravity(Gravity.LEFT);
         } else {
             uploadLayout.setGravity(Gravity.CENTER_HORIZONTAL);

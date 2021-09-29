@@ -25,6 +25,7 @@ import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.data_source_injector.di.DataSourceComponent;
 import org.pacific_emis.surveys.remote_storage.BuildConfig;
@@ -46,7 +47,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
@@ -55,7 +59,11 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
+
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.FSM;
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.RMI;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
@@ -72,8 +80,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private final FilesRepository filesRepository;
     private final DataSourceComponent dataSourceComponent;
 
-    private final Subject<UploadState> surveyUploadStateSubject = BehaviorSubject.createDefault(UploadState.NOT_UPLOAD);
-    private UploadState uploadState = UploadState.NOT_UPLOAD;
+    private final Map<Long, Subject<UploadState>> surveyUploadStateSubjectMap = new ConcurrentHashMap<>();
 
     private final Context appContext;
     private final LocalSettings localSettings;
@@ -166,12 +173,12 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
 
         String creator = survey.getCreateUser();
+        setSurveyUploadState(survey, UploadState.IN_PROGRESS);
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
                     List<Photo> photos = dataSourceComponent.getDataRepository().getPhotos(survey);
                     return driveServiceHelper.uploadPhotos(photos, regionFolderId, new PhotoMetadata(survey))
                             .flatMapObservable(Observable::fromIterable)
-                            .doOnSubscribe(d -> setSurveyUploadState(UploadState.IN_PROGRESS))
                             .filter(photoFilePair -> photoFilePair.second != null)
                             .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataRepository()
                                     .updatePhotoWithRemote(
@@ -187,9 +194,10 @@ public final class DriveRemoteStorage implements RemoteStorage {
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
                                     new SurveyMetadata(updatedSurvey, creator),
                                     regionFolderId)
+                                    .doOnSubscribe(d -> setSurveyUploadState(survey, UploadState.SUCCESSFULLY))
                                     .ignoreElement()
                             )
-                            .doFinally(this::setCompleteUploadState);
+                            .doOnError(e -> setSurveyUploadState(survey, UploadState.NOT_UPLOAD));
                 });
     }
 
@@ -321,17 +329,19 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Observable<UploadState> updateSurveyUploadState() {
-        return surveyUploadStateSubject;
+    public Subject<UploadState> getUploadStateObservable(long surveyId) {
+        Subject<UploadState> subject = surveyUploadStateSubjectMap.get(surveyId);
+        if (subject == null) {
+            subject = PublishSubject.create();
+            surveyUploadStateSubjectMap.put(surveyId, subject);
+        }
+        return subject;
     }
 
-    private void setSurveyUploadState(UploadState uploadState) {
-        this.uploadState = uploadState;
-        surveyUploadStateSubject.onNext(this.uploadState);
-    }
+    private void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        dataSourceComponent.getDataRepository().setSurveyUploadState(survey, uploadState);
 
-    private void setCompleteUploadState() {
-        this.uploadState = UploadState.SUCCESSFULLY;
-        surveyUploadStateSubject.onNext(this.uploadState);
+        Subject<UploadState> subject = getUploadStateObservable(survey.getId());
+        subject.onNext(uploadState);
     }
 }

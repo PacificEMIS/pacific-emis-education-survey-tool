@@ -57,7 +57,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         this.categoryId = categoryId;
         loadQuestions();
         loadNavigation();
-        onUploadState();
+        updateUploadState();
         subscribeOnSurveyUploadState();
     }
 
@@ -108,33 +108,18 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     private void subscribeOnSurveyUploadState() {
         addDisposable(
-                remoteStorage.updateSurveyUploadState()
+                remoteStorage.getUploadStateObservable(accreditationSurveyInteractor.getCurrentSurvey().getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onUploadStateChanged, this::handleError));
+                        .subscribe(this::updateUploadState, this::handleError));
     }
 
-    private void onUploadStateChanged(UploadState remoteState) {
-        UploadState surveyState = accreditationSurveyInteractor.getCurrentUploadState();
-
-        if (surveyState == UploadState.NOT_UPLOAD && remoteState == UploadState.IN_PROGRESS) {
-            accreditationSurveyInteractor.setCurrentUploadState(remoteState);
-            updateSurvey();
-        }
-
-        if (surveyState == UploadState.IN_PROGRESS && remoteState == UploadState.SUCCESSFULLY) {
-            accreditationSurveyInteractor.setCurrentUploadState(remoteState);
-            updateSurvey();
-        }
-
-        if (surveyState == UploadState.SUCCESSFULLY && remoteState == UploadState.IN_PROGRESS) {
-            accreditationSurveyInteractor.setCurrentUploadState(remoteState);
-            updateSurvey();
-        }
+    private void updateUploadState() {
+        updateUploadState(accreditationSurveyInteractor.getCurrentUploadState());
     }
 
-    private void onUploadState() {
-        getViewState().setSurveyUploadState(accreditationSurveyInteractor.getCurrentUploadState());
+    private void updateUploadState(UploadState uploadState) {
+        getViewState().setSurveyUploadState(uploadState);
     }
 
     private void updateSurvey() {
@@ -142,7 +127,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                 accreditationSurveyInteractor.updateSurvey()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onUploadState, this::handleError)
+                        .subscribe(this::updateUploadState, this::handleError)
         );
     }
 

@@ -43,5 +43,5 @@ public interface RemoteStorage {
 
     Completable downloadContent(String fileId, File targetFile, DriveType mimeType);
 
-    Observable<UploadState> updateSurveyUploadState();
+    Observable<UploadState> getUploadStateObservable(long surveyId);
 }

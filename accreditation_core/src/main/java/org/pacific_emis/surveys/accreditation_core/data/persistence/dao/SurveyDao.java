@@ -14,6 +14,8 @@ import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomA
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.relative.RelativeRoomSurvey;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 
+import io.reactivex.Completable;
+
 @Dao
 public interface SurveyDao {
 
@@ -21,7 +23,7 @@ public interface SurveyDao {
     long insert(RoomAccreditationSurvey survey);
 
     @Update
-    void update(RoomAccreditationSurvey survey);
+    Completable update(RoomAccreditationSurvey survey);
 
     @Delete
     void delete(RoomAccreditationSurvey survey);
