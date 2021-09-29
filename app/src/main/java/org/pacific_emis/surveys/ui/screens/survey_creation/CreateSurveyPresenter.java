@@ -4,18 +4,20 @@ import androidx.annotation.Nullable;
 
 import com.omegar.mvp.InjectViewState;
 
+import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
+import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.domain.SurveyInteractor;
+import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
+import org.pacific_emis.surveys.core.utils.DateUtils;
+import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.pacific_emis.surveys.app_support.MicronesiaApplication;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
-import org.pacific_emis.surveys.core.data.model.School;
-import org.pacific_emis.surveys.core.domain.SurveyInteractor;
-import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
-import org.pacific_emis.surveys.core.utils.DateUtils;
-import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -24,13 +26,14 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
 
     private final DataSource dataSource = MicronesiaApplication.getInjection()
             .getDataSourceComponent()
-            .getDataSource();
+            .getDataRepository();
     private final SurveyInteractor accreditationSurveyInteractor = MicronesiaApplication.getInjection()
             .getSurveyComponent()
             .getSurveyInteractor();
     private final RemoteStorageAccessor remoteStorageAccessor = MicronesiaApplication.getInjection()
             .getRemoteStorageComponent()
             .getRemoteStorageAccessor();
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
 
     private Date surveyDate = new Date();
     private List<? extends School> schools;
@@ -49,13 +52,13 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
     }
 
     private void loadSchools() {
-        addDisposable(dataSource.loadSchools()
+        addDisposable(dataSource.loadSchools(localSettings.getCurrentAppRegion())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(schools -> {
-                    this.schools = schools;
+                    this.schools = schools.getData();
                     getViewState().setSchools(new ArrayList<>(this.schools));
                 }, this::handleError));
     }
@@ -76,7 +79,8 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                         selectedSchool.getName(),
                         new Date(),
                         DateUtils.formatDateTag(surveyDate),
-                        remoteStorageAccessor.getUserEmail()
+                        remoteStorageAccessor.getUserEmail(),
+                        localSettings.getCurrentAppRegion()
                 )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
-import org.pacific_emis.surveys.core.data.data_source.RoomDataSource;
+import org.pacific_emis.surveys.core.data.local_data_source.RoomDataSource;
 import org.pacific_emis.surveys.core.data.model.Answer;
 import org.pacific_emis.surveys.core.data.model.AnswerState;
 import org.pacific_emis.surveys.core.data.model.Category;
@@ -44,7 +44,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class DataSourceTest {
+public class CoreLocalDataSourceTest {
 
     private final XmlSurveyParser surveyParser = new XmlSurveyParser();
     private final CsvSchoolParser schoolParser = new CsvSchoolParser();

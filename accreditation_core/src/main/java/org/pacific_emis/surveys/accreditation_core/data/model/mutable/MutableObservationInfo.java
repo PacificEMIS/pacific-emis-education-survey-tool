@@ -12,6 +12,8 @@ public class MutableObservationInfo implements ObservationInfo {
     @Nullable
     private String teacherName;
     @Nullable
+    private Integer teacherId;
+    @Nullable
     private String grade;
     @Nullable
     private Integer totalStudentsPresent;
@@ -32,11 +34,13 @@ public class MutableObservationInfo implements ObservationInfo {
     }
 
     public MutableObservationInfo(@Nullable String teacherName,
+                                  @Nullable Integer teacherId,
                                   @Nullable String grade,
                                   @Nullable Integer totalStudentsPresent,
                                   @Nullable String subject,
                                   @Nullable Date date) {
         this.teacherName = teacherName;
+        this.teacherId = teacherId;
         this.grade = grade;
         this.totalStudentsPresent = totalStudentsPresent;
         this.subject = subject;
@@ -45,6 +49,7 @@ public class MutableObservationInfo implements ObservationInfo {
 
     private MutableObservationInfo(@NonNull ObservationInfo other) {
         this.teacherName = other.getTeacherName();
+        this.teacherId = other.getTeacherId();
         this.grade = other.getGrade();
         this.totalStudentsPresent = other.getTotalStudentsPresent();
         this.subject = other.getSubject();
@@ -53,6 +58,10 @@ public class MutableObservationInfo implements ObservationInfo {
 
     public void setTeacherName(@Nullable String teacherName) {
         this.teacherName = teacherName;
+    }
+
+    public void setTeacherId(@Nullable Integer teacherId) {
+        this.teacherId = teacherId;
     }
 
     public void setGrade(@Nullable String grade) {
@@ -75,6 +84,12 @@ public class MutableObservationInfo implements ObservationInfo {
     @Override
     public String getTeacherName() {
         return teacherName;
+    }
+
+    @Nullable
+    @Override
+    public Integer getTeacherId() {
+        return teacherId;
     }
 
     @Nullable
@@ -106,6 +121,11 @@ public class MutableObservationInfo implements ObservationInfo {
 
         if (teacherName == null) {
             this.teacherName = other.getTeacherName();
+            haveChanges = true;
+        }
+
+        if (teacherId == null) {
+            this.teacherId = other.getTeacherId();
             haveChanges = true;
         }
 

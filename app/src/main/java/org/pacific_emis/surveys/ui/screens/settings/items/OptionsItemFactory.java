@@ -27,6 +27,30 @@ public class OptionsItemFactory {
         return new Item(Text.from(R.string.label_import_schools), Item.Type.IMPORT_SCHOOLS, Item.IconType.RECEIVE);
     }
 
+    public Item createLoadSchoolsItem(Text contextName) {
+        return new Item(
+                Text.from(R.string.label_load_schools, contextName),
+                Item.Type.LOAD_SCHOOLS,
+                Item.IconType.RECEIVE
+        );
+    }
+
+    public Item createLoadTeachersItem(Text contextName) {
+        return new Item(
+                Text.from(R.string.label_load_teachers, contextName),
+                Item.Type.LOAD_TEACHERS,
+                Item.IconType.RECEIVE
+        );
+    }
+
+    public Item createLoadSubjectsItem(Text contextName) {
+        return new Item(
+                Text.from(R.string.label_load_subjects, contextName),
+                Item.Type.LOAD_SUBJECTS,
+                Item.IconType.RECEIVE
+        );
+    }
+
     public Item createLogoItem() {
         return new Item(Text.from(R.string.label_logo), Item.Type.LOGO, Item.IconType.NAV);
     }

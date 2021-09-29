@@ -62,7 +62,10 @@
     <string name="default_image">Default image</string>
     <string name="account_drive">Google Drive account</string>
     <string name="account_dropbox">Dropbox account</string>
-    <string name="action_import_schools">Import schools</string>
+    <string name="action_import_schools">Import schools from CSV</string>
+    <string name="action_load_schools">Update schools from</string>
+    <string name="action_load_teachers">Update teachers from</string>
+    <string name="action_load_subjects">Update subjects from</string>
     <string name="action_import_surveys">Import survey</string>
     <string name="action_export_folder">Export folder</string>
     <string name="integration_drive">Google Drive integration</string>
@@ -71,6 +74,10 @@
     <string name="change_default_export">Change to default for Export</string>
     <string name="hint_settings">Connect your cloud accounts for import/export school lists or surveys</string>
     <string name="toast_import_schools_success">Schools successfully imported</string>
+    <string name="toast_load_schools_success">Schools successfully updated from API</string>
+    <string name="toast_load_teachers_success">Teachers successfully updated from API</string>
+    <string name="toast_load_subjects_success">Subjects successfully updated from API</string>
+    <string name="toast_load_error">No Internet connection. Make sure Wi-Fi or mobile data is turned on then try again</string>
     <string name="toast_import_survey_success">Survey successfully imported</string>
     <string name="button_comment">Comment</string>
     <string name="title_comment">Comment</string>

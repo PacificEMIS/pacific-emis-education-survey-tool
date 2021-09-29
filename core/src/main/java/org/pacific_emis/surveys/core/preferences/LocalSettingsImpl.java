@@ -17,10 +17,16 @@ import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.OperatingMode;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.FSM;
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.RMI;
+
 public class LocalSettingsImpl implements LocalSettings {
 
     private static final String PREF_KEY_APP_REGION = "PREF_KEY_APP_REGION";
-    private static final AppRegion DEFAULT_APP_REGION = AppRegion.FSM;
+    private static final AppRegion DEFAULT_APP_REGION = FSM;
     private static final int NO_INT_VALUE = -1;
 
     private static final String PREF_KEY_SURVEY_TYPE = "PREF_KEY_SURVEY_TYPE";
@@ -31,6 +37,9 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_APP_NAME = "PREF_KEY_APP_NAME";
     private static final String PREF_KEY_CONTACT_NAME = "PREF_KEY_CONTACT_NAME";
     private static final String PREF_KEY_MASTER_PASSWORD = "PREF_KEY_MASTER_PASSWORD";
+    private static final String PREF_KEY_EMIS_API = "PREF_KEY_EMIS_API";
+    private static final String PREF_KEY_EMIS_USER = "PREF_KEY_EMIS_USER";
+    private static final String PREF_KEY_EMIS_PASSWORD = "PREF_KEY_EMIS_PASSWORD";
 
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.DEV;
@@ -41,6 +50,11 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_EXCEL_EXPORT = "PREF_KEY_EXCEL_EXPORT";
     private static final String PREF_KEY_PROD_CERT = "PREF_KEY_PROD_CERT";
 
+    private final static Map<AppRegion, String> API_URLS_MAP = new HashMap<AppRegion, String>() {{
+        put(RMI, "http://data.pss.edu.mh/miemis/api/");
+        put(FSM, "https://fedemis.doe.fm/api/");
+    }};
+
     private final SharedPreferences sharedPreferences;
 
     public LocalSettingsImpl(SharedPreferences sharedPreferences) {
@@ -49,13 +63,13 @@ public class LocalSettingsImpl implements LocalSettings {
 
     @NonNull
     @Override
-    public AppRegion getAppRegion() {
+    public AppRegion getCurrentAppRegion() {
         AppRegion savedAppRegion = getSavedAppRegion();
         return savedAppRegion != null ? savedAppRegion : DEFAULT_APP_REGION;
     }
 
     @Override
-    public boolean isAppRegionSaved() {
+    public boolean isCurrentAppRegionSaved() {
         return getSavedAppRegion() != null;
     }
 
@@ -65,7 +79,7 @@ public class LocalSettingsImpl implements LocalSettings {
     }
 
     @Override
-    public void setAppRegion(AppRegion appRegion) {
+    public void setCurrentAppRegion(AppRegion appRegion) {
         sharedPreferences.edit().putInt(PREF_KEY_APP_REGION, appRegion.getValue()).apply();
     }
 
@@ -77,7 +91,7 @@ public class LocalSettingsImpl implements LocalSettings {
             return new UrlImage(logoPath);
         }
 
-        switch (getAppRegion()) {
+        switch (getCurrentAppRegion()) {
             case FSM:
                 return sDefaultIconFsm;
             case RMI:
@@ -226,5 +240,52 @@ public class LocalSettingsImpl implements LocalSettings {
     @Override
     public String getProdCert() {
         return sharedPreferences.getString(PREF_KEY_PROD_CERT, null);
+    }
+
+    @Override
+    public void setEmisApiUrl(String api) {
+        sharedPreferences.edit().putString(PREF_KEY_EMIS_API, api).apply();
+    }
+
+    @Override
+    public String getEmisApiUrl() {
+        String emisUrl = sharedPreferences.getString(PREF_KEY_EMIS_API, null);
+        if (emisUrl != null) {
+            return emisUrl;
+        } else {
+            return API_URLS_MAP.get(getCurrentAppRegion());
+        }
+    }
+
+    @Override
+    public boolean isEmisApiUrlSaved() { return getEmisApiUrl() != null; }
+
+    public void setEmisUser(String user) {
+        sharedPreferences.edit().putString(PREF_KEY_EMIS_USER, user).apply();
+    }
+
+    @Override
+    public String getEmisUser() {
+        return sharedPreferences.getString(PREF_KEY_EMIS_USER, null);
+    }
+
+    @Override
+    public boolean isEmisUserSaved() {
+        return getEmisUser() != null;
+    }
+
+    @Override
+    public void setEmisPassword(String password) {
+        sharedPreferences.edit().putString(PREF_KEY_EMIS_PASSWORD, password).apply();
+    }
+
+    @Override
+    public String getEmisPassword() {
+        return sharedPreferences.getString(PREF_KEY_EMIS_PASSWORD, null);
+    }
+
+    @Override
+    public boolean isEmisPasswordSaved() {
+        return getEmisPassword() != null;
     }
 }

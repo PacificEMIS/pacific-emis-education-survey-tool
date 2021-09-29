@@ -1,7 +1,5 @@
 package org.pacific_emis.surveys.accreditation_core.interactors;
 
-import java.util.List;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.Answer;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationLogRecord;
@@ -9,7 +7,13 @@ import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableCat
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableCriteria;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableStandard;
+import org.pacific_emis.surveys.core.data.model.Subject;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -59,5 +63,9 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
     Completable updateObservationLogRecord(ObservationLogRecord record);
 
     Completable deleteObservationLogRecord(long recordId);
+
+    Single<List<Teacher>> loadTeachers(AppRegion appRegion);
+
+    Single<List<Subject>> loadSubjects(AppRegion appRegion);
 
 }
