@@ -23,6 +23,7 @@ import java.util.List;
 import org.pacific_emis.surveys.accreditation.R;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
@@ -89,6 +90,7 @@ public class ObservationLogFragment extends BaseFragment implements
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
+        bottomNavigatorView.setUploadStateVisible(true);
     }
 
     @Override
@@ -182,5 +184,19 @@ public class ObservationLogFragment extends BaseFragment implements
                 calendar.get(Calendar.MINUTE),
                 false
         ).show();
+    }
+    @Override
+    public void setSurveyUploadState(UploadState uploadState) {
+        switch (uploadState) {
+            case IN_PROGRESS:
+                bottomNavigatorView.setUploadInProgress();
+                break;
+            case SUCCESSFULLY:
+                bottomNavigatorView.setUploadSuccessfully();
+                break;
+            case NOT_UPLOAD:
+                bottomNavigatorView.setNotUpload();
+                break;
+        }
     }
 }

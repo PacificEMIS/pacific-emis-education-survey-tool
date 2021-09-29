@@ -43,6 +43,7 @@ public class ChooseRegionActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bottomNavigatorView.setListener(this);
+        bottomNavigatorView.setUploadStateVisible(false);
         recyclerView.setAdapter(adapter);
     }
 

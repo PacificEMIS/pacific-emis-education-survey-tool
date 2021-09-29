@@ -30,6 +30,7 @@ import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponent
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.di.CoreComponentInjector;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
@@ -137,6 +138,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
+        bottomNavigatorView.setUploadStateVisible(true);
         teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
         teacherNameAutoComplete.setOnItemClickListener(new TeacherDropdownItemClickListener());
         subjectAutoComplete.setAdapter(subjectsAutoAdapter);
@@ -267,6 +269,20 @@ public class ObservationInfoFragment extends BaseFragment implements
         setAdapterContent(subjectsAutoAdapter, subjects);
     }
 
+    @Override
+    public void setSurveyUploadState(UploadState uploadState) {
+        switch (uploadState) {
+            case IN_PROGRESS:
+                bottomNavigatorView.setUploadInProgress();
+                break;
+            case SUCCESSFULLY:
+                bottomNavigatorView.setUploadSuccessfully();
+                break;
+            case NOT_UPLOAD:
+                bottomNavigatorView.setNotUpload();
+                break;
+        }
+    }
 
     @Override
     public void onDonePressed(View view, @Nullable String content) {

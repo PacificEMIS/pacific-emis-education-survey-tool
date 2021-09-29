@@ -3,6 +3,8 @@ package org.pacific_emis.surveys.accreditation_core.data.serialization.entities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.pacific_emis.surveys.core.data.serialization.converters.UploadStateConverter;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -76,6 +78,11 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Element(required = false)
     String lastEditedUser;
 
+    @Nullable
+    @Element(required = false, name = "surveyUpload")
+    @Convert(UploadStateConverter.class)
+    UploadState uploadState;
+
     public SerializableAccreditationSurvey() {
     }
 
@@ -91,6 +98,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
 
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(SerializableCategory::from).collect(Collectors.toList());
@@ -176,5 +184,11 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Override
     public String getLastEditedUser() {
         return lastEditedUser;
+    }
+
+    @Nullable
+    @Override
+    public UploadState getUploadState() {
+        return uploadState;
     }
 }

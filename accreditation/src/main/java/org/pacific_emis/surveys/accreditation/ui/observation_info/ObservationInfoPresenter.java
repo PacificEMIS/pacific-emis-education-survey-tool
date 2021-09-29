@@ -19,8 +19,10 @@ import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.di.CoreComponent;
 import org.pacific_emis.surveys.core.di.CoreComponentInjector;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
+import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponent;
 import org.pacific_emis.surveys.survey_core.navigation.BuildableNavigationItem;
@@ -54,6 +56,7 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
 
     private final AccreditationSurveyInteractor accreditationSurveyInteractor;
     private final RemoteStorageAccessor remoteStorageAccessor;
+    private final RemoteStorage remoteStorage;
     private final SurveyNavigator navigator;
     private final LocalSettings localSettings;
     private final long categoryId;
@@ -67,11 +70,14 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                              long categoryId) {
         this.accreditationSurveyInteractor = accreditationCoreComponent.getAccreditationSurveyInteractor();
         this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
+        this.remoteStorage = remoteStorageComponent.getRemoteStorage();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
         this.localSettings = coreComponent.getLocalSettings();
         this.categoryId = categoryId;
         loadInfo();
         loadNavigation();
+        updateUploadState();
+        subscribeOnSurveyUploadState();
     }
 
     private void loadInfo() {
@@ -140,6 +146,31 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
         view.setPrevButtonVisible(navigationItem.getPreviousItem() != null);
     }
 
+    private void subscribeOnSurveyUploadState() {
+        addDisposable(
+                remoteStorage.getUploadStateObservable(accreditationSurveyInteractor.getCurrentSurvey().getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::updateUploadState, this::handleError));
+    }
+
+    private void updateUploadState() {
+        updateUploadState(accreditationSurveyInteractor.getCurrentUploadState());
+    }
+
+    private void updateUploadState(UploadState uploadState) {
+        getViewState().setSurveyUploadState(uploadState);
+    }
+
+    private void updateSurvey() {
+        addDisposable(
+                accreditationSurveyInteractor.updateSurvey()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::updateUploadState, this::handleError)
+        );
+    }
+
     private void updateCompleteState(Survey survey) {
         boolean isFinished = survey.getProgress().isFinished();
         getViewState().setNextButtonEnabled(isFinished);
@@ -154,6 +185,8 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
                         this::handleError
                 )
         );
+        accreditationSurveyInteractor.setCurrentUploadState(UploadState.NOT_UPLOAD);
+        updateSurvey();
     }
 
     void onPrevPressed() {

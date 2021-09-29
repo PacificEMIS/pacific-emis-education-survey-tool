@@ -3,6 +3,8 @@ package org.pacific_emis.surveys.wash_core.data.persistence;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.pacific_emis.surveys.core.data.persistence.BaseConverters;
 import org.pacific_emis.surveys.wash_core.data.persistence.dao.AnswerDao;
@@ -28,8 +30,8 @@ import org.pacific_emis.surveys.wash_core.data.persistence.entity.RoomWashSurvey
                 RoomAnswer.class,
                 RoomPhoto.class
         },
-        version = 1,
-        exportSchema = false)
+        version = 2,
+        exportSchema = true)
 @TypeConverters({
         Converters.class,
         BaseConverters.class
@@ -47,4 +49,13 @@ public abstract class WashDatabase extends RoomDatabase {
     public abstract PhotoDao getPhotoDao();
 
     public abstract AnswerDao getAnswerDao();
+
+    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE RoomWashSurvey ADD upload_state TEXT"
+            );
+        }
+    };
 }
