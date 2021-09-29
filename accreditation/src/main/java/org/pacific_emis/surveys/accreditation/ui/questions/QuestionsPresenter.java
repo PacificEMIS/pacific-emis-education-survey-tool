@@ -172,8 +172,6 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     void onAnswerChanged(Question updatedQuestion) {
         SubCriteria subCriteria = Objects.requireNonNull(updatedQuestion.getSubCriteria());
         update(subCriteria.getId(), updatedQuestion.getCriteria().getId(), subCriteria.getAnswer());
-        accreditationSurveyInteractor.setCurrentUploadState(UploadState.NOT_UPLOAD);
-        updateSurvey();
     }
 
     void onCommentEdit(String comment) {
@@ -198,6 +196,8 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                         this::handleError
                 )
         );
+        accreditationSurveyInteractor.setCurrentUploadState(UploadState.NOT_UPLOAD);
+        updateSurvey();
     }
 
     void onPrevPressed() {

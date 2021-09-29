@@ -150,8 +150,6 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     void onAnswerChanged(MutableQuestion updatedQuestion) {
         update(updatedQuestion.getId(), updatedQuestion.getAnswer());
-        washSurveyInteractor.setCurrentUploadState(UploadState.NOT_UPLOAD);
-        updateSurvey();
     }
 
     void onCommentEdit(String comment) {
@@ -172,6 +170,8 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> remoteStorageAccessor.scheduleUploading(washSurveyInteractor.getCurrentSurvey().getId()), this::handleError)
         );
+        washSurveyInteractor.setCurrentUploadState(UploadState.NOT_UPLOAD);
+        updateSurvey();
     }
 
     void onPrevPressed() {
