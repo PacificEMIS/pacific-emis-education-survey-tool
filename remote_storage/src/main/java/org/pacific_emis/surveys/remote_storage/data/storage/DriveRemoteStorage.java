@@ -168,11 +168,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
 
         String creator = survey.getCreateUser();
-<<<<<<<<< Temporary merge branch 1
         String updater = userAccount.getEmail();
-=========
         setSurveyUploadState(survey, UploadState.IN_PROGRESS);
->>>>>>>>> Temporary merge branch 2
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
                     List<Photo> photos = dataSourceComponent.getDataRepository().getPhotos(survey);
