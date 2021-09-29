@@ -10,6 +10,7 @@ import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -215,6 +216,11 @@ public class CoreRemoteDataSource implements DataSource {
 
     @Override
     public Completable updatePhotoWithRemote(Photo photo, String remoteFileId) {
+        throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
+    }
+
+    @Override
+    public void setSurveyUploadState(Survey survey, UploadState uploadState) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
     }
 }

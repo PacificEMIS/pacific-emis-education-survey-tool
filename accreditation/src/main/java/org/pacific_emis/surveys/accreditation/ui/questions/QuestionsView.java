@@ -8,6 +8,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 import java.util.List;
 
 import org.pacific_emis.surveys.accreditation_core.data.model.SubCriteria;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseView;
 
 public interface QuestionsView extends BaseView {
@@ -36,4 +37,6 @@ public interface QuestionsView extends BaseView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void refreshQuestionAtPosition(int selectedQuestionPosition);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void setSurveyUploadState(UploadState uploadState);
 }

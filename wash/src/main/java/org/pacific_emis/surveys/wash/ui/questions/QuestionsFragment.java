@@ -24,6 +24,7 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import org.pacific_emis.surveys.core.data.model.Answerable;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
@@ -139,6 +140,7 @@ public class QuestionsFragment extends BaseFragment implements
     @Override
     public void setNextButtonVisible(boolean isVisible) {
         bottomNavigatorView.setNextButtonVisible(isVisible);
+        bottomNavigatorView.setUploadStateVisible(true);
     }
 
     @Override
@@ -251,4 +253,18 @@ public class QuestionsFragment extends BaseFragment implements
         bottomNavigatorView.setHintTextVisible(isVisible);
     }
 
+    @Override
+    public void setSurveyUploadState(UploadState uploadState) {
+        switch (uploadState) {
+            case IN_PROGRESS:
+                bottomNavigatorView.setUploadInProgress();
+                break;
+            case SUCCESSFULLY:
+                bottomNavigatorView.setUploadSuccessfully();
+                break;
+            case NOT_UPLOAD:
+                bottomNavigatorView.setNotUpload();
+                break;
+        }
+    }
 }

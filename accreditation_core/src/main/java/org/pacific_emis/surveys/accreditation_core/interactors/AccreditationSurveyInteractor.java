@@ -11,6 +11,7 @@ import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.util.List;
 
@@ -68,4 +69,9 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
     Single<List<Subject>> loadSubjects(AppRegion appRegion);
 
+    UploadState getCurrentUploadState();
+
+    void setCurrentUploadState(UploadState uploadState);
+
+    Completable updateSurvey();
 }

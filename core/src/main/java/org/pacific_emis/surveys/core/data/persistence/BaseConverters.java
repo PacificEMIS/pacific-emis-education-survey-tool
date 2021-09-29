@@ -7,6 +7,7 @@ import java.util.Date;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 public class BaseConverters {
 
@@ -48,6 +49,16 @@ public class BaseConverters {
     @TypeConverter
     public static String convertFromSurveyStateToName(SurveyState surveyState) {
         return surveyState.name();
+    }
+
+    @TypeConverter
+    public static UploadState convertFromNameToUploadState(String value) {
+        return UploadState.getOrDefault(value);
+    }
+
+    @TypeConverter
+    public static String convertFromUploadStateToName(UploadState uploadState) {
+        return uploadState.name();
     }
 
 }

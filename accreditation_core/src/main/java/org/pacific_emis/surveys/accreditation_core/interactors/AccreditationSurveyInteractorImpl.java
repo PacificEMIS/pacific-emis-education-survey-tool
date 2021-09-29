@@ -21,6 +21,7 @@ import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -349,5 +350,24 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     @Override
     public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
         return accreditationDataSource.loadSubjects(appRegion);
+    }
+
+    @Override
+    public UploadState getCurrentUploadState() {
+        return survey.getUploadState();
+    }
+
+    @Override
+    public void setCurrentUploadState(UploadState uploadState) {
+        survey.setUploadState(uploadState);
+    }
+
+    @Override
+    public Completable updateSurvey() {
+        return Completable.fromAction(this::setCurrentUploadState);
+    }
+
+    private void setCurrentUploadState() {
+        accreditationDataSource.updateSurvey(survey);
     }
 }

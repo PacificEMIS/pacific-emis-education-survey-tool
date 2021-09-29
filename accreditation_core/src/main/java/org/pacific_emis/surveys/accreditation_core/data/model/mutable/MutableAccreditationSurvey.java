@@ -13,6 +13,7 @@ import org.pacific_emis.surveys.core.data.model.mutable.BaseMutableEntity;
 import org.pacific_emis.surveys.core.data.model.mutable.MutableProgress;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.ObjectUtils;
 
@@ -33,6 +34,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
     private List<MutableCategory> categories;
     private MutableProgress progress = MutableProgress.createEmptyProgress();
     private SurveyState state;
+    private UploadState uploadState;
 
     @Nullable
     private String createUser;
@@ -63,6 +65,7 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
 
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(MutableCategory::new).collect(Collectors.toList());
@@ -232,11 +235,21 @@ public class MutableAccreditationSurvey extends BaseMutableEntity implements Acc
         return lastEditedUser;
     }
 
+    @Nullable
+    @Override
+    public UploadState getUploadState() {
+        return uploadState;
+    }
+
     public void setCreateUser(@Nullable String createUser) {
         this.createUser = createUser;
     }
 
     public void setLastEditedUser(@Nullable String lastEditedUser) {
         this.lastEditedUser = lastEditedUser;
+    }
+
+    public void  setUploadState(@Nullable UploadState uploadState) {
+        this.uploadState = uploadState;
     }
 }

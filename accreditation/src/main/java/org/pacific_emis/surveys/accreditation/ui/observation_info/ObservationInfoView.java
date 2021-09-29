@@ -10,6 +10,7 @@ import com.omegar.mvp.viewstate.strategy.StateStrategyType;
 
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseView;
 
 import java.util.Date;
@@ -52,6 +53,9 @@ public interface ObservationInfoView extends BaseView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setSubjectsToAutocompleteField(@NonNull List<Subject> subjects);
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void setSurveyUploadState(UploadState uploadState);
 
     interface OnDateTimePickedListener {
         void onDateTimePicked(@NonNull Date date);

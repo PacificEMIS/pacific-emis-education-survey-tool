@@ -118,6 +118,9 @@
     <string name="button_prev">Prev</string>
     <string name="button_next">Next</string>
     <string name="button_complete">Complete</string>
+    <string name="label_synced_successfully">Survey synced to cloud successfully</string>
+    <string name="label_synced_in_progress">Survey syncing to cloud in progress</string>
+    <string name="label_has_not_synced">Survey has not synced to the cloud</string>
 
     <string name="region_fsm">FedEMIS</string>
     <string name="region_rmi">MIEMIS</string>
