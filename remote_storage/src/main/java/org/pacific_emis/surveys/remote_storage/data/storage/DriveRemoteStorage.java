@@ -25,6 +25,8 @@ import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.data_source_injector.di.DataSourceComponent;
 import org.pacific_emis.surveys.remote_storage.BuildConfig;
 import org.pacific_emis.surveys.remote_storage.R;
@@ -45,7 +47,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
@@ -53,6 +58,12 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
+
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.FSM;
+import static org.pacific_emis.surveys.core.preferences.entities.AppRegion.RMI;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
@@ -68,6 +79,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final GsonFactory sGsonFactory = new GsonFactory();
     private final FilesRepository filesRepository;
     private final DataSourceComponent dataSourceComponent;
+
+    private final Map<Long, Subject<UploadState>> surveyUploadStateSubjectMap = new ConcurrentHashMap<>();
 
     private final Context appContext;
     private final LocalSettings localSettings;
@@ -120,7 +133,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
         Sheets sheets = new Sheets.Builder(sTransport, sGsonFactory, initializer)
                 .setApplicationName(appContext.getString(R.string.app_name))
                 .build();
-        switch (localSettings.getAppRegion()) {
+        switch (localSettings.getCurrentAppRegion()) {
             case FSM:
                 return new FsmSheetsExcelExporter(appContext, sheets);
             case RMI:
@@ -163,26 +176,28 @@ public final class DriveRemoteStorage implements RemoteStorage {
         String updater = userAccount.getEmail();
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
-                    List<Photo> photos = dataSourceComponent.getDataSource().getPhotos(survey);
+                    List<Photo> photos = dataSourceComponent.getDataRepository().getPhotos(survey);
                     return driveServiceHelper.uploadPhotos(photos, regionFolderId, new PhotoMetadata(survey))
                             .flatMapObservable(Observable::fromIterable)
                             .filter(photoFilePair -> photoFilePair.second != null)
-                            .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataSource()
+                            .concatMapCompletable(photoFilePair -> dataSourceComponent.getDataRepository()
                                     .updatePhotoWithRemote(
                                             photoFilePair.first,
                                             photoFilePair.second.getId()
                                     )
                                     .subscribeOn(Schedulers.io())
                             )
-                            .andThen(dataSourceComponent.getDataSource().loadSurvey(survey.getId())
+                            .andThen(dataSourceComponent.getDataRepository().loadSurvey(survey.getAppRegion(), survey.getId())
                                     .subscribeOn(Schedulers.io()))
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
                                     new SurveyMetadata(updatedSurvey, updater),
                                     regionFolderId)
+                                    .doOnSubscribe(d -> setSurveyUploadState(survey, UploadState.SUCCESSFULLY))
                                     .ignoreElement()
-                            );
+                            )
+                            .doOnError(e -> setSurveyUploadState(survey, UploadState.NOT_UPLOAD));
                 });
     }
 
@@ -293,7 +308,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     private String getTemplateFileName() {
-        switch (localSettings.getAppRegion()) {
+        switch (localSettings.getCurrentAppRegion()) {
             case FSM:
                 return BuildConfig.NAME_REPORT_TEMPLATE_FSM;
             case RMI:
@@ -311,5 +326,22 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public Completable downloadContent(String fileId, File targetFile, DriveType mimeType) {
         return driveServiceHelper.downloadContent(fileId, targetFile, mimeType);
+    }
+
+    @Override
+    public Subject<UploadState> getUploadStateObservable(long surveyId) {
+        Subject<UploadState> subject = surveyUploadStateSubjectMap.get(surveyId);
+        if (subject == null) {
+            subject = PublishSubject.create();
+            surveyUploadStateSubjectMap.put(surveyId, subject);
+        }
+        return subject;
+    }
+
+    private void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        dataSourceComponent.getDataRepository().setSurveyUploadState(survey, uploadState);
+
+        Subject<UploadState> subject = getUploadStateObservable(survey.getId());
+        subject.onNext(uploadState);
     }
 }

@@ -4,7 +4,7 @@ import org.pacific_emis.surveys.accreditation_core.data.model.Answer;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationInfo;
 import org.pacific_emis.surveys.accreditation_core.data.model.ObservationLogRecord;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 
 import java.util.Date;
 import java.util.List;

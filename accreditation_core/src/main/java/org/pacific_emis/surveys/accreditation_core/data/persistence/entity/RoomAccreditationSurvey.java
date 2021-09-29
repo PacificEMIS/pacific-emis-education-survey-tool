@@ -15,6 +15,7 @@ import org.pacific_emis.surveys.core.data.model.Progress;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.ObjectUtils;
 
 @Entity
@@ -55,6 +56,9 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
     @ColumnInfo(name = "last_edited_user")
     public String lastEditedUser;
 
+    @ColumnInfo(name = "upload_state")
+    public UploadState uploadState;
+
     public RoomAccreditationSurvey(int version,
                                    SurveyType type,
                                    AppRegion appRegion,
@@ -72,6 +76,7 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
         this.appRegion = appRegion;
         this.state = SurveyState.NOT_COMPLETED;
         this.createUser = createUser;
+        this.uploadState = UploadState.NOT_UPLOAD;
     }
 
     public RoomAccreditationSurvey(@NonNull AccreditationSurvey other) {
@@ -87,6 +92,7 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
     }
 
     @Override
@@ -168,5 +174,11 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
     @Override
     public String getLastEditedUser() {
         return lastEditedUser;
+    }
+
+    @Nullable
+    @Override
+    public UploadState getUploadState() {
+        return uploadState;
     }
 }

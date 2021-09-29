@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseView;
 
 public interface ObservationLogView extends BaseView {
@@ -32,6 +33,9 @@ public interface ObservationLogView extends BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showTimePicker(@NonNull Date sourceDate, @NonNull OnTimePickedListener listener);
+
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void setSurveyUploadState(UploadState uploadState);
 
     interface OnTimePickedListener {
         void onTimePicked(@NonNull Date date);

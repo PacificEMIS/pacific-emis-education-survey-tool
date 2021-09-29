@@ -8,10 +8,12 @@ import java.util.List;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
 import org.pacific_emis.surveys.core.di.CoreComponent;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponent;
 import org.pacific_emis.surveys.survey_core.ui.photos.PhotosPresenter;
+import org.pacific_emis.surveys.wash_core.data.data_source.WashDataSource;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableAnswer;
 import org.pacific_emis.surveys.wash_core.di.WashCoreComponent;
 import org.pacific_emis.surveys.wash_core.interactors.WashSurveyInteractor;
@@ -24,15 +26,17 @@ import io.reactivex.schedulers.Schedulers;
 public class WashPhotosPresenter extends PhotosPresenter<WashPhotosView> {
 
     private final WashSurveyInteractor interactor;
+    private final WashDataSource dataSource;
     private final RemoteStorageAccessor remoteStorageAccessor;
 
     private MutableAnswer answer;
 
     public WashPhotosPresenter(CoreComponent coreComponent,
                                RemoteStorageComponent remoteStorageComponent,
-                               WashCoreComponent accreditationCoreComponent) {
+                               WashCoreComponent washCoreComponent) {
         super(coreComponent);
-        interactor = accreditationCoreComponent.getWashSurveyInteractor();
+        interactor = washCoreComponent.getWashSurveyInteractor();
+        dataSource = washCoreComponent.getDataSource();
         remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         afterInit();
     }
@@ -52,6 +56,7 @@ public class WashPhotosPresenter extends PhotosPresenter<WashPhotosView> {
 
     @Override
     protected Completable updateAnswer() {
+        dataSource.setSurveyUploadState(interactor.getCurrentSurvey(), UploadState.NOT_UPLOAD);
         return interactor.updateAnswer(answer);
     }
 

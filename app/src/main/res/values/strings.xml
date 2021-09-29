@@ -17,7 +17,10 @@
     <string name="label_contact">Contact</string>
     <string name="title_input_contact">Input Contact</string>
     <string name="label_mode">Operating mode</string>
-    <string name="label_import_schools">Import schools</string>
+    <string name="label_import_schools">Import schools from CSV</string>
+    <string name="label_load_schools">Update schools from %s API</string>
+    <string name="label_load_teachers">Update teachers from %s API</string>
+    <string name="label_load_subjects">Update subjects from %s API</string>
     <string name="label_load_prod_certificate">Load Production Certificate</string>
     <string name="label_export_folder">Export Folder</string>
     <string name="label_templates">Templates of surveys</string>

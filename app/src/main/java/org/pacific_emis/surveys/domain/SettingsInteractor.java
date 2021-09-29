@@ -5,14 +5,13 @@ import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.ByteArrayInputStream;
-import java.util.List;
-
 import org.pacific_emis.surveys.BuildConfig;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.ParseException;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.model.School;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.serialization.Parser;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
@@ -20,6 +19,10 @@ import org.pacific_emis.surveys.core.preferences.entities.OperatingMode;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -56,10 +59,47 @@ public class SettingsInteractor {
         return accessor.getDataSource(localSettings.getSurveyTypeOrDefault());
     }
 
+    private DataSource getDataSource() {
+        return accessor.getDataSource();
+    }
+
     public Completable importSchools(String content) {
         return Single.fromCallable(() -> schoolsParser.parse(new ByteArrayInputStream(content.getBytes())))
                 .flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
 
+    }
+
+    public Completable importTeachers(List<Teacher> teachers) {
+        return Single.fromCallable(() -> teachers)
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
+
+    }
+
+    public Completable importSubjects(List<Subject> subjects) {
+        return Single.fromCallable(() -> subjects)
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
+    }
+
+    public Completable updateSchoolsFromRemote() {
+        return getDataSource()
+                .loadSchools(localSettings.getCurrentAppRegion())
+                .flatMap(item -> {
+                    if (item.getError() != null) return Single.error(item.getError());
+                    return Single.just(item.getData());
+                })
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllSchools);
+    }
+
+    public Completable updateTeachersFromRemote() {
+        return getDataSource()
+                .loadTeachers(localSettings.getCurrentAppRegion())
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllTeachers);
+    }
+
+    public Completable updateSubjectsFromRemote() {
+        return getDataSource()
+                .loadSubjects(localSettings.getCurrentAppRegion())
+                .flatMapCompletable(getCurrentDataSource()::rewriteAllSubjects);
     }
 
     public Completable selectExportFolder() {
@@ -117,13 +157,13 @@ public class SettingsInteractor {
     }
 
     public void setAppRegion(AppRegion region) {
-        localSettings.setAppRegion(region);
+        localSettings.setCurrentAppRegion(region);
     }
 
     @Nullable
     public AppRegion getAppRegion() {
-        if (localSettings.isAppRegionSaved()) {
-            return localSettings.getAppRegion();
+        if (localSettings.isCurrentAppRegionSaved()) {
+            return localSettings.getCurrentAppRegion();
         } else {
             return null;
         }
@@ -145,23 +185,31 @@ public class SettingsInteractor {
 
     public static class SurveyAccessor {
 
+        private final DataSource dataRepository;
         private final DataSource accreditationDataSource;
         private final DataSource washDataSource;
+        private final LocalSettings localSettings;
         private final Parser<Survey> accreditationSurveyParser;
         private final Parser<Survey> washSurveyParser;
         private final AssetManager assetManager;
 
-        public SurveyAccessor(DataSource accreditationDataSource,
+        public SurveyAccessor(DataSource dataRepository,
+                              DataSource accreditationDataSource,
                               DataSource washDataSource,
+                              LocalSettings localSettings,
                               Parser<Survey> accreditationSurveyParser,
                               Parser<Survey> washSurveyParser,
                               AssetManager assetManager) {
+            this.dataRepository = dataRepository;
             this.accreditationDataSource = accreditationDataSource;
             this.washDataSource = washDataSource;
+            this.localSettings = localSettings;
             this.accreditationSurveyParser = accreditationSurveyParser;
             this.washSurveyParser = washSurveyParser;
             this.assetManager = assetManager;
         }
+
+        public DataSource getDataSource() { return dataRepository; }
 
         public DataSource getDataSource(@NonNull SurveyType surveyType) {
             switch (surveyType) {
@@ -187,13 +235,13 @@ public class SettingsInteractor {
             Survey survey = tryParseAccreditation(content);
 
             if (survey != null) {
-                return accreditationDataSource.createPartiallySavedSurvey(survey);
+                return accreditationDataSource.createPartiallySavedSurvey(localSettings.getCurrentAppRegion(), survey);
             }
 
             survey = tryParseWash(content);
 
             if (survey != null) {
-                return washDataSource.createPartiallySavedSurvey(survey);
+                return washDataSource.createPartiallySavedSurvey(localSettings.getCurrentAppRegion(), survey);
             }
 
             throw new ParseException();

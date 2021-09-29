@@ -10,6 +10,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,21 +24,28 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
+import org.jetbrains.annotations.NotNull;
+import org.pacific_emis.surveys.accreditation.R;
+import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
+import org.pacific_emis.surveys.core.data.model.Subject;
+import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.di.CoreComponentInjector;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
+import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
+import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
+import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
+import org.pacific_emis.surveys.core.utils.DebounceTextChangedWatcher;
+import org.pacific_emis.surveys.core.utils.ViewUtils;
+import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
+import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponentInjector;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import org.pacific_emis.surveys.accreditation.R;
-import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
-import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
-import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
-import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
-import org.pacific_emis.surveys.core.utils.ViewUtils;
-import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
-import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponentInjector;
 
 public class ObservationInfoFragment extends BaseFragment implements
         ObservationInfoView,
@@ -46,17 +56,22 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.US);
+    private static final long DELAY_CHANGED_MILLIS = 1000;
 
     @InjectPresenter
     ObservationInfoPresenter presenter;
 
-    private InputFieldLayout teacherNameInputFieldLayout;
+    private final ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+    private final ArrayList<Subject> subjects = new ArrayList<Subject>();
+    private AutoCompleteTextView teacherNameAutoComplete;
     private TextView gradeTextView;
     private InputFieldLayout totalStudentsInputFieldLayout;
-    private InputFieldLayout subjectInputFieldLayout;
+    private AutoCompleteTextView subjectAutoComplete;
     private TextView dateTimeTextView;
     private BottomNavigatorView bottomNavigatorView;
     private View rootView;
+    private ArrayAdapter<Teacher> teachersAutoAdapter;
+    private ArrayAdapter<Subject> subjectsAutoAdapter;
 
     @Nullable
     private Dialog selectorDialog;
@@ -76,6 +91,7 @@ public class ObservationInfoFragment extends BaseFragment implements
         return new ObservationInfoPresenter(
                 RemoteStorageComponentInjector.getComponent(application),
                 SurveyCoreComponentInjector.getComponent(application),
+                CoreComponentInjector.getComponent(application),
                 AccreditationCoreComponentInjector.getComponent(application),
                 args.getLong(ARG_CATEGORY_ID)
         );
@@ -83,6 +99,8 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        teachersAutoAdapter = createAutocompleteAdapter(teachers);
+        subjectsAutoAdapter = createAutocompleteAdapter(subjects);
         return inflater.inflate(R.layout.fragment_observation_info, container, false);
     }
 
@@ -91,13 +109,28 @@ public class ObservationInfoFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         setupUserInteractions();
+        setupTextChangedListeners();
+    }
+
+    private void setupTextChangedListeners() {
+        DebounceTextChangedWatcher.setup(
+                teacherNameAutoComplete,
+                DELAY_CHANGED_MILLIS,
+                newText -> presenter.onTeacherChanged(newText)
+        );
+        DebounceTextChangedWatcher.setup(
+                subjectAutoComplete,
+                DELAY_CHANGED_MILLIS,
+                newText -> presenter.onSubjectChanged(newText)
+        );
+
     }
 
     private void bindViews(@NonNull View view) {
-        teacherNameInputFieldLayout = view.findViewById(R.id.inputfieldlayout_teacher_name);
+        teacherNameAutoComplete = view.findViewById(R.id.input_auto_teacher_name);
+        subjectAutoComplete = view.findViewById(R.id.input_auto_subject);
         gradeTextView = view.findViewById(R.id.textview_grade);
         totalStudentsInputFieldLayout = view.findViewById(R.id.inputfieldlayout_students);
-        subjectInputFieldLayout = view.findViewById(R.id.inputfieldlayout_subject);
         dateTimeTextView = view.findViewById(R.id.textview_date_time);
         bottomNavigatorView = view.findViewById(R.id.bottomnavigatorview);
         rootView = view.findViewById(R.id.layout_root);
@@ -105,9 +138,12 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
-        teacherNameInputFieldLayout.setOnDonePressedListener(this);
+        bottomNavigatorView.setUploadStateVisible(true);
+        teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
+        teacherNameAutoComplete.setOnItemClickListener(new TeacherDropdownItemClickListener());
+        subjectAutoComplete.setAdapter(subjectsAutoAdapter);
+        subjectAutoComplete.setOnItemClickListener(new SubjectDropdownItemClickListener());
         totalStudentsInputFieldLayout.setOnDonePressedListener(this);
-        subjectInputFieldLayout.setOnDonePressedListener(this);
         gradeTextView.setOnClickListener((view) -> presenter.onGradePressed());
         dateTimeTextView.setOnClickListener((view) -> presenter.onDateTimePressed());
     }
@@ -129,7 +165,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTeacherName(@Nullable String teacherName) {
-        teacherNameInputFieldLayout.setStartingText(teacherName);
+        teacherNameAutoComplete.setText(teacherName);
     }
 
     @Override
@@ -148,7 +184,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setSubject(@Nullable String subject) {
-        subjectInputFieldLayout.setStartingText(subject);
+        subjectAutoComplete.setText(subject);
     }
 
     @Override
@@ -224,11 +260,33 @@ public class ObservationInfoFragment extends BaseFragment implements
     }
 
     @Override
+    public void setTeachersToAutocompleteField(@NonNull @NotNull List<Teacher> teachers) {
+        setAdapterContent(teachersAutoAdapter, teachers);
+    }
+
+    @Override
+    public void setSubjectsToAutocompleteField(@NonNull @NotNull List<Subject> subjects) {
+        setAdapterContent(subjectsAutoAdapter, subjects);
+    }
+
+    @Override
+    public void setSurveyUploadState(UploadState uploadState) {
+        switch (uploadState) {
+            case IN_PROGRESS:
+                bottomNavigatorView.setUploadInProgress();
+                break;
+            case SUCCESSFULLY:
+                bottomNavigatorView.setUploadSuccessfully();
+                break;
+            case NOT_UPLOAD:
+                bottomNavigatorView.setNotUpload();
+                break;
+        }
+    }
+
+    @Override
     public void onDonePressed(View view, @Nullable String content) {
-        if (view.getId() == R.id.inputfieldlayout_teacher_name) {
-            ViewUtils.hideKeyboardAndClearFocus(teacherNameInputFieldLayout, rootView);
-            presenter.onTeacherNameChanged(content);
-        } else if (view.getId() == R.id.inputfieldlayout_students) {
+        if (view.getId() == R.id.inputfieldlayout_students) {
             ViewUtils.hideKeyboardAndClearFocus(totalStudentsInputFieldLayout, rootView);
             if (TextUtils.isEmpty(content)) {
                 presenter.onTotalStudentsChanged(null);
@@ -239,9 +297,32 @@ public class ObservationInfoFragment extends BaseFragment implements
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
             }
-        } else if (view.getId() == R.id.inputfieldlayout_subject) {
-            ViewUtils.hideKeyboardAndClearFocus(subjectInputFieldLayout, rootView);
-            presenter.onSubjectChanged(content);
+        }
+    }
+
+    private <T> void setAdapterContent(ArrayAdapter<T> adapter, List<T> newContent) {
+        adapter.clear();
+        adapter.addAll(newContent);
+        adapter.notifyDataSetChanged();
+    }
+
+    private <T> ArrayAdapter<T> createAutocompleteAdapter(List<T> list) {
+        return new ArrayAdapter<T>(getContext(), android.R.layout.simple_dropdown_item_1line, list);
+    }
+
+    private class TeacherDropdownItemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
+            presenter.onTeacherChanged(teachersAutoAdapter.getItem(position));
+        }
+    }
+
+    private class SubjectDropdownItemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ViewUtils.hideKeyboardAndClearFocus(subjectAutoComplete, rootView);
+            presenter.onSubjectChanged(subjectsAutoAdapter.getItem(position));
         }
     }
 }

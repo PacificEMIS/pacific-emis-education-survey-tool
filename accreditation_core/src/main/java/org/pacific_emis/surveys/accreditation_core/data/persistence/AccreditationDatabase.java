@@ -3,7 +3,10 @@ package org.pacific_emis.surveys.accreditation_core.data.persistence;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import org.pacific_emis.surveys.accreditation_core.BuildConfig;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.dao.AnswerDao;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.dao.CategoryDao;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.dao.CriteriaDao;
@@ -33,8 +36,8 @@ import org.pacific_emis.surveys.core.data.persistence.BaseConverters;
                 RoomPhoto.class,
                 RoomObservationLogRecord.class
         },
-        version = 1,
-        exportSchema = false)
+        version = BuildConfig.DATA_BASE_VERSION,
+        exportSchema = true)
 @TypeConverters({
         Converters.class,
         BaseConverters.class
@@ -57,4 +60,21 @@ public abstract class AccreditationDatabase extends RoomDatabase {
 
     public abstract ObservationLogRecordDao getObservationLogRecordDao();
 
+    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE RoomCategory ADD observation_info_teacher_id INTEGER"
+            );
+        }
+    };
+
+    public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE RoomAccreditationSurvey ADD upload_state TEXT"
+            );
+        }
+    };
 }

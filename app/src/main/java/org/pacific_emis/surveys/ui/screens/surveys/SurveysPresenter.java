@@ -14,7 +14,7 @@ import java.util.List;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.NotImplementedException;
 import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Survey;
@@ -37,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
-    private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
+    private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataRepository();
     private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
@@ -76,7 +76,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     private void loadRecentSurveys() {
-        addDisposable(interactor.getAllSurveys()
+        addDisposable(interactor.getAllSurveys(localSettings.getCurrentAppRegion())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -120,7 +120,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public void onExportAllPressed() {
         addDisposable(
-                interactor.getAllSurveys()
+                interactor.getAllSurveys(localSettings.getCurrentAppRegion())
                         .flatMapObservable(Observable::fromIterable)
                         .filter(s -> s.getState() == SurveyState.COMPLETED)
                         .cast(AccreditationSurvey.class)
