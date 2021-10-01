@@ -60,6 +60,13 @@ public class MutableWashSurvey extends BaseMutableEntity implements WashSurvey {
     @Nullable
     private UploadState uploadState;
 
+    public static MutableWashSurvey toMutable(@NonNull WashSurvey accreditationSurvey) {
+        if (accreditationSurvey instanceof MutableWashSurvey) {
+            return (MutableWashSurvey) accreditationSurvey;
+        }
+        return new MutableWashSurvey(accreditationSurvey);
+    }
+
     public MutableWashSurvey(WashSurvey other) {
         this(other.getVersion(), other.getSurveyType(), other.getAppRegion());
 

@@ -39,6 +39,7 @@ import java.util.stream.Stream;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public class RoomWashDataSource extends CoreLocalDataSource implements WashDataSource {
 
@@ -328,7 +329,9 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
         return Completable.fromAction(() -> {
             WashSurvey washSurvey = (WashSurvey) survey;
             if (appRegion == washSurvey.getAppRegion()) {
-                saveSurvey(database, washSurvey, true);
+                long id = saveSurvey(database, washSurvey, true);
+                RoomWashSurvey roomSurvey = database.getSurveyDao().getById(id);
+                setSurveyUploadState(roomSurvey, UploadState.SUCCESSFULLY);
             } else {
                 throw new WrongAppRegionException();
             }
@@ -337,7 +340,9 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     @Override
     public void updateSurvey(Survey survey) {
-        database.getSurveyDao().update(new RoomWashSurvey((WashSurvey) survey));
+        database.getSurveyDao().update(new RoomWashSurvey((WashSurvey) survey))
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);;
     }
 
     @Override
@@ -366,7 +371,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     @Override
     public void setSurveyUploadState(Survey survey, UploadState uploadState) {
-        MutableWashSurvey mutableSurvey =  (MutableWashSurvey) survey;
+        MutableWashSurvey mutableSurvey =  MutableWashSurvey.toMutable((WashSurvey) survey);
         mutableSurvey.setUploadState(uploadState);
         updateSurvey(mutableSurvey);
     }

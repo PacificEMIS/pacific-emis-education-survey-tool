@@ -350,7 +350,9 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
         return Completable.fromAction(() -> {
             AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
             if (appRegion == accreditationSurvey.getAppRegion()) {
-                saveSurvey(database, accreditationSurvey, true);
+                long id = saveSurvey(database, accreditationSurvey, true);
+                RoomAccreditationSurvey roomSurvey = database.getSurveyDao().getById(id);
+                setSurveyUploadState(roomSurvey, UploadState.SUCCESSFULLY);
             } else {
                 throw new WrongAppRegionException();
             }
@@ -360,8 +362,8 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     @Override
     public void updateSurvey(Survey survey) {
         database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey))
-        .subscribeOn(Schedulers.io())
-        .subscribe(() -> {}, Throwable::printStackTrace);
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
     @Override

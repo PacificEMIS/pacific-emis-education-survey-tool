@@ -189,7 +189,6 @@ public final class DriveRemoteStorage implements RemoteStorage {
                             )
                             .andThen(dataSourceComponent.getDataRepository().loadSurvey(survey.getAppRegion(), survey.getId())
                                     .subscribeOn(Schedulers.io()))
-                            .doOnSubscribe(d -> dataSourceComponent.getDataRepository().setSurveyUploadState(survey, UploadState.SUCCESSFULLY))
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
