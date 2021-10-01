@@ -327,11 +327,10 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     @Override
     public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
-            WashSurvey washSurvey = (WashSurvey) survey;
+            MutableWashSurvey washSurvey = MutableWashSurvey.toMutable((WashSurvey) survey);
             if (appRegion == washSurvey.getAppRegion()) {
-                long id = saveSurvey(database, washSurvey, true);
-                RoomWashSurvey roomSurvey = database.getSurveyDao().getById(id);
-                setSurveyUploadState(roomSurvey, UploadState.SUCCESSFULLY);
+                washSurvey.setUploadState(UploadState.SUCCESSFULLY);
+                saveSurvey(database, washSurvey, true);
             } else {
                 throw new WrongAppRegionException();
             }

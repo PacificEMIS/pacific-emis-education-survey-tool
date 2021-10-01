@@ -348,11 +348,10 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     @Override
     public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
-            AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
+            MutableAccreditationSurvey accreditationSurvey = MutableAccreditationSurvey.toMutable((AccreditationSurvey) survey);
             if (appRegion == accreditationSurvey.getAppRegion()) {
-                long id = saveSurvey(database, accreditationSurvey, true);
-                RoomAccreditationSurvey roomSurvey = database.getSurveyDao().getById(id);
-                setSurveyUploadState(roomSurvey, UploadState.SUCCESSFULLY);
+                accreditationSurvey.setUploadState(UploadState.SUCCESSFULLY);
+                saveSurvey(database, accreditationSurvey, true);
             } else {
                 throw new WrongAppRegionException();
             }
