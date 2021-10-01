@@ -348,8 +348,9 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     @Override
     public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
-            AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
+            MutableAccreditationSurvey accreditationSurvey = MutableAccreditationSurvey.toMutable((AccreditationSurvey) survey);
             if (appRegion == accreditationSurvey.getAppRegion()) {
+                accreditationSurvey.setUploadState(UploadState.SUCCESSFULLY);
                 saveSurvey(database, accreditationSurvey, true);
             } else {
                 throw new WrongAppRegionException();
@@ -360,8 +361,8 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     @Override
     public void updateSurvey(Survey survey) {
         database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey))
-        .subscribeOn(Schedulers.io())
-        .subscribe(() -> {}, Throwable::printStackTrace);
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
     @Override
