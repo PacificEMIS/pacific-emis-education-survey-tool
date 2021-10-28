@@ -327,7 +327,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     @Override
     public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
-            MutableWashSurvey washSurvey = MutableWashSurvey.toMutable((WashSurvey) survey);
+            MutableWashSurvey washSurvey = ((WashSurvey) survey).toMutable();
             if (appRegion == washSurvey.getAppRegion()) {
                 washSurvey.setUploadState(UploadState.SUCCESSFULLY);
                 saveSurvey(database, washSurvey, true);
@@ -341,7 +341,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     public void updateSurvey(Survey survey) {
         database.getSurveyDao().update(new RoomWashSurvey((WashSurvey) survey))
                 .subscribeOn(Schedulers.io())
-                .subscribe(() -> {}, Throwable::printStackTrace);;
+                .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
     @Override
@@ -370,7 +370,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     @Override
     public void setSurveyUploadState(Survey survey, UploadState uploadState) {
-        MutableWashSurvey mutableSurvey =  MutableWashSurvey.toMutable((WashSurvey) survey);
+        MutableWashSurvey mutableSurvey =  ((WashSurvey) survey).toMutable();
         mutableSurvey.setUploadState(uploadState);
         updateSurvey(mutableSurvey);
     }

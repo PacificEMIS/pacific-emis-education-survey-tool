@@ -2,6 +2,7 @@ package org.pacific_emis.surveys.remote_storage.data.storage;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
@@ -75,7 +76,7 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private final FilesRepository filesRepository;
     private final DataSourceComponent dataSourceComponent;
 
-    private final Map<Long, Subject<UploadState>> surveyUploadStateSubjectMap = new ConcurrentHashMap<>();
+    private final Subject<Pair<Long, UploadState>> surveyUploadStateSubject = PublishSubject.create();
 
     private final Context appContext;
     private final LocalSettings localSettings;
@@ -325,19 +326,20 @@ public final class DriveRemoteStorage implements RemoteStorage {
     }
 
     @Override
-    public Subject<UploadState> getUploadStateObservable(long surveyId) {
-        Subject<UploadState> subject = surveyUploadStateSubjectMap.get(surveyId);
-        if (subject == null) {
-            subject = PublishSubject.create();
-            surveyUploadStateSubjectMap.put(surveyId, subject);
-        }
-        return subject;
+    public Observable<UploadState> getUploadStateObservable(long surveyId) {
+        return surveyUploadStateSubject
+                .filter(pair -> pair.first == surveyId)
+                .map(pair -> pair.second);
+    }
+
+    @Override
+    public Observable<Pair<Long, UploadState>> getUploadStateObservable() {
+        return surveyUploadStateSubject;
     }
 
     private void setSurveyUploadState(Survey survey, UploadState uploadState) {
         dataSourceComponent.getDataRepository().setSurveyUploadState(survey, uploadState);
 
-        Subject<UploadState> subject = getUploadStateObservable(survey.getId());
-        subject.onNext(uploadState);
+        surveyUploadStateSubject.onNext(new Pair<>(survey.getId(), uploadState));
     }
 }

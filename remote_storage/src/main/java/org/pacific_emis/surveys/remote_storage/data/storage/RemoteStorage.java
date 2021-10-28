@@ -1,6 +1,8 @@
 package org.pacific_emis.surveys.remote_storage.data.storage;
 
 
+import android.util.Pair;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.io.File;
@@ -44,4 +46,6 @@ public interface RemoteStorage {
     Completable downloadContent(String fileId, File targetFile, DriveType mimeType);
 
     Observable<UploadState> getUploadStateObservable(long surveyId);
+
+    Observable<Pair<Long, UploadState>> getUploadStateObservable();
 }
