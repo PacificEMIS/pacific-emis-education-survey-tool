@@ -37,6 +37,7 @@
             android:id="@+id/imageview_upload_to_cloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             tools:src="@drawable/ic_not_synced" />
 
         <TextView
@@ -49,6 +50,7 @@
             android:textColor="@color/grey_500"
             android:fontFamily="@font/noto_sans_medium"
             android:letterSpacing = "0.04"
+            android:visibility="invisible"
             tools:text="@string/label_has_not_synced"/>
 
     </LinearLayout>
