@@ -90,7 +90,7 @@ public class ObservationLogFragment extends BaseFragment implements
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
-        bottomNavigatorView.setUploadStateVisible(true);
+        bottomNavigatorView.setUploadStateVisible(false);
     }
 
     @Override

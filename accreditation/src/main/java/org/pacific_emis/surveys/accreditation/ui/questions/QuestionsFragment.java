@@ -86,7 +86,7 @@ public class QuestionsFragment extends BaseFragment implements
         bindViews(view);
         recyclerView.setAdapter(questionsAdapter);
         bottomNavigatorView.setListener(this);
-        bottomNavigatorView.setUploadStateVisible(true);
+        bottomNavigatorView.setUploadStateVisible(false);
     }
 
     private void bindViews(@NonNull View view) {

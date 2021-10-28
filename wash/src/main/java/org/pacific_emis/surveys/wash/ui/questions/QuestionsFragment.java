@@ -140,7 +140,7 @@ public class QuestionsFragment extends BaseFragment implements
     @Override
     public void setNextButtonVisible(boolean isVisible) {
         bottomNavigatorView.setNextButtonVisible(isVisible);
-        bottomNavigatorView.setUploadStateVisible(true);
+        bottomNavigatorView.setUploadStateVisible(false);
     }
 
     @Override

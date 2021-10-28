@@ -4,6 +4,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseAdapter;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 
@@ -55,6 +57,9 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @BindView(R.id.button_more)
         ImageButton moreButton;
 
+        @BindView(R.id.imageview_upload_to_cloud)
+        ImageView uploadState;
+
         SchoolAccreditationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_survey);
         }
@@ -64,8 +69,20 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
             creationDateTextView.setText(item.getSurveyTag());
+            uploadState.setImageResource(getUploadState(item.getUploadState()));
 
             ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
+        }
+
+        private int getUploadState(UploadState uploadState) {
+            switch (uploadState) {
+                case IN_PROGRESS:
+                    return R.drawable.ic_in_progress_synced;
+                case SUCCESSFULLY:
+                    return R.drawable.ic_successfully_synced;
+                default:
+                    return R.drawable.ic_not_synced;
+            }
         }
 
         @OnClick(R.id.button_more)
