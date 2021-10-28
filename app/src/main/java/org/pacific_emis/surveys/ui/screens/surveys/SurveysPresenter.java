@@ -2,6 +2,7 @@ package org.pacific_emis.surveys.ui.screens.surveys;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
@@ -10,6 +11,7 @@ import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
@@ -19,8 +21,10 @@ import org.pacific_emis.surveys.core.data.exceptions.NotImplementedException;
 import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
+import org.pacific_emis.surveys.core.data.model.mutable.MutableSurvey;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
 import org.pacific_emis.surveys.offline_sync.domain.OfflineSyncUseCase;
 import org.pacific_emis.surveys.offline_sync.ui.base.BaseBluetoothPresenter;
@@ -54,6 +58,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public SurveysPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
+        subscribeOnSurveyUploadState();
 
         switch (localSettings.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
@@ -67,6 +72,29 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    private void subscribeOnSurveyUploadState() {
+        addDisposable(
+                remoteStorage.getUploadStateObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::updateUploadState, this::handleError));
+    }
+
+    private void updateUploadState(Pair<Long, UploadState> uploadStatePair) {
+        surveys = surveys.stream()
+        .map(survey -> {
+            if (survey.getId() == uploadStatePair.first) {
+                MutableSurvey mutableSurvey = survey.toMutable();
+                mutableSurvey.setUploadState(uploadStatePair.second);
+                return mutableSurvey;
+            } else {
+                return survey;
+            }
+        })
+                .collect(Collectors.toList());
+        getViewState().setSurveys(new ArrayList<>(this.surveys));
     }
 
     @Override

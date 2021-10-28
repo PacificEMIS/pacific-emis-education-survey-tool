@@ -138,7 +138,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
-        bottomNavigatorView.setUploadStateVisible(true);
+        bottomNavigatorView.setUploadStateVisible(false);
         teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
         teacherNameAutoComplete.setOnItemClickListener(new TeacherDropdownItemClickListener());
         subjectAutoComplete.setAdapter(subjectsAutoAdapter);

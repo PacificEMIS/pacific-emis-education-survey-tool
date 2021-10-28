@@ -9,6 +9,14 @@ public class BaseMutableEntity implements Serializable, IdentifiedObject {
 
     protected long id;
 
+    public BaseMutableEntity() {
+        // nothing
+    }
+
+    public BaseMutableEntity(long id) {
+        this.id = id;
+    }
+
     @Override
     public long getId() {
         return id;
