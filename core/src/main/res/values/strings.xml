@@ -78,6 +78,7 @@
     <string name="toast_load_teachers_success">Teachers successfully updated from API</string>
     <string name="toast_load_subjects_success">Subjects successfully updated from API</string>
     <string name="toast_load_error">No Internet connection. Make sure Wi-Fi or mobile data is turned on then try again</string>
+    <string name="toast_load_data_error">Error loading data</string>
     <string name="toast_import_survey_success">Survey successfully imported</string>
     <string name="button_comment">Comment</string>
     <string name="title_comment">Comment</string>
