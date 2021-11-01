@@ -4,7 +4,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,11 +19,11 @@ import org.pacific_emis.surveys.core.utils.ViewUtils;
 public class SurveysAdapter extends BaseAdapter<Survey> {
 
     private boolean isExportEnabled;
-    private MenuItemClickListener menuItemClickListener;
+    private ItemClickListener itemClickListener;
 
-    public SurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
+    public SurveysAdapter(OnItemClickListener<Survey> clickListener, ItemClickListener itemClickListener) {
         super(clickListener);
-        this.menuItemClickListener = menuItemClickListener;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -57,8 +56,8 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @BindView(R.id.button_more)
         ImageButton moreButton;
 
-        @BindView(R.id.imageview_upload_to_cloud)
-        ImageView uploadState;
+        @BindView(R.id.button_upload_to_cloud)
+        ImageButton uploadState;
 
         SchoolAccreditationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_survey);
@@ -93,9 +92,14 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
             popupMenu.show();
         }
 
+        @OnClick(R.id.button_upload_to_cloud)
+        public void onUploadButtonClick() {
+            itemClickListener.onUploadItemClick(getItem());
+        }
+
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            return menuItemClickListener.onMenuItemClick(item, getItem());
+            return itemClickListener.onMenuItemClick(item, getItem());
         }
 
         private boolean needToShowExport() {
@@ -103,7 +107,8 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         }
     }
 
-    public interface MenuItemClickListener {
+    public interface ItemClickListener {
         boolean onMenuItemClick(MenuItem menuItem, Survey survey);
+        void onUploadItemClick(Survey survey);
     }
 }
