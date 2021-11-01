@@ -21,6 +21,7 @@ import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
 import org.pacific_emis.surveys.ui.screens.settings.items.OptionsItemFactory;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -239,7 +240,13 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
-                        error -> getViewState().showToast(Text.from(R.string.toast_load_error))
+                        error -> {
+                            if (error instanceof UnknownHostException) {
+                                getViewState().showToast(Text.from(R.string.toast_load_error));
+                            } else {
+                                getViewState().showToast(Text.from(R.string.toast_load_data_error));
+                            }
+                        }
                 ));
     }
 
@@ -251,8 +258,13 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
-                        error -> getViewState().showToast(Text.from(R.string.toast_load_error))
-
+                        error -> {
+                            if (error instanceof UnknownHostException) {
+                                getViewState().showToast(Text.from(R.string.toast_load_error));
+                            } else {
+                                getViewState().showToast(Text.from(R.string.toast_load_data_error));
+                            }
+                        }
                 ));
     }
 
@@ -264,7 +276,13 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
-                        error -> getViewState().showToast(Text.from(R.string.toast_load_error))
+                        error -> {
+                            if (error instanceof UnknownHostException) {
+                                getViewState().showToast(Text.from(R.string.toast_load_error));
+                            } else {
+                                getViewState().showToast(Text.from(R.string.toast_load_data_error));
+                            }
+                        }
                 ));
     }
 
