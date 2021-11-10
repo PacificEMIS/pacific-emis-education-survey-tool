@@ -25,8 +25,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.net.ssl.SSLException;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 @InjectViewState
 public class SettingsPresenter extends BasePresenter<SettingsView> {
@@ -240,13 +243,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
-                        error -> {
-                            if (error instanceof UnknownHostException) {
-                                getViewState().showToast(Text.from(R.string.toast_load_error));
-                            } else {
-                                getViewState().showToast(Text.from(R.string.toast_load_data_error));
-                            }
-                        }
+                        this::showErrorMessage
                 ));
     }
 
@@ -258,13 +255,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
-                        error -> {
-                            if (error instanceof UnknownHostException) {
-                                getViewState().showToast(Text.from(R.string.toast_load_error));
-                            } else {
-                                getViewState().showToast(Text.from(R.string.toast_load_data_error));
-                            }
-                        }
+                        this::showErrorMessage
                 ));
     }
 
@@ -276,14 +267,19 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 .doFinally(() -> getViewState().hideWaiting())
                 .subscribe(
                         () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
-                        error -> {
-                            if (error instanceof UnknownHostException) {
-                                getViewState().showToast(Text.from(R.string.toast_load_error));
-                            } else {
-                                getViewState().showToast(Text.from(R.string.toast_load_data_error));
-                            }
-                        }
+                        this::showErrorMessage
                 ));
+    }
+
+    private void showErrorMessage(Throwable error) {
+        if (error instanceof UnknownHostException || error instanceof SSLException) {
+            getViewState().showToast(Text.from(R.string.toast_load_error));
+        } else if (error instanceof HttpException && ((HttpException) error).code() == 500) {
+            getViewState().showToast(Text.from(R.string.toast_load_data_error_500));
+            onForceFetchRemoteSettingsPressed();
+        } else {
+            getViewState().showToast(Text.from(R.string.toast_load_data_error));
+        }
     }
 
     @Override

@@ -126,6 +126,9 @@ dependencies {
     // Permissions
     implementation 'com.karumi:dexter:6.1.2'
 
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
 apply plugin: 'com.google.gms.google-services'
