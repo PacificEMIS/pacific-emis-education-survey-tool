@@ -8,7 +8,7 @@ public enum UploadState {
     public static UploadState getOrDefault(String value) {
         try {
             return valueOf(value);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             return UploadState.NOT_UPLOAD;
         }
     }
