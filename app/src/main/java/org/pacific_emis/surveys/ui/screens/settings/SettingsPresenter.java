@@ -22,11 +22,10 @@ import org.pacific_emis.surveys.ui.screens.settings.items.Item;
 import org.pacific_emis.surveys.ui.screens.settings.items.OptionsItemFactory;
 
 import java.net.UnknownHostException;
-import java.security.cert.CertPathValidatorException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -273,9 +272,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
     private void showErrorMessage(Throwable error) {
-        if (error instanceof UnknownHostException || error instanceof SSLException) {
+        if (error instanceof UnknownHostException) {
             getViewState().showToast(Text.from(R.string.toast_load_error));
-        } else if (error instanceof CertPathValidatorException) {
+        } else if (error instanceof SSLHandshakeException) {
             getViewState().showToast(Text.from(R.string.toast_load_error_cert));
         } else if (error instanceof HttpException && ((HttpException) error).code() == 500) {
             getViewState().showToast(Text.from(R.string.toast_load_data_error_500));
