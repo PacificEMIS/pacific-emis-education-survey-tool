@@ -5,8 +5,10 @@ import androidx.annotation.Nullable;
 
 import java.util.Date;
 
+import org.pacific_emis.surveys.core.data.model.mutable.MutableSurvey;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 public interface Survey extends Progressable, IdentifiedObject {
 
@@ -44,4 +46,8 @@ public interface Survey extends Progressable, IdentifiedObject {
     @Nullable
     String getLastEditedUser();
 
+    @Nullable
+    UploadState getUploadState();
+    
+    MutableSurvey toMutable();
 }

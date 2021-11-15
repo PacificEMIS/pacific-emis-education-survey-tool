@@ -3,6 +3,7 @@ package org.pacific_emis.surveys.wash_core.interactors;
 import java.util.List;
 
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.wash_core.data.model.Answer;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableGroup;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableQuestion;
@@ -39,4 +40,9 @@ public interface WashSurveyInteractor extends SurveyInteractor {
 
     void setCurrentQuestionId(long id);
 
+    UploadState getCurrentUploadState();
+
+    void setCurrentUploadState(UploadState uploadState);
+
+    Completable updateSurvey();
 }

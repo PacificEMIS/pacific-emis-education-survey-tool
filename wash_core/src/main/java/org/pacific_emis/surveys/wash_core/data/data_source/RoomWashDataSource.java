@@ -10,6 +10,7 @@ import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.wash_core.data.model.Answer;
 import org.pacific_emis.surveys.wash_core.data.model.Group;
@@ -38,6 +39,7 @@ import java.util.stream.Stream;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public class RoomWashDataSource extends CoreLocalDataSource implements WashDataSource {
 
@@ -52,8 +54,14 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     public RoomWashDataSource(Context applicationContext) {
         super(applicationContext);
-        database = Room.databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME).build();
-        templateDatabase = Room.databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME).build();
+        database = Room
+                .databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME)
+                .addMigrations(WashDatabase.MIGRATION_1_2)
+                .build();
+        templateDatabase = Room
+                .databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME)
+                .addMigrations(WashDatabase.MIGRATION_1_2)
+                .build();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
     }
@@ -319,8 +327,9 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     @Override
     public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
-            WashSurvey washSurvey = (WashSurvey) survey;
+            MutableWashSurvey washSurvey = ((WashSurvey) survey).toMutable();
             if (appRegion == washSurvey.getAppRegion()) {
+                washSurvey.setUploadState(UploadState.SUCCESSFULLY);
                 saveSurvey(database, washSurvey, true);
             } else {
                 throw new WrongAppRegionException();
@@ -330,7 +339,9 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
 
     @Override
     public void updateSurvey(Survey survey) {
-        database.getSurveyDao().update(new RoomWashSurvey((WashSurvey) survey));
+        database.getSurveyDao().update(new RoomWashSurvey((WashSurvey) survey))
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
     @Override
@@ -355,5 +366,12 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
             roomPhoto.remoteUrl = remoteFileId;
             photoDao.update(roomPhoto);
         });
+    }
+
+    @Override
+    public void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        MutableWashSurvey mutableSurvey =  ((WashSurvey) survey).toMutable();
+        mutableSurvey.setUploadState(uploadState);
+        updateSurvey(mutableSurvey);
     }
 }

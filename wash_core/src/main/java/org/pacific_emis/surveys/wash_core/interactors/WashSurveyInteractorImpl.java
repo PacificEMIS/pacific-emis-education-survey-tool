@@ -16,6 +16,7 @@ import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.data.model.mutable.MutableProgress;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.wash_core.data.data_source.WashDataSource;
 import org.pacific_emis.surveys.wash_core.data.model.Answer;
 import org.pacific_emis.surveys.wash_core.data.model.WashSurvey;
@@ -286,5 +287,23 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     @Override
     public Completable completeSurveyIfNeed() {
         return Completable.fromAction(this::markSurveyAsCompletedIfNeed);
+    }
+    @Override
+    public UploadState getCurrentUploadState() {
+        return survey.getUploadState();
+    }
+
+    @Override
+    public void setCurrentUploadState(UploadState uploadState) {
+        survey.setUploadState(uploadState);
+    }
+
+    @Override
+    public Completable updateSurvey() {
+        return Completable.fromAction(this::setCurrentUploadState);
+    }
+
+    private void setCurrentUploadState() {
+        washDataSource.updateSurvey(survey);
     }
 }

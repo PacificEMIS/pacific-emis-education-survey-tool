@@ -700,8 +700,10 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             updatedCreateUser += existingCreateUser;
         }
 
-        if (existingExternalUser != null && !updatedCreateUser.contains(existingExternalUser)) {
+        if (existingExternalUser != null && !existingExternalUser.contains(existingCreateUser) && !existingCreateUser.contains(existingExternalUser)) {
             updatedCreateUser += SEPARATOR_CREATE_USER + externalSurvey.getCreateUser();
+        } else if(existingExternalUser.contains(existingCreateUser)) {
+            updatedCreateUser = externalSurvey.getCreateUser();
         }
 
         return updatedCreateUser;

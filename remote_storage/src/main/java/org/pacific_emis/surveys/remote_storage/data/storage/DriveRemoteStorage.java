@@ -2,6 +2,7 @@ package org.pacific_emis.surveys.remote_storage.data.storage;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
@@ -25,6 +26,8 @@ import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.data_source_injector.di.DataSourceComponent;
 import org.pacific_emis.surveys.remote_storage.BuildConfig;
 import org.pacific_emis.surveys.remote_storage.R;
@@ -46,6 +49,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
@@ -53,6 +58,8 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 public final class DriveRemoteStorage implements RemoteStorage {
 
@@ -68,6 +75,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
     private static final GsonFactory sGsonFactory = new GsonFactory();
     private final FilesRepository filesRepository;
     private final DataSourceComponent dataSourceComponent;
+
+    private final Subject<Pair<Long, UploadState>> surveyUploadStateSubject = PublishSubject.create();
 
     private final Context appContext;
     private final LocalSettings localSettings;
@@ -160,6 +169,8 @@ public final class DriveRemoteStorage implements RemoteStorage {
         }
 
         String creator = survey.getCreateUser();
+        String updater = userAccount.getEmail();
+        setSurveyUploadState(survey, UploadState.IN_PROGRESS);
         return driveServiceHelper.createFolderIfNotExist(unwrap(survey.getAppRegion().getName()), null)
                 .flatMapCompletable(regionFolderId -> {
                     List<Photo> photos = dataSourceComponent.getDataRepository().getPhotos(survey);
@@ -178,10 +189,12 @@ public final class DriveRemoteStorage implements RemoteStorage {
                             .flatMapCompletable(updatedSurvey -> driveServiceHelper.createOrUpdateFile(
                                     SurveyTextUtil.createSurveyFileName(updatedSurvey, creator),
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
-                                    new SurveyMetadata(updatedSurvey, creator),
+                                    new SurveyMetadata(updatedSurvey, updater),
                                     regionFolderId)
+                                    .doOnSubscribe(d -> setSurveyUploadState(survey, UploadState.SUCCESSFULLY))
                                     .ignoreElement()
-                            );
+                            )
+                            .doOnError(e -> setSurveyUploadState(survey, UploadState.NOT_UPLOAD));
                 });
     }
 
@@ -310,5 +323,23 @@ public final class DriveRemoteStorage implements RemoteStorage {
     @Override
     public Completable downloadContent(String fileId, File targetFile, DriveType mimeType) {
         return driveServiceHelper.downloadContent(fileId, targetFile, mimeType);
+    }
+
+    @Override
+    public Observable<UploadState> getUploadStateObservable(long surveyId) {
+        return surveyUploadStateSubject
+                .filter(pair -> pair.first == surveyId)
+                .map(pair -> pair.second);
+    }
+
+    @Override
+    public Observable<Pair<Long, UploadState>> getUploadStateObservable() {
+        return surveyUploadStateSubject;
+    }
+
+    private void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        dataSourceComponent.getDataRepository().setSurveyUploadState(survey, uploadState);
+
+        surveyUploadStateSubject.onNext(new Pair<>(survey.getId(), uploadState));
     }
 }

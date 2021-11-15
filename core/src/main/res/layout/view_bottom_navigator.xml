@@ -22,6 +22,39 @@
         android:layout_alignParentStart="true"
         tools:text="@string/button_prev" />
 
+    <LinearLayout
+        android:id="@+id/layout_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:layout_below="@+id/textview_complete_hint"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageview_upload_to_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            tools:src="@drawable/ic_not_synced" />
+
+        <TextView
+            android:id="@+id/textview_upload_to_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp"
+            android:textColor="@color/grey_500"
+            android:fontFamily="@font/noto_sans_medium"
+            android:letterSpacing = "0.04"
+            android:visibility="invisible"
+            tools:text="@string/label_has_not_synced"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/button_next"
         style="@style/NavigationButton.Right"

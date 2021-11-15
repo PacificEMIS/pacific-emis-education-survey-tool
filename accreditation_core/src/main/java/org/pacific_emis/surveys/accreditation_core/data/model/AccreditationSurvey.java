@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableAccreditationSurvey;
 import org.pacific_emis.surveys.core.data.model.Survey;
 
 public interface AccreditationSurvey extends Survey {
@@ -20,4 +21,8 @@ public interface AccreditationSurvey extends Survey {
                 .count();
     }
 
+    @Override
+    default MutableAccreditationSurvey toMutable() {
+        return new MutableAccreditationSurvey(this);
+    }
 }

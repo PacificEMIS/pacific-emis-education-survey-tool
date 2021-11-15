@@ -7,6 +7,7 @@ import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.util.Date;
 import java.util.List;
@@ -55,4 +56,6 @@ public interface DataSource {
     List<Photo> getPhotos(Survey survey) throws UnsupportedOperationException;
 
     Completable updatePhotoWithRemote(Photo photo, String remoteFileId) throws UnsupportedOperationException;
+
+    void setSurveyUploadState(Survey survey, UploadState uploadState);
 }

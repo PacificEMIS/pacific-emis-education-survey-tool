@@ -35,6 +35,7 @@ import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ import java.util.stream.Stream;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 public class AccreditationLocalDataSource extends CoreLocalDataSource implements AccreditationDataSource {
 
@@ -65,10 +67,10 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
 
         database = Room
                 .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
-                .addMigrations(AccreditationDatabase.MIGRATION_1_2)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3)
                 .build();
         templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME)
-                .addMigrations(AccreditationDatabase.MIGRATION_1_2)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3)
                 .build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
@@ -346,8 +348,9 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     @Override
     public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
-            AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
+            MutableAccreditationSurvey accreditationSurvey = ((AccreditationSurvey) survey).toMutable();
             if (appRegion == accreditationSurvey.getAppRegion()) {
+                accreditationSurvey.setUploadState(UploadState.SUCCESSFULLY);
                 saveSurvey(database, accreditationSurvey, true);
             } else {
                 throw new WrongAppRegionException();
@@ -357,7 +360,9 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
 
     @Override
     public void updateSurvey(Survey survey) {
-        database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey));
+        database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey))
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
     @Override
@@ -383,6 +388,13 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
             roomPhoto.remoteUrl = remoteFileId;
             photoDao.update(roomPhoto);
         });
+    }
+
+    @Override
+    public void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        MutableAccreditationSurvey mutableSurvey = ((AccreditationSurvey) survey).toMutable();
+        mutableSurvey.setUploadState(uploadState);
+        updateSurvey(mutableSurvey);
     }
 
     @Override

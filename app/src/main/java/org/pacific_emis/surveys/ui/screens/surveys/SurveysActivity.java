@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -37,7 +38,7 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         SurveysView,
         View.OnClickListener,
         BaseAdapter.OnItemClickListener<Survey>,
-        SurveysAdapter.MenuItemClickListener {
+        SurveysAdapter.ItemClickListener {
 
     private static final String TAG = SurveysActivity.class.getName();
     private static final String SCHEME_WEB = "http";
@@ -160,6 +161,21 @@ public class SurveysActivity extends BaseBluetoothActivity implements
                 return true;
             default:
                 return false;
+        }
+    }
+
+    @Override
+    public void onUploadItemClick(Survey survey) {
+        switch (survey.getUploadState()) {
+            case IN_PROGRESS:
+                Toast.makeText(this, R.string.label_synced_in_progress, Toast.LENGTH_SHORT).show();
+                break;
+            case SUCCESSFULLY:
+                Toast.makeText(this, R.string.label_synced_successfully, Toast.LENGTH_SHORT).show();
+                break;
+            case NOT_UPLOAD:
+                Toast.makeText(this, R.string.label_has_not_synced, Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 

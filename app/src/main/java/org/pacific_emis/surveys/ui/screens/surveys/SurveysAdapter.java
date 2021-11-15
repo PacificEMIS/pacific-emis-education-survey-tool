@@ -12,17 +12,18 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseAdapter;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 
 public class SurveysAdapter extends BaseAdapter<Survey> {
 
     private boolean isExportEnabled;
-    private MenuItemClickListener menuItemClickListener;
+    private ItemClickListener itemClickListener;
 
-    public SurveysAdapter(OnItemClickListener<Survey> clickListener, MenuItemClickListener menuItemClickListener) {
+    public SurveysAdapter(OnItemClickListener<Survey> clickListener, ItemClickListener itemClickListener) {
         super(clickListener);
-        this.menuItemClickListener = menuItemClickListener;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -55,6 +56,9 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @BindView(R.id.button_more)
         ImageButton moreButton;
 
+        @BindView(R.id.button_upload_to_cloud)
+        ImageButton uploadState;
+
         SchoolAccreditationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_survey);
         }
@@ -64,8 +68,20 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
             schoolIdTextView.setText(item.getSchoolId());
             nameSchoolTextView.setText(item.getSchoolName());
             creationDateTextView.setText(item.getSurveyTag());
+            uploadState.setImageResource(getUploadState(item.getUploadState()));
 
             ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
+        }
+
+        private int getUploadState(UploadState uploadState) {
+            switch (uploadState) {
+                case IN_PROGRESS:
+                    return R.drawable.ic_in_progress_synced;
+                case SUCCESSFULLY:
+                    return R.drawable.ic_successfully_synced;
+                default:
+                    return R.drawable.ic_not_synced;
+            }
         }
 
         @OnClick(R.id.button_more)
@@ -76,9 +92,14 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
             popupMenu.show();
         }
 
+        @OnClick(R.id.button_upload_to_cloud)
+        public void onUploadButtonClick() {
+            itemClickListener.onUploadItemClick(getItem());
+        }
+
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            return menuItemClickListener.onMenuItemClick(item, getItem());
+            return itemClickListener.onMenuItemClick(item, getItem());
         }
 
         private boolean needToShowExport() {
@@ -86,7 +107,8 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         }
     }
 
-    public interface MenuItemClickListener {
+    public interface ItemClickListener {
         boolean onMenuItemClick(MenuItem menuItem, Survey survey);
+        void onUploadItemClick(Survey survey);
     }
 }
