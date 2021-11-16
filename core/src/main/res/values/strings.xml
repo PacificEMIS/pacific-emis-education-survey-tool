@@ -78,9 +78,7 @@
     <string name="toast_load_teachers_success">Teachers successfully updated from API</string>
     <string name="toast_load_subjects_success">Subjects successfully updated from API</string>
     <string name="toast_load_error">No Internet connection. Make sure Wi-Fi or mobile data is turned on then try again</string>
-    <string name="toast_load_error_cert">This is an interim solution to a problem with older Android devices not recognizing valid newer SSL certificates</string>
     <string name="toast_load_data_error_500">Error loading data. Please try again</string>
-    <string name="toast_load_error_cert">This is an interim solution to a problem with older Android devices not recognizing valid newer SSL certificates</string>
     <string name="toast_load_data_error">Error loading data</string>
     <string name="toast_import_survey_success">Survey successfully imported</string>
     <string name="button_comment">Comment</string>
