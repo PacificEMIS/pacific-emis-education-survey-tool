@@ -12,6 +12,8 @@ import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +21,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -45,17 +51,42 @@ public class CoreRemoteDataSource implements DataSource {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build();
+//        OkHttpClient client = new OkHttpClient.Builder()
+//                .addInterceptor(logging)
+//                .build();
 
         return new Retrofit.Builder()
-                .client(client)
+                .client(getUnsafeOkHttpClient())
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(EmisApi.class);
+    }
+
+    private OkHttpClient getUnsafeOkHttpClient() {
+
+        SSLSocketFactory sslSocketFactory = null;
+        try {
+            sslSocketFactory = getSocketFactory();
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (sslSocketFactory != null) {
+            builder.sslSocketFactory(sslSocketFactory);
+            builder.hostnameVerifier((hostname, session) -> true);
+
+        }
+        return builder.build();
+    }
+
+    private SSLSocketFactory getSocketFactory() throws KeyManagementException,
+            NoSuchAlgorithmException {
+        SSLContext sslContext = SSLContext.getInstance("SSL");
+        sslContext.init(null, new TrustManager[]{new BlindTrustManager()}, null);
+        return sslContext.getSocketFactory();
     }
 
     private Single<String> getToken(AppRegion appRegion) {
@@ -76,7 +107,7 @@ public class CoreRemoteDataSource implements DataSource {
         EmisApi emisApi = emisApiMap.get(appRegion);
         if (emisApi == null) {
             if (localSettings.getCurrentAppRegion() != appRegion) {
-                throw new IllegalArgumentException("Current appRegion != " + appRegion + " (current = "  + localSettings.getCurrentAppRegion() + ")");
+                throw new IllegalArgumentException("Current appRegion != " + appRegion + " (current = " + localSettings.getCurrentAppRegion() + ")");
             }
             emisApi = initEmisApi(localSettings.getEmisApiUrl());
             emisApiMap.put(appRegion, emisApi);
