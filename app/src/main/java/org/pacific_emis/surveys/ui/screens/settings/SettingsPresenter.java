@@ -275,8 +275,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void showErrorMessage(Throwable error) {
         if (error instanceof UnknownHostException) {
             getViewState().showToast(Text.from(R.string.toast_load_error));
-        } else if (error instanceof SSLHandshakeException) {
-            getViewState().showToast(Text.from(R.string.toast_load_error_cert));
         } else if (error instanceof HttpException && ((HttpException) error).code() == 500) {
             getViewState().showToast(Text.from(R.string.toast_load_data_error_500));
             onForceFetchRemoteSettingsPressed();
