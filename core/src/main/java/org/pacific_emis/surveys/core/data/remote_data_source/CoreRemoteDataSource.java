@@ -14,6 +14,9 @@ import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -51,10 +55,6 @@ public class CoreRemoteDataSource implements DataSource {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
-//        OkHttpClient client = new OkHttpClient.Builder()
-//                .addInterceptor(logging)
-//                .build();
-
         return new Retrofit.Builder()
                 .client(getUnsafeOkHttpClient())
                 .baseUrl(baseUrl)
@@ -65,27 +65,45 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     private OkHttpClient getUnsafeOkHttpClient() {
+        final TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        // nothing
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        // nothing
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[]{};
+                    }
+                }
+        };
 
         SSLSocketFactory sslSocketFactory = null;
         try {
-            sslSocketFactory = getSocketFactory();
+            sslSocketFactory = getSocketFactory(trustAllCerts);
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (sslSocketFactory != null) {
-            builder.sslSocketFactory(sslSocketFactory);
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
             builder.hostnameVerifier((hostname, session) -> true);
 
         }
         return builder.build();
     }
 
-    private SSLSocketFactory getSocketFactory() throws KeyManagementException,
+    private SSLSocketFactory getSocketFactory(TrustManager[] trustAllCerts) throws KeyManagementException,
             NoSuchAlgorithmException {
         SSLContext sslContext = SSLContext.getInstance("SSL");
-        sslContext.init(null, new TrustManager[]{new BlindTrustManager()}, null);
+        sslContext.init(null, trustAllCerts, new SecureRandom());
         return sslContext.getSocketFactory();
     }
 
