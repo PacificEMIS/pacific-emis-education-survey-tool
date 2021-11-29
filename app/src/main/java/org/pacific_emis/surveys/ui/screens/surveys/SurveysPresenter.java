@@ -2,6 +2,7 @@ package org.pacific_emis.surveys.ui.screens.surveys;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
@@ -10,17 +11,20 @@ import com.omegar.mvp.InjectViewState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.NotImplementedException;
 import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
+import org.pacific_emis.surveys.core.data.model.mutable.MutableSurvey;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
 import org.pacific_emis.surveys.offline_sync.domain.OfflineSyncUseCase;
 import org.pacific_emis.surveys.offline_sync.ui.base.BaseBluetoothPresenter;
@@ -37,7 +41,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     private final SurveyInteractor interactor = MicronesiaApplication.getInjection().getSurveyComponent().getSurveyInteractor();
-    private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataSource();
+    private final DataSource dataSource = MicronesiaApplication.getInjection().getDataSourceComponent().getDataRepository();
     private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
     private final SettingsInteractor settingsInteractor = MicronesiaApplication.getInjection().getAppComponent().getSettingsInteractor();
     private final OfflineSyncUseCase offlineSyncUseCase = MicronesiaApplication.getInjection().getOfflineSyncComponent().getUseCase();
@@ -54,6 +58,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public SurveysPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
+        subscribeOnSurveyUploadState();
 
         switch (localSettings.getSurveyTypeOrDefault()) {
             case SCHOOL_ACCREDITATION:
@@ -69,6 +74,29 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         }
     }
 
+    private void subscribeOnSurveyUploadState() {
+        addDisposable(
+                remoteStorage.getUploadStateObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::updateUploadState, this::handleError));
+    }
+
+    private void updateUploadState(Pair<Long, UploadState> uploadStatePair) {
+        surveys = surveys.stream()
+        .map(survey -> {
+            if (survey.getId() == uploadStatePair.first) {
+                MutableSurvey mutableSurvey = survey.toMutable();
+                mutableSurvey.setUploadState(uploadStatePair.second);
+                return mutableSurvey;
+            } else {
+                return survey;
+            }
+        })
+                .collect(Collectors.toList());
+        getViewState().setSurveys(new ArrayList<>(this.surveys));
+    }
+
     @Override
     public void attachView(SurveysView view) {
         super.attachView(view);
@@ -76,7 +104,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     private void loadRecentSurveys() {
-        addDisposable(interactor.getAllSurveys()
+        addDisposable(interactor.getAllSurveys(localSettings.getCurrentAppRegion())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showWaiting())
@@ -120,7 +148,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public void onExportAllPressed() {
         addDisposable(
-                interactor.getAllSurveys()
+                interactor.getAllSurveys(localSettings.getCurrentAppRegion())
                         .flatMapObservable(Observable::fromIterable)
                         .filter(s -> s.getState() == SurveyState.COMPLETED)
                         .cast(AccreditationSurvey.class)

@@ -23,6 +23,7 @@ import org.pacific_emis.surveys.accreditation.ui.photos.AccreditationPhotosActiv
 import org.pacific_emis.surveys.accreditation_core.data.model.SubCriteria;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
 import org.pacific_emis.surveys.core.data.model.Answerable;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
@@ -85,6 +86,7 @@ public class QuestionsFragment extends BaseFragment implements
         bindViews(view);
         recyclerView.setAdapter(questionsAdapter);
         bottomNavigatorView.setListener(this);
+        bottomNavigatorView.setUploadStateVisible(false);
     }
 
     private void bindViews(@NonNull View view) {
@@ -184,5 +186,20 @@ public class QuestionsFragment extends BaseFragment implements
     @Override
     public void refreshQuestionAtPosition(int selectedQuestionPosition) {
         questionsAdapter.notifyItemChanged(selectedQuestionPosition);
+    }
+
+    @Override
+    public void setSurveyUploadState(UploadState uploadState) {
+        switch (uploadState) {
+            case IN_PROGRESS:
+                bottomNavigatorView.setUploadInProgress();
+                break;
+            case SUCCESSFULLY:
+                bottomNavigatorView.setUploadSuccessfully();
+                break;
+            case NOT_UPLOAD:
+                bottomNavigatorView.setNotUpload();
+                break;
+        }
     }
 }

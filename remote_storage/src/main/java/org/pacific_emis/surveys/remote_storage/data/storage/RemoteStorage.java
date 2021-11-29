@@ -1,6 +1,8 @@
 package org.pacific_emis.surveys.remote_storage.data.storage;
 
 
+import android.util.Pair;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.io.File;
@@ -11,11 +13,13 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.remote_storage.data.model.DriveType;
 import org.pacific_emis.surveys.remote_storage.data.model.ExportType;
 import org.pacific_emis.surveys.remote_storage.data.model.GoogleDriveFileHolder;
 import org.pacific_emis.surveys.remote_storage.data.model.ReportBundle;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public interface RemoteStorage {
@@ -40,4 +44,8 @@ public interface RemoteStorage {
     InputStream getFileContentStream(String fileId) throws IOException;
 
     Completable downloadContent(String fileId, File targetFile, DriveType mimeType);
+
+    Observable<UploadState> getUploadStateObservable(long surveyId);
+
+    Observable<Pair<Long, UploadState>> getUploadStateObservable();
 }

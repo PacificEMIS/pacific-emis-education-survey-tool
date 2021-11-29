@@ -19,6 +19,10 @@ class SerializableObservationInfo implements ObservationInfo {
     String teacherName;
 
     @Nullable
+    @Element(name = "teacherId", required = false)
+    Integer teacherId;
+
+    @Nullable
     @Element(name = "grade", required = false)
     String grade;
 
@@ -41,6 +45,7 @@ class SerializableObservationInfo implements ObservationInfo {
 
     public SerializableObservationInfo(@NonNull ObservationInfo other) {
         this.teacherName = other.getTeacherName();
+        this.teacherId = other.getTeacherId();
         this.grade = other.getGrade();
         this.totalStudentsPresent = other.getTotalStudentsPresent();
         this.subject = other.getSubject();
@@ -51,6 +56,12 @@ class SerializableObservationInfo implements ObservationInfo {
     @Override
     public String getTeacherName() {
         return teacherName;
+    }
+
+    @Nullable
+    @Override
+    public Integer getTeacherId() {
+        return teacherId;
     }
 
     @Nullable

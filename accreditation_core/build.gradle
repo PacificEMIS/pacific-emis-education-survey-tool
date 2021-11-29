@@ -9,9 +9,20 @@ android {
         versionCode 1
         versionName Versions.appVersion
 
-        buildConfigField "int", "DATA_BASE_VERSION", "1"
+        buildConfigField "int", "DATA_BASE_VERSION", "3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments += ["room.incremental": "true"]
+            }
+        }
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     buildTypes {
@@ -24,7 +35,6 @@ android {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
     }
-
 }
 
 dependencies {
@@ -56,6 +66,7 @@ dependencies {
     implementation "androidx.room:room-runtime:${Deps.room}"
     annotationProcessor "androidx.room:room-compiler:${Deps.room}"
     implementation "androidx.room:room-rxjava2:${Deps.room}"
+    androidTestImplementation "androidx.room:room-testing:${Deps.room}"
 
     // Moxy
     implementation "com.github.Omega-R.OmegaMoxy:moxy-androidx:${Deps.moxy}"

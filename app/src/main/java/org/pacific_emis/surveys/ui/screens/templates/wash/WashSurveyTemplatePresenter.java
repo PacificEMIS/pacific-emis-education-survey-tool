@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.survey_core.navigation.NavigationItem;
 import org.pacific_emis.surveys.ui.screens.templates.SurveyTemplatePresenter;
 import org.pacific_emis.surveys.wash.navigation.GroupNavigationItem;
@@ -24,6 +25,8 @@ public class WashSurveyTemplatePresenter extends SurveyTemplatePresenter {
             .getWashCoreComponent()
             .getWashSurveyInteractor();
 
+    private final LocalSettings localSettings = MicronesiaApplication.getInjection().getCoreComponent().getLocalSettings();
+
     public WashSurveyTemplatePresenter() {
         super(
                 MicronesiaApplication.getInjection().getWashCoreComponent().getDataSource(),
@@ -35,7 +38,7 @@ public class WashSurveyTemplatePresenter extends SurveyTemplatePresenter {
     @Override
     protected void loadItems() {
         addDisposable(
-                dataSource.getTemplateSurvey()
+                dataSource.getTemplateSurvey(localSettings.getCurrentAppRegion())
                         .flatMap(survey -> {
                             washSurveyInteractor.setCurrentSurvey(survey);
                             return washSurveyInteractor.requestGroups();

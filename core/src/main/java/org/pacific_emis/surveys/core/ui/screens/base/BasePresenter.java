@@ -12,6 +12,7 @@ import com.omega_r.libs.omegatypes.Text;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -32,6 +33,8 @@ public class BasePresenter<T extends BaseView> extends BaseDisposablePresenter<T
         Text errorTitle = Text.from(R.string.title_error);
         if (throwable instanceof NotImplementedException) {
             getViewState().showMessage(errorTitle, Text.from(R.string.coming_soon));
+        } else if (throwable instanceof UnknownHostException) {
+            getViewState().showMessage(errorTitle, Text.from(R.string.toast_load_error));
         } else if (throwable instanceof WrongAppRegionException) {
             getViewState().showMessage(errorTitle, Text.from(R.string.error_wrong_region));
         } else if (throwable instanceof NetworkIOException) {

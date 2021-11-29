@@ -2,10 +2,6 @@ package org.pacific_emis.surveys.accreditation_core.interactors;
 
 import android.annotation.SuppressLint;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.pacific_emis.surveys.accreditation_core.data.data_source.AccreditationDataSource;
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.accreditation_core.data.model.Answer;
@@ -20,8 +16,17 @@ import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObs
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableObservationLogRecord;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableStandard;
 import org.pacific_emis.surveys.accreditation_core.data.model.mutable.MutableSubCriteria;
+import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
+import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -47,8 +52,8 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     }
 
     @Override
-    public Single<List<Survey>> getAllSurveys() {
-        return accreditationDataSource.loadAllSurveys()
+    public Single<List<Survey>> getAllSurveys(AppRegion appRegion) {
+        return accreditationDataSource.loadAllSurveys(appRegion)
                 .flatMapObservable(Observable::fromIterable)
                 .map(survey -> {
                     MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
@@ -335,5 +340,34 @@ public class AccreditationSurveyInteractorImpl implements AccreditationSurveyInt
     @Override
     public Completable deleteObservationLogRecord(long recordId) {
         return accreditationDataSource.deleteObservationLogRecord(recordId);
+    }
+
+    @Override
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
+        return accreditationDataSource.loadTeachers(appRegion);
+    }
+
+    @Override
+    public Single<List<Subject>> loadSubjects(AppRegion appRegion) {
+        return accreditationDataSource.loadSubjects(appRegion);
+    }
+
+    @Override
+    public UploadState getCurrentUploadState() {
+        return survey.getUploadState();
+    }
+
+    @Override
+    public void setCurrentUploadState(UploadState uploadState) {
+        survey.setUploadState(uploadState);
+    }
+
+    @Override
+    public Completable updateSurvey() {
+        return Completable.fromAction(this::setCurrentUploadState);
+    }
+
+    private void setCurrentUploadState() {
+        accreditationDataSource.updateSurvey(survey);
     }
 }

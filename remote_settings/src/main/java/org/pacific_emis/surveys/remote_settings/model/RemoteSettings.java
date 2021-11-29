@@ -41,6 +41,9 @@ public class RemoteSettings {
     private static final String KEY_CONTACT = "contact";
     private static final String KEY_PROD_CERT = "prod_cert";
     private static final String KEY_OPERATING_MODE = "operating_mode";
+    private static final String KEY_EMIS_URL = "emis_url";
+    private static final String KEY_EMIS_USER = "emis_user";
+    private static final String KEY_EMIS_PASSWORD = "emis_password";
 
     private final LocalSettings localSettings;
     private final RemoteStorage remoteStorage;
@@ -83,7 +86,7 @@ public class RemoteSettings {
     }
 
     private FirebaseRemoteConfig getRemoteConfig() {
-        return remoteConfigs.get(localSettings.getAppRegion());
+        return remoteConfigs.get(localSettings.getCurrentAppRegion());
     }
 
     public void init(@Nullable Runnable onSuccess) {
@@ -161,6 +164,9 @@ public class RemoteSettings {
             localSettings.setOperatingMode(operatingMode);
             remoteStorage.refreshCredentials();
         }, localSettings::isOperatingModeSaved);
+        parseForceableString(KEY_EMIS_URL, forcedByUser, localSettings::setEmisApiUrl, localSettings::isEmisApiUrlSaved);
+        parseForceableString(KEY_EMIS_USER, forcedByUser, localSettings::setEmisUser, localSettings::isEmisUserSaved);
+        parseForceableString(KEY_EMIS_PASSWORD, forcedByUser, localSettings::setEmisPassword, localSettings::isEmisPasswordSaved);
     }
 
     private String decodeBase64(String decodedString) {

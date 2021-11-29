@@ -3,14 +3,15 @@ package org.pacific_emis.surveys.ui.screens.templates;
 import android.content.ContentResolver;
 import android.net.Uri;
 
-import java.io.ByteArrayInputStream;
-
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
-import org.pacific_emis.surveys.core.data.data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.WrongAppRegionException;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.serialization.SurveyParser;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
+
+import java.io.ByteArrayInputStream;
+
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -44,7 +45,7 @@ public abstract class SurveyTemplatePresenter extends BasePresenter<SurveyTempla
             addDisposable(
                     Single.fromCallable(() -> parser.parse(new ByteArrayInputStream(content.getBytes())))
                             .flatMapCompletable(survey -> {
-                                if (survey.getAppRegion() == localSettings.getAppRegion()) {
+                                if (survey.getAppRegion() == localSettings.getCurrentAppRegion()) {
                                     return dataSource.rewriteTemplateSurvey(survey);
                                 } else {
                                     throw new WrongAppRegionException();

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -75,6 +75,7 @@ dependencies {
     implementation project(path: ':offline_sync')
     implementation project(path: ':remote_settings')
 
+
     implementation "androidx.appcompat:appcompat:${Deps.appcompat}"
     implementation "com.google.android.material:material:${Deps.material}"
     implementation "androidx.constraintlayout:constraintlayout:${Deps.constraintLayout}"
@@ -119,6 +120,9 @@ dependencies {
 
     // Permissions
     implementation 'com.karumi:dexter:6.1.2'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

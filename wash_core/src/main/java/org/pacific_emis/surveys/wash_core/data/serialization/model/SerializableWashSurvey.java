@@ -3,6 +3,8 @@ package org.pacific_emis.surveys.wash_core.data.serialization.model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.pacific_emis.surveys.core.data.serialization.converters.UploadStateConverter;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -76,6 +78,10 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Nullable
     @Element(required = false)
     String lastEditedUser;
+    @Nullable
+    @Element(required = false, name = "surveyUpload")
+    @Convert(UploadStateConverter.class)
+    UploadState uploadState;
 
     public SerializableWashSurvey(WashSurvey other) {
         this.type = other.getSurveyType();
@@ -89,6 +95,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(SerializableGroup::new).collect(Collectors.toList());
@@ -173,5 +180,11 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Override
     public String getLastEditedUser() {
         return lastEditedUser;
+    }
+
+    @Nullable
+    @Override
+    public UploadState getUploadState() {
+        return uploadState;
     }
 }

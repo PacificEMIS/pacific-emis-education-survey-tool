@@ -29,13 +29,13 @@ import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomP
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomStandard;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.RoomSubCriteria;
 import org.pacific_emis.surveys.accreditation_core.data.persistence.entity.relative.RelativeRoomSurvey;
-import org.pacific_emis.surveys.core.data.data_source.DataSourceImpl;
 import org.pacific_emis.surveys.core.data.exceptions.WrongAppRegionException;
+import org.pacific_emis.surveys.core.data.local_data_source.CoreLocalDataSource;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.mutable.MutablePhoto;
-import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 
 import java.util.ArrayList;
@@ -48,8 +48,9 @@ import java.util.stream.Stream;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
-public class RoomAccreditationDataSource extends DataSourceImpl implements AccreditationDataSource {
+public class AccreditationLocalDataSource extends CoreLocalDataSource implements AccreditationDataSource {
 
     private static final String DATABASE_NAME = "accreditation.database";
     private static final String TEMPLATE_DATABASE_NAME = "accreditation.template_database";
@@ -61,14 +62,16 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     private final AccreditationDatabase templateDatabase;
     private final AccreditationDatabase database;
 
-    private final LocalSettings localSettings;
+    public AccreditationLocalDataSource(Context applicationContext) {
+        super(applicationContext);
 
-    public RoomAccreditationDataSource(Context applicationContext, LocalSettings localSettings) {
-        super(applicationContext, localSettings);
-
-        this.localSettings = localSettings;
-        database = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME).build();
-        templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME).build();
+        database = Room
+                .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3)
+                .build();
+        templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3)
+                .build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
@@ -117,8 +120,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     private void saveObservationLogRecords(AccreditationDatabase database,
-                                     List<? extends ObservationLogRecord> records,
-                                     long categoryId) {
+                                           List<? extends ObservationLogRecord> records,
+                                           long categoryId) {
         for (ObservationLogRecord record : records) {
             RoomObservationLogRecord roomRecord = RoomObservationLogRecord.from(record);
             roomRecord.uid = 0;
@@ -193,20 +196,20 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Single<Survey> getTemplateSurvey() {
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(localSettings.getAppRegion()))
+    public Single<Survey> getTemplateSurvey(AppRegion appRegion) {
+        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(appRegion))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
     @Override
-    public Single<Survey> loadSurvey(long surveyId) {
+    public Single<Survey> loadSurvey(AppRegion appRegion, long surveyId) {
         return Single.fromCallable(() -> surveyDao.getFilledById(surveyId))
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
     @Override
-    public Single<List<Survey>> loadAllSurveys() {
-        return Single.fromCallable(() -> surveyDao.getAllFilled(localSettings.getAppRegion()))
+    public Single<List<Survey>> loadAllSurveys(AppRegion appRegion) {
+        return Single.fromCallable(() -> surveyDao.getAllFilled(appRegion))
                 .flatMapObservable(Observable::fromIterable)
                 .map(RelativeRoomSurvey::toMutableSurvey)
                 .cast(Survey.class)
@@ -223,8 +226,8 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail) {
-        return getTemplateSurvey()
+    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
+        return getTemplateSurvey(appRegion)
                 .flatMap(survey -> {
                     MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
                     mutableSurvey.setId(0);
@@ -235,7 +238,7 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
                     mutableSurvey.setCreateUser(userEmail);
                     mutableSurvey.setLastEditedUser(userEmail);
                     long id = saveSurvey(database, mutableSurvey, true);
-                    return loadSurvey(id);
+                    return loadSurvey(appRegion, id);
                 });
     }
 
@@ -343,10 +346,11 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
-    public Completable createPartiallySavedSurvey(Survey survey) {
+    public Completable createPartiallySavedSurvey(AppRegion appRegion, Survey survey) {
         return Completable.fromAction(() -> {
-            AccreditationSurvey accreditationSurvey = (AccreditationSurvey) survey;
-            if (localSettings.getAppRegion() == accreditationSurvey.getAppRegion()) {
+            MutableAccreditationSurvey accreditationSurvey = ((AccreditationSurvey) survey).toMutable();
+            if (appRegion == accreditationSurvey.getAppRegion()) {
+                accreditationSurvey.setUploadState(UploadState.SUCCESSFULLY);
                 saveSurvey(database, accreditationSurvey, true);
             } else {
                 throw new WrongAppRegionException();
@@ -356,7 +360,9 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
 
     @Override
     public void updateSurvey(Survey survey) {
-        database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey));
+        database.getSurveyDao().update(new RoomAccreditationSurvey((AccreditationSurvey) survey))
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
     @Override
@@ -385,11 +391,19 @@ public class RoomAccreditationDataSource extends DataSourceImpl implements Accre
     }
 
     @Override
+    public void setSurveyUploadState(Survey survey, UploadState uploadState) {
+        MutableAccreditationSurvey mutableSurvey = ((AccreditationSurvey) survey).toMutable();
+        mutableSurvey.setUploadState(uploadState);
+        updateSurvey(mutableSurvey);
+    }
+
+    @Override
     public Completable updateObservationInfo(ObservationInfo observationInfo, long categoryId) {
         return Completable.fromAction(() -> {
             CategoryDao dao = database.getCategoryDao();
             RoomCategory category = dao.getById(categoryId);
             category.observationInfoTeacherName = observationInfo.getTeacherName();
+            category.observationInfoTeacherId = observationInfo.getTeacherId();
             category.observationInfoGrade = observationInfo.getGrade();
             category.observationInfoTotalStudentsPresent = observationInfo.getTotalStudentsPresent();
             category.observationInfoSubject = observationInfo.getSubject();

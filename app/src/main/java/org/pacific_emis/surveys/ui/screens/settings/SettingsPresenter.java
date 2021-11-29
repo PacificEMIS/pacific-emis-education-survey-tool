@@ -8,12 +8,11 @@ import androidx.annotation.Nullable;
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.pacific_emis.surveys.BuildConfig;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
+import org.pacific_emis.surveys.core.data.remote_data_source.CoreRemoteDataSource;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
@@ -21,8 +20,17 @@ import org.pacific_emis.surveys.remote_settings.model.RemoteSettings;
 import org.pacific_emis.surveys.remote_storage.data.storage.RemoteStorage;
 import org.pacific_emis.surveys.ui.screens.settings.items.Item;
 import org.pacific_emis.surveys.ui.screens.settings.items.OptionsItemFactory;
+
+import java.net.UnknownHostException;
+import java.security.cert.CertPathValidatorException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.net.ssl.SSLHandshakeException;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 @InjectViewState
 public class SettingsPresenter extends BasePresenter<SettingsView> {
@@ -39,6 +47,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             .getRemoteStorageComponent()
             .getRemoteStorage();
     private final OptionsItemFactory itemFactory = new OptionsItemFactory();
+    private final DataSource remoteDataSource = MicronesiaApplication.getInjection().getCoreComponent().getRemoteDataSource();
 
     @Nullable
     private ExternalDocumentPickerCallback documentPickerCallback;
@@ -51,12 +60,15 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
-                itemFactory.createContextItem(localSettings.getAppRegion().getName()),
+                itemFactory.createContextItem(localSettings.getCurrentAppRegion().getName()),
                 itemFactory.createExportToExcelItem(localSettings.isExportToExcelEnabled()),
                 itemFactory.createNameItem(localSettings.getAppName()),
                 itemFactory.createContactItem(Text.from(localSettings.getContactName())),
                 itemFactory.createOpModeItem(localSettings.getOperatingMode().getName()),
                 itemFactory.createImportSchoolsItem(),
+                itemFactory.createLoadSchoolsItem(localSettings.getCurrentAppRegion().getName()),
+                itemFactory.createLoadTeachersItem(localSettings.getCurrentAppRegion().getName()),
+                itemFactory.createLoadSubjectsItem(localSettings.getCurrentAppRegion().getName()),
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
                 itemFactory.createLoadProdCertificateItem(),
@@ -86,6 +98,15 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 break;
             case IMPORT_SCHOOLS:
                 onImportSchoolsPressed();
+                break;
+            case LOAD_SCHOOLS:
+                onLoadSchoolsPressed();
+                break;
+            case LOAD_TEACHERS:
+                onLoadTeachersPressed();
+                break;
+            case LOAD_SUBJECTS:
+                onLoadSubjectsPressed();
                 break;
             case LOGO:
                 onLogoPressed();
@@ -158,7 +179,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onContextPressed() {
         getViewState().showRegionSelector(region -> {
-            localSettings.setAppRegion(region);
+            localSettings.setCurrentAppRegion(region);
             refresh();
             getViewState().showPrompt(
                     Text.from(R.string.title_info),
@@ -213,6 +234,53 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             }
         };
         getViewState().openExternalDocumentsPicker(MIME_TYPE_SCHOOLS);
+    }
+
+    private void onLoadSchoolsPressed() {
+        addDisposable(interactor.updateSchoolsFromRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_schools_success)),
+                        this::showErrorMessage
+                ));
+    }
+
+    private void onLoadTeachersPressed() {
+        addDisposable(interactor.updateTeachersFromRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_teachers_success)),
+                        this::showErrorMessage
+                ));
+    }
+
+    private void onLoadSubjectsPressed() {
+        addDisposable(interactor.updateSubjectsFromRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(
+                        () -> getViewState().showToast(Text.from(R.string.toast_load_subjects_success)),
+                        this::showErrorMessage
+                ));
+    }
+
+    private void showErrorMessage(Throwable error) {
+        if (error instanceof UnknownHostException) {
+            getViewState().showToast(Text.from(R.string.toast_load_error));
+        } else if (error instanceof HttpException && ((HttpException) error).code() == 500) {
+            getViewState().showToast(Text.from(R.string.toast_load_data_error_500));
+            onForceFetchRemoteSettingsPressed();
+        } else {
+            getViewState().showToast(Text.from(R.string.toast_load_data_error));
+        }
     }
 
     @Override
