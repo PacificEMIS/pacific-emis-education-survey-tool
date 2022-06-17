@@ -1,5 +1,6 @@
 package org.pacific_emis.surveys.ui.screens.surveys;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseAdapter;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
+import org.pacific_emis.surveys.core.ui.views.InputDialog;
 import org.pacific_emis.surveys.offline_sync.ui.base.BaseBluetoothActivity;
 import org.pacific_emis.surveys.survey.ui.SurveyActivity;
 import org.pacific_emis.surveys.ui.screens.menu.MainMenuActivity;
@@ -59,6 +61,9 @@ public class SurveysActivity extends BaseBluetoothActivity implements
 
     private MenuItem exportAllMenuItem;
     private boolean isExportEnabled;
+
+    @Nullable
+    private Dialog inputDialog;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SurveysActivity.class)
@@ -159,6 +164,9 @@ public class SurveysActivity extends BaseBluetoothActivity implements
             case R.id.action_remove:
                 presenter.onSurveyRemovePressed(survey);
                 return true;
+            case R.id.action_change_date:
+                presenter.onSurveyChangeDatePressed(survey);
+                return true;
             default:
                 return false;
         }
@@ -233,6 +241,12 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         } catch (ActivityNotFoundException ex) {
             showMessage(Text.from(R.string.title_error), Text.from(R.string.error_no_app_to_open));
         }
+    }
+
+    @Override
+    public void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener) {
+        inputDialog = InputDialog.create(this, title, existingText, true).setListener(listener::onInput);
+        inputDialog.show();
     }
 
 }
