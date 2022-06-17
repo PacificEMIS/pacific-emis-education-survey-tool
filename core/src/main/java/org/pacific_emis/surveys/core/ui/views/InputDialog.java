@@ -35,7 +35,7 @@ public class InputDialog extends Dialog implements View.OnClickListener, DatePic
     private Button submitButton;
     private Button cancelButton;
 
-    private Calendar calendar;
+    private Calendar calendar = Calendar.getInstance();
     private Boolean clickable = false;
 
     @Nullable
@@ -64,7 +64,6 @@ public class InputDialog extends Dialog implements View.OnClickListener, DatePic
         setCancelable(true);
         submitButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
-        calendar = Calendar.getInstance();
 
         if (title != null) {
             title.applyTo(titleTextView);
