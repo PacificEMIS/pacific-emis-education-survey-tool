@@ -233,9 +233,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                 Text.from(surveyToChangeDate.getSurveyTag()),
                 (date) -> {
                     surveyToChangeDate.toMutable().setSurveyTag(date);
-                    //surveyToChangeDate.toMutable().setUploadState(UploadState.NOT_UPLOAD);
                     dataSource.setSurveyUploadState(surveyToChangeDate, UploadState.NOT_UPLOAD);
-                    //dataSource.updateSurvey(surveyToChangeDate);
                     loadRecentSurveys();
                     remoteStorageAccessor.scheduleUploading(surveyToChangeDate.getId());
                 }
