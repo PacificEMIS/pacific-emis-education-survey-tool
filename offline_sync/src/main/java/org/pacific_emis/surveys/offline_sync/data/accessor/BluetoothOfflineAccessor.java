@@ -33,6 +33,7 @@ import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.TextUtil;
 import org.pacific_emis.surveys.core.utils.VoidFunction;
@@ -685,6 +686,7 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
             mutableAccreditationSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
             mutableAccreditationSurvey.setLastEditedUser(externalSurvey.getLastEditedUser());
             mutableAccreditationSurvey.setCreateUser(getUpdatedCreateUser(mutableAccreditationSurvey, externalSurvey));
+            mutableAccreditationSurvey.setUploadState(UploadState.NOT_UPLOAD);
             accreditationDataSource.updateSurvey(mutableAccreditationSurvey);
             return mutableAccreditationSurvey;
         });
@@ -738,10 +740,11 @@ public final class BluetoothOfflineAccessor implements OfflineAccessor, Transpor
     private Single<MutableWashSurvey> updateWashSurveyState(MutableWashSurvey mutableWashSurvey,
                                                             WashSurvey externalSurvey) {
         return Single.fromCallable(() -> {
-            Progress progress = mutableWashSurvey.calculateProgress();
+            Progress progress = mutableWashSurvey.calculateProgress(applicationContextRef.get());
             mutableWashSurvey.setState(progress.isFinished() ? SurveyState.COMPLETED : SurveyState.NOT_COMPLETED);
             mutableWashSurvey.setLastEditedUser(externalSurvey.getLastEditedUser());
             mutableWashSurvey.setCreateUser(getUpdatedCreateUser(mutableWashSurvey, externalSurvey));
+            mutableWashSurvey.setUploadState(UploadState.NOT_UPLOAD);
             washDataSource.updateSurvey(mutableWashSurvey);
             return mutableWashSurvey;
         });

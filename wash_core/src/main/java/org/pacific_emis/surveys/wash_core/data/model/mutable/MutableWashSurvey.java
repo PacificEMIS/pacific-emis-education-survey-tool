@@ -1,5 +1,7 @@
 package org.pacific_emis.surveys.wash_core.data.model.mutable;
 
+import android.content.Context;
+
 import androidx.annotation.Nullable;
 
 import org.pacific_emis.surveys.core.data.model.ConflictResolveStrategy;
@@ -8,9 +10,11 @@ import org.pacific_emis.surveys.core.data.model.mutable.MutableSurvey;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.wash_core.data.model.Group;
 import org.pacific_emis.surveys.wash_core.data.model.WashSurvey;
+import org.pacific_emis.surveys.wash_core.data.serialization.model.Relation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MutableWashSurvey extends MutableSurvey implements WashSurvey {
@@ -59,16 +63,20 @@ public class MutableWashSurvey extends MutableSurvey implements WashSurvey {
         return changedAnswers;
     }
 
-    public MutableProgress calculateProgress() {
+    public MutableProgress calculateProgress(Context context) {
         int answerCount = 0;
         int questionsCount = 0;
 
         for (MutableGroup group : getGroups()) {
             for (MutableSubGroup subGroup : group.getSubGroups()) {
-                for (MutableQuestion question : subGroup.getQuestions()) {
-                    questionsCount++;
-                    if (question.isAnswered()) {
-                        answerCount++;
+                if (subGroup.getQuestions() != null) {
+                    for (MutableQuestion question : subGroup.getQuestions()) {
+                        if (isQuestionAvailable(context, subGroup, question)) {
+                            questionsCount++;
+                        }
+                        if (question.isAnswered()) {
+                            answerCount++;
+                        }
                     }
                 }
             }
@@ -80,5 +88,34 @@ public class MutableWashSurvey extends MutableSurvey implements WashSurvey {
     @Override
     public MutableWashSurvey toMutable() {
         return this;
+    }
+
+    private boolean isQuestionAvailable(Context context, MutableSubGroup subGroup, MutableQuestion child) {
+        Optional<MutableQuestion> parentQuestionOp = findParentQuestion(subGroup, child);
+
+        if (!parentQuestionOp.isPresent()) {
+            return true;
+        }
+
+        if (context == null) {
+            return false;
+        }
+
+        MutableQuestion parentQuestion = parentQuestionOp.get();
+        Relation relation = child.getRelation();
+        assert relation != null;
+
+        return parentQuestion.isAnswerInRelation(context, relation);
+    }
+
+    private Optional<MutableQuestion> findParentQuestion(MutableSubGroup subGroup, MutableQuestion child) {
+        if (child.getRelation() == null) {
+            return Optional.empty();
+        }
+
+        String parentId = child.getRelation().getQuestionId();
+        return subGroup.getQuestions().parallelStream()
+                .filter(question -> question.getPrefix().equals(parentId))
+                .findFirst();
     }
 }
