@@ -82,7 +82,8 @@ public final class Item {
         REMOTE_SETTIGNS,
         DEBUG_BUILD_INFO,
         EXPORT_TO_EXCEL,
-        LOAD_PROD_CERTIFICATE
+        LOAD_PROD_CERTIFICATE,
+        TABLET_ID
     }
 
     public enum IconType {

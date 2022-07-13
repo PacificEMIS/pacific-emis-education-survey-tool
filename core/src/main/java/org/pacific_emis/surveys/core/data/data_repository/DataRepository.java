@@ -166,11 +166,13 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
+    public Single<Survey> createSurvey(
+            String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion, String tabletId
+    ) {
         Single<Survey> result = null;
         for (int i = 0; i < dataSources.length; ) {
             try {
-                result = dataSources[i].createSurvey(schoolId, schoolName, createDate, surveyTag, userEmail, appRegion);
+                result = dataSources[i].createSurvey(schoolId, schoolName, createDate, surveyTag, userEmail, appRegion, tabletId);
                 break;
             } catch (UnsupportedOperationException e) {
                 i++;

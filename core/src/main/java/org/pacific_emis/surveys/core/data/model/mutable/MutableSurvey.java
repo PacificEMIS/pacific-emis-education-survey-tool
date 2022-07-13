@@ -25,6 +25,7 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
     private MutableProgress progress = MutableProgress.createEmptyProgress();
     private SurveyState state;
     private UploadState uploadState;
+    private String tabletId;
 
     @Nullable
     private String createUser;
@@ -52,6 +53,7 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
+        this.tabletId = other.getTabletId();
     }
 
     @Override
@@ -170,6 +172,12 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return uploadState;
     }
 
+    @Nullable
+    @Override
+    public String getTabletId() {
+        return tabletId;
+    }
+
     public void setCreateUser(@Nullable String createUser) {
         this.createUser = createUser;
     }
@@ -180,6 +188,10 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
 
     public void setUploadState(@Nullable UploadState uploadState) {
         this.uploadState = uploadState;
+    }
+
+    public void setTabletId(String tabletId) {
+        this.tabletId = tabletId;
     }
 
     public abstract MutableSurvey toMutable();

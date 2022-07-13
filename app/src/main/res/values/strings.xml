@@ -25,6 +25,7 @@
     <string name="label_export_folder">Export Folder</string>
     <string name="label_templates">Templates of surveys</string>
     <string name="label_force_remote_settings">Force fetch remote settings</string>
+    <string name="label_tablet_id">Tablet ID</string>
     <string name="label_license">Software License</string>
     <string name="label_format_debug_info">Build %1$s(%2$d)</string>
     <string name="label_change_password">Change master password</string>
