@@ -10,6 +10,7 @@ import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.SurveyType;
+import org.pacific_emis.surveys.core.utils.UuidUtil;
 import org.pacific_emis.surveys.offline_sync.domain.OfflineSyncUseCase;
 import org.pacific_emis.surveys.offline_sync.ui.base.BaseBluetoothPresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
@@ -105,6 +106,7 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
     }
 
     private void updateUserData() {
+        if (!localSettings.isTabletIdSaved()) localSettings.setTabletId(UuidUtil.generateUuid());
         userEmail = remoteStorageAccessor.getUserEmail();
         getViewState().setAccountName(userEmail);
     }

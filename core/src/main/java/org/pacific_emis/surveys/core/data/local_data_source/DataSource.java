@@ -39,7 +39,7 @@ public interface DataSource {
 
     Single<List<Survey>> loadSurveys(String schoolId, AppRegion appRegion, String surveyTag) throws UnsupportedOperationException;
 
-    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) throws UnsupportedOperationException;
+    Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion, String tabletId) throws UnsupportedOperationException;
 
     Completable deleteSurvey(long surveyId) throws UnsupportedOperationException;
 

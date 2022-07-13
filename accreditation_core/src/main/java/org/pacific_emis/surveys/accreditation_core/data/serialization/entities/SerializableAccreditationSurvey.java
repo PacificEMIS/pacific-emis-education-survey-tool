@@ -83,6 +83,10 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Convert(UploadStateConverter.class)
     UploadState uploadState;
 
+    @Nullable
+    @Element(required = false)
+    String tabletId;
+
     public SerializableAccreditationSurvey() {
     }
 
@@ -99,6 +103,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
+        this.tabletId = other.getTabletId();
 
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(SerializableCategory::from).collect(Collectors.toList());
@@ -190,5 +195,11 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Override
     public UploadState getUploadState() {
         return uploadState;
+    }
+
+    @Nullable
+    @Override
+    public String getTabletId() {
+        return tabletId;
     }
 }

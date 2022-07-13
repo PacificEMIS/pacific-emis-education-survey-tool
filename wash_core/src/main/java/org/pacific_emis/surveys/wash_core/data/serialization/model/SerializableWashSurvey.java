@@ -78,10 +78,15 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Nullable
     @Element(required = false)
     String lastEditedUser;
+
     @Nullable
     @Element(required = false, name = "surveyUpload")
     @Convert(UploadStateConverter.class)
     UploadState uploadState;
+
+    @Nullable
+    @Element(required = false)
+    String tabletId;
 
     public SerializableWashSurvey(WashSurvey other) {
         this.type = other.getSurveyType();
@@ -96,6 +101,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
+        this.tabletId = other.getTabletId();
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(SerializableGroup::new).collect(Collectors.toList());
@@ -186,5 +192,11 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Override
     public UploadState getUploadState() {
         return uploadState;
+    }
+
+    @Nullable
+    @Override
+    public String getTabletId() {
+        return tabletId;
     }
 }

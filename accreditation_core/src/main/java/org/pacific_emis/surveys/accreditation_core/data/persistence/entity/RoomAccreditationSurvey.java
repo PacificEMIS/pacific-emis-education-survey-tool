@@ -59,9 +59,13 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
     @ColumnInfo(name = "upload_state")
     public UploadState uploadState;
 
+    @ColumnInfo(name = "tablet_id")
+    public String tabletId;
+
     public RoomAccreditationSurvey(int version,
                                    SurveyType type,
                                    AppRegion appRegion,
+                                   @Nullable String tabletId,
                                    @Nullable String schoolName,
                                    @Nullable String schoolId,
                                    @Nullable Date createDate,
@@ -77,6 +81,7 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
         this.state = SurveyState.NOT_COMPLETED;
         this.createUser = createUser;
         this.uploadState = UploadState.NOT_UPLOAD;
+        this.tabletId = tabletId;
     }
 
     public RoomAccreditationSurvey(@NonNull AccreditationSurvey other) {
@@ -93,6 +98,7 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
+        this.tabletId = other.getTabletId();
     }
 
     @Override
@@ -180,5 +186,11 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
     @Override
     public UploadState getUploadState() {
         return uploadState;
+    }
+
+    @Nullable
+    @Override
+    public String getTabletId() {
+        return tabletId;
     }
 }

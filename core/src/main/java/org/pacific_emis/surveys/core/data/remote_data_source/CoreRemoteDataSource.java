@@ -224,7 +224,9 @@ public class CoreRemoteDataSource implements DataSource {
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
+    public Single<Survey> createSurvey(
+            String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion, String tabletId
+    ) {
         throw new UnsupportedOperationException(UNSUPPORTED_FOR_THIS_DATASOURCE);
     }
 

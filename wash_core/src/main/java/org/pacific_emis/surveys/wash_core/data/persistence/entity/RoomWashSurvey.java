@@ -55,12 +55,17 @@ public class RoomWashSurvey implements WashSurvey {
 
     @ColumnInfo(name = "last_edited_user")
     public String lastEditedUser;
+
     @ColumnInfo(name = "upload_state")
     public UploadState uploadState;
+
+    @ColumnInfo(name = "tablet_id")
+    public String tabletId;
 
     public RoomWashSurvey(int version,
                           SurveyType type,
                           AppRegion appRegion,
+                          @Nullable String tabletId,
                           @Nullable String schoolName,
                           @Nullable String schoolId,
                           @Nullable Date createDate,
@@ -76,6 +81,7 @@ public class RoomWashSurvey implements WashSurvey {
         this.state = SurveyState.NOT_COMPLETED;
         this.createUser = createUser;
         this.uploadState = UploadState.NOT_UPLOAD;
+        this.tabletId = tabletId;
     }
 
     public RoomWashSurvey(@NonNull WashSurvey other) {
@@ -92,6 +98,7 @@ public class RoomWashSurvey implements WashSurvey {
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
+        this.tabletId = other.getTabletId();
     }
 
     @Override
@@ -179,5 +186,11 @@ public class RoomWashSurvey implements WashSurvey {
     @Override
     public UploadState getUploadState() {
         return uploadState;
+    }
+
+    @Nullable
+    @Override
+    public String getTabletId() {
+        return tabletId;
     }
 }
