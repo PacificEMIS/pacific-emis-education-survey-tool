@@ -73,7 +73,7 @@ dependencies {
     annotationProcessor "com.github.Omega-R.OmegaMoxy:moxy-compiler:${Deps.moxy}"
 
     // SimpleXML
-    implementation("org.simpleframework:simple-xml:2.7.1") {
+    implementation("org.simpleframework:simple-xml:${Deps.simpleXml}") {
         exclude group: 'xpp3', module: 'xpp3'
     }
 }
