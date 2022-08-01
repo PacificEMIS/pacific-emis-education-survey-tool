@@ -203,7 +203,7 @@ public class RemoteSettings {
                 return;
             }
 
-            if (forcedByUser || remoteValue.isForce() || !existenceCheckFunction.apply()) {
+            if (forcedByUser && remoteValue.isForce() || !existenceCheckFunction.apply()) {
                 setFunction.apply(remoteValue.getValue());
             }
         }
