@@ -63,4 +63,11 @@
     <string name="format_exported_to">Surveys export file downloaded to %1$s</string>
     <string name="error_no_app_to_open">Unable to open file: suitable application not installed</string>
     <string name="message_prompt_fetch_remote">App Context is changed. Do you want to force fetch remote settings for this context?</string>
+    <string name="label_logs">Logs</string>
+    <string name="title_id_and_date">ID/Date</string>
+    <string name="title_school">School</string>
+    <string name="title_email">Email</string>
+    <string name="title_type">Type</string>
+    <string name="title_status">Status</string>
+
 </resources>

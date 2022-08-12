@@ -51,6 +51,9 @@ public interface Survey extends Progressable, IdentifiedObject {
 
     @Nullable
     String getTabletId();
+
+    @Nullable
+    String getDriveFileId();
     
     MutableSurvey toMutable();
 }

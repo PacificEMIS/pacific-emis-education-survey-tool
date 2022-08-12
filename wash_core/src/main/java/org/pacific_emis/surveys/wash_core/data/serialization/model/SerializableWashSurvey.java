@@ -88,6 +88,10 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Element(required = false)
     String tabletId;
 
+    @Nullable
+    @Element(required = false)
+    String driveFileId;
+
     public SerializableWashSurvey(WashSurvey other) {
         this.type = other.getSurveyType();
         this.region = other.getAppRegion();
@@ -102,6 +106,7 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
+        this.driveFileId = other.getDriveFileId();
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(SerializableGroup::new).collect(Collectors.toList());
@@ -198,5 +203,11 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Override
     public String getTabletId() {
         return tabletId;
+    }
+
+    @Nullable
+    @Override
+    public String getDriveFileId() {
+        return driveFileId;
     }
 }

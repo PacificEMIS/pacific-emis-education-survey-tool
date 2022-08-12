@@ -1,6 +1,7 @@
 package org.pacific_emis.surveys.data_source_injector.di.modules;
 
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponent;
+import org.pacific_emis.surveys.core.data.data_repository.LogsRepository;
 import org.pacific_emis.surveys.core.data.data_repository.DataRepository;
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.di.CoreComponent;
@@ -36,6 +37,11 @@ public class DataSourceModule {
                 return new DataRepository(coreComponent.getRemoteDataSource(), washCoreComponent.getDataSource());
         }
         throw new IllegalStateException();
+    }
+
+    @Provides
+    LogsRepository provideLogsRepository() {
+        return new LogsRepository(accreditationCoreComponent.getDataSource(), washCoreComponent.getDataSource());
     }
 
 }

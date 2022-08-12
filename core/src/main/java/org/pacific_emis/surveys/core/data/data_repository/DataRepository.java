@@ -1,12 +1,14 @@
 package org.pacific_emis.surveys.core.data.data_repository;
 
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
+import org.pacific_emis.surveys.core.data.model.SurveyLog;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.LogAction;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.util.Date;
@@ -301,5 +303,45 @@ public class DataRepository implements DataSource {
                 i++;
             }
         }
+    }
+
+    @Override
+    public void setSurveyDriveFileId(Survey survey, String driveFileId) {
+        for (int i = 0; i < dataSources.length; ) {
+            try {
+                dataSources[i].setSurveyDriveFileId(survey, driveFileId);
+                break;
+            } catch (UnsupportedOperationException e) {
+                i++;
+            }
+        }
+    }
+
+    @Override
+    public Completable saveLogInfo(Survey survey, LogAction action) {
+        Completable result = null;
+        for (int i = 0; i < dataSources.length; ) {
+            try {
+                result = dataSources[i].saveLogInfo(survey, action);
+                break;
+            } catch (UnsupportedOperationException e) {
+                i++;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Single<List<SurveyLog>> loadLogs(AppRegion appRegion) {
+        Single<List<SurveyLog>> result = null;
+        for (int i = 0; i < dataSources.length; ) {
+            try {
+                result = dataSources[i].loadLogs(appRegion);
+                break;
+            } catch (UnsupportedOperationException e) {
+                i++;
+            }
+        }
+        return result;
     }
 }

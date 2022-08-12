@@ -105,8 +105,20 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
         }
     }
 
+    public void onLogsPressed() {
+        getViewState().navigateToLogs();
+    }
+
     private void updateUserData() {
         if (!localSettings.isTabletIdSaved()) localSettings.setTabletId(UuidUtil.generateUuid());
+        if (!localSettings.isDrivePageTokenSaved()) {
+            addDisposable(
+                    remoteStorageAccessor.fetchStartPageToken()
+                            .observeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(localSettings::setDrivePageToken)
+            );
+        }
         userEmail = remoteStorageAccessor.getUserEmail();
         getViewState().setAccountName(userEmail);
     }

@@ -26,7 +26,6 @@ import org.pacific_emis.surveys.core.data.files.FilesRepository;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
-import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.data_source_injector.di.DataSourceComponent;
 import org.pacific_emis.surveys.remote_storage.BuildConfig;
@@ -49,8 +48,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
@@ -192,8 +189,10 @@ public final class DriveRemoteStorage implements RemoteStorage {
                                     dataSourceComponent.getSurveySerializer().serialize(updatedSurvey),
                                     new SurveyMetadata(updatedSurvey, updater, tabletId),
                                     regionFolderId)
-                                    .doOnSubscribe(d -> setSurveyUploadState(survey, UploadState.SUCCESSFULLY))
-                                    .ignoreElement()
+                                    .doAfterSuccess(driveFileId -> {
+                                        setDriveFileId(updatedSurvey, driveFileId);
+                                        setSurveyUploadState(updatedSurvey, UploadState.SUCCESSFULLY);
+                                    }).ignoreElement()
                             )
                             .doOnError(e -> setSurveyUploadState(survey, UploadState.NOT_UPLOAD));
                 });
@@ -338,9 +337,22 @@ public final class DriveRemoteStorage implements RemoteStorage {
         return surveyUploadStateSubject;
     }
 
+    @Override
+    public Single<String> fetchStartPageToken() {
+        return driveServiceHelper.fetchStartPageToken();
+    }
+
+    @Override
+    public Single<List<Survey>> driveFileChanges(List<Survey> surveys, String savedPageToken) {
+        return driveServiceHelper.driveFileChanges(surveys, savedPageToken);
+    }
+
     private void setSurveyUploadState(Survey survey, UploadState uploadState) {
         dataSourceComponent.getDataRepository().setSurveyUploadState(survey, uploadState);
-
         surveyUploadStateSubject.onNext(new Pair<>(survey.getId(), uploadState));
+    }
+
+    private void setDriveFileId(Survey survey, String driveFileId) {
+        dataSourceComponent.getDataRepository().setSurveyDriveFileId(survey, driveFileId);
     }
 }

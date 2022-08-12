@@ -48,4 +48,8 @@ public interface RemoteStorage {
     Observable<UploadState> getUploadStateObservable(long surveyId);
 
     Observable<Pair<Long, UploadState>> getUploadStateObservable();
+
+    Single<String> fetchStartPageToken();
+
+    Single<List<Survey>> driveFileChanges(List<Survey> surveys, String savedPageToken);
 }

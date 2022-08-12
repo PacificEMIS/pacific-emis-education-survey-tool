@@ -1,12 +1,14 @@
 package org.pacific_emis.surveys.core.data.local_data_source;
 
 import org.pacific_emis.surveys.core.data.data_repository.Result;
+import org.pacific_emis.surveys.core.data.model.SurveyLog;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.model.Photo;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.LogAction;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 
 import java.util.Date;
@@ -58,4 +60,10 @@ public interface DataSource {
     Completable updatePhotoWithRemote(Photo photo, String remoteFileId) throws UnsupportedOperationException;
 
     void setSurveyUploadState(Survey survey, UploadState uploadState);
+
+    void setSurveyDriveFileId(Survey survey, String driveFileId);
+
+    Completable saveLogInfo(Survey survey, LogAction action);
+
+    Single<List<SurveyLog>> loadLogs(AppRegion appRegion);
 }

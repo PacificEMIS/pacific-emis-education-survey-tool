@@ -26,6 +26,7 @@ import org.pacific_emis.surveys.offline_sync.ui.base.BaseBluetoothActivity;
 import org.pacific_emis.surveys.ui.dialogs.merge_progress.MergeProgressDialogFragment;
 import org.pacific_emis.surveys.ui.screens.license.LicenseActivity;
 import org.pacific_emis.surveys.ui.screens.settings.SettingsActivity;
+import org.pacific_emis.surveys.ui.screens.logs.LogsActivity;
 import org.pacific_emis.surveys.ui.screens.surveys.SurveysActivity;
 
 public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuView {
@@ -110,6 +111,11 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
         presenter.onAuthButtonPressed();
     }
 
+    @OnClick(R.id.textview_logs)
+    void onLogsPressed() {
+        presenter.onLogsPressed();
+    }
+
     @OnClick(R.id.imagebutton_merge_hint)
     void onMergeHintPressed() {
         PopupWindow popupWindow = new PopupWindow(
@@ -154,6 +160,11 @@ public class MainMenuActivity extends BaseBluetoothActivity implements MainMenuV
     @Override
     public void navigateToLicense() {
         startActivity(LicenseActivity.createIntent(this));
+    }
+
+    @Override
+    public void navigateToLogs() {
+        startActivity(LogsActivity.createIntent(this));
     }
 
     @Nullable

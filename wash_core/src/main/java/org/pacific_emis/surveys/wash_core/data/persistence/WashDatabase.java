@@ -68,4 +68,13 @@ public abstract class WashDatabase extends RoomDatabase {
             );
         }
     };
+
+    public static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE RoomWashSurvey ADD drive_file_id TEXT"
+            );
+        }
+    };
 }
