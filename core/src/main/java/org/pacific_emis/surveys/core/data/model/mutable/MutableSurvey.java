@@ -110,8 +110,6 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return progress;
     }
 
-    public abstract MutableProgress calculateProgress();
-
     public void setProgress(MutableProgress progress) {
         this.progress = progress;
     }

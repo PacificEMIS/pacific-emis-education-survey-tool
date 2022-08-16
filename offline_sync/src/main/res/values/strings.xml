@@ -14,4 +14,7 @@
     <string name="ok">OK</string>
     <string name="title_merge_progress">Merge process</string>
     <string name="label_empty_surveys">There are no survey with same school and same survey date on the tablet you are trying to merge from.</string>
+    <string name="title_merge_survey">Merge</string>
+    <string name="message_merge_survey_completed">This survey is completed</string>
+    <string name="message_merge_survey_merged">This survey was already merged. Would you like to merge it again?</string>
 </resources>
