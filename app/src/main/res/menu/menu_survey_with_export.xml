@@ -10,6 +10,10 @@
         android:title="@string/title_export_to_excel"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_change_date"
+        android:title="@string/title_change_date"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_remove"
         android:title="@string/title_remove"
         app:showAsAction="never"/>

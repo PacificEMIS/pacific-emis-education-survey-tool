@@ -1,5 +1,6 @@
 package org.pacific_emis.surveys.core.ui.views;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,8 +18,11 @@ import androidx.annotation.Nullable;
 import com.omega_r.libs.omegatypes.Text;
 
 import org.pacific_emis.surveys.core.R;
+import org.pacific_emis.surveys.core.utils.DateUtils;
 
-public class InputDialog extends Dialog implements View.OnClickListener {
+import java.util.Calendar;
+
+public class InputDialog extends Dialog implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     @Nullable
     private final Text title;
@@ -30,17 +35,25 @@ public class InputDialog extends Dialog implements View.OnClickListener {
     private Button submitButton;
     private Button cancelButton;
 
+    private Calendar calendar = Calendar.getInstance();
+    private Boolean clickable = false;
+
     @Nullable
     private Listener listener;
 
     public static InputDialog create(Context context, @Nullable Text title, @Nullable Text existingText) {
-        return new InputDialog(context, title, existingText);
+        return new InputDialog(context, title, existingText, false);
     }
 
-    private InputDialog(@NonNull Context context, @Nullable Text title, @Nullable Text existingText) {
+    public static InputDialog create(Context context, @Nullable Text title, @Nullable Text existingText, Boolean clickable) {
+        return new InputDialog(context, title, existingText, clickable);
+    }
+
+    private InputDialog(@NonNull Context context, @Nullable Text title, @Nullable Text existingText, Boolean clickable) {
         super(context);
         this.title = title;
         this.existingText = existingText;
+        if (clickable) this.clickable = true;
     }
 
     @Override
@@ -58,6 +71,13 @@ public class InputDialog extends Dialog implements View.OnClickListener {
 
         if (existingText != null) {
             editText.setText(existingText.getString(getContext()));
+        }
+
+        if (clickable) {
+            editText.setCursorVisible(false);
+            editText.setOnClickListener(this);
+        } else {
+            editText.setOnClickListener(null);
         }
     }
 
@@ -94,7 +114,15 @@ public class InputDialog extends Dialog implements View.OnClickListener {
             dismiss();
         } else if (id == R.id.button_cancel) {
             dismiss();
+        } else if (id == R.id.textinputedittext) {
+            new DatePickerDialog(getContext(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        calendar.set(year, month, dayOfMonth);
+        editText.setText(DateUtils.formatDateTag(calendar.getTime()));
     }
 
     public interface Listener {

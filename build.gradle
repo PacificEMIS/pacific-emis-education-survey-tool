@@ -32,7 +32,7 @@ allprojects {
 ext {
     Versions = [
             minSdk    : 24,
-            targetSdk : 29,
+            targetSdk : 28,
             compileSdk: 29,
             buildTools: '29.0.2',
             java      : '1.8.0',
