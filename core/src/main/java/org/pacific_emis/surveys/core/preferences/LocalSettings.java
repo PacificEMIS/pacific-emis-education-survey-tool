@@ -91,4 +91,11 @@ public interface LocalSettings {
     String getEmisPassword();
 
     boolean isEmisPasswordSaved();
+
+    void setTabletId(String tabletId);
+
+    @Nullable
+    String getTabletId();
+
+    boolean isTabletIdSaved();
 }

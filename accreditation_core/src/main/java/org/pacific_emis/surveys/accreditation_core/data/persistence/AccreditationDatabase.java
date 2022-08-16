@@ -77,4 +77,13 @@ public abstract class AccreditationDatabase extends RoomDatabase {
             );
         }
     };
+
+    public static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE RoomAccreditationSurvey ADD tablet_id TEXT"
+            );
+        }
+    };
 }

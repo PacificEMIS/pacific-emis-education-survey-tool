@@ -80,7 +80,8 @@ public class CreateSurveyPresenter extends BasePresenter<CreateSurveyView> {
                         new Date(),
                         DateUtils.formatDateTag(surveyDate),
                         remoteStorageAccessor.getUserEmail(),
-                        localSettings.getCurrentAppRegion()
+                        localSettings.getCurrentAppRegion(),
+                        localSettings.getTabletId()
                 )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

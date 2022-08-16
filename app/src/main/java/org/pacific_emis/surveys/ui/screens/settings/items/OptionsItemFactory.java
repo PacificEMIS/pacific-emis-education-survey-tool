@@ -100,4 +100,10 @@ public class OptionsItemFactory {
     public Item createLoadProdCertificateItem() {
         return new Item(Text.from(R.string.label_load_prod_certificate), Item.Type.LOAD_PROD_CERTIFICATE, Item.IconType.RECEIVE);
     }
+
+    public Item createTabletIdItem(Text tabletId) {
+        Item item = new Item(Text.from(R.string.label_tablet_id), Item.Type.TABLET_ID, Item.IconType.VALUE);
+        item.setTextValue(tabletId);
+        return item;
+    }
 }

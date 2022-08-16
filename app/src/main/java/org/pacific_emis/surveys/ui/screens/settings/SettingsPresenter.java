@@ -71,6 +71,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 itemFactory.createTemplatesItem(),
                 itemFactory.createForceFetchRemoteSettingsItem(),
                 itemFactory.createLoadProdCertificateItem(),
+                itemFactory.createTabletIdItem(Text.from(localSettings.getTabletId())),
                 itemFactory.createDebugStorageItem()
         ));
 
@@ -127,6 +128,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
                 break;
             case LOAD_PROD_CERTIFICATE:
                 onLoadProdCertificatePressed();
+                break;
+            case TABLET_ID:
+                onTabletIdPressed();
                 break;
         }
     }
@@ -304,6 +308,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onChangeMasterPasswordPressed() {
         getViewState().navigateToChangePassword();
+    }
+
+    private void onTabletIdPressed() {
+        getViewState().showMessage(Text.from(R.string.label_tablet_id), Text.from(localSettings.getTabletId()));
     }
 
 }

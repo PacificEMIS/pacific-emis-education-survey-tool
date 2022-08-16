@@ -26,6 +26,7 @@ public class SurveyMetadata {
     private static final String KEY_LAST_EDIT_DATE = "lastEditedDateTime";
     private static final String KEY_LAST_EDIT_USER = "lastEditedUser";
     private static final String KEY_TYPE = "type";
+    private static final String KEY_TABLET_ID = "tabletId";
 
     private String schoolId;
     private String schoolName;
@@ -35,6 +36,7 @@ public class SurveyMetadata {
     private Date lastEditedDate;
     private String surveyTag;
     private Date creationDate;
+    private String tabletId;
 
     @Nullable
     private SurveyType surveyType;
@@ -55,6 +57,8 @@ public class SurveyMetadata {
 
         metadata.lastEditedUser = properties.get(KEY_LAST_EDIT_USER);
         metadata.creator = properties.get(KEY_CREATION_USER);
+
+        metadata.tabletId = properties.get(KEY_TABLET_ID);
 
         String surveyTypeString = properties.get(KEY_TYPE);
         if (surveyTypeString != null) {
@@ -93,7 +97,7 @@ public class SurveyMetadata {
         // private constructor
     }
 
-    public SurveyMetadata(Survey survey, String userEmail) {
+    public SurveyMetadata(Survey survey, String userEmail, String tabletId) {
         schoolId = survey.getSchoolId();
         schoolName = survey.getSchoolName();
         surveyState = survey.getState();
@@ -104,6 +108,7 @@ public class SurveyMetadata {
         lastEditedDate = new Date();
         lastEditedUser = getUpdatedLastEditedUser(survey.getLastEditedUser(), userEmail);
         surveyType = survey.getSurveyType();
+        this.tabletId = tabletId;
     }
 
     public File applyToDriveFile(File file) {
@@ -135,6 +140,8 @@ public class SurveyMetadata {
         properties.put(KEY_LAST_EDIT_DATE, DateUtils.formatUtc(lastEditedDate));
         properties.put(KEY_LAST_EDIT_USER, lastEditedUser);
         properties.put(KEY_CREATION_USER, creator);
+
+        properties.put(KEY_TABLET_ID, tabletId);
 
         properties.put(KEY_COMPLETION, surveyState.getValue());
         if (surveyState == SurveyState.COMPLETED) {

@@ -48,6 +48,9 @@ public interface Survey extends Progressable, IdentifiedObject {
 
     @Nullable
     UploadState getUploadState();
+
+    @Nullable
+    String getTabletId();
     
     MutableSurvey toMutable();
 }

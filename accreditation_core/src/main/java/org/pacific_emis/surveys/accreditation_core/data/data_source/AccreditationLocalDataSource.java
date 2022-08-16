@@ -67,10 +67,10 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
 
         database = Room
                 .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
-                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3, AccreditationDatabase.MIGRATION_3_4)
                 .build();
         templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME)
-                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3)
+                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3, AccreditationDatabase.MIGRATION_3_4)
                 .build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
@@ -226,7 +226,9 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
+    public Single<Survey> createSurvey(
+            String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion, String tabletId
+    ) {
         return getTemplateSurvey(appRegion)
                 .flatMap(survey -> {
                     MutableAccreditationSurvey mutableSurvey = new MutableAccreditationSurvey((AccreditationSurvey) survey);
@@ -237,6 +239,7 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
                     mutableSurvey.setSurveyTag(surveyTag);
                     mutableSurvey.setCreateUser(userEmail);
                     mutableSurvey.setLastEditedUser(userEmail);
+                    mutableSurvey.setTabletId(tabletId);
                     long id = saveSurvey(database, mutableSurvey, true);
                     return loadSurvey(appRegion, id);
                 });

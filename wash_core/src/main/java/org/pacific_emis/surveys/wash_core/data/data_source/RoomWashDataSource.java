@@ -56,11 +56,11 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
         super(applicationContext);
         database = Room
                 .databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME)
-                .addMigrations(WashDatabase.MIGRATION_1_2)
+                .addMigrations(WashDatabase.MIGRATION_1_2, WashDatabase.MIGRATION_2_3)
                 .build();
         templateDatabase = Room
                 .databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME)
-                .addMigrations(WashDatabase.MIGRATION_1_2)
+                .addMigrations(WashDatabase.MIGRATION_1_2, WashDatabase.MIGRATION_2_3)
                 .build();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
@@ -200,7 +200,9 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     }
 
     @Override
-    public Single<Survey> createSurvey(String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion) {
+    public Single<Survey> createSurvey(
+            String schoolId, String schoolName, Date createDate, String surveyTag, String userEmail, AppRegion appRegion, String tabletId
+    ) {
         return getTemplateSurvey(appRegion)
                 .flatMap(survey -> {
                     MutableWashSurvey mutableSurvey = new MutableWashSurvey((WashSurvey) survey);
@@ -211,6 +213,7 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
                     mutableSurvey.setSurveyTag(surveyTag);
                     mutableSurvey.setCreateUser(userEmail);
                     mutableSurvey.setLastEditedUser(userEmail);
+                    mutableSurvey.setTabletId(tabletId);
                     long id = saveSurvey(database, mutableSurvey, true);
                     return loadSurvey(appRegion, id);
                 });
