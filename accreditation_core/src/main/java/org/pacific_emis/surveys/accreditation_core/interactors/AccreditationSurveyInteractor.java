@@ -65,8 +65,6 @@ public interface AccreditationSurveyInteractor extends SurveyInteractor {
 
     Completable deleteObservationLogRecord(long recordId);
 
-    Single<List<Teacher>> loadTeachers(AppRegion appRegion);
-
     Single<List<Subject>> loadSubjects(AppRegion appRegion);
 
     UploadState getCurrentUploadState();

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
+import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.report_core.domain.ReportInteractor;
 import org.pacific_emis.surveys.report_core.model.ReportPage;
 import org.pacific_emis.surveys.report_core.ui.recommendations.RecommendationsFragment;
@@ -31,6 +32,11 @@ public class RmiReportsProviderImpl implements RmiReportsProvider {
     @Override
     public void requestReports() {
         reportInteractor.requestReports((AccreditationSurvey) accreditationSurveyInteractor.getCurrentSurvey());
+    }
+
+    @Override
+    public Survey getCurrentSurvey() {
+        return accreditationSurveyInteractor.getCurrentSurvey();
     }
 
     @Override

@@ -56,6 +56,9 @@ public class RoomWashSurvey implements WashSurvey {
     @ColumnInfo(name = "last_edited_user")
     public String lastEditedUser;
 
+    @ColumnInfo(name = "principal_name")
+    public String principalName;
+
     @ColumnInfo(name = "upload_state")
     public UploadState uploadState;
 
@@ -100,6 +103,7 @@ public class RoomWashSurvey implements WashSurvey {
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.principalName = other.getPrincipalName();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
         this.driveFileId = other.getDriveFileId();
@@ -184,6 +188,12 @@ public class RoomWashSurvey implements WashSurvey {
     @Override
     public String getLastEditedUser() {
         return lastEditedUser;
+    }
+
+    @Nullable
+    @Override
+    public String getPrincipalName() {
+        return principalName;
     }
 
     @Nullable

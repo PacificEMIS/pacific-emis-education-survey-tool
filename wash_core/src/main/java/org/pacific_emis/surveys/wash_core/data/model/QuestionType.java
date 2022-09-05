@@ -13,7 +13,8 @@ public enum QuestionType implements Serializable {
     SINGLE_SELECTION(Flag.CHOOSE, Flag.SINGLE),
     MULTI_SELECTION(Flag.CHOOSE, Flag.MULTIPLE),
     COMPLEX_BINARY(Flag.VAR, Flag.BINARY),
-    COMPLEX_NUMBER_INPUT(Flag.VAR, Flag.INPUT, Flag.NUMERIC);
+    COMPLEX_NUMBER_INPUT(Flag.VAR, Flag.INPUT, Flag.NUMERIC),
+    COMPLEX_TEXT_INPUT(Flag.INPUT, Flag.CHOOSE);
 
     private final Flag[] flags;
 

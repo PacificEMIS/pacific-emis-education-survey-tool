@@ -315,16 +315,20 @@ public class DriveServiceHelper extends TasksRxWrapper {
         return Single.fromCallable(() -> {
             List<Survey> deletedSurveyList = new ArrayList<>();
             String pageToken = savedPageToken;
-            while (pageToken != null) {
-                ChangeList changes = drive.changes().list(pageToken).setRestrictToMyDrive(false).execute();
-                surveys.forEach(survey ->
-                        changes.getChanges().forEach(change -> {
-                            if (Objects.equals(change.getFileId(), survey.getDriveFileId())) {
-                                if (change.getRemoved()) deletedSurveyList.add(survey);
-                            }
-                    })
-                );
-                pageToken = changes.getNextPageToken();
+            try {
+                while (pageToken != null) {
+                    ChangeList changes = drive.changes().list(pageToken).setRestrictToMyDrive(false).execute();
+                    surveys.forEach(survey ->
+                            changes.getChanges().forEach(change -> {
+                                if (Objects.equals(change.getFileId(), survey.getDriveFileId())) {
+                                    if (change.getRemoved()) deletedSurveyList.add(survey);
+                                }
+                            })
+                    );
+                    pageToken = changes.getNextPageToken();
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
             }
             return deletedSurveyList;
         }).subscribeOn(Schedulers.io());

@@ -116,7 +116,7 @@ public class MainMenuPresenter extends BaseBluetoothPresenter<MainMenuView> {
                     remoteStorageAccessor.fetchStartPageToken()
                             .observeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(localSettings::setDrivePageToken)
+                            .subscribe(localSettings::setDrivePageToken, Throwable::printStackTrace)
             );
         }
         userEmail = remoteStorageAccessor.getUserEmail();
