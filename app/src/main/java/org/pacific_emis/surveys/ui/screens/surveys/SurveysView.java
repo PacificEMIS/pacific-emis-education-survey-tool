@@ -2,6 +2,8 @@ package org.pacific_emis.surveys.ui.screens.surveys;
 
 import android.net.Uri;
 
+import androidx.annotation.Nullable;
+
 import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.omegar.mvp.viewstate.strategy.OneExecutionStateStrategy;
@@ -31,4 +33,11 @@ interface SurveysView extends BaseBluetoothView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void openInExternalApp(Uri url);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showInputDialog(@Nullable Text title, @Nullable Text existingText, InputListener listener);
+
+    interface InputListener {
+        void onInput(String string);
+    }
 }

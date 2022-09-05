@@ -56,6 +56,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     private List<Survey> surveys = new ArrayList<>();
 
     private Survey surveyToDelete;
+    private Survey surveyToChangeDate;
 
     private boolean requestLoadPartiallySavedSurvey;
 
@@ -127,6 +128,11 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         getViewState().promptMasterPassword(Text.from(R.string.message_delete_password_prompt));
     }
 
+    public void onSurveyChangeDatePressed(Survey survey) {
+        surveyToChangeDate = survey;
+        getViewState().promptMasterPassword(Text.from(R.string.message_change_survey_date_prompt));
+    }
+
     public void onExportAllPressed() {
         addDisposable(
                 interactor.getAllSurveys(localSettings.getCurrentAppRegion())
@@ -185,6 +191,8 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                     .subscribe(this::loadRecentSurveys, this::handleError));
         } else if (surveyToDelete != null) {
             deleteSurvey();
+        } else if (surveyToChangeDate != null) {
+            changeDateSurvey();
         }
     }
 
@@ -246,6 +254,19 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                     getViewState().removeSurvey(surveyToDelete);
                     surveyToDelete = null;
                 }, this::handleError));
+    }
+
+    private void changeDateSurvey() {
+        getViewState().showInputDialog(
+                Text.from(R.string.title_change_date_survey),
+                Text.from(surveyToChangeDate.getSurveyTag()),
+                (date) -> {
+                    surveyToChangeDate.toMutable().setSurveyTag(date);
+                    dataSource.setSurveyUploadState(surveyToChangeDate, UploadState.NOT_UPLOAD);
+                    loadRecentSurveys();
+                    remoteStorageAccessor.scheduleUploading(surveyToChangeDate.getId());
+                }
+        );
     }
 
     private void deletedDriveSurveys(List<Survey> result) {

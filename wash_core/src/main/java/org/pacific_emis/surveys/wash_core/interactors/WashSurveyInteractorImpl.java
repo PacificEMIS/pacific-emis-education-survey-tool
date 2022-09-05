@@ -165,6 +165,16 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
             survey.setState(SurveyState.COMPLETED);
             washDataSource.updateSurvey(survey);
         }
+        if (!survey.getProgress().isFinished()) {
+            if (survey.getState() == SurveyState.COMPLETED) {
+                survey.setCompleteDate(null);
+                survey.setState(SurveyState.NOT_COMPLETED);
+                washDataSource.updateSurvey(survey);
+            } else {
+                survey.setCompleteDate(null);
+                survey.setState(SurveyState.NOT_COMPLETED);
+            }
+        }
     }
 
     private void updateProgressAndNotify(MutableAnswer answer,

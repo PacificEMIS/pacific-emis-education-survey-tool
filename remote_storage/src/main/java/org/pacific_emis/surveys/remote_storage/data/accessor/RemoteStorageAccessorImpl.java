@@ -3,7 +3,10 @@ package org.pacific_emis.surveys.remote_storage.data.accessor;
 import android.app.Activity;
 import android.util.Pair;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -69,6 +72,15 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
     @Override
     public void signOutAsUser() {
         storage.setUserAccount(null);
+
+        Activity currentActivity = lifecycleListener.getCurrentActivity();
+        if (currentActivity != null) {
+            GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            GoogleSignInClient client = GoogleSignIn.getClient(currentActivity, options);
+            client.signOut();
+        }
     }
 
     @Override
