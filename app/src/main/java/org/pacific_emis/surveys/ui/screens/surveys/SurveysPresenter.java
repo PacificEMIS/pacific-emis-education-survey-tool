@@ -156,6 +156,12 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         getViewState().promptMasterPassword(Text.from(R.string.message_change_survey_date_prompt));
     }
 
+    public void onForceSyncPressed(Survey survey) {
+        dataSource.setSurveyUploadState(survey, UploadState.IN_PROGRESS);
+        loadRecentSurveys();
+        remoteStorageAccessor.scheduleUploading(survey.getId());
+    }
+
     public void onExportAllPressed() {
         addDisposable(
                 interactor.getAllSurveys(localSettings.getCurrentAppRegion())
