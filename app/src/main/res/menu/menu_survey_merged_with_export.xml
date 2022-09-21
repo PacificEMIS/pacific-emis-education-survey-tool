@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_merged"
+        android:title="@string/title_merged"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_export_to_excel"
+        android:title="@string/title_export_to_excel"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_change_date"
+        android:title="@string/title_change_date"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_remove"
+        android:title="@string/title_remove"
+        app:showAsAction="never"/>
+</menu>

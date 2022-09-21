@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseAdapter;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
@@ -59,6 +60,8 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @BindView(R.id.button_upload_to_cloud)
         ImageButton uploadState;
 
+        private boolean merged = false;
+
         SchoolAccreditationViewHolder(ViewGroup parent) {
             super(parent, R.layout.item_survey);
         }
@@ -69,6 +72,7 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
             nameSchoolTextView.setText(item.getSchoolName());
             creationDateTextView.setText(item.getSurveyTag());
             uploadState.setImageResource(getUploadState(item.getUploadState()));
+            merged = item.getState() == SurveyState.MERGED;
 
             ViewUtils.rebindProgress(item.getProgress(), progressTextView, progressBar);
         }
@@ -87,6 +91,11 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
         @OnClick(R.id.button_more)
         void onMoreButtonClick() {
             PopupMenu popupMenu = new PopupMenu(getContext(), moreButton, Gravity.END);
+            if (merged) {
+                popupMenu.inflate(needToShowExport() ? R.menu.menu_survey_merged_with_export : R.menu.menu_survey_merged);
+            } else {
+                popupMenu.inflate(needToShowExport() ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
+            }
             popupMenu.inflate(needToShowExport() ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();

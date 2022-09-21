@@ -125,6 +125,10 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         offlineSyncUseCase.executeAsInitiator(survey);
     }
 
+    public void onSurveyMergedPressed(Survey survey) {
+        getViewState().showMessage(Text.from(""), Text.from(R.string.message_merged));
+    }
+
     public void onSurveyExportToExcelPressed(Survey survey) {
         if (survey instanceof AccreditationSurvey) {
             addDisposable(

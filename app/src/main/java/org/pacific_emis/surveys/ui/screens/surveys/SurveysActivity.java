@@ -158,6 +158,9 @@ public class SurveysActivity extends BaseBluetoothActivity implements
             case R.id.action_merge:
                 presenter.onSurveyMergePressed(survey);
                 return true;
+            case R.id.action_merged:
+                presenter.onSurveyMergedPressed(survey);
+                return true;
             case R.id.action_export_to_excel:
                 presenter.onSurveyExportToExcelPressed(survey);
                 return true;
