@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import org.pacific_emis.surveys.R;
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.app_support.MicronesiaApplication;
+import org.pacific_emis.surveys.core.data.data_repository.LogsRepository;
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.exceptions.NotImplementedException;
 import org.pacific_emis.surveys.core.data.files.FilesRepository;
@@ -24,6 +25,7 @@ import org.pacific_emis.surveys.core.data.model.SurveyState;
 import org.pacific_emis.surveys.core.data.model.mutable.MutableSurvey;
 import org.pacific_emis.surveys.core.domain.SurveyInteractor;
 import org.pacific_emis.surveys.core.preferences.LocalSettings;
+import org.pacific_emis.surveys.core.preferences.entities.LogAction;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.domain.SettingsInteractor;
 import org.pacific_emis.surveys.offline_sync.domain.OfflineSyncUseCase;
@@ -49,6 +51,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     private final RemoteStorage remoteStorage = MicronesiaApplication.getInjection().getRemoteStorageComponent().getRemoteStorage();
     private final FilesRepository filesRepository = MicronesiaApplication.getInjection().getCoreComponent().getFilesRepository();
     private final Context appContext = MicronesiaApplication.getInjection().getCoreComponent().getContext();
+    private final LogsRepository logsRepository = MicronesiaApplication.getInjection().getDataSourceComponent().getLogsRepository();
 
     private List<Survey> surveys = new ArrayList<>();
 
@@ -59,6 +62,7 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
 
     public SurveysPresenter() {
         super(MicronesiaApplication.getInjection().getOfflineSyncComponent().getAccessor());
+        checkDriveChanges();
         subscribeOnSurveyUploadState();
 
         switch (localSettings.getSurveyTypeOrDefault()) {
@@ -73,29 +77,6 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
             default:
                 throw new NotImplementedException();
         }
-    }
-
-    private void subscribeOnSurveyUploadState() {
-        addDisposable(
-                remoteStorage.getUploadStateObservable()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::updateUploadState, this::handleError));
-    }
-
-    private void updateUploadState(Pair<Long, UploadState> uploadStatePair) {
-        surveys = surveys.stream()
-        .map(survey -> {
-            if (survey.getId() == uploadStatePair.first) {
-                MutableSurvey mutableSurvey = survey.toMutable();
-                mutableSurvey.setUploadState(uploadStatePair.second);
-                return mutableSurvey;
-            } else {
-                return survey;
-            }
-        })
-                .collect(Collectors.toList());
-        getViewState().setSurveys(new ArrayList<>(this.surveys));
     }
 
     @Override
@@ -215,6 +196,54 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
         }
     }
 
+    private void subscribeOnSurveyUploadState() {
+        addDisposable(
+                remoteStorage.getUploadStateObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::updateUploadState, this::handleError));
+    }
+
+    private void updateUploadState(Pair<Long, UploadState> uploadStatePair) {
+        surveys = surveys.stream()
+                .map(survey -> {
+                    if (survey.getId() == uploadStatePair.first) {
+                        MutableSurvey mutableSurvey = survey.toMutable();
+                        mutableSurvey.setUploadState(uploadStatePair.second);
+                        return mutableSurvey;
+                    } else {
+                        return survey;
+                    }
+                })
+                .collect(Collectors.toList());
+        getViewState().setSurveys(new ArrayList<>(this.surveys));
+    }
+
+    private void checkDriveChanges() {
+        addDisposable(logsRepository.loadAllSurveys(localSettings.getCurrentAppRegion())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(this::getDriveChanges, this::handleError));
+    }
+
+    private void getDriveChanges(List<Survey> surveys) {
+        addDisposable(
+                remoteStorage.driveFileChanges(surveys, localSettings.getDrivePageToken())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::deletedDriveSurveys, Throwable::printStackTrace));
+    }
+
+    private void fetchNewPageToken() {
+        addDisposable(
+                remoteStorage.fetchStartPageToken()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(localSettings::setDrivePageToken, Throwable::printStackTrace));
+    }
+
     private void deleteSurvey() {
         addDisposable(dataSource.deleteSurvey(surveyToDelete.getId())
                 .subscribeOn(Schedulers.io())
@@ -238,5 +267,33 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
                     remoteStorageAccessor.scheduleUploading(surveyToChangeDate.getId());
                 }
         );
+    }
+
+    private void deletedDriveSurveys(List<Survey> result) {
+        if (!result.isEmpty()) {
+            result.forEach(this::deleteSurvey);
+        }
+        fetchNewPageToken();
+    }
+
+    private void deleteSurvey(Survey survey) {
+        addDisposable(logsRepository.deleteSurvey(survey)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(() -> {
+                    saveDeletedSurveyInfo(survey);
+                    getViewState().removeSurvey(survey);
+                }, this::handleError));
+    }
+
+    private void saveDeletedSurveyInfo(Survey survey) {
+        addDisposable(dataSource.saveLogInfo(survey, LogAction.DELETED)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> getViewState().showWaiting())
+                .doFinally(() -> getViewState().hideWaiting())
+                .subscribe(() -> {}, this::handleError));
     }
 }

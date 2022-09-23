@@ -5,17 +5,22 @@ import android.content.Context;
 import androidx.room.Room;
 
 import org.pacific_emis.surveys.core.data.data_repository.Result;
+import org.pacific_emis.surveys.core.data.model.SurveyLog;
 import org.pacific_emis.surveys.core.data.model.School;
 import org.pacific_emis.surveys.core.data.model.Subject;
+import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase;
+import org.pacific_emis.surveys.core.data.persistence.dao.SurveyLogsDao;
 import org.pacific_emis.surveys.core.data.persistence.dao.SchoolDao;
 import org.pacific_emis.surveys.core.data.persistence.dao.SubjectDao;
 import org.pacific_emis.surveys.core.data.persistence.dao.TeacherDao;
+import org.pacific_emis.surveys.core.data.persistence.model.RoomSurveyLog;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomSchool;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomSubject;
 import org.pacific_emis.surveys.core.data.persistence.model.RoomTeacher;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
+import org.pacific_emis.surveys.core.preferences.entities.LogAction;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 
 import java.util.ArrayList;
@@ -26,6 +31,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_1_2;
+import static org.pacific_emis.surveys.core.data.persistence.SchoolInfoDatabase.MIGRATION_2_3;
 
 public abstract class CoreLocalDataSource implements DataSource {
 
@@ -36,14 +42,16 @@ public abstract class CoreLocalDataSource implements DataSource {
     protected final SchoolDao schoolDao;
     protected final TeacherDao teacherDao;
     protected final SubjectDao subjectDao;
+    protected final SurveyLogsDao surveyLogsDao;
 
     public CoreLocalDataSource(Context applicationContext) {
         schoolInfoDatabase = Room.databaseBuilder(applicationContext, SchoolInfoDatabase.class, SCHOOLS_DATABASE_NAME)
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                 .build();
         schoolDao = schoolInfoDatabase.getSchoolDao();
         teacherDao = schoolInfoDatabase.getTeacherDao();
         subjectDao = schoolInfoDatabase.getSubjectDao();
+        surveyLogsDao = schoolInfoDatabase.getSurveyLogsDao();
     }
 
     public void closeConnections() {
@@ -119,4 +127,16 @@ public abstract class CoreLocalDataSource implements DataSource {
                 }));
     }
 
+    @Override
+    public Completable saveLogInfo(Survey survey, LogAction action) {
+        return Completable.fromAction(() -> {
+            RoomSurveyLog deletedSurvey = new RoomSurveyLog(survey, action);
+            surveyLogsDao.insert(deletedSurvey);
+        });
+    }
+
+    @Override
+    public Single<List<SurveyLog>> loadLogs(AppRegion appRegion) {
+        return Single.fromCallable(() -> surveyLogsDao.getAll(appRegion)).map(ArrayList::new);
+    }
 }

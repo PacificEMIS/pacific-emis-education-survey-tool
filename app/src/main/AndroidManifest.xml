@@ -8,7 +8,6 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -70,7 +69,10 @@
             android:name="org.pacific_emis.surveys.ui.screens.license.LicenseActivity"
             android:label="@string/label_license"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".ui.screens.logs.LogsActivity"
+            android:label="@string/label_logs"
+            android:screenOrientation="portrait"  />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="756ac67f491414c118880f7a5853ff25b6e22886" />

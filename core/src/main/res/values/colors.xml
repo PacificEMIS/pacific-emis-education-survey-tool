@@ -21,7 +21,9 @@
     <color name="blue_700">#1c86ca</color>
     <color name="grey_500">#899193</color>
     <color name="grey_600">#7B7B7B</color>
+    <color name="grey_800">#4E5A5E</color>
     <color name="blue_grey_900">#132826</color>
+    <color name="blue_grey_950">#132328</color>
     <color name="blue_grey_400">#899393</color>
     <color name="green_a700">#0DD35C</color>
     <color name="transparent">#00000000</color>

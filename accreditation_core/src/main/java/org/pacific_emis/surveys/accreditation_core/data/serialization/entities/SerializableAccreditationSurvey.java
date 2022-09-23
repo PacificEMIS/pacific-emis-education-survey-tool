@@ -87,6 +87,10 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Element(required = false)
     String tabletId;
 
+    @Nullable
+    @Element(required = false)
+    String driveFileId;
+
     public SerializableAccreditationSurvey() {
     }
 
@@ -104,6 +108,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
+        this.driveFileId = other.getDriveFileId();
 
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(SerializableCategory::from).collect(Collectors.toList());
@@ -201,5 +206,11 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Override
     public String getTabletId() {
         return tabletId;
+    }
+
+    @Nullable
+    @Override
+    public String getDriveFileId() {
+        return driveFileId;
     }
 }

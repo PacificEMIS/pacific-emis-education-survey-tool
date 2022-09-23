@@ -62,6 +62,9 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
     @ColumnInfo(name = "tablet_id")
     public String tabletId;
 
+    @ColumnInfo(name = "drive_file_id")
+    public String driveFileId;
+
     public RoomAccreditationSurvey(int version,
                                    SurveyType type,
                                    AppRegion appRegion,
@@ -99,6 +102,7 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
+        this.driveFileId = other.getDriveFileId();
     }
 
     @Override
@@ -192,5 +196,11 @@ public class RoomAccreditationSurvey implements AccreditationSurvey {
     @Override
     public String getTabletId() {
         return tabletId;
+    }
+
+    @Nullable
+    @Override
+    public String getDriveFileId() {
+        return driveFileId;
     }
 }

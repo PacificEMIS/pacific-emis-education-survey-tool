@@ -32,6 +32,8 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
 
     @Nullable
     private String lastEditedUser;
+    @Nullable
+    private String driveFileId;
 
 
     public MutableSurvey() {
@@ -54,6 +56,7 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         this.lastEditedUser = other.getLastEditedUser();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
+        this.driveFileId = other.getDriveFileId();
     }
 
     @Override
@@ -158,10 +161,18 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return createUser;
     }
 
+    public void setCreateUser(@Nullable String createUser) {
+        this.createUser = createUser;
+    }
+
     @Nullable
     @Override
     public String getLastEditedUser() {
         return lastEditedUser;
+    }
+
+    public void setLastEditedUser(@Nullable String lastEditedUser) {
+        this.lastEditedUser = lastEditedUser;
     }
 
     @Nullable
@@ -170,26 +181,28 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return uploadState;
     }
 
+    public void setUploadState(@Nullable UploadState uploadState) {
+        this.uploadState = uploadState;
+    }
+
     @Nullable
     @Override
     public String getTabletId() {
         return tabletId;
     }
 
-    public void setCreateUser(@Nullable String createUser) {
-        this.createUser = createUser;
-    }
-
-    public void setLastEditedUser(@Nullable String lastEditedUser) {
-        this.lastEditedUser = lastEditedUser;
-    }
-
-    public void setUploadState(@Nullable UploadState uploadState) {
-        this.uploadState = uploadState;
-    }
-
     public void setTabletId(String tabletId) {
         this.tabletId = tabletId;
+    }
+
+    @Nullable
+    @Override
+    public String getDriveFileId() {
+        return driveFileId;
+    }
+
+    public void setDriveFileId(String driveFileId) {
+        this.driveFileId = driveFileId;
     }
 
     public abstract MutableSurvey toMutable();

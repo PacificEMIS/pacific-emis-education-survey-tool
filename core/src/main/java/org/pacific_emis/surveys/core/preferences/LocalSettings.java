@@ -98,4 +98,10 @@ public interface LocalSettings {
     String getTabletId();
 
     boolean isTabletIdSaved();
+
+    void setDrivePageToken(String pageToken);
+
+    String getDrivePageToken();
+
+    boolean isDrivePageTokenSaved();
 }

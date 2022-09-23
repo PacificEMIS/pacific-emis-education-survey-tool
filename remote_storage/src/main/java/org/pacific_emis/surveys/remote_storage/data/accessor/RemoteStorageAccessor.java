@@ -33,4 +33,6 @@ public interface RemoteStorageAccessor {
     String getUserEmail();
 
     Single<String> exportToExcel(AccreditationSurvey survey, ExportType exportType);
+
+    Single<String> fetchStartPageToken();
 }

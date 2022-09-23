@@ -67,11 +67,19 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
 
         database = Room
                 .databaseBuilder(applicationContext, AccreditationDatabase.class, DATABASE_NAME)
-                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3, AccreditationDatabase.MIGRATION_3_4)
-                .build();
+                .addMigrations(
+                        AccreditationDatabase.MIGRATION_1_2,
+                        AccreditationDatabase.MIGRATION_2_3,
+                        AccreditationDatabase.MIGRATION_3_4,
+                        AccreditationDatabase.MIGRATION_4_5
+                ).build();
         templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME)
-                .addMigrations(AccreditationDatabase.MIGRATION_1_2, AccreditationDatabase.MIGRATION_2_3, AccreditationDatabase.MIGRATION_3_4)
-                .build();
+                .addMigrations(
+                        AccreditationDatabase.MIGRATION_1_2,
+                        AccreditationDatabase.MIGRATION_2_3,
+                        AccreditationDatabase.MIGRATION_3_4,
+                        AccreditationDatabase.MIGRATION_4_5
+                ).build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
@@ -397,6 +405,13 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     public void setSurveyUploadState(Survey survey, UploadState uploadState) {
         MutableAccreditationSurvey mutableSurvey = ((AccreditationSurvey) survey).toMutable();
         mutableSurvey.setUploadState(uploadState);
+        updateSurvey(mutableSurvey);
+    }
+
+    @Override
+    public void setSurveyDriveFileId(Survey survey, String driveFileId) {
+        MutableAccreditationSurvey mutableSurvey = ((AccreditationSurvey) survey).toMutable();
+        mutableSurvey.setDriveFileId(driveFileId);
         updateSurvey(mutableSurvey);
     }
 
