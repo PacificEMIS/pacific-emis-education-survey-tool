@@ -79,6 +79,10 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     String lastEditedUser;
 
     @Nullable
+    @Element(required = false)
+    String principalName;
+
+    @Nullable
     @Element(required = false, name = "surveyUpload")
     @Convert(UploadStateConverter.class)
     UploadState uploadState;
@@ -106,6 +110,7 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.principalName = other.getPrincipalName();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
         this.driveFileId = other.getDriveFileId();
@@ -194,6 +199,12 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Override
     public String getLastEditedUser() {
         return lastEditedUser;
+    }
+
+    @Nullable
+    @Override
+    public String getPrincipalName() {
+        return principalName;
     }
 
     @Nullable

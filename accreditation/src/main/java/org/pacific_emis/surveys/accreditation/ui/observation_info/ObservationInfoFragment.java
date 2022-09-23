@@ -10,9 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +23,9 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 
 import org.jetbrains.annotations.NotNull;
 import org.pacific_emis.surveys.accreditation.R;
+import org.pacific_emis.surveys.accreditation.ui.observation_info.ObservationInfoPresenter;
+import org.pacific_emis.surveys.accreditation.ui.observation_info.ObservationInfoView;
+import org.pacific_emis.surveys.accreditation.ui.observation_info.SheetPickerAdapter;
 import org.pacific_emis.surveys.accreditation_core.di.AccreditationCoreComponentInjector;
 import org.pacific_emis.surveys.core.data.model.Subject;
 import org.pacific_emis.surveys.core.data.model.Teacher;
@@ -34,14 +34,13 @@ import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
-import org.pacific_emis.surveys.core.utils.DebounceTextChangedWatcher;
+import org.pacific_emis.surveys.core.ui.views.InputAutoCompleteFieldLayout;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 import org.pacific_emis.surveys.remote_storage.di.RemoteStorageComponentInjector;
 import org.pacific_emis.surveys.survey_core.di.SurveyCoreComponentInjector;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,22 +55,17 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @SuppressLint("ConstantLocale")
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.US);
-    private static final long DELAY_CHANGED_MILLIS = 1000;
 
     @InjectPresenter
     ObservationInfoPresenter presenter;
 
-    private final ArrayList<Teacher> teachers = new ArrayList<Teacher>();
-    private final ArrayList<Subject> subjects = new ArrayList<Subject>();
-    private AutoCompleteTextView teacherNameAutoComplete;
+    private InputAutoCompleteFieldLayout teacherNameAutoComplete;
     private TextView gradeTextView;
     private InputFieldLayout totalStudentsInputFieldLayout;
-    private AutoCompleteTextView subjectAutoComplete;
+    private InputAutoCompleteFieldLayout subjectAutoComplete;
     private TextView dateTimeTextView;
     private BottomNavigatorView bottomNavigatorView;
     private View rootView;
-    private ArrayAdapter<Teacher> teachersAutoAdapter;
-    private ArrayAdapter<Subject> subjectsAutoAdapter;
 
     @Nullable
     private Dialog selectorDialog;
@@ -99,8 +93,6 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        teachersAutoAdapter = createAutocompleteAdapter(teachers);
-        subjectsAutoAdapter = createAutocompleteAdapter(subjects);
         return inflater.inflate(R.layout.fragment_observation_info, container, false);
     }
 
@@ -109,21 +101,6 @@ public class ObservationInfoFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         setupUserInteractions();
-        setupTextChangedListeners();
-    }
-
-    private void setupTextChangedListeners() {
-        DebounceTextChangedWatcher.setup(
-                teacherNameAutoComplete,
-                DELAY_CHANGED_MILLIS,
-                newText -> presenter.onTeacherChanged(newText)
-        );
-        DebounceTextChangedWatcher.setup(
-                subjectAutoComplete,
-                DELAY_CHANGED_MILLIS,
-                newText -> presenter.onSubjectChanged(newText)
-        );
-
     }
 
     private void bindViews(@NonNull View view) {
@@ -139,10 +116,8 @@ public class ObservationInfoFragment extends BaseFragment implements
     private void setupUserInteractions() {
         bottomNavigatorView.setListener(this);
         bottomNavigatorView.setUploadStateVisible(false);
-        teacherNameAutoComplete.setAdapter(teachersAutoAdapter);
-        teacherNameAutoComplete.setOnItemClickListener(new TeacherDropdownItemClickListener());
-        subjectAutoComplete.setAdapter(subjectsAutoAdapter);
-        subjectAutoComplete.setOnItemClickListener(new SubjectDropdownItemClickListener());
+        teacherNameAutoComplete.setOnDonePressedListener(new TeacherDonePressedListener());
+        subjectAutoComplete.setOnDonePressedListener(new SubjectDonePressedListener());
         totalStudentsInputFieldLayout.setOnDonePressedListener(this);
         gradeTextView.setOnClickListener((view) -> presenter.onGradePressed());
         dateTimeTextView.setOnClickListener((view) -> presenter.onDateTimePressed());
@@ -165,7 +140,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTeacherName(@Nullable String teacherName) {
-        teacherNameAutoComplete.setText(teacherName);
+        teacherNameAutoComplete.setStartingText(teacherName);
     }
 
     @Override
@@ -184,7 +159,7 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setSubject(@Nullable String subject) {
-        subjectAutoComplete.setText(subject);
+        subjectAutoComplete.setStartingText(subject);
     }
 
     @Override
@@ -261,12 +236,12 @@ public class ObservationInfoFragment extends BaseFragment implements
 
     @Override
     public void setTeachersToAutocompleteField(@NonNull @NotNull List<Teacher> teachers) {
-        setAdapterContent(teachersAutoAdapter, teachers);
+        teacherNameAutoComplete.setContentList(teachers);
     }
 
     @Override
     public void setSubjectsToAutocompleteField(@NonNull @NotNull List<Subject> subjects) {
-        setAdapterContent(subjectsAutoAdapter, subjects);
+        subjectAutoComplete.setContentList(subjects);
     }
 
     @Override
@@ -300,29 +275,27 @@ public class ObservationInfoFragment extends BaseFragment implements
         }
     }
 
-    private <T> void setAdapterContent(ArrayAdapter<T> adapter, List<T> newContent) {
-        adapter.clear();
-        adapter.addAll(newContent);
-        adapter.notifyDataSetChanged();
-    }
-
-    private <T> ArrayAdapter<T> createAutocompleteAdapter(List<T> list) {
-        return new ArrayAdapter<T>(getContext(), android.R.layout.simple_dropdown_item_1line, list);
-    }
-
-    private class TeacherDropdownItemClickListener implements AdapterView.OnItemClickListener {
+    private class TeacherDonePressedListener implements InputAutoCompleteFieldLayout.OnDonePressedListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onDonePressed(View view, @Nullable Object content) {
             ViewUtils.hideKeyboardAndClearFocus(teacherNameAutoComplete, rootView);
-            presenter.onTeacherChanged(teachersAutoAdapter.getItem(position));
+            if (content instanceof String) {
+                presenter.onTeacherChanged((String) content);
+            } else if (content instanceof Teacher) {
+                presenter.onTeacherChanged((Teacher) content);
+            }
         }
     }
 
-    private class SubjectDropdownItemClickListener implements AdapterView.OnItemClickListener {
+    private class SubjectDonePressedListener implements InputAutoCompleteFieldLayout.OnDonePressedListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onDonePressed(View view, @Nullable Object content) {
             ViewUtils.hideKeyboardAndClearFocus(subjectAutoComplete, rootView);
-            presenter.onSubjectChanged(subjectsAutoAdapter.getItem(position));
+            if (content instanceof String) {
+                presenter.onSubjectChanged((String) content);
+            } else if (content instanceof Subject) {
+                presenter.onSubjectChanged((Subject) content);
+            }
         }
     }
 }

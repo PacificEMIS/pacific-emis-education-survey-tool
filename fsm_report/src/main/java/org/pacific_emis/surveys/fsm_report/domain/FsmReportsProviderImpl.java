@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
+import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.fsm_report.levels.LevelsFragment;
 import org.pacific_emis.surveys.report_core.domain.ReportInteractor;
 import org.pacific_emis.surveys.report_core.model.ReportPage;
@@ -30,6 +31,11 @@ public class FsmReportsProviderImpl implements FsmReportsProvider {
     @Override
     public void requestReports() {
         reportInteractor.requestReports((AccreditationSurvey) surveyInteractor.getCurrentSurvey());
+    }
+
+    @Override
+    public Survey getCurrentSurvey() {
+        return surveyInteractor.getCurrentSurvey();
     }
 
     @Override

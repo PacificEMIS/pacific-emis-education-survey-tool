@@ -224,7 +224,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                         survey.getSchoolId(),
                         survey.getSchoolName(),
                         survey.getSurveyTag(),
-                        null, // TODO: not implemented
+                        survey.getPrincipalName(),
                         Arrays.asList(ReportLevel.values())
                 )
         );

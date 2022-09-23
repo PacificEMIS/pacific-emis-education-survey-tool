@@ -71,14 +71,16 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
                         AccreditationDatabase.MIGRATION_1_2,
                         AccreditationDatabase.MIGRATION_2_3,
                         AccreditationDatabase.MIGRATION_3_4,
-                        AccreditationDatabase.MIGRATION_4_5
+                        AccreditationDatabase.MIGRATION_4_5,
+                        AccreditationDatabase.MIGRATION_5_6
                 ).build();
         templateDatabase = Room.databaseBuilder(applicationContext, AccreditationDatabase.class, TEMPLATE_DATABASE_NAME)
                 .addMigrations(
                         AccreditationDatabase.MIGRATION_1_2,
                         AccreditationDatabase.MIGRATION_2_3,
                         AccreditationDatabase.MIGRATION_3_4,
-                        AccreditationDatabase.MIGRATION_4_5
+                        AccreditationDatabase.MIGRATION_4_5,
+                        AccreditationDatabase.MIGRATION_5_6
                 ).build();
         surveyDao = database.getSurveyDao();
         answerDao = database.getAnswerDao();

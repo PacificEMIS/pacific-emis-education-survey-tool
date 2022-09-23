@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import org.pacific_emis.surveys.core.data.model.Progressable;
 import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.data.model.SurveyState;
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.data.model.mutable.MutableProgress;
 import org.pacific_emis.surveys.core.preferences.entities.AppRegion;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
@@ -78,6 +79,11 @@ public class WashSurveyInteractorImpl implements WashSurveyInteractor {
     @Override
     public Survey getCurrentSurvey() {
         return survey;
+    }
+
+    @Override
+    public Single<List<Teacher>> loadTeachers(AppRegion appRegion) {
+        return washDataSource.loadTeachers(appRegion);
     }
 
     private void initProgress(MutableWashSurvey survey) {
