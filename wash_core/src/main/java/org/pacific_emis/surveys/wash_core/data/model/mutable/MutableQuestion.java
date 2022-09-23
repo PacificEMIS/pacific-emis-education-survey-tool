@@ -407,6 +407,7 @@ public class MutableQuestion extends BaseMutableEntity implements Question {
                 return answer.getInputText();
             case COMPLEX_BINARY:
             case COMPLEX_NUMBER_INPUT:
+            case COMPLEX_TEXT_INPUT:
             case GEOLOCATION:
             case PHOTO:
                 return null; // have no String answer

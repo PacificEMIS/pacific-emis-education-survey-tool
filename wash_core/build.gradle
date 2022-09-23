@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName Versions.appVersion
 
-        buildConfigField "int", "DATA_BASE_VERSION", "3"
+        buildConfigField "int", "DATA_BASE_VERSION", "5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

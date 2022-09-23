@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_question_header" />
+
+    <org.pacific_emis.surveys.core.ui.views.InputAutoCompleteFieldLayout
+        android:id="@+id/inputselectablefieldlayout"
+        style="@style/AnswersBlock" />
+
+    <include layout="@layout/include_question_footer" />
+
+</LinearLayout>

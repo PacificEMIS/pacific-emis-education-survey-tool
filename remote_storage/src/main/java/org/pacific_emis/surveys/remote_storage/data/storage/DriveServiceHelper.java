@@ -5,10 +5,12 @@ import androidx.core.util.Pair;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.ChangeList;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import org.pacific_emis.surveys.core.data.model.Photo;
+import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.TextUtil;
 import org.pacific_emis.surveys.remote_storage.data.model.DriveType;
@@ -26,6 +28,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -301,5 +304,33 @@ public class DriveServiceHelper extends TasksRxWrapper {
                     .export(fileId, mimeType.getValue())
                     .executeMediaAndDownloadTo(outputStream);
         });
+    }
+
+    public Single<String> fetchStartPageToken() {
+        return Single.fromCallable(() ->
+                drive.changes().getStartPageToken().execute().getStartPageToken()).subscribeOn(Schedulers.io());
+    }
+
+    public Single<List<Survey>> driveFileChanges(final List<Survey> surveys, final String savedPageToken) {
+        return Single.fromCallable(() -> {
+            List<Survey> deletedSurveyList = new ArrayList<>();
+            String pageToken = savedPageToken;
+            try {
+                while (pageToken != null) {
+                    ChangeList changes = drive.changes().list(pageToken).setRestrictToMyDrive(false).execute();
+                    surveys.forEach(survey ->
+                            changes.getChanges().forEach(change -> {
+                                if (Objects.equals(change.getFileId(), survey.getDriveFileId())) {
+                                    if (change.getRemoved()) deletedSurveyList.add(survey);
+                                }
+                            })
+                    );
+                    pageToken = changes.getNextPageToken();
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            return deletedSurveyList;
+        }).subscribeOn(Schedulers.io());
     }
 }

@@ -43,6 +43,7 @@ public interface Answer extends IdentifiedObject, BaseAnswer {
             case TEXT_INPUT:
             case NUMBER_INPUT:
             case PHONE_INPUT:
+            case COMPLEX_TEXT_INPUT:
                 return !TextUtils.isEmpty(getInputText());
             case SINGLE_SELECTION:
             case MULTI_SELECTION:

@@ -9,6 +9,7 @@
     tools:theme="@style/AppTheme">
 
     <LinearLayout
+        android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -16,76 +17,110 @@
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="20dp"
         android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingEnd="20dp">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/label_school_code"
-                android:textAppearance="@style/Text.Title1.Large" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="20dp">
 
-            <TextView
-                android:id="@+id/textview_school_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Text.Body2"
-                tools:text="CHK001" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_school_code"
+                    android:textAppearance="@style/Text.Title1.Large" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/label_date_of_accreditation"
-                android:textAppearance="@style/Text.Title1.Large" />
+                <TextView
+                    android:id="@+id/textview_school_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Text.Body2"
+                    tools:text="CHK001" />
 
-            <TextView
-                android:id="@+id/textview_visit_date"
-                android:layout_width="match_parent"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Text.Body2"
-                tools:text="06.05.2019" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_school_name"
+                    android:textAppearance="@style/Text.Title1.Large" />
+
+                <TextView
+                    android:id="@+id/textview_school_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Text.Body2"
+                    tools:text="Parem Elementary School Chuuk" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/label_school_name"
-                android:textAppearance="@style/Text.Title1.Large" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="20dp">
 
-            <TextView
-                android:id="@+id/textview_school_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Text.Body2"
-                tools:text="Parem Elementary School Chuuk" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/label_date_of_accreditation"
+                    android:textAppearance="@style/Text.Title1.Large" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/label_principal_name"
-                android:textAppearance="@style/Text.Title1.Large" />
+                <TextView
+                    android:id="@+id/textview_visit_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Text.Body2"
+                    tools:text="06.05.2019" />
 
-            <TextView
-                android:id="@+id/textview_principal_name"
-                android:layout_width="match_parent"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Text.Body2"
-                tools:text="Parem Elementary School Chuuk" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/label_principal_name"
+                    android:textAppearance="@style/Text.Title1.Large" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/textview_principal_name"
+                    android:hint="Principal name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textAppearance="@style/Text.Body2"
+                    tools:text="Parem Elementary School Chuuk" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

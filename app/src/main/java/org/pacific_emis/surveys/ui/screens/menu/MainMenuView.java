@@ -28,6 +28,9 @@ public interface MainMenuView extends BaseBluetoothView {
     void navigateToLicense();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToLogs();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void showMergeProgress();
 
     @StateStrategyType(AddToEndSingleStrategy.class)

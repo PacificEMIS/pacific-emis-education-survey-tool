@@ -47,10 +47,16 @@ public interface Survey extends Progressable, IdentifiedObject {
     String getLastEditedUser();
 
     @Nullable
+    String getPrincipalName();
+
+    @Nullable
     UploadState getUploadState();
 
     @Nullable
     String getTabletId();
+
+    @Nullable
+    String getDriveFileId();
     
     MutableSurvey toMutable();
 }

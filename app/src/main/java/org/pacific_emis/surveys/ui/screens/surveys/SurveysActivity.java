@@ -78,16 +78,6 @@ public class SurveysActivity extends BaseBluetoothActivity implements
         StrictMode.setVmPolicy(builder.build());
     }
 
-    @Override
-    protected void initToolbar() {
-        super.initToolbar();
-        ActionBar supportActionBar = getSupportActionBar();
-
-        if (supportActionBar != null) {
-            supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
-        }
-    }
-
     private void initViews() {
         setTitle(R.string.label_school_accreditation);
         recyclerView.setAdapter(surveysAdapter);

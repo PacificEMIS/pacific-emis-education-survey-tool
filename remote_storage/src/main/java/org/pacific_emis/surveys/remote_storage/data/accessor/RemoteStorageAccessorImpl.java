@@ -195,4 +195,9 @@ public final class RemoteStorageAccessorImpl implements RemoteStorageAccessor {
                 )
                 .flatMap(it -> storage.exportToExcel(survey, it, exportType));
     }
+
+    @Override
+    public Single<String> fetchStartPageToken() {
+        return storage.fetchStartPageToken();
+    }
 }

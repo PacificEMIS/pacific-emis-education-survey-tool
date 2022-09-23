@@ -1,5 +1,6 @@
 package org.pacific_emis.surveys.data_source_injector.di;
 
+import org.pacific_emis.surveys.core.data.data_repository.LogsRepository;
 import org.pacific_emis.surveys.core.data.local_data_source.DataSource;
 import org.pacific_emis.surveys.core.data.serialization.SurveyParser;
 import org.pacific_emis.surveys.core.data.serialization.SurveySerializer;
@@ -19,6 +20,8 @@ import dagger.Component;
 public interface DataSourceComponent {
 
     DataSource getDataRepository();
+
+    LogsRepository getLogsRepository();
 
     SurveyParser getSurveyParser();
 

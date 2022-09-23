@@ -59,7 +59,6 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(
                 itemFactory.createLogoItem(),
                 itemFactory.createPasswordItem(),
-                itemFactory.createContextItem(localSettings.getCurrentAppRegion().getName()),
                 itemFactory.createExportToExcelItem(localSettings.isExportToExcelEnabled()),
                 itemFactory.createNameItem(localSettings.getAppName()),
                 itemFactory.createContactItem(Text.from(localSettings.getContactName())),
@@ -76,6 +75,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         ));
 
         if (BuildConfig.DEBUG) {
+            items.add(itemFactory.createContextItem(localSettings.getCurrentAppRegion().getName()));
             items.add(itemFactory.createDebugBuildInfoItem());
         }
 
@@ -183,12 +183,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void onContextPressed() {
         getViewState().showRegionSelector(region -> {
             localSettings.setCurrentAppRegion(region);
+            onForceFetchRemoteSettingsPressed();
             refresh();
-            getViewState().showPrompt(
-                    Text.from(R.string.title_info),
-                    Text.from(R.string.message_prompt_fetch_remote),
-                    this::onForceFetchRemoteSettingsPressed
-            );
         });
     }
 

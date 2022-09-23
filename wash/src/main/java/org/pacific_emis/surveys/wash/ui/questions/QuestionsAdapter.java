@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.pacific_emis.surveys.core.data.model.Teacher;
 import org.pacific_emis.surveys.core.ui.views.InputFieldLayout;
+import org.pacific_emis.surveys.core.ui.views.InputAutoCompleteFieldLayout;
 import org.pacific_emis.surveys.core.utils.CollectionUtils;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 import org.pacific_emis.surveys.survey_core.ui.custom_views.BinaryAnswerSelectorView;
@@ -25,6 +27,7 @@ import org.pacific_emis.surveys.wash_core.data.model.TernaryAnswerState;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableAnswer;
 import org.pacific_emis.surveys.wash_core.data.model.mutable.MutableQuestion;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +36,7 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
 
     private QuestionsListener questionsListener;
     private QuestionRelationsHelper relationsHelper;
+    private List<Teacher> teacherList = new ArrayList<>();
 
     public QuestionsAdapter(BaseQuestionsAdapter.Listener<MutableQuestion> baseListener, QuestionsListener questionsListener) {
         super(baseListener);
@@ -79,8 +83,14 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
                 return new VariantsViewHolder(parent, VariantsAdapter.Type.BINARY);
             case COMPLEX_NUMBER_INPUT:
                 return new VariantsViewHolder(parent, VariantsAdapter.Type.NUMERIC);
+            case COMPLEX_TEXT_INPUT:
+                return new TextInputAutoCompleteTeacherViewHolder(parent);
         }
         throw new IllegalStateException();
+    }
+
+    public void setTeacherList(List<Teacher> teacherList) {
+        this.teacherList = teacherList;
     }
 
     public void setRelativeItems(Context context, List<MutableQuestion> items) {
@@ -349,6 +359,49 @@ public class QuestionsAdapter extends BaseQuestionsAdapter<MutableQuestion> impl
 
         private void hideKeyboard() {
             ViewUtils.hideKeyboardAndClearFocus(inputFieldLayout, itemView);
+        }
+    }
+
+    class TextInputAutoCompleteTeacherViewHolder extends QuestionViewHolder implements InputAutoCompleteFieldLayout.OnDonePressedListener  {
+
+        InputAutoCompleteFieldLayout inputAutoComleteFieldLayout = findViewById(R.id.inputselectablefieldlayout);
+        ViewGroup parent;
+
+        TextInputAutoCompleteTeacherViewHolder(ViewGroup parent) {
+            super(parent, R.layout.item_auto_complete_input);
+            this.parent = parent;
+            inputAutoComleteFieldLayout.setOnDonePressedListener(this);
+        }
+
+        @Override
+        protected void onBind(MutableQuestion item) {
+            super.onBind(item);
+
+            if (item.getAnswer() != null) {
+                inputAutoComleteFieldLayout.setStartingText(item.getAnswer().getInputText());
+            }
+            inputAutoComleteFieldLayout.setContentList(teacherList);
+            inputAutoComleteFieldLayout.setDoneButtonVisible(false);
+        }
+
+        @Override
+        public void onDonePressed(View view, @Nullable Object content) {
+            if (view.getId() == R.id.inputselectablefieldlayout) {
+                MutableQuestion question = getItem();
+                if (content instanceof String) {
+                    question.setAnswerInputText((String) content);
+                }
+                if (content instanceof Teacher) {
+                    Teacher teacher = (Teacher) content;
+                    question.setAnswerInputText(teacher.getName());
+                }
+                notifyAnswerStateChanged(question);
+                hideKeyboard();
+            }
+        }
+
+        private void hideKeyboard() {
+            ViewUtils.hideKeyboardAndClearFocus(inputAutoComleteFieldLayout, itemView);
         }
     }
 

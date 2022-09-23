@@ -44,7 +44,7 @@
         android:orientation="horizontal"
         android:padding="2dp"
         app:layout_heightPercent="12.8%"
-        app:layout_marginTopPercent="5.6%"
+        app:layout_marginTopPercent="2.3%"
         app:layout_widthPercent="75%">
 
         <Button
@@ -83,7 +83,7 @@
         app:layout_heightPercent="4.8%"
         app:layout_marginLeftPercent="14%"
         app:layout_marginRightPercent="14%"
-        app:layout_marginTopPercent="2.4%">
+        app:layout_marginTopPercent="1%">
 
         <TextView
             android:id="@+id/textview_auth_name"
@@ -144,8 +144,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="4.8%"
-        app:layout_marginTopPercent="1.6%"
-        app:layout_marginBottomPercent="8.4%">
+        app:layout_marginTopPercent="1.6%">
 
         <TextView
             android:id="@+id/textView"
@@ -217,5 +216,23 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textview_logs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_logs"
+        android:drawablePadding="24dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:text="@string/label_logs"
+        android:textAppearance="@style/Text.Title4"
+        app:layout_heightPercent="4.8%"
+        app:layout_marginLeftPercent="14%"
+        app:layout_marginRightPercent="14%"
+        app:layout_marginTopPercent="1.6%"
+        app:layout_marginBottomPercent="8.4%"/>
 
 </com.omega_r.libs.layouts.percent.PercentLinearLayout>

@@ -22,6 +22,7 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
     private Date completeDate;
     private String schoolName;
     private String schoolId;
+    private String principalName;
     private MutableProgress progress = MutableProgress.createEmptyProgress();
     private SurveyState state;
     private UploadState uploadState;
@@ -32,6 +33,8 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
 
     @Nullable
     private String lastEditedUser;
+    @Nullable
+    private String driveFileId;
 
 
     public MutableSurvey() {
@@ -52,13 +55,19 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.principalName = other.getPrincipalName();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
+        this.driveFileId = other.getDriveFileId();
     }
 
     @Override
     public int getVersion() {
         return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     @NonNull
@@ -67,10 +76,18 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return surveyType;
     }
 
+    public void setSurveyType(SurveyType surveyType) {
+        this.surveyType = surveyType;
+    }
+
     @Nullable
     @Override
     public Date getCreateDate() {
         return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Nullable
@@ -79,30 +96,28 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return schoolName;
     }
 
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
     @Nullable
     @Override
     public String getSchoolId() {
         return schoolId;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    public void setSurveyType(SurveyType surveyType) {
-        this.surveyType = surveyType;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
-    }
-
     public void setSchoolId(String schoolId) {
         this.schoolId = schoolId;
+    }
+
+    @Nullable
+    @Override
+    public String getPrincipalName() {
+        return principalName;
+    }
+
+    public void setPrincipalName(@Nullable String principalName) {
+        this.principalName = principalName;
     }
 
     @NonNull
@@ -129,14 +144,14 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return surveyTag;
     }
 
+    public void setSurveyTag(String surveyTag) {
+        this.surveyTag = surveyTag;
+    }
+
     @Nullable
     @Override
     public Date getCompleteDate() {
         return completeDate;
-    }
-
-    public void setSurveyTag(String surveyTag) {
-        this.surveyTag = surveyTag;
     }
 
     public void setCompleteDate(Date completeDate) {
@@ -158,10 +173,18 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return createUser;
     }
 
+    public void setCreateUser(@Nullable String createUser) {
+        this.createUser = createUser;
+    }
+
     @Nullable
     @Override
     public String getLastEditedUser() {
         return lastEditedUser;
+    }
+
+    public void setLastEditedUser(@Nullable String lastEditedUser) {
+        this.lastEditedUser = lastEditedUser;
     }
 
     @Nullable
@@ -170,26 +193,28 @@ public abstract class MutableSurvey extends BaseMutableEntity implements Survey 
         return uploadState;
     }
 
+    public void setUploadState(@Nullable UploadState uploadState) {
+        this.uploadState = uploadState;
+    }
+
     @Nullable
     @Override
     public String getTabletId() {
         return tabletId;
     }
 
-    public void setCreateUser(@Nullable String createUser) {
-        this.createUser = createUser;
-    }
-
-    public void setLastEditedUser(@Nullable String lastEditedUser) {
-        this.lastEditedUser = lastEditedUser;
-    }
-
-    public void setUploadState(@Nullable UploadState uploadState) {
-        this.uploadState = uploadState;
-    }
-
     public void setTabletId(String tabletId) {
         this.tabletId = tabletId;
+    }
+
+    @Nullable
+    @Override
+    public String getDriveFileId() {
+        return driveFileId;
+    }
+
+    public void setDriveFileId(String driveFileId) {
+        this.driveFileId = driveFileId;
     }
 
     public abstract MutableSurvey toMutable();

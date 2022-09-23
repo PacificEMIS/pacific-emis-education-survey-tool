@@ -80,6 +80,10 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     String lastEditedUser;
 
     @Nullable
+    @Element(required = false)
+    String principalName;
+
+    @Nullable
     @Element(required = false, name = "surveyUpload")
     @Convert(UploadStateConverter.class)
     UploadState uploadState;
@@ -87,6 +91,10 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Nullable
     @Element(required = false)
     String tabletId;
+
+    @Nullable
+    @Element(required = false)
+    String driveFileId;
 
     public SerializableWashSurvey(WashSurvey other) {
         this.type = other.getSurveyType();
@@ -100,8 +108,10 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.principalName = other.getPrincipalName();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
+        this.driveFileId = other.getDriveFileId();
 
         if (other.getGroups() != null) {
             this.groups = other.getGroups().stream().map(SerializableGroup::new).collect(Collectors.toList());
@@ -190,6 +200,12 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
 
     @Nullable
     @Override
+    public String getPrincipalName() {
+        return principalName;
+    }
+
+    @Nullable
+    @Override
     public UploadState getUploadState() {
         return uploadState;
     }
@@ -198,5 +214,11 @@ public class SerializableWashSurvey extends BaseSerializableIdentifiedObject imp
     @Override
     public String getTabletId() {
         return tabletId;
+    }
+
+    @Nullable
+    @Override
+    public String getDriveFileId() {
+        return driveFileId;
     }
 }

@@ -56,12 +56,20 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
         super(applicationContext);
         database = Room
                 .databaseBuilder(applicationContext, WashDatabase.class, DATABASE_NAME)
-                .addMigrations(WashDatabase.MIGRATION_1_2, WashDatabase.MIGRATION_2_3)
-                .build();
+                .addMigrations(
+                        WashDatabase.MIGRATION_1_2,
+                        WashDatabase.MIGRATION_2_3,
+                        WashDatabase.MIGRATION_3_4,
+                        WashDatabase.MIGRATION_4_5
+                ).build();
         templateDatabase = Room
                 .databaseBuilder(applicationContext, WashDatabase.class, TEMPLATE_DATABASE_NAME)
-                .addMigrations(WashDatabase.MIGRATION_1_2, WashDatabase.MIGRATION_2_3)
-                .build();
+                .addMigrations(
+                        WashDatabase.MIGRATION_1_2,
+                        WashDatabase.MIGRATION_2_3,
+                        WashDatabase.MIGRATION_3_4,
+                        WashDatabase.MIGRATION_4_5
+                ).build();
         answerDao = database.getAnswerDao();
         photoDao = database.getPhotoDao();
     }
@@ -375,6 +383,13 @@ public class RoomWashDataSource extends CoreLocalDataSource implements WashDataS
     public void setSurveyUploadState(Survey survey, UploadState uploadState) {
         MutableWashSurvey mutableSurvey =  ((WashSurvey) survey).toMutable();
         mutableSurvey.setUploadState(uploadState);
+        updateSurvey(mutableSurvey);
+    }
+
+    @Override
+    public void setSurveyDriveFileId(Survey survey, String driveFileId) {
+        MutableWashSurvey mutableSurvey = ((WashSurvey) survey).toMutable();
+        mutableSurvey.setDriveFileId(driveFileId);
         updateSurvey(mutableSurvey);
     }
 }
