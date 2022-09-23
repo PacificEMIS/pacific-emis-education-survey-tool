@@ -139,5 +139,11 @@
     <string name="hint_merge_successful">Merge finished successfully</string>
     <string name="hint_merge_in_progress">Merging is in progress, please stay close to paired device</string>
     <string name="hint_merge_failed">Merge failed. Finish current session and try again</string>
-    <string name="hint_merge_waiting">Waiting for initiator device</string>
+    <string name="hint_merge_waiting">Waiting for primary team leader device</string>
+
+    <string name="log_action_created">Created</string>
+    <string name="log_action_edited">Edited</string>
+    <string name="log_action_deleted">Deleted</string>
+    <string name="title_survey_type_school_accreditation">sa</string>
+    <string name="title_survey_type_wash">wash</string>
 </resources>

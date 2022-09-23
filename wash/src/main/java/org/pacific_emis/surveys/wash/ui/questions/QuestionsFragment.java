@@ -24,6 +24,8 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import java.util.List;
 
 import org.pacific_emis.surveys.core.data.model.Answerable;
+import org.pacific_emis.surveys.core.data.model.Teacher;
+import org.pacific_emis.surveys.core.di.CoreComponentInjector;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseFragment;
 import org.pacific_emis.surveys.core.ui.views.BottomNavigatorView;
@@ -83,6 +85,7 @@ public class QuestionsFragment extends BaseFragment implements
         return new QuestionsPresenter(
                 RemoteStorageComponentInjector.getComponent(application),
                 SurveyCoreComponentInjector.getComponent(application),
+                CoreComponentInjector.getComponent(application),
                 WashCoreComponentInjector.getComponent(application),
                 args.getLong(ARG_GROUP_ID),
                 args.getLong(ARG_SUB_GROUP_ID)
@@ -266,5 +269,10 @@ public class QuestionsFragment extends BaseFragment implements
                 bottomNavigatorView.setNotUpload();
                 break;
         }
+    }
+
+    @Override
+    public void setTeacherList(List<Teacher> teacherList) {
+        questionsAdapter.setTeacherList(teacherList);
     }
 }

@@ -214,10 +214,8 @@ public class ObservationInfoPresenter extends BasePresenter<ObservationInfoView>
     }
 
     public void onTeacherChanged(String teacher) {
-        if (!teacher.equals(observationInfo.getTeacherName())) {
-            observationInfo.setTeacherName(teacher);
-            save(observationInfo);
-        }
+        observationInfo.setTeacherName(teacher);
+        save(observationInfo);
     }
 
     public void onTotalStudentsChanged(Integer totalStudents) {

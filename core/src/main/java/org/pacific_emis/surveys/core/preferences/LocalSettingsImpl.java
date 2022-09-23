@@ -41,6 +41,7 @@ public class LocalSettingsImpl implements LocalSettings {
     private static final String PREF_KEY_EMIS_USER = "PREF_KEY_EMIS_USER";
     private static final String PREF_KEY_EMIS_PASSWORD = "PREF_KEY_EMIS_PASSWORD";
     private static final String PREF_KEY_TABLET_ID = "PREF_KEY_TABLET_ID";
+    private static final String PREF_KEY_DRIVE_PAGE_TOKEN = "PREF_KEY_DRIVE_PAGE_TOKEN";
 
     private static final String PREF_KEY_OPERATING_MODE = "PREF_KEY_OPERATING_MODE";
     private static final OperatingMode DEFAULT_OPERATING_MODE = OperatingMode.DEV;
@@ -304,5 +305,20 @@ public class LocalSettingsImpl implements LocalSettings {
     @Override
     public boolean isTabletIdSaved() {
         return getTabletId() != null;
+    }
+
+    @Override
+    public void setDrivePageToken(String pageToken) {
+        sharedPreferences.edit().putString(PREF_KEY_DRIVE_PAGE_TOKEN, pageToken).apply();
+    }
+
+    @Override
+    public String getDrivePageToken() {
+        return sharedPreferences.getString(PREF_KEY_DRIVE_PAGE_TOKEN, null);
+    }
+
+    @Override
+    public boolean isDrivePageTokenSaved() {
+        return getDrivePageToken() != null;
     }
 }

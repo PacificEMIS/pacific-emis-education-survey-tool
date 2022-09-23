@@ -40,16 +40,6 @@ public class LicenseActivity extends BaseActivity {
         return R.layout.activity_license;
     }
 
-    @Override
-    protected void initToolbar() {
-        super.initToolbar();
-        ActionBar supportActionBar = getSupportActionBar();
-
-        if (supportActionBar != null) {
-            supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
-        }
-    }
-
     private void readLicenseFile() {
         try (InputStream inputStream = getAssets().open(BuildConfig.LICENSE_FILE_NAME)) {
 

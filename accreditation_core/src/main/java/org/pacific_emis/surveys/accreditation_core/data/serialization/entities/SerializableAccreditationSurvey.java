@@ -79,6 +79,10 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     String lastEditedUser;
 
     @Nullable
+    @Element(required = false)
+    String principalName;
+
+    @Nullable
     @Element(required = false, name = "surveyUpload")
     @Convert(UploadStateConverter.class)
     UploadState uploadState;
@@ -86,6 +90,10 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Nullable
     @Element(required = false)
     String tabletId;
+
+    @Nullable
+    @Element(required = false)
+    String driveFileId;
 
     public SerializableAccreditationSurvey() {
     }
@@ -102,8 +110,10 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
         this.state = ObjectUtils.orElse(other.getState(), SurveyState.NOT_COMPLETED);
         this.createUser = other.getCreateUser();
         this.lastEditedUser = other.getLastEditedUser();
+        this.principalName = other.getPrincipalName();
         this.uploadState = ObjectUtils.orElse(other.getUploadState(), UploadState.NOT_UPLOAD);
         this.tabletId = other.getTabletId();
+        this.driveFileId = other.getDriveFileId();
 
         if (other.getCategories() != null) {
             this.categories = other.getCategories().stream().map(SerializableCategory::from).collect(Collectors.toList());
@@ -193,6 +203,12 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
 
     @Nullable
     @Override
+    public String getPrincipalName() {
+        return principalName;
+    }
+
+    @Nullable
+    @Override
     public UploadState getUploadState() {
         return uploadState;
     }
@@ -201,5 +217,11 @@ public class SerializableAccreditationSurvey implements AccreditationSurvey {
     @Override
     public String getTabletId() {
         return tabletId;
+    }
+
+    @Nullable
+    @Override
+    public String getDriveFileId() {
+        return driveFileId;
     }
 }

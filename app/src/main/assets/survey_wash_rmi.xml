@@ -25,7 +25,7 @@
             <question>
                 <id>BS.S.1</id>
                 <name>What is the name of the School Head?</name>
-                <flags>INPUT</flags>
+                <flags>INPUT|CHOOSE</flags>
             </question>
             <question>
                 <id>BS.S.2</id>

@@ -86,4 +86,22 @@ public abstract class AccreditationDatabase extends RoomDatabase {
             );
         }
     };
+
+    public static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE RoomAccreditationSurvey ADD drive_file_id TEXT"
+            );
+        }
+    };
+
+    public static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE RoomAccreditationSurvey ADD principal_name TEXT"
+            );
+        }
+    };
 }

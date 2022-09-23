@@ -6,6 +6,8 @@ import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.InjectViewState;
 
 import org.pacific_emis.surveys.core.data.model.Survey;
+import org.pacific_emis.surveys.core.di.CoreComponent;
+import org.pacific_emis.surveys.core.preferences.LocalSettings;
 import org.pacific_emis.surveys.core.preferences.entities.UploadState;
 import org.pacific_emis.surveys.core.ui.screens.base.BasePresenter;
 import org.pacific_emis.surveys.remote_storage.data.accessor.RemoteStorageAccessor;
@@ -31,6 +33,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
     private final RemoteStorageAccessor remoteStorageAccessor;
     private final RemoteStorage remoteStorage;
     private final SurveyNavigator navigator;
+    private final LocalSettings localSettings;
     private final long subGroupId;
     private final long groupId;
 
@@ -40,6 +43,7 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
 
     QuestionsPresenter(RemoteStorageComponent remoteStorageComponent,
                        SurveyCoreComponent surveyCoreComponent,
+                       CoreComponent coreComponent,
                        WashCoreComponent washCoreComponent,
                        long groupId,
                        long subGroupId) {
@@ -47,8 +51,10 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         this.remoteStorageAccessor = remoteStorageComponent.getRemoteStorageAccessor();
         this.remoteStorage = remoteStorageComponent.getRemoteStorage();
         this.navigator = surveyCoreComponent.getSurveyNavigator();
+        this.localSettings = coreComponent.getLocalSettings();
         this.subGroupId = subGroupId;
         this.groupId = groupId;
+        loadTeacher();
         loadQuestions();
         loadNavigation();
         updateUploadState();
@@ -77,6 +83,22 @@ public class QuestionsPresenter extends BasePresenter<QuestionsView> {
         }
 
         view.setPrevButtonVisible(navigationItem.getPreviousItem() != null);
+    }
+
+    public void loadTeacher() {
+        if(subGroupId == 2 && groupId == 1) {
+            addDisposable(
+                    washSurveyInteractor.loadTeachers(localSettings.getCurrentAppRegion())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSubscribe(disposable -> getViewState().showWaiting())
+                            .doFinally(() -> getViewState().hideWaiting())
+                            .subscribe(teachers -> {
+                                getViewState().setTeacherList(teachers);
+                                loadQuestions();
+                            }, this::handleError)
+            );
+        }
     }
 
     private void subscribeOnProgressChanges() {
