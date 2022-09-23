@@ -160,6 +160,9 @@ public class SurveysActivity extends BaseBluetoothActivity implements
             case R.id.action_change_date:
                 presenter.onSurveyChangeDatePressed(survey);
                 return true;
+            case R.id.action_force_sync:
+                presenter.onForceSyncPressed(survey);
+                return true;
             default:
                 return false;
         }

@@ -6,6 +6,10 @@
         android:title="@string/title_merged"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_force_sync"
+        android:title="@string/title_force_sync"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_change_date"
         android:title="@string/title_change_date"
         app:showAsAction="never"/>
