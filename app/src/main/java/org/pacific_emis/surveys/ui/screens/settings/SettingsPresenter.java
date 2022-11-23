@@ -213,6 +213,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     private void onOperatingModePressed() {
         getViewState().showOperatingModeSelector(mode -> {
             interactor.setOperatingMode(mode);
+            refreshStartPageToken();
             refresh();
         });
     }
@@ -308,6 +309,15 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private void onTabletIdPressed() {
         getViewState().showMessage(Text.from(R.string.label_tablet_id), Text.from(localSettings.getTabletId()));
+    }
+
+    private void refreshStartPageToken() {
+        addDisposable(
+                remoteStorage.fetchStartPageToken()
+                        .observeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(localSettings::setDrivePageToken, Throwable::printStackTrace)
+        );
     }
 
 }

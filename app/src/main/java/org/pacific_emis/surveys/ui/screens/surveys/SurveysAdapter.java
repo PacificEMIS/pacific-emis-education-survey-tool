@@ -96,7 +96,6 @@ public class SurveysAdapter extends BaseAdapter<Survey> {
             } else {
                 popupMenu.inflate(needToShowExport() ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
             }
-            popupMenu.inflate(needToShowExport() ? R.menu.menu_survey_with_export : R.menu.menu_survey_without_export);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
         }

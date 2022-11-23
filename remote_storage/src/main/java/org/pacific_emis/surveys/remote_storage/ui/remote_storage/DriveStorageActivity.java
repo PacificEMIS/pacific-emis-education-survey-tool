@@ -47,7 +47,11 @@ public class DriveStorageActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
 
         if (isDebugViewer()) {
-            adapter = new DriveStorageAdapter(this, this);
+            if (presenter.isDeletingCloudFileMode()) {
+                adapter = new DriveStorageAdapter(this, this);
+            } else {
+                adapter = new DriveStorageAdapter(this);
+            }
         } else {
             adapter = new DriveStorageAdapter(this);
         }

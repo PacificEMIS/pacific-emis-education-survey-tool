@@ -280,8 +280,10 @@ public class SurveysPresenter extends BaseBluetoothPresenter<SurveysView> {
     }
 
     private void deletedDriveSurveys(List<Survey> result) {
-        if (!result.isEmpty()) {
-            result.forEach(this::deleteSurvey);
+        if (localSettings.isDeletingCloudFileModeEnabled()) {
+            if (!result.isEmpty()) {
+                result.forEach(this::deleteSurvey);
+            }
         }
         fetchNewPageToken();
     }

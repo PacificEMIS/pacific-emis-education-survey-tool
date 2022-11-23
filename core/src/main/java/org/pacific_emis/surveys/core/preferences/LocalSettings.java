@@ -104,4 +104,8 @@ public interface LocalSettings {
     String getDrivePageToken();
 
     boolean isDrivePageTokenSaved();
+
+    boolean isDeletingCloudFileModeEnabled();
+
+    void setDeletingCloudFileModeEnabled(boolean enabled);
 }
