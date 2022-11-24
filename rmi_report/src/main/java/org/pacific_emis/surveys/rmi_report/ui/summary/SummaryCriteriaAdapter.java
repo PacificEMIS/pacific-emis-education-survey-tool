@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.report_core.ui.summary;
+package org.pacific_emis.surveys.rmi_report.ui.summary;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 
 import com.omega_r.libs.omegarecyclerview.BaseListAdapter;
 
+import org.pacific_emis.surveys.rmi_report.R;
+import org.pacific_emis.surveys.report_core.model.SummaryViewData;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.pacific_emis.surveys.report_core.R;
-import org.pacific_emis.surveys.report_core.model.SummaryViewData;
 
 public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.CriteriaSummaryViewData> {
 
@@ -35,23 +35,21 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
 
     class ItemViewHolder extends ViewHolder {
 
-        private final int subCriteriaTotalWeightShort = getResources().getInteger(R.integer.weight_summary_criteria_total_small);
-        private final int subCriteriaTotalWeightLong = getResources().getInteger(R.integer.weight_summary_criteria_total);
+        private final int subCriteriaCellWeightShort = getResources().getInteger(R.integer.weight_rmi_summary_criteria_value_small);
+        private final int subCriteriaCellWeightLong = getResources().getInteger(R.integer.weight_rmi_summary_criteria_value);
 
         private TextView titleTextView;
         private TextView totalTextView;
-        private View totalView;
         private List<TextView> cellTextViews = new ArrayList<>();
 
         ItemViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_summary_criteria);
+            super(parent, R.layout.item_rmi_summary_criteria);
             bindViews();
         }
 
         private void bindViews() {
             titleTextView = findViewById(R.id.textview_criteria_title);
             totalTextView = findViewById(R.id.textview_total);
-            totalView = findViewById(R.id.layout_subcriteria_total);
             for (int cellId : cellIds) {
                 cellTextViews.add(findViewById(cellId));
             }
@@ -73,10 +71,11 @@ public class SummaryCriteriaAdapter extends BaseListAdapter<SummaryViewData.Crit
         private void updateLayout(boolean useLongLayout, int cellsCount) {
             cellTextViews.get(cellsCount - 1).setVisibility(useLongLayout ? View.VISIBLE : View.GONE);
 
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) totalView.getLayoutParams();
-            lp.weight = useLongLayout ? subCriteriaTotalWeightShort : subCriteriaTotalWeightLong;
-            totalView.setLayoutParams(lp);
-            totalView.requestLayout();
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) cellTextViews.get(0).getLayoutParams();
+            lp.weight = useLongLayout ? subCriteriaCellWeightShort : subCriteriaCellWeightLong;
+            for (View cellView : cellTextViews) {
+                cellView.setLayoutParams(lp);
+            }
         }
 
         private boolean isAnsweredAt(int index) {

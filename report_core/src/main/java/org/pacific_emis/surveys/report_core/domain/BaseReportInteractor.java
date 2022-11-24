@@ -122,6 +122,13 @@ public abstract class BaseReportInteractor implements ReportInteractor {
         AccreditationSurvey flattenSurvey = getFlattenSurvey(survey);
         List<SummaryViewData> summaryViewDataList = new ArrayList<>();
         for (Category category : flattenSurvey.getCategories()) {
+            int totalByCategory = 0;
+            for (Standard standard : category.getStandards()) {
+                for (Criteria criteria : standard.getCriterias()) {
+                    SummaryViewData.CriteriaSummaryViewData data = createCriteriaSummaryViewData(criteria);
+                    totalByCategory += data.getTotal();
+                }
+            }
             for (Standard standard : category.getStandards()) {
                 List<SummaryViewData.CriteriaSummaryViewData> criteriaSummaryViewDataList = new ArrayList<>();
                 int totalByStandard = 0;
@@ -138,6 +145,7 @@ public abstract class BaseReportInteractor implements ReportInteractor {
                         category,
                         standard,
                         totalByStandard,
+                        totalByCategory,
                         criteriaSummaryViewDataList,
                         createLevel(totalByStandard, totalQuestions)
                 ));

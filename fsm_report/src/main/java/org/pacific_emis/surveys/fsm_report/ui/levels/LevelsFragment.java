@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.fsm_report.levels;
+package org.pacific_emis.surveys.fsm_report.ui.levels;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,9 +17,9 @@ import com.omegar.mvp.presenter.ProvidePresenter;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
 import org.pacific_emis.surveys.fsm_report.R;
 import org.pacific_emis.surveys.fsm_report.di.FsmReportComponentInjector;
+import org.pacific_emis.surveys.fsm_report.domain.FsmReportLevel;
 import org.pacific_emis.surveys.fsm_report.model.SchoolAccreditationLevel;
 import org.pacific_emis.surveys.report_core.domain.ReportInteractor;
-import org.pacific_emis.surveys.report_core.domain.ReportLevel;
 import org.pacific_emis.surveys.report_core.ui.base.BaseReportFragment;
 import org.pacific_emis.surveys.report_core.ui.level_legend.LevelLegendView;
 
@@ -90,7 +90,7 @@ public class LevelsFragment extends BaseReportFragment implements LevelsView {
         totalObtainedScoreTextView.setText(String.valueOf(data.getTotalObtainedScore()));
         totalScoreTitleTextView.setText(R.string.label_total_score);
 
-        ReportLevel reportLevel = data.getReportLevel();
+        FsmReportLevel reportLevel = data.getReportLevel();
         reportLevel.getName().applyTo(levelTextView, null);
 
         ViewUtils.setTintedBackgroundDrawable(

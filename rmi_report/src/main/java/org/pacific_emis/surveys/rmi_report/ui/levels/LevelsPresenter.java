@@ -1,21 +1,22 @@
-package org.pacific_emis.surveys.fsm_report.levels;
+package org.pacific_emis.surveys.rmi_report.ui.levels;
 
 import com.omegar.mvp.InjectViewState;
 
-import org.pacific_emis.surveys.fsm_report.di.FsmReportComponent;
-import org.pacific_emis.surveys.fsm_report.domain.FsmReportInteractor;
 import org.pacific_emis.surveys.report_core.ui.base.BaseReportPresenter;
+import org.pacific_emis.surveys.rmi_report.di.RmiReportComponent;
+import org.pacific_emis.surveys.rmi_report.domain.RmiReportInteractor;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class LevelsPresenter extends BaseReportPresenter<LevelsView> {
 
-    private final FsmReportInteractor interactor;
+    private final RmiReportInteractor interactor;
 
-    LevelsPresenter(FsmReportComponent component) {
-        super(component.getFsmReportInteractor());
-        this.interactor = component.getFsmReportInteractor();
+    LevelsPresenter(RmiReportComponent component) {
+        super(component.getRmiReportInteractor());
+        this.interactor = component.getRmiReportInteractor();
         loadSchoolAccreditationLevel();
     }
 

@@ -7,12 +7,12 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        style="@style/Summary.Row"
+        style="@style/FsmSummary.Row"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
         <FrameLayout
-            style="@style/Summary.Cell.StandardName"
+            style="@style/FsmSummary.Cell.StandardName"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">
 
@@ -51,14 +51,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="@integer/weight_summary_criteria_sum"
+            android:layout_weight="@integer/weight_fsm_summary_criteria_sum"
             app:divider="@color/grey_300"
             app:dividerHeight="1dp"
             app:dividerShow="middle"
             tools:itemCount="4"
-            tools:listitem="@layout/item_summary_criteria" />
+            tools:listitem="@layout/item_fsm_summary_criteria" />
 
-        <FrameLayout style="@style/Summary.Cell.StandardTotal">
+        <FrameLayout style="@style/FsmSummary.Cell.StandardTotal">
 
             <TextView
                 android:id="@+id/textview_total"

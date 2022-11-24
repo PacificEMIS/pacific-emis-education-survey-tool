@@ -10,7 +10,7 @@ import java.util.List;
 import org.pacific_emis.surveys.report_core.model.SummaryViewData;
 import org.pacific_emis.surveys.report_core.ui.base.BaseReportView;
 
-public interface SummaryView extends BaseReportView {
+public interface BaseSummaryView extends BaseReportView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setLoadingVisibility(boolean visible);

@@ -47,4 +47,60 @@
         <item name="android:layout_weight">@integer/weight_accreditation_level_score</item>
     </style>
 
+    <style name="FsmSummary" />
+
+    <style name="FsmSummary.Row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/report_table_cell_height</item>
+        <item name="android:weightSum">@integer/weight_fsm_summary_row</item>
+        <item name="android:background">@color/grey_300</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="FsmSummary.Cell">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">0.5dp</item>
+        <item name="android:layout_marginEnd">0.5dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="FsmSummary.Cell.CriteriaName">
+        <item name="android:layout_weight">@integer/weight_fsm_summary_criteria_name</item>
+        <item name="android:textAppearance">@style/Text.Body3</item>
+        <item name="android:layout_marginStart">1dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="FsmSummary.Cell.CriteriaValue">
+        <item name="android:layout_weight">@integer/weight_fsm_summary_criteria_value</item>
+        <item name="android:textAppearance">@style/Text.Body3</item>
+        <item name="android:textColor">@color/blue_grey_400</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="FsmSummary.Cell.CriteriaTotal">
+        <item name="android:layout_marginEnd">1dp</item>
+        <item name="android:layout_weight">@integer/weight_fsm_summary_criteria_total</item>
+    </style>
+
+    <style name="FsmSummary.Cell.StandardName">
+        <item name="android:layout_weight">@integer/weight_fsm_summary_standard_name</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="FsmSummary.Cell.StandardTotal">
+        <item name="android:layout_weight">@integer/weight_fsm_summary_standard_total</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="FsmSummary.HeaderSubCriteriaValue">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">@integer/weight_fsm_summary_criteria_value</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/Text.Title1.Small</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
 </resources>

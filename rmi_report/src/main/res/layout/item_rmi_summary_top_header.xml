@@ -2,37 +2,40 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
     android:background="@color/white">
 
     <LinearLayout
-        style="@style/Summary.Row"
+        style="@style/RmiSummary.Row"
         android:background="@drawable/bg_summary_sticky_header">
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="@integer/weight_summary_header_empty_space" />
+            android:layout_weight="@integer/weight_rmi_summary_header_empty_space" />
 
         <TextView
-            style="@style/Summary.HeaderSubCriteriaValue"
+            android:id="@+id/textview_subcriteria_1"
+            style="@style/RmiSummary.HeaderSubCriteriaValue"
             android:text="@string/first_subcriteria" />
 
         <TextView
-            style="@style/Summary.HeaderSubCriteriaValue"
+            android:id="@+id/textview_subcriteria_2"
+            style="@style/RmiSummary.HeaderSubCriteriaValue"
             android:text="@string/second_subcriteria" />
 
         <TextView
-            style="@style/Summary.HeaderSubCriteriaValue"
+            android:id="@+id/textview_subcriteria_3"
+            style="@style/RmiSummary.HeaderSubCriteriaValue"
             android:text="@string/third_subcriteria" />
 
         <TextView
-            style="@style/Summary.HeaderSubCriteriaValue"
+            android:id="@+id/textview_subcriteria_4"
+            style="@style/RmiSummary.HeaderSubCriteriaValue"
             android:text="@string/forth_subcriteria" />
 
         <TextView
             android:id="@+id/textview_subcriteria_5"
-            style="@style/Summary.HeaderSubCriteriaValue"
+            style="@style/RmiSummary.HeaderSubCriteriaValue"
             android:visibility="gone"
             android:text="@string/fifth_subcriteria" />
 
@@ -41,8 +44,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:layout_weight="@integer/weight_summary_criteria_total"
+            android:layout_weight="@integer/weight_rmi_summary_criteria_total"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -67,8 +70,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:layout_weight="@integer/weight_summary_standard_total"
+            android:layout_weight="@integer/weight_rmi_summary_standard_total"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -84,6 +87,32 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/title_total"
+                android:textAppearance="@style/Text.Title1.Small"
+                android:textColor="@color/grey_600" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="@integer/weight_rmi_summary_standard_total"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/title_standard"
+                android:textAllCaps="false"
+                android:textAppearance="@style/Text.Title1.Small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/title_level"
                 android:textAppearance="@style/Text.Title1.Small"
                 android:textColor="@color/grey_600" />
 

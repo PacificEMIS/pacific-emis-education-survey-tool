@@ -9,8 +9,8 @@ import org.pacific_emis.surveys.core.data.model.Survey;
 import org.pacific_emis.surveys.report_core.domain.ReportInteractor;
 import org.pacific_emis.surveys.report_core.model.ReportPage;
 import org.pacific_emis.surveys.report_core.ui.recommendations.RecommendationsFragment;
-import org.pacific_emis.surveys.report_core.ui.summary.SummaryFragment;
-import org.pacific_emis.surveys.rmi_report.ui.LevelsFragment;
+import org.pacific_emis.surveys.rmi_report.ui.levels.LevelsFragment;
+import org.pacific_emis.surveys.rmi_report.ui.summary.SummaryFragment;
 
 public class RmiReportsProviderImpl implements RmiReportsProvider {
 

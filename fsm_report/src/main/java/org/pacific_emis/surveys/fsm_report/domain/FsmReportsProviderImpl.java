@@ -6,11 +6,11 @@ import java.util.List;
 import org.pacific_emis.surveys.accreditation_core.data.model.AccreditationSurvey;
 import org.pacific_emis.surveys.accreditation_core.interactors.AccreditationSurveyInteractor;
 import org.pacific_emis.surveys.core.data.model.Survey;
-import org.pacific_emis.surveys.fsm_report.levels.LevelsFragment;
+import org.pacific_emis.surveys.fsm_report.ui.levels.LevelsFragment;
+import org.pacific_emis.surveys.fsm_report.ui.summary.SummaryFragment;
 import org.pacific_emis.surveys.report_core.domain.ReportInteractor;
 import org.pacific_emis.surveys.report_core.model.ReportPage;
 import org.pacific_emis.surveys.report_core.ui.recommendations.RecommendationsFragment;
-import org.pacific_emis.surveys.report_core.ui.summary.SummaryFragment;
 
 public class FsmReportsProviderImpl implements FsmReportsProvider {
 

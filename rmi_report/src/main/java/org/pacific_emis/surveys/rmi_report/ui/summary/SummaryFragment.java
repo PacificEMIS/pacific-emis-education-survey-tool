@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.report_core.ui.summary;
+package org.pacific_emis.surveys.rmi_report.ui.summary;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,19 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.omega_r.libs.omegatypes.Text;
 import com.omegar.mvp.presenter.InjectPresenter;
 import com.omegar.mvp.presenter.ProvidePresenter;
 
-import java.util.List;
 
-import org.pacific_emis.surveys.report_core.R;
 import org.pacific_emis.surveys.report_core.domain.ReportInteractor;
 import org.pacific_emis.surveys.report_core.model.SummaryViewData;
-import org.pacific_emis.surveys.report_core.ui.base.BaseReportFragment;
-import org.pacific_emis.surveys.report_core.ui.level_legend.LevelLegendView;
+import org.pacific_emis.surveys.report_core.ui.summary.BaseSummaryFragment;
+import org.pacific_emis.surveys.rmi_report.R;
 
-public class SummaryFragment extends BaseReportFragment implements SummaryView {
+import java.util.List;
+
+public class SummaryFragment extends BaseSummaryFragment implements SummaryView {
 
     private final SummaryStandardAdapter adapter = new SummaryStandardAdapter();
     private final ReportInteractor interactor;
@@ -30,7 +29,6 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
     SummaryPresenter presenter;
 
     private RecyclerView summaryRecyclerView;
-    private LevelLegendView levelLegendView;
     private View progressView;
 
     public SummaryFragment(ReportInteractor interactor) {
@@ -47,7 +45,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_summary, container, false);
+        return inflater.inflate(R.layout.fragment_rmi_summary, container, false);
     }
 
     @Override
@@ -59,13 +57,7 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
 
     private void bindViews(View view) {
         summaryRecyclerView = view.findViewById(R.id.recyclerview_summary);
-        levelLegendView = view.findViewById(R.id.levellegendview);
         progressView = view.findViewById(R.id.progressbar);
-    }
-
-    @Override
-    public void setLoadingVisibility(boolean visible) {
-        // nothing
     }
 
     @Override
@@ -75,13 +67,4 @@ public class SummaryFragment extends BaseReportFragment implements SummaryView {
         progressView.setVisibility(View.GONE);
     }
 
-    @Override
-    public Text getTabName() {
-        return Text.from(R.string.summary);
-    }
-
-    @Override
-    public void setHeaderItem(LevelLegendView.Item item) {
-        levelLegendView.setItem(item);
-    }
 }

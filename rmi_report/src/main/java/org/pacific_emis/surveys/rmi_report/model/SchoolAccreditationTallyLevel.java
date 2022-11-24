@@ -2,7 +2,7 @@ package org.pacific_emis.surveys.rmi_report.model;
 
 import androidx.annotation.Nullable;
 
-import org.pacific_emis.surveys.report_core.domain.ReportLevel;
+import org.pacific_emis.surveys.rmi_report.domain.RmiReportLevel;
 import org.pacific_emis.surveys.report_core.model.Level;
 
 public class SchoolAccreditationTallyLevel {
@@ -49,20 +49,20 @@ public class SchoolAccreditationTallyLevel {
         if (tallyScore == 0) {
             return null;
         }
-        
-        if (countOfFours >= countOfThrees && countOfFours >= countOfTwos && countOfOnes < MAX_ONES_COUNT) {
-            return ReportLevel.LEVEL_4;
-        }
-        
-        if (countOfThrees > countOfFours && countOfThrees >= countOfTwos && countOfOnes < MAX_ONES_COUNT) {
-            return ReportLevel.LEVEL_3;
-        }
-        
-        if (countOfTwos > countOfThrees && countOfTwos > countOfFours && countOfOnes < MAX_ONES_COUNT) {
-            return ReportLevel.LEVEL_2;
+
+        if (countOfFours >= countOfThrees && countOfFours >= countOfTwos && countOfOnes <= MAX_ONES_COUNT) {
+            return RmiReportLevel.LEVEL_4;
         }
 
-        return ReportLevel.LEVEL_1;
+        if (countOfThrees > countOfFours && countOfThrees >= countOfTwos && countOfOnes <= MAX_ONES_COUNT) {
+            return RmiReportLevel.LEVEL_3;
+        }
+
+        if (countOfTwos > countOfThrees && countOfTwos > countOfFours && countOfOnes <= MAX_ONES_COUNT) {
+            return RmiReportLevel.LEVEL_2;
+        }
+
+        return RmiReportLevel.LEVEL_1;
     }
 
     public int getCountOfOnes() {
