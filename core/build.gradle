@@ -77,7 +77,7 @@ dependencies {
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
@@ -93,10 +93,10 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${Deps.butterknife}"
 
     // FastCsv
-    implementation 'de.siegmar:fastcsv:1.0.3'
+    implementation 'de.siegmar:fastcsv:1.0.4'
 
     // SimpleXML
-    implementation("org.simpleframework:simple-xml:2.7.1") {
+    implementation("org.simpleframework:simple-xml:${Deps.simpleXml}") {
         exclude group: 'xpp3', module: 'xpp3'
     }
 
@@ -105,5 +105,5 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    api 'com.github.bumptech.glide:glide:4.11.0'
+    api "com.github.bumptech.glide:glide:${Deps.glide}"
 }

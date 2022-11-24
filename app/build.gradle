@@ -97,9 +97,9 @@ dependencies {
     implementation "com.github.Omega-R:OmegaRecyclerView:${Deps.omegaRecycler}@aar"
     implementation "com.github.Omega-R.OmegaTypes:omegatypes:${Deps.omegaTypes}"
     implementation "com.github.Omega-R.OmegaTypes:glide:${Deps.omegaTypes}"
-    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.6'
+    implementation "com.github.Omega-R.OmegaIntentBuilder:core:${Deps.omegaIntentBuilder}"
     implementation "com.github.Omega-R:OmegaViews:${Deps.omegaViews}"
-    implementation 'com.github.Omega-R:OmegaLayouts:0.0.1'
+    implementation "com.github.Omega-R:OmegaLayouts:${Deps.omegaLayout}"
     implementation "com.github.Omega-R:OmegaCenterIconButton:${Deps.omegaCenterIconButton}@aar"
 
     // Butterknife
@@ -119,11 +119,11 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-crashes:${Deps.appCenter}"
 
     // Permissions
-    implementation 'com.karumi:dexter:6.1.2'
+    implementation 'com.karumi:dexter:6.2.3'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    annotationProcessor "com.github.bumptech.glide:compiler:${Deps.glide}"
 }
 apply plugin: 'com.google.gms.google-services'
