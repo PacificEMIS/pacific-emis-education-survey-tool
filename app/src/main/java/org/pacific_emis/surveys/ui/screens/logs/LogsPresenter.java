@@ -48,8 +48,10 @@ public class LogsPresenter extends BasePresenter<LogsView> {
     }
 
     private void deletedDriveSurveys(List<Survey> result) {
-        if (!result.isEmpty()) {
-            result.forEach(this::deleteSurvey);
+        if (localSettings.isDeletingCloudFileModeEnabled()) {
+            if (!result.isEmpty()) {
+                result.forEach(this::deleteSurvey);
+            }
         }
         fetchNewPageToken();
     }

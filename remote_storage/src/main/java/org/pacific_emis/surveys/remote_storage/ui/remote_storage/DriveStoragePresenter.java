@@ -217,6 +217,18 @@ public class DriveStoragePresenter extends BasePresenter<DriveStorageView> {
     }
 
     public void onItemLongPressed(GoogleDriveFileHolder item) {
+        getViewState().showPrompt(
+                Text.from(R.string.title_deleting_cloudfile),
+                Text.from(R.string.message_deleting_cloudfile),
+                () -> deleteDriveFile(item)
+        );
+    }
+
+    public boolean isDeletingCloudFileMode() {
+        return localSettings.isDeletingCloudFileModeEnabled();
+    }
+
+    private void deleteDriveFile(GoogleDriveFileHolder item) {
         addDisposable(
                 storage.delete(item.getId())
                         .subscribeOn(Schedulers.io())

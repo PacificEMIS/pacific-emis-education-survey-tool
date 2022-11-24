@@ -6,4 +6,6 @@
     <string name="error_file_not_created">Unable to create file</string>
     <string name="format_file_downloaded">File downloaded to %1$s</string>
     <string name="invisible_char">&#10240;</string>
+    <string name="title_deleting_cloudfile">Delete cloudfile</string>
+    <string name="message_deleting_cloudfile">Are you sure you want to delete this cloudfile?</string>
 </resources>

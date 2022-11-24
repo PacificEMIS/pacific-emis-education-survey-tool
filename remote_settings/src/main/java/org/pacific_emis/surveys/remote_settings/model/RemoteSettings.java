@@ -44,6 +44,7 @@ public class RemoteSettings {
     private static final String KEY_EMIS_URL = "emis_url";
     private static final String KEY_EMIS_USER = "emis_user";
     private static final String KEY_EMIS_PASSWORD = "emis_password";
+    private static final String KEY_DELETING_CLOUDFILE_MODE = "deleting_cloudfile_also_deletes_on_tablet";
 
     private final LocalSettings localSettings;
     private final RemoteStorage remoteStorage;
@@ -167,6 +168,7 @@ public class RemoteSettings {
         parseForceableString(KEY_EMIS_URL, forcedByUser, localSettings::setEmisApiUrl, localSettings::isEmisApiUrlSaved);
         parseForceableString(KEY_EMIS_USER, forcedByUser, localSettings::setEmisUser, localSettings::isEmisUserSaved);
         parseForceableString(KEY_EMIS_PASSWORD, forcedByUser, localSettings::setEmisPassword, localSettings::isEmisPasswordSaved);
+        parseForceableBoolean(KEY_DELETING_CLOUDFILE_MODE, forcedByUser, localSettings::setDeletingCloudFileModeEnabled, localSettings::isDeletingCloudFileModeEnabled);
     }
 
     private String decodeBase64(String decodedString) {

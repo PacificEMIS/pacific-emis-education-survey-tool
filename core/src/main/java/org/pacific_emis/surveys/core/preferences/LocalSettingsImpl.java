@@ -51,6 +51,7 @@ public class LocalSettingsImpl implements LocalSettings {
 
     private static final String PREF_KEY_EXCEL_EXPORT = "PREF_KEY_EXCEL_EXPORT";
     private static final String PREF_KEY_PROD_CERT = "PREF_KEY_PROD_CERT";
+    private static final String PREF_KEY_DELETING_CLOUDFILE_MODE = "PREF_KEY_DELETING_CLOUDFILE_MODE";
 
     private final static Map<AppRegion, String> API_URLS_MAP = new HashMap<AppRegion, String>() {{
         put(RMI, "http://data.pss.edu.mh/miemis/api/");
@@ -320,5 +321,15 @@ public class LocalSettingsImpl implements LocalSettings {
     @Override
     public boolean isDrivePageTokenSaved() {
         return getDrivePageToken() != null;
+    }
+
+    @Override
+    public boolean isDeletingCloudFileModeEnabled() {
+        return sharedPreferences.getBoolean(PREF_KEY_DELETING_CLOUDFILE_MODE, false);
+    }
+
+    @Override
+    public void setDeletingCloudFileModeEnabled(boolean enabled) {
+        sharedPreferences.edit().putBoolean(PREF_KEY_DELETING_CLOUDFILE_MODE, enabled).apply();
     }
 }
