@@ -10,8 +10,8 @@
     <string name="label_observation_date_time">Date time</string>
     <string name="label_select_grade">Select a grade</string>
 
-    <string name="label_classroom_observation_log_prefix">Class Progress:</string>
-    <string name="label_classroom_observation_log_suffix">Log</string>
+    <string name="label_classroom_observation_log_prefix">Classroom Progress:</string>
+    <string name="label_classroom_observation_log_suffix">Running Record</string>
     <string name="button_classroom_observation_log_start">Start lesson</string>
     <string name="button_classroom_observation_log_add">Add activity</string>
     <string name="label_classroom_observation_log_hint">Specify the time of activity in the lesson</string>
