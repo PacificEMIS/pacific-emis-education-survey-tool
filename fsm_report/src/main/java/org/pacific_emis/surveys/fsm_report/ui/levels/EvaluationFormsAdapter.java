@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.fsm_report.levels;
+package org.pacific_emis.surveys.fsm_report.ui.levels;
 
 import android.view.ViewGroup;
 import android.widget.TextView;

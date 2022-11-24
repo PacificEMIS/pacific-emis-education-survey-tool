@@ -2,15 +2,15 @@ package org.pacific_emis.surveys.fsm_report.model;
 
 import androidx.annotation.NonNull;
 
+import org.pacific_emis.surveys.fsm_report.domain.FsmReportLevel;
+
 import java.util.Collections;
 import java.util.List;
-
-import org.pacific_emis.surveys.report_core.domain.ReportLevel;
 
 public class SchoolAccreditationLevel {
 
     private List<AccreditationForm> forms = Collections.emptyList();
-    private ReportLevel reportLevel;
+    private FsmReportLevel reportLevel;
     private float totalScore;
     private int totalObtainedScore;
 
@@ -47,14 +47,14 @@ public class SchoolAccreditationLevel {
     }
 
     private void calculateReportLevel(float score) {
-        this.reportLevel = ReportLevel.estimateLevel(score);
+        this.reportLevel = FsmReportLevel.estimateLevel(score);
     }
 
     public List<AccreditationForm> getForms() {
         return forms;
     }
 
-    public ReportLevel getReportLevel() {
+    public FsmReportLevel getReportLevel() {
         return reportLevel;
     }
 

@@ -17,7 +17,7 @@
         android:id="@+id/recyclerview_summary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_summary_standard"
+        tools:listitem="@layout/item_rmi_summary_standard"
         android:visibility="gone"
         tools:visibility="visible">
 
@@ -26,14 +26,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="16dp"
+            android:paddingTop="40dp"
             app:layout_section="header">
-
-            <org.pacific_emis.surveys.report_core.ui.level_legend.LevelLegendView
-                android:id="@+id/levellegendview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="40dp"
-                app:layout_section="header" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.report_core.domain;
+package org.pacific_emis.surveys.fsm_report.domain;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
@@ -6,9 +6,10 @@ import androidx.annotation.NonNull;
 import com.omega_r.libs.omegatypes.Text;
 
 import org.pacific_emis.surveys.report_core.R;
+import org.pacific_emis.surveys.report_core.domain.BaseReportLevel;
 
 
-public enum ReportLevel implements BaseReportLevel {
+public enum FsmReportLevel implements BaseReportLevel {
 
     LEVEL_1(
             50,
@@ -39,6 +40,10 @@ public enum ReportLevel implements BaseReportLevel {
             R.color.level_4
     );
 
+    private static final float MAX_LEVEL = 100.0f;
+    private static final float MIN_LEVEL = 0;
+    private static final int VALUE_UNKNOWN = Integer.MAX_VALUE;
+
     private final float maxValue;
     private final Text name;
     private final Text meaning;
@@ -46,7 +51,9 @@ public enum ReportLevel implements BaseReportLevel {
     @ColorRes
     private final int colorRes;
 
-    ReportLevel(float maxValue, Text name, Text meaning, Text determinationSource, int colorRes) {
+    private float minValue = VALUE_UNKNOWN;
+
+    FsmReportLevel(float maxValue, Text name, Text meaning, Text determinationSource, int colorRes) {
         this.maxValue = maxValue;
         this.name = name;
         this.meaning = meaning;
@@ -56,6 +63,19 @@ public enum ReportLevel implements BaseReportLevel {
 
     public float getMaxValue() {
         return maxValue;
+    }
+
+    public float getMinValue() {
+        if (minValue == VALUE_UNKNOWN) {
+            FsmReportLevel previousLevel = null;
+            for (FsmReportLevel level : FsmReportLevel.values()) {
+                if (level == this) {
+                    minValue = previousLevel == null ? MIN_LEVEL : previousLevel.maxValue;
+                }
+                previousLevel = level;
+            }
+        }
+        return minValue;
     }
 
     @Override
@@ -91,5 +111,15 @@ public enum ReportLevel implements BaseReportLevel {
     @NonNull
     public Text getAwards() {
         return awards;
+    }
+
+    public static FsmReportLevel estimateLevel(float incomingLevel) {
+        float level = Math.round(Math.round(incomingLevel * 10f) / 10f);
+        for (FsmReportLevel value : FsmReportLevel.values()) {
+            if (level <= value.getMaxValue()) {
+                return value;
+            }
+        }
+        throw new IllegalStateException("Impossible to estimate level (actual > required)");
     }
 }

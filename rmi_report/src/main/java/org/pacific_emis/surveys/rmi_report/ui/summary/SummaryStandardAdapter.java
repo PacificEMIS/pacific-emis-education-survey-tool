@@ -1,4 +1,4 @@
-package org.pacific_emis.surveys.report_core.ui.summary;
+package org.pacific_emis.surveys.rmi_report.ui.summary;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -6,18 +6,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omega_r.libs.omegarecyclerview.sticky_decoration.StickyAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.pacific_emis.surveys.accreditation_core.data.model.Category;
+import org.pacific_emis.surveys.accreditation_core.data.model.EvaluationForm;
 import org.pacific_emis.surveys.core.ui.screens.base.BaseAdapter;
 import org.pacific_emis.surveys.core.utils.ViewUtils;
-import org.pacific_emis.surveys.report_core.R;
+import org.pacific_emis.surveys.report_core.model.Level;
 import org.pacific_emis.surveys.report_core.model.SummaryViewData;
+import org.pacific_emis.surveys.rmi_report.R;
+import org.pacific_emis.surveys.rmi_report.domain.RmiReportLevel;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> implements StickyAdapter<SummaryStandardAdapter.StickyViewHolder> {
 
@@ -67,7 +75,6 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
             }
             expandedItems.add(item);
         }
-
         super.setItems(expandedItems);
     }
 
@@ -91,12 +98,17 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
         private TextView titleTextView;
         private RecyclerView recyclerView;
         private TextView totalTextView;
+        private TextView levelTextView;
         private View delimeterView;
+
+        private View totalLayout;
+        private TextView totalValueTextView;
+        private TextView totalLevelTextView;
 
         SummaryCriteriaAdapter adapter = new SummaryCriteriaAdapter();
 
         ItemViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_summary_standard);
+            super(parent, R.layout.item_rmi_summary_standard);
             bindViews();
             recyclerView.setAdapter(adapter);
         }
@@ -106,7 +118,12 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
             nameTextView = findViewById(R.id.textview_standard_name);
             recyclerView = findViewById(R.id.recyclerview);
             totalTextView = findViewById(R.id.textview_total);
+            levelTextView = findViewById(R.id.textview_level);
             delimeterView = findViewById(R.id.view_delimeter);
+
+            totalLayout = findViewById(R.id.layout_total);
+            totalValueTextView = findViewById(R.id.textview_total_value);
+            totalLevelTextView = findViewById(R.id.textview_total_level);
         }
 
         @Override
@@ -116,11 +133,23 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
             totalTextView.setText(String.valueOf(item.getTotalByStandard()));
 
-            ViewUtils.setTintedBackgroundDrawable(totalTextView, R.drawable.bg_level, item.getLevel().getColorRes());
+            levelTextView.setText(String.valueOf(item.getLevel().getValue()));
+            ViewUtils.setTintedBackgroundDrawable(levelTextView, R.drawable.bg_level, item.getLevel().getColorRes());
 
             adapter.setItems(item.getCriteriaSummaryViewDataList());
 
             delimeterView.setVisibility(shouldHideBottomDelimeter() ? View.GONE : View.VISIBLE);
+
+            if (item.getCategory().getEvaluationForm() == EvaluationForm.CLASSROOM_OBSERVATION && shouldHideBottomDelimeter()) {
+                RmiReportLevel totalLevel = RmiReportLevel.estimateLevel(item.getTotalByCategory(), 0);
+
+                totalLayout.setVisibility(View.VISIBLE);
+                totalValueTextView.setText(String.valueOf(item.getTotalByCategory()));
+                totalLevelTextView.setText(String.valueOf(totalLevel.getValue()));
+                ViewUtils.setTintedBackgroundDrawable(totalLevelTextView, R.drawable.bg_level, totalLevel.getColorRes());
+            } else {
+                totalLayout.setVisibility(View.GONE);
+            }
         }
 
         private boolean shouldHideBottomDelimeter() {
@@ -129,6 +158,10 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
             if (position == RecyclerView.NO_POSITION) {
                 return false;
+            }
+
+            if (position == getItemCount() - 1) {
+                return true;
             }
 
             if (position >= getItemCount() - 1) {
@@ -147,48 +180,52 @@ public class SummaryStandardAdapter extends BaseAdapter<SummaryViewData> impleme
 
     class StickyViewHolder extends ViewHolder {
 
-        private final int subCriteriaTotalWeightShort = getResources().getInteger(R.integer.weight_summary_criteria_total_small);
-        private final int subCriteriaTotalWeightLong = getResources().getInteger(R.integer.weight_summary_criteria_total);
+        private final int subCriteriaRowWeightShort = getResources().getInteger(R.integer.weight_rmi_summary_criteria_value_small);
+        private final int subCriteriaRowWeightLong = getResources().getInteger(R.integer.weight_rmi_summary_criteria_value);
+        private final int[] subCriteriaIds = new int[] {
+                R.id.textview_subcriteria_1,
+                R.id.textview_subcriteria_2,
+                R.id.textview_subcriteria_3,
+                R.id.textview_subcriteria_4,
+                R.id.textview_subcriteria_5
+        };
 
-        private View fifthSubCriteriaRowView;
-        private View subCriteriaTotalView;
+        private final List<View> subCriteriaRowViews = new ArrayList<>();
 
         StickyViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_summary_top_header);
+            super(parent, R.layout.item_rmi_summary_top_header);
             bindViews();
         }
 
         private void bindViews() {
-            fifthSubCriteriaRowView = findViewById(R.id.textview_subcriteria_5);
-            subCriteriaTotalView = findViewById(R.id.layout_subcriteria_total);
+            for (int subCriteriaId : subCriteriaIds) {
+                subCriteriaRowViews.add(findViewById(subCriteriaId));
+            }
         }
 
         @Override
         protected void onBind(SummaryViewData item) {
-            updateLayout(item.getLayoutType() == SummaryViewData.LayoutType.LONG);
+            int subCriteriaRowCount = subCriteriaRowViews.size();
+            updateLayout(item.getLayoutType() == SummaryViewData.LayoutType.LONG, subCriteriaRowCount);
         }
 
-        private void updateLayout(boolean useLongLayout) {
-            fifthSubCriteriaRowView.setVisibility(useLongLayout ? View.VISIBLE : View.GONE);
+        private void updateLayout(boolean useLongLayout, int subCriteriaRowCount) {
+            subCriteriaRowViews.get(subCriteriaRowCount - 1).setVisibility(useLongLayout ? View.VISIBLE : View.GONE);
 
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) subCriteriaTotalView.getLayoutParams();
-            lp.weight = useLongLayout ? subCriteriaTotalWeightShort : subCriteriaTotalWeightLong;
-            subCriteriaTotalView.setLayoutParams(lp);
-            subCriteriaTotalView.requestLayout();
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) subCriteriaRowViews.get(0).getLayoutParams();
+            lp.weight = useLongLayout ? subCriteriaRowWeightShort : subCriteriaRowWeightLong;
+            for (View subCriteriaView : subCriteriaRowViews) {
+                subCriteriaView.setLayoutParams(lp);
+            }
         }
     }
 
     class HeaderViewHolder extends ViewHolder {
 
-        private TextView headerTextView;
+        private TextView headerTextView = findViewById(R.id.textview_header_name);
 
         HeaderViewHolder(ViewGroup parent) {
-            super(parent, R.layout.item_summary_sticky_header);
-            bindViews();
-        }
-
-        private void bindViews() {
-            headerTextView = findViewById(R.id.textview_header_name);
+            super(parent, R.layout.item_rmi_summary_sticky_header);
         }
 
         @Override

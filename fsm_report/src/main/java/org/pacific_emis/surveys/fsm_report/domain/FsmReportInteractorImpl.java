@@ -8,7 +8,7 @@ import org.pacific_emis.surveys.accreditation_core.data.model.Standard;
 import org.pacific_emis.surveys.fsm_report.model.AccreditationForm;
 import org.pacific_emis.surveys.fsm_report.model.SchoolAccreditationLevel;
 import org.pacific_emis.surveys.report_core.domain.BaseReportInteractor;
-import org.pacific_emis.surveys.report_core.domain.ReportLevel;
+import org.pacific_emis.surveys.report_core.domain.BaseReportLevel;
 import org.pacific_emis.surveys.report_core.model.Level;
 import org.pacific_emis.surveys.report_core.model.SummaryViewData;
 
@@ -82,7 +82,7 @@ public class FsmReportInteractorImpl extends BaseReportInteractor implements Fsm
 
     @Override
     protected Level createLevel(int completed, int total) {
-        return ReportLevel.estimateLevel(completed, total);
+        return BaseReportLevel.estimateLevel(completed, total);
     }
 
     @Override

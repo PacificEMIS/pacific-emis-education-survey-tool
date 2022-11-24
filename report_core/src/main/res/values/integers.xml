@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="weight_summary_criteria_sum">342</integer>
-    <integer name="weight_summary_criteria_name">62</integer>
-    <integer name="weight_summary_criteria_value">40</integer>
-    <integer name="weight_summary_criteria_total">120</integer>
-    <integer name="weight_summary_criteria_total_small">80</integer> <!-- (weight_summary_criteria_total - weight_summary_criteria_value) -->
-
-    <integer name="weight_summary_row">688</integer>
-    <integer name="weight_summary_standard_name">270</integer>
-    <integer name="weight_summary_standard_total">76</integer>
-
-    <integer name="weight_summary_header_empty_space">332</integer>
 
 </resources>

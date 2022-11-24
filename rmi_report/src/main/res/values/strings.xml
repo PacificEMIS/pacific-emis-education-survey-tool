@@ -6,4 +6,9 @@
     <string name="title_tally_score">Tally Score</string>
     <string name="title_tally_level">Level</string>
     <string name="title_rmi_report">RMI report</string>
+    <string name="summary">Summary</string>
+    <string name="title_sub_criteria">Criteria</string>
+    <string name="title_total">Total</string>
+    <string name="title_level">Level</string>
+    <string name="title_standard">Standard</string>
 </resources>

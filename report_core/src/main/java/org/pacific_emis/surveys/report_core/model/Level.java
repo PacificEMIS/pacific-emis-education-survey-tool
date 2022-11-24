@@ -9,4 +9,6 @@ public interface Level {
     int getColorRes();
 
     Text getName();
+
+    int getValue();
 }

@@ -13,6 +13,7 @@ public class SummaryViewData {
     private Category category;
     private Standard standard;
     private int totalByStandard;
+    private int totalByCategory;
     private List<CriteriaSummaryViewData> criteriaSummaryViewDataList;
     private Level level;
     private LayoutType layoutType;
@@ -29,11 +30,13 @@ public class SummaryViewData {
     public SummaryViewData(Category category,
                            Standard standard,
                            int totalByStandard,
+                           int totalByCategory,
                            List<CriteriaSummaryViewData> criteriaSummaryViewDataList,
                            Level level) {
         this.category = category;
         this.standard = standard;
         this.totalByStandard = totalByStandard;
+        this.totalByCategory = totalByCategory;
         this.criteriaSummaryViewDataList = criteriaSummaryViewDataList;
         this.level = level;
         LayoutType layoutType = LayoutType.SHORT;
@@ -58,6 +61,10 @@ public class SummaryViewData {
 
     public int getTotalByStandard() {
         return totalByStandard;
+    }
+
+    public int getTotalByCategory() {
+        return totalByCategory;
     }
 
     public List<CriteriaSummaryViewData> getCriteriaSummaryViewDataList() {

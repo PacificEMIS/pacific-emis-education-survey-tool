@@ -3,4 +3,17 @@
     <integer name="weight_rmi_report_sum">687</integer>
     <integer name="weight_rmi_report_tally">115</integer>
     <integer name="weight_rmi_report_level">112</integer>
+
+    <integer name="weight_rmi_summary_criteria_sum">284</integer>
+    <integer name="weight_rmi_summary_criteria_name">62</integer>
+    <integer name="weight_rmi_summary_criteria_value">45</integer>
+    <integer name="weight_rmi_summary_criteria_value_small">36</integer>
+    <integer name="weight_rmi_summary_criteria_total">45</integer>
+
+    <integer name="weight_rmi_summary_row">688</integer>
+    <integer name="weight_rmi_summary_standard_name">240</integer>
+    <integer name="weight_rmi_summary_standard_total">80</integer>
+    <integer name="weight_rmi_summary_standard_level">80</integer>
+
+    <integer name="weight_rmi_summary_header_empty_space">302</integer>
 </resources>

@@ -14,7 +14,6 @@ import org.pacific_emis.surveys.accreditation_core.data.model.Standard;
 import org.pacific_emis.surveys.accreditation_core.data.model.SubCriteria;
 import org.pacific_emis.surveys.core.data.exceptions.NotImplementedException;
 import org.pacific_emis.surveys.report_core.domain.BaseReportInteractor;
-import org.pacific_emis.surveys.report_core.domain.ReportLevel;
 import org.pacific_emis.surveys.rmi_report.model.SchoolAccreditationTallyLevel;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
@@ -38,8 +37,8 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
     }
 
     @Override
-    protected ReportLevel createLevel(int completed, int total) {
-        return ReportLevel.estimateLevel(completed, total);
+    protected RmiReportLevel createLevel(int completed, int total) {
+        return RmiReportLevel.estimateLevel(completed, total);
     }
 
     @Override
@@ -88,7 +87,7 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
                     }
                 }
 
-                ReportLevel categoryLevel = createLevel(answeredCount, questionsCount);
+                RmiReportLevel categoryLevel = createLevel(answeredCount, questionsCount);
                 int tallyValue = reportLevelToTallyValue(categoryLevel);
 
                 if (tallyValue > 0 && tallyValue <= SchoolAccreditationTallyLevel.MAX_CRITERIA_SUM) {
@@ -100,7 +99,7 @@ public class RmiReportInteractorImpl extends BaseReportInteractor implements Rmi
         });
     }
 
-    private int reportLevelToTallyValue(ReportLevel level) {
+    private int reportLevelToTallyValue(RmiReportLevel level) {
         switch (level) {
             case LEVEL_1:
                 return 1;
