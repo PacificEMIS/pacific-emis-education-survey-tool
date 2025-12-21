@@ -129,12 +129,12 @@
                 <id>CW.S.1</id>
                 <name>What type of student toilets/latrines are at the school? (Select one - the most common)</name>
                 <flags>CHOOSE|SINGLE</flags>
-                <item>Flush / Pour-flush toilets</item>
-                <item>Pit latrines with slab</item>
+                <item>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</item>
+                <item>Pit latrines with slab (the pit is lined with stones and then a slab on top)</item>
                 <item>Composing toilets</item>
-                <item>Pit latrines without slab</item>
-                <item>Hanging latrines</item>
-                <item>Bucket latrines</item>
+                <item>Pit latrines without slab (just a normal pit and a hole in the ground)</item>
+                <item>Hanging latrines (over the sea/lagoon)</item>
+                <item>Bucket latrines (or night latrine)</item>
                 <item>No toilets or latrines</item>
             </question>
             <question>
@@ -526,13 +526,35 @@
                     <id>SW.S.1</id>
                     <relationAnswer>Yes</relationAnswer>
                 </relation>
-                <item>Flush / Pour-flush toilets</item>
-                <item>Pit latrines with slab</item>
+                <item>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</item>
+                <item>Pit latrines with slab (the pit is lined with stones and then a slab on top)</item>
                 <item>Composing toilets</item>
-                <item>Pit latrines without slab</item>
-                <item>Hanging latrines</item>
-                <item>Bucket latrines</item>
+                <item>Pit latrines without slab (just a normal pit and a hole in the ground)</item>
+                <item>Hanging latrines (over the sea/lagoon)</item>
+                <item>Bucket latrines (or night latrine)</item>
                 <item>No toilets or latrines</item>
+            </question>
+            <question>
+                <id>SW.S.40</id>
+                <name>Where does the wastewater go after flushing?</name>
+                <flags>CHOOSE|SINGLE</flags>
+                <relation>
+                    <id>SW.S.4</id>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                </relation>
+                <item>Concrete septic tank</item>
+                <item>Plastic septic tank</item>
+                <item>Soak pit or leach pit: Wastewater flows into a pit that allows liquids to seep into the ground</item>
+                <item>Other (describe in question below)</item>
+            </question>
+            <question>
+                <id>SW.S.41</id>
+                <name>If not in a concrete/plastic septic tank or soak/leach pit, then describe where does the wastewater go after flushing?</name>
+                <flags>INPUT</flags>
+                <relation>
+                    <id>SW.S.40</id>
+                    <relationAnswer>Other (describe in question below)</relationAnswer>
+                </relation>
             </question>
             <question>
                 <id>SW.S.5</id>
@@ -540,12 +562,12 @@
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
-                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (the pit is lined with stones and then a slab on top)</relationAnswer>
                     <relationAnswer>Composing toilets</relationAnswer>
-                    <relationAnswer>Pit latrines without slab</relationAnswer>
-                    <relationAnswer>Hanging latrines</relationAnswer>
-                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>Pit latrines without slab (just a normal pit and a hole in the ground)</relationAnswer>
+                    <relationAnswer>Hanging latrines (over the sea/lagoon)</relationAnswer>
+                    <relationAnswer>Bucket latrines (or night latrine)</relationAnswer>
                 </relation>
                 <item>Concrete</item>
                 <item>Timber</item>
@@ -557,12 +579,12 @@
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
-                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (the pit is lined with stones and then a slab on top)</relationAnswer>
                     <relationAnswer>Composing toilets</relationAnswer>
-                    <relationAnswer>Pit latrines without slab</relationAnswer>
-                    <relationAnswer>Hanging latrines</relationAnswer>
-                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>Pit latrines without slab (just a normal pit and a hole in the ground)</relationAnswer>
+                    <relationAnswer>Hanging latrines (over the sea/lagoon)</relationAnswer>
+                    <relationAnswer>Bucket latrines (or night latrine)</relationAnswer>
                 </relation>
                 <item>Concrete</item>
                 <item>Timber</item>
@@ -890,12 +912,12 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
-                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (the pit is lined with stones and then a slab on top)</relationAnswer>
                     <relationAnswer>Composing toilets</relationAnswer>
-                    <relationAnswer>Pit latrines without slab</relationAnswer>
-                    <relationAnswer>Hanging latrines</relationAnswer>
-                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>Pit latrines without slab (just a normal pit and a hole in the ground)</relationAnswer>
+                    <relationAnswer>Hanging latrines (over the sea/lagoon)</relationAnswer>
+                    <relationAnswer>Bucket latrines (or night latrine)</relationAnswer>
                     <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
@@ -905,12 +927,12 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
-                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (the pit is lined with stones and then a slab on top)</relationAnswer>
                     <relationAnswer>Composing toilets</relationAnswer>
-                    <relationAnswer>Pit latrines without slab</relationAnswer>
-                    <relationAnswer>Hanging latrines</relationAnswer>
-                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>Pit latrines without slab (just a normal pit and a hole in the ground)</relationAnswer>
+                    <relationAnswer>Hanging latrines (over the sea/lagoon)</relationAnswer>
+                    <relationAnswer>Bucket latrines (or night latrine)</relationAnswer>
                     <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
@@ -920,12 +942,12 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
-                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (the pit is lined with stones and then a slab on top)</relationAnswer>
                     <relationAnswer>Composing toilets</relationAnswer>
-                    <relationAnswer>Pit latrines without slab</relationAnswer>
-                    <relationAnswer>Hanging latrines</relationAnswer>
-                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>Pit latrines without slab (just a normal pit and a hole in the ground)</relationAnswer>
+                    <relationAnswer>Hanging latrines (over the sea/lagoon)</relationAnswer>
+                    <relationAnswer>Bucket latrines (or night latrine)</relationAnswer>
                     <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
@@ -935,12 +957,12 @@
                 <flags>BINARY</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
-                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (the pit is lined with stones and then a slab on top)</relationAnswer>
                     <relationAnswer>Composing toilets</relationAnswer>
-                    <relationAnswer>Pit latrines without slab</relationAnswer>
-                    <relationAnswer>Hanging latrines</relationAnswer>
-                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>Pit latrines without slab (just a normal pit and a hole in the ground)</relationAnswer>
+                    <relationAnswer>Hanging latrines (over the sea/lagoon)</relationAnswer>
+                    <relationAnswer>Bucket latrines (or night latrine)</relationAnswer>
                     <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
             </question>
@@ -950,12 +972,12 @@
                 <flags>CHOOSE|SINGLE</flags>
                 <relation>
                     <id>SW.S.4</id>
-                    <relationAnswer>Flush / Pour-flush toilets</relationAnswer>
-                    <relationAnswer>Pit latrines with slab</relationAnswer>
+                    <relationAnswer>Flush / Pour-flush toilets (flushing by pressing a button or using a bucket to flush the toilet)</relationAnswer>
+                    <relationAnswer>Pit latrines with slab (the pit is lined with stones and then a slab on top)</relationAnswer>
                     <relationAnswer>Composing toilets</relationAnswer>
-                    <relationAnswer>Pit latrines without slab</relationAnswer>
-                    <relationAnswer>Hanging latrines</relationAnswer>
-                    <relationAnswer>Bucket latrines</relationAnswer>
+                    <relationAnswer>Pit latrines without slab (just a normal pit and a hole in the ground)</relationAnswer>
+                    <relationAnswer>Hanging latrines (over the sea/lagoon)</relationAnswer>
+                    <relationAnswer>Bucket latrines (or night latrine)</relationAnswer>
                     <relationAnswer>No toilets or latrines</relationAnswer>
                 </relation>
                 <item>Incinerate</item>

@@ -208,7 +208,13 @@ public class AccreditationLocalDataSource extends CoreLocalDataSource implements
     @Override
     public Single<Survey> getTemplateSurvey(AppRegion appRegion) {
         // TODO replace temp region
-        return Single.fromCallable(() -> templateDatabase.getSurveyDao().getFirstFilled(AppRegion.FSM))
+        return Single.fromCallable(() -> {
+                    RelativeRoomSurvey survey = templateDatabase.getSurveyDao().getFirstFilled(appRegion);
+                    if (survey == null) {
+                        survey = templateDatabase.getSurveyDao().getFirstFilled(AppRegion.FSM);
+                    }
+                    return survey;
+                })
                 .map(RelativeRoomSurvey::toMutableSurvey);
     }
 
